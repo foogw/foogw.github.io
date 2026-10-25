@@ -481,3 +481,19 @@ table.npcs td.grp { color: var(--muted); font-size: 12px; padding-top: 8px; text
 .head { color: color-mix(in srgb, var(--text) 82%, var(--muted)); font-weight: 600; font-size: 12.5px; }
 .head button:hover, .head button.sorted { color: var(--accent); }
 .r-table thead th, table.rewards th, .q-legend, .rmode { color: color-mix(in srgb, var(--text) 78%, var(--muted)); font-weight: 600; }
+
+/* header band: the top bar sits on a lighter strip across the full width */
+:root { --hdr-bg: #23272d; }
+@media (prefers-color-scheme: light) { :root { --hdr-bg: #e9e5dc; } }
+header.top {
+  background: var(--hdr-bg);
+  box-shadow: 0 0 0 100vmax var(--hdr-bg), 0 1px 0 100vmax var(--line);
+  clip-path: inset(0 -100vmax -1px);
+  padding: 12px 0 10px;
+  margin-bottom: 14px;
+}
+.topbar { background: none; padding-bottom: 0; margin-bottom: 14px; }
+.topbar header.top { margin-bottom: 0; }
+/* bigger page titles */
+.page-title h1, .hero h1 { font-size: 34px; line-height: 1.15; }
+.page-title p { font-size: 15px; }
