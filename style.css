@@ -39,7 +39,7 @@ header.top {
   position: sticky; top: 0; z-index: 10; background: var(--bg);
 }
 header.top h1 { margin: 0; font-size: 20px; letter-spacing: .02em; }
-header.top .count { color: var(--muted); font-variant-numeric: tabular-nums; }
+.filters .count { margin-left: auto; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
 
 /* filters */
 .filters {
