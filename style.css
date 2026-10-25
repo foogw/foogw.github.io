@@ -259,10 +259,12 @@ table.npcs td.grp { color: var(--muted); font-size: 12px; padding-top: 8px; text
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center;
   font-size: 9px; line-height: 1.1; padding: 2px; color: var(--text); border-left: 3px solid var(--pc);
 }
-.sk-icon.empty { background: none; }
-.sk-icon.sm { --sz: 32px; width: 32px; }
-.sk-icon.xs { --sz: 20px; width: 20px; }
-.sk-icon.big { --sz: 64px; width: 64px; }
+.sk-icon.empty { background: none; padding: 0; } /* not the page-wide .empty "no results" box */
+/* fixed sizes set the height too: before an icon loads, its name text would otherwise stretch the box */
+.sk-icon.sm { --sz: 32px; width: 32px; height: 32px; }
+.sk-icon.xs { --sz: 20px; width: 20px; height: 20px; }
+.sk-icon.xs.elite { box-shadow: 0 0 0 1px var(--elite); }
+.sk-icon.big { --sz: 64px; width: 64px; height: 64px; }
 .b-slot .sk-icon { width: 88%; }
 .b-warn { color: var(--adren); font-size: 13px; margin-top: 8px; }
 .b-detail { margin-top: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px; }
@@ -273,18 +275,25 @@ table.npcs td.grp { color: var(--muted); font-size: 12px; padding-top: 8px; text
 .rv { color: var(--accent); }
 .b-search { display: flex; gap: 10px; align-items: center; }
 .b-search input { flex: 1; }
-.b-results { margin-top: 8px; max-height: 46vh; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
+.b-filters { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 8px; font-size: 13px; color: var(--muted); }
+.b-results { margin-top: 8px; height: 46vh; min-height: 260px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
 .b-results { padding: 4px 8px 8px; }
-.b-agrp { margin: 8px 0 4px; font-size: 11px; color: color-mix(in srgb, var(--pc) 70%, var(--muted)); text-transform: uppercase; letter-spacing: .04em; }
+.b-agrp, .builder button.b-agrp { display: block; width: 100%; text-align: left; background: none; border: 0; border-radius: 0; padding: 0; cursor: pointer; font-family: inherit; height: auto;
+  margin: 8px 0 4px; font-size: 11px; font-weight: 600; color: color-mix(in srgb, var(--pc) 30%, var(--text)); text-transform: uppercase; letter-spacing: .04em; }
+.b-agrp::before { content: "▾"; display: inline-block; width: 12px; color: var(--muted); }
+.b-agrp.shut::before { content: "▸"; }
+.b-agrp.shut { opacity: .6; }
+.b-agrp:hover { opacity: 1; text-decoration: underline; }
 .b-grid { display: flex; flex-wrap: wrap; gap: 5px; }
+.b-grid[hidden] { display: none; }
 .b-res { cursor: grab; border-radius: 5px; padding: 1px; }
 .b-res:hover, .b-res.first { outline: 2px solid var(--accent); }
 .b-res.on { opacity: .35; }
-.sk-icon.md { --sz: 42px; width: 42px; }
+.sk-icon.md { --sz: 42px; width: 42px; height: 42px; }
 .b-tip { position: fixed; z-index: 50; width: 340px; padding: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
   box-shadow: 0 8px 28px rgba(0, 0, 0, .45); pointer-events: none; font-size: 13px; }
 .b-tip p { margin: 8px 0 0; }
-.b-tip .sk-icon.big { --sz: 48px; width: 48px; }
+.b-tip .sk-icon.big { --sz: 48px; width: 48px; height: 48px; }
 .b-more { padding: 8px; font-size: 12px; }
 .b-pool { min-height: 48px; display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; border: 1px dashed var(--line); border-radius: 8px; align-items: center; }
 .b-pitem { position: relative; cursor: grab; }
@@ -297,7 +306,7 @@ table.npcs td.grp { color: var(--muted); font-size: 12px; padding-top: 8px; text
 .b-srow { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
 .b-srow:hover .b-sname { color: var(--accent); }
 .b-sname { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.b-smini { display: flex; gap: 2px; }
+.b-smini { display: flex; gap: 2px; align-items: center; }
 @media (max-width: 900px) {
   .b-layout { grid-template-columns: 1fr; }
   .b-bar { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 3px; }

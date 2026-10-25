@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GW Skillbar Builder</title>
-<link rel="stylesheet" href="style.css?v=d0f70625">
+<link rel="stylesheet" href="style.css?v=0a24efdc">
 </head>
 <body class="builder">
 <div class="wrap">
@@ -50,8 +50,13 @@
         <input type="search" id="search" placeholder="Find a skill — e.g. prot bond, mantra" autocomplete="off">
         <label class="chk"><input type="checkbox" id="only-profs" checked> My professions</label>
       </div>
-      <div class="b-label">Skills <span class="dim">— right-click or drag to add (right-click again to remove), hover for details</span></div>
+      <div class="b-label">Skills <span class="dim">— right-click or drag to add (right-click again to remove), hover for details, attributes without points start folded</span></div>
       <div class="b-results" id="results"></div>
+      <div class="b-filters" id="filters">
+        <label class="chk"><input type="checkbox" value="elite" checked> Show elites</label>
+        <label class="chk"><input type="checkbox" value="normal" checked> Show non-elites</label>
+        <label class="chk"><input type="checkbox" value="pve" checked> Show PvE-only</label>
+      </div>
 
       <div class="b-label b-label-row">Shortlist <span class="dim">— drag skills here to keep them handy</span>
         <button type="button" id="clear-pool" class="b-mini" hidden>Clear</button></div>
@@ -72,6 +77,6 @@
 <script src="data/skills.js?v=8d0a8eb7"></script>
 <script src="common.js?v=10062609"></script>
 <script src="template-code.js?v=201bf57f"></script>
-<script src="builder.js?v=f3740ee7"></script>
+<script src="builder.js?v=97fcc7c7"></script>
 </body>
 </html>

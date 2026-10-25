@@ -92,7 +92,7 @@ function describe(s) {
 /* ---------- rendering ---------- */
 const icon = (s, cls = "") => s
   ? `<span class="sk-icon ${cls}${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}" data-tip="${s.id}" aria-label="${esc(s.name)}"><img src="img/skills/${s.id}.jpg" alt="" loading="lazy" onerror="this.remove()"><span class="sk-fallback">${esc(s.name)}</span></span>`
-  : `<span class="sk-icon empty"></span>`;
+  : `<span class="sk-icon empty ${cls}"></span>`;
 
 function renderProfs() {
   const opts = (none) => PROF_IDS.map((p, i) => i === 0 && !none ? "" : `<option value="${i}">${i === 0 ? "None" : p}</option>`).join("");
@@ -195,21 +195,33 @@ function fuzzyScore(name, tokens) {
   let score = 0;
   for (const t of tokens) {
     const i = hay.indexOf(t);
-    if (i < 0) return -1;
+    if (i < 0) return null; // no match; a match can score below zero
     score += (words.some(w => w.startsWith(t)) ? 100 : 10) - i;
   }
   return score - name.length;
 }
 
+/* An attribute's group is folded while it has no points; clicking a heading overrides that until the
+   attribute's points change. Title and no-attribute groups start open. */
+const groupOverride = new Map(); // group key -> folded
+const groupShut = (s, k) => (groupOverride.has(k) ? groupOverride.get(k)
+  : tier(s) === 0 && ATTR_ID[s.attribute] !== undefined && !((state.ranks[ATTR_ID[s.attribute]] || 0) + (state.bonus[ATTR_ID[s.attribute]] || 0)));
+const tier = s => (s.attribute === "No attribute" ? 2 : / rank$/.test(s.attribute) ? 1 : 0);
+
 function renderResults() {
   const tokens = terms(els.search);
   const allowed = new Set(["None", PROF_IDS[state.primary], PROF_IDS[state.secondary]]);
-  let list = PICKABLE.filter(s => !els.onlyProfs.checked || allowed.has(s.profession));
+  // each box shows one kind of skill; unticking it hides that kind
+  const on = new Set([...$("filters").querySelectorAll("input:checked")].map(x => x.value));
+  let list = PICKABLE.filter(s => (!els.onlyProfs.checked || allowed.has(s.profession))
+    && on.has(s.elite ? "elite" : "normal") && (on.has("pve") || !s.pve_only));
   if (tokens.length) {
-    list = list.map(s => [s, fuzzyScore(s.name, tokens)]).filter(x => x[1] >= 0)
+    list = list.map(s => [s, fuzzyScore(s.name, tokens)]).filter(x => x[1] !== null)
       .sort((a, b) => b[1] - a[1]).map(x => x[0]);
   } else {
-    list = list.sort((a, b) => PROF_ORDER[a.profession] - PROF_ORDER[b.profession]
+    // as in the game: attributes first, then title-track skills (one group per title, any profession),
+    // then skills with no attribute
+    list = list.sort((a, b) => tier(a) - tier(b) || (tier(a) === 1 ? 0 : PROF_ORDER[a.profession] - PROF_ORDER[b.profession])
       || cmpStr(a.attribute, b.attribute) || cmpStr(a.name, b.name));
   }
   // icons only, as in the game's skill window; without a search they are grouped by attribute
@@ -220,9 +232,10 @@ function renderResults() {
   else {
     let key;
     for (const s of shown) {
-      const k = `${s.profession}|${s.attribute}`;
+      const k = tier(s) === 1 ? s.attribute : `${s.profession}|${s.attribute}`;
       if (k !== key) {
-        html += `${key ? "</div>" : ""}<div class="b-agrp" style="--pc:${profVar(s.profession)}">${esc(s.attribute === "No attribute" && s.profession !== "None" ? `${s.profession} · no attribute` : s.attribute)}</div><div class="b-grid">`;
+        const shut = groupShut(s, k);
+        html += `${key ? "</div>" : ""}<button type="button" class="b-agrp${shut ? " shut" : ""}" data-group="${esc(k)}" aria-expanded="${!shut}" style="--pc:${tier(s) === 1 ? "var(--muted)" : profVar(s.profession)}">${esc(s.attribute === "No attribute" && s.profession !== "None" ? `${s.profession} · no attribute` : s.attribute)}</button><div class="b-grid"${shut ? " hidden" : ""}>`;
         key = k;
       }
       html += cell(s, false);
@@ -389,6 +402,7 @@ function step(b, all) {
   }
   if (next === now) return false;
   table[id] = next;
+  for (const k of groupOverride.keys()) if (k.endsWith(`|${ATTRIBUTES[id]}`)) groupOverride.delete(k);
   render();
   return true;
 }
@@ -416,8 +430,14 @@ els.search.addEventListener("keydown", e => {
   } else if (e.key === "Escape") { els.search.value = ""; renderResults(); }
 });
 els.onlyProfs.addEventListener("change", renderResults);
+$("filters").addEventListener("change", renderResults);
 
 els.results.addEventListener("click", e => {
+  const head = e.target.closest("[data-group]");
+  if (head) {
+    groupOverride.set(head.dataset.group, head.getAttribute("aria-expanded") === "true");
+    return renderResults();
+  }
   const row = e.target.closest(".b-res");
   if (row) select(+row.dataset.id);
 });
