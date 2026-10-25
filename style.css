@@ -516,15 +516,18 @@ header.top {
 .venn { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: auto auto auto; margin: 22px 0 8px; max-width: 1200px; }
 .vbox { position: relative; border: 2px solid var(--c); border-radius: 14px; background: color-mix(in srgb, var(--c) 9%, transparent); pointer-events: none; }
 .vbox:nth-child(2) { margin: 10px 4px 0 6px; }
-.vbox:nth-child(3) { margin: 0 0 0 6px; }
-.vbox:nth-child(4) { margin: 10px 4px 0 0; }
+.vbox:nth-child(3) { margin: 0 70px 0 6px; }
+.vbox:nth-child(1) { margin-right: 12px; }
+.vbox:nth-child(4) { margin: 10px 4px 0 12px; }
 .vbox span { position: absolute; padding: 1px 8px; border-radius: 6px; background: var(--bg); color: var(--c); border: 1px solid var(--c); font-size: 12px; font-weight: 600; white-space: nowrap; }
 .vbox.lbl-tl span { top: -11px; left: 12px; }
 .vbox.lbl-tr span { top: -11px; right: 12px; }
 .vbox.lbl-br span { bottom: -11px; right: 12px; }
 .vgroup { position: relative; z-index: 1; padding: 22px 12px 18px; display: flex; flex-direction: column; justify-content: center; }
 .vgroup h4 { display: none; }
-.vgroup.any { margin: 4px 10px 0; border: 1.5px dashed var(--muted); border-radius: 12px; align-self: start; padding: 8px; }
+.vgroup.below-label { padding-top: 36px; }
+.vgroup.trim-right { padding-right: 82px; }
+.vgroup.any { margin: 0 0 0 14px; border: 1.5px dashed var(--muted); border-radius: 12px; align-self: end; padding: 8px; }
 .vgroup.any h4 { display: block; margin: 0 0 6px; font-size: 11px; font-weight: 500; color: var(--muted); text-align: center; }
 .vchips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
 .hchip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px 3px 4px; border-radius: 999px; font: inherit; font-size: 13px; cursor: pointer;
