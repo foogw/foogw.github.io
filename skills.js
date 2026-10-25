@@ -58,18 +58,17 @@ function buildFilterUI() {
     else { state.profs.clear(); state.profs.add(p); }
     syncProfChips();
     fillAttributes();
+    fillTypes();
     update();
   });
 
-  const types = [...new Set(SKILLS.map(s => s.type).filter(Boolean))].sort();
-  els.type.innerHTML += TYPE_GROUPS.map(([v, l, _]) => `<option value="${v}">${l}</option>`).join("")
-    + `<option disabled>──────────</option>`
-    + types.map(t => `<option>${esc(t)}</option>`).join("");
   els.camp.innerHTML += CAMPAIGNS.map(c => `<option>${c}</option>`).join("");
   fillAttributes();
+  fillTypes();
 
   for (const el of [els.name, els.text]) el.addEventListener("input", update);
   for (const el of [els.attr, els.type, els.camp, els.elite, els.src, els.pvp]) el.addEventListener("change", update);
+  els.attr.addEventListener("change", () => { fillTypes(); update(); });
   $("reset").addEventListener("click", () => { resetFilters(); update(); els.name.focus(); });
 
   els.head.addEventListener("click", e => {
@@ -114,6 +113,20 @@ function fillAttributes() {
   if (els.attr.value !== cur) els.attr.value = "";
 }
 
+/* Only the skill types the chosen professions (and attribute) actually have. */
+function fillTypes() {
+  const cur = els.type.value;
+  const pool = SKILLS.filter(s => (!state.profs.size || state.profs.has(s.profession)) && (!els.attr.value || s.attribute === els.attr.value));
+  const types = [...new Set(pool.map(s => s.type).filter(Boolean))].sort();
+  const groups = TYPE_GROUPS.filter(([, , re]) => types.some(t => re.test(t)));
+  els.type.innerHTML = `<option value="">Any type</option>`
+    + groups.map(([v, l]) => `<option value="${v}">${l}</option>`).join("")
+    + (groups.length ? `<option disabled>──────────</option>` : "")
+    + types.map(t => `<option>${esc(t)}</option>`).join("");
+  els.type.value = cur;
+  if (els.type.value !== cur) els.type.value = "";
+}
+
 function resetFilters() {
   els.name.value = els.text.value = "";
   for (const el of [els.attr, els.type, els.camp, els.src]) el.value = "";
@@ -122,6 +135,7 @@ function resetFilters() {
   state.profs.clear();
   syncProfChips();
   fillAttributes();
+  fillTypes();
 }
 
 /* ---------- filtering & sorting ---------- */
@@ -321,6 +335,7 @@ function readHash() {
   syncProfChips();
   fillAttributes();
   els.attr.value = p.get("a") || "";
+  fillTypes();
   els.type.value = p.get("ty") || "";
   els.camp.value = p.get("c") || "";
   els.elite.checked = p.get("e") === "elite";
