@@ -242,10 +242,9 @@ table.npcs td.grp { color: var(--muted); font-size: 12px; padding-top: 8px; text
 .b-attr .at { text-align: center; font-variant-numeric: tabular-nums; font-weight: 700; font-size: 15px; }
 .b-bar { display: grid; grid-template-columns: repeat(8, minmax(0, 72px)); gap: 6px; }
 .b-slot {
-  position: relative; aspect-ratio: 1; border: 1px solid var(--line); border-radius: 6px; background: var(--panel);
+  position: relative; aspect-ratio: 1; min-height: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 6px; background: var(--panel);
   display: flex; align-items: center; justify-content: center; cursor: pointer;
 }
-.b-slot.sel { outline: 2px solid var(--accent); }
 .b-slot.over, .b-pool.over { border-color: var(--accent); background: var(--hl); }
 .b-num { position: absolute; left: 4px; top: 2px; font-size: 10px; color: var(--muted); pointer-events: none; }
 .sk-icon {
@@ -273,15 +272,17 @@ table.npcs td.grp { color: var(--muted); font-size: 12px; padding-top: 8px; text
 .b-search { display: flex; gap: 10px; align-items: center; }
 .b-search input { flex: 1; }
 .b-results { margin-top: 8px; max-height: 46vh; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
-.b-res {
-  display: grid; grid-template-columns: 32px minmax(0, 1fr) auto 28px; gap: 8px; align-items: center;
-  padding: 4px 8px; border-bottom: 1px solid var(--line); cursor: grab;
-}
-.b-res:hover, .b-res.first { background: var(--panel); }
-.b-res .rn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
-.b-res .rn.elite { color: var(--elite); }
-.b-res .dim { font-size: 12px; white-space: nowrap; }
-.b-res .add { padding: 0; width: 26px; height: 26px; }
+.b-results { padding: 4px 8px 8px; }
+.b-agrp { margin: 8px 0 4px; font-size: 11px; color: color-mix(in srgb, var(--pc) 70%, var(--muted)); text-transform: uppercase; letter-spacing: .04em; }
+.b-grid { display: flex; flex-wrap: wrap; gap: 5px; }
+.b-res { cursor: grab; border-radius: 5px; padding: 1px; }
+.b-res:hover, .b-res.first { outline: 2px solid var(--accent); }
+.b-res.on { opacity: .35; }
+.sk-icon.md { --sz: 42px; width: 42px; }
+.b-tip { position: fixed; z-index: 50; width: 340px; padding: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .45); pointer-events: none; font-size: 13px; }
+.b-tip p { margin: 8px 0 0; }
+.b-tip .sk-icon.big { --sz: 48px; width: 48px; }
 .b-more { padding: 8px; font-size: 12px; }
 .b-pool { min-height: 48px; display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; border: 1px dashed var(--line); border-radius: 8px; align-items: center; }
 .b-pitem { position: relative; cursor: grab; }

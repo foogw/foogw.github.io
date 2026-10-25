@@ -91,7 +91,7 @@ function describe(s) {
 
 /* ---------- rendering ---------- */
 const icon = (s, cls = "") => s
-  ? `<span class="sk-icon ${cls}${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}" title="${esc(s.name)}"><img src="img/skills/${s.id}.jpg" alt="" loading="lazy" onerror="this.remove()"><span class="sk-fallback">${esc(s.name)}</span></span>`
+  ? `<span class="sk-icon ${cls}${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}" data-tip="${s.id}" aria-label="${esc(s.name)}"><img src="img/skills/${s.id}.jpg" alt="" loading="lazy" onerror="this.remove()"><span class="sk-fallback">${esc(s.name)}</span></span>`
   : `<span class="sk-icon empty"></span>`;
 
 function renderProfs() {
@@ -170,19 +170,23 @@ function select(id) {
   renderDetail();
 }
 
-function renderDetail() {
-  const s = SKILL.get(state.selected);
-  if (!s) { els.detail.innerHTML = '<p class="dim">Select a skill on the bar or in the list to see its description at your attribute ranks.</p>'; return; }
+// name, profession, attribute at the current rank, costs and description: the detail panel and hover card
+function skillCard(s) {
   const rank = rankFor(s);
   const costs = [s.energy && `${s.energy} energy`, s.adrenaline && `${s.adrenaline} adrenaline`,
     s.sacrifice && `${s.sacrifice}% sacrifice`, s.upkeep && `${s.upkeep} upkeep`,
     s.activation && `${s.activation}s activation`, s.recharge && `${s.recharge}s recharge`].filter(Boolean);
-  els.detail.innerHTML = `<div class="b-dhead">${icon(s, "big")}<div>
+  return `<div class="b-dhead">${icon(s, "big")}<div>
       <div class="b-dname${s.elite ? " elite" : ""}">${esc(s.name)}</div>
-      <div class="dim">${esc(s.profession === "None" ? "Common" : s.profession)} · ${esc(s.attribute)}${rank !== null ? ` <b>${rank}</b>` : ""} · ${esc(s.type || "")}</div>
+      <div class="dim">${esc(s.profession === "None" ? "Common" : s.profession)} · ${esc(s.attribute)}${rank !== null ? ` <b>${rank}</b>` : ""} · ${esc(s.type || "")}${s.pve_only ? " · PvE only" : ""}</div>
       <div class="dim">${esc(costs.join(" · "))}</div></div></div>
-    <p>${describe(s)}</p>
-    <a href="skills.html#open=${s.id}">Open in skills list →</a>`;
+    <p>${describe(s)}</p>`;
+}
+
+function renderDetail() {
+  const s = SKILL.get(state.selected);
+  if (!s) { els.detail.innerHTML = '<p class="dim">Select a skill on the bar or in the list to see its description at your attribute ranks.</p>'; return; }
+  els.detail.innerHTML = skillCard(s) + `<a href="skills.html#open=${s.id}">Open in skills list →</a>`;
 }
 
 function fuzzyScore(name, tokens) {
@@ -208,11 +212,24 @@ function renderResults() {
     list = list.sort((a, b) => PROF_ORDER[a.profession] - PROF_ORDER[b.profession]
       || cmpStr(a.attribute, b.attribute) || cmpStr(a.name, b.name));
   }
-  const shown = list.slice(0, 120);
-  els.results.innerHTML = shown.map((s, i) => `<div class="b-res${i === 0 && tokens.length ? " first" : ""}" data-id="${s.id}" draggable="true">
-      ${icon(s, "sm")}<span class="rn${s.elite ? " elite" : ""}">${highlight(s.name, tokens)}</span>
-      <span class="dim">${esc(s.attribute)}</span>
-      <button type="button" class="add" data-add="${s.id}" title="Add to bar">+</button></div>`).join("")
+  // icons only, as in the game's skill window; without a search they are grouped by attribute
+  const shown = list.slice(0, 600);
+  const cell = (s, first) => `<div class="b-res${first ? " first" : ""}${state.bar.includes(s.id) ? " on" : ""}" data-id="${s.id}" draggable="true">${icon(s, "md")}</div>`;
+  let html = "";
+  if (tokens.length) html = `<div class="b-grid">${shown.map((s, i) => cell(s, i === 0)).join("")}</div>`;
+  else {
+    let key;
+    for (const s of shown) {
+      const k = `${s.profession}|${s.attribute}`;
+      if (k !== key) {
+        html += `${key ? "</div>" : ""}<div class="b-agrp" style="--pc:${profVar(s.profession)}">${esc(s.attribute === "No attribute" && s.profession !== "None" ? `${s.profession} · no attribute` : s.attribute)}</div><div class="b-grid">`;
+        key = k;
+      }
+      html += cell(s, false);
+    }
+    if (key) html += "</div>";
+  }
+  els.results.innerHTML = html
     + (list.length > shown.length ? `<div class="dim b-more">${list.length - shown.length} more — refine the search</div>` : "")
     || '<div class="dim b-more">No skills match.</div>';
 }
@@ -400,11 +417,19 @@ els.search.addEventListener("keydown", e => {
 els.onlyProfs.addEventListener("change", renderResults);
 
 els.results.addEventListener("click", e => {
-  const add = e.target.closest("[data-add]");
   const row = e.target.closest(".b-res");
-  if (add) addToBar(+add.dataset.add);
-  else if (row) select(+row.dataset.id);
+  if (row) select(+row.dataset.id);
 });
+// right-click adds to the bar, as in the game
+for (const zone of [els.results, els.pool]) {
+  zone.addEventListener("contextmenu", e => {
+    const item = e.target.closest(".b-res, .b-pitem");
+    if (!item) return;
+    e.preventDefault();
+    hideTip();
+    addToBar(+item.dataset.id);
+  });
+}
 els.results.addEventListener("dblclick", e => {
   const row = e.target.closest(".b-res");
   if (row) addToBar(+row.dataset.id);
@@ -443,6 +468,28 @@ els.pool.addEventListener("dblclick", e => {
   const item = e.target.closest(".b-pitem");
   if (item) addToBar(+item.dataset.id);
 });
+
+/* hover card for any skill icon */
+const tip = document.createElement("div");
+tip.className = "b-tip";
+tip.hidden = true;
+document.body.append(tip);
+function hideTip() { tip.hidden = true; }
+document.addEventListener("mouseover", e => {
+  const el = e.target.closest("[data-tip]");
+  if (!el || el.closest(".b-tip, .b-detail")) return hideTip();
+  const s = SKILL.get(+el.dataset.tip);
+  if (!s) return hideTip();
+  tip.innerHTML = skillCard(s);
+  tip.hidden = false;
+  const r = el.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight;
+  const x = r.right + 10 + w < innerWidth ? r.right + 10 : Math.max(8, r.left - 10 - w);
+  const y = Math.min(Math.max(8, r.top), innerHeight - h - 8);
+  tip.style.left = x + "px";
+  tip.style.top = y + "px";
+});
+document.addEventListener("dragstart", hideTip);
+document.addEventListener("scroll", hideTip, true);
 
 /* drag and drop: results / shortlist / bar slots */
 let drag = null;
