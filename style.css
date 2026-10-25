@@ -466,3 +466,13 @@ table.npcs td.grp { color: var(--muted); font-size: 12px; padding-top: 8px; text
 .echip .sk-ic.sm { margin-right: 4px; vertical-align: 0; }
 .hit .sk-ic.sm { margin-right: 7px; }
 .cards, .r-card, .today { box-shadow: 0 1px 0 rgba(0,0,0,.25); }
+
+/* attribute-point quests in the story flow */
+:root { --q-attr: #4fc38a; }
+@media (prefers-color-scheme: light) { :root { --q-attr: #1d8a55; } }
+.qn.attribute { border: 2px solid var(--q-attr); background: color-mix(in srgb, var(--q-attr) 14%, var(--panel)); }
+.qn.attribute .qn-s { color: var(--q-attr); font-weight: 600; }
+.q-canvas path.attr { stroke: var(--q-attr); stroke-dasharray: 4 3; }
+.lg.attribute { border: 2px solid var(--q-attr); }
+.qn.narrow.attribute .qn-t { -webkit-line-clamp: 1; }
+.qn.narrow.attribute .qn-s { display: block; font-size: 10px; }

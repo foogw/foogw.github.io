@@ -62,16 +62,29 @@ function layout(flow, avail) {
   for (let pass = 0; pass < 2; pass++) {
     lines = [];
     for (const row of rows) {
-      const want = row.map(id => ({ id, at: mean(preds.get(id)) ?? (pass ? mean(succs.get(id)) : null) ?? middle }));
+      // side branches (attribute quests) don't count towards centring the row: they go beside what they follow
+      const side = row.filter(id => FLOW_NODE.get(id)?.kind === "attribute");
+      const main = row.filter(id => !side.includes(id));
+      const want = main.map(id => ({ id, at: mean(preds.get(id)) ?? (pass ? mean(succs.get(id)) : null) ?? middle }));
       want.sort((a, b) => a.at - b.at || cmpStr(nodeName(a.id), nodeName(b.id)));
-      for (let i = 0; i < want.length; i += cols) {
+      for (let i = 0; i < Math.max(want.length, 1); i += cols) {
         const group = want.slice(i, i + cols);
         const span = (group.length - 1) * step;
-        const target = group.reduce((s, g) => s + g.at, 0) / group.length;
+        const target = group.length ? group.reduce((s, g) => s + g.at, 0) / group.length : middle;
         const first = Math.min(Math.max(target - span / 2, w / 2), avail - w / 2 - span);
         const line = group.map((g, k) => [g.id, first + k * step]);
+        if (i + cols >= want.length) {
+          for (const id of side) {  // right of the step it follows, past anything already on the line
+            const taken = line.map(([, x]) => x);
+            // a chain of side steps stays in one column; the first one sits right of the story step
+            const fromSide = (preds.get(id) || []).some(p => FLOW_NODE.get(p)?.kind === "attribute");
+            let x = (mean(preds.get(id)) ?? middle) + (fromSide ? 0 : step);
+            while (taken.some(o => Math.abs(o - x) < step - 1)) x += step;
+            line.push([id, Math.min(x, avail - w / 2)]);
+          }
+        }
         for (const [id, x] of line) cx.set(id, x);
-        lines.push(line);
+        if (line.length) lines.push(line);
       }
     }
   }
@@ -88,8 +101,12 @@ function layout(flow, avail) {
 /* ---------- rendering ---------- */
 function nodeHTML(p) {
   const n = nodeInfo(p.id);
-  const cls = n.kind === "mission" ? "mission" : "primary";
-  const sub = n.kind === "mission" ? `Mission ${n.m?.story_label ?? ""}` : n.q?.region || "";
+  const fn = FLOW_NODE.get(p.id) || {};
+  const attr = fn.kind === "attribute";
+  const cls = attr ? "attribute" : n.kind === "mission" ? "mission" : "primary";
+  const givesAttr = attr && (n.q?.rewards || []).some(r => /Attribute point/.test(r));
+  const sub = attr ? [givesAttr ? "+15 attribute points" : "Unlocks an attribute quest", fn.note].filter(Boolean).join(" · ")
+    : n.kind === "mission" ? `Mission ${n.m?.story_label ?? ""}` : n.q?.region || "";
   const narrow = p.w < 160 ? " narrow" : "";
   let html = `<button class="qn ${cls}${narrow}${state.sel === p.id ? " sel" : ""}" data-id="${esc(p.id)}" title="${esc(nodeName(p.id))}" style="left:${p.x}px;top:${p.y}px;width:${p.w}px;height:${NODE_H}px">
     <span class="qn-t">${esc(nodeName(p.id))}</span><span class="qn-s">${esc(sub)}</span></button>`;
@@ -133,6 +150,7 @@ function renderParts(flow) {
 function render() {
   const flow = FLOWS.find(f => f.campaign === state.camp);
   $("legend-primary").hidden = false;
+  $("legend-attr").hidden = !flow.nodes.some(n => n.kind === "attribute");
   if (flow.parts) {
     $("legend-inferred").hidden = true;
     renderParts(flow);
@@ -145,7 +163,7 @@ function render() {
   let svg = "";
   for (const e of flow.edges) {
     const a = placed.get(e.from), b = placed.get(e.to);
-    if (a && b) svg += `<path d="${edgePath(a, b)}" class="${e.inferred ? "inferred" : ""}"/>`;
+    if (a && b) svg += `<path d="${edgePath(a, b)}" class="${e.inferred ? "inferred" : ""}${FLOW_NODE.get(e.to)?.kind === "attribute" ? " attr" : ""}"/>`;
   }
   $("canvas").style.width = width + "px";
   $("canvas").style.height = height + "px";
