@@ -511,8 +511,10 @@ for (const zone of [els.bar, els.pool]) {
     (e.target.closest(".b-slot") || zone).classList.add("over");
   });
 }
+// bar and shortlist drops stop here: they re-render, and the off-the-bar handler below would then see a detached target
 els.bar.addEventListener("drop", e => {
   e.preventDefault();
+  e.stopPropagation();
   const slot = e.target.closest(".b-slot");
   if (!drag || !slot) return;
   const to = +slot.dataset.slot;
@@ -530,6 +532,7 @@ document.addEventListener("drop", e => {
 });
 els.pool.addEventListener("drop", e => {
   e.preventDefault();
+  e.stopPropagation();
   if (!drag) return;
   if (drag.from === "bar") removeFromBar(drag.slot);
   else { addToPool(drag.id); render(); }
