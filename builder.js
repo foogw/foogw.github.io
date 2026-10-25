@@ -26,10 +26,11 @@ const PROF_ATTRS = {
 };
 const POINT_COST = [0, 1, 3, 6, 10, 15, 21, 28, 37, 48, 61, 77, 97]; // cumulative, ranks 0..12
 const MAX_POINTS = 200;
+const MAX_BONUS = 10; // runes, headgear, consumables and skills on top of the spent ranks
 const STORE_KEY = "gw-builder-v1";
 const SAVED_KEY = "gw-builder-saved-v1";
 
-const state = { primary: 3, secondary: 0, ranks: {}, bar: Array(8).fill(0), pool: [], selected: null };
+const state = { primary: 3, secondary: 0, ranks: {}, bonus: {}, bar: Array(8).fill(0), pool: [], selected: null, notice: "" };
 
 const els = {
   code: $("code"), msg: $("code-msg"), primary: $("primary"), secondary: $("secondary"),
@@ -75,7 +76,7 @@ function pointsUsed() {
 /* ---------- skill text at the current rank ---------- */
 function rankFor(s) {
   const id = ATTR_ID[s.attribute];
-  return id === undefined ? null : state.ranks[id] || 0;
+  return id === undefined ? null : (state.ranks[id] || 0) + (state.bonus[id] || 0);
 }
 
 function describe(s) {
@@ -101,22 +102,45 @@ function renderProfs() {
   els.secondary.value = state.secondary;
 }
 
+/* Laid out like the in-game attribute window: one row per attribute, primary profession first.
+   Rank is what the template code stores; bonus (runes, headgear, consumables…) only changes the
+   skill numbers shown here. The rows are rebuilt only when the attribute list changes, so a held
+   button keeps working while the numbers update in place. */
+let attrsKey = "";
 function renderAttrs() {
   const ids = availableAttrs();
   const used = pointsUsed();
   const left = MAX_POINTS - used;
   els.points.innerHTML = `<b class="${left < 0 ? "over" : ""}">${used}</b> / ${MAX_POINTS} attribute points · `
     + `<b class="${left < 0 ? "over" : ""}">${left < 0 ? `${-left} over` : `${left} left`}</b>`;
-  els.attrs.innerHTML = ids.map((id, i) => {
-    const r = state.ranks[id] || 0;
-    const primaryOnly = i === 0;
-    return `<div class="b-attr${primaryOnly ? " primary" : ""}">
-      <span class="an">${esc(ATTRIBUTES[id])}</span>
-      <button type="button" data-attr="${id}" data-d="-1" aria-label="Lower ${esc(ATTRIBUTES[id])}">−</button>
-      <span class="ar">${r}</span>
-      <button type="button" data-attr="${id}" data-d="1" aria-label="Raise ${esc(ATTRIBUTES[id])}">+</button>
-    </div>`;
-  }).join("");
+  const key = ids.join(",");
+  if (key !== attrsKey) {
+    attrsKey = key;
+    const own = PROF_ATTRS[state.primary] || [];
+    const row = id => {
+      const name = esc(ATTRIBUTES[id]);
+      return `<div class="b-attr${id === own[0] ? " primary" : ""}" data-row="${id}">
+        <span class="an">${name}</span>
+        <span class="b-step"><button type="button" data-attr="${id}" data-d="-1" aria-label="Lower ${name}">−</button><span class="ar"></span><button type="button" data-attr="${id}" data-d="1" aria-label="Raise ${name}">+</button></span>
+        <span class="b-step bonus"><button type="button" data-attr="${id}" data-bonus="1" data-d="-1" aria-label="Lower ${name} bonus">−</button><span class="ab"></span><button type="button" data-attr="${id}" data-bonus="1" data-d="1" aria-label="Raise ${name} bonus">+</button></span>
+        <span class="at"></span>
+      </div>`;
+    };
+    const group = (title, list) => list.length ? `<div class="b-agroup">${esc(title)}</div>${list.map(row).join("")}` : "";
+    const second = ids.filter(id => !own.includes(id));
+    els.attrs.innerHTML = `<div class="b-ahead"><span>Attribute</span><span>Rank</span><span>Bonus</span><span>Total</span></div>`
+      + group(PROF_IDS[state.primary], ids.filter(id => own.includes(id)))
+      + group(PROF_IDS[state.secondary], second);
+  }
+  for (const id of ids) {
+    const r = state.ranks[id] || 0, b = state.bonus[id] || 0;
+    const el = els.attrs.querySelector(`[data-row="${id}"]`);
+    el.querySelector(".ar").textContent = r;
+    el.querySelector(".ab").textContent = b ? `+${b}` : "—";
+    el.querySelector(".ab").classList.toggle("none", !b);
+    el.querySelector(".at").textContent = r + b;
+    el.classList.toggle("set", r + b > 0);
+  }
 }
 
 function renderBar() {
@@ -128,7 +152,10 @@ function renderBar() {
   const skills = state.bar.map(id => SKILL.get(id)).filter(Boolean);
   const warn = [];
   const elites = skills.filter(s => s.elite);
+  if (state.notice) warn.push(state.notice);
   if (elites.length > 1) warn.push(`More than one elite: ${elites.map(s => s.name).join(", ")}`);
+  const pve = skills.filter(s => s.pve_only);
+  if (pve.length > 3) warn.push(`More than three PvE-only skills: ${pve.map(s => s.name).join(", ")}`);
   const allowed = new Set(["None", PROF_IDS[state.primary], PROF_IDS[state.secondary]]);
   const off = skills.filter(s => !allowed.has(s.profession));
   if (off.length) warn.push(`Not usable with ${PROF_IDS[state.primary]}/${PROF_IDS[state.secondary]}: ${off.map(s => s.name).join(", ")}`);
@@ -207,6 +234,14 @@ function renderSaved() {
   }).join("") || '<span class="dim">None yet</span>';
 }
 
+// the bonus is not part of a template code, so links carry it separately: #code=…&bonus=13:3,15:1
+function hashFor(code) {
+  const bonus = Object.entries(state.bonus).filter(([, v]) => v > 0).map(([id, v]) => `${id}:${v}`).join(",");
+  return new URLSearchParams(bonus ? { code, bonus } : { code }).toString().replace(/%3A/g, ":").replace(/%2C/g, ",");
+}
+const parseBonus = text => Object.fromEntries(String(text || "").split(",").map(x => x.split(":").map(Number))
+  .filter(([id, v]) => ATTRIBUTES[id] && v > 0).map(([id, v]) => [id, Math.min(v, MAX_BONUS)]));
+
 function render({ code = true } = {}) {
   renderAttrs();
   renderBar();
@@ -215,23 +250,44 @@ function render({ code = true } = {}) {
   renderPool();
   const c = currentCode();
   if (code) els.code.value = c;
-  history.replaceState(null, "", "#code=" + c);
-  store(STORE_KEY, { code: c, pool: state.pool });
+  history.replaceState(null, "", "#" + hashFor(c));
+  store(STORE_KEY, { code: c, pool: state.pool, bonus: state.bonus });
 }
 
 /* ---------- actions ---------- */
+/* The game allows one elite and three PvE-only skills on a bar. A new skill pushes out the other
+   elite, or the rightmost other PvE-only skill; those go to the shortlist. */
+function makeRoom(id) {
+  const s = SKILL.get(id);
+  const out = (test, keep) => {
+    const slots = state.bar.map((x, i) => i).filter(i => state.bar[i] && state.bar[i] !== id && test(SKILL.get(state.bar[i])));
+    if (slots.length < keep) return [];
+    const i = slots[slots.length - 1], gone = state.bar[i];
+    addToPool(gone);
+    state.bar[i] = 0;
+    return [SKILL.get(gone).name];
+  };
+  const removed = [...(s.elite ? out(x => x?.elite, 1) : []), ...(s.pve_only ? out(x => x?.pve_only, 3) : [])];
+  state.notice = removed.length ? `Moved to the shortlist: ${removed.join(", ")}` : "";
+}
+
 function addToBar(id, slot) {
   if (!id) return;
+  state.notice = "";
   const at = state.bar.indexOf(id);
   if (slot === undefined) {
     if (at >= 0) { state.selected = id; return render(); }
-    slot = state.bar.indexOf(0);
+    // added without a target slot: take the place of the skill it would push out, else the first free slot
+    const s = SKILL.get(id), slots = test => state.bar.map((x, i) => i).filter(i => test(SKILL.get(state.bar[i])));
+    const elite = s.elite ? slots(x => x?.elite) : [], pve = s.pve_only ? slots(x => x?.pve_only) : [];
+    slot = elite.length ? elite[0] : pve.length >= 3 ? pve[pve.length - 1] : state.bar.indexOf(0);
     if (slot < 0) { addToPool(id); state.selected = id; return render(); }
   }
   const displaced = state.bar[slot];
   if (at >= 0) state.bar[at] = displaced; // swap if it was already on the bar
   else if (displaced) addToPool(displaced);
   state.bar[slot] = id;
+  if (at < 0) makeRoom(id);
   state.selected = id;
   render();
 }
@@ -241,6 +297,7 @@ function removeFromBar(slot) {
   if (!id) return;
   addToPool(id);
   state.bar[slot] = 0;
+  state.notice = "";
   render();
 }
 
@@ -279,11 +336,13 @@ function copy(text, button) {
   navigator.clipboard?.writeText(text).then(done, () => { els.code.select(); document.execCommand("copy"); done(); });
 }
 $("copy-code").addEventListener("click", e => copy(currentCode(), e.target));
-$("copy-link").addEventListener("click", e => copy(location.href.split("#")[0] + "#code=" + currentCode(), e.target));
+$("copy-link").addEventListener("click", e => copy(location.href.split("#")[0] + "#" + hashFor(currentCode()), e.target));
 $("clear").addEventListener("click", () => {
   state.bar = Array(8).fill(0);
   state.ranks = {};
+  state.bonus = {};
   state.selected = null;
+  state.notice = "";
   els.msg.textContent = "";
   render();
 });
@@ -297,12 +356,38 @@ for (const sel of [els.primary, els.secondary]) {
   });
 }
 
+/* − / + step once on press and keep stepping while held; shift-click goes all the way. */
+function step(b, all) {
+  const id = +b.dataset.attr, d = +b.dataset.d;
+  const table = b.dataset.bonus ? state.bonus : state.ranks;
+  const max = b.dataset.bonus ? MAX_BONUS : 12;
+  const now = table[id] || 0;
+  let next = Math.max(0, Math.min(max, now + d));
+  if (all) next = d < 0 ? 0 : max;
+  // raising a rank stops where the points run out, unless the build is already over
+  if (!b.dataset.bonus && d > 0) {
+    const spare = MAX_POINTS - pointsUsed() + POINT_COST[now];
+    while (next > now && POINT_COST[next] > spare) next--;
+  }
+  if (next === now) return false;
+  table[id] = next;
+  render();
+  return true;
+}
+let hold = null;
+const stopHold = () => { clearTimeout(hold); clearInterval(hold); hold = null; };
+els.attrs.addEventListener("pointerdown", e => {
+  const b = e.target.closest("button[data-attr]");
+  if (!b || e.button !== 0) return;
+  e.preventDefault();
+  stopHold();
+  if (!step(b, e.shiftKey) || e.shiftKey) return;
+  hold = setTimeout(() => { hold = setInterval(() => { if (!step(b)) stopHold(); }, 90); }, 380);
+});
+for (const ev of ["pointerup", "pointercancel", "pointerleave", "blur"]) (ev === "blur" ? window : els.attrs).addEventListener(ev, stopHold);
 els.attrs.addEventListener("click", e => {
   const b = e.target.closest("button[data-attr]");
-  if (!b) return;
-  const id = +b.dataset.attr;
-  state.ranks[id] = Math.max(0, Math.min(12, (state.ranks[id] || 0) + +b.dataset.d));
-  render();
+  if (b && e.detail === 0) step(b, e.shiftKey); // keyboard: Enter / Space
 });
 
 els.search.addEventListener("input", renderResults);
@@ -331,9 +416,11 @@ els.bar.addEventListener("click", e => {
   const id = state.bar[+slot.dataset.slot];
   if (id) { select(id); slot.focus(); }
 });
-els.bar.addEventListener("dblclick", e => {
+els.bar.addEventListener("contextmenu", e => {
   const slot = e.target.closest(".b-slot");
-  if (slot) removeFromBar(+slot.dataset.slot);
+  if (!slot || !state.bar[+slot.dataset.slot]) return;
+  e.preventDefault();
+  removeFromBar(+slot.dataset.slot);
 });
 document.addEventListener("keydown", e => {
   if (e.key !== "Delete" && e.key !== "Backspace") return;
@@ -387,6 +474,13 @@ els.bar.addEventListener("drop", e => {
     render();
   } else addToBar(drag.id, to);
 });
+// a bar skill dropped anywhere off the bar leaves it, as in the game
+document.addEventListener("dragover", e => { if (drag?.from === "bar" && !e.target.closest("#bar")) e.preventDefault(); });
+document.addEventListener("drop", e => {
+  if (drag?.from !== "bar" || e.target.closest("#bar, #pool")) return;
+  e.preventDefault();
+  removeFromBar(drag.slot);
+});
 els.pool.addEventListener("drop", e => {
   e.preventDefault();
   if (!drag) return;
@@ -420,6 +514,8 @@ els.saved.addEventListener("click", e => {
   const fromHash = new URLSearchParams(location.hash.slice(1)).get("code");
   const saved = load(STORE_KEY, {});
   state.pool = Array.isArray(saved.pool) ? saved.pool.filter(id => SKILL.has(id)) : [];
+  const hashBonus = new URLSearchParams(location.hash.slice(1)).get("bonus");
+  state.bonus = fromHash ? parseBonus(hashBonus) : parseBonus(Object.entries(saved.bonus || {}).map(([k, v]) => `${k}:${v}`).join(","));
   const add = +new URLSearchParams(location.hash.slice(1)).get("add");
   try { if (fromHash || saved.code) applyCode(fromHash || saved.code); } catch { /* keep defaults */ }
   if (SKILL.has(add)) { renderProfs(); addToBar(add); }
