@@ -235,6 +235,7 @@ function renderResults() {
 }
 
 function renderPool() {
+  $("clear-pool").hidden = !state.pool.length;
   els.pool.innerHTML = state.pool.map(id => `<div class="b-pitem" data-id="${id}" draggable="true">${icon(SKILL.get(id), "sm")}<button type="button" class="x" data-unpool="${id}" title="Remove">×</button></div>`).join("")
     || '<span class="dim">Empty</span>';
 }
@@ -309,10 +310,10 @@ function addToBar(id, slot) {
   render();
 }
 
-function removeFromBar(slot) {
+function removeFromBar(slot, { keep = true } = {}) {
   const id = state.bar[slot];
   if (!id) return;
-  addToPool(id);
+  if (keep) addToPool(id);
   state.bar[slot] = 0;
   state.notice = "";
   render();
@@ -420,14 +421,16 @@ els.results.addEventListener("click", e => {
   const row = e.target.closest(".b-res");
   if (row) select(+row.dataset.id);
 });
-// right-click adds to the bar, as in the game
+// right-click adds to the bar, as in the game, and takes it off again, so a misclick undoes in place
 for (const zone of [els.results, els.pool]) {
   zone.addEventListener("contextmenu", e => {
     const item = e.target.closest(".b-res, .b-pitem");
     if (!item) return;
     e.preventDefault();
     hideTip();
-    addToBar(+item.dataset.id);
+    const id = +item.dataset.id, at = state.bar.indexOf(id);
+    if (at >= 0) removeFromBar(at, { keep: false }); // undo: don't add it to the shortlist
+    else addToBar(id);
   });
 }
 els.results.addEventListener("dblclick", e => {
@@ -458,6 +461,7 @@ document.addEventListener("keydown", e => {
   els.bar.children[slot]?.focus();
 });
 
+$("clear-pool").addEventListener("click", () => { state.pool = []; render(); });
 els.pool.addEventListener("click", e => {
   const x = e.target.closest("[data-unpool]");
   if (x) { state.pool = state.pool.filter(id => id !== +x.dataset.unpool); return render(); }
