@@ -79,9 +79,14 @@ function rankFor(s) {
   return id === undefined ? null : (state.ranks[id] || 0) + (state.bonus[id] || 0);
 }
 
+const isTitle = s => / rank$/.test(s.attribute);
+const maxTitles = () => $("max-titles").checked;
+
 function describe(s) {
   const rank = rankFor(s);
   const text = esc(s.description).replace(/&lt;\/?gray&gt;/g, "");
+  // title-track skills give their range from rank 0 to the title's maximum
+  if (isTitle(s) && maxTitles()) return text.replace(/(-?\d+)\.\.\.(-?\d+)/g, (m, a, b) => `<b class="rv" title="${m} (max ${esc(s.attribute)})">${b}</b>`);
   if (rank === null) return text;
   return text.replace(/(-?\d+)\.\.\.(-?\d+)/g, (m, a, b) => {
     const v = Math.round(+a + ((+b - +a) * rank) / 15);
@@ -178,7 +183,7 @@ function skillCard(s) {
     s.activation && `${s.activation}s activation`, s.recharge && `${s.recharge}s recharge`].filter(Boolean);
   return `<div class="b-dhead">${icon(s, "big")}<div>
       <div class="b-dname${s.elite ? " elite" : ""}">${esc(s.name)}</div>
-      <div class="dim">${esc(s.profession === "None" ? "Common" : s.profession)} · ${esc(s.attribute)}${rank !== null ? ` <b>${rank}</b>` : ""} · ${esc(s.type || "")}${s.pve_only ? " · PvE only" : ""}</div>
+      <div class="dim">${esc(s.profession === "None" ? "Common" : s.profession)} · ${esc(s.attribute)}${rank !== null ? ` <b>${rank}</b>` : isTitle(s) && maxTitles() ? " <b>max</b>" : ""} · ${esc(s.type || "")}${s.pve_only ? " · PvE only" : ""}</div>
       <div class="dim">${esc(costs.join(" · "))}</div></div></div>
     <p>${describe(s)}</p>`;
 }
@@ -208,13 +213,31 @@ const groupShut = (s, k) => (groupOverride.has(k) ? groupOverride.get(k)
   : tier(s) === 0 && ATTR_ID[s.attribute] !== undefined && !((state.ranks[ATTR_ID[s.attribute]] || 0) + (state.bonus[ATTR_ID[s.attribute]] || 0)));
 const tier = s => (s.attribute === "No attribute" ? 2 : / rank$/.test(s.attribute) ? 1 : 0);
 
+// the type list offers the types of the chosen professions' own skills, as on the skills page; common and
+// PvE-only skills (Ebon Vanguard Ritual, Form…) don't add types of their own
+let typesFor = "";
+function fillTypes(scope) {
+  const key = `${els.onlyProfs.checked}|${state.primary}|${state.secondary}`;
+  if (key === typesFor) return;
+  typesFor = key;
+  const sel = $("type"), cur = sel.value;
+  sel.innerHTML = typeOptionsHTML(scope.filter(s => s.profession !== "None" && !s.pve_only), { groups: false });
+  sel.value = cur;
+  if (sel.value !== cur) sel.value = "";
+}
+$("camp").innerHTML += CAMPAIGNS.map(c => `<option>${c}</option>`).join("");
+// a type or campaign choice is a narrowed view, like a search: its groups open regardless of points
+const narrowed = () => !!($("type").value || $("camp").value);
+
 function renderResults() {
   const tokens = terms(els.search);
   const allowed = new Set(["None", PROF_IDS[state.primary], PROF_IDS[state.secondary]]);
   // each box shows one kind of skill; unticking it hides that kind
   const on = new Set([...$("filters").querySelectorAll("input:checked")].map(x => x.value));
-  let list = PICKABLE.filter(s => (!els.onlyProfs.checked || allowed.has(s.profession))
-    && on.has(s.elite ? "elite" : "normal") && (on.has("pve") || !s.pve_only));
+  const scope = PICKABLE.filter(s => !els.onlyProfs.checked || allowed.has(s.profession));
+  fillTypes(scope);
+  let list = scope.filter(s => on.has(s.elite ? "elite" : "normal") && (on.has("pve") || !s.pve_only)
+    && typeMatches(s, $("type").value) && (!$("camp").value || s.campaign === $("camp").value));
   if (tokens.length) {
     list = list.map(s => [s, fuzzyScore(s.name, tokens)]).filter(x => x[1] !== null)
       .sort((a, b) => b[1] - a[1]).map(x => x[0]);
@@ -234,7 +257,7 @@ function renderResults() {
     for (const s of shown) {
       const k = tier(s) === 1 ? s.attribute : `${s.profession}|${s.attribute}`;
       if (k !== key) {
-        const shut = groupShut(s, k);
+        const shut = narrowed() ? groupOverride.get(k) === true : groupShut(s, k);
         html += `${key ? "</div>" : ""}<button type="button" class="b-agrp${shut ? " shut" : ""}" data-group="${esc(k)}" aria-expanded="${!shut}" style="--pc:${tier(s) === 1 ? "var(--muted)" : profVar(s.profession)}">${esc(s.attribute === "No attribute" && s.profession !== "None" ? `${s.profession} · no attribute` : s.attribute)}</button><div class="b-grid"${shut ? " hidden" : ""}>`;
         key = k;
       }
@@ -282,7 +305,7 @@ function render({ code = true } = {}) {
   const c = currentCode();
   if (code) els.code.value = c;
   history.replaceState(null, "", "#" + hashFor(c));
-  store(STORE_KEY, { code: c, pool: state.pool, bonus: state.bonus });
+  store(STORE_KEY, { code: c, pool: state.pool, bonus: state.bonus, maxTitles: $("max-titles").checked });
 }
 
 /* ---------- actions ---------- */
@@ -430,7 +453,9 @@ els.search.addEventListener("keydown", e => {
   } else if (e.key === "Escape") { els.search.value = ""; renderResults(); }
 });
 els.onlyProfs.addEventListener("change", renderResults);
-$("filters").addEventListener("change", renderResults);
+$("max-titles").checked = load(STORE_KEY, {}).maxTitles === true;
+$("max-titles").addEventListener("change", () => render());
+$("filters").addEventListener("change", renderResults); // checkboxes and the type list
 
 els.results.addEventListener("click", e => {
   const head = e.target.closest("[data-group]");

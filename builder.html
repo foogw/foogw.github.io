@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GW Skillbar Builder</title>
-<link rel="stylesheet" href="style.css?v=0a24efdc">
+<link rel="stylesheet" href="style.css?v=24c02e32">
 </head>
 <body class="builder">
 <div class="wrap">
@@ -36,6 +36,7 @@
       </div>
 
       <div class="b-attrs" id="attrs"></div>
+      <label class="chk b-maxt"><input type="checkbox" id="max-titles"> Assume maxed PvE titles (title skills show their top value)</label>
       <p class="b-ahint">Hold − / + to keep stepping, shift-click for 0 or the most your points allow. Bonus is for runes, headgear and other extras; it isn't saved in the template code.</p>
 
       <div class="b-label">Skill bar <span class="dim">— drag to reorder; right-click or drag off the bar to remove</span></div>
@@ -53,9 +54,11 @@
       <div class="b-label">Skills <span class="dim">— right-click or drag to add (right-click again to remove), hover for details, attributes without points start folded</span></div>
       <div class="b-results" id="results"></div>
       <div class="b-filters" id="filters">
-        <label class="chk"><input type="checkbox" value="elite" checked> Show elites</label>
-        <label class="chk"><input type="checkbox" value="normal" checked> Show non-elites</label>
-        <label class="chk"><input type="checkbox" value="pve" checked> Show PvE-only</label>
+        <select id="type" aria-label="Skill type"></select>
+        <select id="camp" aria-label="Campaign"><option value="">Any campaign</option></select>
+        <label class="chk"><input type="checkbox" value="elite" checked> Elites</label>
+        <label class="chk"><input type="checkbox" value="normal" checked> Non-elites</label>
+        <label class="chk"><input type="checkbox" value="pve" checked> PvE-only</label>
       </div>
 
       <div class="b-label b-label-row">Shortlist <span class="dim">— drag skills here to keep them handy</span>
@@ -75,8 +78,8 @@
 </div>
 
 <script src="data/skills.js?v=8d0a8eb7"></script>
-<script src="common.js?v=10062609"></script>
+<script src="common.js?v=1f2cbb5a"></script>
 <script src="template-code.js?v=201bf57f"></script>
-<script src="builder.js?v=97fcc7c7"></script>
+<script src="builder.js?v=43967c77"></script>
 </body>
 </html>

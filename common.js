@@ -107,4 +107,18 @@ if (document.readyState === "loading") document.addEventListener("DOMContentLoad
 else cleanHomeUrls();
 
 /* A skill's icon (lazy-loaded; removed if the skill has none). */
+/* Skill type filter shared by the skills list and the builder: "All attacks" / "All spells" / "All rituals"
+   groups, then every type the given skills have. */
+const TYPE_GROUPS = [["~Attack", "All attacks", /Attack/], ["~Spell", "All spells", /Spell|Hex|Enchantment/], ["~Ritual", "All rituals", /Ritual/]];
+function typeOptionsHTML(skills, { groups: withGroups = true, any = "Any type" } = {}) {
+  const types = [...new Set(skills.map(s => s.type).filter(Boolean))].sort();
+  const groups = withGroups ? TYPE_GROUPS.filter(([, , re]) => types.some(t => re.test(t))) : [];
+  return `<option value="">${any}</option>`
+    + groups.map(([v, l]) => `<option value="${v}">${l}</option>`).join("")
+    + (groups.length ? `<option disabled>──────────</option>` : "")
+    + types.map(t => `<option>${esc(t)}</option>`).join("");
+}
+const typeMatches = (s, type) => !type
+  || (type.startsWith("~") ? TYPE_GROUPS.find(g => g[0] === type)[2].test(s.type || "") : s.type === type);
+
 const skillIcon = (id, cls = "sk-ic") => `<img class="${cls}" src="img/skills/${id}.jpg" alt="" loading="lazy" onerror="this.remove()">`;

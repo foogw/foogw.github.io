@@ -5,7 +5,6 @@ const BY_ID = new Map(SKILLS.map(s => [s.id, s]));
 const PVE_OF = new Map(SKILLS.filter(s => s.pvp_version_id).map(s => [s.pvp_version_id, s.id]));
 
 const MISSION_NAMES = new Set((window.GW_MISSIONS || []).map(m => m.name));
-const TYPE_GROUPS = [["~Attack", "All attacks", /Attack/], ["~Spell", "All spells", /Spell|Hex|Enchantment/], ["~Ritual", "All rituals", /Ritual/]];
 const METHOD_ORDER = ["Signet of Capture", "Skill trainer", "Hero skill trainer", "Quest", "Profession Changer"];
 
 const els = {
@@ -117,12 +116,7 @@ function fillAttributes() {
 function fillTypes() {
   const cur = els.type.value;
   const pool = SKILLS.filter(s => (!state.profs.size || state.profs.has(s.profession)) && (!els.attr.value || s.attribute === els.attr.value));
-  const types = [...new Set(pool.map(s => s.type).filter(Boolean))].sort();
-  const groups = TYPE_GROUPS.filter(([, , re]) => types.some(t => re.test(t)));
-  els.type.innerHTML = `<option value="">Any type</option>`
-    + groups.map(([v, l]) => `<option value="${v}">${l}</option>`).join("")
-    + (groups.length ? `<option disabled>──────────</option>` : "")
-    + types.map(t => `<option>${esc(t)}</option>`).join("");
+  els.type.innerHTML = typeOptionsHTML(pool);
   els.type.value = cur;
   if (els.type.value !== cur) els.type.value = "";
 }
@@ -146,10 +140,7 @@ function matches(s, f) {
   if (f.text.length && !f.text.every(t => s._text.includes(t))) return false;
   if (state.profs.size && !state.profs.has(s.profession)) return false;
   if (f.attr && s.attribute !== f.attr) return false;
-  if (f.type) {
-    if (f.type.startsWith("~")) { if (!TYPE_GROUPS.find(g => g[0] === f.type)[2].test(s.type || "")) return false; }
-    else if (s.type !== f.type) return false;
-  }
+  if (!typeMatches(s, f.type)) return false;
   if (f.camp && s.campaign !== f.camp) return false;
   if (f.elite === "elite" && !s.elite) return false;
   if (f.src === "title" ? !s._title : f.src && !s._sources.has(f.src)) return false;
