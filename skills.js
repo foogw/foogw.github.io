@@ -173,7 +173,7 @@ function rowHTML(s, f) {
     s.touch ? '<span class="tag">Touch</span>' : "",
   ].join("");
   return `<div class="row${s.elite ? " elite" : ""}${state.open === s.id ? " open" : ""}" data-id="${s.id}" style="--pc:${profVar(s.profession)}">
-    <div class="name" title="${esc(s.name)}">${highlight(s.name, f.name)}${tags}</div>
+    <div class="name" title="${esc(s.name)}">${skillIcon(s.id)}<span class="nm">${highlight(s.name, f.name)}</span>${tags}</div>
     <div class="prof col-prof">${s.profession === "None" ? "Common" : esc(s.profession)}</div>
     <div class="cell dim col-attr">${esc(s.attribute)}</div>
     <div class="cell dim col-type">${esc(s.type || "")}</div>

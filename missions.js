@@ -131,7 +131,7 @@ function sorted(list, f) {
 
 /* ---------- rendering ---------- */
 const skillLink = (s, label) =>
-  `<a class="skill-link${s.elite ? " elite" : ""}" href="skills.html#open=${s.id}" style="--pc:${profVar(s.profession)}">${esc(label || s.name)}</a>`;
+  `<a class="skill-link${s.elite ? " elite" : ""}" href="skills.html#open=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${esc(label || s.name)}</a>`;
 const missionLink = name => BY_NAME.has(name)
   ? `<button class="link" data-goto="${esc(name)}">${esc(name)}</button>` : esc(name);
 
@@ -139,7 +139,7 @@ function eliteChips(m, f) {
   const shown = f.elite ? m._elites.filter(e => e.skill.profession === f.elite) : m._elites;
   const seen = new Set();
   return shown.filter(e => !seen.has(e.skill.id) && seen.add(e.skill.id))
-    .map(e => `<span class="echip" style="--pc:${profVar(e.skill.profession)}" title="${esc(e.boss.name)}">${highlight(e.skill.name, f.who)}</span>`)
+    .map(e => `<span class="echip" style="--pc:${profVar(e.skill.profession)}" title="${esc(e.boss.name)}">${skillIcon(e.skill.id, "sk-ic sm")}${highlight(e.skill.name, f.who)}</span>`)
     .join("");
 }
 

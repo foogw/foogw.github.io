@@ -443,3 +443,26 @@ table.npcs td.grp { color: var(--muted); font-size: 12px; padding-top: 8px; text
 .eotn-wide .eotn-row { max-width: 100%; }
 .eotn-wide .eotn-row:only-child, .eotn-wide .eotn-row .eotn-step { max-width: 320px; }
 @media (max-width: 760px) { .eotn-parallel { grid-template-columns: 1fr; } .eotn-final { max-width: none; } }
+
+/* ---- visual hierarchy pass ---- */
+.page-title { padding: 6px 0 12px; }
+.page-title h1 { margin: 0; font-size: 26px; letter-spacing: .01em; }
+.page-title p { margin: 2px 0 0; color: var(--muted); }
+.detail h4, .r-h, .b-label, .q-dk, .sq-region, .sections h2, .results h2, .eotn-part h4 {
+  font-size: 13px; color: color-mix(in srgb, var(--text) 75%, var(--muted)); letter-spacing: .06em;
+}
+.r-h { font-size: 15px; }
+/* skill and mission rows: a light wash of their profession / campaign colour */
+.row { background: color-mix(in srgb, var(--pc) 6%, transparent); margin-bottom: 2px; border-radius: 4px; }
+.row:hover, .row.open { background: color-mix(in srgb, var(--pc) 14%, var(--panel)); }
+.row.elite { background: color-mix(in srgb, var(--elite) 7%, transparent); }
+.row.elite:hover, .row.elite.open { background: color-mix(in srgb, var(--elite) 14%, var(--panel)); }
+.row .desc { -webkit-line-clamp: 1; }
+.name { display: flex; align-items: center; gap: 8px; }
+.name .nm { overflow: hidden; text-overflow: ellipsis; }
+.sk-ic { width: 26px; height: 26px; border-radius: 4px; flex: none; }
+.sk-ic.sm { width: 18px; height: 18px; border-radius: 3px; vertical-align: -4px; margin-right: 5px; }
+.echip { display: inline-flex; align-items: center; padding-left: 3px; }
+.echip .sk-ic.sm { margin-right: 4px; vertical-align: 0; }
+.hit .sk-ic.sm { margin-right: 7px; }
+.cards, .r-card, .today { box-shadow: 0 1px 0 rgba(0,0,0,.25); }

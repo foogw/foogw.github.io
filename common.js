@@ -105,3 +105,6 @@ function cleanHomeUrls() {
 }
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", cleanHomeUrls);
 else cleanHomeUrls();
+
+/* A skill's icon (lazy-loaded; removed if the skill has none). */
+const skillIcon = (id, cls = "sk-ic") => `<img class="${cls}" src="img/skills/${id}.jpg" alt="" loading="lazy" onerror="this.remove()">`;
