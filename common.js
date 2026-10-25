@@ -1,0 +1,107 @@
+"use strict";
+/* Helpers shared by every page. */
+
+const PROFS = [
+  ["Warrior", "W"], ["Ranger", "R"], ["Monk", "Mo"], ["Necromancer", "N"], ["Mesmer", "Me"],
+  ["Elementalist", "E"], ["Assassin", "A"], ["Ritualist", "Rt"], ["Paragon", "P"], ["Dervish", "D"],
+  ["None", "Common"],
+];
+const PROF_ORDER = Object.fromEntries(PROFS.map(([p], i) => [p, i]));
+const PROF_BY_SHORT = Object.fromEntries(PROFS.map(([p, s]) => [s, p]));
+const CAMPAIGNS = ["Core", "Prophecies", "Factions", "Nightfall", "Eye of the North"];
+const CAMP_SHORT = { Core: "Core", Prophecies: "Prof", Factions: "Fa", Nightfall: "NF", "Eye of the North": "EotN" };
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const fold = s => String(s ?? "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[“”"!]/g, "");
+const profVar = p => `var(--p-${String(PROF_BY_SHORT[p] || p || "none").toLowerCase()})`;
+const cmpStr = (a, b) => String(a ?? "").localeCompare(String(b ?? ""));
+const terms = input => fold(input.value).split(/\s+/).filter(Boolean);
+
+function highlight(text, terms) {
+  const html = esc(text);
+  if (!terms.length) return html;
+  const folded = fold(text);
+  const marks = [];
+  for (const t of terms) {
+    let i = folded.indexOf(t);
+    while (i >= 0) { marks.push([i, i + t.length]); i = folded.indexOf(t, i + t.length); }
+  }
+  if (!marks.length || folded.length !== text.length) return html;
+  marks.sort((a, b) => a[0] - b[0]);
+  let out = "", pos = 0;
+  for (const [a, b] of marks) {
+    if (a < pos) continue;
+    out += esc(text.slice(pos, a)) + "<mark>" + esc(text.slice(a, b)) + "</mark>";
+    pos = b;
+  }
+  return out + esc(text.slice(pos));
+}
+
+/* Keeps a sticky column header right below the sticky filter bar. */
+function stickHeadBelowFilters() {
+  const place = () => { $("head").style.top = headerHeight() + $("filters").offsetHeight + "px"; };
+  place();
+  window.addEventListener("resize", place);
+}
+
+/* The page's top bar stays visible; sticky bars below it read its height from --hdr-h. */
+function headerHeight() { return document.querySelector("header.top")?.offsetHeight || 0; }
+function trackHeaderHeight() {
+  const set = () => document.documentElement.style.setProperty("--hdr-h", headerHeight() + "px");
+  set();
+  window.addEventListener("resize", set);
+}
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", trackHeaderHeight);
+else trackHeaderHeight();
+
+/* Rotations: entry k of a cycle is active from start + k * period (unix seconds). */
+const Rotation = {
+  period(r, t = Date.now()) { return Math.floor((t / 1000 - r.start) / r.period); },
+  entry(r, k) { const n = r.entries.length; return r.entries[((k % n) + n) % n]; },
+  startsAt(r, k) { return (r.start + k * r.period) * 1000; },
+  current(r, t = Date.now()) { return Rotation.entry(r, Rotation.period(r, t)); },
+  endsAt(r, t = Date.now()) { return Rotation.startsAt(r, Rotation.period(r, t) + 1); },
+};
+
+function timeLeft(ms) {
+  const m = Math.max(0, Math.floor(ms / 60000));
+  const d = Math.floor(m / 1440), h = Math.floor((m % 1440) / 60), mm = m % 60;
+  return d ? `${d}d ${h}h` : h ? `${h}h ${mm}m` : `${mm}m`;
+}
+
+/* How a rotation entry reads, with a link where the site has a page for it. */
+function rotationEntryHTML(r, e, missionNames) {
+  const name = r.key === "zaishen-mission" && missionNames && missionNames.has(e.name)
+    ? `<a href="missions.html#open=${encodeURIComponent(e.name)}">${esc(e.name)}</a>` : esc(e.name);
+  if (e.count) return `${e.count} × ${name} <span class="dim">— ${esc(e.where)}, ${esc(e.region)}</span>`;
+  return name;
+}
+
+/* Compact "label · current · time left" rows; a null row draws the daily/weekly divider. */
+function rotationListHTML(rows, rotations, missionNames, now = Date.now()) {
+  return rows.map(row => {
+    if (!row) return '<div class="t-sep"></div>';
+    const [key, title] = row;
+    const r = rotations[key];
+    const k = Rotation.period(r, now);
+    const show = e => e.count ? `${e.count} × ${esc(e.name)} <span class="dim">· ${esc(e.where)}</span>`
+      : rotationEntryHTML(r, e, missionNames);
+    const next = Rotation.entry(r, k + 1);
+    return `<div class="t-row"><span class="t-k">${title}</span><span class="t-v">${show(Rotation.entry(r, k))}</span>`
+      + `<span class="t-l">${timeLeft(Rotation.endsAt(r, now) - now)}</span>`
+      + `<span class="t-n">then: ${next.count ? `${next.count} × ${esc(next.name)}` : rotationEntryHTML(r, next, missionNames)}</span></div>`;
+  }).join("");
+}
+
+/* On the published site the home page is "/", never "/index.html": point Home links at the folder and
+   drop "index.html" from the address bar. Opened from disk (file:), links keep index.html. */
+function cleanHomeUrls() {
+  if (!location.protocol.startsWith("http")) return;
+  for (const a of document.querySelectorAll('a[href^="index.html"]')) a.setAttribute("href", "./" + a.getAttribute("href").slice(10));
+  if (location.pathname.endsWith("/index.html")) {
+    history.replaceState(history.state, "", location.pathname.slice(0, -10) + location.search + location.hash);
+  }
+}
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", cleanHomeUrls);
+else cleanHomeUrls();

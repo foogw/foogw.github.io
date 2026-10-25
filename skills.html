@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GW Skills</title>
+<link rel="stylesheet" href="style.css?v=3e687a3a">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <nav class="pages"><a href="index.html">Home</a><a href="skills.html" aria-current="page">Skills</a><a href="quests.html">Quests &amp; Missions</a><a href="missions.html">Missions</a><a href="builder.html">Builder</a><a href="rotations.html">Rotations</a></nav>
+    <span class="count" id="count"></span>
+    <a class="hdr-link push" href="contact.html">Contact</a>
+    <a class="hdr-link" href="license.html">License</a>
+  </header>
+
+  <div class="filters" id="filters">
+    <div class="frow">
+      <input type="search" id="f-name" placeholder="Name — e.g. sig, mantra, &quot;save" autocomplete="off" autofocus>
+      <input type="search" id="f-text" placeholder="Description — e.g. condition, knockdown, energy" autocomplete="off">
+      <span class="search-hint"><kbd>/</kbd> search · <kbd>Esc</kbd> clear</span>
+    </div>
+    <div class="frow">
+      <div class="profs" id="f-prof"></div>
+    </div>
+    <div class="frow">
+      <select id="f-attr"><option value="">Any attribute</option></select>
+      <select id="f-type"><option value="">Any type</option></select>
+      <select id="f-camp"><option value="">Any campaign</option></select>
+      <select id="f-src">
+        <option value="">Any source</option>
+        <option value="Signet of Capture">Capturable</option>
+        <option value="Skill trainer">Skill trainer</option>
+        <option value="Hero skill trainer">Hero skill trainer</option>
+        <option value="Quest">Quest reward</option>
+        <option value="title">PvE-only (title)</option>
+      </select>
+      <label class="chk"><input type="checkbox" id="f-elite"> Elite only</label>
+      <label class="chk"><input type="checkbox" id="f-pvp"> PvP versions</label>
+      <button class="reset" id="reset">Reset</button>
+    </div>
+  </div>
+
+  <div class="head" id="head">
+    <button data-sort="name">Name</button>
+    <button data-sort="profession">Profession</button>
+    <button data-sort="attribute" class="col-attr">Attribute</button>
+    <button data-sort="type" class="col-type">Type</button>
+    <button data-sort="cost">Cost</button>
+    <button data-sort="activation" class="num col-act">Activation</button>
+    <button data-sort="recharge" class="num col-rech" title="Recharge">Rech</button>
+    <button data-sort="campaign" class="col-camp" title="Campaign">Camp</button>
+    <span>Description</span>
+  </div>
+  <div class="list" id="list"></div>
+  <div class="empty" id="empty" hidden>No skills match.</div>
+  <footer class="site-footer"><a href="license.html">License &amp; credits</a> · <a href="contact.html">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="data/skills.js?v=1c7b62ef"></script>
+<script src="data/missions.js?v=2f992243"></script>
+<script src="common.js?v=6d4921fe"></script>
+<script src="skills.js?v=99ca0edf"></script>
+</body>
+</html>

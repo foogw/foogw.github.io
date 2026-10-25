@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GW Missions</title>
+<link rel="stylesheet" href="style.css?v=3e687a3a">
+</head>
+<body class="missions">
+<div class="wrap">
+  <header class="top">
+    <nav class="pages"><a href="index.html">Home</a><a href="skills.html">Skills</a><a href="quests.html">Quests &amp; Missions</a><a href="missions.html" aria-current="page">Missions</a><a href="builder.html">Builder</a><a href="rotations.html">Rotations</a></nav>
+    <span class="count" id="count"></span>
+    <a class="hdr-link push" href="contact.html">Contact</a>
+    <a class="hdr-link" href="license.html">License</a>
+  </header>
+
+  <div class="filters" id="filters">
+    <div class="frow">
+      <input type="search" id="f-name" placeholder="Mission — e.g. thirsty, gate, vizunah" autocomplete="off" autofocus>
+      <input type="search" id="f-who" placeholder="Boss, elite skill or foe — e.g. energy surge, mursaat" autocomplete="off">
+      <span class="search-hint"><kbd>/</kbd> search · <kbd>Esc</kbd> clear</span>
+    </div>
+    <div class="frow">
+      <div class="profs" id="f-camp"></div>
+    </div>
+    <div class="frow">
+      <select id="f-type"><option value="">Any type</option></select>
+      <select id="f-region"><option value="">Any region</option></select>
+      <select id="f-party"><option value="">Any party size</option></select>
+      <select id="f-elite"><option value="">Elites of any profession</option></select>
+      <label class="chk"><input type="checkbox" id="f-pvp"> PvP maps</label>
+      <button class="reset" id="reset">Reset</button>
+    </div>
+  </div>
+
+  <div class="head" id="head">
+    <button data-sort="story" class="num" title="Story order">#</button>
+    <button data-sort="name">Mission</button>
+    <button data-sort="campaign">Campaign</button>
+    <button data-sort="region" class="col-region">Region</button>
+    <button data-sort="type" class="col-type">Type</button>
+    <button data-sort="party" class="num col-party" title="Party size">Party</button>
+    <span>Elite captures</span>
+  </div>
+  <div class="list" id="list"></div>
+  <div class="empty" id="empty" hidden>No missions match.</div>
+  <footer class="site-footer"><a href="license.html">License &amp; credits</a> · <a href="contact.html">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="data/missions.js?v=2f992243"></script>
+<script src="data/skills.js?v=1c7b62ef"></script>
+<script src="common.js?v=6d4921fe"></script>
+<script src="missions.js?v=8d01c262"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GW Skillbar Builder</title>
+<link rel="stylesheet" href="style.css?v=3e687a3a">
+</head>
+<body class="builder">
+<div class="wrap">
+  <header class="top">
+    <nav class="pages"><a href="index.html">Home</a><a href="skills.html">Skills</a><a href="quests.html">Quests &amp; Missions</a><a href="missions.html">Missions</a><a href="builder.html" aria-current="page">Builder</a><a href="rotations.html">Rotations</a></nav>
+    <a class="hdr-link push" href="contact.html">Contact</a>
+    <a class="hdr-link" href="license.html">License</a>
+  </header>
+
+  <div class="b-layout">
+    <section class="b-build">
+      <div class="b-code">
+        <label for="code" class="b-label">Template code</label>
+        <div class="b-code-row">
+          <input id="code" type="text" spellcheck="false" autocomplete="off" placeholder="Paste a template code, e.g. OQBDApwTCcohHAAAAoIA">
+          <button type="button" id="copy-code">Copy</button>
+          <button type="button" id="copy-link">Copy link</button>
+          <button type="button" id="clear" title="Empty the skill bar and reset attributes">Clear</button>
+        </div>
+        <div class="b-msg" id="code-msg"></div>
+      </div>
+
+      <div class="b-profs">
+        <label>Primary <select id="primary"></select></label>
+        <label>Secondary <select id="secondary"></select></label>
+        <span class="b-points" id="points"></span>
+      </div>
+
+      <div class="b-attrs" id="attrs"></div>
+
+      <div class="b-label">Skill bar <span class="dim">— drag to reorder, double-click or Delete to remove</span></div>
+      <div class="b-bar" id="bar"></div>
+      <div class="b-warn" id="warnings"></div>
+
+      <div class="b-detail" id="detail"></div>
+    </section>
+
+    <aside class="b-side">
+      <div class="b-search">
+        <input type="search" id="search" placeholder="Find a skill — e.g. prot bond, mantra" autocomplete="off">
+        <label class="chk"><input type="checkbox" id="only-profs" checked> My professions</label>
+      </div>
+      <div class="b-results" id="results"></div>
+
+      <div class="b-label">Shortlist <span class="dim">— drag skills here to keep them handy</span></div>
+      <div class="b-pool" id="pool"></div>
+
+      <div class="b-label">Saved builds <span class="dim">— stored in this browser</span></div>
+      <div class="b-save">
+        <input type="text" id="save-name" placeholder="Name this build" autocomplete="off">
+        <button type="button" id="save">Save</button>
+      </div>
+      <div class="b-saved" id="saved"></div>
+    </aside>
+  </div>
+
+  <footer class="site-footer"><a href="license.html">License &amp; credits</a> · <a href="contact.html">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Skill icons © ArenaNet · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="data/skills.js?v=1c7b62ef"></script>
+<script src="common.js?v=6d4921fe"></script>
+<script src="template-code.js?v=201bf57f"></script>
+<script src="builder.js?v=179e7563"></script>
+</body>
+</html>
