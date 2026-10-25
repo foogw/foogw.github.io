@@ -73,19 +73,22 @@ function recruitHTML(h) {
   return text;
 }
 
+const SHORT = { Prophecies: "Proph", Factions: "Factions", Nightfall: "NF", "Eye of the North": "EotN" };
+const campsHTML = h => (h.any_campaign ? "Any"
+  : h.campaigns.map(c => `<span style="color:var(${CAMP_COLOR[c]})">${SHORT[c]}</span>`).join(" + "));
+
 function renderList() {
-  const order = GROUPS.map(g => g.key);
+  const order = ["Eye of the North", "Prophecies+Eye of the North", "Prophecies", "Prophecies+Nightfall", "Nightfall",
+    "Factions+Nightfall", "Factions", "any"];
   const rows = [...HEROES].sort((a, b) => order.indexOf(groupKey(a)) - order.indexOf(groupKey(b)));
   let html = "", group;
   for (const h of rows) {
-    if (groupKey(h) !== group) {
-      group = groupKey(h);
-      html += `<h3>${esc(groupTitle(group))}</h3>`;
-    }
-    html += `<div class="hrow${state.sel === h.name ? " sel" : ""}" id="h-${esc(h.name)}" style="--pc:${profColor(h.profession)}">
+    const first = groupKey(h) !== group;
+    group = groupKey(h);
+    html += `<div class="hrow${first ? " first" : ""}${state.sel === h.name ? " sel" : ""}" id="h-${esc(h.name)}" style="--pc:${profColor(h.profession)}">
+      <div class="hcamp" title="${esc(groupTitle(group))}">${campsHTML(h)}</div>
       <div class="hname"><img src="img/prof/${esc(h.profession)}.png" alt=""><b>${esc(h.name)}</b>
-        <span class="dim">${esc(h.profession === "Any" ? "Any profession" : h.profession)}</span>
-        ${h.alternative_to.length ? `<span class="dim">· or ${h.alternative_to.map(esc).join(", ")}</span>` : ""}</div>
+        <span class="dim">${esc(h.profession === "Any" ? "Any profession" : h.profession)}</span></div>
       <div class="dim">${esc(h.region || "")}</div>
       <div>${recruitHTML(h)}</div>
     </div>`;
