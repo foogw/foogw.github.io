@@ -497,3 +497,52 @@ header.top {
 /* bigger page titles */
 .page-title h1, .hero h1 { font-size: 34px; line-height: 1.15; }
 .page-title p { font-size: 15px; }
+
+/* ---------- heroes ---------- */
+.venn { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: auto auto auto; margin: 22px 0 8px; max-width: 1200px; }
+.vbox { position: relative; border: 2px solid var(--c); border-radius: 14px; background: color-mix(in srgb, var(--c) 9%, transparent); pointer-events: none; }
+.vbox:nth-child(2) { margin: 10px 4px 0 6px; }
+.vbox:nth-child(3) { margin: 0 0 0 6px; }
+.vbox:nth-child(4) { margin: 10px 4px 0 0; }
+.vbox span { position: absolute; padding: 1px 8px; border-radius: 6px; background: var(--bg); color: var(--c); border: 1px solid var(--c); font-size: 12px; font-weight: 600; white-space: nowrap; }
+.vbox.lbl-tl span { top: -11px; left: 12px; }
+.vbox.lbl-tr span { top: -11px; right: 12px; }
+.vbox.lbl-br span { bottom: -11px; right: 12px; }
+.vgroup { position: relative; z-index: 1; padding: 22px 12px 18px; display: flex; flex-direction: column; justify-content: center; }
+.vgroup h4 { display: none; }
+.vgroup.any { margin: 4px 10px 0; border: 1.5px dashed var(--muted); border-radius: 12px; align-self: start; padding: 8px; }
+.vgroup.any h4 { display: block; margin: 0 0 6px; font-size: 11px; font-weight: 500; color: var(--muted); text-align: center; }
+.vchips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.hchip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px 3px 4px; border-radius: 999px; font: inherit; font-size: 13px; cursor: pointer;
+  color: var(--text); background: var(--panel); border: 1px solid color-mix(in srgb, var(--pc) 55%, var(--line)); white-space: nowrap; }
+.hchip img { width: 18px; height: 18px; }
+.hchip:hover { border-color: var(--pc); }
+.hchip.sel { outline: 2px solid var(--accent); outline-offset: 1px; }
+.halt { display: inline-flex; align-items: center; gap: 4px; padding: 2px; border: 1px dotted var(--muted); border-radius: 999px; }
+.halt i { font-style: normal; font-size: 11px; color: var(--muted); }
+.venn-note { font-size: 13px; margin: 14px 0 6px; }
+.h-list { max-width: 1200px; margin-top: 18px; }
+.h-list h3 { margin: 22px 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.hrow { display: grid; grid-template-columns: 300px 200px minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 7px 10px; border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--pc) 6%, transparent); scroll-margin-top: calc(var(--hdr-h, 60px) + 20px); }
+.hrow.sel { outline: 2px solid var(--accent); outline-offset: -2px; }
+.hname { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.hname img { width: 18px; height: 18px; align-self: center; }
+@media (max-width: 860px) {
+  .venn { display: block; }
+  .vbox { display: none; }
+  .vgroup { padding: 4px 0 10px; }
+  .vgroup h4, .vgroup.any h4 { display: block; margin: 8px 0 6px; font-size: 12px; color: var(--muted); text-align: left; }
+  .vgroup.any { border: 0; margin: 0; padding: 4px 0 10px; }
+  .vchips { justify-content: flex-start; }
+  .hrow { grid-template-columns: 1fr; gap: 2px; }
+}
+
+/* hero badges on the story flow and missions pages */
+.qn-hero { position: absolute; top: -9px; right: -6px; display: flex; align-items: center; gap: 3px; padding: 1px 6px 1px 2px; border-radius: 999px; background: var(--bg);
+  border: 1px solid var(--accent); z-index: 2; font-size: 10.5px; font-weight: 600; line-height: 1; color: var(--text); white-space: nowrap; pointer-events: none; }
+.qn-hero img { width: 15px; height: 15px; display: block; }
+.eotn-step { position: relative; }
+.q-detail .q-row a img, .m-hero img { width: 16px; height: 16px; vertical-align: -3px; }
+.m-hero { margin-left: 8px; font-size: 12px; color: var(--muted); white-space: nowrap; }
+.qn-hero.lg-hero { position: static; padding: 1px 2px; }

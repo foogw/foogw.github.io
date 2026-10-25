@@ -3,6 +3,7 @@
 const MISSIONS = window.GW_MISSIONS;
 const SKILL = new Map(window.GW_SKILLS.map(s => [s.id, s]));
 const BY_NAME = new Map(MISSIONS.map(m => [m.name, m]));
+const HERO = new Map((window.GW_HEROES || []).map(h => [h.name, h]));
 const CAMP_FILTERS = ["Prophecies", "Factions", "Nightfall", "Eye of the North"];
 const CAMP_COLOR = { Prophecies: "--p-paragon", Factions: "--p-ritualist", Nightfall: "--p-elementalist", "Eye of the North": "--p-monk" };
 const TYPE_ORDER = ["Mission", "Challenge", "Competitive", "Elite mission", "PvP"];
@@ -143,11 +144,16 @@ function eliteChips(m, f) {
     .join("");
 }
 
+const heroTag = m => {
+  const h = HERO.get(m.hero);
+  return h ? `<a class="m-hero" href="heroes.html#h=${encodeURIComponent(h.name)}" title="Required hero"><img src="img/prof/${esc(h.profession)}.png" alt=""> ${esc(h.name)}</a>` : "";
+};
+
 function rowHTML(m, f) {
   const camp = m.kind === "PvP" ? "PvP" : CAMP_SHORT[m.campaign] || "";
   return `<div class="row mrow${state.open === m.name ? " open" : ""}" data-name="${esc(m.name)}" style="--pc:var(${CAMP_COLOR[m.campaign] || "--p-none"})">
     <div class="num dim">${m.story_label ?? ""}</div>
-    <div class="name">${highlight(m.name, f.name)}</div>
+    <div class="name">${highlight(m.name, f.name)}${heroTag(m)}</div>
     <div class="dim">${camp}</div>
     <div class="cell dim col-region">${esc(m.region || "")}</div>
     <div class="cell dim col-type">${m.type === "Mission" ? "" : esc(m.type)}</div>
@@ -189,7 +195,7 @@ function groupedNpcs(list, f) {
 function detailHTML(m, f) {
   const facts = [
     ["Campaign", m.kind === "PvP" ? "PvP" : m.campaign], ["Region", m.region], ["Type", m.type],
-    ["Party", m.party_size], m.hero ? ["Hero", m.hero] : null, m.map_id ? ["Map ID", m.map_id] : null,
+    ["Party", m.party_size], m.hero ? ["Required hero", m.hero] : null, m.map_id ? ["Map ID", m.map_id] : null,
   ].filter(x => x && x[1]);
   const bosses = m.bosses.length ? `<table class="npcs">${m.bosses.map(b => {
     const s = SKILL.get(b.elite_skill_id);

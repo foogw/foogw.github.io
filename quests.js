@@ -7,6 +7,7 @@ const FLOW_NODE = new Map(FLOWS.flatMap(f => [...f.nodes, ...(f.parts || []).fla
 const MISSION = new Map(window.GW_MISSIONS.map(m => [m.name_de, m]));
 const SKILL = new Map(window.GW_SKILLS.map(s => [s.id, s]));
 const CAMPS = FLOWS.map(f => f.campaign);
+const HERO = new Map((window.GW_HEROES || []).map(h => [h.name, h]));
 const MIN_W = 104, MAX_W = 230, NODE_H = 44, GAP_X = 10, GAP_Y = 30;
 
 const state = { camp: CAMPS[0], sel: null };
@@ -31,6 +32,17 @@ const sourceLinks = (id, wikiDe) => [
   wikiDe && `<a href="${esc(wikiDe)}" target="_blank" rel="noopener">guildwiki.de</a>`,
 ].filter(Boolean).join(" · ");
 const questProfs = q => [...new Set(q.skills.map(id => SKILL.get(id)?.profession))].filter(p => p && p !== "None");
+// heroes a mission or quest requires in the party
+const stepHeroes = id => {
+  const n = nodeInfo(id);
+  return (n.m?.hero || n.q?.hero || "").split(" and ").map(name => HERO.get(name)).filter(Boolean);
+};
+const heroBadge = (id, style = "") => {
+  const hs = stepHeroes(id);
+  return hs.length ? `<span class="qn-hero" style="${style}" title="Required hero: ${esc(hs.map(h => h.name).join(" and "))}">${hs.map(h =>
+    `<img src="img/prof/${esc(h.profession)}.png" alt="">${esc(h.name.split(" ")[0])}`).join(" + ")}</span>` : "";
+};
+const heroLinks = hs => hs.map(h => `<a href="heroes.html#h=${encodeURIComponent(h.name)}"><img src="img/prof/${esc(h.profession)}.png" alt=""> ${esc(h.name)}</a>`);
 const profIcon = p => `<img class="qp" src="img/prof/${p}.png" alt="${p}" title="${p}">`;
 
 /* ---------- layout ----------
@@ -110,7 +122,7 @@ function nodeHTML(p) {
   const narrow = p.w < 160 ? " narrow" : "";
   let html = `<button class="qn ${cls}${narrow}${state.sel === p.id ? " sel" : ""}" data-id="${esc(p.id)}" title="${esc(nodeName(p.id))}" style="left:${p.x}px;top:${p.y}px;width:${p.w}px;height:${NODE_H}px">
     <span class="qn-t">${esc(nodeName(p.id))}</span><span class="qn-s">${esc(sub)}</span></button>`;
-  return html;
+  return html + heroBadge(p.id, `left:${p.x + p.w - 8}px;top:${p.y - 9}px;right:auto;transform:translateX(-100%)`);
 }
 
 function edgePath(a, b) {
@@ -125,7 +137,7 @@ function renderParts(flow) {
   const box = s => {
     const q = QUEST.get(s.id.slice(2));
     return `<button class="eotn-step${s.mission ? " mission" : ""}${state.sel === s.id ? " sel" : ""}" data-id="${esc(s.id)}" title="${esc(s.name)}">
-      <span class="qn-t">${esc(s.name)}</span><span class="qn-s">${esc(s.mission ? "Mission" : q?.region || "")}</span></button>`;
+      <span class="qn-t">${esc(s.name)}</span><span class="qn-s">${esc(s.mission ? "Mission" : q?.region || "")}</span>${heroBadge(s.id)}</button>`;
   };
   const list = part => {
     const rows = [];
@@ -147,8 +159,13 @@ function renderParts(flow) {
   </div>`;
 }
 
+function renderHeroes(flow) {
+  $("legend-hero").hidden = ![...flow.nodes, ...(flow.parts || []).flatMap(p => p.steps)].some(n => stepHeroes(n.id).length);
+}
+
 function render() {
   const flow = FLOWS.find(f => f.campaign === state.camp);
+  renderHeroes(flow);
   $("legend-primary").hidden = false;
   $("legend-attr").hidden = !flow.nodes.some(n => n.kind === "attribute");
   if (flow.parts) {
@@ -178,6 +195,11 @@ function rewardsHTML(q) {
   return (parts.length ? `<p>${parts.map(esc).join(" · ")}</p>` : "") + (skills ? `<div class="q-skills">${skills}</div>` : "");
 }
 
+const heroRow = id => {
+  const hs = stepHeroes(id);
+  return hs.length ? `<div class="q-row"><span>Hero</span><span>${heroLinks(hs).join(" and ")} (required)</span></div>` : "";
+};
+
 function renderDetail() {
   const id = state.sel;
   if (!id) { $("detail").innerHTML = '<p class="dim">Click a step to see its details.</p>'; return; }
@@ -189,6 +211,7 @@ function renderDetail() {
       <p class="dim">${esc(m.region || "")}${m.party_size ? ` · party of ${esc(m.party_size)}` : ""}</p>
       ${nb.prev.length ? `<div class="q-row"><span>After</span><span>${nb.prev.map(esc).join(", ")}</span></div>` : ""}
       ${nb.next.length ? `<div class="q-row"><span>Leads to</span><span>${nb.next.map(esc).join(", ")}</span></div>` : ""}
+      ${heroRow(id)}
       <p><a href="missions.html#open=${encodeURIComponent(m.name)}">Open mission →</a></p>
       <p class="dim" style="font-size:12px">${sourceLinks(id)}</p>`;
     return;
@@ -204,7 +227,7 @@ function renderDetail() {
     ${row("After", nb.prev.map(esc).join(", "))}
     ${row("Leads to", nb.next.map(esc).join(", "))}
     ${row("Profession", questProfs(q).map(p => `${profIcon(p)} ${esc(p)}`).join(" ") || esc(q.profession || ""))}
-    ${row("Hero", esc(q.hero || ""))}
+    ${heroRow(id)}
     <div class="q-dk" style="margin-top:12px">Rewards</div>${rewardsHTML(q) || '<p class="dim">—</p>'}
     <p class="dim" style="font-size:12px">${sourceLinks(id, q.wiki_de)}</p>`;
 }
