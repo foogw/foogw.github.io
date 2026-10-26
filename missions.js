@@ -182,8 +182,16 @@ function goalHTML(r) {
   return `<p class="rgoal">${esc(goal.replace("< ", "under ").replace("> ", "over "))}</p>`;
 }
 
+// Eye of the North missions: reputation the first time and on repeats, and the same experience every time
+function reputationHTML(r) {
+  return `<p class="rgoal">${r.xp.toLocaleString("en")} XP for each completion.</p><table class="rewards">
+    <tr><th></th><th class="num">${esc(r.reputation)}, first time</th><th class="num">Repeat</th></tr>
+    ${r.rows.map(x => `<tr><td>${esc(x.mode)} mode</td><td class="num">${x.first.toLocaleString("en")}</td><td class="num">${x.repeat.toLocaleString("en")}</td></tr>`).join("")}</table>`;
+}
+
 function rewardsHTML(r) {
   if (!r) return '<p class="dim">No fixed rewards (score-based or none).</p>';
+  if (r.reputation) return reputationHTML(r);
   const modes = ["Normal", "Hard"];
   const goal = goalHTML(r);
   const head = `<tr><th></th>${r.requirement ? `<th>${esc(r.requirement)}</th>` : ""}<th class="num">XP</th><th class="num">Gold</th><th class="num">Skill pts</th>${r.extra.map(x => `<th class="num">${esc(x)}</th>`).join("")}</tr>`;
