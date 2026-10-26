@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>GW Locations</title>
+<link rel="stylesheet" href="style.css?v=7f7b48b3">
+</head>
+<body class="locations">
+<div class="wrap">
+  <header class="top">
+    <nav class="pages"><a href="index.html">Home</a><a href="skills.html">Skills</a><a href="quests.html">Quests &amp; Missions</a><a href="missions.html">Missions</a><a href="heroes.html">Heroes</a><a href="locations.html" aria-current="page">Locations</a><a href="builder.html">Builder</a><a href="rotations.html">Rotations</a></nav>
+    <a class="hdr-link push" href="about.html">About</a>
+    <a class="hdr-link" href="thanks.html">Thanks</a>
+    <a class="hdr-link" href="contact.html">Contact</a>
+    <a class="hdr-link" href="license.html">License</a>
+  </header>
+  <div class="page-title"><h1>Locations</h1><p>Outposts and explorable areas, and how they connect</p></div>
+
+  <div class="q-controls"><div class="profs" id="camps"></div></div>
+
+  <div class="filters" id="filters">
+    <div class="frow">
+      <input type="search" id="f-name" placeholder="Place or region — e.g. lion's arch, shiverpeaks" autocomplete="off" autofocus>
+      <label class="chk" title="Show PvP arenas such as Ascalon Arena"><input type="checkbox" id="f-pvp"> Include PvP</label>
+      <span class="search-hint"><kbd>/</kbd> search · <kbd>Enter</kbd> open first · <kbd>Esc</kbd> clear</span>
+      <span class="count" id="count"></span>
+    </div>
+  </div>
+
+  <div id="index"></div>
+  <div id="place" hidden></div>
+  <div class="empty" id="empty" hidden>No place matches.</div>
+  <footer class="site-footer"><a href="about.html">About</a> · <a href="license.html">License &amp; credits</a> · <a href="thanks.html">Thanks</a> · <a href="contact.html">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="data/locations.js?v=26cbe1f3"></script>
+<script src="data/skills.js?v=8d0a8eb7"></script>
+<script src="common.js?v=c8e08edc"></script>
+<script src="locations.js?v=f403fa62"></script>
+</body>
+</html>
