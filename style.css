@@ -860,3 +860,9 @@ table.t-ranks td:last-child { color: var(--muted); }
   .t-row, .r-nowlist .t-row { grid-template-columns: 96px minmax(0, 1fr) 58px; }
   .t-n { display: none; }
 }
+
+/* missions: a faint tint per region, and the region name in its colour */
+.missions .row.mrow { background: color-mix(in srgb, var(--rt) 9%, transparent); }
+.missions .row.mrow:hover, .missions .row.mrow.open { background: color-mix(in srgb, var(--rt) 16%, var(--panel)); }
+.missions .row.mrow .col-region { color: color-mix(in srgb, var(--rt) 70%, var(--text)); }
+.rgoal { margin: 4px 0 8px; font-size: 13px; color: color-mix(in srgb, var(--text) 85%, var(--muted)); }

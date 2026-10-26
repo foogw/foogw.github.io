@@ -7,6 +7,10 @@ const HERO = new Map((window.GW_HEROES || []).map(h => [h.name, h]));
 const CAMP_FILTERS = ["Prophecies", "Factions", "Nightfall", "Eye of the North"];
 const CAMP_COLOR = { Prophecies: "--p-paragon", Factions: "--p-ritualist", Nightfall: "--p-elementalist", "Eye of the North": "--p-monk" };
 const TYPE_ORDER = ["Mission", "Challenge", "Competitive", "Elite mission", "PvP"];
+// a faint tint per region, so neighbouring regions (Istan, Kourna, Vabbi…) are easy to tell apart
+const REGION_TINT = ["#e0563f", "#d8b25a", "#6fb4e6", "#7cbf8a", "#a874d8", "#d466a4", "#47c1bf", "#e3a33a"];
+const REGIONS = [...new Set(MISSIONS.filter(m => m.region).sort((a, b) => (a.story_order ?? 999) - (b.story_order ?? 999)).map(m => m.region))];
+const regionTint = r => (r ? REGION_TINT[REGIONS.indexOf(r) % REGION_TINT.length] : "transparent");
 
 const els = {
   name: $("f-name"), who: $("f-who"), camp: $("f-camp"), type: $("f-type"), region: $("f-region"),
@@ -151,7 +155,7 @@ const heroTag = m => {
 
 function rowHTML(m, f) {
   const camp = m.kind === "PvP" ? "PvP" : CAMP_SHORT[m.campaign] || "";
-  return `<div class="row mrow${state.open === m.name ? " open" : ""}" data-name="${esc(m.name)}" style="--pc:var(${CAMP_COLOR[m.campaign] || "--p-none"})">
+  return `<div class="row mrow${state.open === m.name ? " open" : ""}" data-name="${esc(m.name)}" style="--pc:var(${CAMP_COLOR[m.campaign] || "--p-none"});--rt:${regionTint(m.region)}">
     <div class="num dim">${m.story_label ?? ""}</div>
     <div class="name">${highlight(m.name, f.name)}${heroTag(m)}</div>
     <div class="dim">${camp}</div>
@@ -162,11 +166,28 @@ function rowHTML(m, f) {
   </div>${state.open === m.name ? detailHTML(m, f) : ""}`;
 }
 
+// what Expert and Master ask for: the requirement column, or else the first extra column that changes with the tier
+function goalHTML(r) {
+  const tiers = Object.fromEntries(r.rows.filter(x => x.mode === "Normal").map(x => [x.tier, x]));
+  if (!tiers.Master || !tiers.Expert) return "";
+  let label = r.requirement, value = x => x.req;
+  if (!label) {
+    const i = r.extra.findIndex((_, k) => new Set(Object.values(tiers).map(x => x.extra[k])).size > 1 && !/points$/i.test(r.extra[k]));
+    if (i < 0) return "";
+    label = r.extra[i]; value = x => x.extra[i];
+  }
+  const goal = label === "Time"
+    ? `Finish faster for better rewards: Master ${value(tiers.Master)}, Expert ${value(tiers.Expert)}.`
+    : `The reward tier depends on ${label.toLowerCase()}: Master at ${value(tiers.Master)}, Expert at ${value(tiers.Expert)}, Standard otherwise.`;
+  return `<p class="rgoal">${esc(goal.replace("< ", "under ").replace("> ", "over "))}</p>`;
+}
+
 function rewardsHTML(r) {
   if (!r) return '<p class="dim">No fixed rewards (score-based or none).</p>';
   const modes = ["Normal", "Hard"];
+  const goal = goalHTML(r);
   const head = `<tr><th></th>${r.requirement ? `<th>${esc(r.requirement)}</th>` : ""}<th class="num">XP</th><th class="num">Gold</th><th class="num">Skill pts</th>${r.extra.map(x => `<th class="num">${esc(x)}</th>`).join("")}</tr>`;
-  return modes.map(mode => {
+  return goal + modes.map(mode => {
     const rows = r.rows.filter(x => x.mode === mode);
     if (!rows.length) return "";
     return `<div class="rmode">${mode} mode</div><table class="rewards">${head}${rows.map(x =>

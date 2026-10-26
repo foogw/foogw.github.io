@@ -47,7 +47,8 @@ function questLink(q) {
 }
 
 /* ---------- index ---------- */
-// a search looks through every campaign, the current one first
+// a search looks through every campaign, the current one first; within a region, places come in the order the
+// story reaches them
 function renderIndex(q) {
   const all = FULL.filter(p => shown(p.name) && (q.length || tabOf(p) === state.camp));
   const hits = all.filter(p => q.every(w => p._k.includes(w)));
@@ -60,7 +61,7 @@ function renderIndex(q) {
   });
   els.index.innerHTML = groups.map(g => {
     const [c, r] = g.split("|");
-    const list = hits.filter(p => tabOf(p) === c && p.region === r).sort((a, b) => isOutpost(b) - isOutpost(a) || cmpStr(a.name, b.name));
+    const list = hits.filter(p => tabOf(p) === c && p.region === r).sort((a, b) => isOutpost(b) - isOutpost(a) || (a.order ?? 999) - (b.order ?? 999) || cmpStr(a.name, b.name));
     const chips = l => (l.length ? `<div class="lchips">${l.map(p =>
       `<a class="lchip ${isOutpost(p) ? "out" : "exp"}" href="#${new URLSearchParams({ place: p.name })}" title="${esc(TYPE_LABEL[p.type])}${p.party ? ` · party ${partyText(p)}` : ""}">${highlight(p.name, q)}</a>`).join("")}</div>` : "");
     return `<section class="lregion"><h3>${esc(r)}${c !== state.camp ? ` <span class="lcamp">· ${esc(c)}</span>` : ""}</h3>${chips(list.filter(isOutpost))}${chips(list.filter(p => !isOutpost(p)))}</section>`;
