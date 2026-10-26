@@ -40,11 +40,7 @@ const partyTitle = p => (p.party_max
   : "");
 const skillLink = s => `<a class="skill-link${s.elite ? " elite" : ""}" href="skills.html#skill=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${esc(s.name)}</a>`;
 
-function questLink(q) {
-  if (q.flow) return `<a href="quests.html#${new URLSearchParams({ c: q.flow[0], q: q.flow[1] })}">${esc(q.name)}</a>`;
-  if (q.skills.length) return `<a href="skill-quests.html#${new URLSearchParams({ q: q.name })}">${esc(q.name)}</a>`;
-  return esc(q.name);
-}
+const questLink = (q, p) => `<a href="${esc(questHref(q.name, p.campaign))}">${esc(q.name)}</a>`;
 
 /* ---------- index ---------- */
 // a search looks through every campaign, the current one first; within a region, places come in the order the
@@ -126,8 +122,8 @@ function renderPlace(p) {
   for (const s of p.services || []) { const [k, v] = s.split(": "); roles.set(k, [...(roles.get(k) || []), v]); }
   const services = [...roles].map(([k, v]) => `<li><span>${esc(k)}</span><span class="dim">${esc(v.join(", "))}</span></li>`).join("");
   const bosses = (p.bosses || []).map(([b, id]) => SKILL.has(id)
-    ? `<li>${skillLink(SKILL.get(id))}<span class="dim">${esc(b)}</span></li>` : "").join("");
-  const quests = (p.quests || []).map(q => `<li><span>${questLink(q)}${q.travel ? ` <span class="tag" title="Takes you to ${esc(q.travel)}">To ${esc(CAMP_TAG[q.travel] || q.travel)}</span>` : q.type !== "Secondary" ? ` <span class="tag">${esc(q.type)}</span>` : ""}</span>${q.skills.length ? `<span class="qsk">${q.skills.map(id => SKILL.get(id)).filter(Boolean).map(s => `<a href="skills.html#skill=${s.id}" title="${esc(s.name)}">${skillIcon(s.id, "sk-ic sm")}</a>`).join("")}</span>` : ""}</li>`).join("");
+    ? `<li>${skillLink(SKILL.get(id))}<a class="dim" href="${esc(bossHref(b))}">${esc(b)}</a></li>` : "").join("");
+  const quests = (p.quests || []).map(q => `<li><span>${questLink(q, p)}${q.travel ? ` <span class="tag" title="Takes you to ${esc(q.travel)}">To ${esc(CAMP_TAG[q.travel] || q.travel)}</span>` : q.type !== "Secondary" ? ` <span class="tag">${esc(q.type)}</span>` : ""}</span>${q.skills.length ? `<span class="qsk">${q.skills.map(id => SKILL.get(id)).filter(Boolean).map(s => `<a href="skills.html#skill=${s.id}" title="${esc(s.name)}">${skillIcon(s.id, "sk-ic sm")}</a>`).join("")}</span>` : ""}</li>`).join("");
   const side = box("Services", services && `<ul class="lrows">${services}</ul>`)
     + box("Elite skills to capture", bosses && `<ul class="lrows">${bosses}</ul>`)
     + box(`Quests <span class="dim">${(p.quests || []).length || ""}</span>`, quests && `<ul class="lrows lquests">${quests}</ul>`);
@@ -142,7 +138,7 @@ function renderPlace(p) {
     </div>
     ${p.party_max ? `<p class="dim note">An area takes the party size of the outpost you enter from: ${p.party} from the nearest outposts, up to ${p.party_max} if you walk in from further away.</p>` : ""}
     ${notesHTML(p)}
-    <div class="llinks">${p.mission ? `<a href="missions.html#open=${encodeURIComponent(p.mission)}">Mission: ${esc(p.mission)} →</a>` : ""}${p.wiki_de ? `<a href="${esc(p.wiki_de)}" target="_blank" rel="noopener">guildwiki.de ↗</a>` : ""}</div>
+    <div class="llinks">${p.mission ? `<a href="${esc(missionHref(p.mission))}">Mission: ${esc(p.mission)} →</a>` : ""}${p.wiki_de ? `<a href="${esc(p.wiki_de)}" target="_blank" rel="noopener">guildwiki.de ↗</a>` : ""}</div>
     <div class="lgrid${side ? "" : " solo"}">
       <section class="lexits"><h4>Exits</h4>${p.exits ? exitsHTML(p, exits) : `<p class="dim">Not covered.</p>`}</section>
       ${side ? `<div class="lside">${side}</div>` : ""}

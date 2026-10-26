@@ -34,8 +34,8 @@ const groupTitle = key => (key === "any" ? "Any one of Prophecies, Factions or N
   : key.includes("+") ? key.split("+").join(" + ") : `${key} only`);
 
 const profColor = p => (p === "Any" ? "var(--p-none)" : profVar(p));
-const chip = h => `<button class="hchip${state.sel === h.name ? " sel" : ""}" data-hero="${esc(h.name)}" style="--pc:${profColor(h.profession)}" title="${esc(h.profession)}">
-  <img src="img/prof/${esc(h.profession)}.png" alt="">${esc(h.name)}</button>`;
+const chip = h => `<a class="hchip" href="${esc(heroHref(h.name))}" style="--pc:${profColor(h.profession)}" title="${esc(h.profession)}">
+  <img src="img/prof/${esc(h.profession)}.png" alt="">${esc(h.name)}</a>`;
 
 // either/or heroes ("Margrid or Master of Whispers") stay together
 function units(list) {
@@ -61,7 +61,6 @@ function renderVenn() {
 }
 
 /* ---------- list ---------- */
-const state = { sel: null };
 
 function recruitHTML(h) {
   // link each recruiting step the story flow shows
@@ -104,9 +103,9 @@ function renderList() {
   for (const h of rows) {
     const first = groupKey(h) !== group;
     group = groupKey(h);
-    html += `<div class="hrow${first ? " first" : ""}${state.sel === h.name ? " sel" : ""}" id="h-${esc(h.name)}" style="--pc:${profColor(h.profession)}">
+    html += `<div class="hrow${first ? " first" : ""}" style="--pc:${profColor(h.profession)}">
       <div class="hcamp" title="${esc(groupTitle(group))}">${campsHTML(h)}</div>
-      <div class="hname"><img src="img/prof/${esc(h.profession)}.png" alt="" title="${esc(h.profession === "Any" ? "Any profession" : h.profession)}"><b>${esc(h.name)}</b></div>
+      <div class="hname"><img src="img/prof/${esc(h.profession)}.png" alt="" title="${esc(h.profession === "Any" ? "Any profession" : h.profession)}"><a href="${esc(heroHref(h.name))}"><b>${esc(h.name)}</b></a></div>
       <div class="hbuilds">${suggestedHTML(h)}</div>
       <div>${recruitHTML(h)}</div>
     </div>`;
@@ -114,24 +113,54 @@ function renderList() {
   $("list").innerHTML = html;
 }
 
-function select(name, scroll) {
-  state.sel = name;
-  for (const el of document.querySelectorAll(".hchip, .hrow")) {
-    el.classList.toggle("sel", el.dataset.hero === name || el.id === `h-${name}`);
-  }
-  history.replaceState(null, "", name ? "#" + new URLSearchParams({ h: name }) : location.pathname);
-  if (scroll) document.getElementById(`h-${name}`)?.scrollIntoView({ block: "center", behavior: "smooth" });
+/* ---------- one hero's page ---------- */
+const HERO = new Map(HEROES.map(h => [h.name, h]));
+const MISSIONS = window.GW_MISSIONS || [];
+const needsHTML = h => (h.any_campaign ? "Any one of Prophecies, Factions or Nightfall" : h.campaigns.join(" and "));
+
+function heroPageHTML(h) {
+  const alts = h.alternative_to.map(n => HERO.get(n)).filter(Boolean);
+  const missions = MISSIONS.filter(m => (m.hero || "").split(" and ").includes(h.name));
+  const builds = SUGGESTED.get(h.name) || [];
+  const single = new Set(window.GW_BUILDS?.singles || []);
+  return `<p class="back"><a href="#">← All heroes</a></p>
+    <div class="sp-head" style="--pc:${profColor(h.profession)}">
+      <img class="sp-icon hp-icon" src="img/prof/${esc(h.profession)}.png" alt="">
+      <div class="sp-title"><h2>${esc(h.name)}</h2><div class="sp-sub">${esc(h.profession === "Any" ? "Any profession" : h.profession)} · needs ${esc(needsHTML(h))}</div></div>
+    </div>
+    <div class="lgrid">
+      <div class="lside">
+        <section class="lbox"><h4>How to recruit</h4><p class="hp-recruit">${recruitHTML(h)}</p>
+          ${alts.length ? `<p class="dim">You get either ${esc(h.name)} or ${alts.map(a => `<a href="${esc(heroHref(a.name))}">${esc(a.name)}</a>`).join(" or ")}, not both.</p>` : ""}</section>
+        ${builds.length ? `<section class="lbox"><h4>Suggested builds</h4>${builds.map(b => `<div class="hp-build">
+          <div class="hp-bname">${single.has(b.id) ? `<a href="builds.html#${new URLSearchParams({ build: b.id })}">${esc(b.name)}</a>` : esc(b.name)}</div>
+          <div class="hbuild"><a class="hb-bar" href="builder.html#${new URLSearchParams({ code: b.code })}" title="Open ${esc(b.name)} in the builder">${barIcons(b.code)}</a>
+          <button class="hb-copy" data-copy="${esc(b.code)}" title="Copy the template code" aria-label="Copy the template code">${COPY_ICON}</button></div></div>`).join("")}</section>` : ""}
+      </div>
+      <div class="lside">
+        ${missions.length ? `<section class="lbox"><h4>Required in</h4><ul class="lrows">${missions.map(m =>
+          `<li><a href="${esc(missionHref(m.name))}">${esc(m.name)}</a><span class="dim">${esc(m.campaign || "")}</span></li>`).join("")}</ul></section>` : ""}
+      </div>
+    </div>`;
 }
 
-$("venn").addEventListener("click", e => {
-  const b = e.target.closest("[data-hero]");
-  if (b) select(b.dataset.hero, true);
-});
+// the list, or one hero's page when the address names one ("h" is how older links named a hero)
+function render() {
+  const p = new URLSearchParams(location.hash.slice(1));
+  const h = HERO.get(p.get("hero") || p.get("h"));
+  $("browse").hidden = !!h;
+  $("hero").hidden = !h;
+  if (h) {
+    $("hero").innerHTML = heroPageHTML(h);
+    document.title = `${h.name} · GW Heroes`;
+    window.scrollTo(0, 0);
+  } else document.title = "GW Heroes";
+}
 
 renderVenn();
 renderList();
-const start = new URLSearchParams(location.hash.slice(1)).get("h");
-if (start && HEROES.some(h => h.name === start)) select(start, true);
+render();
+window.addEventListener("hashchange", render);
 
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-copy]");

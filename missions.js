@@ -4,6 +4,8 @@ const MISSIONS = window.GW_MISSIONS;
 const SKILL = new Map(window.GW_SKILLS.map(s => [s.id, s]));
 const BY_NAME = new Map(MISSIONS.map(m => [m.name, m]));
 const HERO = new Map((window.GW_HEROES || []).map(h => [h.name, h]));
+const OUTPOST = new Map((window.GW_LOCATIONS || []).filter(p => p.mission).map(p => [p.mission, p]));
+
 const CAMP_FILTERS = ["Prophecies", "Factions", "Nightfall", "Eye of the North"];
 const CAMP_COLOR = { Prophecies: "--p-paragon", Factions: "--p-ritualist", Nightfall: "--p-elementalist", "Eye of the North": "--p-monk" };
 const TYPE_ORDER = ["Mission", "Challenge", "Competitive", "Elite mission", "PvP"];
@@ -17,7 +19,7 @@ const els = {
   party: $("f-party"), elite: $("f-elite"), pvp: $("f-pvp"),
   list: $("list"), head: $("head"), count: $("count"), empty: $("empty"),
 };
-const state = { camps: new Set(), sort: "default", desc: false, open: null };
+const state = { camps: new Set(), sort: "default", desc: false, mission: null, listHash: "" };
 
 /* ---------- precompute ---------- */
 for (const m of MISSIONS) {
@@ -74,7 +76,6 @@ function buildFilterUI() {
     } else if (e.key === "Escape") {
       if (document.activeElement === els.name && els.name.value) { els.name.value = ""; update(); }
       else if (document.activeElement === els.who && els.who.value) { els.who.value = ""; update(); }
-      else if (state.open) { toggleOpen(state.open); }
     }
   });
 }
@@ -137,8 +138,7 @@ function sorted(list, f) {
 /* ---------- rendering ---------- */
 const skillLink = (s, label) =>
   `<a class="skill-link${s.elite ? " elite" : ""}" href="skills.html#skill=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${esc(label || s.name)}</a>`;
-const missionLink = name => BY_NAME.has(name)
-  ? `<button class="link" data-goto="${esc(name)}">${esc(name)}</button>` : esc(name);
+const missionLink = name => (BY_NAME.has(name) ? `<a href="${esc(missionHref(name))}">${esc(name)}</a>` : esc(name));
 
 function eliteChips(m, f) {
   const shown = f.elite ? m._elites.filter(e => e.skill.profession === f.elite) : m._elites;
@@ -150,20 +150,20 @@ function eliteChips(m, f) {
 
 const heroTag = m => {
   const h = HERO.get(m.hero);
-  return h ? `<a class="m-hero" href="heroes.html#h=${encodeURIComponent(h.name)}" title="Required hero"><img src="img/prof/${esc(h.profession)}.png" alt=""> ${esc(h.name)}</a>` : "";
+  return h ? `<a class="m-hero" href="${esc(heroHref(h.name))}" title="Required hero"><img src="img/prof/${esc(h.profession)}.png" alt=""> ${esc(h.name)}</a>` : "";
 };
 
 function rowHTML(m, f) {
   const camp = m.kind === "PvP" ? "PvP" : CAMP_SHORT[m.campaign] || "";
-  return `<div class="row mrow${state.open === m.name ? " open" : ""}" data-name="${esc(m.name)}" style="--pc:var(${CAMP_COLOR[m.campaign] || "--p-none"});--rt:${regionTint(m.region)}">
+  return `<div class="row mrow" data-name="${esc(m.name)}" style="--pc:var(${CAMP_COLOR[m.campaign] || "--p-none"});--rt:${regionTint(m.region)}">
     <div class="num dim">${m.story_label ?? ""}</div>
-    <div class="name">${highlight(m.name, f.name)}${heroTag(m)}</div>
+    <div class="name"><a class="mname" href="${esc(missionHref(m.name))}">${highlight(m.name, f.name)}</a>${heroTag(m)}</div>
     <div class="dim">${camp}</div>
     <div class="cell dim col-region">${esc(m.region || "")}</div>
     <div class="cell dim col-type">${m.type === "Mission" ? "" : esc(m.type)}</div>
     <div class="num col-party">${esc(m.party_size || "")}</div>
     <div class="echips">${eliteChips(m, f)}</div>
-  </div>${state.open === m.name ? detailHTML(m, f) : ""}`;
+  </div>`;
 }
 
 // what Expert and Master ask for: the requirement column, or else the first extra column that changes with the tier
@@ -221,39 +221,70 @@ function groupedNpcs(list, f) {
   return `<table class="npcs">${html}</table>`;
 }
 
-function detailHTML(m, f) {
-  const facts = [
-    ["Campaign", m.kind === "PvP" ? "PvP" : m.campaign], ["Region", m.region], ["Type", m.type],
-    ["Party", m.party_size], m.hero ? ["Required hero", m.hero] : null, m.map_id ? ["Map ID", m.map_id] : null,
-  ].filter(x => x && x[1]);
+const bossLink = b => `<a href="${esc(bossHref(b.name))}">${esc(b.name)}</a>`;
+
+/* ---------- one mission's page ---------- */
+function missionPageHTML(m) {
+  const f = { who: [] };
+  const camp = m.kind === "PvP" ? "PvP" : m.campaign;
+  const sub = [m.story_label && `Mission ${m.story_label}`, camp, m.region, m.type !== "Mission" && m.type].filter(Boolean).map(esc).join(" · ");
+  const stats = [["Party", m.party_size], m.map_id && ["Map ID", m.map_id]].filter(x => x && x[1]);
+  const before = MISSIONS.filter(x => x.leads_to === m.name);
+  const outpost = OUTPOST.get(m.name);
+  const hero = (m.hero || "").split(" and ").map(n => HERO.get(n)).filter(Boolean);
+  // story missions are steps of their campaign's storyline, named by the German title (Eye of the North's as quests)
+  const flowStep = m.story_order && (m.campaign === "Eye of the North" ? "q:" : "m:") + m.name_de;
+  const builds = (window.GW_BUILDS?.teams || []).filter(t => t.mission === m.name);
+  const story = [
+    before.length && ["After", before.map(x => missionLink(x.name)).join(", ")],
+    m.leads_to && ["Leads to", missionLink(m.leads_to)],
+    outpost && ["Outpost", `<a href="locations.html#${new URLSearchParams({ place: outpost.name })}">${esc(outpost.name)}</a>`],
+    hero.length && ["Required hero", hero.map(h => `<a href="${esc(heroHref(h.name))}"><img class="ip" src="img/prof/${esc(h.profession)}.png" alt=""> ${esc(h.name)}</a>`).join(" and ")],
+  ].filter(Boolean);
   const bosses = m.bosses.length ? `<table class="npcs">${m.bosses.map(b => {
     const s = SKILL.get(b.elite_skill_id);
-    return npcRow(b, f, `<td>${s ? skillLink(s) : esc(b.elite_skill_de || "")}</td>`);
+    return `<tr style="--pc:${profVar(b.profession)}"><td class="pdot" title="${esc(PROF_BY_SHORT[b.profession] || "")}">${esc(b.profession)}</td><td class="num dim">${esc(b.level)}</td><td>${bossLink(b)}</td><td>${s ? skillLink(s) : ""}</td></tr>`;
   }).join("")}</table>` : '<p class="dim">—</p>';
-  return `<div class="detail" style="--pc:var(${CAMP_COLOR[m.campaign] || "--p-none"})">
-    <div>
-      <div class="facts" style="margin-top:12px">${facts.map(([k, v]) => `<span>${k} <b>${esc(v)}</b></span>`).join("")}</div>
-      ${m.leads_to ? `<p class="facts" style="margin-top:6px"><span>Leads to <b>${missionLink(m.leads_to)}</b></span></p>` : ""}
-      <h4>Rewards</h4>
-      ${rewardsHTML(m.rewards)}
-      <h4>Allies</h4>
-      ${groupedNpcs(m.allies, f)}
-      <p style="margin-top:10px;font-size:12px" class="dim">${esc(m.name_de)} · <a href="${esc(m.wiki_de)}" target="_blank" rel="noopener">guildwiki.de</a></p>
+  return `<p class="back"><a href="#${state.listHash}">← All missions</a></p>
+    <div class="sp-head" style="--pc:var(${CAMP_COLOR[m.campaign] || "--p-none"})">
+      <div class="sp-title"><h2>${esc(m.name)}</h2><div class="sp-sub">${sub}</div></div>
+      <div class="lstats">${stats.map(([k, v]) => `<span class="lstat"><small>${k}</small><b>${esc(v)}</b></span>`).join("")}</div>
     </div>
-    <div>
-      <h4>Bosses</h4>
-      ${bosses}
-      <h4>Foes</h4>
-      ${groupedNpcs(m.foes, f)}
+    <div class="lgrid">
+      <div class="lside">
+        <section class="lbox"><h4>Rewards</h4>${rewardsHTML(m.rewards)}</section>
+        <section class="lbox"><h4>Bosses</h4>${bosses}</section>
+        <section class="lbox"><h4>Foes</h4>${groupedNpcs(m.foes, f)}</section>
+      </div>
+      <div class="lside">
+        ${story.length ? `<section class="lbox"><h4>Story</h4><ul class="lrows">${story.map(([k, v]) => `<li><span class="dim">${k}</span><span>${v}</span></li>`).join("")}</ul></section>` : ""}
+        ${builds.length ? `<section class="lbox"><h4>Team builds</h4><ul class="lrows">${builds.map(t =>
+          `<li><a href="builds.html#${new URLSearchParams({ team: t.id })}">${esc(t.name)}</a><span class="dim">${t.builds.length} heroes</span></li>`).join("")}</ul></section>` : ""}
+        <section class="lbox"><h4>Allies</h4>${groupedNpcs(m.allies, f)}</section>
+      </div>
     </div>
-  </div>`;
+    <p class="llinks">${flowStep ? `<a href="quests.html#${new URLSearchParams({ c: m.campaign, q: flowStep })}">In the storyline →</a>` : ""}<a href="${esc(m.wiki_de)}" target="_blank" rel="noopener">guildwiki.de</a></p>`;
 }
 
-let lastVisible = [];
+// the list, or one mission's page when the address names one
+function render() {
+  const m = state.mission && BY_NAME.get(state.mission);
+  $("browse").hidden = !!m;
+  $("mission").hidden = !m;
+  if (m) {
+    $("mission").innerHTML = missionPageHTML(m);
+    document.title = `${m.name} · GW Missions`;
+    window.scrollTo(0, 0);
+  } else {
+    document.title = "GW Missions";
+    update();
+    window.dispatchEvent(new Event("resize"));  // the sticky bars measure the filters, hidden until now
+  }
+}
+
 function update() {
   const f = currentFilters();
   const visible = sorted(MISSIONS.filter(m => matches(m, f)), f);
-  lastVisible = visible;
   const total = MISSIONS.filter(m => f.pvp || m.kind !== "PvP").length;
   els.count.textContent = `${visible.length} / ${total}`;
   els.empty.hidden = visible.length > 0;
@@ -265,27 +296,11 @@ function update() {
   writeHash(f);
 }
 
-function toggleOpen(name) {
-  state.open = state.open === name ? null : name;
-  update();
-}
-
+// a click anywhere on a row opens the mission, except on the row's own links
 els.list.addEventListener("click", e => {
-  const go = e.target.closest("[data-goto]");
-  if (go) { e.stopPropagation(); gotoMission(go.dataset.goto); return; }
-  if (e.target.closest(".detail") || e.target.closest("a")) return;
   const row = e.target.closest(".row");
-  if (row) toggleOpen(row.dataset.name);
+  if (row && !e.target.closest("a")) location.hash = new URLSearchParams({ mission: row.dataset.name });
 });
-
-function gotoMission(name) {
-  const m = BY_NAME.get(name);
-  if (!m) return;
-  if (!lastVisible.includes(m)) { resetFilters(); if (m.kind === "PvP") els.pvp.checked = true; }
-  state.open = name;
-  update();
-  els.list.querySelector(`.row[data-name="${CSS.escape(name)}"]`)?.scrollIntoView({ block: "center" });
-}
 
 /* ---------- URL state ---------- */
 function writeHash(f) {
@@ -299,8 +314,8 @@ function writeHash(f) {
   if (f.elite) p.set("e", f.elite);
   if (f.pvp) p.set("pvp", "1");
   if (state.sort !== "default") p.set("sort", (state.desc ? "-" : "") + state.sort);
-  if (state.open) p.set("open", state.open);
   const h = p.toString();
+  state.listHash = h;  // where "All missions" returns to from a mission's page
   history.replaceState(null, "", h ? "#" + h : location.pathname);
 }
 
@@ -318,13 +333,11 @@ function readHash() {
   const sort = p.get("sort") || "default";
   state.desc = sort.startsWith("-");
   state.sort = sort.replace(/^-/, "");
-  state.open = p.get("open") || null;
-  const m = state.open && BY_NAME.get(state.open);
-  if (m && m.kind === "PvP") els.pvp.checked = true;
+  state.mission = p.get("mission") || p.get("open") || null;  // "open" is how older links named a mission
 }
 
 buildFilterUI();
 readHash();
-update();
+render();
 stickHeadBelowFilters();
-if (state.open) els.list.querySelector(".row.open")?.scrollIntoView({ block: "center" });
+window.addEventListener("hashchange", () => { readHash(); render(); });

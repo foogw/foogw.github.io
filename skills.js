@@ -6,8 +6,6 @@ const PVE_OF = new Map(SKILLS.filter(s => s.pvp_version_id).map(s => [s.pvp_vers
 
 const MISSION_NAMES = new Set((window.GW_MISSIONS || []).map(m => m.name));
 const PLACE_NAMES = new Set((window.GW_LOCATIONS || []).filter(p => p.exits).map(p => p.name));
-// how Locations names a place: no "(outpost)" or "(Post-Searing)", and an explorable twin is "X (explorable)"
-const placeName = where => where.replace(/ \((?:outpost|Post-Searing)\)$/, "").replace(/ \(explorable area\)$/, " (explorable)");
 // the teams and single builds whose bars use each skill: {team, build, n}, n being how many heroes in the team
 // run that build; a single build is its own one-build "team" linking to its page
 const USED_IN = new Map();
@@ -42,10 +40,6 @@ const state = { profs: new Set(), sort: "default", desc: false, skill: null, lis
 const FRACTIONS = { 0.25: "¼", 0.5: "½", 0.75: "¾", 1.5: "1½" };
 const secs = v => (v ? FRACTIONS[v] ?? String(v) : "");
 const isTitle = s => typeof s.attribute === "string" && s.attribute.endsWith("rank");
-
-function richText(s) {
-  return esc(s).replace(/&lt;gray&gt;(.*?)&lt;\/gray&gt;/g, '<span class="gray">$1</span>');
-}
 
 function costHTML(s) {
   const parts = [];
@@ -229,9 +223,10 @@ function acquisitionHTML(s) {
     const who = a.w;
     const where = a.l;
     const place = !where ? "" : MISSION_NAMES.has(where)
-      ? `<a href="missions.html#open=${encodeURIComponent(where)}">${esc(where)}</a>`
+      ? `<a href="${esc(missionHref(where))}">${esc(where)}</a>`
       : PLACE_NAMES.has(placeName(where)) ? `<a href="locations.html#${new URLSearchParams({ place: placeName(where) })}">${esc(where)}</a>` : esc(where);
-    const name = m === "Quest" ? `<a href="skill-quests.html#${new URLSearchParams({ q: who })}">${esc(who)}</a>` : esc(who);
+    const name = m === "Quest" ? `<a href="${esc(questHref(who, c || null))}">${esc(who)}</a>`
+      : m === "Signet of Capture" ? `<a href="${esc(bossHref(who))}">${esc(who)}</a>` : esc(who);
     const line = `${name}${where ? ` <span class="m">— ${place}</span>` : ""}`;
     if (!byCamp.get(c).includes(line)) byCamp.get(c).push(line);
   }

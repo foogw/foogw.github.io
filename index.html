@@ -6,7 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <title>GW Info</title>
-<link rel="stylesheet" href="style.css?v=e4f63484">
+<link rel="stylesheet" href="style.css?v=9d6655c5">
 <style>
   .home { max-width: 1000px; }
   .hero { padding: 8px 0 8px; }
@@ -83,10 +83,10 @@
 </div>
 
 <script src="data/skills.js?v=8d0a8eb7"></script>
-<script src="data/missions.js?v=ef21a739"></script>
+<script src="data/missions.js?v=ec8b0538"></script>
 <script src="data/rotations.js?v=47fcaf9f"></script>
-<script src="data/quests.js?v=6d1fa62d"></script>
-<script src="common.js?v=078c2264"></script>
+<script src="data/quests.js?v=42d1b0f8"></script>
+<script src="common.js?v=2d7e0a95"></script>
 <script src="template-code.js?v=201bf57f"></script>
 <script>
 "use strict";
@@ -118,6 +118,7 @@ const PAGES = [
   ["Missions", "missions.html", "Missions with rewards, bosses and foes", "mission boss reward foe pvp"],
   ["Storylines", "quests.html", "The story per campaign: primary quests and missions", "quest quests mission missions story flow primary campaign"],
   ["Skill quests", "skill-quests.html", "Every quest that rewards a skill", "skill quest quests reward"],
+  ["Bosses", "bosses.html", "Every boss: its elite to capture and where it is", "boss bosses elite capture signet"],
   ["Heroes", "heroes.html", "Which campaigns each hero needs, and how to recruit them", "hero heroes recruit campaign"],
   ["Armor", "armor.html", "Craftable armor sets: gold, materials and where", "armor armour set crafter material gold prestige elite"],
   ["Skillbar builder", "builder.html", "Template codes, attributes and skill bars", "builder build bar template code attributes"],
@@ -184,23 +185,22 @@ function render() {
     section("Skills", r.skills, s => `<a class="hit${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}" href="skills.html#skill=${s.id}">
       <span>${skillIcon(s.id, "sk-ic sm")}<span class="t">${highlight(s.name, r.ts)}</span> <span class="s">${esc(s.profession === "None" ? "Common" : s.profession)} · ${esc(s.attribute)}</span></span>
       <span class="s">${esc(s.type || "")}</span></a>`, `skills.html#q=${qs}`) +
-    section("Missions", r.missions, m => `<a class="hit" style="--pc:${profVar("None")}" href="missions.html#open=${encodeURIComponent(m.name)}">
+    section("Missions", r.missions, m => `<a class="hit" style="--pc:${profVar("None")}" href="${esc(missionHref(m.name))}">
       <span><span class="t">${highlight(m.name, r.ts)}</span> <span class="s">${esc(m.kind === "PvP" ? "PvP" : m.campaign)} · ${esc(m.region || "")}</span></span>
       <span class="s">${esc(m.type)}</span></a>`, `missions.html#q=${qs}`) +
     section("Quests", r.quests, q => {
       const camp = QUEST_FLOW.get(q.name_de);
-      const href = camp ? `quests.html#c=${encodeURIComponent(camp)}&q=${encodeURIComponent("q:" + q.name_de)}`
-        : `skill-quests.html#q=${encodeURIComponent(q.name)}`;
+      const href = questHref(q.name, q.campaign);
       return `<a class="hit" style="--pc:${camp ? profVar("None") : "var(--q-skill)"}" href="${href}">
         <span><span class="t">${highlight(q.name, r.ts)}</span> <span class="s">${esc(q.campaign || "")} · ${esc(q.region || "")}</span></span>
         <span class="s">${camp ? "Story quest" : "Skill quest"}</span></a>`;
     }, `skill-quests.html#q=${qs}`) +
     section("Bosses", r.bosses, ({ b, m }) => {
       const s = SKILL.get(b.elite_skill_id);
-      return `<a class="hit" style="--pc:${profVar(b.profession)}" href="missions.html#open=${encodeURIComponent(m.name)}">
+      return `<a class="hit" style="--pc:${profVar(b.profession)}" href="${esc(bossHref(b.name))}">
         <span><span class="t">${highlight(b.name, r.ts)}</span> <span class="s">${esc(m.name)}</span></span>
         <span class="s">${s ? esc(s.name) : ""}</span></a>`;
-    }, `missions.html#w=${qs}`) ||
+    }, `bosses.html#q=${qs}`) ||
     `<p class="dim" style="padding:12px 0">Nothing found.</p>`;
 }
 

@@ -8,9 +8,23 @@ const MISSION = new Map(window.GW_MISSIONS.map(m => [m.name_de, m]));
 const SKILL = new Map(window.GW_SKILLS.map(s => [s.id, s]));
 const CAMPS = FLOWS.map(f => f.campaign);
 const HERO = new Map((window.GW_HEROES || []).map(h => [h.name, h]));
+const MISSION_EN = new Map(window.GW_MISSIONS.map(m => [m.name, m]));
+const PLACES = new Map((window.GW_LOCATIONS || []).map(p => [p.name, p]));
+// quests by English name; a name several quests share is told apart by campaign
+const BY_NAME = new Map();
+for (const q of QUEST.values()) (BY_NAME.get(q.name) || BY_NAME.set(q.name, []).get(q.name)).push(q);
+const questURL = q => questHref(q.name, BY_NAME.get(q.name).length > 1 ? q.campaign : null);
+// the places whose quest lists name each quest
+const QUEST_PLACES = new Map();
+for (const p of window.GW_LOCATIONS || []) {
+  for (const x of p.quests || []) (QUEST_PLACES.get(x.name) || QUEST_PLACES.set(x.name, []).get(x.name)).push(p.name);
+}
+// each quest's step in a story flow: [campaign, step id]
+const FLOW_STEP = new Map(FLOWS.flatMap(f => [...f.nodes, ...(f.parts || []).flatMap(p => p.steps)]
+  .filter(n => n.id.startsWith("q:")).map(n => [n.id.slice(2), [f.campaign, n.id]])));
 const MIN_W = 104, MAX_W = 230, NODE_H = 44, GAP_X = 10, GAP_Y = 30;
 
-const state = { camp: CAMPS[0], sel: null };
+const state = { camp: CAMPS[0], sel: null, quest: null };
 
 /* ---------- helpers ---------- */
 const nodeInfo = id => (id.startsWith("m:") ? { kind: "mission", m: MISSION.get(id.slice(2)) }
@@ -42,7 +56,7 @@ const heroBadge = (id, style = "") => {
   return hs.length ? `<span class="qn-hero" style="${style}" title="Required hero: ${esc(hs.map(h => h.name).join(" and "))}">${hs.map(h =>
     `<img src="img/prof/${esc(h.profession)}.png" alt="">${esc(h.name.split(" ")[0])}`).join(" + ")}</span>` : "";
 };
-const heroLinks = hs => hs.map(h => `<a href="heroes.html#h=${encodeURIComponent(h.name)}"><img src="img/prof/${esc(h.profession)}.png" alt=""> ${esc(h.name)}</a>`);
+const heroLinks = hs => hs.map(h => `<a href="${esc(heroHref(h.name))}"><img src="img/prof/${esc(h.profession)}.png" alt=""> ${esc(h.name)}</a>`);
 const profIcon = p => `<img class="qp" src="img/prof/${p}.png" alt="${p}" title="${p}">`;
 
 /* ---------- layout ----------
@@ -212,7 +226,7 @@ function renderDetail() {
       ${nb.prev.length ? `<div class="q-row"><span>After</span><span>${nb.prev.map(esc).join(", ")}</span></div>` : ""}
       ${nb.next.length ? `<div class="q-row"><span>Leads to</span><span>${nb.next.map(esc).join(", ")}</span></div>` : ""}
       ${heroRow(id)}
-      <p><a href="missions.html#open=${encodeURIComponent(m.name)}">Open mission →</a></p>
+      <p><a href="${esc(missionHref(m.name))}">Open mission →</a></p>
       <p class="dim" style="font-size:12px">${sourceLinks(id)}</p>`;
     return;
   }
@@ -229,7 +243,75 @@ function renderDetail() {
     ${row("Profession", questProfs(q).map(p => `${profIcon(p)} ${esc(p)}`).join(" ") || esc(q.profession || ""))}
     ${heroRow(id)}
     <div class="q-dk" style="margin-top:12px">Rewards</div>${rewardsHTML(q) || '<p class="dim">—</p>'}
+    ${q.wiki_de ? `<p><a href="${esc(questURL(q))}">Open quest →</a></p>` : ""}
     <p class="dim" style="font-size:12px">${sourceLinks(id, q.wiki_de)}</p>`;
+}
+
+/* ---------- one quest's page ---------- */
+const CAMP_COLOR = { Prophecies: "--p-paragon", Factions: "--p-ritualist", Nightfall: "--p-elementalist", "Eye of the North": "--p-monk" };
+// a prerequisite or follow-up: a quest (of the same campaign when the name is shared) or a mission
+function refLink(name, camp) {
+  const qs = BY_NAME.get(name);
+  if (qs) return `<a href="${esc(questURL(qs.find(q => q.campaign === camp) || qs[0]))}">${esc(name)}</a>`;
+  return MISSION_EN.has(name) ? `<a href="${esc(missionHref(name))}">${esc(name)}</a>` : esc(name);
+}
+const placeLink = name => (PLACES.has(name) ? `<a href="locations.html#${new URLSearchParams({ place: name })}">${esc(name)}</a>` : esc(name));
+
+function questPageHTML(q) {
+  const sub = [`${q.type} quest`, q.campaign, q.region].filter(Boolean).map(esc).join(" · ");
+  const stats = [q.xp && ["XP", q.xp.toLocaleString("en")], q.gold && ["Gold", q.gold.toLocaleString("en")]].filter(Boolean);
+  const skills = q.skills.map(id => SKILL.get(id)).filter(Boolean);
+  const heroes = (q.hero || "").split(" and ").map(n => HERO.get(n)).filter(Boolean);
+  const profs = questProfs(q);
+  const places = [...new Set([q.where, ...(QUEST_PLACES.get(q.name) || [])].filter(Boolean))];
+  const facts = [
+    q.giver && ["Giver", esc(q.giver)],
+    places.length && ["Where", places.map(placeLink).join(", ")],
+    (profs.length || q.profession) && ["Profession", profs.map(p => `${profIcon(p)} ${esc(p)}`).join(" ") || esc(q.profession)],
+    heroes.length && ["Required hero", heroLinks(heroes).join(" and ")],
+    q.requires.length && ["After", q.requires.map(n => refLink(n, q.campaign)).join(", ")],
+    q.next.length && ["Leads to", q.next.map(n => refLink(n, q.campaign)).join(", ")],
+  ].filter(Boolean);
+  const step = FLOW_STEP.get(q.name_de);
+  return `<p class="back"><a href="#${new URLSearchParams({ c: state.camp })}">← Storylines</a></p>
+    <div class="sp-head" style="--pc:var(${CAMP_COLOR[q.campaign] || "--p-none"})">
+      <div class="sp-title"><h2>${esc(q.name)}${q.repeatable ? '<span class="tag">Repeatable</span>' : ""}</h2><div class="sp-sub">${sub}</div></div>
+      ${stats.length ? `<div class="lstats">${stats.map(([k, v]) => `<span class="lstat"><small>${k}</small><b>${esc(v)}</b></span>`).join("")}</div>` : ""}
+    </div>
+    <div class="lgrid">
+      <div class="lside">
+        ${facts.length ? `<section class="lbox"><h4>Quest</h4><ul class="lrows">${facts.map(([k, v]) => `<li><span class="dim">${k}</span><span>${v}</span></li>`).join("")}</ul></section>` : ""}
+      </div>
+      <div class="lside">
+        <section class="lbox"><h4>Rewards</h4>
+          ${skills.length ? `<div class="qp-skills">${skills.map(s => `<a class="skill-link${s.elite ? " elite" : ""}" href="skills.html#skill=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${esc(s.name)}</a>`).join("")}</div>` : ""}
+          ${q.rewards.length ? `<ul class="qp-rewards">${q.rewards.map(r => `<li>${esc(r)}</li>`).join("")}</ul>` : ""}
+          ${!skills.length && !q.rewards.length ? `<p class="dim">${stats.length ? "Experience and gold only." : "—"}</p>` : ""}</section>
+      </div>
+    </div>
+    <p class="llinks">${step ? `<a href="#${new URLSearchParams({ c: step[0], q: step[1] })}">In the storyline →</a>` : ""}${skills.length && q.type !== "Primary" ? `<a href="skill-quests.html#${new URLSearchParams({ q: q.name })}">Skill quests →</a>` : ""}${q.wiki_de ? `<a href="${esc(q.wiki_de)}" target="_blank" rel="noopener">guildwiki.de</a>` : ""}</p>`;
+}
+
+// the storyline, or one quest's page when the address names one
+function show() {
+  const p = new URLSearchParams(location.hash.slice(1));
+  const qs = BY_NAME.get(p.get("quest")) || [];
+  const q = qs.find(x => x.campaign === p.get("qc")) || qs[0];
+  $("story").hidden = !!q;
+  $("quest").hidden = !q;
+  if (q) {
+    if (CAMPS.includes(q.campaign)) state.camp = q.campaign;
+    $("quest").innerHTML = questPageHTML(q);
+    document.title = `${q.name} · GW Storylines`;
+    window.scrollTo(0, 0);
+    return;
+  }
+  document.title = "GW Storylines";
+  readHash();
+  for (const x of $("camps").children) x.setAttribute("aria-pressed", x.dataset.camp === state.camp);
+  render();
+  renderDetail();
+  document.querySelector("#canvas .sel")?.scrollIntoView({ block: "center" });
 }
 
 /* ---------- controls ---------- */
@@ -253,7 +335,7 @@ function buildControls() {
     writeHash();
   });
   let timer;
-  window.addEventListener("resize", () => { clearTimeout(timer); timer = setTimeout(render, 120); });
+  window.addEventListener("resize", () => { clearTimeout(timer); timer = setTimeout(() => { if (!$("story").hidden) render(); }, 120); });
 }
 
 function writeHash() {
@@ -270,6 +352,5 @@ function readHash() {
 
 readHash();
 buildControls();
-render();
-renderDetail();
-document.querySelector("#canvas .sel")?.scrollIntoView({ block: "center" });
+show();
+window.addEventListener("hashchange", show);

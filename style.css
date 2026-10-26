@@ -705,12 +705,47 @@ table.t-ranks td:last-child { color: var(--muted); }
 .t-out span { font-size: 12px; color: var(--muted); }
 .t-formula { font-size: 12px; margin: 0; }
 
-/* one skill's page */
-#skill { padding: 6px 0 20px; }
-#skill .back { margin: 10px 0 0; font-size: 13px; }
-#skill .back a { text-decoration: none; }
-#skill h4 { margin: 0 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: color-mix(in srgb, var(--text) 75%, var(--muted)); }
-#skill .lbox h4 + .chips + h4 { margin-top: 14px; }
+/* one skill's, mission's, boss's, quest's or hero's page */
+.ent { padding: 6px 0 20px; }
+.ent .back { margin: 10px 0 0; font-size: 13px; }
+.ent .back a { text-decoration: none; }
+.ent h4 { margin: 0 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: color-mix(in srgb, var(--text) 75%, var(--muted)); }
+.ent .lbox h4 + .chips + h4 { margin-top: 14px; }
+.ent .lbox > h4:not(:first-child) { margin-top: 16px; }
+.ent .ip { width: 16px; height: 16px; vertical-align: -3px; }
+.ent table.npcs a { text-decoration: none; }
+.ent table.npcs a:hover { text-decoration: underline; }
+.mrow .mname { color: inherit; text-decoration: none; }
+.hp-icon { width: 48px; height: 48px; border-radius: 0; }
+.bp-skill + .bp-skill { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.bp-skill .skill-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; border-bottom: 0; margin-right: 8px; }
+.bp-skill .dim { font-size: 13px; }
+.bp-desc { margin: 6px 0 0; font-size: 14px; line-height: 1.45; }
+.hp-recruit { margin: 0 0 6px; font-size: 15px; line-height: 1.5; }
+.hp-build + .hp-build { margin-top: 12px; }
+.hp-bname { font-weight: 600; margin-bottom: 4px; }
+a.hchip { text-decoration: none; }
+.sq-name a { color: inherit; text-decoration: none; }
+.sq-name a:hover { text-decoration: underline; }
+.qp-skills { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.qp-skills .skill-link { display: inline-flex; align-items: center; gap: 6px; border-bottom: 0; align-self: flex-start; }
+.qp-rewards { margin: 8px 0 0; padding-left: 18px; font-size: 14px; }
+.hname a { color: inherit; text-decoration: none; }
+.hname a:hover { text-decoration: underline; }
+
+/* bosses */
+.bosses .row, .bosses .head { grid-template-columns: minmax(170px, 1.2fr) 110px minmax(200px, 2fr) minmax(160px, 1.6fr) 70px; }
+.bosses .row .echips { overflow: hidden; }
+@media (max-width: 1100px) {
+  .bosses .row, .bosses .head { grid-template-columns: minmax(160px, 1.2fr) 100px minmax(200px, 2fr) minmax(150px, 1.4fr); }
+}
+@media (max-width: 900px) {
+  .bosses .row, .bosses .head { grid-template-columns: minmax(150px, 1fr) minmax(180px, 2fr); }
+  .bosses .col-prof, .bosses .col-where { display: none; }
+}
+@media (max-width: 600px) {
+  .bosses .row { grid-template-columns: minmax(0, 1fr); }
+}
 .sp-head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 10px; padding: 14px 16px;
   border-radius: 10px; border: 1px solid var(--line); border-left: 4px solid var(--pc);
   background: linear-gradient(90deg, color-mix(in srgb, var(--pc) 12%, var(--panel)), var(--panel)); }

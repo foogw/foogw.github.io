@@ -6,7 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <title>GW Missions</title>
-<link rel="stylesheet" href="style.css?v=e4f63484">
+<link rel="stylesheet" href="style.css?v=9d6655c5">
 </head>
 <body class="missions">
 <div class="wrap">
@@ -19,6 +19,7 @@
   </header>
   <div class="page-title"><h1>Missions</h1><p>Rewards, bosses with their elites, foes and allies</p></div>
 
+  <div id="browse">
   <div class="filters" id="filters">
     <div class="frow">
       <input type="search" id="f-name" placeholder="Mission — e.g. thirsty, gate, vizunah" autocomplete="off" autofocus>
@@ -50,13 +51,17 @@
   </div>
   <div class="list" id="list"></div>
   <div class="empty" id="empty" hidden>No missions match.</div>
+  </div>
+  <div id="mission" class="ent" hidden></div>
   <footer class="site-footer"><a href="about.html">About</a> · <a href="license.html">License &amp; credits</a> · <a href="thanks.html">Thanks</a> · <a href="contact.html">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
 
+<script src="data/locations.js?v=f03ead7e"></script>
+<script src="data/builds.js?v=b3c2eb03"></script>
 <script src="data/heroes.js?v=708741c6"></script>
-<script src="data/missions.js?v=ef21a739"></script>
+<script src="data/missions.js?v=ec8b0538"></script>
 <script src="data/skills.js?v=8d0a8eb7"></script>
-<script src="common.js?v=078c2264"></script>
-<script src="missions.js?v=3d5e17bb"></script>
+<script src="common.js?v=2d7e0a95"></script>
+<script src="missions.js?v=14366641"></script>
 </body>
 </html>

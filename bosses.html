@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>GW Bosses</title>
+<link rel="stylesheet" href="style.css?v=9d6655c5">
+</head>
+<body class="bosses">
+<div class="wrap">
+  <header class="top">
+    <nav class="pages"><a href="index.html">Home</a><a href="rotations.html">Rotations</a><a href="quests.html">Storylines</a><a href="locations.html">Locations</a><a href="skills.html">Skills</a><a href="missions.html">Missions</a><a href="heroes.html">Heroes</a><a href="builds.html">Builds</a><a href="builder.html">Builder</a></nav>
+    <a class="hdr-link push" href="about.html">About</a>
+    <a class="hdr-link" href="thanks.html">Thanks</a>
+    <a class="hdr-link" href="contact.html">Contact</a>
+    <a class="hdr-link" href="license.html">License</a>
+  </header>
+  <div class="page-title"><h1>Bosses</h1><p>Every boss with an elite to capture or a mission to fight in</p></div>
+
+  <div id="browse">
+  <div class="filters" id="filters">
+    <div class="frow">
+      <input type="search" id="f-name" placeholder="Boss, elite skill or place — e.g. ravenheart, energy surge, wilds" autocomplete="off" autofocus>
+      <span class="search-hint"><kbd>/</kbd> search · <kbd>Esc</kbd> clear</span>
+    </div>
+    <div class="frow">
+      <div class="profs" id="f-prof"></div>
+    </div>
+    <div class="frow">
+      <select id="f-camp"><option value="">Any campaign</option></select>
+      <label class="chk"><input type="checkbox" id="f-elite"> With an elite only</label>
+      <button class="reset" id="reset">Reset</button>
+      <span class="count" id="count"></span>
+    </div>
+  </div>
+
+  <div class="head" id="head">
+    <span>Boss</span>
+    <span class="col-prof">Profession</span>
+    <span>Elite captures</span>
+    <span class="col-where">Where</span>
+    <span class="col-camp" title="Campaign">Camp</span>
+  </div>
+  <div class="list" id="list"></div>
+  <div class="empty" id="empty" hidden>No bosses match.</div>
+  </div>
+  <div id="boss" class="ent" hidden></div>
+  <footer class="site-footer"><a href="about.html">About</a> · <a href="license.html">License &amp; credits</a> · <a href="thanks.html">Thanks</a> · <a href="contact.html">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="data/skills.js?v=8d0a8eb7"></script>
+<script src="data/locations.js?v=f03ead7e"></script>
+<script src="data/missions.js?v=ec8b0538"></script>
+<script src="common.js?v=2d7e0a95"></script>
+<script src="bosses.js?v=60190b1d"></script>
+</body>
+</html>

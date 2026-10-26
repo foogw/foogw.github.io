@@ -18,7 +18,7 @@ function rowHTML(q, ts) {
       <img src="img/skills/${s.id}.jpg" alt="" loading="lazy" onerror="this.remove()">${highlight(s.name, ts)}</a>`).join("");
   return `<div class="sq-row">
     <div class="sq-q">
-      <div class="sq-name"><span class="sq-profs">${q._profs.map(profIcon).join("")}</span>${highlight(q.name, ts)}</div>
+      <div class="sq-name"><span class="sq-profs">${q._profs.map(profIcon).join("")}</span><a href="${esc(questHref(q.name, q.campaign))}">${highlight(q.name, ts)}</a></div>
       <div class="dim">${esc([q.giver, q.where].filter(Boolean).join(" — "))}${q.requires.length ? ` · after ${q.requires.map(esc).join(", ")}` : ""}</div>
     </div>
     <div class="sq-skills">${skills}</div>

@@ -76,7 +76,7 @@ const nicholasItemHTML = e => (e.map ? `<a href="${esc(e.map)}" target="_blank" 
 /* How a rotation entry reads, with a link where the site has a page for it. */
 function rotationEntryHTML(r, e, missionNames) {
   const name = r.key === "zaishen-mission" && missionNames && missionNames.has(e.name)
-    ? `<a href="missions.html#open=${encodeURIComponent(e.name)}">${esc(e.name)}</a>`
+    ? `<a href="${esc(missionHref(e.name))}">${esc(e.name)}</a>`
     : r.key === "nicholas-traveler" ? nicholasItemHTML(e) : esc(e.name);
   if (e.count) return `${e.count} × ${name} <span class="dim">— ${esc(e.where)}, ${esc(e.region)}</span>`;
   return name;
@@ -147,4 +147,19 @@ const ATTRIBUTES = {
   37: "Spear Mastery", 38: "Command", 39: "Motivation", 40: "Leadership",
   41: "Scythe Mastery", 42: "Wind Prayers", 43: "Earth Prayers", 44: "Mysticism",
 };
+/* Where one mission, hero, boss or quest has its own page. A quest whose name another quest shares also
+   names its campaign. */
+const missionHref = name => `missions.html#${new URLSearchParams({ mission: name })}`;
+const heroHref = name => `heroes.html#${new URLSearchParams({ hero: name })}`;
+const bossHref = name => `bosses.html#${new URLSearchParams({ boss: name })}`;
+const questHref = (name, campaign) => `quests.html#${new URLSearchParams(campaign ? { quest: name, qc: campaign } : { quest: name })}`;
+
+// how Locations names a place: no "(outpost)" or "(Post-Searing)", and an explorable twin is "X (explorable)"
+const placeName = where => where.replace(/ \((?:outpost|Post-Searing)\)$/, "").replace(/ \(explorable area\)$/, " (explorable)");
+
+/* A skill description, its <gray> parts (values at other ranks) dimmed. */
+function richText(s) {
+  return esc(s).replace(/&lt;gray&gt;(.*?)&lt;\/gray&gt;/g, '<span class="gray">$1</span>');
+}
+
 const skillIcon = (id, cls = "sk-ic") => `<img class="${cls}" src="img/skills/${id}.jpg" alt="" loading="lazy" onerror="this.remove()">`;

@@ -81,7 +81,7 @@ function overviewHTML(builds, groups) {
 function placeLink(t) {
   const parts = [];
   if (t.place) parts.push(`<a href="locations.html#${new URLSearchParams({ place: t.place })}">${esc(t.place)}</a>`);
-  if (t.mission && MISSIONS.has(t.mission)) parts.push(`<a href="missions.html#open=${encodeURIComponent(t.mission)}">mission details</a>`);
+  if (t.mission && MISSIONS.has(t.mission)) parts.push(`<a href="${esc(missionHref(t.mission))}">mission details</a>`);
   return parts.join(" · ");
 }
 
@@ -131,7 +131,7 @@ function singlesHTML() {
 function singleHTML(b) {
   return `<p class="back"><a href="#">← All builds</a></p>
     <div class="bd-one">${buildHTML({ b, n: 1 }, null)}</div>
-    ${b.heroes?.length ? `<p class="bd-for"><span class="dim">Suggested for</span> ${b.heroes.map(h => `<a href="heroes.html#${new URLSearchParams({ h })}">${esc(h)}</a>`).join(", ")}</p>` : ""}
+    ${b.heroes?.length ? `<p class="bd-for"><span class="dim">Suggested for</span> ${b.heroes.map(h => `<a href="${esc(heroHref(h))}">${esc(h)}</a>`).join(", ")}</p>` : ""}
     ${b.source ? `<p class="dim bd-src">From <a href="${esc(b.source.url)}" target="_blank" rel="noopener">${esc(b.source.name)}</a>, CC BY-NC-SA 2.5; shortened and reworded.</p>` : ""}`;
 }
 
