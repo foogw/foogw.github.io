@@ -25,9 +25,15 @@ function rowHTML(q, ts) {
   </div>`;
 }
 
+// one profession at a time: quests with a skill for it, or with "Only", quests whose skills are all for it
+const state = { prof: null };
+const profMatch = q => !state.prof
+  || ($("only").checked ? q._profs.length === 1 && q._profs[0] === state.prof : q._profs.includes(state.prof));
+
 function render() {
   const ts = terms($("find"));
-  const list = SKILL_QUESTS.filter(q => ts.every(t => q._k.includes(t)));
+  const list = SKILL_QUESTS.filter(q => profMatch(q) && ts.every(t => q._k.includes(t)));
+  for (const b of $("profs").children) b.setAttribute("aria-pressed", b.dataset.prof === state.prof);
   $("count").textContent = `${list.length} quests`;
   const groups = new Map();
   for (const q of list) {
@@ -47,9 +53,27 @@ function render() {
       + groups.get(key).sort((a, b) => cmpStr(a.name, b.name)).map(q => rowHTML(q, ts)).join("");
   }
   $("list").innerHTML = html || '<p class="dim">No skill quests match.</p>';
-  history.replaceState(null, "", $("find").value ? "#q=" + encodeURIComponent($("find").value) : location.pathname);
+  const h = new URLSearchParams();
+  if ($("find").value) h.set("q", $("find").value);
+  if (state.prof) h.set("p", state.prof);
+  if (state.prof && $("only").checked) h.set("only", "1");
+  history.replaceState(null, "", h.size ? "#" + h : location.pathname);
 }
 
-$("find").value = new URLSearchParams(location.hash.slice(1)).get("q") || "";
+// Paragons and Dervishes get no skills from these quests, only from Nightfall's story quests
+const NO_QUESTS = ["None", "Paragon", "Dervish"];
+$("profs").innerHTML = PROFS.filter(([p]) => !NO_QUESTS.includes(p)).map(([p]) =>
+  `<button class="prof-chip" data-prof="${p}" aria-pressed="false" style="--c:${profVar(p)}">${p}</button>`).join("");
+$("profs").addEventListener("click", e => {
+  const b = e.target.closest(".prof-chip");
+  if (!b) return;
+  state.prof = state.prof === b.dataset.prof ? null : b.dataset.prof;
+  render();
+});
+const start = new URLSearchParams(location.hash.slice(1));
+$("find").value = start.get("q") || "";
+state.prof = PROFS.some(([p]) => p === start.get("p") && !NO_QUESTS.includes(p)) ? start.get("p") : null;
+$("only").checked = start.get("only") === "1";
 $("find").addEventListener("input", render);
+$("only").addEventListener("change", render);
 render();
