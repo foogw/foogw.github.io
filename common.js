@@ -70,10 +70,14 @@ function timeLeft(ms) {
   return d ? `${d}d ${h}h` : h ? `${h}h ${mm}m` : `${mm}m`;
 }
 
+// Nicholas the Traveler's items link to the German wiki's map of where he stands that week.
+const nicholasItemHTML = e => (e.map ? `<a href="${esc(e.map)}" target="_blank" rel="noopener">${esc(e.name)}</a>` : esc(e.name));
+
 /* How a rotation entry reads, with a link where the site has a page for it. */
 function rotationEntryHTML(r, e, missionNames) {
   const name = r.key === "zaishen-mission" && missionNames && missionNames.has(e.name)
-    ? `<a href="missions.html#open=${encodeURIComponent(e.name)}">${esc(e.name)}</a>` : esc(e.name);
+    ? `<a href="missions.html#open=${encodeURIComponent(e.name)}">${esc(e.name)}</a>`
+    : r.key === "nicholas-traveler" ? nicholasItemHTML(e) : esc(e.name);
   if (e.count) return `${e.count} × ${name} <span class="dim">— ${esc(e.where)}, ${esc(e.region)}</span>`;
   return name;
 }
@@ -85,12 +89,12 @@ function rotationListHTML(rows, rotations, missionNames, now = Date.now()) {
     const [key, title] = row;
     const r = rotations[key];
     const k = Rotation.period(r, now);
-    const show = e => e.count ? `${e.count} × ${esc(e.name)} <span class="dim">· ${esc(e.where)}</span>`
+    const show = e => e.count ? `${e.count} × ${nicholasItemHTML(e)} <span class="dim">· ${esc(e.where)}</span>`
       : rotationEntryHTML(r, e, missionNames);
     const next = Rotation.entry(r, k + 1);
     return `<div class="t-row"><span class="t-k">${title}</span><span class="t-v">${show(Rotation.entry(r, k))}</span>`
       + `<span class="t-l">${timeLeft(Rotation.endsAt(r, now) - now)}</span>`
-      + `<span class="t-n">then: ${next.count ? `${next.count} × ${esc(next.name)}` : rotationEntryHTML(r, next, missionNames)}</span></div>`;
+      + `<span class="t-n">then: ${next.count ? `${next.count} × ${nicholasItemHTML(next)}` : rotationEntryHTML(r, next, missionNames)}</span></div>`;
   }).join("");
 }
 
