@@ -157,6 +157,10 @@ nav.pages { display: flex; gap: 18px; }
 nav.pages a { font-size: 20px; font-weight: 700; color: var(--muted); text-decoration: none; letter-spacing: .02em; }
 nav.pages a[aria-current=page] { color: var(--text); }
 nav.pages a:hover { color: var(--text); }
+/* the pages after Rotations are listed smaller */
+nav.pages { align-items: baseline; }
+nav.pages a.minor { font-size: 13px; font-weight: 600; }
+nav.pages small { font-size: 10px; font-weight: 500; }
 
 /* missions */
 .missions .row, .missions .head {
