@@ -112,6 +112,9 @@ header.top h1 { margin: 0; font-size: 20px; letter-spacing: .02em; }
 .row.elite:hover, .row.elite.open { background: color-mix(in srgb, var(--elite) 14%, var(--panel)); }
 .name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
 .row.elite .name { color: var(--elite); }
+a.row, a.echip { color: inherit; text-decoration: none; }
+a.echip { color: var(--elite); }
+a.echip:hover { border-color: var(--pc); }
 .tag { font-size: 10px; font-weight: 600; border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; margin-left: 6px; color: var(--muted); vertical-align: 1px; }
 .prof { color: var(--pc); white-space: nowrap; }
 .dim { color: var(--muted); }
@@ -704,3 +707,23 @@ table.t-ranks td:last-child { color: var(--muted); }
 .t-out b { font-size: 24px; font-variant-numeric: tabular-nums; }
 .t-out span { font-size: 12px; color: var(--muted); }
 .t-formula { font-size: 12px; margin: 0; }
+
+/* one skill's page */
+#skill { padding: 6px 0 20px; }
+#skill .back { margin: 10px 0 0; font-size: 13px; }
+#skill .back a { text-decoration: none; }
+#skill h4 { margin: 0 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: color-mix(in srgb, var(--text) 75%, var(--muted)); }
+#skill .lbox h4 + .chips + h4 { margin-top: 14px; }
+.sp-head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 10px; padding: 14px 16px;
+  border-radius: 10px; border: 1px solid var(--line); border-left: 4px solid var(--pc);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--pc) 12%, var(--panel)), var(--panel)); }
+.sp-icon { width: 64px; height: 64px; border-radius: 6px; flex: none; }
+.sp-head.elite .sp-icon { box-shadow: 0 0 0 2px var(--elite); }
+.sp-title { flex: 1 1 260px; min-width: 0; }
+.sp-title h2 { margin: 0 0 4px; font-size: 28px; line-height: 1.15; }
+.sp-head.elite h2 { color: var(--elite); }
+.sp-title .tag { vertical-align: 6px; }
+.sp-sub { color: var(--muted); font-size: 14px; }
+.sp-desc { margin: 0; font-size: 15px; line-height: 1.5; }
+.sp-concise { margin: 10px 0 0; font-size: 13px; }
+@media (max-width: 600px) { .sp-title h2 { font-size: 22px; } .sp-icon { width: 48px; height: 48px; } }

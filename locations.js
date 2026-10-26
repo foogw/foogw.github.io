@@ -38,7 +38,7 @@ const partyText = p => (!p.party ? "" : p.party_max ? `${p.party}–${p.party_ma
 const partyTitle = p => (p.party_max
   ? `${p.party} from the nearest outposts; up to ${p.party_max} when entered from further away`
   : "");
-const skillLink = s => `<a class="skill-link${s.elite ? " elite" : ""}" href="skills.html#open=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${esc(s.name)}</a>`;
+const skillLink = s => `<a class="skill-link${s.elite ? " elite" : ""}" href="skills.html#skill=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${esc(s.name)}</a>`;
 
 function questLink(q) {
   if (q.flow) return `<a href="quests.html#${new URLSearchParams({ c: q.flow[0], q: q.flow[1] })}">${esc(q.name)}</a>`;
@@ -126,7 +126,7 @@ function renderPlace(p) {
   const services = [...roles].map(([k, v]) => `<li><span>${esc(k)}</span><span class="dim">${esc(v.join(", "))}</span></li>`).join("");
   const bosses = (p.bosses || []).map(([b, id]) => SKILL.has(id)
     ? `<li>${skillLink(SKILL.get(id))}<span class="dim">${esc(b)}</span></li>` : "").join("");
-  const quests = (p.quests || []).map(q => `<li><span>${questLink(q)}${q.travel ? ` <span class="tag" title="Takes you to ${esc(q.travel)}">To ${esc(CAMP_TAG[q.travel] || q.travel)}</span>` : q.type !== "Secondary" ? ` <span class="tag">${esc(q.type)}</span>` : ""}</span>${q.skills.length ? `<span class="qsk">${q.skills.map(id => SKILL.get(id)).filter(Boolean).map(s => `<a href="skills.html#open=${s.id}" title="${esc(s.name)}">${skillIcon(s.id, "sk-ic sm")}</a>`).join("")}</span>` : ""}</li>`).join("");
+  const quests = (p.quests || []).map(q => `<li><span>${questLink(q)}${q.travel ? ` <span class="tag" title="Takes you to ${esc(q.travel)}">To ${esc(CAMP_TAG[q.travel] || q.travel)}</span>` : q.type !== "Secondary" ? ` <span class="tag">${esc(q.type)}</span>` : ""}</span>${q.skills.length ? `<span class="qsk">${q.skills.map(id => SKILL.get(id)).filter(Boolean).map(s => `<a href="skills.html#skill=${s.id}" title="${esc(s.name)}">${skillIcon(s.id, "sk-ic sm")}</a>`).join("")}</span>` : ""}</li>`).join("");
   const side = box("Services", services && `<ul class="lrows">${services}</ul>`)
     + box("Elite skills to capture", bosses && `<ul class="lrows">${bosses}</ul>`)
     + box(`Quests <span class="dim">${(p.quests || []).length || ""}</span>`, quests && `<ul class="lrows lquests">${quests}</ul>`);

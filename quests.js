@@ -191,7 +191,7 @@ function render() {
 function rewardsHTML(q) {
   const parts = [q.xp && `${q.xp.toLocaleString("en")} XP`, q.gold && `${q.gold.toLocaleString("en")} gold`, ...q.rewards].filter(Boolean);
   const skills = q.skills.map(id => SKILL.get(id)).filter(Boolean).map(s =>
-    `<a class="q-skill${s.elite ? " elite" : ""}" href="skills.html#open=${s.id}" style="--pc:${profVar(s.profession)}"><img src="img/skills/${s.id}.jpg" alt="" onerror="this.remove()">${esc(s.name)}</a>`).join("");
+    `<a class="q-skill${s.elite ? " elite" : ""}" href="skills.html#skill=${s.id}" style="--pc:${profVar(s.profession)}"><img src="img/skills/${s.id}.jpg" alt="" onerror="this.remove()">${esc(s.name)}</a>`).join("");
   return (parts.length ? `<p>${parts.map(esc).join(" · ")}</p>` : "") + (skills ? `<div class="q-skills">${skills}</div>` : "");
 }
 

@@ -6,7 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <title>GW Info</title>
-<link rel="stylesheet" href="style.css?v=9f8ccd77">
+<link rel="stylesheet" href="style.css?v=ad2ea7fb">
 <style>
   .home { max-width: 1000px; }
   .hero { padding: 8px 0 8px; }
@@ -181,7 +181,7 @@ function render() {
   $("results").innerHTML =
     section("Pages", r.pages, p => `<a class="hit" style="--pc:var(--accent)" href="${p.href}">
       <span><span class="t">${esc(p.name)}</span> <span class="s">${esc(p.about)}</span></span><span class="s">→</span></a>`) +
-    section("Skills", r.skills, s => `<a class="hit${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}" href="skills.html#open=${s.id}">
+    section("Skills", r.skills, s => `<a class="hit${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}" href="skills.html#skill=${s.id}">
       <span>${skillIcon(s.id, "sk-ic sm")}<span class="t">${highlight(s.name, r.ts)}</span> <span class="s">${esc(s.profession === "None" ? "Common" : s.profession)} · ${esc(s.attribute)}</span></span>
       <span class="s">${esc(s.type || "")}</span></a>`, `skills.html#q=${qs}`) +
     section("Missions", r.missions, m => `<a class="hit" style="--pc:${profVar("None")}" href="missions.html#open=${encodeURIComponent(m.name)}">

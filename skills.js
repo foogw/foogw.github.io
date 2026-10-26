@@ -5,6 +5,13 @@ const BY_ID = new Map(SKILLS.map(s => [s.id, s]));
 const PVE_OF = new Map(SKILLS.filter(s => s.pvp_version_id).map(s => [s.pvp_version_id, s.id]));
 
 const MISSION_NAMES = new Set((window.GW_MISSIONS || []).map(m => m.name));
+const PLACE_NAMES = new Set((window.GW_LOCATIONS || []).filter(p => p.exits).map(p => p.name));
+// how Locations names a place: no "(outpost)" or "(Post-Searing)", and an explorable twin is "X (explorable)"
+const placeName = where => where.replace(/ \((?:outpost|Post-Searing)\)$/, "").replace(/ \(explorable area\)$/, " (explorable)");
+// the Titles page tab for each title-rank attribute
+const TITLE_TAB = { "Sunspear rank": "Sunspear", "Lightbringer rank": "Lightbringer", "Asura rank": "Asura",
+  "Deldrimor rank": "Deldrimor", "Ebon Vanguard rank": "Ebon Vanguard", "Norn rank": "Norn",
+  "Kurzick rank": "Kurzick / Luxon", "Luxon rank": "Kurzick / Luxon" };
 const METHOD_ORDER = ["Signet of Capture", "Skill trainer", "Hero skill trainer", "Quest", "Profession Changer"];
 
 const els = {
@@ -13,7 +20,7 @@ const els = {
   list: $("list"), head: $("head"), count: $("count"), empty: $("empty"),
 };
 
-const state = { profs: new Set(), sort: "default", desc: false, open: null };
+const state = { profs: new Set(), sort: "default", desc: false, skill: null, listHash: "" };
 
 /* ---------- helpers ---------- */
 const FRACTIONS = { 0.25: "¼", 0.5: "½", 0.75: "¾", 1.5: "1½" };
@@ -84,7 +91,6 @@ function buildFilterUI() {
     } else if (e.key === "Escape") {
       if (document.activeElement === els.name && els.name.value) { els.name.value = ""; update(); }
       else if (document.activeElement === els.text && els.text.value) { els.text.value = ""; update(); }
-      else if (state.open) { toggleOpen(state.open); }
     }
   });
 }
@@ -177,7 +183,7 @@ function rowHTML(s, f) {
     s.pvp_only ? '<span class="tag">PvP</span>' : "",
     s.touch ? '<span class="tag">Touch</span>' : "",
   ].join("");
-  return `<div class="row${s.elite ? " elite" : ""}${state.open === s.id ? " open" : ""}" data-id="${s.id}" style="--pc:${profVar(s.profession)}">
+  return `<a class="row${s.elite ? " elite" : ""}" href="#${new URLSearchParams({ skill: s.id })}" style="--pc:${profVar(s.profession)}">
     <div class="name" title="${esc(s.name)}">${skillIcon(s.id)}<span class="nm">${highlight(s.name, f.name)}</span>${tags}</div>
     <div class="prof col-prof">${s.profession === "None" ? "Common" : esc(s.profession)}</div>
     <div class="cell dim col-attr">${esc(s.attribute)}</div>
@@ -187,17 +193,12 @@ function rowHTML(s, f) {
     <div class="num col-rech">${s.recharge || ""}</div>
     <div class="dim col-camp">${CAMP_SHORT[s.campaign] || ""}</div>
     <div class="desc">${f.text.length ? highlightRich(s.concise, f.text) : richText(s.concise)}</div>
-  </div>${state.open === s.id ? detailHTML(s) : ""}`;
+  </a>`;
 }
 
 function highlightRich(s, t) {
   const plain = s.replace(/<\/?gray>/g, "");
   return highlight(plain, t);
-}
-
-function skillChip(id, label) {
-  const s = BY_ID.get(id);
-  return s ? `<button class="chip" data-goto="${id}" style="border-left:3px solid ${profVar(s.profession)}">${esc(label || s.name)}</button>` : "";
 }
 
 function acquisitionHTML(s) {
@@ -211,9 +212,11 @@ function acquisitionHTML(s) {
     if (!byCamp.has(c)) byCamp.set(c, []);
     const who = a.w;
     const where = a.l;
-    const place = where && MISSION_NAMES.has(where)
-      ? `<a href="missions.html#open=${encodeURIComponent(where)}">${esc(where)}</a>` : esc(where);
-    const line = `${esc(who)}${where ? ` <span class="m">— ${place}</span>` : ""}`;
+    const place = !where ? "" : MISSION_NAMES.has(where)
+      ? `<a href="missions.html#open=${encodeURIComponent(where)}">${esc(where)}</a>`
+      : PLACE_NAMES.has(placeName(where)) ? `<a href="locations.html#${new URLSearchParams({ place: placeName(where) })}">${esc(where)}</a>` : esc(where);
+    const name = m === "Quest" ? `<a href="skill-quests.html#${new URLSearchParams({ q: who })}">${esc(who)}</a>` : esc(who);
+    const line = `${name}${where ? ` <span class="m">— ${place}</span>` : ""}`;
     if (!byCamp.get(c).includes(line)) byCamp.get(c).push(line);
   }
   const rank = m => { const i = METHOD_ORDER.indexOf(m); return i < 0 ? 99 : i; };
@@ -223,37 +226,6 @@ function acquisitionHTML(s) {
     ).join("") + "</div>").join("");
 }
 
-function detailHTML(s) {
-  const facts = [
-    ["Profession", s.profession === "None" ? "Common" : s.profession],
-    ["Attribute", s.attribute], ["Type", s.type + (s.touch ? " (touch)" : "")],
-    ["Campaign", s.campaign],
-    s.activation ? ["Activation", secs(s.activation) + "s"] : null,
-    s.aftercast && s.aftercast !== 0.75 ? ["Aftercast", secs(s.aftercast) + "s"] : null,
-    s.recharge ? ["Recharge", s.recharge + "s"] : null,
-    ["ID", s.id],
-  ].filter(Boolean);
-  const versions = [
-    s.pvp_version_id ? skillChip(s.pvp_version_id, "PvP version") : "",
-    PVE_OF.has(s.id) ? skillChip(PVE_OF.get(s.id), "PvE version") : "",
-  ].join("");
-  const related = s.related_ids.map(id => skillChip(id)).join("");
-  return `<div class="detail" style="--pc:${profVar(s.profession)}">
-    <div>
-      <h4>Description</h4>
-      <p class="full">${richText(s.description)}</p>
-      <div class="facts">${facts.map(([k, v]) => `<span>${k} <b>${esc(v)}</b></span>`).join("")}</div>
-      ${versions ? `<h4>Versions</h4><div class="chips">${versions}</div>` : ""}
-      ${related ? `<h4>Related skills</h4><div class="chips">${related}</div>` : ""}
-      <p style="margin-top:10px;font-size:12px"><a href="builder.html#add=${s.id}">Add to builder</a></p>
-    </div>
-    <div>
-      <h4>How to get it</h4>
-      ${acquisitionHTML(s)}
-    </div>
-  </div>`;
-}
-
 function currentFilters() {
   return {
     name: terms(els.name), text: terms(els.text), attr: els.attr.value, type: els.type.value,
@@ -261,11 +233,9 @@ function currentFilters() {
   };
 }
 
-let lastVisible = [];
 function update() {
   const f = currentFilters();
   const visible = sorted(SKILLS.filter(s => matches(s, f)), f);
-  lastVisible = visible;
   const total = SKILLS.filter(s => f.pvp || !s.pvp_only).length;
   els.count.textContent = `${visible.length} / ${total}`;
   els.empty.hidden = visible.length > 0;
@@ -277,27 +247,57 @@ function update() {
   writeHash(f);
 }
 
-function toggleOpen(id) {
-  state.open = state.open === id ? null : id;
-  update();
+/* ---------- one skill's page ---------- */
+const STATS = s => [
+  s.energy && ["Energy", s.energy, "c-e"], s.adrenaline && ["Adrenaline", s.adrenaline, "c-a"],
+  s.sacrifice && ["Sacrifice", `${s.sacrifice}%`, "c-s"], s.upkeep && ["Upkeep", s.upkeep, "c-u"],
+  s.overcast && ["Overcast", s.overcast, "c-o"], s.activation && ["Activation", `${secs(s.activation)}s`],
+  s.recharge && ["Recharge", `${s.recharge}s`],
+].filter(Boolean);
+
+function skillPageHTML(s) {
+  const link = (id, label) => {
+    const o = BY_ID.get(id);
+    return o ? `<a class="chip" href="#${new URLSearchParams({ skill: id })}" style="border-left:3px solid ${profVar(o.profession)}">${esc(label || o.name)}</a>` : "";
+  };
+  const versions = [s.pvp_version_id ? link(s.pvp_version_id, "PvP version") : "", PVE_OF.has(s.id) ? link(PVE_OF.get(s.id), "PvE version") : ""].join("");
+  const related = s.related_ids.map(id => link(id)).join("");
+  const sub = [s.profession === "None" ? "Common" : s.profession, s.attribute, s.type + (s.touch ? " (touch)" : ""), s.campaign]
+    .filter(Boolean).map(esc).join(" · ");
+  const tags = [s.elite && "Elite", s.pvp_only && "PvP only", s._title && "PvE only"].filter(Boolean)
+    .map(t => `<span class="tag">${t}</span>`).join("");
+  return `<p class="back"><a href="#${state.listHash}">← All skills</a></p>
+    <div class="sp-head${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}">
+      <img class="sp-icon" src="img/skills/${s.id}.jpg" alt="" onerror="this.remove()">
+      <div class="sp-title"><h2>${esc(s.name)}${tags}</h2><div class="sp-sub">${sub}</div></div>
+      <div class="lstats">${STATS(s).map(([k, v, c]) => `<span class="lstat"><small>${k}</small><b class="${c || ""}">${esc(v)}</b></span>`).join("")}</div>
+    </div>
+    <div class="lgrid">
+      <div class="lside">
+        <section class="lbox"><h4>Description</h4><p class="sp-desc">${richText(s.description)}</p>
+          ${s.concise && s.concise !== s.description ? `<p class="dim sp-concise">${richText(s.concise)}</p>` : ""}</section>
+        ${TITLE_TAB[s.attribute] ? `<section class="lbox"><h4>Title</h4><p>Gets stronger with your <a href="titles.html#${new URLSearchParams({ t: TITLE_TAB[s.attribute] })}">${esc(s.attribute.replace(/ rank$/, ""))} title</a> rank.</p></section>` : ""}
+        ${versions || related ? `<section class="lbox">${versions ? `<h4>Versions</h4><div class="chips">${versions}</div>` : ""}${related ? `<h4>Related skills</h4><div class="chips">${related}</div>` : ""}</section>` : ""}
+      </div>
+      <div class="lside"><section class="lbox"><h4>How to get it</h4>${acquisitionHTML(s)}</section></div>
+    </div>
+    <p class="llinks"><a href="builder.html#add=${s.id}">Add to builder →</a><span class="dim">Skill ID ${s.id}</span></p>`;
 }
 
-els.list.addEventListener("click", e => {
-  const go = e.target.closest("[data-goto]");
-  if (go) { e.stopPropagation(); gotoSkill(+go.dataset.goto); return; }
-  if (e.target.closest(".detail")) return;
-  const row = e.target.closest(".row");
-  if (row) toggleOpen(+row.dataset.id);
-});
-
-function gotoSkill(id) {
-  const s = BY_ID.get(id);
-  if (!s) return;
-  if (!lastVisible.includes(s)) { resetFilters(); els.name.value = s.name.replace(/"/g, ""); if (s.pvp_only) els.pvp.checked = true; }
-  state.open = id;
-  update();
-  const row = els.list.querySelector(`.row[data-id="${id}"]`);
-  if (row) row.scrollIntoView({ block: "center" });
+// the list, or one skill's page when the address names one
+function render() {
+  const s = state.skill && BY_ID.get(state.skill);
+  $("browse").hidden = !!s;
+  $("skill").hidden = !s;
+  if (s) {
+    $("skill").innerHTML = skillPageHTML(s);
+    document.title = `${s.name} · GW Skills`;
+    window.scrollTo(0, 0);
+  } else {
+    document.title = "GW Skills";
+    update();
+    window.dispatchEvent(new Event("resize"));  // the sticky bars measure the filters, hidden until now
+  }
 }
 
 /* ---------- URL state ---------- */
@@ -313,8 +313,8 @@ function writeHash(f) {
   if (f.src) p.set("s", f.src);
   if (f.pvp) p.set("pvp", "1");
   if (state.sort !== "default") p.set("sort", (state.desc ? "-" : "") + state.sort);
-  if (state.open) p.set("open", state.open);
   const h = p.toString();
+  state.listHash = h;  // where "All skills" returns to from a skill's page
   history.replaceState(null, "", h ? "#" + h : location.pathname);
 }
 
@@ -335,11 +335,11 @@ function readHash() {
   const sort = p.get("sort") || "default";
   state.desc = sort.startsWith("-");
   state.sort = sort.replace(/^-/, "");
-  state.open = +p.get("open") || null;
+  state.skill = +p.get("skill") || +p.get("open") || null;  // "open" is how older links named a skill
 }
 
 buildFilterUI();
 readHash();
-update();
+render();
 stickHeadBelowFilters();
-if (state.open) els.list.querySelector(".row.open")?.scrollIntoView({ block: "center" });
+window.addEventListener("hashchange", () => { readHash(); render(); });

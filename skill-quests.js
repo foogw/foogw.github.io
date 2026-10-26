@@ -14,7 +14,7 @@ for (const q of SKILL_QUESTS) {
 const profIcon = p => `<img class="qp" src="img/prof/${p}.png" alt="${p}" title="${p}">`;
 
 function rowHTML(q, ts) {
-  const skills = q._skills.map(s => `<a class="sq-skill${s.elite ? " elite" : ""}" href="skills.html#open=${s.id}" style="--pc:${profVar(s.profession)}" title="${esc(s.profession)} · ${esc(s.attribute)}">
+  const skills = q._skills.map(s => `<a class="sq-skill${s.elite ? " elite" : ""}" href="skills.html#skill=${s.id}" style="--pc:${profVar(s.profession)}" title="${esc(s.profession)} · ${esc(s.attribute)}">
       <img src="img/skills/${s.id}.jpg" alt="" loading="lazy" onerror="this.remove()">${highlight(s.name, ts)}</a>`).join("");
   return `<div class="sq-row">
     <div class="sq-q">

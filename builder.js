@@ -191,7 +191,7 @@ function skillCard(s) {
 function renderDetail() {
   const s = SKILL.get(state.selected);
   if (!s) { els.detail.innerHTML = '<p class="dim">Select a skill on the bar or in the list to see its description at your attribute ranks.</p>'; return; }
-  els.detail.innerHTML = skillCard(s) + `<a href="skills.html#open=${s.id}">Open in skills list →</a>`;
+  els.detail.innerHTML = skillCard(s) + `<a href="skills.html#skill=${s.id}">Open in skills list →</a>`;
 }
 
 function fuzzyScore(name, tokens) {

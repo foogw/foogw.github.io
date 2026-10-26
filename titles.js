@@ -35,7 +35,7 @@ function tableHTML(t) {
 function skillsHTML(t) {
   const list = SKILLS.filter(s => s.attribute === t.skills).sort((a, b) => cmpStr(a.profession, b.profession) || cmpStr(a.name, b.name));
   return list.length ? `<h4>Skills <span class="dim">${list.length}</span></h4><div class="t-skills">${list.map(s =>
-    `<a class="skill-link${s.elite ? " elite" : ""}" href="skills.html#open=${s.id}" style="--pc:${profVar(s.profession)}" title="${esc(s.profession)}">${skillIcon(s.id, "sk-ic")}<span>${esc(s.name)}</span></a>`).join("")}</div>` : "";
+    `<a class="skill-link${s.elite ? " elite" : ""}" href="skills.html#skill=${s.id}" style="--pc:${profVar(s.profession)}" title="${esc(s.profession)}">${skillIcon(s.id, "sk-ic")}<span>${esc(s.name)}</span></a>`).join("")}</div>` : "";
 }
 
 function titleHTML(t) {
