@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>GW Armor</title>
+<link rel="stylesheet" href="style.css?v=bf245a8d">
+</head>
+<body class="armor">
+<div class="wrap">
+  <header class="top">
+    <nav class="pages"><a href="index.html">Home</a><a href="skills.html">Skills</a><a href="quests.html">Quests &amp; Missions</a><a href="missions.html">Missions</a><a href="heroes.html">Heroes</a><a href="builder.html">Builder</a><a href="rotations.html">Rotations</a></nav>
+    <a class="hdr-link push" href="about.html">About</a>
+    <a class="hdr-link" href="thanks.html">Thanks</a>
+    <a class="hdr-link" href="contact.html">Contact</a>
+    <a class="hdr-link" href="license.html">License</a>
+  </header>
+  <div class="page-title"><h1>Armor</h1><p>Every craftable armor set and headgear: where, for how much gold and which materials</p></div>
+
+  <div class="filters" id="filters">
+    <div class="frow">
+      <input type="search" id="f-name" placeholder="Armor, town or crafter — e.g. vabbian, droknar" autocomplete="off" autofocus>
+      <span class="search-hint"><kbd>/</kbd> search · <kbd>Esc</kbd> clear</span>
+    </div>
+    <div class="frow"><div class="profs" id="f-prof"></div></div>
+    <div class="frow">
+      <div class="profs" id="f-camp"></div>
+      <select id="f-pieces">
+        <option value="">Sets, headgear and pieces</option>
+        <option value="5">Sets with headgear</option>
+        <option value="4">Sets without headgear</option>
+        <option value="head">Headgear</option>
+        <option value="pieces">Stand-alone pieces</option>
+      </select>
+      <label class="chk" title="Only versions at the profession's max armor rating, one row per armor, cheapest first"><input type="checkbox" id="f-top" checked> Max armor only</label>
+      <label class="chk" title="Hide armor costing more than 1,000 gold a piece"><input type="checkbox" id="f-prestige"> Exclude prestige</label>
+      <button class="reset" id="reset">Reset</button>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="mats" id="f-mats"></div>
+    <div class="usage" id="usage"></div>
+  </div>
+
+  <div class="head" id="head">
+    <button data-sort="name">Set</button>
+    <button data-sort="profession" class="col-prof">Profession</button>
+    <button data-sort="campaign" class="col-camp">Campaign</button>
+    <button data-sort="armor" class="num">Armor</button>
+    <button data-sort="pieces" class="num col-pieces">Pieces</button>
+    <button data-sort="price" class="num">Gold</button>
+    <span>Materials</span>
+  </div>
+  <div class="list" id="list"></div>
+  <div class="empty" id="empty" hidden>No armor matches.</div>
+  <footer class="site-footer"><a href="about.html">About</a> · <a href="license.html">License &amp; credits</a> · <a href="thanks.html">Thanks</a> · <a href="contact.html">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="data/armor.js?v=e4962be1"></script>
+<script src="common.js?v=c8e08edc"></script>
+<script src="armor.js?v=01ca4cd0"></script>
+</body>
+</html>
