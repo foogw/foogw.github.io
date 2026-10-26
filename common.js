@@ -125,6 +125,15 @@ function typeOptionsHTML(skills, { groups: withGroups = true, any = "Any type" }
 const typeMatches = (s, type) => !type
   || (type.startsWith("~") ? TYPE_GROUPS.find(g => g[0] === type)[2].test(s.type || "") : s.type === type);
 
+/* On narrow screens the top bar's links scroll sideways: bring the current page's link into view. */
+function revealCurrentNav() {
+  const cur = document.querySelector('nav.pages a[aria-current="page"]');
+  const nav = cur?.parentElement;
+  if (cur && nav.scrollWidth > nav.clientWidth) nav.scrollLeft = cur.offsetLeft - (nav.clientWidth - cur.offsetWidth) / 2;
+}
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", revealCurrentNav);
+else revealCurrentNav();
+
 /* Attribute names by their id in template codes. */
 const ATTRIBUTES = {
   0: "Fast Casting", 1: "Illusion Magic", 2: "Domination Magic", 3: "Inspiration Magic",
