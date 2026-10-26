@@ -125,4 +125,17 @@ function typeOptionsHTML(skills, { groups: withGroups = true, any = "Any type" }
 const typeMatches = (s, type) => !type
   || (type.startsWith("~") ? TYPE_GROUPS.find(g => g[0] === type)[2].test(s.type || "") : s.type === type);
 
+/* Attribute names by their id in template codes. */
+const ATTRIBUTES = {
+  0: "Fast Casting", 1: "Illusion Magic", 2: "Domination Magic", 3: "Inspiration Magic",
+  4: "Blood Magic", 5: "Death Magic", 6: "Soul Reaping", 7: "Curses",
+  8: "Air Magic", 9: "Earth Magic", 10: "Fire Magic", 11: "Water Magic", 12: "Energy Storage",
+  13: "Healing Prayers", 14: "Smiting Prayers", 15: "Protection Prayers", 16: "Divine Favor",
+  17: "Strength", 18: "Axe Mastery", 19: "Hammer Mastery", 20: "Swordsmanship", 21: "Tactics",
+  22: "Beast Mastery", 23: "Expertise", 24: "Wilderness Survival", 25: "Marksmanship",
+  29: "Dagger Mastery", 30: "Deadly Arts", 31: "Shadow Arts", 32: "Communing",
+  33: "Restoration Magic", 34: "Channeling Magic", 35: "Critical Strikes", 36: "Spawning Power",
+  37: "Spear Mastery", 38: "Command", 39: "Motivation", 40: "Leadership",
+  41: "Scythe Mastery", 42: "Wind Prayers", 43: "Earth Prayers", 44: "Mysticism",
+};
 const skillIcon = (id, cls = "sk-ic") => `<img class="${cls}" src="img/skills/${id}.jpg" alt="" loading="lazy" onerror="this.remove()">`;

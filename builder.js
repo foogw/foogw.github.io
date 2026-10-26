@@ -6,18 +6,6 @@ const PICKABLE = ALL.filter(s => !s.pvp_only && s.name !== "No Skill");
 
 const PROF_IDS = ["None", "Warrior", "Ranger", "Monk", "Necromancer", "Mesmer", "Elementalist",
   "Assassin", "Ritualist", "Paragon", "Dervish"];
-const ATTRIBUTES = {
-  0: "Fast Casting", 1: "Illusion Magic", 2: "Domination Magic", 3: "Inspiration Magic",
-  4: "Blood Magic", 5: "Death Magic", 6: "Soul Reaping", 7: "Curses",
-  8: "Air Magic", 9: "Earth Magic", 10: "Fire Magic", 11: "Water Magic", 12: "Energy Storage",
-  13: "Healing Prayers", 14: "Smiting Prayers", 15: "Protection Prayers", 16: "Divine Favor",
-  17: "Strength", 18: "Axe Mastery", 19: "Hammer Mastery", 20: "Swordsmanship", 21: "Tactics",
-  22: "Beast Mastery", 23: "Expertise", 24: "Wilderness Survival", 25: "Marksmanship",
-  29: "Dagger Mastery", 30: "Deadly Arts", 31: "Shadow Arts", 32: "Communing",
-  33: "Restoration Magic", 34: "Channeling Magic", 35: "Critical Strikes", 36: "Spawning Power",
-  37: "Spear Mastery", 38: "Command", 39: "Motivation", 40: "Leadership",
-  41: "Scythe Mastery", 42: "Wind Prayers", 43: "Earth Prayers", 44: "Mysticism",
-};
 const ATTR_ID = Object.fromEntries(Object.entries(ATTRIBUTES).map(([id, n]) => [n, +id]));
 // Profession -> [primary-only attribute, other attributes]
 const PROF_ATTRS = {
@@ -66,7 +54,8 @@ function applyCode(code) {
   state.secondary = t.professions[1];
   state.ranks = Object.fromEntries(t.attributes.map(a => [a.id, Math.min(a.rank, 12)]));
   state.bar = t.skills.map(id => (SKILL.has(id) ? id : 0));
-  state.selected = state.bar.find(Boolean) || null;
+  // show the bar's elite first, if it has one
+  state.selected = state.bar.find(id => SKILL.get(id)?.elite) || state.bar.find(Boolean) || null;
 }
 
 function pointsUsed() {

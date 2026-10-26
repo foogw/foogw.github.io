@@ -77,19 +77,37 @@ const SHORT = { Prophecies: "Proph", Factions: "Factions", Nightfall: "NF", "Eye
 const campsHTML = h => (h.any_campaign ? "Any"
   : h.campaigns.map(c => `<span style="color:var(${CAMP_COLOR[c]})">${SHORT[c]}</span>`).join(" + "));
 
+// the builds suggested for each hero (the "heroes" of each build on the Builds page)
+const SUGGESTED = new Map();
+for (const b of window.GW_BUILDS?.builds || []) {
+  for (const name of b.heroes || []) (SUGGESTED.get(name) || SUGGESTED.set(name, []).get(name)).push(b);
+}
+// the whole bar opens in the builder; the code can also be copied straight away
+function barIcons(code) {
+  let skills = [];
+  try { skills = TemplateCode.decode(code).skills; } catch { /* an unreadable code shows no icons */ }
+  return skills.map(id => (id ? `<img src="img/skills/${id}.jpg" alt="" loading="lazy">` : '<i class="hb-none">?</i>')).join("");
+}
+const COPY_ICON = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>';
+const DONE_ICON = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const suggestedHTML = h => (SUGGESTED.get(h.name) || []).map(b =>
+  `<div class="hbuild">
+    <a class="hb-bar" href="builder.html#${new URLSearchParams({ code: b.code })}" title="Open ${esc(b.name)} in the builder">${barIcons(b.code)}</a>
+    <button class="hb-copy" data-copy="${esc(b.code)}" title="Copy the template code" aria-label="Copy the template code">${COPY_ICON}</button>
+  </div>`).join("");
+
 function renderList() {
   const order = ["Eye of the North", "Prophecies+Eye of the North", "Prophecies", "Prophecies+Nightfall", "Nightfall",
     "Factions+Nightfall", "Factions", "any"];
   const rows = [...HEROES].sort((a, b) => order.indexOf(groupKey(a)) - order.indexOf(groupKey(b)));
-  let html = "", group;
+  let html = `<div class="hrow hhead"><span>Campaigns</span><span>Hero</span><span>Suggested build</span><span>How to recruit</span></div>`, group;
   for (const h of rows) {
     const first = groupKey(h) !== group;
     group = groupKey(h);
     html += `<div class="hrow${first ? " first" : ""}${state.sel === h.name ? " sel" : ""}" id="h-${esc(h.name)}" style="--pc:${profColor(h.profession)}">
       <div class="hcamp" title="${esc(groupTitle(group))}">${campsHTML(h)}</div>
-      <div class="hname"><img src="img/prof/${esc(h.profession)}.png" alt=""><b>${esc(h.name)}</b>
-        <span class="dim">${esc(h.profession === "Any" ? "Any profession" : h.profession)}</span></div>
-      <div class="dim">${esc(h.region || "")}</div>
+      <div class="hname"><img src="img/prof/${esc(h.profession)}.png" alt="" title="${esc(h.profession === "Any" ? "Any profession" : h.profession)}"><b>${esc(h.name)}</b></div>
+      <div class="hbuilds">${suggestedHTML(h)}</div>
       <div>${recruitHTML(h)}</div>
     </div>`;
   }
@@ -114,3 +132,12 @@ renderVenn();
 renderList();
 const start = new URLSearchParams(location.hash.slice(1)).get("h");
 if (start && HEROES.some(h => h.name === start)) select(start, true);
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-copy]");
+  if (!b) return;
+  navigator.clipboard?.writeText(b.dataset.copy).then(() => {
+    b.innerHTML = DONE_ICON;
+    setTimeout(() => { b.innerHTML = COPY_ICON; }, 1500);
+  });
+});

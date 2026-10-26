@@ -8,6 +8,22 @@ const MISSION_NAMES = new Set((window.GW_MISSIONS || []).map(m => m.name));
 const PLACE_NAMES = new Set((window.GW_LOCATIONS || []).filter(p => p.exits).map(p => p.name));
 // how Locations names a place: no "(outpost)" or "(Post-Searing)", and an explorable twin is "X (explorable)"
 const placeName = where => where.replace(/ \((?:outpost|Post-Searing)\)$/, "").replace(/ \(explorable area\)$/, " (explorable)");
+// the teams and single builds whose bars use each skill: {team, build, n}, n being how many heroes in the team
+// run that build; a single build is its own one-build "team" linking to its page
+const USED_IN = new Map();
+const singleTeams = (window.GW_BUILDS?.singles || []).map(id => ({ id, single: true, builds: [id] }));
+for (const t of [...(window.GW_BUILDS?.teams || []), ...singleTeams]) {
+  const byId = new Map(window.GW_BUILDS.builds.map(b => [b.id, b]));
+  const counts = new Map();
+  for (const id of t.builds) counts.set(id, (counts.get(id) || 0) + 1);
+  for (const [id, n] of counts) {
+    const b = byId.get(id);
+    let skills = [];
+    try { skills = TemplateCode.decode(b.code).skills; } catch { /* an unreadable code lists nothing */ }
+    for (const sid of new Set(skills)) if (sid) (USED_IN.get(sid) || USED_IN.set(sid, []).get(sid)).push({ team: t, build: b, n });
+  }
+}
+
 // the Titles page tab for each title-rank attribute
 const TITLE_TAB = { "Sunspear rank": "Sunspear", "Lightbringer rank": "Lightbringer", "Asura rank": "Asura",
   "Deldrimor rank": "Deldrimor", "Ebon Vanguard rank": "Ebon Vanguard", "Norn rank": "Norn",
@@ -277,6 +293,9 @@ function skillPageHTML(s) {
         <section class="lbox"><h4>Description</h4><p class="sp-desc">${richText(s.description)}</p>
           ${s.concise && s.concise !== s.description ? `<p class="dim sp-concise">${richText(s.concise)}</p>` : ""}</section>
         ${TITLE_TAB[s.attribute] ? `<section class="lbox"><h4>Title</h4><p>Gets stronger with your <a href="titles.html#${new URLSearchParams({ t: TITLE_TAB[s.attribute] })}">${esc(s.attribute.replace(/ rank$/, ""))} title</a> rank.</p></section>` : ""}
+        ${USED_IN.has(s.id) ? `<section class="lbox"><h4>Used in builds</h4><ul class="lrows">${USED_IN.get(s.id).map(u =>
+          u.team.single ? `<li><a href="builds.html#${new URLSearchParams({ build: u.build.id })}">${esc(u.build.name)}</a><span class="dim">hero build</span></li>`
+            : `<li><a href="builds.html#${new URLSearchParams({ team: u.team.id })}">${esc(u.team.name)}</a><span class="dim">${esc(u.build.name)}${u.n > 1 ? ` ×${u.n}` : ""}</span></li>`).join("")}</ul></section>` : ""}
         ${versions || related ? `<section class="lbox">${versions ? `<h4>Versions</h4><div class="chips">${versions}</div>` : ""}${related ? `<h4>Related skills</h4><div class="chips">${related}</div>` : ""}</section>` : ""}
       </div>
       <div class="lside"><section class="lbox"><h4>How to get it</h4>${acquisitionHTML(s)}</section></div>
