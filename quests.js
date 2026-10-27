@@ -284,6 +284,8 @@ function questPageHTML(q) {
     <div class="lgrid">
       <div class="lside">
         ${facts.length ? `<section class="lbox"><h4>Quest</h4><ul class="lrows">${facts.map(([k, v]) => `<li><span class="dim">${k}</span><span>${v}</span></li>`).join("")}</ul></section>` : ""}
+        ${q.objectives?.length ? `<section class="lbox"><h4>Objectives</h4><ul class="qp-obj">${q.objectives.map(([d, t]) =>
+          `<li style="--d:${d}">${esc(t)}</li>`).join("")}</ul></section>` : ""}
       </div>
       <div class="lside">
         <section class="lbox"><h4>Rewards</h4>
@@ -292,7 +294,7 @@ function questPageHTML(q) {
           ${!skills.length && !q.rewards.length ? `<p class="dim">${q.xp && q.gold ? "Experience and gold only." : q.xp ? "Experience only." : q.gold ? "Gold only." : "—"}</p>` : ""}</section>
       </div>
     </div>
-    <p class="llinks">${step ? `<a href="#${new URLSearchParams({ c: step[0], q: step[1] })}">In the storyline →</a>` : ""}${skills.length && q.type !== "Primary" ? `<a href="skill-quests.html#${new URLSearchParams({ q: q.name })}">Skill quests →</a>` : ""}${q.wiki_de ? `<a href="${esc(q.wiki_de)}" target="_blank" rel="noopener">guildwiki.de</a>` : ""}</p>`;
+    <p class="llinks">${step ? `<a href="#${new URLSearchParams({ c: step[0], q: step[1] })}">In the storyline →</a>` : ""}${skills.length && q.type !== "Primary" ? `<a href="skill-quests.html#${new URLSearchParams({ q: q.name })}">Skill quests →</a>` : ""}${q.wiki_en ? `<a href="${esc(q.wiki_en)}" target="_blank" rel="noopener">Guild Wars Wiki (archived)</a>` : ""}${q.wiki_de ? `<a href="${esc(q.wiki_de)}" target="_blank" rel="noopener">guildwiki.de</a>` : ""}</p>`;
 }
 
 // the storyline, or one quest's page when the address names one

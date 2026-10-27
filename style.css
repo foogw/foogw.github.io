@@ -730,6 +730,9 @@ a.hchip { text-decoration: none; }
 .qp-skills { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
 .qp-skills .skill-link { display: inline-flex; align-items: center; gap: 6px; border-bottom: 0; align-self: flex-start; }
 .qp-rewards { margin: 8px 0 0; padding-left: 18px; font-size: 14px; }
+.qp-obj { margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.45; }
+.qp-obj li { margin-left: calc(var(--d, 0) * 18px); }
+.qp-obj li + li { margin-top: 4px; }
 .hname a { color: inherit; text-decoration: none; }
 .hname a:hover { text-decoration: underline; }
 
