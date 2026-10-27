@@ -8,14 +8,26 @@ const PROF_NAMES = ["None", "Warrior", "Ranger", "Monk", "Necromancer", "Mesmer"
 const MODE_HINT = { Fight: "Fight: attacks what you target and what attacks the party",
   Guard: "Guard: fights only to defend the party", Avoid: "Avoid: stays out of combat" };
 
+// each attribute's profession, from the skills that use it (Soul Reaping and the like have no skills of their own)
+const ATTR_PROF = Object.fromEntries(window.GW_SKILLS.filter(s => s.attribute && s.profession !== "None").map(s => [s.attribute, s.profession]));
+Object.assign(ATTR_PROF, { Strength: "Warrior", Expertise: "Ranger", "Divine Favor": "Monk", "Soul Reaping": "Necromancer",
+  "Fast Casting": "Mesmer", "Energy Storage": "Elementalist", "Critical Strikes": "Assassin", "Spawning Power": "Ritualist",
+  Leadership: "Paragon", Mysticism: "Dervish" });
+
 for (const b of BUILDS) {
   try { b._bar = TemplateCode.decode(b.code); } catch { b._bar = null; }
   b._profs = b._bar ? b._bar.professions.map(p => PROF_NAMES[p]) : [];
+  // a bar with nothing of its primary profession (no skill, no attribute) fits any primary: "Any/Paragon"
+  if (b._bar && !b._bar.skills.some(id => SKILL.get(id)?.profession === b._profs[0])
+    && !b._bar.attributes.some(a => ATTR_PROF[ATTRIBUTES[a.id]] === b._profs[0])) b._profs[0] = "None";
 }
 
 // always two icon slots wide, so build names line up whether or not a build has a secondary profession
-const profIcons = b => `<span class="bd-pi">${b._profs.filter(p => p !== "None").map(p => `<img class="bd-prof" src="img/prof/${p}.png" alt="" title="${p}">`).join("")}</span>`;
-const profText = b => b._profs.map(p => (p === "None" ? "Any" : p)).join(" / ");
+// an "Any" primary shows the grey any-profession icon; a missing secondary shows nothing
+const profIcons = b => `<span class="bd-pi">${b._profs.map((p, i) => (p !== "None" ? p : i === 0 ? "Any" : null)).filter(Boolean)
+  .map(p => `<img class="bd-prof" src="img/prof/${p}.png" alt="" title="${p}">`).join("")}</span>`;
+// "Any" for an any-primary bar; no secondary is simply left out ("Monk", not "Monk / Any")
+const profText = b => b._profs.map((p, i) => (p !== "None" ? p : i === 0 ? "Any" : null)).filter(Boolean).join(" / ");
 
 // the player's tag, or a hero's behaviour when the build sets one
 const modeHTML = b => (b.role === "You" ? '<span class="bd-mode you">You</span>'

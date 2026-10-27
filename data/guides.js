@@ -44,15 +44,15 @@ window.GW_GUIDES = [
           { builds: [
             { name: "Player", role: "You", skills: [null, null, null, null, null, null, null, "Heroic Refrain"],
               note: "Any profession. 5 Leadership from an \"of the Paragon\" mod; health by LB rank (table below)." },
-            { name: "Bonder 1", code: "OwAS8Y4NHkrPNRfkSAAAAAA", mode: "Avoid",
+            { name: "Prot Bonder", code: "OwAS8Y4NHkrPNRfkSAAAAAA", mode: "Avoid",
               note: "Bonds first. 16 Protection (18 after Heroic Refrain), 7 Divine Favor." },
-            { name: "Bonder 2", code: "OwAT043Ct4gi8f6LlAAAAAA", mode: "Avoid",
+            { name: "Heal Bonder", code: "OwAT043Ct4gi8f6LlAAAAAA", mode: "Avoid",
               note: "Bonds second. 16 Healing (18 after Heroic Refrain), 11 Protection (13 after Heroic Refrain), 7 Divine Favor." },
             { name: "Keystone", code: "OQNCA8wDP9B8DyzmOUi1veC", mode: "Fight",
               note: "16 Fast Casting, 15 Inspiration with runes. No weapon." },
           ] },
           { box: { title: "Optional: without Heroic Refrain", blocks: [
-              { p: "As an alternative at LB4 and up, you can be the third bonder instead of using Heroic Refrain. Two bonders need 18 and 13 Protection, but three can do with 13, 8 and 3: bonder 1 at 13, bonder 2 at 8 and you at 3, bonding in that order." },
+              { p: "As an alternative at LB4 and up, you can be the third bonder instead of using Heroic Refrain. Two bonders need 18 and 13 Protection, but three can do with 13, 8 and 3: the Prot Bonder at 13, the Heal Bonder at 8 and you at 3, bonding in that order." },
               { builds: [
                 { name: "Player", role: "You", skills: ["Protective Bond", "Balthazar's Spirit", null, null, null, null, null, null],
                   note: "Monk secondary with 3 Protection. Balthazar's Spirit fully pays for your share of the bond." },
@@ -83,7 +83,7 @@ window.GW_GUIDES = [
           { box: { title: "Optional: extra safety", blocks: [
             { ul: [
               "Energy: \"of the Necromancer\" weapons on both bonders.",
-              "Health: a +1/20% Protection item on bonder 1, recasting Purifying Veil until it lands at 62%, which cuts Burning to 2 seconds.",
+              "Health: a +1/20% Protection item on the Prot Bonder, recasting Purifying Veil until it lands at 62%, which cuts Burning to 2 seconds.",
             ] },
           ] } },
         ],

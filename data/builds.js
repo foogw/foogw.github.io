@@ -106,7 +106,7 @@ window.GW_BUILDS = {
       source: { name: "PvXwiki: N/Me SS Nuker (archived, was Great)", url: PVX + "Archive:N/Me_SS_Nuker" },
     },
     {
-      id: "pl-esurge", name: "Energy Surge", code: "OQBDAqwDSLBnATPmO5A4U5Uwl",
+      id: "pl-esurge", name: "ESurge", code: "OQBDAqwDSLBnATPmO5A4U5Uwl",
       runes: { "Domination Magic": "3+1", "Fast Casting": "1", "Inspiration Magic": "1" },
       summary: "Energy Surge doubled by Arcane Echo for big area damage, with Mistrust, Unnatural Signet, Cry of Frustration and Spiritual Pain; Drain Delusions and Air of Superiority keep it running.",
       gear: { insignias: "Prodigy's, Radiant or Survivor", weapons: ["40/40 Domination set", "40/40 Inspiration set", "High energy Inspiration set"] },
@@ -386,25 +386,25 @@ window.GW_BUILDS = {
       gear: { ...PVX_GEAR, insignias: "Shaman's on every piece", weapons: ["Defensive \"Aptitude Not Attitude\" Channeling Staff of Mastery"] },
     },
     {
-      id: "zos-bip", name: "Blood is Power", mode: "Guard", code: "OAhjQkGZIP3hq6QT4JNncVvhJA",
+      id: "zos-bip", name: "BiP", mode: "Guard", code: "OAhjQkGZIP3hq6QT4JNncVvhJA",
       runes: { "Blood Magic": "3+1", "Soul Reaping": "1" },
       summary: "Energy support with Blood is Power, healing with Spirit Transfer, Spirit Light and Mend Body and Soul, plus Recuperation and Protective Was Kaolai.",
       gear: { ...PVX_GEAR, insignias: "Tormentor's on every piece", weapons: ["Adept \"Aptitude Not Attitude\" Restoration Staff of Enchanting (the mods barely matter: it usually holds an urn)"] },
     },
     {
-      id: "zos-mm", name: "Minion Master", mode: "Guard", code: "OABDQTxGTIVVVlMUBKg4BbhKCA",
+      id: "zos-mm", name: "MM", mode: "Guard", code: "OABDQTxGTIVVVlMUBKg4BbhKCA",
       runes: { "Death Magic": "3+1", "Soul Reaping": "1", "Blood Magic": "1" },
       summary: "Minion master holding the middle of the hill: Order of Undeath, Putrid Bile and Dark Bond.",
       gear: { ...PVX_GEAR, insignias: "1 Bloodstained + Tormentor's", weapons: ["Adept \"Aptitude Not Attitude\" Death Magic Staff of Mastery"] },
     },
     {
-      id: "zos-esurge", name: "Energy Surge", mode: "Fight", code: "OQNEArwj1ycCyBTPT3QAnmBaCA",
+      id: "zos-esurge", name: "ESurge", mode: "Fight", code: "OQNEArwj1ycCyBTPT3QAnmBaCA",
       runes: { "Domination Magic": "3+1", "Fast Casting": "1", "Inspiration Magic": "1" },
       summary: "Energy denial and damage with Energy Surge, Mistrust and Spiritual Pain, plus Chaos Storm and Shatter Hex.",
       gear: { ...PVX_GEAR, insignias: "Prodigy's on every piece", weapons: ["20/20 Domination wand and focus"] },
     },
     {
-      id: "zos-esurge-rez", name: "Energy Surge (resurrect)", mode: "Fight", code: "OQNEArwj1ycCyBTPT3QAnmBQjA",
+      id: "zos-esurge-rez", name: "ESurge (resurrect)", mode: "Fight", code: "OQNEArwj1ycCyBTPT3QAnmBQjA",
       runes: { "Domination Magic": "3+1", "Fast Casting": "1", "Inspiration Magic": "1" },
       summary: "The same Energy Surge bar with Resurrection Chant in place of Chaos Storm.",
       gear: { ...PVX_GEAR, insignias: "Prodigy's on every piece", weapons: ["20/20 Domination wand and focus"] },
@@ -412,44 +412,44 @@ window.GW_BUILDS = {
 
     /* ---------- GoM AFK ---------- */
     {
-      id: "gom-player", name: "Heroic Refrain", role: "You", code: "OAlBcMBAAAAAAAAAAAAAcWD",
+      id: "gom-player", name: "Heroic Refrain", role: "You", code: "OAlAQAAAAAAAAAAAAAAn1",
       summary: "Your bar holds only Heroic Refrain.",
     },
     {
-      id: "gom-signets", name: "Keystone signets", mode: "Fight", code: "OQNDA8w+M80HwPIPb6qnWfUC",
+      id: "gom-signets", name: "Keystone", mode: "Fight", code: "OQNDA8w+M80HwPIPb6qnWfUC",
       insignia: "Prodigy's",
       runes: { "Fast Casting": "3+1", "Inspiration Magic": "3" },
       summary: "Signet damage through Keystone Signet: Symbolic Celerity and Mantra of Inscriptions, with Signet of Clumsiness, Unnatural Signet, Signet of Rage, Castigation Signet and Bane Signet.",
     },
     {
-      id: "gom-bonder", name: "Bonder", mode: "Avoid", code: "OwUTMyHDz5gc91H0kUCAAAAAAA",
-      insignia: "Blessed",
+      id: "gom-bonder", name: "Prot Bonder", mode: "Avoid", code: "OwUTMyHDz5gc91H0kUCAAAAAAA",
+      insignia: "Radiant",
       summary: "Protective Bond, Essence Bond, Purifying Veil and Succor, with Blessed Signet for energy.",
     },
     {
-      id: "gom-healer", name: "Bonder and healer", mode: "Avoid", code: "OwAT04HCz4giUf/LlAAAAAA",
-      insignia: "Blessed",
+      id: "gom-healer", name: "Heal Bonder", mode: "Avoid", code: "OwAT04HCz4giUf/LlAAAAAA",
+      insignia: "Radiant",
       summary: "Protective Bond, Essence Bond, Mending and Watchful Spirit, with Blessed Signet for energy.",
     },
 
     /* ---------- Meta hero team ---------- */
     {
-      id: "meta-st", heroes: ["Xandra"], name: "Soul Twisting", mode: "Avoid", code: "OAmjAykrpNYTr3jLc6MhmI3mJA",
+      id: "meta-st", heroes: ["Xandra"], name: "ST", mode: "Avoid", code: "OAmjAykrpNYTr3jLc6MhmI3mJA",
       runes: { Communing: "3+1", "Spawning Power": "1" }, insignia: "Shaman's",
       summary: "Soul Twisting protective spirits (Shelter, Union, Displacement) with Armor of Unfeeling, Boon of Creation, Spirit's Gift and Explosive Growth.",
     },
     {
-      id: "meta-bip", heroes: ["Livia"], name: "Blood is Power", mode: "Guard", code: "OAhjQkGZIP3hhWVV4JNncDzxJA",
+      id: "meta-bip", heroes: ["Livia"], name: "BiP", mode: "Guard", code: "OAhjQkGZIP3hhWVV4JNncDzxJA",
       runes: { "Blood Magic": "3+1", "Soul Reaping": "1" }, insignia: "Tormentor's",
       summary: "Energy support with Blood is Power, healing with Spirit Transfer, Spirit Light, Mend Body and Soul, Protective Was Kaolai and Life.",
     },
     {
-      id: "meta-mm", heroes: ["Olias"], name: "Minion Master with shouts", mode: "Guard", code: "OAljUwGopSKgUB4BVVbh8Y7Y1YA",
+      id: "meta-mm", heroes: ["Olias"], name: "MM Command", mode: "Guard", code: "OAljUwGopSKgUB4BVVbh8Y7Y1YA",
       runes: { "Death Magic": "3+1", "Soul Reaping": "1" }, insignia: "1 Bloodstained + Tormentor's",
       summary: "Minion master with Putrid Bile, and the Paragon shouts \"Incoming!\", \"Fall Back!\" and \"Stand Your Ground!\".",
     },
     {
-      id: "meta-esurge", heroes: ["Gwen", "Norgu"], name: "Energy Surge", mode: "Fight", code: "OQhjAwCcoMngpXOw0hTHCXMXAA",
+      id: "meta-esurge", heroes: ["Gwen", "Norgu"], name: "ESurge", mode: "Fight", code: "OQhjAwCcoMngpXOw0hTHCXMXAA",
       runes: { "Domination Magic": "3+1", "Fast Casting": "1" }, insignia: "Prodigy's",
       summary: "Energy denial and damage with Energy Surge, Mistrust and Spiritual Pain, plus Shatter Hex, Guilt and Flesh of My Flesh.",
     },
