@@ -196,7 +196,8 @@ table.rewards, table.npcs { border-collapse: collapse; font-size: 13px; width: 1
 table.rewards th { text-align: left; font-size: 12px; padding: 2px 8px 2px 0; }
 table.rewards td { padding: 2px 8px 2px 0; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums; }
 table.rewards .num, table.npcs .num { text-align: right; }
-.rmode { font-size: 12px; margin: 8px 0 2px; }
+.rmode { font-size: 12px; margin: 18px 0 0; }
+h4 + .rmode, p + .rmode { margin-top: 4px; }
 table.npcs td { padding: 2px 8px 2px 0; vertical-align: top; }
 table.npcs td.num { width: 64px; white-space: nowrap; padding-right: 12px; }
 table.npcs td.pdot { width: 30px; color: var(--pc); font-weight: 600; font-size: 12px; }

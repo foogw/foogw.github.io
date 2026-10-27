@@ -170,22 +170,6 @@ function rowHTML(m, f) {
   </div>`;
 }
 
-// what Expert and Master ask for: the requirement column, or else the first extra column that changes with the tier
-function goalHTML(r) {
-  const tiers = Object.fromEntries(r.rows.filter(x => x.mode === "Normal").map(x => [x.tier, x]));
-  if (!tiers.Master || !tiers.Expert) return "";
-  let label = r.requirement, value = x => x.req;
-  if (!label) {
-    const i = r.extra.findIndex((_, k) => new Set(Object.values(tiers).map(x => x.extra[k])).size > 1 && !/points$/i.test(r.extra[k]));
-    if (i < 0) return "";
-    label = r.extra[i]; value = x => x.extra[i];
-  }
-  const goal = label === "Time"
-    ? `Finish faster for better rewards: Master ${value(tiers.Master)}, Expert ${value(tiers.Expert)}.`
-    : `The reward tier depends on ${label.toLowerCase()}: Master at ${value(tiers.Master)}, Expert at ${value(tiers.Expert)}, Standard otherwise.`;
-  return `<p class="rgoal">${esc(goal.replace("< ", "under ").replace("> ", "over "))}</p>`;
-}
-
 // Eye of the North missions: reputation the first time and on repeats, and the same experience every time
 function reputationHTML(r) {
   return `<p class="rgoal">${r.xp.toLocaleString("en")} XP for each completion.</p><table class="rewards">
@@ -197,9 +181,10 @@ function rewardsHTML(r) {
   if (!r) return '<p class="dim">No fixed rewards (score-based or none).</p>';
   if (r.reputation) return reputationHTML(r);
   const modes = ["Normal", "Hard"];
-  const goal = goalHTML(r);
-  const head = `<tr><th></th>${r.requirement ? `<th>${esc(r.requirement)}</th>` : ""}<th class="num">XP</th><th class="num">Gold</th><th class="num">Skill pts</th>${r.extra.map(x => `<th class="num">${esc(x)}</th>`).join("")}</tr>`;
-  return goal + modes.map(mode => {
+  // Standard/Expert/Master are tiers; Prophecies pays the mission and its bonus separately
+  const first = r.rows.some(x => x.tier === "Bonus") ? "For" : "Tier";
+  const head = `<tr><th>${first}</th>${r.requirement ? `<th>${esc(r.requirement)}</th>` : ""}<th class="num">XP</th><th class="num">Gold</th><th class="num">Skill pts</th>${r.extra.map(x => `<th class="num">${esc(x)}</th>`).join("")}</tr>`;
+  return modes.map(mode => {
     const rows = r.rows.filter(x => x.mode === mode);
     if (!rows.length) return "";
     return `<div class="rmode">${mode} mode</div><table class="rewards">${head}${rows.map(x =>
@@ -239,6 +224,7 @@ function missionPageHTML(m) {
   // story missions are steps of their campaign's storyline, named by the German title (Eye of the North's as quests)
   const flowStep = m.story_order && (m.campaign === "Eye of the North" ? "q:" : "m:") + m.name_de;
   const builds = (window.GW_BUILDS?.teams || []).filter(t => t.mission === m.name);
+  const bonus = (m.objectives || []).find(o => o[2]);  // what the Bonus reward row is for
   const story = [
     before.length && ["After", before.map(x => missionLink(x.name)).join(", ")],
     m.leads_to.length && ["Leads to", m.leads_to.map(placeLink).join(", ")],
@@ -258,7 +244,7 @@ function missionPageHTML(m) {
       <div class="lside">
         ${m.objectives?.length ? `<section class="lbox"><h4>Objectives</h4><ul class="qp-obj">${m.objectives.map(([d, o, bonus]) =>
           `<li style="--d:${d}"${bonus ? ' class="bonus"' : ""}>${bonus ? "<b>Bonus:</b> " : ""}${esc(o)}</li>`).join("")}</ul></section>` : ""}
-        <section class="lbox"><h4>Rewards</h4>${rewardsHTML(m.rewards)}</section>
+        <section class="lbox"><h4>Rewards</h4>${bonus ? `<p class="rgoal"><b>Bonus:</b> ${esc(bonus[1])}</p>` : ""}${rewardsHTML(m.rewards)}</section>
         <section class="lbox"><h4>Bosses</h4>${bosses}</section>
         <section class="lbox"><h4>Foes</h4>${groupedNpcs(m.foes, f)}</section>
       </div>
