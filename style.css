@@ -917,3 +917,44 @@ a.hchip { text-decoration: none; }
 .missions .row.mrow:hover, .missions .row.mrow.open { background: color-mix(in srgb, var(--rt) 16%, var(--panel)); }
 .missions .row.mrow .col-region { color: color-mix(in srgb, var(--rt) 70%, var(--text)); }
 .rgoal { margin: 4px 0 8px; font-size: 13px; color: color-mix(in srgb, var(--text) 85%, var(--muted)); }
+
+/* ---------- guides ---------- */
+.gd-toc { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 12px 0 0; font-size: 14px; }
+.gd-toc a { text-decoration: none; }
+.gd { max-width: 1000px; font-size: 15px; line-height: 1.55; }
+.gd section { scroll-margin-top: calc(var(--hdr-h, 60px) + 12px); }
+.gd section::after { content: ""; display: table; clear: both; }
+.gd h2 { font-size: 21px; margin: 26px 0 8px; }
+.gd h3 { font-size: 16px; margin: 18px 0 4px; }
+.gd p { margin: 8px 0; }
+.gd ul, .gd ol { margin: 6px 0; padding-left: 22px; }
+.gd li + li { margin-top: 3px; }
+.gd-builds { margin: 12px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 2px 12px; }
+.gd-build { display: grid; grid-template-columns: 170px auto minmax(0, 1fr); align-items: center; gap: 6px 14px; padding: 8px 0; border-top: 1px solid var(--line); }
+.gd-build:first-child { border-top: 0; }
+.gd-who { display: flex; align-items: center; gap: 6px; font-size: 14px; min-width: 0; }
+.gd-who .bd-mode { margin-left: auto; padding: 1px 8px; }
+.gd-info { font-size: 13px; line-height: 1.4; min-width: 0; }
+.gd-info .bd-attrs { margin: 0 0 3px; font-size: 12px; }
+.gd-info .bd-note { margin: 0; font-size: 13px; }
+.gd-info .bd-actions { margin-top: 3px; font-size: 12.5px; }
+.gd-build .bd-noskill:empty { border-style: dashed; opacity: .6; }
+@media (max-width: 760px) {
+  .gd-build { grid-template-columns: minmax(0, 1fr); }
+  .gd-build .bd-obar { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+  .gd-build .bd-obar img, .gd-build .bd-obar .bd-noskill { width: 100%; height: auto; aspect-ratio: 1; }
+}
+.gd-fig { margin: 14px 0; }
+.gd-fig img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); }
+.gd-fig figcaption { margin-top: 6px; font-size: 13px; color: var(--muted); line-height: 1.45; }
+.gd-fig.side { float: right; width: min(300px, 40%); margin: 4px 0 12px 20px; }
+.gd-table { overflow-x: auto; margin: 10px 0; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.gd-table table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+.gd-table th, .gd-table td { padding: 6px 10px; text-align: left; border-top: 1px solid var(--line); vertical-align: top; }
+.gd-table th { border-top: 0; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); white-space: nowrap; }
+.gd-table td:first-child { font-weight: 700; }
+.gd-notes { list-style: none; padding-left: 0 !important; font-size: 13px; color: var(--muted); }
+.gd-qa dt { font-weight: 700; margin-top: 12px; }
+.gd-qa dd { margin: 2px 0 0; }
+.gd-src { font-size: 14px; margin-top: 22px; }
+@media (max-width: 600px) { .gd-fig.side { float: none; width: 100%; margin: 14px 0; } }
