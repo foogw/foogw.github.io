@@ -48,7 +48,10 @@ const modeHTML = b => (b.role === "You" ? '<span class="bd-mode you">You</span>'
 
 // one build per row: who, the bar, then its attributes, a note and the code
 function buildHTML(b) {
-  const attrs = byRank(b._bar?.attributes || []).map(a => `<span>${esc(ATTRIBUTES[a.id] || "")} ${a.rank}</span>`).join("");
+  const attrs = byRank(b._bar?.attributes || [], b.runes).map(a => {
+    const name = ATTRIBUTES[a.id] || "", runes = b.runes?.[name];
+    return `<span>${esc(name)} ${a.rank}${runes ? `+${esc(runes)}` : ""}</span>`;
+  }).join("") + (b.insignia ? `<span class="bd-ins">${esc(b.insignia)}</span>` : "");
   return `<div class="gd-build" style="--pc:${profVar(b._profs[0])}">
     <div class="gd-who">${profIcons(b)}<b>${esc(b.name)}</b>${modeHTML(b)}</div>
     <div class="bd-obar">${b._skills.map(id => {

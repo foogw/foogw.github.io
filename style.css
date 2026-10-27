@@ -925,7 +925,7 @@ a.hchip { text-decoration: none; }
 /* ---------- guides ---------- */
 .gd-toc { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 12px 0 0; font-size: 14px; }
 .gd-toc a { text-decoration: none; }
-.gd { max-width: 1000px; font-size: 15px; line-height: 1.55; }
+.gd { max-width: 1120px; font-size: 15px; line-height: 1.55; }
 .gd section { scroll-margin-top: calc(var(--hdr-h, 60px) + 12px); }
 .gd section::after { content: ""; display: table; clear: both; }
 .gd h2 { font-size: 21px; margin: 26px 0 8px; }
@@ -934,7 +934,7 @@ a.hchip { text-decoration: none; }
 .gd ul, .gd ol { margin: 6px 0; padding-left: 22px; }
 .gd li + li { margin-top: 3px; }
 .gd-builds { margin: 12px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 2px 12px; }
-.gd-build { display: grid; grid-template-columns: 170px auto minmax(0, 1fr); align-items: center; gap: 6px 14px; padding: 8px 0; border-top: 1px solid var(--line); }
+.gd-build { display: grid; grid-template-columns: 210px auto minmax(0, 1fr); align-items: center; gap: 6px 14px; padding: 8px 0; border-top: 1px solid var(--line); }
 .gd-build:first-child { border-top: 0; }
 .gd-who { display: flex; align-items: center; gap: 6px; font-size: 14px; min-width: 0; }
 .gd-who .bd-mode { margin-left: auto; padding: 1px 8px; }

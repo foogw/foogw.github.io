@@ -1,7 +1,8 @@
 /* Guides, written by hand. Each guide is a list of sections, and each section a list of blocks:
    { h }, { p }, { note } (a paragraph set apart), { box: { title, blocks } } (an indented aside, for an option), { ul: [...] }, { ol: [...] }, { table: { head, rows, notes } }, { builds: [...] }, { qa: [[q, a]] }
    or { img: { src, caption, side } }.
-   A build has a template code, or skills by name (null for a free slot) when no code fits it.
+   A build has a template code, or skills by name (null for a free slot) when no code fits it, and may have runes as on
+   the Builds page ({ "Fast Casting": "3+1" }).
    In text, {skill:Name} links a skill with its icon, {skillname:Name} without, {place:Name} a location, {mission:Name} a mission, {page:href|text} another
    page and {ext:href|text} another site, {quest:Name} a quest and {hero:Name} a hero.
    { route: [{ start | map | step: place, steps: [{ t, take: [...], go: [...], done: [...] }] }] } is a numbered walk in
@@ -44,11 +45,11 @@ window.GW_GUIDES = [
           { builds: [
             { name: "Player", role: "You", skills: [null, null, null, null, null, null, null, "Heroic Refrain"],
               note: "Any profession. 5 Leadership from an \"of the Paragon\" mod; health by LB rank (table below)." },
-            { name: "Prot Bonder", code: "OwAS8Y4NHkrPNRfkSAAAAAA", mode: "Avoid",
+            { name: "Prot Bonder", code: "OwAS8Y4NHkrPNRfkSAAAAAA", mode: "Avoid", runes: { "Protection Prayers": "3+1" }, insignia: "Radiant",
               note: "Bonds first. 16 Protection (18 after Heroic Refrain), 7 Divine Favor." },
-            { name: "Heal Bonder", code: "OwAT043Ct4gi8f6LlAAAAAA", mode: "Avoid",
+            { name: "Heal Bonder", code: "OwAT043Ct4gi8f6LlAAAAAA", mode: "Avoid", runes: { "Healing Prayers": "3+1", "Divine Favor": "1" }, insignia: "Radiant",
               note: "Bonds second. 16 Healing (18 after Heroic Refrain), 11 Protection (13 after Heroic Refrain), 7 Divine Favor." },
-            { name: "Keystone", code: "OQNCA8wDP9B8DyzmOUi1veC", mode: "Fight",
+            { name: "Keystone", code: "OQNCA8wDP9B8DyzmOUi1veC", mode: "Fight", runes: { "Fast Casting": "3+1", "Inspiration Magic": "3" },
               note: "16 Fast Casting, 15 Inspiration with runes. No weapon." },
           ] },
           { box: { title: "Optional: without Heroic Refrain", blocks: [
