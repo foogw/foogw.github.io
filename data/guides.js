@@ -6,7 +6,7 @@
    page and {ext:href|text} another site, {quest:Name} a quest and {hero:Name} a hero.
    { route: [{ start | map | step: place, steps: [{ t, take: [...], go: [...], done: [...] }] }] } is a numbered walk in
    legs, one per place: where you start, map travel to an outpost, or a step through a portal. Each step says what to
-   do, and the quests it takes, moves on and turns in. { routeTotal } sums the XP of the quests the route finishes.
+   do, and the quests it takes, moves on and turns in. { routeTotal } sums the XP of the quests the route finishes, and counts its zone loads.
    { questIndex: { region, skip: { name: reason } } } lists every quest of a
    region with its rewards and the steps that take and finish it. */
 const GWW_FOO = "https://wiki.guildwars.com/wiki/User:Foo/GoM";

@@ -154,7 +154,8 @@ function blockHTML(x, g) {
   if (x.routeTotal) {
     const r = routeOf(g), qs = [...r.at.keys()].filter(n => r.at.get(n).done).map(n => QUEST_BY_NAME.get(n)).filter(Boolean);
     const sum = k => qs.reduce((s, q) => s + (q[k] || 0), 0).toLocaleString("en");
-    return `<p class="gd-total">In all: <b>${sum("xp")} XP</b> from ${qs.length} quests.</p>`;
+    const loads = r.route.length;  // the start, and every map travel and portal, loads a zone
+    return `<p class="gd-total">In all: <b>${sum("xp")} XP</b> from ${qs.length} quests, in <b>${loads} zone loads</b>.</p>`;
   }
   if (x.questIndex) return questIndexHTML(g, x.questIndex);
   if (x.qa) return `<dl class="gd-qa">${x.qa.map(([q, a]) => `<dt>${text(q)}</dt><dd>${text(a)}</dd>`).join("")}</dl>`;
