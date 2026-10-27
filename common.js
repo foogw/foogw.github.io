@@ -91,7 +91,8 @@ function dailyWhere(r, e) {
   if (!place) return "";
   PLACE_INFO ||= new Map([...(window.GW_MISSIONS || []).map(m => [m.name, m]), ...(window.GW_LOCATIONS || []).map(p => [p.name, p])]);
   const p = PLACE_INFO.get(place) || PLACE_INFO.get(`${place} (explorable)`);
-  const parts = [...new Set([r.key === "zaishen-bounty" && place, p?.region, p?.campaign].filter(Boolean))];
+  // a place without a page here (a landmark such as the Fortress of Jahai) carries its own region and campaign
+  const parts = [...new Set([r.key === "zaishen-bounty" && place, p?.region || e.region, p?.campaign || e.campaign].filter(Boolean))];
   return parts.length ? ` <span class="dim">· ${parts.map(esc).join(" · ")}</span>` : "";
 }
 
