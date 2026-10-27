@@ -77,6 +77,7 @@ const nicholasItemHTML = e => (e.map ? `<a href="${esc(e.map)}" target="_blank" 
 function rotationEntryHTML(r, e, missionNames) {
   const name = r.key === "zaishen-mission" && missionNames && missionNames.has(e.name)
     ? `<a href="${esc(missionHref(e.name))}">${esc(e.name)}</a>`
+    : r.key === "weekly-pve" ? `<a href="rotations.html#${new URLSearchParams({ bonus: e.name })}">${esc(e.name)}</a>`
     : r.key === "nicholas-traveler" ? nicholasItemHTML(e) : esc(e.name);
   if (e.count) return `${e.count} × ${name} <span class="dim">— ${esc(e.where)}, ${esc(e.region)}</span>`;
   return name;

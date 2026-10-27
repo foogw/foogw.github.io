@@ -64,10 +64,91 @@ function render() {
   $("tz").textContent = `Times in your time zone. Dailies change at ${fmtTime.format(daily)}, Nicholas Sandford at ${fmtTime.format(sandford)}, weeklies on ${new Intl.DateTimeFormat(undefined, { weekday: "long" }).format(weekly)} at ${fmtTime.format(weekly)}.`;
 }
 
-$find.value = new URLSearchParams(location.hash.slice(1)).get("q") || "";
+/* ---------- one weekly PvE bonus's page ---------- */
+const BONUS = new Map((window.GW_BONUSES || []).map(b => [b.name, b]));
+const PLACES = new Set((window.GW_LOCATIONS || []).map(p => p.name));
+const fmtWeek = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+// a place, or its explorable twin when an outpost has the same name
+const placeLink = name => {
+  const place = [name, `${name} (explorable)`].find(n => PLACES.has(n));
+  return place ? `<a href="locations.html#${new URLSearchParams({ place })}">${esc(name)}</a>` : esc(name);
+};
+// tips mark links as {place:Name} and {page:href|text}
+const tipHTML = t => esc(t).replace(/\{place:([^}]+)\}/g, (_, n) => placeLink(n))
+  .replace(/\{page:([^|}]+)\|([^}]+)\}/g, (_, href, text) => `<a href="${href}">${text}</a>`);
+
+// the weeks this bonus runs, from the current one on: [start, end] in ms
+function bonusWeeks(name, count) {
+  const r = ROT["weekly-pve"], k0 = Rotation.period(r), out = [];
+  for (let k = k0; out.length < count; k++) {
+    if (Rotation.entry(r, k).name === name) out.push([Rotation.startsAt(r, k), Rotation.startsAt(r, k + 1)]);
+  }
+  return out;
+}
+
+// a daily rotation's picks during one week, by the day each starts
+function dailyPicks(key, [start, end]) {
+  const r = ROT[key], out = [];
+  // dailies reset an hour after the weekly bonus: the one already running at its start is left out
+  for (let k = Rotation.period(r, start) + 1; Rotation.startsAt(r, k) < end; k++) out.push([Rotation.startsAt(r, k), Rotation.entry(r, k)]);
+  return out;
+}
+
+function bonusPageHTML(b) {
+  const weeks = bonusWeeks(b.name, 4);
+  const now = Date.now();
+  const active = weeks[0][0] <= now;
+  const status = active ? `Active now, ends in ${timeLeft(weeks[0][1] - now)}` : `Next: ${fmtWeek.format(weeks[0][0])}`;
+  const week = weeks[0];
+  const picks = b.daily ? dailyPicks(b.daily, week) : [];
+  const pickHTML = e => (b.daily === "zaishen-mission" ? rotationEntryHTML(ROT[b.daily], e, MISSION_NAMES)
+    : b.daily === "zaishen-vanquish" ? placeLink(e.name) : esc(e.name));
+  const others = window.GW_BONUSES.filter(x => x !== b);
+  return `<p class="back"><a href="#">← Rotations</a></p>
+    <div class="sp-head" style="--pc:var(--accent)">
+      <div class="sp-title"><h2>${esc(b.name)} Bonus</h2><div class="sp-sub">Weekly PvE bonus · Monday 15:00 UTC to the next Monday</div></div>
+      <div class="lstats"><span class="lstat"><small>${active ? "This week" : "Next"}</small><b>${esc(active ? `ends in ${timeLeft(week[1] - now)}` : fmtDay.format(week[0]))}</b></span></div>
+    </div>
+    <div class="lgrid">
+      <div class="lside">
+        <section class="lbox"><h4>What it does</h4><p class="sp-desc">${esc(b.effect)}</p>
+          <p class="dim sp-concise">In game: “${esc(b.announcement)}”</p></section>
+        <section class="lbox"><h4>Best things to do</h4><ul class="lnotes">${b.tips.map(t => `<li>${tipHTML(t)}</li>`).join("")}</ul></section>
+      </div>
+      <div class="lside">
+        <section class="lbox"><h4>When</h4><ul class="lrows">${weeks.map(([s, e], i) =>
+          `<li><span>${fmtWeek.format(s)}</span><span class="dim">${i === 0 && active ? "now" : `to ${fmtDay.format(e)}`}</span></li>`).join("")}</ul>
+          <p class="dim" style="margin:8px 0 0;font-size:12px">${esc(status)}. Times in your time zone; the nine PvE bonuses take turns, one per week.</p></section>
+        ${picks.length ? `<section class="lbox"><h4>${{ "zaishen-mission": "Zaishen missions", "zaishen-bounty": "Zaishen bounties", "zaishen-vanquish": "Zaishen vanquishes" }[b.daily]} ${active ? "this week" : "that week"}</h4><ul class="lrows">${picks.map(([t, e]) =>
+          `<li><span>${pickHTML(e)}</span><span class="dim">${fmtDay.format(t)}</span></li>`).join("")}</ul></section>` : ""}
+        <section class="lbox"><h4>Other PvE bonuses</h4><div class="chips">${others.map(x =>
+          `<a class="chip" style="text-decoration:none" href="#${new URLSearchParams({ bonus: x.name })}">${esc(x.name)}</a>`).join("")}</div></section>
+      </div>
+    </div>
+    <p class="dim" style="font-size:12px;margin-top:10px">Effects from the <a href="https://web.archive.org/web/2025/https://wiki.guildwars.com/wiki/Weekly_bonuses" target="_blank" rel="noopener">Guild Wars Wiki</a> (archived); tips written for this site.</p>`;
+}
+
+// the rotation tables, or one bonus's page when the address names one
+function show() {
+  const p = new URLSearchParams(location.hash.slice(1));
+  const b = BONUS.get(p.get("bonus"));
+  $("browse").hidden = !!b;
+  $("bonus").hidden = !b;
+  if (b) {
+    $("bonus").innerHTML = bonusPageHTML(b);
+    document.title = `${b.name} Bonus · GW Rotations`;
+    window.scrollTo(0, 0);
+    return;
+  }
+  document.title = "GW Rotations";
+  $find.value = p.get("q") || "";
+  render();
+}
+
 $find.addEventListener("input", () => {
   history.replaceState(null, "", $find.value ? "#q=" + encodeURIComponent($find.value) : location.pathname);
   render();
 });
-render();
-setInterval(renderNow, 30000);
+show();
+window.addEventListener("hashchange", show);
+setInterval(() => { if (!$("browse").hidden) renderNow(); }, 30000);
