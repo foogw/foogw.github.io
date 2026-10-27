@@ -64,7 +64,7 @@
   </div>
 
   <div class="gsearch">
-    <input type="search" id="q" placeholder="Search skills, missions, quests, bosses or pages — e.g. energy surge, thirsty, rotations" autocomplete="off" autofocus>
+    <input type="search" id="q" placeholder="Search skills, missions, places, quests, bosses or pages — e.g. energy surge, thirsty, fow" autocomplete="off" autofocus>
   </div>
   <div class="results" id="results"></div>
 
@@ -94,6 +94,8 @@
 "use strict";
 const SKILLS = window.GW_SKILLS.filter(s => !s.pvp_only);
 const MISSIONS = window.GW_MISSIONS;
+const PLACES = (window.GW_LOCATIONS || []).filter(p => p.type !== "arena");
+for (const p of PLACES) p._k = fold(`${p.name} ${aliasText(p.name)}`);
 const SKILL = new Map(window.GW_SKILLS.map(s => [s.id, s]));
 for (const s of SKILLS) s._k = fold(`${s.name} ${aliasText(s.name)}`);
 for (const m of MISSIONS) {
@@ -167,7 +169,8 @@ function search(q) {
   const word = (w, t) => w.startsWith(t) || (w.length >= 4 && t.startsWith(w) && t.length - w.length <= 1);
   const pages = PAGES.filter(p => ts.every(t => p._k.split(" ").some(w => word(w, t))));
   const quests = QUESTS.filter(q => has(q._k)).sort((a, b) => rank(a._k, ts[0]) - rank(b._k, ts[0]) || cmpStr(a.name, b.name));
-  return { ts, pages, skills, missions, quests, bosses };
+  const places = PLACES.filter(p => has(p._k)).sort((a, b) => rank(a._k, ts[0]) - rank(b._k, ts[0]) || cmpStr(a.name, b.name));
+  return { ts, pages, skills, missions, places, quests, bosses };
 }
 
 function section(title, items, render, moreHref) {
@@ -191,6 +194,9 @@ function render() {
     section("Missions", r.missions, m => `<a class="hit" style="--pc:${profVar("None")}" href="${esc(missionHref(m.name))}">
       <span><span class="t">${highlight(m.name, r.ts)}</span> <span class="s">${esc(m.kind === "PvP" ? "PvP" : m.campaign)} · ${esc(m.region || "")}</span></span>
       <span class="s">${esc(m.type)}</span></a>`, `missions.html#q=${qs}`) +
+    section("Places", r.places, p => `<a class="hit" style="--pc:var(${p.type === "explorable" ? "--loc-exp" : "--loc-out"})" href="locations.html#${new URLSearchParams({ place: p.name })}">
+      <span><span class="t">${highlight(p.name, r.ts)}</span> <span class="s">${esc(p.campaign || "")} · ${esc(p.region || "")}</span></span>
+      <span class="s">${esc({ explorable: "Explorable", "mission outpost": "Mission outpost", town: "Town", dungeon: "Dungeon" }[p.type] || "Outpost")}</span></a>`, `locations.html`) +
     section("Quests", r.quests, q => {
       const camp = QUEST_FLOW.get(q.name_de);
       const href = questHref(q.name, q.campaign);
