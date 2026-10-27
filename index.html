@@ -6,7 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <title>GW Info</title>
-<link rel="stylesheet" href="style.css?v=9d6655c5">
+<link rel="stylesheet" href="style.css?v=ef83c261">
 <style>
   .home { max-width: 1000px; }
   .hero { padding: 8px 0 8px; }
@@ -83,9 +83,9 @@
 </div>
 
 <script src="data/skills.js?v=8d0a8eb7"></script>
-<script src="data/missions.js?v=ec8b0538"></script>
+<script src="data/missions.js?v=46e23887"></script>
 <script src="data/rotations.js?v=47fcaf9f"></script>
-<script src="data/quests.js?v=42d1b0f8"></script>
+<script src="data/quests.js?v=ea336a88"></script>
 <script src="common.js?v=2d7e0a95"></script>
 <script src="template-code.js?v=201bf57f"></script>
 <script>
@@ -117,6 +117,7 @@ const PAGES = [
   ["Skills", "skills.html", "All skills with filters, capture bosses and trainers", "skill list elite capture trainer"],
   ["Missions", "missions.html", "Missions with rewards, bosses and foes", "mission boss reward foe pvp"],
   ["Storylines", "quests.html", "The story per campaign: primary quests and missions", "quest quests mission missions story flow primary campaign"],
+  ["All quests", "all-quests.html", "Every quest: primary, secondary, event and more", "quest quests secondary event all"],
   ["Skill quests", "skill-quests.html", "Every quest that rewards a skill", "skill quest quests reward"],
   ["Bosses", "bosses.html", "Every boss: its elite to capture and where it is", "boss bosses elite capture signet"],
   ["Heroes", "heroes.html", "Which campaigns each hero needs, and how to recruit them", "hero heroes recruit campaign"],
@@ -131,8 +132,7 @@ const PAGES = [
 const { quests: QUESTS, flows: FLOWS } = window.GW_QUESTS;
 const QUEST_FLOW = new Map(FLOWS.flatMap(f =>
   f.nodes.filter(n => n.id.startsWith("q:")).map(n => [n.id.slice(2), f.campaign])));
-const FLOW_QUESTS = QUESTS.filter(q => QUEST_FLOW.has(q.name_de) || (q.skills.length && q.type !== "Primary"));
-for (const q of FLOW_QUESTS) q._k = fold(q.name);
+for (const q of QUESTS) q._k = fold(q.name);
 
 // "See a template": a valid code opens in the builder
 function openTemplate() {
@@ -163,7 +163,7 @@ function search(q) {
   // a word matches as typed or as its plural/singular ("skills" finds "skill quests")
   const word = (w, t) => w.startsWith(t) || (w.length >= 4 && t.startsWith(w) && t.length - w.length <= 1);
   const pages = PAGES.filter(p => ts.every(t => p._k.split(" ").some(w => word(w, t))));
-  const quests = FLOW_QUESTS.filter(q => has(q._k)).sort((a, b) => rank(a._k, ts[0]) - rank(b._k, ts[0]) || cmpStr(a.name, b.name));
+  const quests = QUESTS.filter(q => has(q._k)).sort((a, b) => rank(a._k, ts[0]) - rank(b._k, ts[0]) || cmpStr(a.name, b.name));
   return { ts, pages, skills, missions, quests, bosses };
 }
 
@@ -193,8 +193,8 @@ function render() {
       const href = questHref(q.name, q.campaign);
       return `<a class="hit" style="--pc:${camp ? profVar("None") : "var(--q-skill)"}" href="${href}">
         <span><span class="t">${highlight(q.name, r.ts)}</span> <span class="s">${esc(q.campaign || "")} · ${esc(q.region || "")}</span></span>
-        <span class="s">${camp ? "Story quest" : "Skill quest"}</span></a>`;
-    }, `skill-quests.html#q=${qs}`) +
+        <span class="s">${camp ? "Story quest" : q.skills.length ? "Skill quest" : `${esc(q.type)} quest`}</span></a>`;
+    }, `all-quests.html#q=${qs}`) +
     section("Bosses", r.bosses, ({ b, m }) => {
       const s = SKILL.get(b.elite_skill_id);
       return `<a class="hit" style="--pc:${profVar(b.profession)}" href="${esc(bossHref(b.name))}">

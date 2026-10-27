@@ -29,6 +29,7 @@ for (const s of window.GW_SKILLS) {
 }
 for (const p of window.GW_LOCATIONS) {
   for (const [name, id] of p.bosses || []) {
+    if (!name) continue;  // a boss with no English name
     const b = bossOf(name);
     if (id != null && SKILL.get(id)?.elite) b.elites.add(id);
     if (p.campaign) b.campaigns.add(p.campaign);

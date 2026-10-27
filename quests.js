@@ -239,7 +239,8 @@ function renderDetail() {
     ${row("Region", esc(q.region || ""))}
     ${row("Giver", esc([q.giver, q.where].filter(Boolean).join(" — ")))}
     ${row("After", nb.prev.map(esc).join(", "))}
-    ${row("Leads to", nb.next.map(esc).join(", "))}
+    ${row("Leads to", nb.next.filter(n => !(q.missions || []).includes(n)).map(esc).join(", "))}
+    ${row("Opens mission", (q.missions || []).map(n => `<a href="${esc(missionHref(n))}">${esc(n)}</a>`).join(", "))}
     ${row("Profession", questProfs(q).map(p => `${profIcon(p)} ${esc(p)}`).join(" ") || esc(q.profession || ""))}
     ${heroRow(id)}
     <div class="q-dk" style="margin-top:12px">Rewards</div>${rewardsHTML(q) || '<p class="dim">—</p>'}
@@ -264,18 +265,20 @@ function questPageHTML(q) {
   const heroes = (q.hero || "").split(" and ").map(n => HERO.get(n)).filter(Boolean);
   const profs = questProfs(q);
   const places = [...new Set([q.where, ...(QUEST_PLACES.get(q.name) || [])].filter(Boolean))];
+  const next = q.next.filter(n => !q.missions.includes(n));  // missions get their own line
   const facts = [
     q.giver && ["Giver", esc(q.giver)],
     places.length && ["Where", places.map(placeLink).join(", ")],
     (profs.length || q.profession) && ["Profession", profs.map(p => `${profIcon(p)} ${esc(p)}`).join(" ") || esc(q.profession)],
     heroes.length && ["Required hero", heroLinks(heroes).join(" and ")],
     q.requires.length && ["After", q.requires.map(n => refLink(n, q.campaign)).join(", ")],
-    q.next.length && ["Leads to", q.next.map(n => refLink(n, q.campaign)).join(", ")],
+    next.length && ["Leads to", next.map(n => refLink(n, q.campaign)).join(", ")],
+    q.missions?.length && ["Opens mission", q.missions.map(n => `<a href="${esc(missionHref(n))}">${esc(n)}</a>`).join(", ")],
   ].filter(Boolean);
   const step = FLOW_STEP.get(q.name_de);
   return `<p class="back"><a href="#${new URLSearchParams({ c: state.camp })}">← Storylines</a></p>
     <div class="sp-head" style="--pc:var(${CAMP_COLOR[q.campaign] || "--p-none"})">
-      <div class="sp-title"><h2>${esc(q.name)}${q.repeatable ? '<span class="tag">Repeatable</span>' : ""}</h2><div class="sp-sub">${sub}</div></div>
+      <div class="sp-title"><h2>${esc(q.name)}${q.type === "Secondary" && FLOW_STEP.has(q.name_de) ? '<span class="tag" title="A secondary quest the campaign\'s storyline goes through">Story</span>' : ""}${q.repeatable ? '<span class="tag">Repeatable</span>' : ""}${q.missions?.length ? '<span class="tag">Leads to a mission</span>' : ""}</h2><div class="sp-sub">${sub}</div></div>
       ${stats.length ? `<div class="lstats">${stats.map(([k, v]) => `<span class="lstat"><small>${k}</small><b>${esc(v)}</b></span>`).join("")}</div>` : ""}
     </div>
     <div class="lgrid">
@@ -286,7 +289,7 @@ function questPageHTML(q) {
         <section class="lbox"><h4>Rewards</h4>
           ${skills.length ? `<div class="qp-skills">${skills.map(s => `<a class="skill-link${s.elite ? " elite" : ""}" href="skills.html#skill=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${esc(s.name)}</a>`).join("")}</div>` : ""}
           ${q.rewards.length ? `<ul class="qp-rewards">${q.rewards.map(r => `<li>${esc(r)}</li>`).join("")}</ul>` : ""}
-          ${!skills.length && !q.rewards.length ? `<p class="dim">${stats.length ? "Experience and gold only." : "—"}</p>` : ""}</section>
+          ${!skills.length && !q.rewards.length ? `<p class="dim">${q.xp && q.gold ? "Experience and gold only." : q.xp ? "Experience only." : q.gold ? "Gold only." : "—"}</p>` : ""}</section>
       </div>
     </div>
     <p class="llinks">${step ? `<a href="#${new URLSearchParams({ c: step[0], q: step[1] })}">In the storyline →</a>` : ""}${skills.length && q.type !== "Primary" ? `<a href="skill-quests.html#${new URLSearchParams({ q: q.name })}">Skill quests →</a>` : ""}${q.wiki_de ? `<a href="${esc(q.wiki_de)}" target="_blank" rel="noopener">guildwiki.de</a>` : ""}</p>`;

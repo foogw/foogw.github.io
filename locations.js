@@ -122,8 +122,8 @@ function renderPlace(p) {
   for (const s of p.services || []) { const [k, v] = s.split(": "); roles.set(k, [...(roles.get(k) || []), v]); }
   const services = [...roles].map(([k, v]) => `<li><span>${esc(k)}</span><span class="dim">${esc(v.join(", "))}</span></li>`).join("");
   const bosses = (p.bosses || []).map(([b, id]) => SKILL.has(id)
-    ? `<li>${skillLink(SKILL.get(id))}<a class="dim" href="${esc(bossHref(b))}">${esc(b)}</a></li>` : "").join("");
-  const quests = (p.quests || []).map(q => `<li><span>${questLink(q, p)}${q.travel ? ` <span class="tag" title="Takes you to ${esc(q.travel)}">To ${esc(CAMP_TAG[q.travel] || q.travel)}</span>` : q.type !== "Secondary" ? ` <span class="tag">${esc(q.type)}</span>` : ""}</span>${q.skills.length ? `<span class="qsk">${q.skills.map(id => SKILL.get(id)).filter(Boolean).map(s => `<a href="skills.html#skill=${s.id}" title="${esc(s.name)}">${skillIcon(s.id, "sk-ic sm")}</a>`).join("")}</span>` : ""}</li>`).join("");
+    ? `<li>${skillLink(SKILL.get(id))}${b ? `<a class="dim" href="${esc(bossHref(b))}">${esc(b)}</a>` : ""}</li>` : "").join("");
+  const quests = (p.quests || []).map(q => `<li><span>${questLink(q, p)}${q.travel ? ` <span class="tag" title="Takes you to ${esc(q.travel)}">To ${esc(CAMP_TAG[q.travel] || q.travel)}</span>` : q.type !== "Secondary" ? ` <span class="tag">${esc(q.type)}</span>` : q.flow ? ' <span class="tag" title="A secondary quest the campaign\'s storyline goes through">Story</span>' : ""}</span>${q.skills.length ? `<span class="qsk">${q.skills.map(id => SKILL.get(id)).filter(Boolean).map(s => `<a href="skills.html#skill=${s.id}" title="${esc(s.name)}">${skillIcon(s.id, "sk-ic sm")}</a>`).join("")}</span>` : ""}</li>`).join("");
   const side = box("Services", services && `<ul class="lrows">${services}</ul>`)
     + box("Elite skills to capture", bosses && `<ul class="lrows">${bosses}</ul>`)
     + box(`Quests <span class="dim">${(p.quests || []).length || ""}</span>`, quests && `<ul class="lrows lquests">${quests}</ul>`);

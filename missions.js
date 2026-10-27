@@ -139,6 +139,10 @@ function sorted(list, f) {
 const skillLink = (s, label) =>
   `<a class="skill-link${s.elite ? " elite" : ""}" href="skills.html#skill=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${esc(label || s.name)}</a>`;
 const missionLink = name => (BY_NAME.has(name) ? `<a href="${esc(missionHref(name))}">${esc(name)}</a>` : esc(name));
+// a mission, or else a place on the Locations page
+const PLACE_NAMES = new Set((window.GW_LOCATIONS || []).map(p => p.name));
+const placeLink = name => (BY_NAME.has(name) ? missionLink(name)
+  : PLACE_NAMES.has(name) ? `<a href="locations.html#${new URLSearchParams({ place: name })}">${esc(name)}</a>` : esc(name));
 
 function eliteChips(m, f) {
   const shown = f.elite ? m._elites.filter(e => e.skill.profession === f.elite) : m._elites;
@@ -229,7 +233,7 @@ function missionPageHTML(m) {
   const camp = m.kind === "PvP" ? "PvP" : m.campaign;
   const sub = [m.story_label && `Mission ${m.story_label}`, camp, m.region, m.type !== "Mission" && m.type].filter(Boolean).map(esc).join(" · ");
   const stats = [["Party", m.party_size], m.map_id && ["Map ID", m.map_id]].filter(x => x && x[1]);
-  const before = MISSIONS.filter(x => x.leads_to === m.name);
+  const before = MISSIONS.filter(x => x.leads_to.includes(m.name));
   const outpost = OUTPOST.get(m.name);
   const hero = (m.hero || "").split(" and ").map(n => HERO.get(n)).filter(Boolean);
   // story missions are steps of their campaign's storyline, named by the German title (Eye of the North's as quests)
@@ -237,7 +241,7 @@ function missionPageHTML(m) {
   const builds = (window.GW_BUILDS?.teams || []).filter(t => t.mission === m.name);
   const story = [
     before.length && ["After", before.map(x => missionLink(x.name)).join(", ")],
-    m.leads_to && ["Leads to", missionLink(m.leads_to)],
+    m.leads_to.length && ["Leads to", m.leads_to.map(placeLink).join(", ")],
     outpost && ["Outpost", `<a href="locations.html#${new URLSearchParams({ place: outpost.name })}">${esc(outpost.name)}</a>`],
     hero.length && ["Required hero", hero.map(h => `<a href="${esc(heroHref(h.name))}"><img class="ip" src="img/prof/${esc(h.profession)}.png" alt=""> ${esc(h.name)}</a>`).join(" and ")],
   ].filter(Boolean);
