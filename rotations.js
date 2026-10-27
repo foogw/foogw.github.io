@@ -18,7 +18,7 @@ const $find = $("find");
 
 const NOW = [["zaishen-mission", "Zaishen Mission"], ["zaishen-bounty", "Zaishen Bounty"],
   ["zaishen-vanquish", "Zaishen Vanquish"], ["zaishen-combat", "Zaishen Combat"], ["wanted", "Shining Blade"],
-  ["nicholas-sandford", "Pre-Searing"], ["vanguard", "Vanguard"], null,
+  ["nicholas-sandford", "Sandford"], ["vanguard", "Vanguard"], null,
   ["nicholas-traveler", "Nicholas"], ["weekly-pve", "PvE bonus"], ["weekly-pvp", "PvP bonus"]];
 
 function renderNow() {

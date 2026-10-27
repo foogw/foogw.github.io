@@ -103,7 +103,7 @@ $("quick-elites").innerHTML = PROFS.filter(([p]) => p !== "None").map(([p]) =>
   `<a class="prof-chip" style="--c:${profVar(p)}" href="skills.html#p=${p}&e=elite">${p}</a>`).join("");
 
 const TODAY = [["zaishen-mission", "Mission"], ["zaishen-bounty", "Bounty"], ["zaishen-vanquish", "Vanquish"],
-  ["nicholas-sandford", "Pre-Searing"], null, ["weekly-pve", "PvE bonus"], ["nicholas-traveler", "Nicholas"]];
+  ["nicholas-sandford", "Sandford"], ["vanguard", "Vanguard"], null, ["weekly-pve", "PvE bonus"], ["nicholas-traveler", "Nicholas"]];
 const ROT = Object.fromEntries(window.GW_ROTATIONS.map(r => [r.key, r]));
 const MISSION_NAMES = new Set(MISSIONS.filter(m => m.kind === "PvE").map(m => m.name));
 function renderToday() {
