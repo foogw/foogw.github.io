@@ -256,6 +256,8 @@ function missionPageHTML(m) {
     </div>
     <div class="lgrid">
       <div class="lside">
+        ${m.objectives?.length ? `<section class="lbox"><h4>Objectives</h4><ul class="qp-obj">${m.objectives.map(([d, o, bonus]) =>
+          `<li style="--d:${d}"${bonus ? ' class="bonus"' : ""}>${bonus ? "<b>Bonus:</b> " : ""}${esc(o)}</li>`).join("")}</ul></section>` : ""}
         <section class="lbox"><h4>Rewards</h4>${rewardsHTML(m.rewards)}</section>
         <section class="lbox"><h4>Bosses</h4>${bosses}</section>
         <section class="lbox"><h4>Foes</h4>${groupedNpcs(m.foes, f)}</section>
@@ -267,7 +269,7 @@ function missionPageHTML(m) {
         <section class="lbox"><h4>Allies</h4>${groupedNpcs(m.allies, f)}</section>
       </div>
     </div>
-    <p class="llinks">${flowStep ? `<a href="quests.html#${new URLSearchParams({ c: m.campaign, q: flowStep })}">In the storyline →</a>` : ""}<a href="${esc(m.wiki_de)}" target="_blank" rel="noopener">guildwiki.de</a></p>`;
+    <p class="llinks">${flowStep ? `<a href="quests.html#${new URLSearchParams({ c: m.campaign, q: flowStep })}">In the storyline →</a>` : ""}${m.wiki_en ? `<a href="${esc(m.wiki_en)}" target="_blank" rel="noopener">Guild Wars Wiki (archived)</a>` : ""}<a href="${esc(m.wiki_de)}" target="_blank" rel="noopener">guildwiki.de</a></p>`;
 }
 
 // the list, or one mission's page when the address names one
