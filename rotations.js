@@ -11,7 +11,10 @@ const SHORT = {
   "vanguard": "Vanguard", "nicholas-traveler": "Nicholas the Traveler", "weekly-pve": "PvE bonus", "weekly-pvp": "PvP bonus",
 };
 const SHOW_DAYS = 21, SHOW_WEEKS = 12;
-const fmtDay = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric" });
+// a date shows its year only when it isn't this year's
+const withYear = (opts, f = new Intl.DateTimeFormat(undefined, opts), fy = new Intl.DateTimeFormat(undefined, { ...opts, year: "numeric" })) =>
+  ({ format: t => (new Date(t).getFullYear() === new Date().getFullYear() ? f : fy).format(t) });
+const fmtDay = withYear({ weekday: "short", month: "short", day: "numeric" });
 const fmtTime = new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit" });
 
 const $find = $("find");
@@ -67,7 +70,7 @@ function render() {
 /* ---------- one weekly PvE bonus's page ---------- */
 const BONUS = new Map((window.GW_BONUSES || []).map(b => [b.name, b]));
 const PLACES = new Set((window.GW_LOCATIONS || []).map(p => p.name));
-const fmtWeek = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+const fmtWeek = withYear({ weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
 // a place, or its explorable twin when an outpost has the same name
 const placeLink = name => {
   const place = [name, `${name} (explorable)`].find(n => PLACES.has(n));
