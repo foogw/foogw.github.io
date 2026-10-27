@@ -179,4 +179,17 @@ function richText(s) {
 /* The abbreviations players search with ("fow", "sos", "sunspear"), added to an item's search text */
 const aliasText = (...names) => names.filter(Boolean).flatMap(n => (window.GW_ALIASES || {})[n] || []).join(" ");
 
+/* A bar's attributes, highest first: by the total with runes ("12+3+1" counts 16), then by base rank */
+const runeBonus = r => String(r || "").split("+").reduce((s, x) => s + (+x || 0), 0);
+const byRank = (attrs, runes = {}) => [...attrs].sort((a, b) =>
+  (b.rank + runeBonus(runes[ATTRIBUTES[b.id]])) - (a.rank + runeBonus(runes[ATTRIBUTES[a.id]])) || b.rank - a.rank);
+
+/* A build's link into the builder, with its runes and headgear as attribute bonuses (#code=…&bonus=13:4,15:1) */
+function builderHref(b) {
+  const ids = Object.fromEntries(Object.entries(ATTRIBUTES).map(([id, name]) => [name, id]));
+  const bonus = Object.entries(b.runes || {}).map(([name, r]) => [ids[name], runeBonus(r)]).filter(([id, v]) => id && v)
+    .map(([id, v]) => `${id}:${v}`).join(",");
+  return "builder.html#" + new URLSearchParams(bonus ? { code: b.code, bonus } : { code: b.code }).toString().replace(/%3A/g, ":").replace(/%2C/g, ",");
+}
+
 const skillIcon = (id, cls = "sk-ic") => `<img class="${cls}" src="img/skills/${id}.jpg" alt="" loading="lazy" onerror="this.remove()">`;

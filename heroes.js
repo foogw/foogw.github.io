@@ -91,7 +91,7 @@ const COPY_ICON = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="
 const DONE_ICON = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const suggestedHTML = h => (SUGGESTED.get(h.name) || []).map(b =>
   `<div class="hbuild">
-    <a class="hb-bar" href="builder.html#${new URLSearchParams({ code: b.code })}" title="Open ${esc(b.name)} in the builder">${barIcons(b.code)}</a>
+    <a class="hb-bar" href="${esc(builderHref(b))}" title="Open ${esc(b.name)} in the builder">${barIcons(b.code)}</a>
     <button class="hb-copy" data-copy="${esc(b.code)}" title="Copy the template code" aria-label="Copy the template code">${COPY_ICON}</button>
   </div>`).join("");
 
@@ -134,7 +134,7 @@ function heroPageHTML(h) {
           ${alts.length ? `<p class="dim">You get either ${esc(h.name)} or ${alts.map(a => `<a href="${esc(heroHref(a.name))}">${esc(a.name)}</a>`).join(" or ")}, not both.</p>` : ""}</section>
         ${builds.length ? `<section class="lbox"><h4>Suggested builds</h4>${builds.map(b => `<div class="hp-build">
           <div class="hp-bname">${single.has(b.id) ? `<a href="builds.html#${new URLSearchParams({ build: b.id })}">${esc(b.name)}</a>` : esc(b.name)}</div>
-          <div class="hbuild"><a class="hb-bar" href="builder.html#${new URLSearchParams({ code: b.code })}" title="Open ${esc(b.name)} in the builder">${barIcons(b.code)}</a>
+          <div class="hbuild"><a class="hb-bar" href="${esc(builderHref(b))}" title="Open ${esc(b.name)} in the builder">${barIcons(b.code)}</a>
           <button class="hb-copy" data-copy="${esc(b.code)}" title="Copy the template code" aria-label="Copy the template code">${COPY_ICON}</button></div></div>`).join("")}</section>` : ""}
       </div>
       <div class="lside">

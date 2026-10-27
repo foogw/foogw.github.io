@@ -988,3 +988,4 @@ a.hchip { text-decoration: none; }
 .gd .gd-box h3 { margin: 10px 0 4px; }
 @media (max-width: 600px) { .gd-box { margin-left: 8px; } }
 .qp-obj li.bonus { color: var(--accent); }
+.bd-attrs .bd-ins { border-style: dashed; color: color-mix(in srgb, var(--text) 80%, var(--muted)); }

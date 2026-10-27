@@ -21,6 +21,14 @@ const profText = b => b._profs.map(p => (p === "None" ? "Any" : p)).join(" / ");
 const modeHTML = b => (b.role === "You" ? '<span class="bd-mode you">You</span>'
   : b.mode ? `<span class="bd-mode ${b.mode.toLowerCase()}" title="${esc(MODE_HINT[b.mode])}">${esc(b.mode)}</span>` : "");
 
+// attributes with their rune bonuses ("Communing 12+3+1"), then the insignia
+const attrsHTML = b => byRank(b._bar?.attributes || [], b.runes).map(a => {
+  const name = ATTRIBUTES[a.id] || "", runes = b.runes?.[name];
+  return `<span>${esc(name)} ${a.rank}${runes ? `+${esc(runes)}` : ""}</span>`;
+}).join("") + (insignia(b) ? `<span class="bd-ins">${esc(insignia(b))}</span>` : "");
+// the armor insignia, from the build or its gear notes ("Blessed on every piece" reads "Blessed")
+const insignia = b => (b.insignia || b.gear?.insignias || "").replace(/ on every piece$/, "");
+
 function barHTML(b) {
   if (!b._bar) return '<p class="dim">This template code could not be read.</p>';
   return `<div class="bd-bar">${b._bar.skills.map(id => {
@@ -43,7 +51,7 @@ const countHTML = n => (n > 1 ? `<span class="bd-count" title="${n} heroes run t
 
 function buildHTML({ b, n }, i) {
   const g = b.gear || {};
-  const gear = [["Runes", g.runes], ["Insignias", g.insignias], ["Weapons", (g.weapons || []).join("; ")]]
+  const gear = [["Runes", g.runes], ["Weapons", (g.weapons || []).join("; ")]]
     .filter(([, v]) => v).map(([k, v]) => `<li><span class="dim">${k}</span> ${esc(v)}</li>`).join("");
   return `<section class="bd-card" id="card-${i + 1}" style="--pc:${profVar(b._profs[0])}">
     <header>
@@ -53,11 +61,11 @@ function buildHTML({ b, n }, i) {
     </header>
     <p class="bd-sum">${esc(b.summary)}</p>
     ${barHTML(b)}
-    <div class="bd-attrs">${(b._bar?.attributes || []).map(a => `<span>${esc(ATTRIBUTES[a.id] || "")} ${a.rank}</span>`).join("")}</div>
+    <div class="bd-attrs">${attrsHTML(b)}</div>
     ${gear ? `<ul class="bd-gear">${gear}</ul>` : ""}
     ${b.notes ? `<p class="bd-note dim">${esc(b.notes)}</p>` : ""}
     <div class="bd-actions">
-      <a href="builder.html#${new URLSearchParams({ code: b.code })}">Open in builder →</a>
+      <a href="${esc(builderHref(b))}">Open in builder →</a>
       <button class="link" data-copy="${esc(b.code)}">Copy code</button>
       <code>${esc(b.code)}</code>
     </div>
@@ -75,7 +83,7 @@ function overviewHTML(builds, groups) {
       const s = SKILL.get(id);
       return s ? `<a href="skills.html#skill=${id}" title="${esc(s.name)}" class="${s.elite ? "elite" : ""}"><img src="img/skills/${id}.jpg" alt="${esc(s.name)}" loading="lazy"></a>` : '<i class="bd-noskill" title="Empty slot">?</i>';
     }).join("")}</div>
-    <a class="bd-obuilder" href="builder.html#${new URLSearchParams({ code: b.code })}" title="Open in builder">Builder →</a>
+    <a class="bd-obuilder" href="${esc(builderHref(b))}" title="Open in builder">Builder →</a>
   </div>`).join("")}</section>`;
 }
 
