@@ -83,6 +83,18 @@ function rotationEntryHTML(r, e, missionNames) {
   return name;
 }
 
+/* Where a Zaishen daily takes you: the bounty's place, then the region and campaign of the mission, vanquish or
+   bounty place, from the locations and missions data when the page loads it. */
+let PLACE_INFO;
+function dailyWhere(r, e) {
+  const place = r.key === "zaishen-bounty" ? e.where : /^zaishen-(mission|vanquish)$/.test(r.key) ? e.name : null;
+  if (!place) return "";
+  PLACE_INFO ||= new Map([...(window.GW_MISSIONS || []).map(m => [m.name, m]), ...(window.GW_LOCATIONS || []).map(p => [p.name, p])]);
+  const p = PLACE_INFO.get(place) || PLACE_INFO.get(`${place} (explorable)`);
+  const parts = [...new Set([r.key === "zaishen-bounty" && place, p?.region, p?.campaign].filter(Boolean))];
+  return parts.length ? ` <span class="dim">· ${parts.map(esc).join(" · ")}</span>` : "";
+}
+
 /* Compact "label · current · time left" rows; a null row draws the daily/weekly divider. */
 function rotationListHTML(rows, rotations, missionNames, now = Date.now()) {
   return rows.map(row => {
@@ -91,7 +103,7 @@ function rotationListHTML(rows, rotations, missionNames, now = Date.now()) {
     const r = rotations[key];
     const k = Rotation.period(r, now);
     const show = e => e.count ? `${e.count} × ${nicholasItemHTML(e)} <span class="dim">· ${esc(e.where)}</span>`
-      : rotationEntryHTML(r, e, missionNames);
+      : rotationEntryHTML(r, e, missionNames) + dailyWhere(r, e);
     const next = Rotation.entry(r, k + 1);
     return `<div class="t-row"><span class="t-k">${title}</span><span class="t-v">${show(Rotation.entry(r, k))}</span>`
       + `<span class="t-l">${timeLeft(Rotation.endsAt(r, now) - now)}</span>`
