@@ -30,7 +30,7 @@ function renderNow() {
 
 function matches(e, ts) {
   if (!ts.length) return true;
-  const k = fold([e.name, e.where, e.region, aliasText(e.name, e.where)].filter(Boolean).join(" "));
+  const k = fold([e.name, e.where, e.region, aliasText(e.name, e.where), BONUS.get(e.name)?.words].filter(Boolean).join(" "));
   return ts.every(t => k.includes(t));
 }
 

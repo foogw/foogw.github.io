@@ -1,10 +1,11 @@
 /* The weekly PvE bonuses: what each does (from the Guild Wars Wiki's weekly bonus list and the login-screen
    announcements it archives, GNU FDL 1.2) and what is worth doing that week (written for this site).
    In tips, {place:Name} links a location, {page:href|text} another page. "daily" names the Zaishen rotation
-   whose picks for that week the page lists. */
+   whose picks for that week the page lists. "words" are related search words ("sunspear" finds Elonian Support). */
 window.GW_BONUSES = [
   {
     name: "Extra Luck",
+    words: "lucky unlucky lockpick key chest title",
     effect: "Keys and lockpicks drop four times as often, and Lucky and Unlucky title points are doubled.",
     announcement: "The road ahead is filled with opportunity! Keys and lockpicks drop at four times the usual rate, and you'll receive double lucky and unlucky points all week long.",
     tips: [
@@ -15,6 +16,7 @@ window.GW_BONUSES = [
   },
   {
     name: "Elonian Support",
+    words: "sunspear lightbringer title",
     effect: "Sunspear and Lightbringer title points are doubled, except those from turning in completed books.",
     announcement: "The Land of the Golden Sun requires your aid! Receive double Sunspear and Lightbringer points (excluding completed books) as you battle across Elona.",
     tips: [
@@ -25,6 +27,7 @@ window.GW_BONUSES = [
   },
   {
     name: "Zaishen Bounty",
+    words: "zaishen coins",
     effect: "Zaishen bounties give double copper Zaishen Coins.",
     announcement: "Tolerance for the notorious is at an all time low! The Zaishen are offering double copper Zaishen Coin rewards for Zaishen bounties this week. Visit Embark Beach today and see what's posted.",
     daily: "zaishen-bounty",
@@ -35,6 +38,7 @@ window.GW_BONUSES = [
   },
   {
     name: "Factions Elite",
+    words: "deep urgoz kanaxai elite",
     effect: "Anyone can enter The Deep and Urgoz's Warren from Kaineng Center all week.",
     announcement: "Kanaxai and Urgoz welcome your challenge! The Deep and Urgoz's Warren are open all week. Speak to Vash and Eurayle in Kaineng Center if you dare to go.",
     tips: [
@@ -44,6 +48,7 @@ window.GW_BONUSES = [
   },
   {
     name: "Northern Support",
+    words: "asura deldrimor norn ebon vanguard reputation rep title",
     effect: "Asura, Deldrimor, Ebon Vanguard and Norn reputation points are doubled, except those from turning in completed books.",
     announcement: "Strap on your snow boots! All week long, whether you're helping the Asura, Deldrimor, Ebon Vanguard, or the Norn, reputation points are doubled (excluding completed books).",
     tips: [
@@ -54,6 +59,7 @@ window.GW_BONUSES = [
   },
   {
     name: "Zaishen Mission",
+    words: "zaishen coins",
     effect: "Zaishen missions give double copper Zaishen Coins.",
     announcement: "There's no better time to challenge yourself. The Zaishen are offering double copper Zaishen Coin rewards for Zaishen missions this week. Visit Embark Beach today and see what's posted.",
     daily: "zaishen-mission",
@@ -64,6 +70,7 @@ window.GW_BONUSES = [
   },
   {
     name: "Pantheon",
+    words: "underworld fissure uw fow statue",
     effect: "Entering the Underworld and the Fissure of Woe through the gods' statues is free all week.",
     announcement: "The gods are watching! Their statues across Tyria are active all week. Balthazar and Grenth in particular welcome all worthy adventurers with free passage to the Underworld and Fissure of Woe.",
     tips: [
@@ -75,6 +82,7 @@ window.GW_BONUSES = [
   },
   {
     name: "Faction Support",
+    words: "kurzick luxon faction title",
     effect: "Exchanging Kurzick or Luxon faction at the faction reward NPCs gives double title points.",
     announcement: "Your support is twice as important this week! Receive double Kurzick and Luxon title track points for exchanging faction with faction reward NPCs.",
     tips: [
@@ -86,6 +94,7 @@ window.GW_BONUSES = [
   },
   {
     name: "Zaishen Vanquishing",
+    words: "zaishen coins vanquish",
     effect: "Zaishen vanquishes give double copper Zaishen Coins.",
     announcement: "More coins for combat! The Zaishen are offering double copper Zaishen Coin rewards for Zaishen vanquishes this week. Visit Embark Beach today and see what's posted.",
     daily: "zaishen-vanquish",
