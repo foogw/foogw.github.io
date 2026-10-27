@@ -1,5 +1,5 @@
 /* Guides, written by hand. Each guide is a list of sections, and each section a list of blocks:
-   { h }, { p }, { note } (a paragraph set apart), { ul: [...] }, { ol: [...] }, { table: { head, rows, notes } }, { builds: [...] }, { qa: [[q, a]] }
+   { h }, { p }, { note } (a paragraph set apart), { box: { title, blocks } } (an indented aside, for an option), { ul: [...] }, { ol: [...] }, { table: { head, rows, notes } }, { builds: [...] }, { qa: [[q, a]] }
    or { img: { src, caption, side } }.
    A build has a template code, or skills by name (null for a free slot) when no code fits it.
    In text, {skill:Name} links a skill with its icon, {skillname:Name} without, {place:Name} a location, {mission:Name} a mission, {page:href|text} another
@@ -22,6 +22,7 @@ window.GW_GUIDES = [
     sections: [
       {
         blocks: [
+          { p: "A shortened version of the {ext:" + GWW_FOO + "|full guide on the Guild Wars Wiki} ({ext:https://web.archive.org/web/2026/" + GWW_FOO + "|archived copy})." },
           { img: { src: "img/guides/gom-afk-xp-1.jpg", caption: "The farm running: bonders at the end of the long shadow (flag 3), the player just south of the Portal Wraiths, the Keystone on the far edge of the aggro bubble (flag 1)." } },
           { p: "Legendary Survivor in about 4 hours, or 534 skill points a day. Normal mode, {mission:Gate of Madness}; about 8 minutes to set up, then it runs indefinitely." },
         ],
@@ -30,11 +31,10 @@ window.GW_GUIDES = [
         title: "How it works",
         blocks: [
           { ul: [
-            "A Chaos Rift spawns 8 Titans every 30 seconds. You tank them in low-armor, low-health gear.",
-            "With your health set just right, {skill:Protective Bond} and the Lightbringer title cut every hit to 1 damage.",
-            "Two Monk heroes share Protective Bond's cost, paid by {skill:Blessed Signet} and {skill:Essence Bond} (which needs that 1 damage).",
-            "{skill:Purifying Veil} shortens the conditions; {skill:Mending}, {skill:Watchful Spirit} and {skill:Succor} cover them.",
-            "A {skill:Keystone Signet} Mesmer hero kills. Everyone else stays out of range, so XP is split only two ways: 348 per kill with a Scroll of Berserker's Insight.",
+            "A Chaos Rift spawns 8 Titans every 30 seconds, and you tank them.",
+            "Your health is set so each hit does only 1 damage, under {skill:Protective Bond} and the Lightbringer title.",
+            "Two Monk heroes keep the bond up and heal the conditions; that 1 damage pays their energy back through {skill:Essence Bond}.",
+            "A {skill:Keystone Signet} Mesmer hero kills. The rest of the party stays away, so the XP is split only two ways.",
           ] },
         ],
       },
@@ -44,36 +44,48 @@ window.GW_GUIDES = [
           { builds: [
             { name: "Player", role: "You", skills: [null, null, null, null, null, null, null, "Heroic Refrain"],
               note: "Any profession. 5 Leadership from an \"of the Paragon\" mod; health by LB rank (table below)." },
-            { name: "Bonder 1", code: "OwAS8Y4NHkrPNRfkSAAAAAA",
-              note: "Bonds first. 18 Protection, 7 Divine Favor under Heroic Refrain." },
-            { name: "Bonder 2", code: "OwAT043Ct4gi8f6LlAAAAAA",
-              note: "Bonds second. 18 Healing, 13 Protection, 7 Divine Favor under Heroic Refrain." },
+            { name: "Bonder 1", code: "OwAS8Y4NHkrPNRfkSAAAAAA", mode: "Avoid",
+              note: "Bonds first. 16 Protection (18 after Heroic Refrain), 7 Divine Favor." },
+            { name: "Bonder 2", code: "OwAT043Ct4gi8f6LlAAAAAA", mode: "Avoid",
+              note: "Bonds second. 16 Healing (18 after Heroic Refrain), 11 Protection (13 after Heroic Refrain), 7 Divine Favor." },
             { name: "Keystone", code: "OQNCA8wDP9B8DyzmOUi1veC", mode: "Fight",
               note: "16 Fast Casting, 15 Inspiration with runes. No weapon." },
           ] },
+          { box: { title: "Optional: without Heroic Refrain", blocks: [
+              { p: "As an alternative at LB4 and up, you can be the third bonder instead of using Heroic Refrain. Two bonders need 18 and 13 Protection, but three can do with 13, 8 and 3: bonder 1 at 13, bonder 2 at 8 and you at 3, bonding in that order." },
+              { builds: [
+                { name: "Player", role: "You", skills: ["Protective Bond", "Balthazar's Spirit", null, null, null, null, null, null],
+                  note: "Monk secondary with 3 Protection. Balthazar's Spirit fully pays for your share of the bond." },
+              ] },
+              { p: "The cost: without Heroic Refrain's +2, Purifying Veil and Mending are weaker, so conditions last longer and Mending gives less health regeneration. That's a little less safe at high LB, and still fine at LB4." },
+          ] } },
           { ul: [
             "Put these 3 heroes first in the party, so each can be flagged.",
             "Bonders: all bonds disabled, about 50 energy.",
-            "Optional at LB4+: \"of the Necromancer\" weapons on both bonders (energy), and a +1/20% Protection item on bonder 1, recasting Veil until it lands at 62% (Burning down to 2s). LB3 needs the first, LB2 both.",
           ] },
           { p: "Wear a low-armor set (from Banoit, Kambei, Moon Ahn, Nu Leng or Mehinu), with health by LB rank:" },
           { table: {
-            head: ["LB", "Target HP¹", "How", "Dervish²"],
+            head: ["LB¹", "Target HP²", "With morale³", "How", "Correction for Dervishes⁴"],
             rows: [
-              ["8", "190", "4 superior runes", "No chest piece"],
-              ["7", "170", "4 superior runes, −20 \"Life is Pain\" focus", "No chest piece"],
-              ["6", "155", "5 superior runes, full Survivor", "Survivor only on chest"],
-              ["5", "135", "5 superior runes, Survivor chest and head", "Survivor only on chest, −20 focus"],
-              ["4", "115", "5 superior runes", "−20 focus"],
-              ["3", "95", "5 superior runes, −20 focus", "−50 cesta"],
-              ["2", "95³", "5 superior runes, −20 focus", "−50 cesta"],
+              ["8", "180", "190", "4 superior runes", "No chest piece"],
+              ["7", "160", "170", "4 superior runes, −20 \"Life is Pain\" focus", "No chest piece"],
+              ["6", "145", "155", "5 superior runes, full Survivor", "Survivor only on chest"],
+              ["5", "125", "135", "5 superior runes, Survivor chest and head", "Survivor only on chest, −20 focus"],
+              ["4", "105", "115", "5 superior runes", "−20 focus"],
             ],
             notes: [
-              "¹ Including the +2% morale from closing the Torment rift. Up to 20 more is fine (2 damage per hit).",
-              "² Dervishes get +25 health from their chest piece.",
-              "³ Takes 2 per hit, but safer than less health.",
+              "¹ For LB2 or LB3, see the full guide linked at the end of the page.",
+              "² Up to 20 HP over the target is fine: hits then do 2 damage.",
+              "³ After closing the Torment rift (+2% morale).",
+              "⁴ Dervishes get +25 health from their chest piece.",
             ],
           } },
+          { box: { title: "Optional: extra safety", blocks: [
+            { ul: [
+              "Energy: \"of the Necromancer\" weapons on both bonders.",
+              "Health: a +1/20% Protection item on bonder 1, recasting Purifying Veil until it lands at 62%, which cuts Burning to 2 seconds.",
+            ] },
+          ] } },
         ],
       },
       {
@@ -101,17 +113,6 @@ window.GW_GUIDES = [
             "Flag the Keystone to the edge of your aggro bubble, away from the Wraiths, and use the scroll.",
           ] },
           { p: "Watch a couple of Madness Titan cycles: they bleed and burn you, and their holy damage gives no Essence Bond energy. If your health and the bonders' energy hold, go AFK." },
-        ],
-      },
-      {
-        title: "Without Heroic Refrain",
-        blocks: [
-          { p: "As an alternative at LB4 and up, you can be the third bonder instead of using Heroic Refrain. Two bonders need 18 and 13 Protection, but three can do with 13, 8 and 3: bonder 1 at 13, bonder 2 at 8 and you at 3, bonding in that order." },
-          { builds: [
-            { name: "Player", role: "You", skills: ["Protective Bond", "Balthazar's Spirit", null, null, null, null, null, null],
-              note: "Monk secondary with 3 Protection. Balthazar's Spirit pays for your share of the bond." },
-          ] },
-          { p: "The cost: without Heroic Refrain's +2, Purifying Veil and Mending are weaker, so conditions last longer and Mending heals less. That's a little less safe at high LB, still fine at LB4, and too risky below it." },
         ],
       },
     ],

@@ -983,3 +983,6 @@ a.hchip { text-decoration: none; }
 .gd-table .gd-why { min-width: 320px; white-space: nowrap; }
 .gd p.gd-aside { margin-top: 22px; }
 .gd p.gd-total { margin-top: 14px; font-size: 16px; }
+.gd-box { margin: 14px 0 14px 24px; padding: 4px 16px 6px; border: 1px solid var(--line); border-left: 4px solid var(--energy); border-radius: 10px; background: var(--panel); }
+.gd .gd-box h3 { margin: 10px 0 4px; }
+@media (max-width: 600px) { .gd-box { margin-left: 8px; } }

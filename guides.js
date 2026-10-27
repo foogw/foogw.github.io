@@ -12,7 +12,9 @@ const PROF_NAMES = ["None", "Warrior", "Ranger", "Monk", "Necromancer", "Mesmer"
 const MODE_HINT = { Fight: "Fight: attacks what you target and what attacks the party",
   Guard: "Guard: fights only to defend the party", Avoid: "Avoid: stays out of combat" };
 
-for (const g of GUIDES) for (const s of g.sections) for (const x of s.blocks) for (const b of x.builds || []) {
+// every block of a guide, including those inside boxes
+const allBlocks = blocks => blocks.flatMap(x => [x, ...(x.box ? allBlocks(x.box.blocks) : [])]);
+for (const g of GUIDES) for (const s of g.sections) for (const x of allBlocks(s.blocks)) for (const b of x.builds || []) {
   if (b.code) {
     try { b._bar = TemplateCode.decode(b.code); } catch { b._bar = null; }
   }
@@ -141,6 +143,7 @@ function questIndexHTML(g, x) {
 function blockHTML(x, g) {
   if (x.h) return `<h3>${esc(x.h)}</h3>`;
   if (x.p) return `<p>${text(x.p)}</p>`;
+  if (x.box) return `<aside class="gd-box"><h3>${esc(x.box.title)}</h3>${x.box.blocks.map(y => blockHTML(y, g)).join("")}</aside>`;
   if (x.note) return `<p class="gd-aside">${text(x.note)}</p>`;
   if (x.ul) return `<ul>${x.ul.map(t => `<li>${text(t)}</li>`).join("")}</ul>`;
   if (x.ol) return `<ol>${x.ol.map(t => `<li>${text(t)}</li>`).join("")}</ol>`;
