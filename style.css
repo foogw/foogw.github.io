@@ -870,18 +870,21 @@ a.hchip { text-decoration: none; }
 .hb-copy:hover, .hb-copy:focus-visible { color: var(--accent); border-color: var(--accent); }
 @media (max-width: 860px) { .hrow.hhead { display: none; } }
 .bd-section { font-size: 20px; margin: 22px 0 10px; }
-.bd-singles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 600px), 1fr)); gap: 6px 14px; }
-.bd-single { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 12px; padding: 8px 12px;
+/* column-first, so a profession's builds run down one column */
+.bd-singles { columns: 560px 2; column-gap: 14px; }
+.bd-single { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 4px 12px; padding: 8px 12px;
+  break-inside: avoid; margin-bottom: 6px;
   border: 1px solid var(--line); border-left: 4px solid var(--pc); border-radius: 8px; background: var(--panel); color: var(--text); text-decoration: none; }
 .bd-single:hover { border-color: var(--accent); border-left-color: var(--pc); }
 .bd-sname { display: flex; align-items: center; gap: 4px; min-width: 0; }
 .bd-sname b { margin-left: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.bd-single .bd-ebar { grid-row: span 2; }
-.bd-shero { font-size: 12px; }
-.bd-single .bd-mode { justify-self: start; }
+.bd-pi { display: inline-flex; gap: 2px; width: 38px; flex: none; }
+.bd-single .bd-mode { justify-self: end; }
+@media (max-width: 600px) {
+  .bd-single { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 24px auto; }
+  .bd-single .bd-ebar { grid-column: 1 / -1; }
+}
 .bd-one { max-width: 760px; margin-top: 10px; }
-.bd-for { font-size: 14px; margin: 12px 0 0; }
-.bd-for .dim { margin-right: 4px; }
 .bd-note { font-size: 13px; margin: 8px 0 0; }
 .bd-sprofs { margin: -2px 0 10px; }
 

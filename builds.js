@@ -1,6 +1,6 @@
 "use strict";
 
-const { teams: TEAMS, builds: BUILDS, singles: SINGLES = [] } = window.GW_BUILDS;
+const { teams: TEAMS, builds: BUILDS, singles: SINGLES = [], players: PLAYERS = [] } = window.GW_BUILDS;
 const BUILD = new Map(BUILDS.map(b => [b.id, b]));
 const SKILL = new Map(window.GW_SKILLS.map(s => [s.id, s]));
 const MISSIONS = new Set((window.GW_MISSIONS || []).map(m => m.name));
@@ -13,7 +13,8 @@ for (const b of BUILDS) {
   b._profs = b._bar ? b._bar.professions.map(p => PROF_NAMES[p]) : [];
 }
 
-const profIcons = b => b._profs.filter(p => p !== "None").map(p => `<img class="bd-prof" src="img/prof/${p}.png" alt="" title="${p}">`).join("");
+// always two icon slots wide, so build names line up whether or not a build has a secondary profession
+const profIcons = b => `<span class="bd-pi">${b._profs.filter(p => p !== "None").map(p => `<img class="bd-prof" src="img/prof/${p}.png" alt="" title="${p}">`).join("")}</span>`;
 const profText = b => b._profs.map(p => (p === "None" ? "Any" : p)).join(" / ");
 
 // the player's tag, or a hero's behaviour when the build sets one
@@ -111,27 +112,27 @@ const miniBar = b => (b._bar?.skills || []).map(id => (SKILL.has(id)
   ? `<img src="img/skills/${id}.jpg" alt="" loading="lazy" title="${esc(SKILL.get(id).name)}"${SKILL.get(id).elite ? ' class="elite"' : ""}>`
   : '<i class="bd-noskill" title="Empty slot">?</i>')).join("");
 
-// hero builds can be narrowed to one profession (their primary)
-let singleProf = null;
-function singlesHTML() {
-  const all = SINGLES.map(id => BUILD.get(id)).filter(Boolean);
+// player and hero builds, each list narrowed to one profession (their primary) on its own
+const listProf = { players: null, singles: null };
+function singlesHTML(key, title, ids) {
+  const all = ids.map(id => BUILD.get(id)).filter(Boolean);
   if (!all.length) return "";
   const profs = PROFS.map(([p]) => p).filter(p => all.some(b => b._profs[0] === p));
-  const chips = `<div class="profs bd-sprofs">${profs.map(p => `<button class="prof-chip" data-sprof="${p}" aria-pressed="${p === singleProf}" style="--c:${profVar(p)}">${p}</button>`).join("")}</div>`;
-  const shown = all.filter(b => !singleProf || b._profs[0] === singleProf);
-  return `<h2 class="bd-section">Hero builds</h2>${chips}<div class="bd-singles">${shown.map(b =>
+  const chips = `<div class="profs bd-sprofs">${profs.map(p => `<button class="prof-chip" data-list="${key}" data-sprof="${p}" aria-pressed="${p === listProf[key]}" style="--c:${profVar(p)}">${p}</button>`).join("")}</div>`;
+  const rank = b => PROF_ORDER[b._profs[0]] ?? 99;
+  const shown = all.filter(b => !listProf[key] || b._profs[0] === listProf[key])
+    .sort((x, y) => rank(x) - rank(y) || cmpStr(x.name, y.name));
+  return `<h2 class="bd-section">${title}</h2>${chips}<div class="bd-singles">${shown.map(b =>
     `<a class="bd-single" href="#${new URLSearchParams({ build: b.id })}" style="--pc:${profVar(b._profs[0])}">
       <span class="bd-sname">${profIcons(b)}<b>${esc(b.name)}</b></span>
+      ${modeHTML(b) || "<span></span>"}
       <span class="bd-ebar">${miniBar(b)}</span>
-      <span class="dim bd-shero">${esc((b.heroes || []).join(", "))}</span>
-      ${modeHTML(b)}
     </a>`).join("")}</div>`;
 }
 
 function singleHTML(b) {
   return `<p class="back"><a href="#">← All builds</a></p>
     <div class="bd-one">${buildHTML({ b, n: 1 }, null)}</div>
-    ${b.heroes?.length ? `<p class="bd-for"><span class="dim">Suggested for</span> ${b.heroes.map(h => `<a href="${esc(heroHref(h))}">${esc(h)}</a>`).join(", ")}</p>` : ""}
     ${b.source ? `<p class="dim bd-src">From <a href="${esc(b.source.url)}" target="_blank" rel="noopener">${esc(b.source.name)}</a>, CC BY-NC-SA 2.5; shortened and reworded.</p>` : ""}`;
 }
 
@@ -142,14 +143,14 @@ function indexHTML() {
       <div class="bd-ebars">${t.builds.map(id => BUILD.get(id)).filter(Boolean).map(b => `<div class="bd-ebar" title="${esc(b.name)}"><span class="bd-eprofs">${profIcons(b)}</span>${miniBar(b)}</div>`).join("")}</div>
       <div class="bd-tags">${(t.tags || []).map(x => `<span class="tag">${esc(x)}</span>`).join("")}</div>
     </a>`;
-  }).join("")}</div>${singlesHTML()}`;
+  }).join("")}</div>${singlesHTML("players", "Player builds", PLAYERS)}${singlesHTML("singles", "Hero builds", SINGLES)}`;
 }
 
 // the list, a team, or one build, as the address says
 function render() {
   const h = new URLSearchParams(location.hash.slice(1));
   const t = TEAMS.find(x => x.id === h.get("team"));
-  const b = !t && SINGLES.includes(h.get("build")) ? BUILD.get(h.get("build")) : null;
+  const b = !t && [...SINGLES, ...PLAYERS].includes(h.get("build")) ? BUILD.get(h.get("build")) : null;
   $("index").hidden = !!(t || b);
   $("team").hidden = !(t || b);
   if (t || b) {
@@ -164,7 +165,12 @@ function render() {
 
 document.addEventListener("click", e => {
   const chip = e.target.closest("[data-sprof]");
-  if (chip) { singleProf = singleProf === chip.dataset.sprof ? null : chip.dataset.sprof; $("index").innerHTML = indexHTML(); return; }
+  if (chip) {
+    const key = chip.dataset.list;
+    listProf[key] = listProf[key] === chip.dataset.sprof ? null : chip.dataset.sprof;
+    $("index").innerHTML = indexHTML();
+    return;
+  }
   // the address names the team, so a jump to a card scrolls instead of changing it
   const card = e.target.closest("[data-card]");
   if (card) { e.preventDefault(); $(card.dataset.card)?.scrollIntoView({ behavior: "smooth", block: "start" }); return; }

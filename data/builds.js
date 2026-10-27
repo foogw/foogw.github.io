@@ -46,7 +46,152 @@ window.GW_BUILDS = {
     },
   ],
   singles: ["hero-air", "hero-orders", "hero-fire", "hero-bm", "hero-spear", "hero-prot", "hero-heal", "hero-runner", "hero-motivation", "hero-illusion", "hero-ss", "hero-devona", "hero-daggers", "hero-wounding", "hero-vow", "hero-volley", "hero-daggerpet", "hero-hundred", "hero-endurance", "hero-stance"],
+  // the best player builds for PvE, from PvXwiki; PvE-only skills are fine here
+  players: ["pl-hundred", "pl-dragon", "pl-tao", "pl-expertise", "pl-prot", "pl-ua", "pl-echo-ss", "pl-esurge", "pl-panic", "pl-ap", "pl-invoke", "pl-daggers", "pl-sos", "pl-hr", "pl-imbagon", "pl-vos",
+    "pl-sws", "pl-barrage", "run-w", "run-d", "run-a", "run-r"],
   builds: [
+    /* ---------- player builds, from PvXwiki: PvX's optional slots filled from the skills its page suggests ---------- */
+    {
+      id: "pl-hundred", name: "Hundred Blades", code: "OQkSEZKTmYXFGW9F7gTN8V0kA",
+      summary: "Sword Warrior hitting everything adjacent with Hundred Blades, Whirlwind Attack and Sun and Moon Slash, kept fed by \"For Great Justice!\" and Enraging Charge, with Flail and \"I Am Unstoppable!\".",
+      gear: { runes: "Superior Vigor, Rune of Clarity, Rune of Vitae", insignias: "Survivor or Sentinel's", weapons: ["Zealous and vampiric swords of fortitude (15%^50)", "Strength shield of fortitude"] },
+      notes: "PvX's W/P full example: Enduring Harmony keeps the shouts up longer. Best next to a Mark of Pain or Dark Fury Necromancer.",
+      source: { name: "PvXwiki: W/any Hundred Blades (Great)", url: PVX + "Build:W/any_Hundred_Blades" },
+    },
+    {
+      id: "pl-dragon", name: "Dragon Slash", code: "OQASEZKTLO7gniTNGW8VXFxg",
+      summary: "Steady sword damage: spam Dragon Slash on \"For Great Justice!\" adrenaline, knock down with Brawling Headbutt and protect the party with \"Save Yourselves!\".",
+      gear: { insignias: "Sentinel's or Sentry's", weapons: ["Vampiric or zealous sword of fortitude (15>50)", "Shield of fortitude"] },
+      source: { name: "PvXwiki: W/any Dragon Slash (Good)", url: PVX + "Build:W/any_Dragon_Slash" },
+    },
+    {
+      id: "pl-tao", name: "Together as One Daggers", code: "OgcTYt72Zyhhh5ghmE3hHcsm2A",
+      summary: "Ranger with daggers and a pet: \"Together as One!\" gives the whole party extra damage and health regeneration while you run the Jagged Strike, Fox Fangs, Death Blossom chain.",
+      gear: { runes: "Superior Vigor, Rune of Restoration, Rune of Clarity", insignias: "Beastmaster's", weapons: ["Zealous \"Strength and Honor\" daggers of defense", "Shield set and any flatbow or longbow"] },
+      notes: "Use a Dire Racing Beetle as the pet.",
+      source: { name: "PvXwiki: R/A Together as One Daggers (Great)", url: PVX + "Build:R/A_Together_as_One_Daggers" },
+    },
+    {
+      id: "pl-expertise", name: "Expert's Dexterity Bow", code: "OgASc5MT8a5ivlghnSOGzkrl",
+      summary: "Fast bow damage: Expert's Dexterity attack speed with Volley, Sundering Attack and Penetrating Attack, boosted by Ebon Battle Standard of Honor and \"I Am the Strongest!\".",
+      gear: { runes: "Superior Vigor, Rune of Clarity, Rune of Vitae", insignias: "Sentry's", weapons: ["Zealous and vampiric shortbows of the necromancer with \"Strength and Honor!\""] },
+      source: { name: "PvXwiki: R/any Expert's Dexterity Bow (Great)", url: PVX + "Build:R/any_Expert%27s_Dexterity_Bow" },
+    },
+    {
+      id: "pl-prot", name: "Aura of Faith Prot", code: "OwAS8YIPEEt4MZlcXbJbabC",
+      summary: "Protection Monk that catches spikes with Aura of Faith, Shielding Hands, Shield of Absorption and Spirit Bond, removes hexes and conditions, and saves allies with Reversal of Fortune.",
+      gear: { runes: "Superior Vigor, 2 Runes of Vitae", insignias: "Blessed", weapons: ["40/20/20 Protection Prayers staff", "High energy set", "Shield set"] },
+      source: { name: "PvXwiki: Mo/any PvE Aura of Faith Prot (Great)", url: PVX + "Build:Mo/any_PvE_Aura_of_Faith_Prot" },
+    },
+    {
+      id: "pl-ua", name: "Unyielding Aura Healer", code: "OwAS0YITMEbENg5gfPXEdRvg",
+      summary: "Healing Monk with Dwayna's Kiss, Patient Spirit and Divine Healing, Seed of Life and Heaven's Delight for party healing, and Unyielding Aura to raise allies with no death penalty.",
+      gear: { runes: "Superior Vigor", insignias: "Survivor", weapons: ["Standard monk weapon sets, a 20/20 set for faster casting", "A Divine Favor headpiece"] },
+      source: { name: "PvXwiki: Mo/any Unyielding Aura Healer (Good)", url: PVX + "Build:Mo/any_Unyielding_Aura_Healer" },
+    },
+    {
+      id: "pl-echo-ss", name: "Echo Spiteful Spirit", code: "OAVCY8x0SQewNodglgcZMZVF",
+      summary: "Arcane Echo copies Spiteful Spirit so two balls of foes take armor-ignoring damage every time they attack or use a skill; Necrosis and Mark of Pain finish them off.",
+      gear: { runes: "Rune of Vitae", insignias: "Survivor or Radiant", weapons: ["40/40 Curses set", "High energy set"] },
+      notes: "PvXwiki archived this build in 2012 as outdated; it was rated Great before that.",
+      source: { name: "PvXwiki: N/Me SS Nuker (archived, was Great)", url: PVX + "Archive:N/Me_SS_Nuker" },
+    },
+    {
+      id: "pl-esurge", name: "Energy Surge", code: "OQBDAqwDSLBnATPmO5A4U5Uwl",
+      summary: "Energy Surge doubled by Arcane Echo for big area damage, with Mistrust, Unnatural Signet, Cry of Frustration and Spiritual Pain; Drain Delusions and Air of Superiority keep it running.",
+      gear: { insignias: "Prodigy's, Radiant or Survivor", weapons: ["40/40 Domination set", "40/40 Inspiration set", "High energy Inspiration set"] },
+      source: { name: "PvXwiki: Me/any PvE Energy Surge (Great)", url: PVX + "Build:Me/any_PvE_Energy_Surge" },
+    },
+    {
+      id: "pl-panic", name: "Panic", code: "OQZCAswEyANw0jNopzuYOAcJ",
+      summary: "Panic interrupts and damages whole groups of casters; Mistrust, Cry of Pain, Unnatural Signet and Cry of Frustration add damage, Glyph of Lesser Energy pays for it.",
+      gear: { runes: "Superior Vigor, 2 Runes of Vitae", insignias: "Prodigy's", weapons: ["\"Aptitude not Attitude\" Domination wand of the necromancer with a 20/20 focus, or a 40/40 Domination set", "High energy set"] },
+      source: { name: "PvXwiki: Me/E PvE Panic (Good)", url: PVX + "Build:Me/E_PvE_Panic" },
+    },
+    {
+      id: "pl-ap", name: "Assassin's Promise", code: "OgdTwGPjYaX0mcBKm0b4bAZIcA",
+      summary: "Elementalist leaning on PvE-only skills: Ebon Vanguard Assassin Support, \"You Move Like a Dwarf!\" and \"Finish Him!\" kill the called target, and Assassin's Promise recharges everything and refunds energy when it dies.",
+      gear: { runes: "Best Vigor rune you can afford, Runes of Vitae", insignias: "Blessed", weapons: ["Adept Air Magic staff of fortitude with \"Aptitude not Attitude\""] },
+      notes: "PvX's Air Magic variant (Lightning Strike, Chain Lightning, Air Attunement); its page also gives Earth and Fire versions.",
+      source: { name: "PvXwiki: E/A Assassin's Promise (Great)", url: PVX + "Build:E/A_Assassin%27s_Promise" },
+    },
+    {
+      id: "pl-invoke", name: "Invoke Lightning", code: "OgBCgMzEOIg2CoSj3wuY4gLI",
+      summary: "Air Elementalist that cracks armor with Shell Shock and hits hard with Invoke Lightning, Arc Lightning and Lightning Strike, doubling a hit with Intensity.",
+      gear: { runes: "Superior Vigor", weapons: ["High energy Air Magic set", "Spear of defense with a Command shield of fortitude"] },
+      source: { name: "PvXwiki: E/any PvE Invoke Lightning (Good)", url: PVX + "Build:E/any_PvE_Invoke_Lightning" },
+    },
+    {
+      id: "pl-daggers", name: "Dagger Spammer", code: "OwBi0xjM5wwwcwQT+Wi7o/EnB",
+      summary: "Assassin spamming the Jagged Strike, Fox Fangs, Death Blossom chain, with Way of the Assassin and Critical Eye turning critical hits into energy.",
+      gear: { runes: "Superior Vigor, 2 Runes of Vitae or Attunement", insignias: "Nightstalker's or Sentry's", weapons: ["Zealous daggers of fortitude with \"Dance with Death\""] },
+      source: { name: "PvXwiki: A/any Dagger Spammer (Great)", url: PVX + "Build:A/any_Dagger_Spammer" },
+    },
+    {
+      id: "pl-sos", name: "Spirit Spammer", code: "OACiIykMdNVO5DWNRDyMhxIXC",
+      summary: "Signet of Spirits Ritualist: Signet of Spirits, Bloodsong, Vampirism and Painful Bond spirits deal steady damage, Summon Spirits keeps them with the fight and Spirit Siphon pays for it.",
+      gear: { runes: "Superior Vigor", weapons: ["Adept Channeling staff of mastery with \"Aptitude not Attitude\"", "Spear of defense or fortitude with a shield of fortitude"] },
+      source: { name: "PvXwiki: Rt/any Spirit Spammer (Great)", url: PVX + "Build:Rt/any_Spirit_Spammer" },
+    },
+    {
+      id: "pl-hr", name: "Heroic Refrain Daggers", code: "OQej0xmDKTAh9YWYOMMMHMn1nYA",
+      summary: "Heroic Refrain gives you +3 to all attributes, kept up by your own shouts; you fight with the Jagged Strike, Fox Fangs, Death Blossom chain and support the party with \"There's Nothing to Fear!\", \"They're on Fire!\" and \"Go for the Eyes!\".",
+      gear: { runes: "Superior Vigor, Rune of Clarity, 2 Runes of Vitae", insignias: "Centurion's", weapons: ["Zealous \"Strength and Honour\" daggers of defense or fortitude", "Insightful \"Hale and Hearty\" staff of defense", "Furious spear of defense with an \"I Can See Clearly Now\" shield of fortitude"] },
+      source: { name: "PvXwiki: P/A Heroic Refrain Daggers (Great)", url: PVX + "Build:P/A_Heroic_Refrain_Daggers" },
+    },
+    {
+      id: "pl-imbagon", name: "Imbagon", code: "OQGjUimKKTBZWYxgAh5iXFpbYF",
+      summary: "The party's defence: \"Save Yourselves!\" and \"There's Nothing to Fear!\" on near permanent recharge through Focused Anger, plus Ebon Battle Standard of Honor and \"For Great Justice!\".",
+      gear: { insignias: "Centurion's or Survivor", weapons: ["Furious spear of fortitude or defense", "Command shield of fortitude", "High energy set if death penalty drains your energy"] },
+      notes: "This code uses the Kurzick \"Save Yourselves!\"; PvX also gives a Luxon one.",
+      source: { name: "PvXwiki: P/W Imbagon (Great)", url: PVX + "Build:P/W_Imbagon" },
+    },
+    {
+      id: "pl-vos", name: "Vow of Strength", code: "OgCjkirMrSmXfb5iaXNX0lib0k",
+      summary: "Scythe Dervish hitting many foes at once with Vow of Strength's extra damage, Staggering Force and Eremite's Attack, with Sand Shards and Ebon Battle Standard of Honor.",
+      gear: { runes: "Superior Vigor, Rune of Clarity, Restoration, Vitae or Attunement", weapons: ["Zealous and vampiric scythes of enchanting with \"Guided by Fate\"", "Swift staff of enchanting with \"Don't Think Twice\"", "Shield set"] },
+      source: { name: "PvXwiki: D/any Vow of Strength (Great)", url: PVX + "Build:D/any_Vow_of_Strength" },
+    },
+    {
+      id: "pl-sws", name: "\"Save Yourselves!\" Hammer", code: "OQASE55QxghFJOCFGFi1vl0k",
+      summary: "Hammer Warrior on Seven Weapons Stance adrenaline: Crude Swing, Auspicious Blow, Power Attack and Protector's Strike, and \"Save Yourselves!\" to give the whole party +100 armor.",
+      gear: { runes: "Superior Vigor, Rune of Restoration, Rune of Clarity", insignias: "Sentinel's, Blessed or Sentry's", weapons: ["Vampiric or zealous hammer of defense with \"Strength and Honor\"", "Shield set, a bow to pull"] },
+      notes: "PvX has no warrior build named after \"Save Yourselves!\"; this is its Seven Weapons Stance page with \"Save Yourselves!\" (Kurzick) in the free slot, as the page suggests.",
+      source: { name: "PvXwiki: W/any Seven Weapons Stance (Great)", url: PVX + "Build:W/any_Seven_Weapons_Stance" },
+    },
+    {
+      id: "pl-barrage", name: "Splinter Barrage", code: "OgEScxMTLGxgaFVgPG5iXFvl",
+      summary: "Barrage hits up to seven foes per shot, so a Ritualist's Splinter Weapon spreads its damage over the whole group; the fast adrenaline also feeds \"Save Yourselves!\".",
+      gear: { insignias: "Survivor, or Beastmaster's with a pet", weapons: ["Vampiric or zealous flatbow, with Favorable Winds in the party"] },
+      notes: "Ask a hero Ritualist to keep Splinter Weapon on you.",
+      source: { name: "PvXwiki: R/W Barrage (Good)", url: PVX + "Build:R/W_Barrage" },
+    },
+    {
+      id: "run-w", name: "Shadow Form Runner (running)", code: "OQcTEnK/ZamkSUnBVkmE3hC6AC",
+      summary: "Running build: Soldier's Speed and \"I Am the Strongest!\" for speed, Shadow Form against spell snares, \"Don't Trip!\" and \"I Am Unstoppable!\" against knockdowns.",
+      gear: { runes: "Attunement", insignias: "Radiant", weapons: ["+10 energy staff with 20% halved spell recharge", "Spear and shield of -2 damage / +45 health in stance, for when health runs low"] },
+      source: { name: "PvXwiki: W/A Shadow Form Runner (Great)", url: PVX + "Build:W/A_Shadow_Form_Runner" },
+    },
+    {
+      id: "run-d", name: "Outpost Runner (running)", code: "Ogej4NfMLTIQ0k6MHYjb3l4OUQ",
+      summary: "Running build to reach outposts: Pious Haste after Zealous Renewal for speed, Shadow Form against spells, Dwarven Stability and \"I Am Unstoppable!\" against knockdowns, and shadow steps to cover ground.",
+      gear: { runes: "Attunement or Vitae", insignias: "Radiant, Survivor or Sentry's", weapons: ["Martial weapon and shield of -2 damage / +45 health while enchanted", "+10 energy staff with 20% halved spell recharge"] },
+      source: { name: "PvXwiki: D/A Outpost Runner (Great)", url: PVX + "Build:D/A_Outpost_Runner" },
+    },
+    {
+      id: "run-a", name: "Shadow Form Runner (running)", code: "OwJSg5PTTQ/a6M0k3lIQ4O8I",
+      summary: "Running build: chain Dash and Natural Stride, Shadow Form against spells, Dwarven Stability and \"I Am Unstoppable!\" against knockdowns, and Death's Charge with Heart of Shadow to jump ahead; Deadly Paradox keeps Shadow Form up.",
+      gear: { runes: "Attunement or Vitae", insignias: "Radiant, Survivor, Sentry's or Blessed", weapons: ["+10 energy staff with 20% halved spell recharge", "Spear and shield of -2 damage / +45 health"] },
+      source: { name: "PvXwiki: A/R Shadow Form Runner (Great)", url: PVX + "Build:A/R_Shadow_Form_Runner" },
+    },
+    {
+      id: "run-r", name: "Escape Runner (running)", code: "OgARcZK1A4gVimEn8X74AVE",
+      summary: "Running build: Escape, Dodge, Zojun's Haste and Natural Stride for speed and blocking, \"I Am Unstoppable!\" and \"Don't Trip!\" against knockdowns, Storm Chaser and Feel No Pain to stay alive.",
+      gear: { insignias: "Sentry's or Survivor", weapons: ["+5 energy weapon with +5 armor or +30 health", "Shield of +30 health and -2 damage in stance"] },
+      notes: "The secondary depends on where you run: Assassin is faster, Monk brings hex removal.",
+      source: { name: "PvXwiki: R/any Escape Runner (Good)", url: PVX + "Build:R/any_Escape_Runner" },
+    },
+
     /* ---------- single hero builds, from PvXwiki: no PvE-only skills, and PvX's optional slots filled from the
        skills its page suggests for them ---------- */
     {

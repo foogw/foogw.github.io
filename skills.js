@@ -7,9 +7,12 @@ const PVE_OF = new Map(SKILLS.filter(s => s.pvp_version_id).map(s => [s.pvp_vers
 const MISSION_NAMES = new Set((window.GW_MISSIONS || []).map(m => m.name));
 const PLACE_NAMES = new Set((window.GW_LOCATIONS || []).filter(p => p.exits).map(p => p.name));
 // the teams and single builds whose bars use each skill: {team, build, n}, n being how many heroes in the team
-// run that build; a single build is its own one-build "team" linking to its page
+// run that build; a single (player or hero) build is its own one-build "team" linking to its page
 const USED_IN = new Map();
-const singleTeams = (window.GW_BUILDS?.singles || []).map(id => ({ id, single: true, builds: [id] }));
+const singleTeams = [
+  ...(window.GW_BUILDS?.players || []).map(id => ({ id, single: "player build", builds: [id] })),
+  ...(window.GW_BUILDS?.singles || []).map(id => ({ id, single: "hero build", builds: [id] })),
+];
 for (const t of [...(window.GW_BUILDS?.teams || []), ...singleTeams]) {
   const byId = new Map(window.GW_BUILDS.builds.map(b => [b.id, b]));
   const counts = new Map();
@@ -289,7 +292,7 @@ function skillPageHTML(s) {
           ${s.concise && s.concise !== s.description ? `<p class="dim sp-concise">${richText(s.concise)}</p>` : ""}</section>
         ${TITLE_TAB[s.attribute] ? `<section class="lbox"><h4>Title</h4><p>Gets stronger with your <a href="titles.html#${new URLSearchParams({ t: TITLE_TAB[s.attribute] })}">${esc(s.attribute.replace(/ rank$/, ""))} title</a> rank.</p></section>` : ""}
         ${USED_IN.has(s.id) ? `<section class="lbox"><h4>Used in builds</h4><ul class="lrows">${USED_IN.get(s.id).map(u =>
-          u.team.single ? `<li><a href="builds.html#${new URLSearchParams({ build: u.build.id })}">${esc(u.build.name)}</a><span class="dim">hero build</span></li>`
+          u.team.single ? `<li><a href="builds.html#${new URLSearchParams({ build: u.build.id })}">${esc(u.build.name)}</a><span class="dim">${u.team.single}</span></li>`
             : `<li><a href="builds.html#${new URLSearchParams({ team: u.team.id })}">${esc(u.team.name)}</a><span class="dim">${esc(u.build.name)}${u.n > 1 ? ` ×${u.n}` : ""}</span></li>`).join("")}</ul></section>` : ""}
         ${versions || related ? `<section class="lbox">${versions ? `<h4>Versions</h4><div class="chips">${versions}</div>` : ""}${related ? `<h4>Related skills</h4><div class="chips">${related}</div>` : ""}</section>` : ""}
       </div>
