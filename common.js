@@ -175,4 +175,7 @@ function richText(s) {
   return esc(s).replace(/&lt;gray&gt;(.*?)&lt;\/gray&gt;/g, '<span class="gray">$1</span>');
 }
 
+/* The abbreviations players search with ("fow", "sos", "sunspear"), added to an item's search text */
+const aliasText = (...names) => names.filter(Boolean).flatMap(n => (window.GW_ALIASES || {})[n] || []).join(" ");
+
 const skillIcon = (id, cls = "sk-ic") => `<img class="${cls}" src="img/skills/${id}.jpg" alt="" loading="lazy" onerror="this.remove()">`;

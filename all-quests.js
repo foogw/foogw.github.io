@@ -13,7 +13,7 @@ for (const q of QUESTS) COUNT.set(q.name, (COUNT.get(q.name) || 0) + 1);
 for (const q of QUESTS) {
   q._camp = q.campaign || "Core";
   q._skills = q.skills.map(id => SKILL.get(id)).filter(Boolean);
-  q._k = fold([q.name, q.giver, q.where, q.region, ...q._skills.map(s => s.name), ...q.rewards, ...q.missions].join(" | "));
+  q._k = fold([q.name, q.giver, q.where, q.region, ...q._skills.map(s => s.name), ...q.rewards, ...q.missions, aliasText(q.name, q.where)].join(" | "));
   q._href = questHref(q.name, COUNT.get(q.name) > 1 ? q.campaign : null);
 }
 

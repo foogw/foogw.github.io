@@ -11,7 +11,7 @@ const CAMPS = ["Prophecies", "Factions", "Nightfall", "Eye of the North", "Core"
 const tabOf = p => p.tab || p.campaign;
 const state = { place: null, camp: CAMPS[0] };
 
-for (const p of PLACES) p._k = fold([p.name, p.region, TYPE_LABEL[p.type]].join(" "));
+for (const p of PLACES) p._k = fold([p.name, p.region, TYPE_LABEL[p.type], aliasText(p.name, p.region)].join(" "));
 // the campaigns' own places get a page and a place in the index; the rest only appear as neighbours
 const FULL = PLACES.filter(p => p.exits);
 // regions in the order each story visits them

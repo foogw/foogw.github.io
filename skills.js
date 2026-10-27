@@ -57,7 +57,7 @@ const costValue = s => s.energy || s.adrenaline * 2 || s.sacrifice / 2 || 0;
 
 /* ---------- precompute ---------- */
 for (const s of SKILLS) {
-  s._name = fold(s.name);
+  s._name = fold(`${s.name} ${aliasText(s.name)}`);
   s._text = fold(s.description + " " + s.concise);
   s._sources = new Set(s.acquisition.map(a => a.m));
   s._title = isTitle(s);

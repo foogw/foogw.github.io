@@ -83,20 +83,21 @@
 </div>
 
 <script src="data/skills.js?v=8d0a8eb7"></script>
-<script src="data/missions.js?v=c8f8c289"></script>
+<script src="data/missions.js?v=525197a1"></script>
 <script src="data/locations.js?v=00883126"></script>
 <script src="data/rotations.js?v=a441223c"></script>
 <script src="data/quests.js?v=35d9b993"></script>
-<script src="common.js?v=900b921d"></script>
+<script src="data/aliases.js?v=c205d9c0"></script>
+<script src="common.js?v=2864a950"></script>
 <script src="template-code.js?v=201bf57f"></script>
 <script>
 "use strict";
 const SKILLS = window.GW_SKILLS.filter(s => !s.pvp_only);
 const MISSIONS = window.GW_MISSIONS;
 const SKILL = new Map(window.GW_SKILLS.map(s => [s.id, s]));
-for (const s of SKILLS) s._k = fold(s.name);
+for (const s of SKILLS) s._k = fold(`${s.name} ${aliasText(s.name)}`);
 for (const m of MISSIONS) {
-  m._k = fold(m.name);
+  m._k = fold(`${m.name} ${aliasText(m.name)}`);
   m._bosses = m.bosses.map(b => ({ b, k: fold(b.name) }));
 }
 

@@ -23,7 +23,7 @@ const state = { camps: new Set(), sort: "default", desc: false, mission: null, l
 
 /* ---------- precompute ---------- */
 for (const m of MISSIONS) {
-  m._name = fold(m.name + " " + m.name_de);
+  m._name = fold(`${m.name} ${m.name_de} ${aliasText(m.name)}`);
   m._elites = m.bosses.filter(b => b.elite_skill_id != null && SKILL.get(b.elite_skill_id)?.elite)
     .map(b => ({ boss: b, skill: SKILL.get(b.elite_skill_id) }));
   m._who = fold([
