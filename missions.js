@@ -217,7 +217,7 @@ function missionPageHTML(m) {
   const f = { who: [] };
   const camp = m.kind === "PvP" ? "PvP" : m.campaign;
   const sub = [m.story_label && `Mission ${m.story_label}`, camp, m.region, m.type !== "Mission" && m.type].filter(Boolean).map(esc).join(" · ");
-  const stats = [["Party", m.party_size], m.map_id && ["Map ID", m.map_id]].filter(x => x && x[1]);
+  const stats = [["Party", m.party_size]].filter(x => x[1]);
   const before = MISSIONS.filter(x => x.leads_to.includes(m.name));
   const outpost = OUTPOST.get(m.name);
   const hero = (m.hero || "").split(" and ").map(n => HERO.get(n)).filter(Boolean);
