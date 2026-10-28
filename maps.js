@@ -4,9 +4,9 @@
    pinch to zoom, click an area for its Locations and Missions pages. #region=<id> opens a region, #area=<name> also
    picks out that area. Data: data/world.js (tools/worldmap.py). */
 const WORLD = window.GW_WORLD || [], PAGES = window.GW_WORLD_PAGES || {};
-const GROUP_COLOR = { "Pre-Searing": "--p-mesmer", Prophecies: "--p-paragon", Factions: "--p-ritualist", Nightfall: "--p-elementalist",
-  "Eye of the North": "--p-monk", "The Mists": "--p-necromancer",
-  "Factions Elite": "--p-assassin" };
+const GROUP_COLOR = { "Pre-Searing": "--p-mesmer", Tyria: "--p-paragon", Cantha: "--p-ritualist", Elona: "--p-elementalist", "Realm of Torment": "--p-dervish",
+  "Eye of the North": "--p-monk", Elite: "--p-necromancer" };
+const MAX_FIT = 2;
 const VEIL = "#06080a", HOVER = "#ffffff", PICK = "#ffd98a";
 const areaRegion = new Map();  // site name -> [region, layer]
 for (const r of WORLD) for (const l of r.layers) for (const n of l.names) if (!areaRegion.has(n)) areaRegion.set(n, [r, l]);
@@ -108,7 +108,8 @@ function resize() {
   const was = fitZoom;
   cssW = Math.round(r.width); cssH = Math.round(r.height);
   cv.width = Math.round(cssW * dpr); cv.height = Math.round(cssH * dpr);
-  if (region) fitZoom = Math.min(cssW / region.w, cssH / region.h);
+  // a small picture is shown at most twice its size, centred, rather than blown up to fill the frame
+  if (region) fitZoom = Math.min(cssW / region.w, cssH / region.h, MAX_FIT);
   if (view.zoom === was) fit(); else clamp();
   schedule();
 }
@@ -116,7 +117,7 @@ function fit() { view.zoom = fitZoom; view.x = (cssW - region.w * fitZoom) / 2; 
 function zoomTo(l) {
   if (!l || !cssW) return fit();
   const m = Math.max(l.w, l.h) * 0.15;
-  view.zoom = Math.min(fitZoom * 16, cssW / (l.w + 2 * m), cssH / (l.h + 2 * m));
+  view.zoom = Math.max(fitZoom, Math.min(fitZoom * 16, MAX_FIT, cssW / (l.w + 2 * m), cssH / (l.h + 2 * m)));
   view.x = cssW / 2 - (l.x + l.w / 2) * view.zoom; view.y = cssH / 2 - (l.y + l.h / 2) * view.zoom;
   clamp(); schedule();
 }
