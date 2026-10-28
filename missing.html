@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>What's Missing</title>
+<link rel="stylesheet" href="style.css?v=440f6930">
+<style>
+  .missing { max-width: 760px; padding-top: 8px; }
+  .missing ul { list-style: none; margin: 0; padding: 0; }
+  .missing > ul > li { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .missing li b { display: block; font-size: 15px; margin-bottom: 2px; }
+  .missing li span { color: var(--muted); }
+  .missing .names { display: block; margin-top: 6px; font-size: 14px; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="wrap topbar">
+  <header class="top">
+    <nav class="pages"><a href="index.html">Home</a><a href="rotations.html">Rotations</a><a href="quests.html">Storylines</a><a href="locations.html">Locations</a><a href="skills.html">Skills</a><a href="missions.html">Missions</a><a href="heroes.html">Heroes</a><a href="builds.html">Builds</a><a href="builder.html">Builder</a></nav>
+    <a class="hdr-link push" href="about.html">About</a>
+    <a class="hdr-link" href="thanks.html">Thanks</a>
+    <a class="hdr-link" href="contact.html">Contact</a>
+    <a class="hdr-link" href="license.html">License</a>
+  </header>
+</div>
+<div class="wrap missing">
+  <div class="page-title"><h1>What's Missing</h1><p>The gaps we know about. If you can help fill one, see <a href="contact.html">Contact</a>.</p></div>
+  <ul>
+    <li><b>Map windows for some areas and missions</b>
+      <span>Most are instanced areas whose map the game files don't place on a continent.</span>
+      <span class="names" id="nomap"></span></li>
+    <li><b>Two areas in one map window</b>
+      <span>Where two areas share one terrain, both pages show the whole of it, e.g. Tasca's Demise and Spearhead Peak.</span></li>
+    <li><b>What's where on the maps</b>
+      <span>Map windows don't show yet where NPCs, bosses, chests or quest items are.</span></li>
+    <li><b>Dungeons</b>
+      <span>The Eye of the North dungeons and the pre-Searing dungeons have no pages yet.</span></li>
+  </ul>
+  <footer class="site-footer"><a href="about.html">About</a> · <a href="license.html">License &amp; credits</a> · <a href="thanks.html">Thanks</a> · <a href="contact.html">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+<script src="data/locations.js?v=7283fb22"></script>
+<script src="data/missions.js?v=6042b26d"></script>
+<script src="data/maps.js?v=f6fa22d2"></script>
+<script src="common.js?v=3900ecf9"></script>
+<script>
+// explorable areas and PvE missions with no map window, worked out from the data so the list stays current
+const placeHref = name => `locations.html#${new URLSearchParams({ place: name })}`;
+const pages = [
+  ...window.GW_LOCATIONS.filter(p => p.type === "explorable").map(p => [p.name, placeHref(p.name)]),
+  ...window.GW_MISSIONS.filter(m => m.kind === "PvE").map(m => [m.name, missionHref(m.name)]),
+].filter(([n]) => !window.GW_MAPS[n]);
+const seen = new Set();
+document.getElementById("nomap").innerHTML = pages.filter(([n]) => !seen.has(n) && seen.add(n))
+  .sort(([a], [b]) => a.localeCompare(b)).map(([n, h]) => `<a href="${esc(h)}">${esc(n)}</a>`).join(" · ");
+</script>
+</body>
+</html>
