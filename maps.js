@@ -36,16 +36,20 @@ function chips() {
     `<button data-region="${esc(r.id)}" aria-pressed="${r === region}">${esc(r.label)}</button>`).join("");
 }
 
-function setHash(h) { try { history.replaceState(null, "", `#${new URLSearchParams(h)}`); } catch (e) { /* sandboxed */ } }
+// the address names the open region or area, except for the region the page opens on by itself
+function setHash(h) {
+  const url = h ? `#${new URLSearchParams(h)}` : location.pathname + location.search;
+  try { history.replaceState(null, "", url); } catch (e) { /* sandboxed */ }
+}
 
-function openRegion(r, area = null) {
+function openRegion(r, area = null, quiet = false) {
   if (!r) return;
   const same = r === region, token = same ? loadToken : ++loadToken;
   region = r; hover = null;
   if (!same) { base = null; layers = r.layers.map(l => ({ ...l, img: null, bits: null })); }
   pick = area && layers.find(l => l.m === area.m);
   chips();
-  setHash(pick ? { area: pick.names[0] } : { region: r.id });
+  if (!quiet) setHash(pick ? { area: pick.names[0] } : { region: r.id });
   showPanel();
   if (same) { pick ? zoomTo(pick) : fit(); return; }
   draw();
@@ -68,7 +72,8 @@ function fromHash() {
   const h = new URLSearchParams(location.hash.slice(1));
   const hit = h.get("area") && areaRegion.get(h.get("area"));
   if (hit) return openRegion(hit[0], hit[1]);
-  openRegion(WORLD.find(r => r.id === h.get("region")) || region || WORLD[0]);
+  const r = WORLD.find(r => r.id === h.get("region"));
+  openRegion(r || region || WORLD[0], null, !r && !region);
 }
 window.addEventListener("hashchange", fromHash);
 
