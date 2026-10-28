@@ -88,8 +88,10 @@ function layout(flow, avail) {
   for (let pass = 0; pass < 2; pass++) {
     lines = [];
     for (const row of rows) {
-      // side branches (attribute quests) don't count towards centring the row: they go beside what they follow
-      const side = row.filter(id => FLOW_NODE.get(id)?.kind === "attribute");
+      // side branches (attribute quests, and optional steps that lead nowhere while the story goes on) don't
+      // count towards centring the row: they go beside what they follow
+      const deadEnd = id => !succs.has(id) && (preds.get(id) || []).some(p => succs.get(p).length > 1);
+      const side = row.filter(id => FLOW_NODE.get(id)?.kind === "attribute" || deadEnd(id));
       const main = row.filter(id => !side.includes(id));
       const want = main.map(id => ({ id, at: mean(preds.get(id)) ?? (pass ? mean(succs.get(id)) : null) ?? middle }));
       want.sort((a, b) => a.at - b.at || cmpStr(nodeName(a.id), nodeName(b.id)));
@@ -171,6 +173,15 @@ function renderParts(flow) {
     <div class="eotn-parallel">${parallel.map(list).join("")}</div>
     ${named("All together") ? `${join}<div class="eotn-final">${list(named("All together"))}</div>` : ""}
   </div>`;
+  // join each row to the next; several steps on a row merge into (or fan out from) the next one
+  for (const ol of $("canvas").querySelectorAll(".eotn-part ol")) {
+    const o = ol.getBoundingClientRect();
+    const rect = el => { const r = el.getBoundingClientRect(); return { x: r.left - o.left, y: r.top - o.top, w: r.width, h: r.height }; };
+    const rows = [...ol.children].map(li => [...li.querySelectorAll(".eotn-step")].map(rect));
+    let svg = "";
+    for (let i = 1; i < rows.length; i++) for (const a of rows[i - 1]) for (const b of rows[i]) svg += `<path d="${edgePath(a, b)}"/>`;
+    ol.insertAdjacentHTML("afterbegin", `<svg class="eotn-links" aria-hidden="true">${svg}</svg>`);
+  }
 }
 
 function renderHeroes(flow) {
