@@ -7,16 +7,16 @@ const CAMP_COLOR = { Prophecies: "--p-paragon", Factions: "--p-ritualist", Night
    A 6 × 3 grid. Each campaign is a box over some cells; a hero group sits in the cells that lie
    inside exactly its campaigns:
 
-     col  1      2        3        4      5        6
-     r1   EotN   P+EotN   P        —      F ······ F
-     r2   EotN   P+EotN   P+NF     NF     F+NF     F
-     r3   EotN   EotN     NF       NF     NF       any
+     col  1      2        3        4         5        6
+     r1   EotN   P+EotN   P        (P+F)     F        F
+     r2   EotN   P+EotN   P+NF     P+F+NF    F+NF     F
+     r3   EotN   EotN     NF       NF        NF       —
 
-   M.O.X. needs any one of Prophecies, Factions or Nightfall, so it sits outside the boxes, bottom right. */
+   No hero needs just Prophecies and Factions, so that cell stays empty. */
 const BOXES = [
   { camp: "Eye of the North", area: "1 / 1 / 4 / 3", label: "tl" },
-  { camp: "Prophecies", area: "1 / 2 / 3 / 4", label: "tr" },
-  { camp: "Factions", area: "1 / 5 / 3 / 7", label: "tr" },
+  { camp: "Prophecies", area: "1 / 2 / 3 / 5", label: "tc" },
+  { camp: "Factions", area: "1 / 4 / 3 / 7", label: "tr" },
   { camp: "Nightfall", area: "2 / 3 / 4 / 6", label: "br" },
 ];
 const GROUPS = [
@@ -24,14 +24,13 @@ const GROUPS = [
   { key: "Prophecies+Eye of the North", area: "1 / 2 / 3 / 3" },
   { key: "Prophecies", area: "1 / 3 / 2 / 4", cls: "below-label" },
   { key: "Prophecies+Nightfall", area: "2 / 3 / 3 / 4" },
-  { key: "any", area: "3 / 6 / 4 / 7" },
+  { key: "Prophecies+Factions+Nightfall", area: "2 / 4 / 3 / 5" },
   { key: "Factions+Nightfall", area: "2 / 5 / 3 / 6" },
   { key: "Factions", area: "1 / 5 / 2 / 7", cls: "below-label trim-right" },
   { key: "Nightfall", area: "3 / 3 / 4 / 6" },
 ];
-const groupKey = h => (h.any_campaign ? "any" : h.campaigns.join("+"));
-const groupTitle = key => (key === "any" ? "Any one of Prophecies, Factions or Nightfall"
-  : key.includes("+") ? key.split("+").join(" + ") : `${key} only`);
+const groupKey = h => h.campaigns.join("+");
+const groupTitle = key => (key.includes("+") ? key.split("+").join(" + ") : `${key} only`);
 
 const profColor = p => (p === "Any" ? "var(--p-none)" : profVar(p));
 const chip = h => `<a class="hchip" href="${esc(heroHref(h.name))}" style="--pc:${profColor(h.profession)}" title="${esc(h.profession)}">
@@ -54,7 +53,7 @@ function renderVenn() {
   const groups = GROUPS.map(g => {
     const list = HEROES.filter(h => groupKey(h) === g.key);
     if (!list.length) return "";
-    return `<div class="vgroup${g.key === "any" ? " any" : ""}${g.cls ? ` ${g.cls}` : ""}" style="grid-area:${g.area}">
+    return `<div class="vgroup${g.cls ? ` ${g.cls}` : ""}" style="grid-area:${g.area}">
       <h4>${esc(groupTitle(g.key))}</h4><div class="vchips">${units(list)}</div></div>`;
   });
   $("venn").innerHTML = boxes.join("") + groups.join("");
@@ -73,7 +72,7 @@ function recruitHTML(h) {
 }
 
 const SHORT = { Prophecies: "Proph", Factions: "Factions", Nightfall: "NF", "Eye of the North": "EotN" };
-const campsHTML = h => (h.any_campaign ? "Any"
+const campsHTML = h => (h.campaigns.length === 3 && !h.campaigns.includes("Eye of the North") ? "All 3"
   : h.campaigns.map(c => `<span style="color:var(${CAMP_COLOR[c]})">${SHORT[c]}</span>`).join(" + "));
 
 // the builds suggested for each hero (the "heroes" of each build on the Builds page)
@@ -97,7 +96,7 @@ const suggestedHTML = h => (SUGGESTED.get(h.name) || []).map(b =>
 
 function renderList() {
   const order = ["Eye of the North", "Prophecies+Eye of the North", "Prophecies", "Prophecies+Nightfall", "Nightfall",
-    "Factions+Nightfall", "Factions", "any"];
+    "Factions+Nightfall", "Factions", "Prophecies+Factions+Nightfall"];
   const rows = [...HEROES].sort((a, b) => order.indexOf(groupKey(a)) - order.indexOf(groupKey(b)));
   let html = `<div class="hrow hhead"><span>Campaigns</span><span>Hero</span><span>Suggested build</span><span>How to recruit</span></div>`, group;
   for (const h of rows) {
@@ -116,7 +115,7 @@ function renderList() {
 /* ---------- one hero's page ---------- */
 const HERO = new Map(HEROES.map(h => [h.name, h]));
 const MISSIONS = window.GW_MISSIONS || [];
-const needsHTML = h => (h.any_campaign ? "Any one of Prophecies, Factions or Nightfall" : h.campaigns.join(" and "));
+const needsHTML = h => h.campaigns.join(", ").replace(/, ([^,]+)$/, " and $1");
 
 function heroPageHTML(h) {
   const alts = h.alternative_to.map(n => HERO.get(n)).filter(Boolean);

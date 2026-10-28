@@ -552,20 +552,20 @@ table.npcs td.grp { font-size: 12px; padding-top: 8px; }
 /* ---------- heroes ---------- */
 .venn { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: auto auto auto; margin: 22px 0 8px; max-width: 1200px; }
 .vbox { position: relative; border: 2px solid var(--c); border-radius: 14px; background: color-mix(in srgb, var(--c) 9%, transparent); pointer-events: none; }
-.vbox:nth-child(2) { margin: 10px 4px 0 6px; }
-.vbox:nth-child(3) { margin: 0 70px 0 6px; }
+/* where two boxes cross, their edges sit at different heights so each border stays readable */
 .vbox:nth-child(1) { margin-right: 12px; }
-.vbox:nth-child(4) { margin: 10px 4px 0 12px; }
+.vbox:nth-child(2) { margin: 14px 8px -14px 6px; }
+.vbox:nth-child(3) { margin: 0 120px 0 8px; }
+.vbox:nth-child(4) { margin: 6px -40px 0 2px; }
 .vbox span { position: absolute; padding: 1px 8px; border-radius: 6px; background: var(--bg); color: var(--c); border: 1px solid var(--c); font-size: 12px; font-weight: 600; white-space: nowrap; }
 .vbox.lbl-tl span { top: -11px; left: 12px; }
 .vbox.lbl-tr span { top: -11px; right: 12px; }
+.vbox.lbl-tc span { top: -11px; left: 50%; transform: translateX(-50%); }
 .vbox.lbl-br span { bottom: -11px; right: 12px; }
 .vgroup { position: relative; z-index: 1; padding: 22px 12px 18px; display: flex; flex-direction: column; justify-content: center; }
 .vgroup h4 { display: none; }
 .vgroup.below-label { padding-top: 36px; }
-.vgroup.trim-right { padding-right: 82px; }
-.vgroup.any { margin: 0 0 0 14px; border: 1.5px dashed var(--muted); border-radius: 12px; align-self: end; padding: 8px; }
-.vgroup.any h4 { display: block; margin: 0 0 6px; font-size: 11px; font-weight: 500; color: var(--muted); text-align: center; }
+.vgroup.trim-right { padding-right: 132px; }
 .vchips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
 .hchip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px 3px 4px; border-radius: 999px; font: inherit; font-size: 13px; cursor: pointer;
   color: var(--text); background: var(--panel); border: 1px solid color-mix(in srgb, var(--pc) 55%, var(--line)); white-space: nowrap; }
@@ -586,8 +586,7 @@ table.npcs td.grp { font-size: 12px; padding-top: 8px; }
   .venn { display: block; }
   .vbox { display: none; }
   .vgroup { padding: 4px 0 10px; }
-  .vgroup h4, .vgroup.any h4 { display: block; margin: 8px 0 6px; font-size: 12px; color: var(--muted); text-align: left; }
-  .vgroup.any { border: 0; margin: 0; padding: 4px 0 10px; }
+  .vgroup h4 { display: block; margin: 8px 0 6px; font-size: 12px; color: var(--muted); text-align: left; }
   .vchips { justify-content: flex-start; }
   .hrow { grid-template-columns: 1fr; gap: 2px; }
 }
