@@ -212,6 +212,25 @@ function groupedNpcs(list, f) {
 
 const bossLink = b => `<a href="${esc(bossHref(b.name))}">${esc(b.name)}</a>`;
 
+// when a daily Zaishen quest is next about this mission, or how long the current one still runs: the Zaishen Mission
+// itself, and a Zaishen Bounty on a boss in it (left to the explorable's page where the mission has an explorable twin)
+const ROT = key => (window.GW_ROTATIONS || []).find(r => r.key === key);
+const fmtZDay = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric" });
+function zaishenNote(r, title, match) {
+  if (!r || !r.entries.some(match)) return "";
+  const now = Date.now(), k = Rotation.period(r, now), link = `<a href="rotations.html">${title}</a>`;
+  let i = 0;
+  while (!match(Rotation.entry(r, k + i))) i++;
+  const what = e => (e.where ? ` on ${esc(e.name)}` : "");
+  if (!i) return `This is today's ${link}${what(Rotation.entry(r, k))}, for another ${timeLeft(Rotation.endsAt(r, now) - now)}.`;
+  const e = Rotation.entry(r, k + i);
+  return `The next ${link}${e.where ? what(e) : " here"} is on ${fmtZDay.format(Rotation.startsAt(r, k + i))}, in ${i} day${i > 1 ? "s" : ""}.`;
+}
+const zaishenNotes = name => [
+  zaishenNote(ROT("zaishen-mission"), "Zaishen Mission", e => e.name === name),
+  !PLACE_NAMES.has(`${name} (explorable)`) && zaishenNote(ROT("zaishen-bounty"), "Zaishen Bounty", e => e.where === name),
+];
+
 /* ---------- one mission's page ---------- */
 function missionPageHTML(m) {
   const f = { who: [] };
@@ -229,6 +248,7 @@ function missionPageHTML(m) {
   const areas = [PLACE_NAMES.has(`${m.name} (explorable)`) && `${m.name} (explorable)`, ...mapSharers(m.name).filter(n => !BY_NAME.has(n))].filter(Boolean);
   const others = mapSharers(m.name).filter(n => BY_NAME.has(n));
   const notes = [
+    ...zaishenNotes(m.name),
     areas.length && `This mission's area is also open to explore as ${areas.map(placeLink).join(" and ")}.`,
     others.length && `The ${others.map(missionLink).join(" and ")} mission${others.length > 1 ? "s take" : " takes"} place in the same area.`,
   ].filter(Boolean);
