@@ -77,7 +77,7 @@ const nicholasItemHTML = e => (e.map ? `<a href="${esc(e.map)}" target="_blank" 
 function rotationEntryHTML(r, e, missionNames) {
   const name = r.key === "zaishen-mission" && missionNames && missionNames.has(e.name)
     ? `<a href="${esc(missionHref(e.name))}">${esc(e.name)}</a>`
-    : r.key === "weekly-pve" ? `<a href="rotations.html#${new URLSearchParams({ bonus: e.name })}">${esc(e.name)}</a>`
+    : r.key === "weekly-pve" ? `<a href="rotations#${new URLSearchParams({ bonus: e.name })}">${esc(e.name)}</a>`
     : r.key === "nicholas-traveler" ? nicholasItemHTML(e) : esc(e.name);
   if (e.count) return `${e.count} × ${name} <span class="dim">— ${esc(e.where)}, ${esc(e.region)}</span>`;
   return name;
@@ -112,14 +112,13 @@ function rotationListHTML(rows, rotations, missionNames, now = Date.now()) {
   }).join("");
 }
 
-/* On the published site the home page is "/", never "/index.html": point Home links at the folder and
-   drop "index.html" from the address bar. Opened from disk (file:), links keep index.html. */
+/* Pages are linked without ".html" ("maps", "./" for the home page), which GitHub Pages and tools/serve.py both serve.
+   An old ".html" address (a bookmark or a shared link) still loads; the address bar then drops ".html" ("/index.html"
+   becomes "/"), keeping the query and hash. Nothing is redirected. */
 function cleanHomeUrls() {
   if (!location.protocol.startsWith("http")) return;
-  for (const a of document.querySelectorAll('a[href^="index.html"]')) a.setAttribute("href", "./" + a.getAttribute("href").slice(10));
-  if (location.pathname.endsWith("/index.html")) {
-    history.replaceState(history.state, "", location.pathname.slice(0, -10) + location.search + location.hash);
-  }
+  const m = location.pathname.match(/^(.*\/)([\w-]+)\.html$/);
+  if (m) history.replaceState(history.state, "", m[1] + (m[2] === "index" ? "" : m[2]) + location.search + location.hash);
 }
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", cleanHomeUrls);
 else cleanHomeUrls();
@@ -163,10 +162,10 @@ const ATTRIBUTES = {
 };
 /* Where one mission, hero, boss or quest has its own page. A quest whose name another quest shares also
    names its campaign. */
-const missionHref = name => `missions.html#${new URLSearchParams({ mission: name })}`;
-const heroHref = name => `heroes.html#${new URLSearchParams({ hero: name })}`;
-const bossHref = name => `bosses.html#${new URLSearchParams({ boss: name })}`;
-const questHref = (name, campaign) => `quests.html#${new URLSearchParams(campaign ? { quest: name, qc: campaign } : { quest: name })}`;
+const missionHref = name => `missions#${new URLSearchParams({ mission: name })}`;
+const heroHref = name => `heroes#${new URLSearchParams({ hero: name })}`;
+const bossHref = name => `bosses#${new URLSearchParams({ boss: name })}`;
+const questHref = (name, campaign) => `quests#${new URLSearchParams(campaign ? { quest: name, qc: campaign } : { quest: name })}`;
 
 // how Locations names a place: no "(outpost)" or "(Post-Searing)", and an explorable twin is "X (explorable)"
 const placeName = where => where.replace(/ \((?:outpost|Post-Searing)\)$/, "").replace(/ \(explorable area\)$/, " (explorable)");
@@ -189,7 +188,7 @@ function builderHref(b) {
   const ids = Object.fromEntries(Object.entries(ATTRIBUTES).map(([id, name]) => [name, id]));
   const bonus = Object.entries(b.runes || {}).map(([name, r]) => [ids[name], runeBonus(r)]).filter(([id, v]) => id && v)
     .map(([id, v]) => `${id}:${v}`).join(",");
-  return "builder.html#" + new URLSearchParams(bonus ? { code: b.code, bonus } : { code: b.code }).toString().replace(/%3A/g, ":").replace(/%2C/g, ",");
+  return "builder#" + new URLSearchParams(bonus ? { code: b.code, bonus } : { code: b.code }).toString().replace(/%3A/g, ":").replace(/%2C/g, ",");
 }
 
 const skillIcon = (id, cls = "sk-ic") => `<img class="${cls}" src="img/skills/${id}.jpg" alt="" loading="lazy" onerror="this.remove()">`;

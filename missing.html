@@ -19,15 +19,15 @@
 <body>
 <div class="wrap topbar">
   <header class="top">
-    <nav class="pages"><a href="index.html">Home</a><a href="rotations.html">Rotations</a><a href="quests.html">Storylines</a><a href="missions.html">Missions</a><a href="locations.html">Locations</a><a href="maps.html">Maps</a><a href="skills.html">Skills</a><a href="heroes.html">Heroes</a><a href="builds.html">Builds</a><a href="builder.html">Builder</a></nav>
-    <a class="hdr-link push" href="about.html">About</a>
-    <a class="hdr-link" href="thanks.html">Thanks</a>
-    <a class="hdr-link" href="contact.html">Contact</a>
-    <a class="hdr-link" href="license.html">License</a>
+    <nav class="pages"><a href="./">Home</a><a href="rotations">Rotations</a><a href="quests">Storylines</a><a href="missions">Missions</a><a href="locations">Locations</a><a href="maps">Maps</a><a href="skills">Skills</a><a href="heroes">Heroes</a><a href="builds">Builds</a><a href="builder">Builder</a></nav>
+    <a class="hdr-link push" href="about">About</a>
+    <a class="hdr-link" href="thanks">Thanks</a>
+    <a class="hdr-link" href="contact">Contact</a>
+    <a class="hdr-link" href="license">License</a>
   </header>
 </div>
 <div class="wrap missing">
-  <div class="page-title"><h1>What's Missing</h1><p>The gaps we know about. If you can help fill one, see <a href="contact.html">Contact</a>.</p></div>
+  <div class="page-title"><h1>What's Missing</h1><p>The gaps we know about. If you can help fill one, see <a href="contact">Contact</a>.</p></div>
   <ul>
     <li><b>Map windows for some areas and missions</b>
       <span>Most are instanced areas whose map the game files don't place on a continent.</span>
@@ -39,15 +39,15 @@
     <li><b>Dungeons</b>
       <span>The Eye of the North dungeons and the pre-Searing dungeons have no pages yet.</span></li>
   </ul>
-  <footer class="site-footer"><a href="about.html">About</a> · <a href="license.html">License &amp; credits</a> · <a href="thanks.html">Thanks</a> · <a href="contact.html">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+  <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
-<script src="data/locations.js?v=7283fb22"></script>
+<script src="data/locations.js?v=0eb672a3"></script>
 <script src="data/missions.js?v=6042b26d"></script>
 <script src="data/maps.js?v=f6fa22d2"></script>
-<script src="common.js?v=3900ecf9"></script>
+<script src="common.js?v=e99e0920"></script>
 <script>
 // explorable areas and PvE missions with no map window, worked out from the data so the list stays current
-const placeHref = name => `locations.html#${new URLSearchParams({ place: name })}`;
+const placeHref = name => `locations#${new URLSearchParams({ place: name })}`;
 const pages = [
   ...window.GW_LOCATIONS.filter(p => p.type === "explorable").map(p => [p.name, placeHref(p.name)]),
   ...window.GW_MISSIONS.filter(m => m.kind === "PvE").map(m => [m.name, missionHref(m.name)]),

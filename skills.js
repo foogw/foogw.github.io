@@ -227,7 +227,7 @@ function acquisitionHTML(s) {
     const where = a.l;
     const place = !where ? "" : MISSION_NAMES.has(where)
       ? `<a href="${esc(missionHref(where))}">${esc(where)}</a>`
-      : PLACE_NAMES.has(placeName(where)) ? `<a href="locations.html#${new URLSearchParams({ place: placeName(where) })}">${esc(where)}</a>` : esc(where);
+      : PLACE_NAMES.has(placeName(where)) ? `<a href="locations#${new URLSearchParams({ place: placeName(where) })}">${esc(where)}</a>` : esc(where);
     const name = m === "Quest" ? `<a href="${esc(questHref(who, c || null))}">${esc(who)}</a>`
       : m === "Signet of Capture" ? `<a href="${esc(bossHref(who))}">${esc(who)}</a>` : esc(who);
     const line = `${name}${where ? ` <span class="m">— ${place}</span>` : ""}`;
@@ -290,15 +290,15 @@ function skillPageHTML(s) {
       <div class="lside">
         <section class="lbox"><h4>Description</h4><p class="sp-desc">${richText(s.description)}</p>
           ${s.concise && s.concise !== s.description ? `<p class="dim sp-concise">${richText(s.concise)}</p>` : ""}</section>
-        ${TITLE_TAB[s.attribute] ? `<section class="lbox"><h4>Title</h4><p>Gets stronger with your <a href="titles.html#${new URLSearchParams({ t: TITLE_TAB[s.attribute] })}">${esc(s.attribute.replace(/ rank$/, ""))} title</a> rank.</p></section>` : ""}
+        ${TITLE_TAB[s.attribute] ? `<section class="lbox"><h4>Title</h4><p>Gets stronger with your <a href="titles#${new URLSearchParams({ t: TITLE_TAB[s.attribute] })}">${esc(s.attribute.replace(/ rank$/, ""))} title</a> rank.</p></section>` : ""}
         ${USED_IN.has(s.id) ? `<section class="lbox"><h4>Used in builds</h4><ul class="lrows">${USED_IN.get(s.id).map(u =>
-          u.team.single ? `<li><a href="builds.html#${new URLSearchParams({ build: u.build.id })}">${esc(u.build.name)}</a><span class="dim">${u.team.single}</span></li>`
-            : `<li><a href="builds.html#${new URLSearchParams({ team: u.team.id })}">${esc(u.team.name)}</a><span class="dim">${esc(u.build.name)}${u.n > 1 ? ` ×${u.n}` : ""}</span></li>`).join("")}</ul></section>` : ""}
+          u.team.single ? `<li><a href="builds#${new URLSearchParams({ build: u.build.id })}">${esc(u.build.name)}</a><span class="dim">${u.team.single}</span></li>`
+            : `<li><a href="builds#${new URLSearchParams({ team: u.team.id })}">${esc(u.team.name)}</a><span class="dim">${esc(u.build.name)}${u.n > 1 ? ` ×${u.n}` : ""}</span></li>`).join("")}</ul></section>` : ""}
         ${versions || related ? `<section class="lbox">${versions ? `<h4>Versions</h4><div class="chips">${versions}</div>` : ""}${related ? `<h4>Related skills</h4><div class="chips">${related}</div>` : ""}</section>` : ""}
       </div>
       <div class="lside"><section class="lbox"><h4>How to get it</h4>${acquisitionHTML(s)}</section></div>
     </div>
-    <p class="llinks"><a href="builder.html#add=${s.id}">Add to builder →</a><span class="dim">Skill ID ${s.id}</span></p>`;
+    <p class="llinks"><a href="builder#add=${s.id}">Add to builder →</a><span class="dim">Skill ID ${s.id}</span></p>`;
 }
 
 // the list, or one skill's page when the address names one

@@ -53,7 +53,7 @@ window.GW_BONUSES = [
     announcement: "Strap on your snow boots! All week long, whether you're helping the Asura, Deldrimor, Ebon Vanguard, or the Norn, reputation points are doubled (excluding completed books).",
     tips: [
       "Take the blessing in an Eye of the North area before you fight: every kill then earns that region's reputation, doubled this week.",
-      "Repeat the {page:missions.html#c=Eye+of+the+North|Eye of the North missions}: each gives reputation every time you finish it, and more in Hard mode.",
+      "Repeat the {page:missions#c=Eye+of+the+North|Eye of the North missions}: each gives reputation every time you finish it, and more in Hard mode.",
       "Don't turn in completed books this week: they are not doubled.",
     ],
   },
@@ -86,7 +86,7 @@ window.GW_BONUSES = [
     effect: "Exchanging Kurzick or Luxon faction at the faction reward NPCs gives double title points.",
     announcement: "Your support is twice as important this week! Receive double Kurzick and Luxon title track points for exchanging faction with faction reward NPCs.",
     tips: [
-      "Run the {page:builds.html#team=afk-luxon-faction|7 Hero AFK Luxon Faction Farm} all week, and turn the faction in each time you near the cap: the most title points for the least effort.",
+      "Run the {page:builds#team=afk-luxon-faction|7 Hero AFK Luxon Faction Farm} all week, and turn the faction in each time you near the cap: the most title points for the least effort.",
       "The week to push the Kurzick and Luxon titles: save up faction in other weeks and turn it in at the faction reward NPCs now, for double the title points.",
       "Faction from vanquishes and the faction PvP maps counts too.",
       "Imperial faction from PvP can be exchanged for Kurzick or Luxon faction too, so PvP players gain from this week as well.",

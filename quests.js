@@ -216,7 +216,7 @@ function render() {
 function rewardsHTML(q) {
   const parts = [q.xp && `${q.xp.toLocaleString("en")} XP`, q.gold && `${q.gold.toLocaleString("en")} gold`, ...q.rewards].filter(Boolean);
   const skills = q.skills.map(id => SKILL.get(id)).filter(Boolean).map(s =>
-    `<a class="q-skill${s.elite ? " elite" : ""}" href="skills.html#skill=${s.id}" style="--pc:${profVar(s.profession)}"><img src="img/skills/${s.id}.jpg" alt="" onerror="this.remove()">${esc(s.name)}</a>`).join("");
+    `<a class="q-skill${s.elite ? " elite" : ""}" href="skills#skill=${s.id}" style="--pc:${profVar(s.profession)}"><img src="img/skills/${s.id}.jpg" alt="" onerror="this.remove()">${esc(s.name)}</a>`).join("");
   return (parts.length ? `<p>${parts.map(esc).join(" · ")}</p>` : "") + (skills ? `<div class="q-skills">${skills}</div>` : "");
 }
 
@@ -267,7 +267,7 @@ function refLink(name, camp) {
   if (qs) return `<a href="${esc(questURL(qs.find(q => q.campaign === camp) || qs[0]))}">${esc(name)}</a>`;
   return MISSION_EN.has(name) ? `<a href="${esc(missionHref(name))}">${esc(name)}</a>` : esc(name);
 }
-const placeLink = name => (PLACES.has(name) ? `<a href="locations.html#${new URLSearchParams({ place: name })}">${esc(name)}</a>` : esc(name));
+const placeLink = name => (PLACES.has(name) ? `<a href="locations#${new URLSearchParams({ place: name })}">${esc(name)}</a>` : esc(name));
 
 function questPageHTML(q) {
   const sub = [`${q.type} quest`, q.campaign, q.region].filter(Boolean).map(esc).join(" · ");
@@ -300,12 +300,12 @@ function questPageHTML(q) {
       </div>
       <div class="lside">
         <section class="lbox"><h4>Rewards</h4>
-          ${skills.length ? `<div class="qp-skills">${skills.map(s => `<a class="skill-link${s.elite ? " elite" : ""}" href="skills.html#skill=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${esc(s.name)}</a>`).join("")}</div>` : ""}
+          ${skills.length ? `<div class="qp-skills">${skills.map(s => `<a class="skill-link${s.elite ? " elite" : ""}" href="skills#skill=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${esc(s.name)}</a>`).join("")}</div>` : ""}
           ${q.rewards.length ? `<ul class="qp-rewards">${q.rewards.map(r => `<li>${esc(r)}</li>`).join("")}</ul>` : ""}
           ${!skills.length && !q.rewards.length ? `<p class="dim">${q.xp && q.gold ? "Experience and gold only." : q.xp ? "Experience only." : q.gold ? "Gold only." : "—"}</p>` : ""}</section>
       </div>
     </div>
-    <p class="llinks">${step ? `<a href="#${new URLSearchParams({ c: step[0], q: step[1] })}">In the storyline →</a>` : ""}${skills.length && q.type !== "Primary" ? `<a href="skill-quests.html#${new URLSearchParams({ q: q.name })}">Skill quests →</a>` : ""}${q.wiki_en ? `<a href="${esc(q.wiki_en)}" target="_blank" rel="noopener">Guild Wars Wiki (archived)</a>` : ""}${q.wiki_de ? `<a href="${esc(q.wiki_de)}" target="_blank" rel="noopener">guildwiki.de</a>` : ""}</p>`;
+    <p class="llinks">${step ? `<a href="#${new URLSearchParams({ c: step[0], q: step[1] })}">In the storyline →</a>` : ""}${skills.length && q.type !== "Primary" ? `<a href="skill-quests#${new URLSearchParams({ q: q.name })}">Skill quests →</a>` : ""}${q.wiki_en ? `<a href="${esc(q.wiki_en)}" target="_blank" rel="noopener">Guild Wars Wiki (archived)</a>` : ""}${q.wiki_de ? `<a href="${esc(q.wiki_de)}" target="_blank" rel="noopener">guildwiki.de</a>` : ""}</p>`;
 }
 
 // the storyline, or one quest's page when the address names one

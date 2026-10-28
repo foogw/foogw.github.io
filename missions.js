@@ -137,18 +137,18 @@ function sorted(list, f) {
 
 /* ---------- rendering ---------- */
 const skillLink = (s, label) =>
-  `<a class="skill-link${s.elite ? " elite" : ""}" href="skills.html#skill=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${esc(label || s.name)}</a>`;
+  `<a class="skill-link${s.elite ? " elite" : ""}" href="skills#skill=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${esc(label || s.name)}</a>`;
 const missionLink = name => (BY_NAME.has(name) ? `<a href="${esc(missionHref(name))}">${esc(name)}</a>` : esc(name));
 // a mission, or else a place on the Locations page
 const PLACE_NAMES = new Set((window.GW_LOCATIONS || []).map(p => p.name));
 const placeLink = name => (BY_NAME.has(name) ? missionLink(name)
-  : PLACE_NAMES.has(name) ? `<a href="locations.html#${new URLSearchParams({ place: name })}">${esc(name)}</a>` : esc(name));
+  : PLACE_NAMES.has(name) ? `<a href="locations#${new URLSearchParams({ place: name })}">${esc(name)}</a>` : esc(name));
 
 function eliteChips(m, f) {
   const shown = f.elite ? m._elites.filter(e => e.skill.profession === f.elite) : m._elites;
   const seen = new Set();
   return shown.filter(e => !seen.has(e.skill.id) && seen.add(e.skill.id))
-    .map(e => `<a class="echip" href="skills.html#skill=${e.skill.id}" style="--pc:${profVar(e.skill.profession)}" title="${esc(e.boss.name)}">${skillIcon(e.skill.id, "sk-ic sm")}${highlight(e.skill.name, f.who)}</a>`)
+    .map(e => `<a class="echip" href="skills#skill=${e.skill.id}" style="--pc:${profVar(e.skill.profession)}" title="${esc(e.boss.name)}">${skillIcon(e.skill.id, "sk-ic sm")}${highlight(e.skill.name, f.who)}</a>`)
     .join("");
 }
 
@@ -218,7 +218,7 @@ const ROT = key => (window.GW_ROTATIONS || []).find(r => r.key === key);
 const fmtZDay = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric" });
 function zaishenNote(r, title, match) {
   if (!r || !r.entries.some(match)) return "";
-  const now = Date.now(), k = Rotation.period(r, now), link = `<a href="rotations.html">${title}</a>`;
+  const now = Date.now(), k = Rotation.period(r, now), link = `<a href="rotations">${title}</a>`;
   let i = 0;
   while (!match(Rotation.entry(r, k + i))) i++;
   const what = e => (e.where ? ` on ${esc(e.name)}` : "");
@@ -255,7 +255,7 @@ function missionPageHTML(m) {
   const story = [
     before.length && ["After", before.map(x => missionLink(x.name)).join(", ")],
     m.leads_to.length && ["Leads to", m.leads_to.map(placeLink).join(", ")],
-    outpost && ["Outpost", `<a href="locations.html#${new URLSearchParams({ place: outpost.name })}">${esc(outpost.name)}</a>`],
+    outpost && ["Outpost", `<a href="locations#${new URLSearchParams({ place: outpost.name })}">${esc(outpost.name)}</a>`],
     hero.length && ["Required hero", hero.map(h => `<a href="${esc(heroHref(h.name))}"><img class="ip" src="img/prof/${esc(h.profession)}.png" alt=""> ${esc(h.name)}</a>`).join(" and ")],
   ].filter(Boolean);
   const bosses = m.bosses.length ? `<table class="npcs">${m.bosses.map(b => {
@@ -280,11 +280,11 @@ function missionPageHTML(m) {
         ${m.kind === "PvE" ? mapHTML(m.name) : ""}
         ${story.length ? `<section class="lbox"><h4>Story</h4><ul class="lrows">${story.map(([k, v]) => `<li><span class="dim">${k}</span><span>${v}</span></li>`).join("")}</ul></section>` : ""}
         ${builds.length ? `<section class="lbox"><h4>Team builds</h4><ul class="lrows">${builds.map(t =>
-          `<li><a href="builds.html#${new URLSearchParams({ team: t.id })}">${esc(t.name)}</a><span class="dim">${t.builds.length} heroes</span></li>`).join("")}</ul></section>` : ""}
+          `<li><a href="builds#${new URLSearchParams({ team: t.id })}">${esc(t.name)}</a><span class="dim">${t.builds.length} heroes</span></li>`).join("")}</ul></section>` : ""}
         <section class="lbox"><h4>Allies</h4>${groupedNpcs(m.allies, f)}</section>
       </div>
     </div>
-    <p class="llinks">${flowStep ? `<a href="quests.html#${new URLSearchParams({ c: m.campaign, q: flowStep })}">In the storyline →</a>` : ""}${m.wiki_en ? `<a href="${esc(m.wiki_en)}" target="_blank" rel="noopener">Guild Wars Wiki (archived)</a>` : ""}<a href="${esc(m.wiki_de)}" target="_blank" rel="noopener">guildwiki.de</a></p>`;
+    <p class="llinks">${flowStep ? `<a href="quests#${new URLSearchParams({ c: m.campaign, q: flowStep })}">In the storyline →</a>` : ""}${m.wiki_en ? `<a href="${esc(m.wiki_en)}" target="_blank" rel="noopener">Guild Wars Wiki (archived)</a>` : ""}<a href="${esc(m.wiki_de)}" target="_blank" rel="noopener">guildwiki.de</a></p>`;
 }
 
 // the list, or one mission's page when the address names one

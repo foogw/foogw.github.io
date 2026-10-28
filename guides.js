@@ -25,11 +25,11 @@ for (const g of GUIDES) for (const s of g.sections) for (const x of allBlocks(s.
 /* ---------- text ---------- */
 const skillLink = (name, icon = true) => {
   const s = SKILL_BY_NAME.get(name);
-  return s ? `<a class="skill-link${s.elite ? " elite" : ""}" href="skills.html#skill=${s.id}" style="--pc:${profVar(s.profession)}">${icon ? skillIcon(s.id, "sk-ic sm") : ""}${esc(name)}</a>` : esc(name);
+  return s ? `<a class="skill-link${s.elite ? " elite" : ""}" href="skills#skill=${s.id}" style="--pc:${profVar(s.profession)}">${icon ? skillIcon(s.id, "sk-ic sm") : ""}${esc(name)}</a>` : esc(name);
 };
 const placeLink = name => {
   const place = [name, `${name} (explorable)`].find(n => PLACES.has(n));
-  return place ? `<a href="locations.html#${new URLSearchParams({ place })}">${esc(name)}</a>` : esc(name);
+  return place ? `<a href="locations#${new URLSearchParams({ place })}">${esc(name)}</a>` : esc(name);
 };
 const text = t => esc(t)
   .replace(/\{skill:([^}]+)\}/g, (_, n) => skillLink(n))
@@ -56,7 +56,7 @@ function buildHTML(b) {
     <div class="gd-who">${profIcons(b)}<b>${esc(b.name)}</b>${modeHTML(b)}</div>
     <div class="bd-obar">${b._skills.map(id => {
       const s = SKILL.get(id);
-      return s ? `<a href="skills.html#skill=${id}" title="${esc(s.name)}" class="${s.elite ? "elite" : ""}" style="--pc:${profVar(s.profession)}"><img src="img/skills/${id}.jpg" alt="${esc(s.name)}" loading="lazy"></a>`
+      return s ? `<a href="skills#skill=${id}" title="${esc(s.name)}" class="${s.elite ? "elite" : ""}" style="--pc:${profVar(s.profession)}"><img src="img/skills/${id}.jpg" alt="${esc(s.name)}" loading="lazy"></a>`
         : `<i class="bd-noskill" title="${id === null ? "Free slot" : "Empty slot"}">${id === null ? "" : "?"}</i>`;
     }).join("")}</div>
     <div class="gd-info">

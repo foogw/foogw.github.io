@@ -117,7 +117,7 @@ function update() {
 
 /* ---------- one boss's page ---------- */
 const whereLink = name => (MISSION_NAMES.has(name) ? `<a href="${esc(missionHref(name))}">${esc(name)}</a>`
-  : PLACES.has(name) ? `<a href="locations.html#${new URLSearchParams({ place: name })}">${esc(name)}</a>` : esc(name));
+  : PLACES.has(name) ? `<a href="locations#${new URLSearchParams({ place: name })}">${esc(name)}</a>` : esc(name));
 const whereKind = name => (MISSION_NAMES.has(name) ? "Mission" : PLACES.get(name)?.type || "");
 
 function bossPageHTML(b) {
@@ -132,7 +132,7 @@ function bossPageHTML(b) {
     <div class="lgrid">
       <div class="lside">
         <section class="lbox"><h4>Elite to capture</h4>${b._elites.length ? b._elites.map(s => `<div class="bp-skill">
-          <a class="skill-link elite" href="skills.html#skill=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic")}${esc(s.name)}</a>
+          <a class="skill-link elite" href="skills#skill=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic")}${esc(s.name)}</a>
           <span class="dim">${esc(s.profession)} · ${esc(s.attribute)}</span>
           <p class="bp-desc">${richText(s.concise || s.description)}</p></div>`).join("") : '<p class="dim">None.</p>'}</section>
       </div>

@@ -65,7 +65,7 @@ function recruitHTML(h) {
   // link each recruiting step the story flow shows
   let text = esc(h.recruit);
   for (const [step, [camp, id]] of Object.entries(h.links)) {
-    const href = `quests.html#${new URLSearchParams({ c: camp, q: id })}`;
+    const href = `quests#${new URLSearchParams({ c: camp, q: id })}`;
     text = text.replace(esc(step), `<a href="${esc(href)}">${esc(step)}</a>`);
   }
   return text;
@@ -132,7 +132,7 @@ function heroPageHTML(h) {
         <section class="lbox"><h4>How to recruit</h4><p class="hp-recruit">${recruitHTML(h)}</p>
           ${alts.length ? `<p class="dim">You get either ${esc(h.name)} or ${alts.map(a => `<a href="${esc(heroHref(a.name))}">${esc(a.name)}</a>`).join(" or ")}, not both.</p>` : ""}</section>
         ${builds.length ? `<section class="lbox"><h4>Suggested builds</h4>${builds.map(b => `<div class="hp-build">
-          <div class="hp-bname">${single.has(b.id) ? `<a href="builds.html#${new URLSearchParams({ build: b.id })}">${esc(b.name)}</a>` : esc(b.name)}</div>
+          <div class="hp-bname">${single.has(b.id) ? `<a href="builds#${new URLSearchParams({ build: b.id })}">${esc(b.name)}</a>` : esc(b.name)}</div>
           <div class="hbuild"><a class="hb-bar" href="${esc(builderHref(b))}" title="Open ${esc(b.name)} in the builder">${barIcons(b.code)}</a>
           <button class="hb-copy" data-copy="${esc(b.code)}" title="Copy the template code" aria-label="Copy the template code">${COPY_ICON}</button></div></div>`).join("")}</section>` : ""}
       </div>

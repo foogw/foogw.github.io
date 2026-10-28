@@ -83,7 +83,7 @@ function showPanel() {
   panel.hidden = false;
   panel.innerHTML = `<button class="wm-close" title="Close" aria-label="Close">×</button><ul>${pick.names.map(n => {
     const k = PAGES[n] || "";
-    return `<li><b>${esc(n)}</b>${k.includes("l") ? `<a href="locations.html#${new URLSearchParams({ place: n })}">Location →</a>` : ""}${k.includes("m") ? `<a href="${esc(missionHref(n))}">Mission →</a>` : ""}</li>`;
+    return `<li><b>${esc(n)}</b>${k.includes("l") ? `<a href="locations#${new URLSearchParams({ place: n })}">Location →</a>` : ""}${k.includes("m") ? `<a href="${esc(missionHref(n))}">Mission →</a>` : ""}</li>`;
   }).join("")}</ul>`;
 }
 panel.addEventListener("click", e => {

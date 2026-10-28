@@ -45,7 +45,7 @@ function barHTML(b) {
   if (!b._bar) return '<p class="dim">This template code could not be read.</p>';
   return `<div class="bd-bar">${b._bar.skills.map(id => {
     const s = SKILL.get(id);
-    return s ? `<a class="bd-skill${s.elite ? " elite" : ""}" href="skills.html#skill=${id}" title="${esc(s.name)}" style="--pc:${profVar(s.profession)}">
+    return s ? `<a class="bd-skill${s.elite ? " elite" : ""}" href="skills#skill=${id}" title="${esc(s.name)}" style="--pc:${profVar(s.profession)}">
       <img src="img/skills/${id}.jpg" alt="" loading="lazy" onerror="this.remove()"><span>${esc(s.name)}</span></a>` : `<span class="bd-skill bd-none"><i class="bd-noskill">?</i><span>Empty</span></span>`;
   }).join("")}</div>`;
 }
@@ -93,7 +93,7 @@ function overviewHTML(builds, groups) {
     ${modeHTML(b) || "<span></span>"}
     <div class="bd-obar">${(b._bar?.skills || []).map(id => {
       const s = SKILL.get(id);
-      return s ? `<a href="skills.html#skill=${id}" title="${esc(s.name)}" class="${s.elite ? "elite" : ""}"><img src="img/skills/${id}.jpg" alt="${esc(s.name)}" loading="lazy"></a>` : '<i class="bd-noskill" title="Empty slot">?</i>';
+      return s ? `<a href="skills#skill=${id}" title="${esc(s.name)}" class="${s.elite ? "elite" : ""}"><img src="img/skills/${id}.jpg" alt="${esc(s.name)}" loading="lazy"></a>` : '<i class="bd-noskill" title="Empty slot">?</i>';
     }).join("")}</div>
     <a class="bd-obuilder" href="${esc(builderHref(b))}" title="Open in builder">Builder →</a>
   </div>`).join("")}</section>`;
@@ -101,7 +101,7 @@ function overviewHTML(builds, groups) {
 
 function placeLink(t) {
   const parts = [];
-  if (t.place) parts.push(`<a href="locations.html#${new URLSearchParams({ place: t.place })}">${esc(t.place)}</a>`);
+  if (t.place) parts.push(`<a href="locations#${new URLSearchParams({ place: t.place })}">${esc(t.place)}</a>`);
   if (t.mission && MISSIONS.has(t.mission)) parts.push(`<a href="${esc(missionHref(t.mission))}">mission details</a>`);
   return parts.join(" · ");
 }

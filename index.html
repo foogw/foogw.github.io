@@ -49,11 +49,11 @@
 <body>
 <div class="wrap topbar">
   <header class="top">
-    <nav class="pages"><a href="index.html" aria-current="page">Home</a><a href="rotations.html">Rotations</a><a href="quests.html">Storylines</a><a href="missions.html">Missions</a><a href="locations.html">Locations</a><a href="maps.html">Maps</a><a href="skills.html">Skills</a><a href="heroes.html">Heroes</a><a href="builds.html">Builds</a><a href="builder.html">Builder</a></nav>
-    <a class="hdr-link push" href="about.html">About</a>
-    <a class="hdr-link" href="thanks.html">Thanks</a>
-    <a class="hdr-link" href="contact.html">Contact</a>
-    <a class="hdr-link" href="license.html">License</a>
+    <nav class="pages"><a href="./" aria-current="page">Home</a><a href="rotations">Rotations</a><a href="quests">Storylines</a><a href="missions">Missions</a><a href="locations">Locations</a><a href="maps">Maps</a><a href="skills">Skills</a><a href="heroes">Heroes</a><a href="builds">Builds</a><a href="builder">Builder</a></nav>
+    <a class="hdr-link push" href="about">About</a>
+    <a class="hdr-link" href="thanks">Thanks</a>
+    <a class="hdr-link" href="contact">Contact</a>
+    <a class="hdr-link" href="license">License</a>
   </header>
 </div>
 <div class="wrap home">
@@ -69,7 +69,7 @@
   <div class="results" id="results"></div>
 
   <div class="sections" id="sections">
-    <h2>Today <a class="h-more" href="rotations.html">Full rotations →</a></h2>
+    <h2>Today <a class="h-more" href="rotations">Full rotations →</a></h2>
     <div class="today" id="today"></div>
     <h2>Elites by profession</h2>
     <div class="quick" id="quick-elites"></div>
@@ -79,16 +79,16 @@
       <span class="tpl-msg" id="tpl-msg"></span>
     </form>
   </div>
-  <footer class="site-footer"><a href="about.html">About</a> · <a href="license.html">License &amp; credits</a> · <a href="thanks.html">Thanks</a> · <a href="contact.html">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+  <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
 
 <script src="data/skills.js?v=8d0a8eb7"></script>
 <script src="data/missions.js?v=6042b26d"></script>
-<script src="data/locations.js?v=7283fb22"></script>
+<script src="data/locations.js?v=0eb672a3"></script>
 <script src="data/rotations.js?v=cc0be059"></script>
 <script src="data/quests.js?v=51edf317"></script>
 <script src="data/aliases.js?v=fad5bb54"></script>
-<script src="common.js?v=3900ecf9"></script>
+<script src="common.js?v=e99e0920"></script>
 <script src="template-code.js?v=201bf57f"></script>
 <script>
 "use strict";
@@ -104,7 +104,7 @@ for (const m of MISSIONS) {
 }
 
 $("quick-elites").innerHTML = PROFS.filter(([p]) => p !== "None").map(([p]) =>
-  `<a class="prof-chip" style="--c:${profVar(p)}" href="skills.html#p=${p}&e=elite">${p}</a>`).join("");
+  `<a class="prof-chip" style="--c:${profVar(p)}" href="skills#p=${p}&e=elite">${p}</a>`).join("");
 
 const TODAY = [["zaishen-mission", "Mission"], ["zaishen-bounty", "Bounty"], ["zaishen-vanquish", "Vanquish"],
   ["nicholas-sandford", "Sandford"], ["vanguard", "Vanguard"], null, ["weekly-pve", "PvE bonus"], ["nicholas-traveler", "Nicholas"]];
@@ -118,21 +118,21 @@ setInterval(renderToday, 30000);
 
 // the site's own pages, found by name or by what they hold
 const PAGES = [
-  ["Skills", "skills.html", "All skills with filters, capture bosses and trainers", "skill list elite capture trainer"],
-  ["Missions", "missions.html", "Missions with rewards, bosses and foes", "mission boss reward foe pvp"],
-  ["Storylines", "quests.html", "The story per campaign: primary quests and missions", "quest quests mission missions story flow primary campaign"],
-  ["All quests", "all-quests.html", "Every quest: primary, secondary, event and more", "quest quests secondary event all"],
-  ["Skill quests", "skill-quests.html", "Every quest that rewards a skill", "skill quest quests reward"],
-  ["Bosses", "bosses.html", "Every boss: its elite to capture and where it is", "boss bosses elite capture signet"],
-  ["Heroes", "heroes.html", "Which campaigns each hero needs, and how to recruit them", "hero heroes recruit campaign"],
-  ["Armor", "armor.html", "Craftable armor sets: gold, materials and where", "armor armour set crafter material gold prestige elite"],
-  ["Guides", "guides.html", "Step-by-step guides: the GoM AFK XP farm", "guide guides farm xp gom gate madness afk survivor"],
-  ["Skillbar builder", "builder.html", "Template codes, attributes and skill bars", "builder build bar template code attributes"],
-  ["Rotations", "rotations.html", "Zaishen dailies, Nicholas and weekly bonuses", "rotation rotations zaishen daily weekly nicholas bonus bounty vanquish"],
-  ["About", "about.html", "What this site is and how it works", "about site"],
-  ["Contact", "contact.html", "How to reach the site's author", "contact discord"],
-  ["Thanks", "thanks.html", "Everyone this site builds on", "thanks credits contributors"],
-  ["License & credits", "license.html", "Sources and licenses", "license credits copyright"],
+  ["Skills", "skills", "All skills with filters, capture bosses and trainers", "skill list elite capture trainer"],
+  ["Missions", "missions", "Missions with rewards, bosses and foes", "mission boss reward foe pvp"],
+  ["Storylines", "quests", "The story per campaign: primary quests and missions", "quest quests mission missions story flow primary campaign"],
+  ["All quests", "all-quests", "Every quest: primary, secondary, event and more", "quest quests secondary event all"],
+  ["Skill quests", "skill-quests", "Every quest that rewards a skill", "skill quest quests reward"],
+  ["Bosses", "bosses", "Every boss: its elite to capture and where it is", "boss bosses elite capture signet"],
+  ["Heroes", "heroes", "Which campaigns each hero needs, and how to recruit them", "hero heroes recruit campaign"],
+  ["Armor", "armor", "Craftable armor sets: gold, materials and where", "armor armour set crafter material gold prestige elite"],
+  ["Guides", "guides", "Step-by-step guides: the GoM AFK XP farm", "guide guides farm xp gom gate madness afk survivor"],
+  ["Skillbar builder", "builder", "Template codes, attributes and skill bars", "builder build bar template code attributes"],
+  ["Rotations", "rotations", "Zaishen dailies, Nicholas and weekly bonuses", "rotation rotations zaishen daily weekly nicholas bonus bounty vanquish"],
+  ["About", "about", "What this site is and how it works", "about site"],
+  ["Contact", "contact", "How to reach the site's author", "contact discord"],
+  ["Thanks", "thanks", "Everyone this site builds on", "thanks credits contributors"],
+  ["License & credits", "license", "Sources and licenses", "license credits copyright"],
 ].map(([name, href, about, words]) => ({ name, href, about, _k: fold(`${name} ${words}`) }));
 const { quests: QUESTS, flows: FLOWS } = window.GW_QUESTS;
 const QUEST_FLOW = new Map(FLOWS.flatMap(f =>
@@ -145,7 +145,7 @@ function openTemplate() {
   if (!code) return;
   try {
     TemplateCode.decode(code);
-    location.href = "builder.html#code=" + encodeURIComponent(code);
+    location.href = "builder#code=" + encodeURIComponent(code);
   } catch (e) {
     $("tpl-msg").textContent = "That isn't a skill template code.";
   }
@@ -188,28 +188,28 @@ function render() {
   $("results").innerHTML =
     section("Pages", r.pages, p => `<a class="hit" style="--pc:var(--accent)" href="${p.href}">
       <span><span class="t">${esc(p.name)}</span> <span class="s">${esc(p.about)}</span></span><span class="s">→</span></a>`) +
-    section("Skills", r.skills, s => `<a class="hit${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}" href="skills.html#skill=${s.id}">
+    section("Skills", r.skills, s => `<a class="hit${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}" href="skills#skill=${s.id}">
       <span>${skillIcon(s.id, "sk-ic sm")}<span class="t">${highlight(s.name, r.ts)}</span> <span class="s">${esc(s.profession === "None" ? "Common" : s.profession)} · ${esc(s.attribute)}</span></span>
-      <span class="s">${esc(s.type || "")}</span></a>`, `skills.html#q=${qs}`) +
+      <span class="s">${esc(s.type || "")}</span></a>`, `skills#q=${qs}`) +
     section("Missions", r.missions, m => `<a class="hit" style="--pc:${profVar("None")}" href="${esc(missionHref(m.name))}">
       <span><span class="t">${highlight(m.name, r.ts)}</span> <span class="s">${esc(m.kind === "PvP" ? "PvP" : m.campaign)} · ${esc(m.region || "")}</span></span>
-      <span class="s">${esc(m.type)}</span></a>`, `missions.html#q=${qs}`) +
-    section("Places", r.places, p => `<a class="hit" style="--pc:var(${p.type === "explorable" ? "--loc-exp" : "--loc-out"})" href="locations.html#${new URLSearchParams({ place: p.name })}">
+      <span class="s">${esc(m.type)}</span></a>`, `missions#q=${qs}`) +
+    section("Places", r.places, p => `<a class="hit" style="--pc:var(${p.type === "explorable" ? "--loc-exp" : "--loc-out"})" href="locations#${new URLSearchParams({ place: p.name })}">
       <span><span class="t">${highlight(p.name, r.ts)}</span> <span class="s">${esc(p.campaign || "")} · ${esc(p.region || "")}</span></span>
-      <span class="s">${esc({ explorable: "Explorable", "mission outpost": "Mission outpost", town: "Town", dungeon: "Dungeon" }[p.type] || "Outpost")}</span></a>`, `locations.html`) +
+      <span class="s">${esc({ explorable: "Explorable", "mission outpost": "Mission outpost", town: "Town", dungeon: "Dungeon" }[p.type] || "Outpost")}</span></a>`, `locations`) +
     section("Quests", r.quests, q => {
       const camp = QUEST_FLOW.get(q.name_de);
       const href = questHref(q.name, q.campaign);
       return `<a class="hit" style="--pc:${camp ? profVar("None") : "var(--q-skill)"}" href="${href}">
         <span><span class="t">${highlight(q.name, r.ts)}</span> <span class="s">${esc(q.campaign || "")} · ${esc(q.region || "")}</span></span>
         <span class="s">${camp ? "Story quest" : q.skills.length ? "Skill quest" : `${esc(q.type)} quest`}</span></a>`;
-    }, `all-quests.html#q=${qs}`) +
+    }, `all-quests#q=${qs}`) +
     section("Bosses", r.bosses, ({ b, m }) => {
       const s = SKILL.get(b.elite_skill_id);
       return `<a class="hit" style="--pc:${profVar(b.profession)}" href="${esc(bossHref(b.name))}">
         <span><span class="t">${highlight(b.name, r.ts)}</span> <span class="s">${esc(m.name)}</span></span>
         <span class="s">${s ? esc(s.name) : ""}</span></a>`;
-    }, `bosses.html#q=${qs}`) ||
+    }, `bosses#q=${qs}`) ||
     `<p class="dim" style="padding:12px 0">Nothing found.</p>`;
 }
 

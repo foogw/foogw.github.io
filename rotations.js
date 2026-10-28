@@ -74,7 +74,7 @@ const fmtWeek = withYear({ weekday: "short", month: "short", day: "numeric", hou
 // a place, or its explorable twin when an outpost has the same name
 const placeLink = name => {
   const place = [name, `${name} (explorable)`].find(n => PLACES.has(n));
-  return place ? `<a href="locations.html#${new URLSearchParams({ place })}">${esc(name)}</a>` : esc(name);
+  return place ? `<a href="locations#${new URLSearchParams({ place })}">${esc(name)}</a>` : esc(name);
 };
 // tips mark links as {place:Name} and {page:href|text}
 const tipHTML = t => esc(t).replace(/\{place:([^}]+)\}/g, (_, n) => placeLink(n))
