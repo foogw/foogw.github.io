@@ -5,7 +5,8 @@
    picks out that area. Data: data/world.js (tools/worldmap.py). */
 const WORLD = window.GW_WORLD || [], PAGES = window.GW_WORLD_PAGES || {};
 const GROUP_COLOR = { "Pre-Searing": "--p-mesmer", Prophecies: "--p-paragon", Factions: "--p-ritualist", Nightfall: "--p-elementalist",
-  "Eye of the North": "--p-monk", "The Mists": "--p-necromancer" };
+  "Eye of the North": "--p-monk", "The Mists": "--p-necromancer",
+  "Factions Elite": "--p-assassin" };
 const VEIL = "#06080a", HOVER = "#ffffff", PICK = "#ffd98a";
 const areaRegion = new Map();  // site name -> [region, layer]
 for (const r of WORLD) for (const l of r.layers) for (const n of l.names) if (!areaRegion.has(n)) areaRegion.set(n, [r, l]);
