@@ -249,6 +249,7 @@ function missionPageHTML(m) {
         <section class="lbox"><h4>Foes</h4>${groupedNpcs(m.foes, f)}</section>
       </div>
       <div class="lside">
+        ${m.kind === "PvE" ? mapHTML(m.name) : ""}
         ${story.length ? `<section class="lbox"><h4>Story</h4><ul class="lrows">${story.map(([k, v]) => `<li><span class="dim">${k}</span><span>${v}</span></li>`).join("")}</ul></section>` : ""}
         ${builds.length ? `<section class="lbox"><h4>Team builds</h4><ul class="lrows">${builds.map(t =>
           `<li><a href="builds.html#${new URLSearchParams({ team: t.id })}">${esc(t.name)}</a><span class="dim">${t.builds.length} heroes</span></li>`).join("")}</ul></section>` : ""}
@@ -265,6 +266,7 @@ function render() {
   $("mission").hidden = !m;
   if (m) {
     $("mission").innerHTML = missionPageHTML(m);
+    initMaps($("mission"));
     document.title = `${m.name} · GW Missions`;
     window.scrollTo(0, 0);
   } else {

@@ -989,3 +989,14 @@ a.hchip { text-decoration: none; }
 @media (max-width: 600px) { .gd-box { margin-left: 8px; } }
 .qp-obj li.bonus { color: var(--accent); }
 .bd-attrs .bd-ins { border-style: dashed; color: color-mix(in srgb, var(--text) 80%, var(--muted)); }
+
+/* ---------- map window (mapwidget.js) ---------- */
+.gmap { margin: 0; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.gmap-win { position: relative; margin: 0 auto; border: 2px solid var(--line); border-radius: 8px; overflow: hidden; background: #0d0f11; cursor: pointer; user-select: none; -webkit-user-select: none; outline: none; }
+.gmap-win canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.gmap-win:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+.gmap-win[data-active] { cursor: ns-resize; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+.gmap-hint { position: absolute; left: 8px; bottom: 6px; font-size: 11px; color: #fff; text-shadow: 0 1px 3px #000, 0 0 2px #000; pointer-events: none; }
+.gmap figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 14px; margin-top: 8px; font-size: 12px; }
+.gmap figcaption label { display: flex; align-items: center; gap: 8px; }
+.gmap input[type="range"] { width: 140px; accent-color: var(--accent); }
