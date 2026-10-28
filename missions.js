@@ -225,11 +225,17 @@ function missionPageHTML(m) {
   const flowStep = m.story_order && (m.campaign === "Eye of the North" ? "q:" : "m:") + m.name_de;
   const builds = (window.GW_BUILDS?.teams || []).filter(t => t.mission === m.name);
   const bonus = (m.objectives || []).find(o => o[2]);  // what the Bonus reward row is for
+  // other pages on the same terrain: explorables open on this mission's ground, and other missions played there
+  const areas = [PLACE_NAMES.has(`${m.name} (explorable)`) && `${m.name} (explorable)`, ...mapSharers(m.name).filter(n => !BY_NAME.has(n))].filter(Boolean);
+  const others = mapSharers(m.name).filter(n => BY_NAME.has(n));
+  const notes = [
+    areas.length && `This mission's area is also open to explore as ${areas.map(placeLink).join(" and ")}.`,
+    others.length && `The ${others.map(missionLink).join(" and ")} mission${others.length > 1 ? "s take" : " takes"} place in the same area.`,
+  ].filter(Boolean);
   const story = [
     before.length && ["After", before.map(x => missionLink(x.name)).join(", ")],
     m.leads_to.length && ["Leads to", m.leads_to.map(placeLink).join(", ")],
     outpost && ["Outpost", `<a href="locations.html#${new URLSearchParams({ place: outpost.name })}">${esc(outpost.name)}</a>`],
-    PLACE_NAMES.has(`${m.name} (explorable)`) && ["Explorable", `<a href="locations.html#${new URLSearchParams({ place: `${m.name} (explorable)` })}">${esc(m.name)} (explorable)</a>`],
     hero.length && ["Required hero", hero.map(h => `<a href="${esc(heroHref(h.name))}"><img class="ip" src="img/prof/${esc(h.profession)}.png" alt=""> ${esc(h.name)}</a>`).join(" and ")],
   ].filter(Boolean);
   const bosses = m.bosses.length ? `<table class="npcs">${m.bosses.map(b => {
@@ -241,6 +247,7 @@ function missionPageHTML(m) {
       <div class="sp-title"><h2>${esc(m.name)}</h2><div class="sp-sub">${sub}</div></div>
       <div class="lstats">${stats.map(([k, v]) => `<span class="lstat"><small>${k}</small><b>${esc(v)}</b></span>`).join("")}</div>
     </div>
+    ${notes.length ? `<ul class="lnotes">${notes.map(n => `<li>${n}</li>`).join("")}</ul>` : ""}
     <div class="lgrid">
       <div class="lside">
         ${m.objectives?.length ? `<section class="lbox"><h4>Objectives</h4><ul class="qp-obj">${m.objectives.map(([d, o, bonus]) =>

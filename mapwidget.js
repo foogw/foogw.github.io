@@ -7,6 +7,13 @@ const GW_MAPS = window.GW_MAPS || {};
 const MAP_TINT = "#06080a", MAP_RING = "#ffd98a", MAP_STEP = 0.05, MAP_MAX_H = 520;
 const MAP_HINT = "Click, then scroll to change the darkness";
 
+// the other pages showing the same map (an explorable and the missions played in it, or areas sharing one terrain),
+// leaving out an "X (explorable)" twin of X, which its pages already link
+function mapSharers(name) {
+  const f = GW_MAPS[name]?.f, base = n => n.replace(/ \(explorable\)$/, "");
+  return f ? Object.keys(GW_MAPS).filter(n => GW_MAPS[n].f === f && base(n) !== base(name)) : [];
+}
+
 function mapHTML(name) {
   const m = GW_MAPS[name];
   if (!m) return "";

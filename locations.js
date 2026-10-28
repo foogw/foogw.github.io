@@ -106,10 +106,21 @@ function twinNote(p) {
   return `The same area as ${isOutpost(twin) ? "the outpost " : ""}${placeLink(twin.name)}${mission || ""}.`;
 }
 
+// other pages on the same terrain: the missions played in this area, and explorables that are the same ground
+function sharedAreaNotes(name) {
+  const all = mapSharers(name), areas = all.filter(n => BY_NAME.get(n)?.type === "explorable");
+  const missions = all.filter(n => !areas.includes(n)).map(n => `<a href="${esc(missionHref(n))}">${esc(n)}</a>`);
+  return [
+    missions.length && `This area is where the ${listText(missions)} mission${missions.length > 1 ? "s take" : " takes"} place.`,
+    areas.length && `The same area as ${listText(areas.map(placeLink))}.`,
+  ];
+}
+
 function notesHTML(p) {
   const notes = [
     p.mission && `This outpost is where the <a href="${esc(missionHref(p.mission))}">${esc(p.mission)}</a> mission starts.`,
     twinNote(p),
+    ...sharedAreaNotes(p.name),
     p.after && `Completing the mission takes you to ${placeLink(p.after)}.`,
     p.gateway && `${listText(p.gateway.map(placeLink))} are reached from here, through a god's statue or an NPC.`,
     p.rotations && `Rotating quests are given here: ${listText(p.rotations.map(rotationLink))}. See which one is up today on the Rotations page.`,
