@@ -126,14 +126,14 @@ window.GW_GUIDES = [
     sections: [
       {
         blocks: [
-          { p: "An efficient way to do the pre-Searing quests, with as little fighting and backtracking as possible. Each group starts at a map travel or a portal. No outposts are assumed unlocked: the route reaches each on foot before mapping there." },
+          { p: "This is a walkthrough for characters that have saved most of the pre-Searing quests for a higher level, with as little fighting and backtracking as possible. Each group starts at a map travel or a portal." },
           { p: "Assumed done already:" },
           { ul: [
-            "Your profession test, and level 2.",
+            "Every pre-Searing outpost unlocked.",
             "{quest:Adventure with an Ally} ({skillname:Resurrection Signet}).",
+            "Every primary and secondary profession quest, for their skills.",
             "The Piken Square quests, through {quest:The Scourge Beneath} ({hero:Devona} as a hero).",
           ] },
-          { p: "Left out: profession quests, and repeatable and daily quests." },
           { note: "Note: this route was computer generated and hasn't been checked in a playthrough yet." },
         ],
       },
@@ -159,14 +159,15 @@ window.GW_GUIDES = [
               { t: "Talk to Pitney, next to Devona, give him an egg, follow him to his field and kill the Worm Queen. Don't leave the area meanwhile, or you need another egg.", take: ["The Worm Problem"], done: ["The Worm Problem"] },
               { t: "Talk to Pitney again, Chantalle the Troubadour and Alison the Tanner.", take: ["The Prize Moa Bird", "The Hunter's Horn", "Little Thom's Big Cloak"] },
               { t: "Talk to Miller Upton, then lure the three bee swarms across the bridge with the honeycomb and return to him.", done: ["Poor Tenant"] },
+              { t: "Open the Beautiful Shell near the watermill for the Beautiful Pearl.", go: ["A Gift for Althea"] },
               { t: "Pick up the Beautiful Feather on the hill in the middle of the village.", go: ["A Gift for Althea"] },
-              { t: "Head to the Ashford Abbey portal, northwest of Devona." },
             ] },
-            { step: "Ashford Abbey", steps: [
+            { map: "Ashford Abbey", steps: [
               { t: "Talk to Meerak the Scribe, and give Brother Mhenlo the stinger.", go: ["Unsettling Rumors"], done: ["The Poison Devourer"] },
             ] },
             { step: "Lakeside County", steps: [
-              { t: "Cross the worm field to the bandit camp. Take the Ashford strongbox, fighting only what notices you.", go: ["Bandit Raid"] },
+              { t: "Cross the worm field to the bandit camp, and go on northeast up the mountain pass to the chest with the Beautiful Pendant.", go: ["A Gift for Althea"] },
+              { t: "Back at the bandit camp, take the Ashford strongbox, fighting only what notices you.", go: ["Bandit Raid"] },
               { t: "Carry the strongbox to Devona on foot: map travel loses it.", done: ["Bandit Raid"] },
             ] },
             { map: "Ascalon City", steps: [
@@ -192,35 +193,22 @@ window.GW_GUIDES = [
             ] },
             { step: "Green Hills County", steps: [
               { t: "By the Balthazar statue just past the portal, talk to Grazden the Protector for the tithe, and question him, Farrah Cappo and Kasha Blackblood.", go: ["Tithe for Ashford Abbey", "Opposition to the King"] },
-              { t: "Head to The Barradin Estate." },
             ] },
-            { step: "The Barradin Estate", steps: [
+            { map: "The Barradin Estate", steps: [
               { t: "Talk to Duke Barradin.", take: ["The True King"] },
             ] },
-            { step: "Green Hills County", steps: [
-              { t: "Take the south exit to Wizard's Folly." },
-            ] },
-            { step: "Wizard's Folly", steps: [
-              { t: "Kill black bears on the green around the snow until one drops a bear pelt.", go: ["Little Thom's Big Cloak"] },
-              { t: "Head north to Foible's Fair." },
-            ] },
-            { step: "Foible's Fair", steps: [
+            { map: "Foible's Fair", steps: [
               { t: "Talk to Ralena Stormbringer.", go: ["The Wayward Wizard"] },
             ] },
             { step: "Wizard's Folly", steps: [
-              { t: "Follow the road northeast to the house on the left, then go west through the trees to Orion, and talk to him.", go: ["The Wayward Wizard"] },
-              { t: "Head southeast to Regent Valley." },
+              { t: "Kill black bears for a bear pelt on the way to Orion: northeast along the road to the house on the left, then west through the trees.", go: ["The Wayward Wizard", "Little Thom's Big Cloak"] },
             ] },
-            { step: "Regent Valley", steps: [
-              { t: "Go south to the healing spring and use it to purify the hunter's horn.", go: ["The Hunter's Horn"] },
-              { t: "Follow the road to Fort Ranik." },
-            ] },
-            { step: "Fort Ranik", steps: [
+            { map: "Fort Ranik", steps: [
               { t: "Give Lord Darrin the message.", done: ["The True King"] },
             ] },
             { step: "Regent Valley", steps: [
               { t: "Talk to Mary Malone, right outside Fort Ranik. Go south then east to the arches, kill the spiders and bring her the Basket of Apples on foot.", take: ["The Orchard"], done: ["The Orchard"] },
-              { t: "Head southwest to Wizard's Folly." },
+              { t: "Head southwest toward Wizard's Folly. Just before the exit, go south to the healing spring and use it to purify the hunter's horn.", go: ["The Hunter's Horn"] },
             ] },
             { step: "Wizard's Folly", steps: [
               { t: "Go west along the river to the fishing village, then south and east to Aidan.", done: ["The Hunter's Horn"] },
@@ -233,17 +221,12 @@ window.GW_GUIDES = [
               { t: "Give Little Thom the cloak.", done: ["Little Thom's Big Cloak"] },
             ] },
             { map: "Ascalon City", steps: [
-              { t: "Talk to Sandre Elek and Prince Rurik.", done: ["The Wayward Wizard", "Charr in the Catacombs"] },
-              { t: "If you have picked your secondary profession, talk to Armin Saberlin, then Sir Tydus, then the Town Crier.", take: ["A Second Profession", "The Path to Glory"], done: ["A Second Profession", "The Path to Glory", "Getting Started in Guild Wars"] },
+              { t: "Talk to Sandre Elek and Prince Rurik; Rurik then gives you the next quest.", done: ["The Wayward Wizard", "Charr in the Catacombs"], take: ["Charr at the Gate"] },
+              { t: "Talk to Armin Saberlin and pick your secondary profession, then talk to Sir Tydus, then the Town Crier.", take: ["A Second Profession", "The Path to Glory"], done: ["A Second Profession", "The Path to Glory", "Getting Started in Guild Wars"] },
             ] },
             { step: "Lakeside County", steps: [
               { t: "Give Gwen her flute.", done: ["Gwen's Flute"] },
-              { t: "Go west past Captain Osric to Lady Althea and give her the Beautiful Feather: she takes a single item and gives the reward.", done: ["A Gift for Althea"] },
-            ] },
-            { map: "Ascalon City", steps: [
-              { t: "Talk to Prince Rurik. Taking this only now keeps it from blocking A Gift for Althea.", take: ["Charr at the Gate"] },
-            ] },
-            { step: "Lakeside County", steps: [
+              { t: "Give Captain Osric the feather, the pearl and the pendant: he turns down the first two and takes the third.", done: ["A Gift for Althea"] },
               { t: "Meet Rurik just outside and follow him to the Northlands gate; let him and his allies kill the Charr. Get the reward from him there.", done: ["Charr at the Gate"] },
             ] },
           ] },
@@ -262,7 +245,7 @@ window.GW_GUIDES = [
             "Warrior Test": "Done: your profession test", "Ranger Test": "Done: your profession test", "Monk Test": "Done: your profession test",
             "Necromancer Test": "Done: your profession test", "Mesmer Test": "Done: your profession test", "Elementalist Test": "Done: your profession test",
             "The Rogue's Replacement": "Follows A Mesmer's Burden",
-          }, daily: "Vanguard" } },
+          }, rest: "Done: your profession skills", daily: "Vanguard" } },
         ],
       },
     ],

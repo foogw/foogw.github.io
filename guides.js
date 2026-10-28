@@ -126,7 +126,7 @@ function questIndexHTML(g, x) {
   const seen = new Set();
   const qs = QUESTS.filter(q => q.region === x.region && !seen.has(q.name) && seen.add(q.name));
   const first = q => at.get(q.name).take ?? at.get(q.name).done;
-  const why = q => x.skip[q.name] || "Profession quest";
+  const why = q => x.skip[q.name] || x.rest;
   const repeats = q => q.repeatable || (x.daily && q.name.startsWith(x.daily));
   const rewards = q => [q.xp && `${q.xp.toLocaleString("en")} XP`, q.gold && `${q.gold} gold`].filter(Boolean).map(esc)
     .concat(q.skills.map(id => SKILL.get(id)).filter(Boolean).map(s => skillLink(s.name, false)), q.rewards.map(esc)).join(", ");
