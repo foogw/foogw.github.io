@@ -3,7 +3,7 @@
 /* A window on one map: the game's world picture around the area, darkened except where you can walk. No dragging
    or zooming; the slider (or the wheel, once the map is clicked) sets how dark the rest is. mapHTML(name) gives the
    markup for a place or mission with a map in data/maps.js (or ""), initMaps(root) brings it to life. */
-const GW_MAPS = window.GW_MAPS || {};
+const GW_MAPS = window.GW_MAPS || {}, GW_PLACE_MAPS = window.GW_PLACE_MAPS || {};
 const MAP_TINT = "#06080a", MAP_RING = "#ffd98a", MAP_STEP = 0.05, MAP_MAX_H = 520;
 const MAP_HINT = "Click, then scroll to change the darkness";
 
@@ -19,25 +19,35 @@ const MARK_STYLE = { town: ["#ffd98a", 8, "Town"], outpost: ["#f2eee4", 6.5, "Ou
   dungeon: ["#a99bff", 7, "Dungeon"] };
 const markHref = name => `locations#${new URLSearchParams({ place: name })}`;
 // a dot, and the place's name beside it (drawn into a canvas in device pixels; scale = device pixels per CSS px)
-function drawMark(g, kind, x, y, scale = 1, name = "") {
+function drawMark(g, kind, x, y, scale = 1, name = "", self = false) {
   const [fill, r] = MARK_STYLE[kind] || MARK_STYLE.outpost;
+  if (self) {  // the place the page is about: a ring around a larger dot
+    scale *= 1.3;
+    g.beginPath(); g.arc(x, y, (r + 5) * scale, 0, 2 * Math.PI); g.lineWidth = 3 * scale; g.strokeStyle = MAP_RING; g.stroke();
+  }
   g.beginPath(); g.arc(x, y, r * scale, 0, 2 * Math.PI);
   g.fillStyle = fill; g.fill(); g.lineWidth = 2.5 * scale; g.strokeStyle = "#111"; g.stroke();
   if (!name) return;
   name = name.replace(/ \(pre-Searing\)$/, "");  // pre-Searing places are only ever on the pre-Searing map
   g.font = `600 ${13 * scale}px system-ui, sans-serif`; g.textBaseline = "middle"; g.lineJoin = "round";
-  g.lineWidth = 3.5 * scale; g.strokeStyle = "rgb(0 0 0 / .85)"; g.strokeText(name, x + (r + 4) * scale, y);
-  g.fillStyle = "#fff"; g.fillText(name, x + (r + 4) * scale, y);
+  // beside the dot on the right, or on the left where the right would run off the picture
+  const gap = (r + 4) * scale, left = x + gap + g.measureText(name).width > g.canvas.width;
+  const tx = left ? x - gap : x + gap;
+  g.textAlign = left ? "right" : "left";
+  g.lineWidth = 3.5 * scale; g.strokeStyle = "rgb(0 0 0 / .85)"; g.strokeText(name, tx, y);
+  g.fillStyle = "#fff"; g.fillText(name, tx, y);
+  g.textAlign = "left";
 }
 
-function mapHTML(name) {
+// name: the area whose map it is; self: a town or outpost on it that the page is about, marked out
+function mapHTML(name, self = "") {
   const m = GW_MAPS[name];
   if (!m) return "";
   // the whole area always fits: no taller than MAP_MAX_H, as wide as the column allows
   return `<figure class="gmap">
-    <div class="gmap-win" style="aspect-ratio:${m.w} / ${m.h};width:min(100%, ${Math.round(MAP_MAX_H * m.w / m.h)}px)" data-map="${esc(m.f)}" tabindex="0" role="img" aria-label="${esc(name)}: where you can walk">
+    <div class="gmap-win" style="aspect-ratio:${m.w} / ${m.h};width:min(100%, ${Math.round(MAP_MAX_H * m.w / m.h)}px)" data-map="${esc(m.f)}" tabindex="0" role="img" aria-label="${esc(self ? `Where ${self} is` : `${name}: where you can walk`)}">
       <canvas></canvas>${(m.p || []).map(([n, k, x, y]) =>
-        `<a class="gmap-mark" data-k="${esc(k)}" href="${esc(markHref(n))}" title="${esc(n)} · ${esc((MARK_STYLE[k] || MARK_STYLE.outpost)[2])}" aria-label="${esc(n)}"
+        `<a class="gmap-mark" data-k="${esc(k)}"${n === self ? " data-self" : ""} href="${esc(markHref(n))}" title="${esc(n)} · ${esc((MARK_STYLE[k] || MARK_STYLE.outpost)[2])}" aria-label="${esc(n)}"
           style="left:${(100 * x / m.w).toFixed(2)}%;top:${(100 * y / m.h).toFixed(2)}%"></a>`).join("")}<span class="gmap-hint">${MAP_HINT}</span>
     </div>
     <figcaption><label>Darkness <input type="range" min="0" max="100" value="66"></label></figcaption>
@@ -82,7 +92,7 @@ function initMaps(root = document) {
       }
       ctx.globalAlpha = alpha * 0.8; ctx.drawImage(ring, 0, 0); ctx.globalAlpha = 1;
       for (const a of win.querySelectorAll(".gmap-mark")) {
-        drawMark(ctx, a.dataset.k, parseFloat(a.style.left) / 100 * w, parseFloat(a.style.top) / 100 * h, d, a.getAttribute("aria-label"));
+        drawMark(ctx, a.dataset.k, parseFloat(a.style.left) / 100 * w, parseFloat(a.style.top) / 100 * h, d, a.getAttribute("aria-label"), a.hasAttribute("data-self"));
       }
     }
     function set(a) {
