@@ -229,6 +229,7 @@ function missionPageHTML(m) {
     before.length && ["After", before.map(x => missionLink(x.name)).join(", ")],
     m.leads_to.length && ["Leads to", m.leads_to.map(placeLink).join(", ")],
     outpost && ["Outpost", `<a href="locations.html#${new URLSearchParams({ place: outpost.name })}">${esc(outpost.name)}</a>`],
+    PLACE_NAMES.has(`${m.name} (explorable)`) && ["Explorable", `<a href="locations.html#${new URLSearchParams({ place: `${m.name} (explorable)` })}">${esc(m.name)} (explorable)</a>`],
     hero.length && ["Required hero", hero.map(h => `<a href="${esc(heroHref(h.name))}"><img class="ip" src="img/prof/${esc(h.profession)}.png" alt=""> ${esc(h.name)}</a>`).join(" and ")],
   ].filter(Boolean);
   const bosses = m.bosses.length ? `<table class="npcs">${m.bosses.map(b => {

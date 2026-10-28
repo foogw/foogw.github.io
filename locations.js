@@ -97,8 +97,19 @@ const listText = items => (items.length < 2 ? items.join("") : `${items.slice(0,
 const rotationLink = name => `<a href="rotations.html#${new URLSearchParams({ q: name })}">${esc(name)}</a>`;
 
 // the things about a place that its exits and lists don't show
+// "X (explorable)" is the same terrain as X: a mission's outpost, a town, or the same area entered another way
+function twinNote(p) {
+  const base = p.name.replace(/ \(explorable\)$/, "");
+  const twin = BY_NAME.get(base === p.name ? `${base} (explorable)` : base);
+  if (!twin) return "";
+  const mission = twin.mission && ` and the <a href="${esc(missionHref(twin.mission))}">${esc(twin.mission)} mission</a>`;
+  return `The same area as ${isOutpost(twin) ? "the outpost " : ""}${placeLink(twin.name)}${mission || ""}.`;
+}
+
 function notesHTML(p) {
   const notes = [
+    p.mission && `This outpost is where the <a href="${esc(missionHref(p.mission))}">${esc(p.mission)}</a> mission starts.`,
+    twinNote(p),
     p.after && `Completing the mission takes you to ${placeLink(p.after)}.`,
     p.gateway && `${listText(p.gateway.map(placeLink))} are reached from here, through a god's statue or an NPC.`,
     p.rotations && `Rotating quests are given here: ${listText(p.rotations.map(rotationLink))}. See which one is up today on the Rotations page.`,
@@ -139,7 +150,7 @@ function renderPlace(p) {
     </div>
     ${p.party_max ? `<p class="dim note">An area takes the party size of the outpost you enter from: ${p.party} from the nearest outposts, up to ${p.party_max} if you walk in from further away.</p>` : ""}
     ${notesHTML(p)}
-    <div class="llinks">${p.mission ? `<a href="${esc(missionHref(p.mission))}">Mission: ${esc(p.mission)} →</a>` : ""}${p.wiki_de ? `<a href="${esc(p.wiki_de)}" target="_blank" rel="noopener">guildwiki.de ↗</a>` : ""}</div>
+    <div class="llinks">${p.wiki_de ? `<a href="${esc(p.wiki_de)}" target="_blank" rel="noopener">guildwiki.de ↗</a>` : ""}</div>
     <div class="lgrid${side ? "" : " solo"}">
       <section class="lexits"><h4>Exits</h4>${p.exits ? exitsHTML(p, exits) : `<p class="dim">Not covered.</p>`}</section>
       ${side ? `<div class="lside">${side}</div>` : ""}
