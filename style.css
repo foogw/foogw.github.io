@@ -996,6 +996,8 @@ a.hchip { text-decoration: none; }
 .gmap-win canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .gmap-win:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
 .gmap-win[data-active] { cursor: ns-resize; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+.gmap-mark { position: absolute; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%; }
+.gmap-mark:hover, .gmap-mark:focus-visible { box-shadow: 0 0 0 2px #fff; outline: none; }
 .gmap-hint { position: absolute; left: 8px; bottom: 6px; font-size: 11px; color: #fff; text-shadow: 0 1px 3px #000, 0 0 2px #000; pointer-events: none; }
 .gmap figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 14px; margin-top: 8px; font-size: 12px; }
 .gmap figcaption label { display: flex; align-items: center; gap: 8px; }
@@ -1019,6 +1021,8 @@ a.hchip { text-decoration: none; }
 .wm-panel li { display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; padding: 2px 0; }
 .wm-panel li b { font-weight: 600; margin-right: auto; }
 .wm-close { position: absolute; top: 4px; right: 6px; background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; line-height: 1; }
-.wm-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 14px; margin-top: 8px; font-size: 12px; }
+.wm-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; margin-top: 8px; font-size: 12px; }
 .wm-bar label { display: flex; align-items: center; gap: 8px; }
-.wm-bar input[type="range"] { width: 140px; accent-color: var(--accent); }
+.wm-bar input { accent-color: var(--accent); }
+.wm-bar input[type="range"] { width: 140px; }
+.wm-bar .dim { margin-left: auto; }

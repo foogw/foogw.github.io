@@ -14,13 +14,31 @@ function mapSharers(name) {
   return f ? Object.keys(GW_MAPS).filter(n => GW_MAPS[n].f === f && base(n) !== base(name)) : [];
 }
 
+// towns, outposts, mission outposts and dungeon entrances on a map: [fill, radius in CSS px, label]
+const MARK_STYLE = { town: ["#ffd98a", 8, "Town"], outpost: ["#f2eee4", 6.5, "Outpost"], mission: ["#e8664a", 7, "Mission outpost"],
+  dungeon: ["#a99bff", 7, "Dungeon"] };
+const markHref = name => `locations#${new URLSearchParams({ place: name })}`;
+// a dot, and the place's name beside it (drawn into a canvas in device pixels; scale = device pixels per CSS px)
+function drawMark(g, kind, x, y, scale = 1, name = "") {
+  const [fill, r] = MARK_STYLE[kind] || MARK_STYLE.outpost;
+  g.beginPath(); g.arc(x, y, r * scale, 0, 2 * Math.PI);
+  g.fillStyle = fill; g.fill(); g.lineWidth = 2.5 * scale; g.strokeStyle = "#111"; g.stroke();
+  if (!name) return;
+  name = name.replace(/ \(pre-Searing\)$/, "");  // pre-Searing places are only ever on the pre-Searing map
+  g.font = `600 ${13 * scale}px system-ui, sans-serif`; g.textBaseline = "middle"; g.lineJoin = "round";
+  g.lineWidth = 3.5 * scale; g.strokeStyle = "rgb(0 0 0 / .85)"; g.strokeText(name, x + (r + 4) * scale, y);
+  g.fillStyle = "#fff"; g.fillText(name, x + (r + 4) * scale, y);
+}
+
 function mapHTML(name) {
   const m = GW_MAPS[name];
   if (!m) return "";
   // the whole area always fits: no taller than MAP_MAX_H, as wide as the column allows
   return `<figure class="gmap">
     <div class="gmap-win" style="aspect-ratio:${m.w} / ${m.h};width:min(100%, ${Math.round(MAP_MAX_H * m.w / m.h)}px)" data-map="${esc(m.f)}" tabindex="0" role="img" aria-label="${esc(name)}: where you can walk">
-      <canvas></canvas><span class="gmap-hint">${MAP_HINT}</span>
+      <canvas></canvas>${(m.p || []).map(([n, k, x, y]) =>
+        `<a class="gmap-mark" data-k="${esc(k)}" href="${esc(markHref(n))}" title="${esc(n)} · ${esc((MARK_STYLE[k] || MARK_STYLE.outpost)[2])}" aria-label="${esc(n)}"
+          style="left:${(100 * x / m.w).toFixed(2)}%;top:${(100 * y / m.h).toFixed(2)}%"></a>`).join("")}<span class="gmap-hint">${MAP_HINT}</span>
     </div>
     <figcaption><label>Darkness <input type="range" min="0" max="100" value="66"></label></figcaption>
   </figure>`;
@@ -63,6 +81,9 @@ function initMaps(root = document) {
         g.globalCompositeOperation = "source-in"; g.fillStyle = MAP_RING; g.fillRect(0, 0, w, h);
       }
       ctx.globalAlpha = alpha * 0.8; ctx.drawImage(ring, 0, 0); ctx.globalAlpha = 1;
+      for (const a of win.querySelectorAll(".gmap-mark")) {
+        drawMark(ctx, a.dataset.k, parseFloat(a.style.left) / 100 * w, parseFloat(a.style.top) / 100 * h, d, a.getAttribute("aria-label"));
+      }
     }
     function set(a) {
       alpha = Math.max(0, Math.min(1, Math.round(a * 100) / 100));

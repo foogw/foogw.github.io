@@ -12,8 +12,15 @@ const areaRegion = new Map();  // site name -> [region, layer]
 for (const r of WORLD) for (const l of r.layers) for (const n of l.names) if (!areaRegion.has(n)) areaRegion.set(n, [r, l]);
 
 const stage = $("stage"), cv = stage.querySelector("canvas"), ctx = cv.getContext("2d"), tip = $("tip"), panel = $("panel");
-const dark = $("dark");
-let region = null, base = null, layers = [], hover = null, pick = null;
+const dark = $("dark"), nomarks = $("nomarks");
+// the towns, outposts and missions on the map; hidden on request, remembered in this browser only
+try { nomarks.checked = localStorage.getItem("maps.nomarks") === "1"; } catch (e) { /* storage blocked */ }
+nomarks.addEventListener("change", () => {
+  try { localStorage.setItem("maps.nomarks", nomarks.checked ? "1" : "0"); } catch (e) { /* storage blocked */ }
+  hoverMark = null; schedule();
+});
+const marks = () => (nomarks.checked ? [] : region?.marks || []);
+let region = null, base = null, layers = [], hover = null, pick = null, hoverMark = null;
 const view = { zoom: 1, x: 0, y: 0 };
 let cssW = 0, cssH = 0, dpr = 1, fitZoom = 1, raf = 0, loadToken = 0;
 
@@ -169,9 +176,22 @@ function draw() {
   for (const l of ready) if (l !== hover && l !== pick) ring(l, HOVER, 1, (l.names.length ? 0.35 : 0.12) * fade);
   if (hover && hover.img && hover !== pick) ring(hover, HOVER, 1.4, 0.9);
   if (pick && pick.img) ring(pick, PICK, 2, 1);
+  // towns and outposts keep their size on screen at every zoom
+  for (const [n, k, x, y] of marks()) {
+    drawMark(ctx, k, dpr * (view.x + x * view.zoom), dpr * (view.y + y * view.zoom), dpr * (n === hoverMark?.[0] ? 1.25 : 1), n);
+  }
 }
 
 /* ---------- pointer ---------- */
+// the marker under a stage point (CSS px), if any
+function markAt(p) {
+  let best = null, bd = 12;
+  for (const m of marks()) {
+    const d = Math.hypot(view.x + m[2] * view.zoom - p.x, view.y + m[3] * view.zoom - p.y);
+    if (d < bd) { bd = d; best = m; }
+  }
+  return best;
+}
 function layerAt(px, py) {
   const tol = 3 / view.zoom;
   for (let i = layers.length - 1; i >= 0; i--) {
@@ -210,29 +230,34 @@ stage.addEventListener("pointermove", e => {
     if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
     if (moved) { view.x = drag.vx + dx; view.y = drag.vy + dy; clamp(); schedule(); stage.classList.add("dragging"); }
   }
-  const q = pic(p), l = layerAt(q.x, q.y);
-  if (l !== hover) { hover = l; schedule(); }
-  if (l && l.names.length && !drag) {
-    tip.hidden = false; tip.textContent = l.names.join(" · ");
+  const mk = drag ? null : markAt(p), q = pic(p), l = mk ? null : layerAt(q.x, q.y);
+  if (l !== hover || mk !== hoverMark) { hover = l; hoverMark = mk; schedule(); }
+  if (mk || (l && l.names.length && !drag)) {
+    tip.hidden = false; tip.textContent = mk ? `${mk[0]} · ${(MARK_STYLE[mk[1]] || MARK_STYLE.outpost)[2]}` : l.names.join(" · ");
     tip.style.left = `${Math.min(p.x + 14, cssW - tip.offsetWidth - 6)}px`; tip.style.top = `${p.y + 16}px`;
   } else tip.hidden = true;
-  stage.style.cursor = l && l.names.length ? "pointer" : "";
+  stage.style.cursor = mk || (l && l.names.length) ? "pointer" : "";
 });
 function up(e) {
   const was = pointers.size;
   pointers.delete(e.pointerId);
   if (pointers.size < 2) pinch = null;
   if (was === 1 && !moved && e.type === "pointerup") {
+    const mk = markAt(local(e));
+    if (mk) { endDrag(); location.href = markHref(mk[0]); return; }
     const q = pic(local(e)), l = layerAt(q.x, q.y);
     pick = l && l.names.length ? l : null;
     setHash(pick ? { area: pick.names[0] } : { region: region.id });
     showPanel(); schedule();
   }
-  if (!pointers.size) { drag = null; stage.classList.remove("dragging"); }
+  if (!pointers.size) endDrag();
 }
+function endDrag() { pointers.clear(); drag = null; pinch = null; stage.classList.remove("dragging"); }
+// coming back with the browser's Back button restores the page as it was left: never in the middle of a drag
+window.addEventListener("pageshow", endDrag);
 stage.addEventListener("pointerup", up);
 stage.addEventListener("pointercancel", up);
-stage.addEventListener("pointerleave", () => { tip.hidden = true; if (hover) { hover = null; schedule(); } });
+stage.addEventListener("pointerleave", () => { tip.hidden = true; if (hover || hoverMark) { hover = hoverMark = null; schedule(); } });
 stage.addEventListener("wheel", e => {
   e.preventDefault();
   const p = local(e), dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
