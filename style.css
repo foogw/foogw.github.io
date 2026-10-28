@@ -1000,3 +1000,25 @@ a.hchip { text-decoration: none; }
 .gmap figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 14px; margin-top: 8px; font-size: 12px; }
 .gmap figcaption label { display: flex; align-items: center; gap: 8px; }
 .gmap input[type="range"] { width: 140px; accent-color: var(--accent); }
+
+/* Maps page: one region at a time, pan and zoom */
+.wm-regions { display: flex; flex-wrap: wrap; gap: 4px 6px; margin: 8px 0 10px; }
+.wm-regions button { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 6px; padding: 3px 10px; font: inherit; font-size: 13px; cursor: pointer; }
+.wm-regions button:hover { color: var(--text); }
+.wm-regions button[aria-pressed=true] { color: var(--accent); border-color: var(--accent); }
+.wm { position: relative; height: calc(100vh - var(--hdr-h, 56px) - 150px); min-height: 380px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #0c0d0f; }
+.wm-stage { position: absolute; inset: 0; touch-action: none; cursor: grab; outline: none; user-select: none; -webkit-user-select: none; }
+.wm-stage.dragging { cursor: grabbing; }
+.wm-stage canvas { width: 100%; height: 100%; display: block; }
+.wm-tip { position: absolute; pointer-events: none; background: rgb(12 13 15 / .85); color: #fff; font-size: 12px; padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
+.wm-zoom { position: absolute; top: 10px; right: 10px; display: flex; flex-direction: column; gap: 4px; }
+.wm-zoom button { width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 6px; background: rgb(29 32 36 / .9); color: #e4e1da; font: inherit; font-size: 16px; cursor: pointer; }
+.wm-zoom button:hover { border-color: var(--accent); }
+.wm-panel { position: absolute; left: 10px; bottom: 10px; max-width: min(360px, calc(100% - 20px)); background: var(--panel); border: 1px solid var(--accent); border-radius: 8px; padding: 8px 30px 8px 12px; font-size: 13px; }
+.wm-panel ul { margin: 0; padding: 0; list-style: none; }
+.wm-panel li { display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; padding: 2px 0; }
+.wm-panel li b { font-weight: 600; margin-right: auto; }
+.wm-close { position: absolute; top: 4px; right: 6px; background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; line-height: 1; }
+.wm-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 14px; margin-top: 8px; font-size: 12px; }
+.wm-bar label { display: flex; align-items: center; gap: 8px; }
+.wm-bar input[type="range"] { width: 140px; accent-color: var(--accent); }

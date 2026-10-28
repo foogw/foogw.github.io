@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>GW Maps</title>
+<link rel="stylesheet" href="style.css?v=440f6930">
+</head>
+<body class="maps">
+<div class="wrap">
+  <header class="top">
+    <nav class="pages"><a href="index.html">Home</a><a href="rotations.html">Rotations</a><a href="quests.html">Storylines</a><a href="locations.html">Locations</a><a href="skills.html">Skills</a><a href="missions.html">Missions</a><a href="heroes.html">Heroes</a><a href="builds.html">Builds</a><a href="builder.html">Builder</a></nav>
+    <a class="hdr-link push" href="about.html">About</a>
+    <a class="hdr-link" href="thanks.html">Thanks</a>
+    <a class="hdr-link" href="contact.html">Contact</a>
+    <a class="hdr-link" href="license.html">License</a>
+  </header>
+  <div class="page-title"><h1>Maps</h1><p>Where you can walk in every region; click an area for its page</p></div>
+
+  <div class="q-controls"><div class="profs" id="groups"></div></div>
+  <div class="wm-regions" id="regions"></div>
+
+  <div class="wm" id="wm">
+    <div class="wm-stage" id="stage" tabindex="0" role="img" aria-label="Region map"><canvas></canvas><span class="wm-tip" id="tip" hidden></span></div>
+    <div class="wm-zoom"><button id="zin" title="Zoom in (+)">+</button><button id="zout" title="Zoom out (−)">−</button><button id="zfit" title="Fit (0)">⤢</button></div>
+    <div class="wm-panel" id="panel" hidden></div>
+  </div>
+  <div class="wm-bar"><label>Darkness <input type="range" id="dark" min="0" max="100" value="66"></label>
+    <span class="dim">Drag to move · wheel or pinch to zoom · click an area</span></div>
+  <footer class="site-footer"><a href="about.html">About</a> · <a href="license.html">License &amp; credits</a> · <a href="thanks.html">Thanks</a> · <a href="contact.html">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="data/world.js?v=9cab7c8c"></script>
+<script src="common.js?v=3900ecf9"></script>
+<script src="maps.js?v=d1c32e64"></script>
+</body>
+</html>
