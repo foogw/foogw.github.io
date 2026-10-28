@@ -16,7 +16,7 @@ function mapSharers(name) {
 
 // towns, outposts, mission outposts and dungeon entrances on a map: [fill, radius in CSS px, label]
 const MARK_STYLE = { town: ["#ffd98a", 8, "Town"], outpost: ["#f2eee4", 6.5, "Outpost"], mission: ["#e8664a", 7, "Mission outpost"],
-  dungeon: ["#a99bff", 7, "Dungeon"] };
+  dungeon: ["#a99bff", 7, "Dungeon"], unknown: ["#8a8f96", 5.5, "Map point"] };
 const markHref = name => `locations#${new URLSearchParams({ place: name })}`;
 // a dot, and the place's name beside it (drawn into a canvas in device pixels; scale = device pixels per CSS px)
 function drawMark(g, kind, x, y, scale = 1, name = "", self = false) {

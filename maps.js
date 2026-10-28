@@ -12,14 +12,17 @@ const areaRegion = new Map();  // site name -> [region, layer]
 for (const r of WORLD) for (const l of r.layers) for (const n of l.names) if (!areaRegion.has(n)) areaRegion.set(n, [r, l]);
 
 const stage = $("stage"), cv = stage.querySelector("canvas"), ctx = cv.getContext("2d"), tip = $("tip"), panel = $("panel");
-const dark = $("dark"), nomarks = $("nomarks");
-// the towns, outposts and missions on the map; hidden on request, remembered in this browser only
-try { nomarks.checked = localStorage.getItem("maps.nomarks") === "1"; } catch (e) { /* storage blocked */ }
-nomarks.addEventListener("change", () => {
-  try { localStorage.setItem("maps.nomarks", nomarks.checked ? "1" : "0"); } catch (e) { /* storage blocked */ }
-  hoverMark = null; schedule();
-});
-const marks = () => (nomarks.checked ? [] : region?.marks || []);
+const dark = $("dark"), nomarks = $("nomarks"), unknown = $("unknown");
+// the towns, outposts and missions on the map, and on request the table's other map points by number ("#727", no
+// page); both choices are remembered in this browser only
+for (const [box, key] of [[nomarks, "maps.nomarks"], [unknown, "maps.unknown"]]) {
+  try { box.checked = localStorage.getItem(key) === "1"; } catch (e) { /* storage blocked */ }
+  box.addEventListener("change", () => {
+    try { localStorage.setItem(key, box.checked ? "1" : "0"); } catch (e) { /* storage blocked */ }
+    hoverMark = null; schedule();
+  });
+}
+const marks = () => [...(nomarks.checked ? [] : region?.marks || []), ...(unknown.checked ? region?.unknown || [] : [])];
 let region = null, base = null, layers = [], hover = null, pick = null, hoverMark = null;
 const view = { zoom: 1, x: 0, y: 0 };
 let cssW = 0, cssH = 0, dpr = 1, fitZoom = 1, raf = 0, loadToken = 0;
@@ -233,7 +236,9 @@ stage.addEventListener("pointermove", e => {
   const mk = drag ? null : markAt(p), q = pic(p), l = mk ? null : layerAt(q.x, q.y);
   if (l !== hover || mk !== hoverMark) { hover = l; hoverMark = mk; schedule(); }
   if (mk || (l && l.names.length && !drag)) {
-    tip.hidden = false; tip.textContent = mk ? `${mk[0]} · ${(MARK_STYLE[mk[1]] || MARK_STYLE.outpost)[2]}` : l.names.join(" · ");
+    tip.hidden = false;
+    tip.textContent = !mk ? l.names.join(" · ") : mk[0].startsWith("#") ? `Map ${mk[0]} · ${MARK_STYLE[mk[1]][2]}, no page on this site`
+      : `${mk[0]} · ${(MARK_STYLE[mk[1]] || MARK_STYLE.outpost)[2]}`;
     tip.style.left = `${Math.min(p.x + 14, cssW - tip.offsetWidth - 6)}px`; tip.style.top = `${p.y + 16}px`;
   } else tip.hidden = true;
   stage.style.cursor = mk || (l && l.names.length) ? "pointer" : "";
@@ -244,7 +249,7 @@ function up(e) {
   if (pointers.size < 2) pinch = null;
   if (was === 1 && !moved && e.type === "pointerup") {
     const mk = markAt(local(e));
-    if (mk) { endDrag(); location.href = markHref(mk[0]); return; }
+    if (mk && !mk[0].startsWith("#")) { endDrag(); location.href = markHref(mk[0]); return; }
     const q = pic(local(e)), l = layerAt(q.x, q.y);
     pick = l && l.names.length ? l : null;
     setHash(pick ? { area: pick.names[0] } : { region: region.id });
