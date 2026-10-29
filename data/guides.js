@@ -358,4 +358,64 @@ window.GW_GUIDES = [
       },
     ],
   },
+  {
+    id: "zos-afk-luxon",
+    name: "Zos Shivros AFK Luxon Farm",
+    summary: "Luxon faction all day in Zos Shivros Channel with 7 heroes: one click to start, a couple to stand in place, then go AFK.",
+    tags: ["Farm", "Luxon faction", "AFK", "7 heroes"],
+    sections: [
+      {
+        blocks: [
+          { p: "{mission:Zos Shivros Channel} sends seven waves, then stops for good while still paying 50 Luxon faction a minute. This hero team holds all seven waves on its own, so the run can go on for as long as your faction cap allows." },
+        ],
+      },
+      {
+        title: "Build",
+        blocks: [
+          { builds: ["zos-sogm", "zos-sos", "zos-bip", "zos-mm", "zos-esurge", "zos-esurge", "zos-esurge-rez"] },
+          { p: "The same team is on the {page:builds#team=afk-luxon-faction|Builds page}." },
+        ],
+      },
+      {
+        title: "Setup",
+        blocks: [
+          { img: { src: "img/guides/zos-afk-luxon-place.jpg", caption: "The team in place behind Battle Priest Calibos, with you in the middle.", side: true } },
+          { ol: [
+            "Start the mission in Normal mode: one click.",
+            "Walk to the spot just behind Battle Priest Calibos, as in the picture, and stand there.",
+            "Go AFK. If you worry, check once at 31 minutes that the team is alive: wave 7 is over by then, and nothing comes after it.",
+          ] },
+        ],
+      },
+      {
+        title: "Faction cap",
+        blocks: [
+          { p: "Faction past your cap is lost, so your cap decides how long a run can last. Donate or spend before you run again." },
+          { capCalc: { base: 10000, rate: 3000, rows: [
+            ["{quest:Befriending the Luxons}", 10000],
+            ["{mission:The Deep}: defeat Kanaxai", 10000],
+            ["{mission:Unwaking Waters}, entered from the Luxon side", 7000],
+            { rank: "Friend of the Luxons title", first: 5000, each: 1000, max: 12 },
+            ["Win {mission:Fort Aspenwood} for the Luxons", 5000],
+            ["Win {mission:The Jade Quarry} for the Luxons", 5000],
+            ["Win an Alliance Battle for the Luxons", 5000],
+            ["Score 100 points in {mission:Zos Shivros Channel}: your first run of this farm", 1000],
+            ["Score 100 points in {mission:The Aurios Mines}", 1000],
+          ] } },
+          { p: "Not sure which you have? Ask the Luxon Scavenger in {place:Cavalon} or a Luxon-allied guild hall: he lists the ones you haven't done yet." },
+        ],
+      },
+      {
+        title: "Notes",
+        blocks: [
+          { ul: [
+            "Turning faction in during Faction Support Week doubles the title points.",
+            "It takes about 200 hours (or 100) of this farm to reach rank 6, at which Luxon skills reach full strength.",
+            "It takes about 1,670 hours (or 835) to max the title at rank 12.",
+            "The number of runs it takes to max the title depends on how high your cap is at the start, and on turning in during Faction Support Weeks. At the least, with every other raise done and rank 1 reached (a 59,000 cap), it takes 38 runs, all turned in during Faction Support Weeks. At the most, with no raises besides the title ranks and this farm's own score, and no Faction Support Weeks, it takes 217.",
+          ] },
+        ],
+      },
+    ],
+  },
 ];

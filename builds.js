@@ -123,7 +123,8 @@ function teamHTML(t) {
     </div>
     ${overviewHTML(builds, groups)}
     <div class="bd-grid">${groups.map(buildHTML).join("")}</div>
-    ${t.usage ? `<section class="lbox bd-usage"><h4>How to run it</h4><ol>${t.usage.map(u => `<li>${esc(u)}</li>`).join("")}</ol></section>` : ""}
+    ${t.usage ? `<section class="lbox bd-usage"><h4>How to run it</h4><ol>${t.usage.map(u => `<li>${esc(u)}</li>`).join("")}</ol>
+      ${t.guide ? `<p><a href="guides#guide=${esc(t.guide)}">The full guide →</a></p>` : ""}</section>` : ""}
     ${t.source ? `<p class="dim bd-src">${esc(t.source.note || "From")} <a href="${esc(t.source.url)}" target="_blank" rel="noopener">${esc(t.source.name)}</a>, CC BY-NC-SA 2.5; shortened and reworded.</p>` : ""}`;
 }
 

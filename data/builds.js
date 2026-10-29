@@ -4,7 +4,7 @@
    runes: attribute rune bonuses as players write them ({ "Domination Magic": "3+1" }: a superior rune (3; major 2,
    minor 1) and headgear (+1)), primary attributes only; insignia: the armor insignia.
    heroes: the heroes who suit a build, suggested on the Heroes page.
-   A team lists its builds in party order; a build may appear more than once. Single builds are listed on their own,
+   A team lists its builds in party order, and may name the guide that explains it (guide: its id); a build may appear more than once. Single builds are listed on their own,
    each with the PvXwiki page it comes from. */
 const PVX = "https://gwpvx.fandom.com/wiki/";
 const PVX_GEAR = {
@@ -22,7 +22,7 @@ window.GW_BUILDS = {
     {
       id: "afk-luxon-faction",
       name: "7 Hero AFK Luxon Faction Farm",
-      summary: "An all-day AFK farm of Luxon faction in Zos Shivros Channel: set it up in two clicks, then leave it running.",
+      summary: "An all-day AFK farm of Luxon faction in Zos Shivros Channel: start it, stand in place, then go AFK.",
       tags: ["Farm", "Luxon faction", "AFK", "7 heroes"],
       place: "Zos Shivros Channel",
       mission: "Zos Shivros Channel",
@@ -31,11 +31,10 @@ window.GW_BUILDS = {
       builds: ["zos-sogm", "zos-sos", "zos-bip", "zos-mm", "zos-esurge", "zos-esurge", "zos-esurge-rez"],
       usage: [
         "Start the Zos Shivros Channel challenge mission in Normal mode.",
-        "Flag the minion master to the middle of the hill, the Ritualists to its sides, the Mesmers behind them, the Blood is Power hero behind those, and yourself at the back. Keep heroes further apart than adjacent range; the minions should idle inside the triangle of heroes.",
-        "Wave 1 can bring Outcast Deathhands, who strip enchantments: kill them first. Wave 1 ends around 3 minutes; no later wave strips enchantments, so you can go AFK.",
-        "Wave 7 ends around 30 minutes. After it foes only come if pulled, so you can stay as long as you like.",
-        "Before leaving, kill the 6 Luxon Adepts (100 faction each); one pair of turtles guards the north Adept. Then resign or die to get the score bonus: you lose it if you map out.",
+        "Walk to the spot just behind Battle Priest Calibos and stand there.",
+        "Go AFK. If you worry, check once at 31 minutes that the team is alive: wave 7 is over by then, and nothing comes after it.",
       ],
+      guide: "zos-afk-luxon",
       source: { name: "PvXwiki: Team - 7 Hero AFK Luxon Faction Farm", url: "https://gwpvx.fandom.com/wiki/Build:Team_-_7_Hero_AFK_Luxon_Faction_Farm",
         note: "Bars updated; usage, modes and gear adapted from" },
     },
