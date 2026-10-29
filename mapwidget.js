@@ -4,6 +4,7 @@
    or zooming; the slider (or the wheel, once the map is clicked) sets how dark the rest is. mapHTML(name) gives the
    markup for a place or mission with a map in data/maps.js (or ""), initMaps(root) brings it to life. */
 const GW_MAPS = window.GW_MAPS || {}, GW_PLACE_MAPS = window.GW_PLACE_MAPS || {};
+const GW_REGIONS = new Map((window.GW_WORLD || []).map(r => [r.id, r]));
 const MAP_TINT = "#06080a", MAP_RING = "#ffd98a", MAP_STEP = 0.05, MAP_MAX_H = 520;
 const MAP_HINT = "Click, then scroll to change the darkness";
 
@@ -42,15 +43,25 @@ function drawMark(g, kind, x, y, scale = 1, name = "", self = false) {
 // name: the area whose map it is; self: a town or outpost on it that the page is about, marked out
 function mapHTML(name, self = "") {
   const m = GW_MAPS[name];
-  if (!m) return "";
+  return m ? winHTML(m, `data-map="${esc(m.f)}"`, self ? `Where ${self} is` : `${name}: where you can walk`, m.p, self) : "";
+}
+// a whole region of the Maps page (data/world.js), its areas put together the same way
+function regionMapHTML(id) {
+  const r = GW_REGIONS.get(id);
+  return r ? winHTML(r, `data-region="${esc(id)}"`, `${r.label}: where you can walk`, r.marks) : "";
+}
+// hiding the markers is one choice for every map, the Maps page's too, remembered in this browser only
+const hideMarks = () => { try { return localStorage.getItem("maps.nomarks") === "1"; } catch (e) { return false; } };
+function winHTML(m, src, label, marks = [], self = "") {
   // the whole area always fits: no taller than MAP_MAX_H, as wide as the column allows
   return `<figure class="gmap">
-    <div class="gmap-win" style="aspect-ratio:${m.w} / ${m.h};width:min(100%, ${Math.round(MAP_MAX_H * m.w / m.h)}px)" data-map="${esc(m.f)}" tabindex="0" role="img" aria-label="${esc(self ? `Where ${self} is` : `${name}: where you can walk`)}">
-      <canvas></canvas>${(m.p || []).map(([n, k, x, y]) =>
+    <div class="gmap-win" style="aspect-ratio:${m.w} / ${m.h};width:min(100%, ${Math.round(MAP_MAX_H * m.w / m.h)}px)" ${src} tabindex="0" role="img" aria-label="${esc(label)}">
+      <canvas></canvas>${(marks || []).map(([n, k, x, y]) =>
         `<a class="gmap-mark" data-k="${esc(k)}"${n === self ? " data-self" : ""} href="${esc(markHref(n))}" title="${esc(n)} · ${esc((MARK_STYLE[k] || MARK_STYLE.outpost)[2])}" aria-label="${esc(n)}"
           style="left:${(100 * x / m.w).toFixed(2)}%;top:${(100 * y / m.h).toFixed(2)}%"></a>`).join("")}<span class="gmap-hint">${MAP_HINT}</span>
     </div>
-    <figcaption><label>Darkness <input type="range" min="0" max="100" value="66"></label></figcaption>
+    <figcaption><label>Darkness <input type="range" min="0" max="100" value="66"></label>${(marks || []).length
+      ? `<label title="Towns, outposts, mission outposts and dungeon entrances"><input type="checkbox" class="gmap-nomarks"${hideMarks() ? " checked" : ""}> Hide markers</label>` : ""}</figcaption>
   </figure>`;
 }
 
@@ -67,7 +78,7 @@ function initMaps(root = document) {
   for (const fig of root.querySelectorAll(".gmap:not([data-ready])")) {
     fig.dataset.ready = "";
     const win = fig.querySelector(".gmap-win"), cv = win.querySelector("canvas"), ctx = cv.getContext("2d");
-    const slider = fig.querySelector("input");
+    const slider = fig.querySelector("input[type=range]"), nomarks = fig.querySelector(".gmap-nomarks");
     let alpha = slider.value / 100, base, mask;
     const veil = document.createElement("canvas"), ring = document.createElement("canvas");
     let ringFor = "";
@@ -91,7 +102,8 @@ function initMaps(root = document) {
         g.globalCompositeOperation = "source-in"; g.fillStyle = MAP_RING; g.fillRect(0, 0, w, h);
       }
       ctx.globalAlpha = alpha * 0.8; ctx.drawImage(ring, 0, 0); ctx.globalAlpha = 1;
-      for (const a of win.querySelectorAll(".gmap-mark")) {
+      win.classList.toggle("nomarks", !!nomarks?.checked);
+      if (!nomarks?.checked) for (const a of win.querySelectorAll(".gmap-mark")) {
         drawMark(ctx, a.dataset.k, parseFloat(a.style.left) / 100 * w, parseFloat(a.style.top) / 100 * h, d, a.getAttribute("aria-label"), a.hasAttribute("data-self"));
       }
     }
@@ -103,6 +115,10 @@ function initMaps(root = document) {
     const active = on => mapActive(win, on);
 
     slider.addEventListener("input", () => set(slider.value / 100));
+    nomarks?.addEventListener("change", () => {
+      try { localStorage.setItem("maps.nomarks", nomarks.checked ? "1" : "0"); } catch (e) { /* storage blocked */ }
+      draw();
+    });
     win.addEventListener("click", () => active(true));
     win.addEventListener("wheel", e => {
       if (!win.hasAttribute("data-active")) return;  // the page scrolls normally until the map is clicked
@@ -118,7 +134,15 @@ function initMaps(root = document) {
     new ResizeObserver(draw).observe(win);
 
     const load = src => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
-    Promise.all([load(`img/maps/${win.dataset.map}.webp`), load(`img/maps/${win.dataset.map}.png`)])
+    const r = GW_REGIONS.get(win.dataset.region);
+    (r ? Promise.all([load(`img/world/${r.id}/base.webp`), ...r.layers.map(l => load(`img/world/${r.id}/m${l.m}.png`))]).then(([b, ...ms]) => {
+      // the region's walkable areas, each drawn into one mask at its place
+      const c = document.createElement("canvas");
+      c.width = b.naturalWidth; c.height = b.naturalHeight;
+      const k = c.width / r.w, g = c.getContext("2d");
+      r.layers.forEach((l, i) => g.drawImage(ms[i], l.x * k, l.y * k, l.w * k, l.h * k));
+      return [b, c];
+    }) : Promise.all([load(`img/maps/${win.dataset.map}.webp`), load(`img/maps/${win.dataset.map}.png`)]))
       .then(([b, m]) => { base = b; mask = m; draw(); }, () => fig.remove());
   }
 }

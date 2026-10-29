@@ -1,6 +1,6 @@
 /* Guides, written by hand, each in a group of the list (group: "afk", "solo" or "quests"). Each guide is a list of sections, and each section a list of blocks:
    { h }, { p }, { note } (a paragraph set apart), { box: { title, blocks } } (an indented aside, for an option), { ul: [...] }, { ol: [...] }, { table: { head, rows, notes } }, { builds: [...] }, { qa: [[q, a]] }
-   { img: { src, caption, side } }, { imgs: { srcs, caption } } (pictures in a row), { map: place, side } (the place's map window), { capCalc: { base, rate, rows } } (a faction
+   { img: { src, caption, side } }, { imgs: { srcs, caption } } (pictures in a row), { map: place, side } (the place's map window) or { region: id, side } (a whole region of the Maps page), { capCalc: { base, rate, rows } } (a faction
    cap calculator: rows of [text, faction] to tick, and one { rank, first, each, max } for a title). A section with flow: true lets its side picture run on beside the next one.
    A build has a template code, or skills by name (null for a free slot) when no code fits it, and may have runes as on
    the Builds page ({ "Fast Casting": "3+1" }), and gear shown beside the attributes (gear: ["High energy"]). A build
@@ -130,7 +130,9 @@ window.GW_GUIDES = [
     tags: ["Quests", "Pre-Searing", "Route"],
     sections: [
       {
+        flow: true,
         blocks: [
+          { region: "presearing-main", side: true },
           { p: "This is a walkthrough for characters that have saved most of the pre-Searing quests for a higher level, with as little fighting and backtracking as possible. Each group starts at a map travel or a portal." },
           { p: "Assumed done already:" },
           { ul: [
