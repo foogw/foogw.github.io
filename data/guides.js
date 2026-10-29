@@ -1,4 +1,4 @@
-/* Guides, written by hand. Each guide is a list of sections, and each section a list of blocks:
+/* Guides, written by hand, each in a group of the list (group: "afk", "solo" or "quests"). Each guide is a list of sections, and each section a list of blocks:
    { h }, { p }, { note } (a paragraph set apart), { box: { title, blocks } } (an indented aside, for an option), { ul: [...] }, { ol: [...] }, { table: { head, rows, notes } }, { builds: [...] }, { qa: [[q, a]] }
    { img: { src, caption, side } }, { imgs: { srcs, caption } } (pictures in a row), { map: place, side } (the place's map window), { capCalc: { base, rate, rows } } (a faction
    cap calculator: rows of [text, faction] to tick, and one { rank, first, each, max } for a title). A section with flow: true lets its side picture run on beside the next one.
@@ -17,6 +17,7 @@ const GWW_FOO = GWW_USER + "/GoM";
 window.GW_GUIDES = [
   {
     id: "gom-afk-xp",
+    group: "afk",
     name: "GoM AFK XP Farm",
     summary: "An AFK XP farm in Gate of Madness: the Legendary Survivor title in about 4 hours, and 534 skill points a day.",
     tags: ["Farm", "XP", "AFK", "Normal mode", "3 heroes"],
@@ -123,6 +124,7 @@ window.GW_GUIDES = [
   },
   {
     id: "pre-searing-quests",
+    group: "quests",
     name: "Pre-Searing Quests",
     summary: "An efficient route through the pre-Searing quests, with as little fighting and backtracking as possible.",
     tags: ["Quests", "Pre-Searing", "Route"],
@@ -255,6 +257,7 @@ window.GW_GUIDES = [
   },
   {
     id: "chaos-axe-farm",
+    group: "solo",
     name: "Purp Insc Chaos Axe Farm",
     summary: "Purple and blue inscribable Chaos Axes and Shadow Shields, Blades, Bows and Staves from two Obsidian Furnace Drakes in Kourna, solo.",
     tags: ["Farm", "Weapons", "Solo", "Koss"],
@@ -314,6 +317,7 @@ window.GW_GUIDES = [
   },
   {
     id: "fow-spider-cave",
+    group: "solo",
     name: "Solo W/R FoW Spider Cave Farm",
     summary: "Farm the Fissure of Woe spider cave for Obsidian Shards and other goodies with a high-armor warrior and Melandru's Resilience.",
     tags: ["Farm", "Obsidian Shards", "Solo", "Warrior"],
@@ -360,6 +364,7 @@ window.GW_GUIDES = [
   },
   {
     id: "zos-afk-luxon",
+    group: "afk",
     name: "Zos Shivros AFK Luxon Farm",
     summary: "Luxon faction all day in Zos Shivros Channel with 7 heroes: one click to start, a couple to stand in place, then go AFK.",
     tags: ["Farm", "Luxon faction", "AFK", "7 heroes"],

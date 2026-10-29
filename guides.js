@@ -246,11 +246,17 @@ function guidePageHTML(g) {
 }
 
 /* ---------- the list ---------- */
-function indexHTML() {
-  return `<div class="bd-index">${GUIDES.map(g => `<a class="bd-entry" href="#${new URLSearchParams({ guide: g.id })}">
+// the list, under the group titles in their order
+const GROUPS = [["afk", "AFK guides"], ["solo", "Solo guides"], ["quests", "Quest guides"]];
+const entryHTML = g => `<a class="bd-entry" href="#${new URLSearchParams({ guide: g.id })}">
     <h3>${esc(g.name)}</h3><p>${esc(g.summary)}</p>
     <div class="bd-tags">${(g.tags || []).map(x => `<span class="tag">${esc(x)}</span>`).join("")}</div>
-  </a>`).join("")}</div>`;
+  </a>`;
+function indexHTML() {
+  return GROUPS.map(([key, title]) => {
+    const gs = GUIDES.filter(g => g.group === key);
+    return gs.length ? `<h2 class="bd-section">${title}</h2><div class="bd-index">${gs.map(entryHTML).join("")}</div>` : "";
+  }).join("");
 }
 
 // the list, or one guide when the address names one
