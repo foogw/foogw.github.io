@@ -347,6 +347,105 @@ window.GW_GUIDES = [
     ],
   },
   {
+    id: "uw-quests",
+    group: "quests",
+    name: "Underworld Quests",
+    summary: "All eleven Underworld quests in one run, the dangerous ones first, ending with Dhuum.",
+    tags: ["Quests", "Underworld", "Route"],
+    sections: [
+      {
+        flow: true,
+        blocks: [
+          { map: "The Underworld", side: true },
+          { p: "{place:The Underworld} is Grenth's realm in the Mists: an elite area for a full party, heroes allowed. Its eleven repeatable quests pay 110,000 XP in all, and the last one, against Dhuum, earns the Underworld Chest. It's also the main place Globs of Ectoplasm drop." },
+          { p: "This guide is for doing all eleven in one run. Most of the quests send you out of the Underworld if an NPC dies, so the order puts the dangerous ones first: a failure early costs little, and the easy ones are left for when the team has the most to lose." },
+          { p: "With practice, it can be done with the {page:builds#team=meta|meta hero team}." },
+          { note: "Note: this guide hasn't been fact-checked yet, so it may have mistakes." },
+        ],
+      },
+      {
+        title: "Releasing the Reapers",
+        flow: true,
+        blocks: [
+          { p: "Each area has a statue of Grenth with a Reaper imprisoned at it. Clear the Chamber frees the Reaper of the Labyrinth, and his Restoring Grenth's Monuments puts three Terrorweb Dryders at each of the other six statues: kill them and that area's Reaper appears." },
+          { ul: [
+            "A freed Reaper gives the area's quest, and teleports the party to any other freed Reaper. Free them as you go, and the rest of the run is mostly teleports.",
+            "A Reaper that dies sends everyone out, so clear the monsters around a statue before killing its Dryders.",
+            "The Terrorweb Dryders are fire Elementalists with Meteor Shower among their AoE, and they make up most quest spawns too. Kill them first, and keep them away from the NPCs you protect.",
+            "Once ten quests are done, the Reapers only teleport one player at a time, and once anyone enters the Hall of Judgment they're gone.",
+          ] },
+        ],
+      },
+      {
+        title: "Black Widows",
+        blocks: [
+          { p: "Black Widows are a rare pet, one of three with a statue in the Hall of Monuments' Fellowship monument, and the Underworld is the only place to charm one. A level 20 widow with a random evolution spawns when you finish Demon Assassin, Imprisoned Spirits, Servants of Grenth, Terrorweb Queen, the Four Horsemen and Wrathful Spirits, and three more when Dhuum is down. Bring a Ranger hero to charm one, and tell the party first: a widow turns hostile while it's being charmed." },
+        ],
+      },
+      {
+        title: "Route",
+        blocks: [
+          { route: [
+            { start: "The Underworld", steps: [
+              { t: "Take the quest from the Lost Soul. Kill the three groups of Grasping Darknesses that rush in, and the Bladed Aatxes around the start. The doors open: head into the Labyrinth, clear around Grenth's statue, and kill its three Terrorweb Dryders last.", take: ["Clear the Chamber"], go: ["Clear the Chamber"] },
+              { t: "Talk to the Reaper of the Labyrinth, and take only the monuments quest for now.", done: ["Clear the Chamber"], take: ["Restoring Grenth's Monuments"] },
+            ] },
+            { area: "Ice Wastes", steps: [
+              { t: "Go to the Ice Wastes, clear around the statue and free the Reaper. Leave his quest for later: this Reaper is your second teleport for Unwanted Guests.", go: ["Restoring Grenth's Monuments"] },
+            ] },
+            { area: "Labyrinth", steps: [
+              { t: "Teleport to the Reaper of the Labyrinth, with the whole Labyrinth cleared, and take Unwanted Guests. Six clusters spawn around the Labyrinth, each a Keeper of Souls with six Dryders, three Skeletons of Dhuum and six Vengeful Aatxes. The Keeper is what matters: while he lives, nothing can hurt his Aatxes, and when he dies his whole cluster dies with him. So the quest is six Keeper kills, and the fight is about reaching each Keeper without being stuck under invulnerable Aatxes.", take: ["Unwanted Guests"] },
+              { t: "Walking into a cluster from the front brings the Aatxes first. The Reapers are the way around: talk to the Reaper of the Labyrinth, teleport to the Ice Wastes Reaper, and walk back into the Labyrinth from that side, reaching clusters from behind, where the Dryders and the Keeper often stand clear of the Aatxes. Kill the Dryders, then the Keeper. When the Aatxes do come, tank them, or knock them down and cripple them, while the rest kill the Keeper; teleport between the two Reapers to come at each cluster from its open side.", go: ["Unwanted Guests"] },
+              { t: "Back to the Reaper of the Labyrinth.", done: ["Unwanted Guests"] },
+            ] },
+            { area: "Twin Serpent Mountains", steps: [
+              { t: "Go to the mountains and free their Reaper. Keep his quest for later.", go: ["Restoring Grenth's Monuments"] },
+            ] },
+            { area: "Chaos Planes", steps: [
+              { t: "On to the Chaos Planes, and free their Reaper. A lone Banished Dream Rider spawns three Mindblade Spectres when it dies, those spawn six, and those nine: leave them alone.", go: ["Restoring Grenth's Monuments"] },
+              { t: "The Four Horsemen is the hardest quest down here, and worth watching {ext:https://www.youtube.com/results?search_query=guild+wars+underworld+four+horsemen|a video of it} first. Clear everything around the Reaper and rest to full energy before taking it: he fights alone, and if he dies the run is over. Four groups spawn in different places around the planes, each a Horseman with Terrorweb Dryders and a Skeleton of Dhuum. They join up in two big groups, Ghozer with Kazhad and Thul Za with Madruk, about a radar circle out on either side, and close in on the Reaper from both sides at once.", take: ["The Four Horsemen"] },
+              { t: "The Horsemen are level 28 Mesmers built to shut down a party: Power Block and Diversion lock your healers' skills, Cry of Frustration interrupts, Drain Enchantment strips protection, and Wastrel's Worry punishes casting. The Dryders bring the damage, with Meteor Shower and other fire AoE, and the Skeletons pile on with Bone Spike. Two ways to hold: make a stand around the Reaper, spread out and flagged apart so one AoE never hits two, with every healer on him; or hold one side with a tank that can't be targeted by spells while the rest meet the other side as far out as they can, before it joins up, then turn to the tank. Either way, spread the healing over several heroes so one locked bar doesn't lose the Reaper, interrupt Meteor Showers, kill the Dryders nearest the Reaper first, and keep going until all four Horsemen are dead.", done: ["The Four Horsemen"] },
+            ] },
+            { area: "Ice Wastes", steps: [
+              { t: "Teleport to the Ice Wastes. Taking Servants of Grenth sends three quick waves, each two groups of Dryders and a Skeleton of Dhuum: one goes for King Frozenwind, the other for the Reaper, and either dying ends the run. The King and his four Ice Elementals hold one group with Ward Against Harm; the Reaper has nothing. Stand between the spawn and the Reaper, or meet the waves at the spawn with the whole team, and kill fast.", take: ["Servants of Grenth"], done: ["Servants of Grenth"] },
+            ] },
+            { area: "Bone Pits", steps: [
+              { t: "Teleport to the Chaos Planes, and through the stone arch by their Reaper into the Bone Pits. Clear the area and free the Reaper.", go: ["Restoring Grenth's Monuments"] },
+              { t: "Send the party down by the pit, and have one player take the quest. Four Tortured Spirits climb out one by one: if one dies, the run is over, and they run at any foe in range. Three Skeletons of Dhuum spawn at once, then Dryders by the bridge, a smaller group by the hooked path, and a third group past the first about a minute in. Stand on the spawns so nothing reaches the spirits; once it's all dead they walk to the Reaper.", take: ["Imprisoned Spirits"], done: ["Imprisoned Spirits"] },
+            ] },
+            { area: "Twin Serpent Mountains", steps: [
+              { t: "Teleport to the mountains for Demon Assassin, and fight away from the Reaper. The Slayer climbs up slowly and is no threat, but it brings four Keepers of Souls and eight Dryders that advance together on the Reaper. Spread out against their AoE, hit them while they bunch up, and kill every last one before turning in, or they kill the Reaper after.", take: ["Demon Assassin"], done: ["Demon Assassin"] },
+            ] },
+            { area: "Spawning Pools", steps: [
+              { t: "Teleport to the Chaos Planes and go on to the Spawning Pools, the hardest area: Dryders and Charged Blacknesses, both Elementalists. Free the Reaper.", go: ["Restoring Grenth's Monuments"] },
+              { t: "The Queen spawns in a narrow passage with four Obsidian Guardians, which knock down and ward her, and each side of her room gets four more Guardians, three Skeletons of Dhuum and four Dryders. Clear one side, teleport around to clear the other, or pull the Queen out of the wards: she attacks from far, so back off further than usual.", take: ["Terrorweb Queen"], done: ["Terrorweb Queen"] },
+            ] },
+            { area: "Forgotten Vale", steps: [
+              { t: "Teleport to the Labyrinth and go on to the Vale. The friendly villagers, Tortured Spirits, only appear as you kill the groups of Grasping Darknesses near Mayor Alegheri: leave the first group alive and fewer of them spawn. Kill the patrolling Nights, and free the Reaper.", go: ["Restoring Grenth's Monuments"] },
+              { t: "Taking Wrathful Spirits puts four groups of three hostile spirits among the villagers and one on the hill. Their Illusionary Weaponry hits for 40 armor-ignoring damage, so a group melts anything it focuses: keep at least one villager alive, then the Mayor and the Reaper, who are next. The hill group can wait.", take: ["Wrathful Spirits"], done: ["Wrathful Spirits"] },
+            ] },
+            { area: "Labyrinth", steps: [
+              { t: "Teleport to the Reaper of the Labyrinth and turn in the monuments.", done: ["Restoring Grenth's Monuments"] },
+              { t: "Leave one player at the Reaper of the Labyrinth and walk everyone else back to the chamber where you entered the Underworld: the first group of six Mindblade Spectres spawns there. Once they're in place, the player at the Reaper takes Escort of Souls. Six New Souls set off for the Vale on their own, and more Spectres spawn in the hall to the Vale, at its gate, and between the Mayor and the bridge: stay ahead of the souls and kill each group before they arrive. Don't teleport ahead, or they walk into the first group alone.", take: ["Escort of Souls"], done: ["Escort of Souls"] },
+            ] },
+            { area: "Hall of Judgment", steps: [
+              { t: "Teleport to the Ice Wastes and go to King Frozenwind at the Hall of Judgment. Gather the whole party before anyone takes the quest: it removes every Reaper.", take: ["The Nightman Cometh"] },
+              { t: "Enter the Hall together: the doors close and Dhuum turns hostile. Two things end the fight: the Dhuum's Rest bar filling, which the Reapers fill along with players in Spirit Form, and Dhuum dropping below 25% health. Kill the Minions and Champions of Dhuum he keeps summoning, or they swarm you; Edge of Extinction helps. Resurrection skills don't work in the Hall, but Resurrection Scrolls and \"By Ural's Hammer!\" do. Dying, or reaching 60% death penalty, puts you next to Mayor Alegheri in the Vale in Spirit Form: talk to him to go back; heroes go back on their own. Don't use Encase Skeletal: it makes the skeleton unkillable.", go: ["The Nightman Cometh"] },
+              { t: "Turn in to King Frozenwind, and open the Underworld Chest at the Hall's door.", done: ["The Nightman Cometh"] },
+            ] },
+          ] },
+          { routeTotal: { plus: "the Underworld Chest" } },
+        ],
+      },
+      {
+        title: "All quests",
+        blocks: [
+          { questIndex: { region: "The Underworld", skip: {}, rest: "" } },
+        ],
+      },
+    ],
+  },
+  {
     id: "chaos-axe-farm",
     group: "solo",
     name: "Purp Insc Chaos Axe Farm",
