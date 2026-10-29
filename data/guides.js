@@ -310,4 +310,50 @@ window.GW_GUIDES = [
       },
     ],
   },
+  {
+    id: "fow-spider-cave",
+    name: "Solo W/R FoW Spider Cave Farm",
+    summary: "Farm the Fissure of Woe spider cave for Obsidian Shards and other goodies with a high-armor warrior and Melandru's Resilience.",
+    tags: ["Farm", "Obsidian Shards", "Solo", "Warrior"],
+    source: { href: GWW_USER, archive: "https://web.archive.org/web/2026/" + GWW_USER, author: "Foo", full: true },
+    sections: [
+      {
+        blocks: [
+          { p: "{place:The Fissure of Woe} is the only place in the game where Obsidian Shards drop. Its Spider Cave, between the Temple of War and the Fissure Shore, is packed with Armored Cave Spiders, which drop Obsidian Shards, Corrosive Spider Legs and Glittering Dust. A warrior with high armor can farm them alone." },
+        ],
+      },
+      {
+        title: "How it works",
+        blocks: [
+          { ul: [
+            "The spiders are rangers: their arrows are physical damage, which warrior armor takes well.",
+            "They poison you with Apply Poison. Every condition on you adds health regeneration from {skill:Melandru's Resilience}, so their poison helps you heal.",
+            "{skill:Troll Unguent} and {skill:Feel No Pain} add more regeneration, and {skill:Lion's Comfort} heals when you need a burst.",
+            "{skill:\"I Am the Strongest!\"} raises your damage while {skill:Whirlwind Attack} and {skill:Cyclone Axe} hit the whole balled-up group.",
+            "{skill:Sprint} gets you there and away.",
+          ] },
+        ],
+      },
+      {
+        title: "Build",
+        blocks: [
+          { builds: [
+            { name: "W/R", role: "You", code: "OQITEV5iTaHUp4va4Ancm03orAA", runes: { "Axe Mastery": "3+1", "Strength": "3" } },
+          ] },
+        ],
+      },
+      {
+        title: "Walkthrough",
+        blocks: [
+          { ol: [
+            "Enter {place:The Fissure of Woe}.",
+            "Head to the Spider Cave, between the Temple of War and the Fissure Shore. Heroes can help you get there, but you can make it alone too.",
+            "Pull the three Doubter's Dryders guarding the cave and kill them first.",
+            "Then deal with the spiders that pop up: keep Melandru's Resilience and your regeneration up and spin them down with Whirlwind Attack and Cyclone Axe. If you feel safe, or have extra consumables, gather all or most of them into one ball first; speed-boost consumables make that harder.",
+            "Pick up the drops.",
+          ] },
+        ],
+      },
+    ],
+  },
 ];
