@@ -14,6 +14,20 @@ const MODE_HINT = { Fight: "Fight: attacks what you target and what attacks the 
 
 // every block of a guide, including those inside boxes
 const allBlocks = blocks => blocks.flatMap(x => [x, ...(x.box ? allBlocks(x.box.blocks) : [])]);
+// a build given by id is the Builds page's, with its insignia and weapons; repeats of one bar show once, counted
+const SITE_BUILD = new Map((window.GW_BUILDS?.builds || []).map(b => [b.id, b]));
+const fromSite = id => {
+  const b = SITE_BUILD.get(id);
+  return { name: b.name, code: b.code, mode: b.mode, runes: b.runes, insignia: b.gear?.insignias, gear: b.gear?.weapons };
+};
+for (const g of GUIDES) for (const s of g.sections) for (const x of allBlocks(s.blocks)) if (x.builds) {
+  const seen = new Map();
+  x.builds = x.builds.map(b => (typeof b === "string" ? fromSite(b) : b)).filter(b => {
+    const first = b.code && seen.get(b.code);
+    if (first) first.count = (first.count || 1) + 1; else if (b.code) seen.set(b.code, b);
+    return !first;
+  });
+}
 for (const g of GUIDES) for (const s of g.sections) for (const x of allBlocks(s.blocks)) for (const b of x.builds || []) {
   if (b.code) {
     try { b._bar = TemplateCode.decode(b.code); } catch { b._bar = null; }
@@ -54,7 +68,7 @@ function buildHTML(b) {
     return `<span>${esc(name)} ${a.rank}${runes ? `+${esc(runes)}` : ""}</span>`;
   }).join("") + (b.insignia ? `<span class="bd-ins">${esc(b.insignia)}</span>` : "") + (b.gear || []).map(g => `<span>${esc(g)}</span>`).join("");
   return `<div class="gd-build" style="--pc:${profVar(b._profs[0])}">
-    <div class="gd-who">${profIcons(b)}<b>${esc(b.name)}</b>${modeHTML(b)}</div>
+    <div class="gd-who">${profIcons(b)}<b>${esc(b.name)}</b>${b.count ? `<span class="bd-count">×${b.count}</span>` : ""}${modeHTML(b)}</div>
     <div class="bd-obar">${b._skills.map(id => {
       const s = SKILL.get(id);
       return s ? `<a href="skills#skill=${id}" title="${esc(s.name)}" class="${s.elite ? "elite" : ""}" style="--pc:${profVar(s.profession)}"><img src="img/skills/${id}.jpg" alt="${esc(s.name)}" loading="lazy"></a>`
@@ -86,6 +100,40 @@ function routeOf(g) {
 const STORE = id => `gw-guide-${id}`;
 function ticked(id) {
   try { return new Set(JSON.parse(localStorage.getItem(STORE(id)) || "[]")); } catch { return new Set(); }
+}
+
+// the faction cap calculator: a checkbox per one-time raise and a rank stepper for the title
+const num = n => n.toLocaleString("en-US");
+const capKey = id => `gw-cap-${id}`;
+function capSaved(id) {
+  try { return JSON.parse(localStorage.getItem(capKey(id)) || "{}"); } catch { return {}; }
+}
+const CHEVRON = d => `<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const rankRaise = (r, rank) => (rank ? r.first + (rank - 1) * r.each : 0);
+function capCalcHTML(c, g) {
+  const saved = capSaved(g.id), on = new Set(saved.rows || []);
+  // the control sits in its own column, so every checkbox lines up with the rank's number
+  const rows = c.rows.map((r, i) => (r.rank
+    ? `<tr><td class="gd-ctl"><span class="gd-rank" data-max="${r.max}"><button type="button" data-cap-step="-1" aria-label="Lower rank">${CHEVRON("M3 6l5 5 5-5")}</button><b data-cap-rank>${saved.rank || 0}</b><button type="button" data-cap-step="1" aria-label="Higher rank">${CHEVRON("M3 10l5-5 5 5")}</button></span></td>
+        <td>${text(r.rank)} rank <span class="dim">(${num(r.first / 1000)}k for the first, ${num(r.each / 1000)}k for each after)</span></td><td data-cap-rankval></td></tr>`
+    : `<tr><td class="gd-ctl"><input type="checkbox" id="cap-${i}" data-cap-row="${i}"${on.has(i) ? " checked" : ""}></td>
+        <td><label for="cap-${i}">${text(r[0])}</label></td><td>${num(r[1])}</td></tr>`)).join("");
+  return `<div class="gd-table gd-cap" data-cap="${esc(JSON.stringify(c))}"><table>
+    <thead><tr><th></th><th>Raise the cap by</th><th>Faction</th></tr></thead>
+    <tbody><tr><td class="gd-ctl"></td><td>Everyone starts with</td><td>${num(c.base)}</td></tr>${rows}</tbody>
+    <tfoot><tr><td class="gd-ctl"></td><td>Your cap <span class="dim" data-cap-time></span></td><td data-cap-total></td></tr></tfoot></table></div>`;
+}
+function capUpdate(el) {
+  const c = JSON.parse(el.dataset.cap);
+  const rank = +(el.querySelector("[data-cap-rank]")?.textContent || 0), rr = c.rows.find(r => r.rank);
+  const rows = [...el.querySelectorAll("[data-cap-row]")].filter(b => b.checked).map(b => +b.dataset.capRow);
+  const cap = c.base + rows.reduce((t, i) => t + c.rows[i][1], 0) + (rr ? rankRaise(rr, rank) : 0);
+  const mins = Math.round(cap / c.rate * 60);
+  if (rr) el.querySelector("[data-cap-rankval]").textContent = num(rankRaise(rr, rank));
+  el.querySelector("[data-cap-total]").textContent = num(cap);
+  el.querySelector("[data-cap-time]").textContent =
+    `– will max in ${Math.floor(mins / 60)}:${String(mins % 60).padStart(2, "0")}`;
+  return { rows, rank };
 }
 
 const CHIP = { take: ["+", "Take"], go: ["›", "Progress"], done: ["✓", "Turn in"] };
@@ -156,6 +204,7 @@ function blockHTML(x, g) {
   if (x.img) return `<figure class="gd-fig${x.img.side ? " side" : ""}"><a href="${esc(x.img.src)}" target="_blank"><img src="${esc(x.img.src)}" alt="" loading="lazy"></a>
     <figcaption>${text(x.img.caption)}</figcaption></figure>`;
   if (x.builds) return `<div class="gd-builds">${x.builds.map(buildHTML).join("")}</div>`;
+  if (x.capCalc) return capCalcHTML(x.capCalc, g);
   if (x.table) return `<div class="gd-table"><table><thead><tr>${x.table.head.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
     <tbody>${x.table.rows.map(r => `<tr>${r.map(c => `<td>${text(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
     ${(x.table.notes || []).length ? `<ul class="gd-notes">${x.table.notes.map(n => `<li>${text(n)}</li>`).join("")}</ul>` : ""}`;
@@ -212,12 +261,24 @@ function render() {
   document.querySelector(".page-title").hidden = !!g;
   if (g) {
     $("guide").innerHTML = guidePageHTML(g);
+    document.querySelectorAll(".gd-cap").forEach(capUpdate);
     document.title = `${g.name} · GW Guides`;
   } else {
     $("index").innerHTML = indexHTML();
     document.title = "GW Guides";
   }
 }
+
+// the calculator's choices are remembered in this browser only
+function capChanged(el) {
+  const id = new URLSearchParams(location.hash.slice(1)).get("guide");
+  const state = capUpdate(el);
+  try { localStorage.setItem(capKey(id), JSON.stringify(state)); } catch {}
+}
+document.addEventListener("input", e => {
+  const el = e.target.closest(".gd-cap");
+  if (el) capChanged(el);
+});
 
 // a ticked step is remembered in this browser only
 document.addEventListener("change", e => {
@@ -231,6 +292,13 @@ document.addEventListener("change", e => {
 });
 
 document.addEventListener("click", e => {
+  const step = e.target.closest("[data-cap-step]");
+  if (step) {
+    const box = step.parentElement, n = box.querySelector("[data-cap-rank]");
+    n.textContent = Math.min(+box.dataset.max, Math.max(0, +n.textContent + +step.dataset.capStep));
+    capChanged(step.closest(".gd-cap"));
+    return;
+  }
   const to = e.target.closest("[data-to]");
   if (to) {
     e.preventDefault();

@@ -1051,3 +1051,13 @@ a.hchip { text-decoration: none; }
 .wm-bar input { accent-color: var(--accent); }
 .wm-bar input[type="range"] { width: 140px; }
 .wm-bar .dim { margin-left: auto; }
+.gd-cap label { cursor: pointer; }
+.gd-cap td.gd-ctl { width: 1%; padding-right: 0; text-align: center; vertical-align: middle; }
+.gd-cap td + td { vertical-align: middle; }
+.gd-cap input[type=checkbox] { width: 16px; height: 16px; margin: 0; vertical-align: middle; cursor: pointer; }
+.gd-rank { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.gd-rank button { display: grid; place-items: center; width: 22px; height: 22px; padding: 0; margin: -2px 0; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; }
+.gd-rank button:hover { border-color: var(--accent); }
+.gd-rank b { min-width: 20px; text-align: center; }
+.gd-cap tfoot td { border-top: 2px solid var(--line); font-weight: 700; }
+.gd-cap tfoot .dim { font-weight: 400; }

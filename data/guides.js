@@ -1,8 +1,10 @@
 /* Guides, written by hand. Each guide is a list of sections, and each section a list of blocks:
    { h }, { p }, { note } (a paragraph set apart), { box: { title, blocks } } (an indented aside, for an option), { ul: [...] }, { ol: [...] }, { table: { head, rows, notes } }, { builds: [...] }, { qa: [[q, a]] }
-   { img: { src, caption, side } } or { imgs: { srcs, caption } } (pictures in a row). A section with flow: true lets its side picture run on beside the next one.
+   { img: { src, caption, side } } or { imgs: { srcs, caption } } (pictures in a row), { capCalc: { base, rate, rows } } (a faction
+   cap calculator: rows of [text, faction] to tick, and one { rank, first, each, max } for a title). A section with flow: true lets its side picture run on beside the next one.
    A build has a template code, or skills by name (null for a free slot) when no code fits it, and may have runes as on
-   the Builds page ({ "Fast Casting": "3+1" }), and gear shown beside the attributes (gear: ["High energy"]).
+   the Builds page ({ "Fast Casting": "3+1" }), and gear shown beside the attributes (gear: ["High energy"]). A build
+   may instead be a Builds page build's id ("zos-mm"), shown with its insignia and weapons; repeats of a bar show once, counted.
    In text, {skill:Name} links a skill with its icon, {skillname:Name} without, {place:Name} a location, {mission:Name} a mission, {page:href|text} another
    page and {ext:href|text} another site, {quest:Name} a quest and {hero:Name} a hero.
    { route: [{ start | map | step: place, steps: [{ t, take: [...], go: [...], done: [...] }] }] } is a numbered walk in
