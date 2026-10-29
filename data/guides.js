@@ -10,7 +10,8 @@
    do, and the quests it takes, moves on and turns in. { routeTotal } sums the XP of the quests the route finishes, and counts its zone loads.
    { questIndex: { region, skip: { name: reason } } } lists every quest of a
    region with its rewards and the steps that take and finish it. */
-const GWW_FOO = "https://wiki.guildwars.com/wiki/User:Foo/GoM";
+const GWW_USER = "https://wiki.guildwars.com/wiki/User:Foo";
+const GWW_FOO = GWW_USER + "/GoM";
 window.GW_GUIDES = [
   {
     id: "gom-afk-xp",
@@ -246,6 +247,65 @@ window.GW_GUIDES = [
             "Necromancer Test": "Done: your profession test", "Mesmer Test": "Done: your profession test", "Elementalist Test": "Done: your profession test",
             "The Rogue's Replacement": "Follows A Mesmer's Burden",
           }, rest: "Done: your profession skills", daily: "Vanguard" } },
+        ],
+      },
+    ],
+  },
+  {
+    id: "chaos-axe-farm",
+    name: "Purp Insc Chaos Axe Farm",
+    summary: "Purple and blue inscribable Chaos Axes and Shadow Shields, Blades, Bows and Staves from two Obsidian Furnace Drakes in Kourna, solo.",
+    tags: ["Farm", "Weapons", "Solo", "Koss"],
+    source: { href: GWW_USER, archive: "https://web.archive.org/web/2026/" + GWW_USER, author: "Foo", full: true },
+    stats: [["Per run", "~45 s"], ["Inscribable drop", "~1 in 30 runs"]],
+    sections: [
+      {
+        blocks: [
+          { p: "Chaos Axes and the Shadow weapons are Obsidian Furnace Drake drops, and nowhere else do these skins drop as inscribable blue or purple items. The {quest:Drakes on the Plain} quest brings two of the drakes into Elona, where they drop as Nightfall items: blue and purple Chaos Axes and Shadow Shields, Blades, Bows and Staves with an inscription slot." },
+          { imgs: { srcs: ["img/guides/chaos-axe-farm-axe.jpg", "img/guides/chaos-axe-farm-shield.jpg", "img/guides/chaos-axe-farm-staff.jpg"], caption: "A purple Chaos Axe, a blue Shadow Shield and a blue Shadow Staff from the farm, each with an empty inscription slot." } },
+        ],
+      },
+      {
+        title: "Build",
+        blocks: [
+          { builds: [
+            { name: "Drake killer", role: "You", code: "OAVCQ8x0bwSQeAbwgQton3NI", runes: { "Curses": "3+1" }, gear: ["High energy"] },
+          ] },
+          { p: "Using 1-2-3-Tab-2-4-5-6-7 is enough to kill both drakes when they are adjacent to each other. When they are not, {skill:Necrosis} comes in useful." },
+        ],
+      },
+      {
+        title: "How it works",
+        flow: true,
+        blocks: [
+          { img: { src: "img/guides/chaos-axe-farm-path.jpg", caption: "The path from the portal to the drops, clockwise around the cliff. The flag marks Koss in the pool.", side: true } },
+          { ul: [
+            "The drakes spawn on a cliff above the portal out of {place:Moddok Crevice}. From below the cliff they can't reach you and can't see you, so they can't hurt you.",
+            "You can't hit them with attacks either, so the damage comes from hexes, which spread between the two drakes when they stand next to each other.",
+            "They put up Obsidian Flesh, which blocks spells; signets aren't spells, so the signets keep working through it.",
+            "{hero:Koss} must be in the party for the quest, so he is flagged out of the way.",
+            "Each run is short: fight, rezone, flag, grab and aggro take about 45 seconds.",
+          ] },
+        ],
+      },
+      {
+        title: "Walkthrough",
+        blocks: [
+          { ol: [
+            "Take {quest:Drakes on the Plain}, which needs {hero:Koss}, and leave {place:Moddok Crevice} with him.",
+            "Flag Koss far into the pool to your south-west.",
+            "Walk back towards the portal to aggro the drakes above the cliff.",
+            "Wait a minute for the initial drop-rate reduction to pass (a good time to set up another account for the farm).",
+            "Kill both drakes.",
+            "If anything worthwhile dropped, run through {place:The Floodplain of Mahnkelon} to pick it up.",
+            "Rezone and repeat.",
+          ] },
+        ],
+      },
+      {
+        blocks: [
+          { note: "Masochist? This is a safe way to get Legendary Survivor: just 50 hours for 4,000 runs, or a third of that with scrolls!" },
+          { p: "Not a masochist? Take the {page:guides#guide=gom-afk-xp|4-hour route} ;)" },
         ],
       },
     ],
