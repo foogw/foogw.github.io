@@ -23,9 +23,10 @@ for (const g of GUIDES) for (const s of g.sections) for (const x of allBlocks(s.
 }
 
 /* ---------- text ---------- */
+// the name arrives escaped, so a shout's quotes come as &quot;
 const skillLink = (name, icon = true) => {
-  const s = SKILL_BY_NAME.get(name);
-  return s ? `<a class="skill-link${s.elite ? " elite" : ""}" href="skills#skill=${s.id}" style="--pc:${profVar(s.profession)}">${icon ? skillIcon(s.id, "sk-ic sm") : ""}${esc(name)}</a>` : esc(name);
+  const s = SKILL_BY_NAME.get(name.replace(/&quot;/g, '"'));
+  return s ? `<a class="skill-link${s.elite ? " elite" : ""}" href="skills#skill=${s.id}" style="--pc:${profVar(s.profession)}">${icon ? skillIcon(s.id, "sk-ic sm") : ""}${esc(s.name)}</a>` : name;
 };
 const placeLink = name => {
   const place = [name, `${name} (explorable)`].find(n => PLACES.has(n));
@@ -51,7 +52,7 @@ function buildHTML(b) {
   const attrs = byRank(b._bar?.attributes || [], b.runes).map(a => {
     const name = ATTRIBUTES[a.id] || "", runes = b.runes?.[name];
     return `<span>${esc(name)} ${a.rank}${runes ? `+${esc(runes)}` : ""}</span>`;
-  }).join("") + (b.insignia ? `<span class="bd-ins">${esc(b.insignia)}</span>` : "");
+  }).join("") + (b.insignia ? `<span class="bd-ins">${esc(b.insignia)}</span>` : "") + (b.gear || []).map(g => `<span>${esc(g)}</span>`).join("");
   return `<div class="gd-build" style="--pc:${profVar(b._profs[0])}">
     <div class="gd-who">${profIcons(b)}<b>${esc(b.name)}</b>${modeHTML(b)}</div>
     <div class="bd-obar">${b._skills.map(id => {
@@ -150,6 +151,8 @@ function blockHTML(x, g) {
   if (x.note) return `<p class="gd-aside">${text(x.note)}</p>`;
   if (x.ul) return `<ul>${x.ul.map(t => `<li>${text(t)}</li>`).join("")}</ul>`;
   if (x.ol) return `<ol>${x.ol.map(t => `<li>${text(t)}</li>`).join("")}</ol>`;
+  if (x.imgs) return `<figure class="gd-fig"><div class="gd-row">${x.imgs.srcs.map(src => `<a href="${esc(src)}" target="_blank"><img src="${esc(src)}" alt="" loading="lazy"></a>`).join("")}</div>
+    <figcaption>${text(x.imgs.caption)}</figcaption></figure>`;
   if (x.img) return `<figure class="gd-fig${x.img.side ? " side" : ""}"><a href="${esc(x.img.src)}" target="_blank"><img src="${esc(x.img.src)}" alt="" loading="lazy"></a>
     <figcaption>${text(x.img.caption)}</figcaption></figure>`;
   if (x.builds) return `<div class="gd-builds">${x.builds.map(buildHTML).join("")}</div>`;
@@ -186,10 +189,10 @@ function guidePageHTML(g) {
       <div class="lstats">${statsOf(g).map(([k, v]) => `<span class="lstat"><small>${esc(k)}</small><b>${esc(v)}</b></span>`).join("")}</div>
     </div>
     <nav class="gd-toc">${titled.map(s => `<a href="#" data-to="gd-${slug(s.title)}">${esc(s.title)}</a>`).join("")}</nav>
-    <article class="gd">${g.sections.map(s => `<section${s.title ? ` id="gd-${slug(s.title)}"` : ""}>
+    <article class="gd">${g.sections.map(s => `<section${s.title ? ` id="gd-${slug(s.title)}"` : ""}${s.flow ? ` class="flow"` : ""}>
       ${s.title ? `<h2>${esc(s.title)}</h2>` : ""}${s.blocks.map(x => blockHTML(x, g)).join("")}</section>`).join("")}
     </article>
-    ${g.source ? `<p class="gd-src">See the full guide and more at <a href="${esc(g.source.href)}" target="_blank" rel="noopener">the Guild Wars Wiki</a> (<a href="${esc(g.source.archive)}" target="_blank" rel="noopener">archived copy</a>).</p>` : ""}`;
+    ${g.source ? `<p class="gd-src">${g.source.full ? "Also on" : "See the full guide and more at"} <a href="${esc(g.source.href)}" target="_blank" rel="noopener">the Guild Wars Wiki</a> (<a href="${esc(g.source.archive)}" target="_blank" rel="noopener">archived copy</a>).</p>` : ""}`;
 }
 
 /* ---------- the list ---------- */

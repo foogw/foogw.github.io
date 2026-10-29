@@ -950,6 +950,7 @@ a.hchip { text-decoration: none; }
 .gd { max-width: 1120px; font-size: 15px; line-height: 1.55; }
 .gd section { scroll-margin-top: calc(var(--hdr-h, 60px) + 12px); }
 .gd section::after { content: ""; display: table; clear: both; }
+.gd section.flow::after { content: none; } /* a side picture may run on beside the next section */
 .gd h2 { font-size: 21px; margin: 26px 0 8px; }
 .gd h3 { font-size: 16px; margin: 18px 0 4px; }
 .gd p { margin: 8px 0; }
@@ -973,6 +974,8 @@ a.hchip { text-decoration: none; }
 .gd-fig { margin: 14px 0; }
 .gd-fig img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); }
 .gd-fig figcaption { margin-top: 6px; font-size: 13px; color: var(--muted); line-height: 1.45; }
+.gd-row { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+.gd-row img { width: auto; max-width: 100%; }
 .gd-fig.side { float: right; width: min(300px, 40%); margin: 4px 0 12px 20px; }
 .gd-table { overflow-x: auto; margin: 10px 0; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
 .gd-table table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
