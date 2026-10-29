@@ -150,9 +150,9 @@ const outpostLink = name => placeLink(PLACES.has(`${name} (pre-Searing)`) ? `${n
 // a leg's header; a leg with no steps of its own runs into the next one's ("Map to X and step to Y")
 // stepping into an outpost, out of one into an area, or across from one area into the next
 const isOutpost = name => [name, `${name} (pre-Searing)`].some(n => PLACE_TYPE.get(n) === "outpost");
-const legPlace = leg => leg.start || leg.map || leg.step;
+const legPlace = leg => leg.start || leg.map || leg.step || leg.area;
 const UNDERGROUND = new Set(["The Catacombs"]);  // you go down into these, not out to them
-const legVerb = (leg, prev) => (leg.start ? "Start in" : leg.map ? "Map to" : UNDERGROUND.has(leg.step) ? "Go down into" : isOutpost(leg.step) ? "Step into"
+const legVerb = (leg, prev) => (leg.start ? "Start in" : leg.map ? "Map to" : leg.area ? "Head to" : UNDERGROUND.has(leg.step) ? "Go down into" : isOutpost(leg.step) ? "Step into"
   : prev && isOutpost(legPlace(prev)) ? "Step out to" : "Cross into");
 const legHead = (leg, prev) => `<span class="dim">${legVerb(leg, prev)}</span> ${outpostLink(legPlace(leg))}`;
 function routeHTML(g, route) {
@@ -186,9 +186,9 @@ function questIndexHTML(g, x) {
   return `<h3>In the route (${inRoute.length})</h3>
     <div class="gd-table"><table><thead><tr><th>Quest</th><th>Giver</th><th>Rewards</th><th>Steps</th></tr></thead><tbody>${inRoute.map(q =>
       `<tr><td>${link(q)}</td><td>${esc(q.giver || "")}</td><td>${rewards(q)}</td><td>${steps(at.get(q.name))}</td></tr>`).join("")}</tbody></table></div>
-    <h3>Left out (${out.length})</h3>
+    ${out.length ? `<h3>Left out (${out.length})</h3>
     <div class="gd-table"><table><thead><tr><th>Quest</th><th class="gd-why">Why</th><th>Giver</th><th>Rewards</th></tr></thead><tbody>${out.map(q =>
-      `<tr class="gd-skip"><td>${link(q)}</td><td class="gd-why">${esc(why(q))}</td><td>${esc(q.giver || "")}</td><td>${rewards(q)}</td></tr>`).join("")}</tbody></table></div>`;
+      `<tr class="gd-skip"><td>${link(q)}</td><td class="gd-why">${esc(why(q))}</td><td>${esc(q.giver || "")}</td><td>${rewards(q)}</td></tr>`).join("")}</tbody></table></div>` : ""}`;
 }
 
 /* ---------- one guide ---------- */
@@ -205,6 +205,7 @@ function blockHTML(x, g) {
     <figcaption>${text(x.img.caption)}</figcaption></figure>`;
   if (x.builds) return `<div class="gd-builds">${x.builds.map(buildHTML).join("")}</div>`;
   if (x.capCalc) return capCalcHTML(x.capCalc, g);
+  if (x.map) return `<div class="gd-map${x.side ? " side" : ""}">${mapHTML(x.map)}</div>`;
   if (x.table) return `<div class="gd-table"><table><thead><tr>${x.table.head.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
     <tbody>${x.table.rows.map(r => `<tr>${r.map(c => `<td>${text(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
     ${(x.table.notes || []).length ? `<ul class="gd-notes">${x.table.notes.map(n => `<li>${text(n)}</li>`).join("")}</ul>` : ""}`;
@@ -212,8 +213,8 @@ function blockHTML(x, g) {
   if (x.routeTotal) {
     const r = routeOf(g), qs = [...r.at.keys()].filter(n => r.at.get(n).done).map(n => QUEST_BY_NAME.get(n)).filter(Boolean);
     const sum = k => qs.reduce((s, q) => s + (q[k] || 0), 0).toLocaleString("en");
-    const loads = r.route.length;  // the start, and every map travel and portal, loads a zone
-    return `<p class="gd-total">In all: <b>${sum("xp")} XP</b> from ${qs.length} quests, in <b>${loads} zone loads</b>.</p>`;
+    const loads = r.route.filter(leg => !leg.area).length;  // the start, and every map travel and portal, loads a zone; an area is a part of one
+    return `<p class="gd-total">In all: <b>${sum("xp")} XP</b> from ${qs.length} quests${x.routeTotal.plus ? `, plus ${text(x.routeTotal.plus)}` : ""}${loads > 1 ? `, in <b>${loads} zone loads</b>` : ""}.</p>`;
   }
   if (x.questIndex) return questIndexHTML(g, x.questIndex);
   if (x.qa) return `<dl class="gd-qa">${x.qa.map(([q, a]) => `<dt>${text(q)}</dt><dd>${text(a)}</dd>`).join("")}</dl>`;
@@ -262,6 +263,7 @@ function render() {
   if (g) {
     $("guide").innerHTML = guidePageHTML(g);
     document.querySelectorAll(".gd-cap").forEach(capUpdate);
+    initMaps($("guide"));
     document.title = `${g.name} · GW Guides`;
   } else {
     $("index").innerHTML = indexHTML();

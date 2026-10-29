@@ -1,15 +1,15 @@
 /* Guides, written by hand. Each guide is a list of sections, and each section a list of blocks:
    { h }, { p }, { note } (a paragraph set apart), { box: { title, blocks } } (an indented aside, for an option), { ul: [...] }, { ol: [...] }, { table: { head, rows, notes } }, { builds: [...] }, { qa: [[q, a]] }
-   { img: { src, caption, side } } or { imgs: { srcs, caption } } (pictures in a row), { capCalc: { base, rate, rows } } (a faction
+   { img: { src, caption, side } }, { imgs: { srcs, caption } } (pictures in a row), { map: place, side } (the place's map window), { capCalc: { base, rate, rows } } (a faction
    cap calculator: rows of [text, faction] to tick, and one { rank, first, each, max } for a title). A section with flow: true lets its side picture run on beside the next one.
    A build has a template code, or skills by name (null for a free slot) when no code fits it, and may have runes as on
    the Builds page ({ "Fast Casting": "3+1" }), and gear shown beside the attributes (gear: ["High energy"]). A build
    may instead be a Builds page build's id ("zos-mm"), shown with its insignia and weapons; repeats of a bar show once, counted.
    In text, {skill:Name} links a skill with its icon, {skillname:Name} without, {place:Name} a location, {mission:Name} a mission, {page:href|text} another
    page and {ext:href|text} another site, {quest:Name} a quest and {hero:Name} a hero.
-   { route: [{ start | map | step: place, steps: [{ t, take: [...], go: [...], done: [...] }] }] } is a numbered walk in
+   { route: [{ start | map | step | area: place, steps: [{ t, take: [...], go: [...], done: [...] }] }] } (area: a part of the same zone) is a numbered walk in
    legs, one per place: where you start, map travel to an outpost, or a step through a portal. Each step says what to
-   do, and the quests it takes, moves on and turns in. { routeTotal } sums the XP of the quests the route finishes, and counts its zone loads.
+   do, and the quests it takes, moves on and turns in. { routeTotal } sums the XP of the quests the route finishes, and counts its zone loads; { routeTotal: { plus } } names a reward on top.
    { questIndex: { region, skip: { name: reason } } } lists every quest of a
    region with its rewards and the steps that take and finish it. */
 const GWW_USER = "https://wiki.guildwars.com/wiki/User:Foo";

@@ -977,6 +977,12 @@ a.hchip { text-decoration: none; }
 .gd-row { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
 .gd-row img { width: auto; max-width: 100%; }
 .gd-fig.side { float: right; width: min(300px, 40%); margin: 4px 0 12px 20px; }
+.gd-map { margin: 14px 0; }
+.gd:has(.gd-map.side) { max-width: none; } /* the map lines up with the page's right edge */
+.gd-map.side { float: right; width: min(540px, 48%); margin: 4px 0 12px 20px; }
+.gd > section:first-child > .gd-map.side:first-child { margin-top: -30px; } /* up beside the contents links */
+.gd-map.side + p { margin-top: 24px; }
+.gd-leg { display: flow-root; } /* a box beside a side picture narrows instead of running under it */
 .gd-table { overflow-x: auto; margin: 10px 0; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
 .gd-table table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
 .gd-table th, .gd-table td { padding: 6px 10px; text-align: left; border-top: 1px solid var(--line); vertical-align: top; }
@@ -986,7 +992,7 @@ a.hchip { text-decoration: none; }
 .gd-qa dt { font-weight: 700; margin-top: 12px; }
 .gd-qa dd { margin: 2px 0 0; }
 .gd-src { font-size: 14px; margin-top: 22px; }
-@media (max-width: 600px) { .gd-fig.side { float: none; width: 100%; margin: 14px 0; } }
+@media (max-width: 600px) { .gd-fig.side, .gd-map.side { float: none; width: 100%; margin: 14px 0; } }
 /* a guide's route: legs of numbered steps, each with the quests it takes and turns in */
 .gd-route { display: grid; gap: 12px; margin: 12px 0; }
 .gd-leg { padding: 10px 14px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
