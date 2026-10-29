@@ -1,6 +1,6 @@
 /* Guides, written by hand, each in a group of the list (group: "afk", "solo" or "quests"). Each guide is a list of sections, and each section a list of blocks:
    { h }, { p }, { note } (a paragraph set apart), { box: { title, blocks } } (an indented aside, for an option), { ul: [...] }, { ol: [...] }, { table: { head, rows, notes } }, { builds: [...] }, { qa: [[q, a]] }
-   { img: { src, caption, side } }, { imgs: { srcs, caption } } (pictures in a row), { map: place, side } (the place's map window) or { region: id, side } (a whole region of the Maps page), { capCalc: { base, rate, rows } } (a faction
+   { img: { src, caption, side } }, { imgs: { srcs, caption } } (pictures in a row), { map: place, side, height } (the place's map window, height its largest) or { region: id, side, height } (a whole region of the Maps page), { capCalc: { base, rate, rows } } (a faction
    cap calculator: rows of [text, faction] to tick, and one { rank, first, each, max } for a title). A section with flow: true lets its side picture run on beside the next one.
    A build has a template code, or skills by name (null for a free slot) when no code fits it, and may have runes as on
    the Builds page ({ "Fast Casting": "3+1" }), and gear shown beside the attributes (gear: ["High energy"]). A build
@@ -133,7 +133,7 @@ window.GW_GUIDES = [
         flow: true,
         blocks: [
           { region: "presearing-main", side: true },
-          { p: "This is a walkthrough for characters that have saved most of the pre-Searing quests for a higher level, with as little fighting and backtracking as possible. Each group starts at a map travel or a portal." },
+          { p: "This is a walkthrough for characters that have saved most of the pre-Searing quests for a higher level, with as little fighting and backtracking as possible. The map shows pre-Searing Ascalon and its outposts; each group of the route below starts at a map travel to one of them, or at a portal." },
           { p: "Assumed done already:" },
           { ul: [
             "Every pre-Searing outpost unlocked.",
@@ -265,6 +265,7 @@ window.GW_GUIDES = [
     tags: ["Quests", "Fissure of Woe", "Route"],
     sections: [
       {
+        flow: true,
         blocks: [
           { map: "The Fissure of Woe", side: true },
           { p: "{place:The Fissure of Woe} is Balthazar's realm in the Mists: an elite area for a full party, heroes allowed. Its eleven repeatable quests pay 100,000 XP in all, plus a reward chest by the Forgemaster once they're all done. It's the only place Obsidian Shards drop, and once Restore the Temple of War is done, the Forgemaster offers Obsidian armor." },
@@ -358,7 +359,7 @@ window.GW_GUIDES = [
       {
         flow: true,
         blocks: [
-          { map: "The Underworld", side: true },
+          { map: "The Underworld", side: true, height: 760 },
           { p: "{place:The Underworld} is Grenth's realm in the Mists: an elite area for a full party, heroes allowed. Its eleven repeatable quests pay 110,000 XP in all, and the last one, against Dhuum, earns the Underworld Chest. It's also the main place Globs of Ectoplasm drop." },
           { p: "This guide is for doing all eleven in one run. Most of the quests send you out of the Underworld if an NPC dies, so the order puts the dangerous ones first: a failure early costs little, and the easy ones are left for when the team has the most to lose." },
           { p: "With practice, it can be done with the {page:builds#team=meta|meta hero team}." },

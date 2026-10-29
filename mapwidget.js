@@ -41,21 +41,21 @@ function drawMark(g, kind, x, y, scale = 1, name = "", self = false) {
 }
 
 // name: the area whose map it is; self: a town or outpost on it that the page is about, marked out
-function mapHTML(name, self = "") {
+function mapHTML(name, self = "", maxH = MAP_MAX_H) {
   const m = GW_MAPS[name];
-  return m ? winHTML(m, `data-map="${esc(m.f)}"`, self ? `Where ${self} is` : `${name}: where you can walk`, m.p, self) : "";
+  return m ? winHTML(m, `data-map="${esc(m.f)}"`, self ? `Where ${self} is` : `${name}: where you can walk`, m.p, self, maxH) : "";
 }
 // a whole region of the Maps page (data/world.js), its areas put together the same way
-function regionMapHTML(id) {
+function regionMapHTML(id, maxH = MAP_MAX_H) {
   const r = GW_REGIONS.get(id);
-  return r ? winHTML(r, `data-region="${esc(id)}"`, `${r.label}: where you can walk`, r.marks) : "";
+  return r ? winHTML(r, `data-region="${esc(id)}"`, `${r.label}: where you can walk`, r.marks, "", maxH) : "";
 }
 // hiding the markers is one choice for every map, the Maps page's too, remembered in this browser only
 const hideMarks = () => { try { return localStorage.getItem("maps.nomarks") === "1"; } catch (e) { return false; } };
-function winHTML(m, src, label, marks = [], self = "") {
-  // the whole area always fits: no taller than MAP_MAX_H, as wide as the column allows
+function winHTML(m, src, label, marks = [], self = "", maxH = MAP_MAX_H) {
+  // the whole area always fits: no taller than maxH, as wide as the column allows
   return `<figure class="gmap">
-    <div class="gmap-win" style="aspect-ratio:${m.w} / ${m.h};width:min(100%, ${Math.round(MAP_MAX_H * m.w / m.h)}px)" ${src} tabindex="0" role="img" aria-label="${esc(label)}">
+    <div class="gmap-win" style="aspect-ratio:${m.w} / ${m.h};width:min(100%, ${Math.round(maxH * m.w / m.h)}px)" ${src} tabindex="0" role="img" aria-label="${esc(label)}">
       <canvas></canvas>${(marks || []).map(([n, k, x, y]) =>
         `<a class="gmap-mark" data-k="${esc(k)}"${n === self ? " data-self" : ""} href="${esc(markHref(n))}" title="${esc(n)} · ${esc((MARK_STYLE[k] || MARK_STYLE.outpost)[2])}" aria-label="${esc(n)}"
           style="left:${(100 * x / m.w).toFixed(2)}%;top:${(100 * y / m.h).toFixed(2)}%"></a>`).join("")}<span class="gmap-hint">${MAP_HINT}</span>

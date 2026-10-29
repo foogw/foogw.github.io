@@ -952,6 +952,7 @@ a.hchip { text-decoration: none; }
 .gd section::after { content: ""; display: table; clear: both; }
 .gd section.flow::after { content: none; } /* a side picture may run on beside the next section */
 .gd h2 { font-size: 21px; margin: 26px 0 8px; }
+.gd #gd-route > h2 { margin-top: 56px; }
 .gd h3 { font-size: 16px; margin: 18px 0 4px; }
 .gd p { margin: 8px 0; }
 .gd ul, .gd ol { margin: 6px 0; padding-left: 22px; }
@@ -983,6 +984,8 @@ a.hchip { text-decoration: none; }
 .gd > section:first-child > .gd-map.side:first-child { margin-top: -30px; } /* up beside the contents links */
 .gd-map.side + p { margin-top: 24px; }
 .gd-leg { display: flow-root; } /* a box beside a side picture narrows instead of running under it */
+.gd section.flow ~ section .gd-leg { display: block; } /* after a side map, each step narrows on its own, only where it meets the map */
+.gd section.flow ~ section .gd-leg h3 { display: flow-root; }
 .gd-table { overflow-x: auto; margin: 10px 0; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
 .gd-table table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
 .gd-table th, .gd-table td { padding: 6px 10px; text-align: left; border-top: 1px solid var(--line); vertical-align: top; }
@@ -994,7 +997,8 @@ a.hchip { text-decoration: none; }
 .gd-src { font-size: 14px; margin-top: 22px; }
 @media (max-width: 600px) { .gd-fig.side, .gd-map.side { float: none; width: 100%; margin: 14px 0; } }
 /* a guide's route: legs of numbered steps, each with the quests it takes and turns in */
-.gd-route { display: grid; gap: 12px; margin: 12px 0; }
+.gd-route { margin: 12px 0; } /* plain blocks, not a grid, so a side map narrows only the steps beside it */
+.gd-leg + .gd-leg { margin-top: 12px; }
 .gd-leg { padding: 10px 14px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .gd .gd-leg h3 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
 .gd .gd-leg ol { list-style: none; margin: 0; padding: 0; }
