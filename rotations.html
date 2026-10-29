@@ -6,7 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <title>GW Rotations</title>
-<link rel="stylesheet" href="style.css?v=d6492e86">
+<link rel="stylesheet" href="style.css?v=7fa33296">
 </head>
 <body class="rotations">
 <div class="wrap">
@@ -20,19 +20,21 @@
   <div class="page-title"><h1>Rotations</h1><p>Zaishen dailies, Nicholas and the weekly bonuses</p></div>
 
   <div id="browse">
-  <h2 class="r-h">Now</h2>
-  <div class="today r-nowlist" id="now"></div>
-
   <div class="r-tools">
-    <input type="search" id="find" placeholder="When is it next? — e.g. urgoz, thirsty river, extra luck" autocomplete="off">
+    <input type="search" id="find" placeholder="When is it next? — e.g. urgoz, thirsty river, extra luck" autocomplete="off" autofocus>
     <span class="dim" id="tz"></span>
   </div>
 
+  <div id="nowbox"><h2 class="r-h">Now</h2>
+  <div class="today r-nowlist" id="now"></div></div>
+
   <h2 class="r-h">Daily</h2>
   <div class="r-scroll"><table class="r-table" id="daily"></table></div>
+  <button class="link r-more" type="button" data-more="daily"></button>
 
   <h2 class="r-h">Weekly</h2>
   <div class="r-scroll"><table class="r-table" id="weekly"></table></div>
+  <button class="link r-more" type="button" data-more="weekly"></button>
   </div>
   <div id="bonus" class="ent" hidden></div>
 
@@ -45,6 +47,6 @@
 <script src="data/missions.js?v=546fb116"></script>
 <script src="data/aliases.js?v=fad5bb54"></script>
 <script src="common.js?v=e99e0920"></script>
-<script src="rotations.js?v=8aa6e684"></script>
+<script src="rotations.js?v=58def365"></script>
 </body>
 </html>

@@ -10,7 +10,10 @@ const SHORT = {
   "zaishen-combat": "Zaishen Combat", "wanted": "Shining Blade", "nicholas-sandford": "Nicholas Sandford",
   "vanguard": "Vanguard", "nicholas-traveler": "Nicholas the Traveler", "weekly-pve": "PvE bonus", "weekly-pvp": "PvP bonus",
 };
-const SHOW_DAYS = 21, SHOW_WEEKS = 12;
+const SHOW_DAYS = 21, SHOW_WEEKS = 12, SHOW_FIRST = 4;
+const DAILY_AHEAD = 91 * 86400000;  // the daily table lists matches at most three months ahead
+// each table starts with its first few rows; "Show more" opens the rest (a search always shows every match)
+const expanded = { daily: false, weekly: false };
 // a date shows its year only when it isn't this year's
 const withYear = (opts, f = new Intl.DateTimeFormat(undefined, opts), fy = new Intl.DateTimeFormat(undefined, { ...opts, year: "numeric" })) =>
   ({ format: t => (new Date(t).getFullYear() === new Date().getFullYear() ? f : fy).format(t) });
@@ -30,18 +33,20 @@ function renderNow() {
 
 function matches(e, ts) {
   if (!ts.length) return true;
-  const k = fold([e.name, e.where, e.region, aliasText(e.name, e.where), BONUS.get(e.name)?.words].filter(Boolean).join(" "));
-  return ts.every(t => k.includes(t));
+  // the entry's name and place (a bounty's area too; no region, no aliases), each search word the start of one of
+  // their words, so a search marks just what it names ("rn" is not inside "Southern")
+  const words = fold([e.name, e.where].filter(Boolean).join(" ")).split(/[\s'-]+/);
+  return ts.every(t => words.some(w => w.startsWith(t)));
 }
 
+// a cell the search matched is marked as a whole, so it stands out in a wide table
 function cell(r, e, ts) {
-  const html = ts.length && matches(e, ts)
-    ? `<mark>${rotationEntryHTML(r, e, MISSION_NAMES)}</mark>` : rotationEntryHTML(r, e, MISSION_NAMES);
-  return `<td>${html}</td>`;
+  return ts.length && matches(e, ts) ? `<td class="r-hit">${rotationEntryHTML(r, e, MISSION_NAMES)}</td>`
+    : `<td>${rotationEntryHTML(r, e, MISSION_NAMES)}</td>`;
 }
 
 // Rows are reset periods of the first rotation; other rotations in the table share its period length.
-function table(el, rotations, count, label) {
+function table(el, rotations, count, label, ahead = Infinity) {
   const ts = terms($find);
   const anchor = rotations[0];
   const k0 = Rotation.period(anchor);
@@ -49,6 +54,7 @@ function table(el, rotations, count, label) {
   let rows = "";
   for (let i = 0; i < span; i++) {
     const t = Rotation.startsAt(anchor, k0 + i) + 1000;
+    if (t > Date.now() + ahead) break;
     const entries = rotations.map(r => Rotation.current(r, t));
     if (ts.length && !entries.some(e => matches(e, ts))) continue;
     rows += `<tr class="${i === 0 ? "cur" : ""}"><th>${label(t, i)}</th>${rotations.map((r, j) => cell(r, entries[j], ts)).join("")}</tr>`;
@@ -59,8 +65,14 @@ function table(el, rotations, count, label) {
 
 function render() {
   renderNow();
-  table($("daily"), DAILY, SHOW_DAYS, (t, i) => (i === 0 ? "Today" : fmtDay.format(t)));
-  table($("weekly"), WEEKLY, SHOW_WEEKS, (t, i) => (i === 0 ? "This week" : `Week of ${fmtDay.format(t)}`));
+  table($("daily"), DAILY, expanded.daily ? SHOW_DAYS : SHOW_FIRST, (t, i) => (i === 0 ? "Today" : fmtDay.format(t)), DAILY_AHEAD);
+  table($("weekly"), WEEKLY, expanded.weekly ? SHOW_WEEKS : SHOW_FIRST, (t, i) => (i === 0 ? "This week" : `Week of ${fmtDay.format(t)}`));
+  const searching = terms($find).length > 0;
+  $("nowbox").hidden = searching;  // a search shows only its matches
+  for (const b of document.querySelectorAll("[data-more]")) {
+    b.hidden = searching;
+    b.textContent = expanded[b.dataset.more] ? "Show less" : "Show more";
+  }
   const daily = Rotation.endsAt(ROT["zaishen-mission"]);
   const sandford = Rotation.endsAt(ROT["nicholas-sandford"]);
   const weekly = Rotation.endsAt(ROT["weekly-pve"]);
@@ -155,3 +167,6 @@ $find.addEventListener("input", () => {
 show();
 window.addEventListener("hashchange", show);
 setInterval(() => { if (!$("browse").hidden) renderNow(); }, 30000);
+for (const b of document.querySelectorAll("[data-more]")) {
+  b.addEventListener("click", () => { expanded[b.dataset.more] = !expanded[b.dataset.more]; render(); });
+}
