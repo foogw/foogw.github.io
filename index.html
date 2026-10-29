@@ -6,7 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <title>GW Info</title>
-<link rel="stylesheet" href="style.css?v=bf63bab8">
+<link rel="stylesheet" href="style.css?v=1a24b229">
 <style>
   .home { max-width: 1000px; }
   .hero { padding: 8px 0 8px; }
@@ -71,8 +71,8 @@
   <div class="sections" id="sections">
     <h2>Today <a class="h-more" href="rotations">Full rotations →</a></h2>
     <div class="today" id="today"></div>
-    <h2>Elites by profession</h2>
-    <div class="quick" id="quick-elites"></div>
+    <h2>Something random <button class="h-more rnd-again" id="rnd-again" type="button">Another →</button></h2>
+    <div class="rnd" id="rnd"></div>
     <form class="tpl-bar" id="tpl-form">
       <input type="text" id="tpl" placeholder="See a template — paste a skill template code" autocomplete="off" spellcheck="false">
       <button type="submit">Open in builder</button>
@@ -87,8 +87,11 @@
 <script src="data/locations.js?v=dec5d229"></script>
 <script src="data/rotations.js?v=cc0be059"></script>
 <script src="data/quests.js?v=51edf317"></script>
+<script src="data/builds.js?v=6d203707"></script>
+<script src="data/maps.js?v=13da8ab5"></script>
 <script src="data/aliases.js?v=fad5bb54"></script>
 <script src="common.js?v=e99e0920"></script>
+<script src="mapwidget.js?v=c9226475"></script>
 <script src="template-code.js?v=201bf57f"></script>
 <script>
 "use strict";
@@ -103,8 +106,28 @@ for (const m of MISSIONS) {
   m._bosses = m.bosses.map(b => ({ b, k: fold(b.name) }));
 }
 
-$("quick-elites").innerHTML = PROFS.filter(([p]) => p !== "None").map(([p]) =>
-  `<a class="prof-chip" style="--c:${profVar(p)}" href="skills#p=${p}&e=elite">${p}</a>`).join("");
+// "Something random": a player build and a hero build from the Builds page, and today's Zaishen Vanquish on its map
+const BUILD = new Map((window.GW_BUILDS?.builds || []).map(b => [b.id, b]));
+const PROF_NAMES = ["None", "Warrior", "Ranger", "Monk", "Necromancer", "Mesmer", "Elementalist", "Assassin", "Ritualist", "Paragon", "Dervish"];
+const pick = ids => BUILD.get(ids[Math.floor(Math.random() * ids.length)]);
+function buildCardHTML(title, b) {
+  if (!b) return "";
+  let bar = null;
+  try { bar = TemplateCode.decode(b.code); } catch { /* an unreadable code shows no bar */ }
+  const profs = bar ? bar.professions.map(p => PROF_NAMES[p]).filter(p => p && p !== "None") : [];
+  return `<a class="rnd-card" href="builds#${new URLSearchParams({ build: b.id })}" style="--pc:${profVar(profs[0] || "None")}">
+    <small>${title}</small><span class="rnd-bar">${(bar?.skills || []).filter(Boolean).map(id => skillIcon(id, "rnd-ic")).join("")}</span>
+    <b>${esc(b.name)}</b><span class="dim">${esc(profs.join(" / ") || "Any profession")}</span></a>`;
+}
+function renderRandom() {
+  const vq = Rotation.current(ROT["zaishen-vanquish"])?.name;
+  $("rnd").innerHTML = `<div class="rnd-builds">${buildCardHTML("Player build", pick(window.GW_BUILDS.players))}
+    ${buildCardHTML("Hero build", pick(window.GW_BUILDS.singles))}</div>`
+    + (vq && GW_MAPS[vq] ? `<div class="rnd-map"><small>Today's Zaishen Vanquish:
+      <a href="locations#${new URLSearchParams({ place: vq })}">${esc(vq)}</a></small>${mapHTML(vq)}</div>` : "");
+  initMaps($("rnd"));
+}
+$("rnd-again").addEventListener("click", renderRandom);
 
 const TODAY = [["zaishen-mission", "Mission"], ["zaishen-bounty", "Bounty"], ["zaishen-vanquish", "Vanquish"],
   ["nicholas-sandford", "Sandford"], ["vanguard", "Vanguard"], null, ["weekly-pve", "PvE bonus"], ["nicholas-traveler", "Nicholas"]];
@@ -115,6 +138,7 @@ function renderToday() {
 }
 renderToday();
 setInterval(renderToday, 30000);
+renderRandom();
 
 // the site's own pages, found by name or by what they hold
 const PAGES = [

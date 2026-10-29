@@ -397,6 +397,18 @@ table.npcs td.grp { font-size: 12px; padding-top: 8px; }
 .r-table tr.cur td, .r-table tr.cur th { background: var(--panel); color: var(--text); font-weight: 600; }
 
 /* compact rotation list (home and rotations pages) */
+.rnd { display: grid; gap: 12px; }
+.rnd-builds { display: grid; gap: 8px; }
+.rnd-card { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; padding: 7px 12px; border: 1px solid var(--line); border-left: 3px solid var(--pc);
+  border-radius: 8px; background: var(--panel); color: var(--text); text-decoration: none; }
+.rnd-card:hover { border-color: var(--pc); }
+.rnd-card small, .rnd-map small { color: var(--muted); font-size: 12px; }
+.rnd-card small { width: 78px; }
+.rnd-card b { font-size: 15px; }
+.rnd-bar { display: flex; flex-wrap: wrap; gap: 3px; }
+.rnd-ic { width: 30px; height: 30px; border-radius: 3px; display: block; }
+.rnd-map small { display: block; margin-bottom: 6px; }
+.rnd-again { background: none; border: 0; padding: 0; color: var(--accent); font: inherit; cursor: pointer; }
 .today { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 4px 12px; font-size: 13px; }
 .t-row { display: grid; grid-template-columns: 76px minmax(0, 1.3fr) 58px minmax(0, 1fr); gap: 10px; padding: 4px 0; border-bottom: 1px solid var(--line); }
 .t-row:last-child { border-bottom: 0; }
