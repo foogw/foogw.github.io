@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
-<title>GW Info</title>
-<link rel="stylesheet" href="style.css?v=1a24b229">
+<title>Guild Wars info</title>
+<link rel="stylesheet" href="style.css?v=d6492e86">
 <style>
   .home { max-width: 1000px; }
-  .hero { padding: 8px 0 8px; }
-  .hero h1 { margin: 0 0 4px; font-size: 26px; letter-spacing: .02em; }
+  .hero { padding: 8px 0 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; }
+  .hero h1 { margin: 0; font-size: 26px; letter-spacing: .02em; }
   .hero p { margin: 0; color: var(--muted); }
   .gsearch { margin: 18px 0 6px; }
   .gsearch input {
@@ -59,12 +59,12 @@
 <div class="wrap home">
 
   <div class="hero">
-    <h1>Guild Wars reference</h1>
-    <p>Skills, elite capture locations and missions — searchable, offline-friendly, no wiki required.</p>
+    <h1>Guild Wars info</h1>
+    <p>Today's quests, builds, maps, skills and more…</p>
   </div>
 
   <div class="gsearch">
-    <input type="search" id="q" placeholder="Search skills, missions, places, quests, bosses or pages — e.g. energy surge, thirsty, fow" autocomplete="off" autofocus>
+    <input type="search" id="q" placeholder="Search Nick items, skills, missions, places or quests — e.g. mursaat token, energy surge, thirsty, fow…" autocomplete="off" autofocus>
   </div>
   <div class="results" id="results"></div>
 
@@ -115,9 +115,10 @@ function buildCardHTML(title, b) {
   let bar = null;
   try { bar = TemplateCode.decode(b.code); } catch { /* an unreadable code shows no bar */ }
   const profs = bar ? bar.professions.map(p => PROF_NAMES[p]).filter(p => p && p !== "None") : [];
-  return `<a class="rnd-card" href="builds#${new URLSearchParams({ build: b.id })}" style="--pc:${profVar(profs[0] || "None")}">
+  return `<div class="rnd-card" style="--pc:${profVar(profs[0] || "None")}"><a href="builds#${new URLSearchParams({ build: b.id })}">
     <small>${title}</small><span class="rnd-bar">${(bar?.skills || []).filter(Boolean).map(id => skillIcon(id, "rnd-ic")).join("")}</span>
-    <b>${esc(b.name)}</b><span class="dim">${esc(profs.join(" / ") || "Any profession")}</span></a>`;
+    <b>${esc(b.name)}</b><span class="dim">${esc(profs.join(" / ") || "Any profession")}</span></a>
+    <button class="link rnd-copy" type="button" data-copy="${esc(b.code)}">Copy template</button></div>`;
 }
 function renderRandom() {
   const vq = Rotation.current(ROT["zaishen-vanquish"])?.name;
@@ -128,6 +129,14 @@ function renderRandom() {
   initMaps($("rnd"));
 }
 $("rnd-again").addEventListener("click", renderRandom);
+$("rnd").addEventListener("click", e => {
+  const b = e.target.closest("[data-copy]");
+  if (!b) return;
+  navigator.clipboard?.writeText(b.dataset.copy).then(() => {
+    b.textContent = "Copied";
+    setTimeout(() => { b.textContent = "Copy template"; }, 1500);
+  });
+});
 
 const TODAY = [["zaishen-mission", "Mission"], ["zaishen-bounty", "Bounty"], ["zaishen-vanquish", "Vanquish"],
   ["nicholas-sandford", "Sandford"], ["vanguard", "Vanguard"], null, ["weekly-pve", "PvE bonus"], ["nicholas-traveler", "Nicholas"]];
@@ -179,12 +188,17 @@ $("tpl").addEventListener("paste", () => setTimeout(openTemplate, 0));
 $("tpl").addEventListener("input", () => { $("tpl-msg").textContent = ""; });
 
 const LIMIT = 8;
+// a date later than this year shows its year (Nicholas the Traveler's items come round only every few years)
+const fmtDay = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric" });
+const fmtYear = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" });
+const fmtNext = { format: t => (new Date(t).getFullYear() === new Date().getFullYear() ? fmtDay : fmtYear).format(t) };
 function rank(k, t) { return k.startsWith(t) ? 0 : k.includes(" " + t) ? 1 : 2; }
 
 function search(q) {
   const ts = fold(q).split(/\s+/).filter(Boolean);
   if (!ts.length) return null;
-  const has = k => ts.every(t => k.includes(t));
+  // a typed plural also finds the singular ("mursaat tokens", "energy surges")
+  const has = k => ts.every(t => k.includes(t) || (t.length > 3 && t.endsWith("s") && k.includes(t.slice(0, -1))));
   const skills = SKILLS.filter(s => has(s._k)).sort((a, b) => rank(a._k, ts[0]) - rank(b._k, ts[0]) || cmpStr(a.name, b.name));
   const missions = MISSIONS.filter(m => has(m._k)).sort((a, b) => rank(a._k, ts[0]) - rank(b._k, ts[0]) || cmpStr(a.name, b.name));
   const bosses = [];
@@ -194,7 +208,21 @@ function search(q) {
   const pages = PAGES.filter(p => ts.every(t => p._k.split(" ").some(w => word(w, t))));
   const quests = QUESTS.filter(q => has(q._k)).sort((a, b) => rank(a._k, ts[0]) - rank(b._k, ts[0]) || cmpStr(a.name, b.name));
   const places = PLACES.filter(p => has(p._k)).sort((a, b) => rank(a._k, ts[0]) - rank(b._k, ts[0]) || cmpStr(a.name, b.name));
-  return { ts, pages, skills, missions, places, quests, bosses };
+  // rotation entries (Nicholas's items, bounty targets, bonuses...), once per rotation, by when they're next up
+  const rotations = [];
+  for (const r of window.GW_ROTATIONS) {
+    const seen = new Set();
+    for (const e of r.entries) {
+      if (seen.has(e.name) || !has(fold(e.name))) continue;
+      seen.add(e.name);
+      const k = Rotation.period(r), n = r.entries.length;
+      let i = 0;
+      while (i < n && Rotation.entry(r, k + i).name !== e.name) i++;
+      rotations.push({ r, e: Rotation.entry(r, k + i), i, at: Rotation.startsAt(r, k + i) });
+    }
+  }
+  rotations.sort((a, b) => a.at - b.at);
+  return { ts, pages, skills, missions, places, quests, bosses, rotations };
 }
 
 function section(title, items, render, moreHref) {
@@ -233,7 +261,11 @@ function render() {
       return `<a class="hit" style="--pc:${profVar(b.profession)}" href="${esc(bossHref(b.name))}">
         <span><span class="t">${highlight(b.name, r.ts)}</span> <span class="s">${esc(m.name)}</span></span>
         <span class="s">${s ? esc(s.name) : ""}</span></a>`;
-    }, `bosses#q=${qs}`) ||
+    }, `bosses#q=${qs}`) +
+    section("Rotations", r.rotations, ({ r: rot, e, i, at }) =>
+      `<a class="hit" style="--pc:var(--accent)" href="rotations#${new URLSearchParams({ q: e.name })}">
+        <span><span class="t">${e.count ? `${e.count} × ` : ""}${highlight(e.name, r.ts)}</span> <span class="s">${esc(rot.title)}${e.where ? ` · ${esc(e.where)}` : ""}</span></span>
+        <span class="s">${i ? `next ${fmtNext.format(at)}` : "now"}</span></a>`) ||
     `<p class="dim" style="padding:12px 0">Nothing found.</p>`;
 }
 
