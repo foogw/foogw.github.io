@@ -256,6 +256,97 @@ window.GW_GUIDES = [
     ],
   },
   {
+    id: "fow-quests",
+    group: "quests",
+    name: "Fissure of Woe Quests",
+    summary: "An efficient route through all eleven Fissure of Woe quests, with as little backtracking as possible.",
+    tags: ["Quests", "Fissure of Woe", "Route"],
+    sections: [
+      {
+        blocks: [
+          { map: "The Fissure of Woe", side: true },
+          { p: "{place:The Fissure of Woe} is Balthazar's realm in the Mists: an elite area for a full party, heroes allowed. Its eleven repeatable quests pay 100,000 XP in all, plus a reward chest by the Forgemaster once they're all done. It's the only place Obsidian Shards drop, and once Restore the Temple of War is done, the Forgemaster offers Obsidian armor." },
+          { p: "This guide is for doing all eleven in one run, in an order with as little backtracking as possible. The Hunt sets the order: its seven Shard Wolves only count once you have the quest, and its giver stands south of the Temple of War. So the route opens the temple first, picks up the hunt, and then sweeps the rest of the map once, killing each wolf on the way." },
+          { p: "The {page:builds#team=meta|meta hero team} can do it." },
+          { note: "Note: this guide hasn't been fact-checked yet, so it may have mistakes." },
+        ],
+      },
+      {
+        title: "Route",
+        blocks: [
+          { route: [
+            { start: "The Fissure of Woe", steps: [
+              { t: "Clear the area around Rastigan the Eternal, and talk to him. Taking the quest is safe, but killing one of the ranger groups by the tower starts it: he then walks to the tower through anything in his way.", take: ["Tower of Courage"] },
+            ] },
+            { area: "Tower of Courage", steps: [
+              { t: "Up the hill to the east, kill the Shadow Army groups around the tower. Rastigan opens the gate: kill the Shadow Lord and his two Abyssals, and open the chest inside.", go: ["Tower of Courage"] },
+              { t: "Back to Rastigan. Keep his next quest for later.", done: ["Tower of Courage"], take: ["The Wailing Lord"] },
+            ] },
+            { area: "Great Battle Field", steps: [
+              { t: "Go east, then north, to the Eternals' camp on the west side of the battle field. Kill the Shadow Army group there to free Kromril the Eternal and the Eternal Weaponsmith, and talk to both.", take: ["Army of Darkness", "The Eternal Forgemaster"] },
+              { t: "Cross to the Shadow Army camp on the hill to the east. Kill both Dragon Liches at its ramps first, then the Priest of Menzies.", go: ["Army of Darkness"] },
+              { t: "Pick up his book and carry it straight back to Kromril: it's a bundle, so you can't put it away.", done: ["Army of Darkness"] },
+            ] },
+            { area: "Temple of War", steps: [
+              { t: "The temple stands on the mound south of the Eternals' camp. Kill the Shadow Mesmers and Monks halfway up the ramp; the big group at its foot can be skipped. Inside, clear the round course, then the Shadow Rangers on the four ramps of the center platform.", go: ["The Eternal Forgemaster"] },
+              { t: "The Eternal Forgemaster appears on the platform.", done: ["The Eternal Forgemaster"], take: ["Defend the Temple of War"] },
+              { t: "Hold the platform against twelve groups, Shadow Beasts and then Abyssals, and keep the Forgemaster alive.", go: ["Defend the Temple of War"] },
+              { t: "Turn in to the Forgemaster, and talk to Eternal Lord Taeres, who now stands in the temple.", done: ["Defend the Temple of War"], take: ["Restore the Temple of War", "Khobay the Betrayer", "Tower of Strength"] },
+            ] },
+            { area: "Spider Cave", steps: [
+              { t: "Leave by the south exit, keep right and kill the three big Shadow Army groups. Nimros the Hunter stands straight south of the temple.", take: ["The Hunt"] },
+              { t: "Kill the Shard Wolf just north of him.", go: ["The Hunt"] },
+              { t: "Go into the Spider Cave nearby and kill the five Seeds of Corruption. Armored Cave Spiders drop from the ceiling, so advance slowly.", go: ["Restore the Temple of War"] },
+            ] },
+            { area: "Fissure Shore", steps: [
+              { t: "Follow the cave out to the shore, and kill the Shard Wolf by Admiral Saidon the Eternal.", go: ["The Hunt"] },
+            ] },
+            { area: "Tower of Courage", steps: [
+              { t: "Take the shore's west exit to the hills below the Tower of Courage, and kill the Shard Wolf southeast of the tower.", go: ["The Hunt"] },
+            ] },
+            { area: "Forest of the Wailing Lord", steps: [
+              { t: "From the tower, go east and north into the valley, then west along the left wall into the forest. Kill the Shard Wolf, and clear the west side of the forest, where the griffons will appear.", go: ["The Hunt"] },
+              { t: "Lure the skeletons off the bridge, and kill the five forest banshees by the Wailing Lord. Don't harm him: no AoE near him, and keep minions off him.", go: ["The Wailing Lord"] },
+              { t: "Talk to the Wailing Lord, now friendly.", take: ["A Gift of Griffons"] },
+              { t: "Lead the three Forest Griffons to the Tower of Courage. Foes respawn behind you on the way, and a dead griffon sends everyone out.", go: ["A Gift of Griffons"] },
+            ] },
+            { area: "Tower of Courage", steps: [
+              { t: "Turn both in to Rastigan.", done: ["The Wailing Lord", "A Gift of Griffons"] },
+            ] },
+            { area: "Great Battle Field", steps: [
+              { t: "Go east and north again, and kill the Shard Wolf in the middle of the battle field on the way east.", go: ["The Hunt"] },
+            ] },
+            { area: "Burning Forest", steps: [
+              { t: "Go northeast into the Burning Forest. Talk to Miko the Unchained at its southern entrance.", take: ["Slaves of Menzies"] },
+              { t: "Kill the Shard Wolf near the great fire in the middle.", go: ["The Hunt"] },
+              { t: "By the windmill in the northeast corner, kill the four groups of a Shadow Overlord, a Shadow Mesmer and a Shadow Ranger.", go: ["Slaves of Menzies"] },
+              { t: "Back to Miko.", done: ["Slaves of Menzies"] },
+            ] },
+            { area: "Tower of Strength", steps: [
+              { t: "Take the fork south toward the Tower of Strength. Kill the five Shadow Patrols on the way, and the Shard Wolf by the Infernal Wurm outside the tower.", go: ["Tower of Strength", "The Hunt"] },
+              { t: "Send one player to the temple's south exit to fetch the Tower Mage: he walks to the tower and opens it. Kill the Shadow Lord inside.", go: ["Tower of Strength"] },
+            ] },
+            { area: "Lake of Fire", steps: [
+              { t: "Cross the bridge south over the Lake of Fire, past the Obsidian Furnace Drakes, and kill Lord Khobay and his Traitorous Temple Guards. An Infernal Wurm guards him.", go: ["Khobay the Betrayer"] },
+            ] },
+            { area: "Temple of War", steps: [
+              { t: "Back to Nimros, south of the temple.", done: ["The Hunt"] },
+              { t: "Up into the temple: turn in to the Forgemaster and Lord Taeres.", done: ["Restore the Temple of War", "Khobay the Betrayer", "Tower of Strength"] },
+              { t: "With every quest done, open the Chest of Woe by the Forgemaster." },
+            ] },
+          ] },
+          { routeTotal: { plus: "the Chest of Woe" } },
+        ],
+      },
+      {
+        title: "All quests",
+        blocks: [
+          { questIndex: { region: "The Fissure of Woe", skip: {}, rest: "" } },
+        ],
+      },
+    ],
+  },
+  {
     id: "chaos-axe-farm",
     group: "solo",
     name: "Purp Insc Chaos Axe Farm",
