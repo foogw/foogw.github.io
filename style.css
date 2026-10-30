@@ -416,6 +416,7 @@ button.rnd-copy:hover { color: var(--text); }
 .rnd-map small { display: block; margin-bottom: 6px; }
 .rnd-again { background: none; border: 0; padding: 0; color: var(--accent); font: inherit; cursor: pointer; }
 .r-more { display: block; margin: 6px 0 0; font-size: 13px; }
+.r-left { color: color-mix(in srgb, var(--muted) 60%, var(--bg, #000)); font-weight: 400; white-space: nowrap; }
 .r-more[hidden] { display: none; }
 .r-table td.r-hit { background: color-mix(in srgb, var(--accent) 28%, transparent); box-shadow: inset 3px 0 0 var(--accent);
   color: var(--text); font-weight: 600; }

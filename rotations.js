@@ -6,8 +6,8 @@ const DAILY = ["zaishen-mission", "zaishen-bounty", "zaishen-vanquish", "zaishen
   "nicholas-sandford", "vanguard"].map(k => ROT[k]);
 const WEEKLY = ["nicholas-traveler", "weekly-pve", "weekly-pvp"].map(k => ROT[k]);
 const SHORT = {
-  "zaishen-mission": "Zaishen Mission", "zaishen-bounty": "Zaishen Bounty", "zaishen-vanquish": "Zaishen Vanquish",
-  "zaishen-combat": "Zaishen Combat", "wanted": "Shining Blade", "nicholas-sandford": "Nicholas Sandford",
+  "zaishen-mission": "Mission", "zaishen-bounty": "Bounty", "zaishen-vanquish": "Vanquish",
+  "zaishen-combat": "Combat", "wanted": "Shining Blade", "nicholas-sandford": "Nicholas Sandford",
   "vanguard": "Vanguard", "nicholas-traveler": "Nicholas the Traveler", "weekly-pve": "PvE bonus", "weekly-pvp": "PvP bonus",
 };
 const SHOW_DAYS = 21, SHOW_WEEKS = 12, SHOW_FIRST = 4;
@@ -45,6 +45,12 @@ function cell(r, e, ts) {
     : `<td>${rotationEntryHTML(r, e, MISSION_NAMES)}</td>`;
 }
 
+// time to the column's next reset: 5h 06m, or 3d 4h for a weekly
+function left(ms) {
+  const m = Math.max(0, Math.floor(ms / 60000)), h = Math.floor(m / 60);
+  return h >= 24 ? timeLeft(ms) : `${h}h ${String(m % 60).padStart(2, "0")}m`;
+}
+
 // Rows are reset periods of the first rotation; other rotations in the table share its period length.
 function table(el, rotations, count, label, ahead = Infinity) {
   const ts = terms($find);
@@ -55,17 +61,19 @@ function table(el, rotations, count, label, ahead = Infinity) {
   for (let i = 0; i < span; i++) {
     const t = Rotation.startsAt(anchor, k0 + i) + 1000;
     if (t > Date.now() + ahead) break;
-    const entries = rotations.map(r => Rotation.current(r, t));
+    // each rotation's own i-th period from now: Nicholas Sandford resets at another hour than the Zaishen dailies, so
+    // what runs at the row's start isn't what runs now
+    const entries = rotations.map(r => Rotation.entry(r, Rotation.period(r) + i));
     if (ts.length && !entries.some(e => matches(e, ts))) continue;
     rows += `<tr class="${i === 0 ? "cur" : ""}"><th>${label(t, i)}</th>${rotations.map((r, j) => cell(r, entries[j], ts)).join("")}</tr>`;
   }
-  el.innerHTML = `<thead><tr><th></th>${rotations.map(r => `<th>${esc(SHORT[r.key])}</th>`).join("")}</tr></thead>`
+  el.innerHTML = `<thead><tr><th></th>${rotations.map(r => `<th>${esc(SHORT[r.key])} <span class="r-left">(${left(Rotation.endsAt(r) - Date.now())})</span></th>`).join("")}</tr></thead>`
     + `<tbody>${rows || `<tr><td colspan="${rotations.length + 1}" class="dim">No match in a full cycle.</td></tr>`}</tbody>`;
 }
 
 function render() {
   renderNow();
-  table($("daily"), DAILY, expanded.daily ? SHOW_DAYS : SHOW_FIRST, (t, i) => (i === 0 ? "Today" : fmtDay.format(t)), DAILY_AHEAD);
+  table($("daily"), DAILY, expanded.daily ? SHOW_DAYS : SHOW_FIRST, (t, i) => (i === 0 ? "Today" : fmtDay.format(Date.now() + i * 86400000)), DAILY_AHEAD);
   table($("weekly"), WEEKLY, expanded.weekly ? SHOW_WEEKS : SHOW_FIRST, (t, i) => (i === 0 ? "This week" : `Week of ${fmtDay.format(t)}`));
   const searching = terms($find).length > 0;
   $("nowbox").hidden = searching;  // a search shows only its matches
@@ -166,7 +174,7 @@ $find.addEventListener("input", () => {
 });
 show();
 window.addEventListener("hashchange", show);
-setInterval(() => { if (!$("browse").hidden) renderNow(); }, 30000);
+setInterval(() => { if (!$("browse").hidden) render(); }, 30000);  // the clocks in the column titles too
 for (const b of document.querySelectorAll("[data-more]")) {
   b.addEventListener("click", () => { expanded[b.dataset.more] = !expanded[b.dataset.more]; render(); });
 }
