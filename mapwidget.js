@@ -17,8 +17,27 @@ function mapSharers(name) {
 
 // towns, outposts, mission outposts and dungeon entrances on a map: [fill, radius in CSS px, label]
 const MARK_STYLE = { town: ["#ffd98a", 8, "Town"], outpost: ["#f2eee4", 6.5, "Outpost"], mission: ["#e8664a", 7, "Mission outpost"],
-  dungeon: ["#a99bff", 7, "Dungeon"], unknown: ["#8a8f96", 5.5, "Map point"] };
+  dungeon: ["#a99bff", 7, "Dungeon"], unknown: ["#8a8f96", 5.5, "Map point"], portal: ["#7fd8ff", 5, "Portal"], swirl: ["#ff4fd8", 6, "Unpaired swirl"] };
 const markHref = name => `locations#${new URLSearchParams({ place: name })}`;
+// a portal: a small swirl of four spiral arms, like the game's own map icon (scale = device pixels per CSS px)
+function drawSwirl(g, x, y, scale = 1, color = "#d8f6ff") {
+  const r = 5.5 * scale, N = 4;
+  g.save(); g.translate(x, y); g.lineCap = "round";
+  for (const [w, c] of [[3.4 * scale, "rgb(0 0 0 / .8)"], [1.6 * scale, color]]) {
+    g.lineWidth = w; g.strokeStyle = c;
+    for (let i = 0; i < N; i++) {
+      // each arm spirals out from the centre, bending round through almost half a circle
+      const a0 = i * 2 * Math.PI / N;
+      g.beginPath();
+      for (let t = 0; t <= 1.0001; t += 0.1) {
+        const ang = a0 + t * 2.9, rr = r * (0.1 + 0.9 * Math.sqrt(t));
+        t ? g.lineTo(rr * Math.cos(ang), rr * Math.sin(ang)) : g.moveTo(rr * Math.cos(ang), rr * Math.sin(ang));
+      }
+      g.stroke();
+    }
+  }
+  g.restore();
+}
 // a dot, and the place's name beside it (drawn into a canvas in device pixels; scale = device pixels per CSS px)
 function drawMark(g, kind, x, y, scale = 1, name = "", self = false) {
   const [fill, r] = MARK_STYLE[kind] || MARK_STYLE.outpost;
