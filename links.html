@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>All Places</title>
+<link rel="stylesheet" href="style.css?v=a2d02155">
+<style>
+  .links { max-width: 900px; padding-top: 8px; }
+  .links h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 28px 0 4px; }
+  .links section { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .links h3 { font-size: 16px; margin: 0 0 6px; }
+  .links p { margin: 2px 0; font-size: 14px; line-height: 1.7; }
+  .links p b { display: inline-block; min-width: 10.5em; color: var(--muted); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap topbar">
+  <header class="top">
+    <nav class="pages"><a href="./">Home</a><a href="rotations">Rotations</a><a href="guides">Guides</a><a href="quests">Storylines</a><a href="missions">Missions</a><a href="locations">Locations</a><a href="maps">Maps</a><a href="skills">Skills</a><a href="heroes">Heroes</a><a href="builds">Builds</a><a href="builder">Builder</a></nav>
+    <a class="hdr-link push" href="about">About</a>
+    <a class="hdr-link" href="thanks">Thanks</a>
+    <a class="hdr-link" href="contact">Contact</a>
+    <a class="hdr-link" href="license">License</a>
+  </header>
+</div>
+<div class="wrap links">
+  <div class="page-title"><h1>All Places</h1><p>Every outpost, mission and explorable area on the Maps page, by region in the Maps page's order.</p></div>
+  <div id="list"></div>
+  <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+<script src="data/locations.js?v=908bbc78"></script>
+<script src="data/missions.js?v=546fb116"></script>
+<script src="data/world.js?v=62d662b5"></script>
+<script src="common.js?v=e99e0920"></script>
+<script>
+// worked out from the Maps page's data, so the list follows it: each region's areas and map points
+const placeHref = name => `locations#${new URLSearchParams({ place: name })}`;
+const PLACE = new Map(window.GW_LOCATIONS.map(p => [p.name, p]));
+const MISSION = new Set(window.GW_MISSIONS.filter(m => m.kind === "PvE").map(m => m.name));
+const link = (n, h) => `<a href="${esc(h)}">${esc(n)}</a>`;
+let html = "", group = "";
+for (const r of window.GW_WORLD) {
+  const names = new Set([...r.layers.flatMap(l => l.names), ...r.marks.map(m => m[0])]);
+  const outposts = [], missions = [], areas = [];
+  for (const n of [...names].sort((a, b) => a.localeCompare(b))) {
+    const p = PLACE.get(n);
+    if (p && p.type === "explorable") areas.push(link(n, placeHref(n)));
+    else if (p) outposts.push(link(n, placeHref(n)));
+    if (MISSION.has(n)) missions.push(link(n, missionHref(n)));
+  }
+  if (!outposts.length && !missions.length && !areas.length) continue;
+  if (r.group !== group) { group = r.group; html += `<h2>${esc(group)}</h2>`; }
+  const row = (t, xs) => xs.length ? `<p><b>${t}</b>${xs.join(" · ")}</p>` : "";
+  html += `<section><h3><a href="maps#${new URLSearchParams({ region: r.id })}">${esc(r.label)}</a></h3>`
+    + row("Towns and outposts", outposts) + row("Missions", missions) + row("Explorable areas", areas) + `</section>`;
+}
+document.getElementById("list").innerHTML = html;
+</script>
+</body>
+</html>
