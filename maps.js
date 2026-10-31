@@ -68,6 +68,7 @@ function openRegion(r, area = null, quiet = false) {
   if (same) { pick ? zoomTo(pick) : fit(); return; }
   draw();
   const load = src => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
+  dev.load();
   load(`img/world/${r.id}/base.webp`).then(img => {
     if (token !== loadToken) return;
     base = img; resize(); pick ? zoomTo(pick) : fit();
@@ -151,8 +152,10 @@ function tinted(l, color) {
 // a thin line just outside one area's walkable edge
 function ring(l, color, width, alpha) {
   const A = dpr * view.zoom, E = dpr * view.x, F = dpr * view.y, m = Math.ceil(width * dpr) + 2;
-  const x0 = E + A * l.x - m, y0 = F + A * l.y - m, w = Math.ceil(A * l.w + 2 * m), h = Math.ceil(A * l.h + 2 * m);
-  if (w <= 0 || h <= 0 || w > 4096 || h > 4096 || x0 > cv.width || y0 > cv.height || x0 + w < 0 || y0 + h < 0) return;
+  // only the part on screen: zoomed far in, a whole area would need a canvas too big to draw
+  const x0 = Math.floor(Math.max(E + A * l.x - m, -m)), y0 = Math.floor(Math.max(F + A * l.y - m, -m));
+  const w = Math.ceil(Math.min(E + A * (l.x + l.w) + m, cv.width + m)) - x0, h = Math.ceil(Math.min(F + A * (l.y + l.h) + m, cv.height + m)) - y0;
+  if (w <= 0 || h <= 0) return;
   ringCv.width = w; ringCv.height = h;
   const g = ringCv.getContext("2d"), t = tinted(l, color), r = width * dpr;
   for (let i = 0; i < 8; i++) g.drawImage(t, A * l.x + E - x0 + Math.cos(i * Math.PI / 4) * r, A * l.y + F - y0 + Math.sin(i * Math.PI / 4) * r, A * l.w, A * l.h);
@@ -160,6 +163,64 @@ function ring(l, color, width, alpha) {
   ctx.globalAlpha = alpha; ctx.drawImage(ringCv, Math.round(x0), Math.round(y0)); ctx.globalAlpha = 1;
 }
 function schedule() { if (!raf) raf = requestAnimationFrame(draw); }
+// read once: opening a region rewrites the address
+// and remembered in this browser once a link turns it on
+const DEV = (() => {
+  const on = new URLSearchParams(location.hash.slice(1)).has("dev");
+  try { if (on) localStorage.setItem("maps.dev", "1"); return on || localStorage.getItem("maps.dev") === "1"; } catch (e) { return on; }
+})();
+/* ---------- dev: points and lines drawn by hand (Alt-click), and the overlaps left to resolve (#...&dev) ---------- */
+const dev = {
+  lines: [[]], overlay: null, box: null,
+  on: () => DEV,
+  ui() {
+    if (this.box) return;
+    const bar = document.querySelector(".wm-bar");
+    const w = document.createElement("div"); w.className = "dev-pts";
+    w.innerHTML = `<textarea rows="4" placeholder="Alt-click to add points; type notes freely; copy from here"></textarea>
+      <button type="button" data-dev="new">New line</button><button type="button" data-dev="undo">Undo</button><button type="button" data-dev="clear">Clear</button>`;
+    bar.after(w); this.box = w.querySelector("textarea");
+    // typing ends the current line: the next point starts a new one
+    this.box.addEventListener("input", () => { if (this.lines.at(-1).length) this.lines.push([]); });
+    w.addEventListener("click", e => {
+      const k = e.target.dataset.dev;
+      if (k === "new" && this.lines.at(-1).length) { this.lines.push([]); this.box.value += "\n"; }
+      if (k === "undo" && this.lines.at(-1).length) {  // the last point, from the map and the text
+        this.lines.at(-1).pop(); this.box.value = this.box.value.replace(/\s*\S+,\S+\s*$/, "");
+        if (!this.lines.at(-1).length) this.box.value = this.box.value.replace(/\S+\s*$/, "");
+      }
+      if (k === "clear") { this.lines = [[]]; this.box.value = ""; }
+      schedule();
+    });
+  },
+  // a point goes on the map and at the end of the text (which the user may also type in)
+  add(x, y) {
+    this.ui();
+    const line = this.lines.at(-1);
+    if (!line.length) this.box.value += `${this.box.value && !this.box.value.endsWith("\n") ? "\n" : ""}${region.id}`;
+    line.push([x, y]); this.box.value += ` ${x},${y}`;
+    schedule();
+  },
+  // another map: its marks go, the text stays
+  reset() { this.lines = [[]]; if (this.box && this.box.value && !this.box.value.endsWith("\n")) this.box.value += "\n"; },
+  load() {
+    this.overlay = null; this.reset();
+    if (!this.on() || !region) return;
+    this.ui();
+    const i = new Image(); i.onload = () => { this.overlay = i; schedule(); }; i.src = `http://127.0.0.1:8766/overlap/dev/${region.id}.png?r=${Date.now()}`;
+  },
+  draw(T) {
+    if (this.overlay) { ctx.setTransform(...T); ctx.drawImage(this.overlay, 0, 0, region.w, region.h); }
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    for (const l of this.lines) {
+      const pts = l.map(([x, y]) => [dpr * (view.x + x * view.zoom), dpr * (view.y + y * view.zoom)]);
+      ctx.lineWidth = 2 * dpr; ctx.strokeStyle = "#3df2ff"; ctx.beginPath();
+      pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke();
+      for (const [x, y] of pts) { ctx.beginPath(); ctx.arc(x, y, 4 * dpr, 0, 2 * Math.PI); ctx.fillStyle = "#3df2ff"; ctx.fill(); ctx.strokeStyle = "#000"; ctx.lineWidth = 1.5 * dpr; ctx.stroke(); }
+    }
+  },
+};
+
 function draw() {
   raf = 0;
   ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -184,6 +245,7 @@ function draw() {
   for (const l of ready) if (l !== hover && l !== pick) ring(l, HOVER, 1, (l.names.length ? 0.35 : 0.12) * fade);
   if (hover && hover.img && hover !== pick) ring(hover, HOVER, 1.4, 0.9);
   if (pick && pick.img) ring(pick, PICK, 2, 1);
+  dev.draw(T);
   // towns and outposts keep their size on screen at every zoom
   for (const [n, k, x, y] of marks()) {
     const px = dpr * (view.x + x * view.zoom), py = dpr * (view.y + y * view.zoom), sc = dpr * (n === hoverMark?.[0] ? 1.3 : 1);
@@ -254,10 +316,9 @@ function up(e) {
   const was = pointers.size;
   pointers.delete(e.pointerId);
   if (pointers.size < 2) pinch = null;
-  if (was === 1 && !moved && e.type === "pointerup" && e.altKey) {  // dev: copy the picture point, for placing portals by hand
-    const q = pic(local(e)), t = `${region.id} ${Math.round(q.x)},${Math.round(q.y)}`;
-    navigator.clipboard?.writeText(t);
-    tip.hidden = false; tip.textContent = `Copied ${t}`;
+  if (was === 1 && !moved && e.type === "pointerup" && e.altKey) {  // dev: a point for a portal or a hand-drawn border
+    const q = pic(local(e));
+    dev.add(Math.round(q.x), Math.round(q.y));
     endDrag(); return;
   }
   if (was === 1 && !moved && e.type === "pointerup") {
