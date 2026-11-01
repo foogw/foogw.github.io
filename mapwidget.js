@@ -109,6 +109,12 @@ function areasMapHTML(names, maxH = MAP_MAX_H) {
     out.push([0, mapHTML(n, "", maxH)]);
   return out.sort((a, b) => b[0] - a[0]).map(o => o[1]).join("");
 }
+// a walking path over a map window (pts in the window's pixels), ending at a ring on the spot
+function pathSVG(m, pts) {
+  const [ex, ey] = pts[pts.length - 1];
+  return `<svg class="gmap-path" viewBox="0 0 ${m.w} ${m.h}" preserveAspectRatio="none" aria-hidden="true">
+    <polyline points="${pts.map(p => p.join(",")).join(" ")}"/><circle cx="${ex}" cy="${ey}" r="1"/></svg>`;
+}
 // hiding the markers is one choice for every map, the Maps page's too, remembered in this browser only
 const hideMarks = () => { try { return localStorage.getItem("maps.nomarks") === "1"; } catch (e) { return false; } };
 function winHTML(m, src, label, marks = [], self = "", maxH = MAP_MAX_H) {
