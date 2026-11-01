@@ -69,6 +69,46 @@ function regionMapHTML(id, maxH = MAP_MAX_H) {
   const r = GW_REGIONS.get(id);
   return r ? winHTML(r, `data-region="${esc(id)}"`, `${r.label}: where you can walk`, r.marks, "", maxH) : "";
 }
+// a set of areas, each Maps-page region they're on cropped to them: only their ground is lit, and only markers
+// inside the crop show (one window per region, the region holding most of them first)
+function areasMapHTML(names, maxH = MAP_MAX_H) {
+  // regions on one continent picture share a window (an area across the border shows beside its neighbours)
+  const want = new Set(names), groups = new Map();
+  for (const r of GW_REGIONS.values()) {
+    const ls = r.layers.filter(l => l.names.some(n => want.has(n))), ms = r.marks.filter(m => want.has(m[0]));
+    if (!ls.length && !ms.length) continue;
+    const [ox, oy] = r.o ? r.o.slice(1) : [0, 0], key = r.o ? r.o[0] : r.id;
+    if (!groups.has(key)) groups.set(key, { rs: [], n: 0, x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity });
+    const g = groups.get(key);
+    g.rs.push(r); g.n += ls.length + ms.length;
+    for (const l of ls) { g.x0 = Math.min(g.x0, ox + l.x); g.y0 = Math.min(g.y0, oy + l.y); g.x1 = Math.max(g.x1, ox + l.x + l.w); g.y1 = Math.max(g.y1, oy + l.y + l.h); }
+    for (const [, , x, y] of ms) { g.x0 = Math.min(g.x0, ox + x); g.y0 = Math.min(g.y0, oy + y); g.x1 = Math.max(g.x1, ox + x); g.y1 = Math.max(g.y1, oy + y); }
+  }
+  const out = [];
+  for (const g of groups.values()) {
+    // the box in continent pixels (a region's own pixels for one not on a continent), kept within the regions' pictures
+    const at = r => r.o ? r.o.slice(1) : [0, 0];
+    const pad = Math.max(40, 0.08 * Math.max(g.x1 - g.x0, g.y1 - g.y0));
+    const x0 = Math.floor(Math.max(g.x0 - pad, Math.min(...g.rs.map(r => at(r)[0])))), y0 = Math.floor(Math.max(g.y0 - pad, Math.min(...g.rs.map(r => at(r)[1]))));
+    const x1 = Math.ceil(Math.min(g.x1 + pad, Math.max(...g.rs.map(r => at(r)[0] + r.w)))), y1 = Math.ceil(Math.min(g.y1 + pad, Math.max(...g.rs.map(r => at(r)[1] + r.h))));
+    // markers only for the areas themselves and places a portal joins to one of them
+    const near = new Set(names);
+    for (const r of g.rs) for (const [, , a, b] of r.portals || []) { if (want.has(a) && b) near.add(b); if (want.has(b) && a) near.add(a); }
+    const m = { w: x1 - x0, h: y1 - y0 }, seen = new Set(), marks = [];
+    for (const r of g.rs) for (const [n, k, x, y] of r.marks) {
+      const [X, Y] = [at(r)[0] + x, at(r)[1] + y];
+      if (near.has(n) && X >= x0 && X <= x1 && Y >= y0 && Y <= y1 && !seen.has(n)) { seen.add(n); marks.push([n, k, X - x0, Y - y0]); }
+    }
+    // each region's part: its id and the window's corner in its own pixels
+    const parts = g.rs.map(r => [r.id, x0 - at(r)[0], y0 - at(r)[1]]);
+    out.push([g.n, winHTML(m, `data-parts="${esc(JSON.stringify(parts))}" data-crop="${m.w},${m.h}" data-areas="${esc(JSON.stringify(names))}"`,
+      `${names.join(", ")}: where you can walk`, marks, "", maxH)]);
+  }
+  // an area on no region picture (the Hidden City of Ahdashim) shows on its own map
+  for (const n of names) if (GW_MAPS[n]?.f && ![...GW_REGIONS.values()].some(r => r.layers.some(l => l.names.includes(n))))
+    out.push([0, mapHTML(n, "", maxH)]);
+  return out.sort((a, b) => b[0] - a[0]).map(o => o[1]).join("");
+}
 // hiding the markers is one choice for every map, the Maps page's too, remembered in this browser only
 const hideMarks = () => { try { return localStorage.getItem("maps.nomarks") === "1"; } catch (e) { return false; } };
 function winHTML(m, src, label, marks = [], self = "", maxH = MAP_MAX_H) {
@@ -154,14 +194,28 @@ function initMaps(root = document) {
 
     const load = src => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
     const r = GW_REGIONS.get(win.dataset.region);
-    (r ? Promise.all([load(`img/world/${r.id}/base.webp`), ...r.layers.map(l => load(`img/world/${r.id}/m${l.m}.png`))]).then(([b, ...ms]) => {
-      // the region's walkable areas, each drawn into one mask at its place
+    // a region's picture and its walkable areas (only those named in data-areas, if given), each drawn into one mask
+    const region = r => Promise.all([load(`img/world/${r.id}/base.webp`), ...r.layers.map(l => load(`img/world/${r.id}/m${l.m}.png`))]).then(([b, ...ms]) => {
       const c = document.createElement("canvas");
       c.width = b.naturalWidth; c.height = b.naturalHeight;
       const k = c.width / r.w, g = c.getContext("2d");
-      r.layers.forEach((l, i) => g.drawImage(ms[i], l.x * k, l.y * k, l.w * k, l.h * k));
-      return [b, c];
-    }) : Promise.all([load(`img/maps/${win.dataset.map}.webp`), load(`img/maps/${win.dataset.map}.png`)]))
+      const only = win.dataset.areas && new Set(JSON.parse(win.dataset.areas));
+      r.layers.forEach((l, i) => { if (!only || l.names.some(n => only.has(n))) g.drawImage(ms[i], l.x * k, l.y * k, l.w * k, l.h * k); });
+      return [b, c, k];
+    });
+    (win.dataset.parts ? (() => {
+      // an areas window: the box cut from each region's picture and mask, laid side by side
+      const parts = JSON.parse(win.dataset.parts), [w, h] = win.dataset.crop.split(",").map(Number);
+      return Promise.all(parts.map(([id]) => region(GW_REGIONS.get(id)))).then(got => {
+        const k = Math.max(...got.map(x => x[2])), b = document.createElement("canvas"), c = document.createElement("canvas");
+        for (const o of [b, c]) { o.width = Math.round(w * k); o.height = Math.round(h * k); }
+        got.forEach(([pic, msk, kk], i) => {
+          const [, x, y] = parts[i];
+          for (const [o, src] of [[b, pic], [c, msk]]) o.getContext("2d").drawImage(src, x * kk, y * kk, w * kk, h * kk, 0, 0, o.width, o.height);
+        });
+        return [b, c];
+      });
+    })() : r ? region(r) : Promise.all([load(`img/maps/${win.dataset.map}.webp`), load(`img/maps/${win.dataset.map}.png`)]))
       .then(([b, m]) => { base = b; mask = m; draw(); }, () => fig.remove());
   }
 }

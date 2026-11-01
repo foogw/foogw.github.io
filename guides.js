@@ -206,6 +206,7 @@ function blockHTML(x, g) {
   if (x.builds) return `<div class="gd-builds">${x.builds.map(buildHTML).join("")}</div>`;
   if (x.capCalc) return capCalcHTML(x.capCalc, g);
   if (x.map || x.region) return `<div class="gd-map${x.side ? " side" : ""}">${x.region ? regionMapHTML(x.region, x.height) : mapHTML(x.map, "", x.height)}</div>`;
+  if (x.areas) return `<div class="gd-map${x.side ? " side" : ""}">${areasMapHTML(x.areas, x.height)}</div>`;
   if (x.table) return `<div class="gd-table"><table><thead><tr>${x.table.head.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
     <tbody>${x.table.rows.map(r => `<tr>${r.map(c => `<td>${text(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
     ${(x.table.notes || []).length ? `<ul class="gd-notes">${x.table.notes.map(n => `<li>${text(n)}</li>`).join("")}</ul>` : ""}`;
