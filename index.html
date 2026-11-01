@@ -44,6 +44,11 @@
   }
   .tpl-bar button:hover { border-color: var(--accent); }
   .tpl-msg { color: var(--sac); font-size: 12px; }
+  .ev-card { padding: 8px 12px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 6px 6px 0; }
+  .ev-card b a { color: var(--text); }
+  .ev-card .ev-when { color: var(--muted); font-size: 13px; margin-left: 6px; }
+  .ev-card p { margin: 2px 0 0; font-size: 14px; }
+  .ev-card .what { color: var(--muted); }
 </style>
 </head>
 <body>
@@ -69,8 +74,10 @@
   <div class="results" id="results"></div>
 
   <div class="sections" id="sections">
+    <div id="ev-now"></div>
     <h2>Today <a class="h-more" href="rotations">Full rotations →</a></h2>
     <div class="today" id="today"></div>
+    <div id="ev-next"></div>
     <h2>Something random <button class="h-more rnd-again" id="rnd-again" type="button">Another →</button></h2>
     <div class="rnd" id="rnd"></div>
     <form class="tpl-bar" id="tpl-form">
@@ -86,11 +93,12 @@
 <script src="data/missions.js?v=546fb116"></script>
 <script src="data/locations.js?v=908bbc78"></script>
 <script src="data/rotations.js?v=cc0be059"></script>
-<script src="data/quests.js?v=716bf359"></script>
+<script src="data/quests.js?v=2293232d"></script>
 <script src="data/builds.js?v=e52a90e8"></script>
 <script src="data/maps.js?v=945e788b"></script>
+<script src="data/events.js?v=65001546"></script>
 <script src="data/aliases.js?v=fad5bb54"></script>
-<script src="common.js?v=e99e0920"></script>
+<script src="common.js?v=0da80b05"></script>
 <script src="mapwidget.js?v=12b7928d"></script>
 <script src="template-code.js?v=201bf57f"></script>
 <script>
@@ -147,6 +155,25 @@ function renderToday() {
 }
 renderToday();
 setInterval(renderToday, 30000);
+
+// the running event above Today, the next one below it (data/events.js)
+const QUEST_CAMPAIGN = new Map(window.GW_QUESTS.quests.map(q => [q.name, q.campaign]));
+function renderEvents() {
+  const now = new Date();
+  const evs = window.GW_EVENTS.map(e => ({ e, w: eventWindow(e, now) })).sort((a, b) => a.w[0] - b.w[0]);
+  const card = ({ e, w: [a, b] }, state) => `<div class="ev-card"><b><a href="events">${esc(e.name)}</a></b>`
+    + `<span class="ev-when">${state === "on" ? `ends ${eventAway(b - now)}` : `${state === "soon" ? "coming" : "starts"} ${eventAway(a - now)}`}</span>`
+    + `<p>${eventText(e.blurb, QUEST_CAMPAIGN)}</p></div>`;
+  const on = evs.filter(x => x.w[0] <= now), later = evs.filter(x => x.w[0] > now);
+  // with nothing on, an event starting within three days moves up above Today, and the one after it takes its place
+  const soon = !on.length && later[0] && later[0].w[0] - now < 3 * 86400000 ? later.shift() : null;
+  const more = `<a class="h-more" href="events">All events →</a>`;
+  $("ev-now").innerHTML = on.length ? `<h2>On now ${more}</h2>` + on.map(x => card(x, "on")).join("")
+    : soon ? `<h2>Coming up ${more}</h2>` + card(soon, "soon") : "";
+  $("ev-next").innerHTML = later[0] ? `<h2>Next event ${more}</h2>` + card(later[0], "next") : "";
+}
+renderEvents();
+setInterval(renderEvents, 60000);
 renderRandom();
 
 // the site's own pages, found by name or by what they hold

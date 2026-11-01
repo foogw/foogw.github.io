@@ -192,3 +192,23 @@ function builderHref(b) {
 }
 
 const skillIcon = (id, cls = "sk-ic") => `<img class="${cls}" src="img/skills/${id}.jpg" alt="" loading="lazy" onerror="this.remove()">`;
+
+// Yearly events (data/events.js): the running or next window of an event, [start, end, collectors leave]
+function eventWindow(e, now = new Date()) {
+  const at = (y, [m, d, t]) => new Date(Date.UTC(y, m - 1, d, ...t.split(":").map(Number)));
+  const later = (y, md) => at(md[0] < e.start[0] ? y + 1 : y, md);
+  for (let y = now.getUTCFullYear() - 1; ; y++) {
+    const w = [at(y, e.start), later(y, e.end), e.stay && later(y, e.stay)];
+    if (now < w[1]) return w;
+  }
+}
+// "in 20 days", "in 2 months"
+function eventAway(ms) {
+  const h = ms / 3600000, d = h / 24, n = (v, u) => `${v} ${u}${v === 1 ? "" : "s"}`;
+  if (h < 1) return `in ${n(Math.max(1, Math.round(ms / 60000)), "minute")}`;
+  if (h < 24) return `in ${n(Math.round(h), "hour")}`;
+  if (d < 45) return `in ${n(Math.round(d), "day")}`;
+  return `in ${n(Math.round(d / 30.4), "month")}`;
+}
+// an event text: HTML whose [[Name]] links a quest (questCampaign: name -> campaign, from GW_QUESTS)
+const eventText = (s, questCampaign) => s.replace(/\[\[([^\]]+)\]\]/g, (_, n) => `<a href="${questHref(n, questCampaign && questCampaign.get(n))}">${esc(n)}</a>`);

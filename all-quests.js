@@ -13,7 +13,7 @@ for (const q of QUESTS) COUNT.set(q.name, (COUNT.get(q.name) || 0) + 1);
 for (const q of QUESTS) {
   q._camp = q.campaign || "Core";
   q._skills = q.skills.map(id => SKILL.get(id)).filter(Boolean);
-  q._k = fold([q.name, q.giver, q.where, q.region, ...q._skills.map(s => s.name), ...q.rewards, ...q.missions, aliasText(q.name, q.where)].join(" | "));
+  q._k = fold([q.name, q.event, q.giver, q.where, q.region, ...q._skills.map(s => s.name), ...q.rewards, ...q.missions, aliasText(q.name, q.where)].join(" | "));
   q._href = questHref(q.name, COUNT.get(q.name) > 1 ? q.campaign : null);
 }
 
@@ -50,7 +50,7 @@ function rowHTML(q, ts) {
   const money = [q.xp && `${q.xp.toLocaleString("en")} XP`, q.gold && `${q.gold.toLocaleString("en")} g`].filter(Boolean).join(" · ");
   const skills = q._skills.map(s => `<span class="echip" style="--pc:${profVar(s.profession)}" title="${esc(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${highlight(s.name, ts)}</span>`).join("");
   return `<a class="row aqrow" href="${esc(q._href)}" style="--pc:var(${CAMP_COLOR[q.campaign] || "--p-none"})">
-    <div class="name">${highlight(q.name, ts)}${q.type === "Secondary" && STORY.has("q:" + q.name_de) ? '<span class="tag" title="A secondary quest the campaign\'s storyline goes through">Story</span>' : ""}${q.repeatable ? '<span class="tag">Repeatable</span>' : ""}${q.missions.length ? `<span class="tag" title="Leads to ${esc(q.missions.join(", "))}">→ Mission</span>` : ""}</div>
+    <div class="name">${highlight(q.name, ts)}${q.type === "Secondary" && STORY.has("q:" + q.name_de) ? '<span class="tag" title="A secondary quest the campaign\'s storyline goes through">Story</span>' : ""}${q.event ? `<span class="tag">${esc(q.event)}</span>` : ""}${q.repeatable ? '<span class="tag">Repeatable</span>' : ""}${q.missions.length ? `<span class="tag" title="Leads to ${esc(q.missions.join(", "))}">→ Mission</span>` : ""}</div>
     <div class="dim col-type">${esc(q.type)}</div>
     <div class="dim">${esc(CAMP_SHORT[q._camp] || q._camp)}</div>
     <div class="cell dim col-region">${esc(q.region || "")}</div>
