@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>Reverie Location Editor</title>
+<link rel="stylesheet" href="style.css?v=d65fcd7a">
+<style>
+  .pins { max-width: 1000px; padding-top: 8px; }
+  .pins .step { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin: 12px 0 4px; }
+  .pins .step h2 { font-size: 18px; margin: 0; }
+  .pins .count { color: var(--muted); font-size: 13px; }
+  .pins .route { margin: 0 0 10px; font-size: 14px; }
+  .pins .bar { display: flex; gap: 8px; align-items: center; margin: 10px 0; flex-wrap: wrap; }
+  .pins .bar .hint { color: var(--muted); font-size: 13px; }
+  .pins button { font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--card, #1d2125); color: inherit; cursor: pointer; }
+  .pins button.main { background: var(--accent); border-color: var(--accent); color: #111; font-weight: 600; }
+  .pins button:disabled { opacity: .45; cursor: default; }
+  .pins .gmap-win { cursor: crosshair; }
+  .pins .pin { position: absolute; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; border: 3px solid #ff3b3b;
+    box-shadow: 0 0 0 2px #000, 0 0 10px #ff3b3b; pointer-events: none; z-index: 3; }
+  .pins textarea { width: 100%; box-sizing: border-box; min-height: 70px; word-break: break-all; font: 13px/1.5 ui-monospace, Menlo, monospace; background: #0d0f11; color: inherit; border: 1px solid var(--line); border-radius: 6px; padding: 8px; }
+  .pins .done { padding: 24px 0; font-size: 16px; }
+</style>
+</head>
+<body>
+<div class="wrap topbar">
+  <header class="top">
+    <nav class="pages"><a href="./">Home</a><a href="rotations">Rotations</a><a href="guides">Guides</a><a href="quests">Storylines</a><a href="missions">Missions</a><a href="locations">Locations</a><a href="maps">Maps</a><a href="skills">Skills</a><a href="heroes">Heroes</a><a href="builds">Builds</a><a href="builder">Builder</a></nav>
+    <a class="hdr-link push" href="about">About</a>
+    <a class="hdr-link" href="thanks">Thanks</a>
+    <a class="hdr-link" href="contact">Contact</a>
+    <a class="hdr-link" href="license">License</a>
+  </header>
+</div>
+<div class="wrap pins">
+  <div class="page-title"><h1>Reverie Location Editor</h1><p>Help place the <a href="guides#guide=wayfarers-reverie">Wayfarer's Reverie</a> spots: click where each one is on its map, then submit. Skip any you don't know. <b>When you're done, copy your results from the box at the bottom and send them to Foo (gwfoo on Discord): nothing is saved on the site, so they only count once you send them.</b></p></div>
+  <div id="editor"></div>
+  <h2>Your results</h2>
+  <p>Please send everything below to Foo (<b>gwfoo</b> on Discord, see <a href="contact">Contact</a>). Thank you!</p>
+  <textarea id="out" spellcheck="false" placeholder="Submitted spots appear here, as #spot:x,y|"></textarea>
+  <div class="bar"><button id="copy">Copy</button><span class="hint" id="copied"></span></div>
+  <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+<script src="data/guides.js?v=d9c41d7f"></script>
+<script src="data/locations.js?v=908bbc78"></script>
+<script src="data/world.js?v=242e5149"></script>
+<script src="data/maps.js?v=945e788b"></script>
+<script src="data/missions.js?v=546fb116"></script>
+<script src="common.js?v=0da80b05"></script>
+<script src="mapwidget.js?v=853144df"></script>
+<script>
+// every "Visit ..." step of the Reverie guide, with the areas its map shows
+const guide = window.GW_GUIDES.find(g => g.id === "wayfarers-reverie");
+const STEPS = [];
+for (const s of guide.sections) s.blocks.forEach((b, i) => {
+  const next = s.blocks[i + 1];
+  // (not the bloodstone: it's inside a dungeon whose maps the site doesn't have)
+  if (b.p && b.p.startsWith("Visit ") && !b.p.includes("bloodstone") && next && next.areas) STEPS.push({ name: b.p[6].toUpperCase() + b.p.slice(7, b.p.indexOf(":")), text: b.p, areas: next.areas });
+});
+const plain = t => t.replace(/\{\w+:([^}|]*\|)?([^}]*)\}/g, "$2");
+const out = document.getElementById("out"), KEY = "reverie-pins-2";
+let at = 0, pin = null;
+try { const s = JSON.parse(localStorage.getItem(KEY) || "{}"); out.value = s.text || ""; at = Math.min(s.at || 0, STEPS.length); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ text: out.value, at })); } catch (e) {} };
+out.addEventListener("input", save);
+
+function show() {
+  const ed = document.getElementById("editor");
+  pin = null;
+  if (at >= STEPS.length) {
+    ed.innerHTML = `<p class="done">That's every spot. Copy the results below and send them to Foo. <button id="again">Start over</button></p>`;
+    document.getElementById("again").onclick = () => { at = 0; save(); show(); };
+    return;
+  }
+  const s = STEPS[at];
+  ed.innerHTML = `<div class="step"><h2>${esc(s.name)}</h2><span class="count">${at + 1} of ${STEPS.length}</span></div>`
+    + `<p class="route">${esc(plain(s.text.slice(s.text.indexOf(":") + 2)))}</p>`
+    + areasMapHTML(s.areas, 600)
+    + `<div class="bar"><button class="main" id="submit" disabled>Submit</button><button id="skip">Skip</button>`
+    + `<button id="back"${at ? "" : " disabled"}>Back</button><span class="hint" id="where">Click the spot on the map.</span></div>`;
+  initMaps(ed);
+  for (const win of ed.querySelectorAll(".gmap-win")) win.addEventListener("click", e => {
+    e.preventDefault();  // a marker is a link: here a click on it places the pin too
+    const r = win.getBoundingClientRect(), fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+    pin = spot(win, fx, fy);
+    for (const p of ed.querySelectorAll(".pin")) p.remove();
+    const dot = document.createElement("span");
+    dot.className = "pin"; dot.style.left = `${fx * 100}%`; dot.style.top = `${fy * 100}%`;
+    win.appendChild(dot);
+    document.getElementById("submit").disabled = false;
+    document.getElementById("where").textContent = `${pin[0]} ${pin[1]}, ${pin[2]}`;
+  }, true);
+  document.getElementById("submit").onclick = () => {
+    // one short line for everything: the spot's number and its x,y (each spot's region is fixed by its map)
+    out.value = out.value.trim() + `#${at + 1}:${pin[1]},${pin[2]}|`;
+    at++; save(); show();
+  };
+  document.getElementById("skip").onclick = () => { at++; save(); show(); };
+  document.getElementById("back").onclick = () => { at--; save(); show(); };
+}
+
+// the clicked point in a region picture's pixels: [region, x, y]; on a stitched map, the region holding the area to visit
+function spot(win, fx, fy) {
+  if (win.dataset.map) {  // an area's own map (one on no region picture): its picture's pixels
+    const m = Object.values(GW_MAPS).find(m => m.f === win.dataset.map);
+    return [`map:${win.dataset.map}`, Math.round(fx * m.w), Math.round(fy * m.h)];
+  }
+  const [w, h] = win.dataset.crop.split(",").map(Number), parts = JSON.parse(win.dataset.parts);
+  const goal = STEPS[at].areas[STEPS[at].areas.length - 1];
+  const [id, x0, y0] = parts.find(([id]) => GW_REGIONS.get(id).layers.some(l => l.names.includes(goal))) || parts[0];
+  return [id, Math.round(x0 + fx * w), Math.round(y0 + fy * h)];
+}
+
+document.getElementById("copy").onclick = async () => {
+  try { await navigator.clipboard.writeText(out.value); } catch (e) { out.select(); document.execCommand("copy"); }
+  document.getElementById("copied").textContent = "Copied.";
+};
+show();
+</script>
+</body>
+</html>
