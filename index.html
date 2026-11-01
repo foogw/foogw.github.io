@@ -6,7 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <title>Guild Wars info</title>
-<link rel="stylesheet" href="style.css?v=a2d02155">
+<link rel="stylesheet" href="style.css?v=d65fcd7a">
 <style>
   .home { max-width: 1000px; }
   .hero { padding: 8px 0 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; }
@@ -46,7 +46,7 @@
   .tpl-msg { color: var(--sac); font-size: 12px; }
   .ev-card { padding: 8px 12px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 6px 6px 0; }
   .ev-card b a { color: var(--text); }
-  .ev-card .ev-when { color: var(--muted); font-size: 13px; margin-left: 6px; }
+  .ev-card .ev-when { color: var(--muted); font-size: 13px; margin-left: 2px; }
   .ev-card p { margin: 2px 0 0; font-size: 14px; }
   .ev-card .what { color: var(--muted); }
 </style>
@@ -99,7 +99,7 @@
 <script src="data/events.js?v=65001546"></script>
 <script src="data/aliases.js?v=fad5bb54"></script>
 <script src="common.js?v=0da80b05"></script>
-<script src="mapwidget.js?v=12b7928d"></script>
+<script src="mapwidget.js?v=853144df"></script>
 <script src="template-code.js?v=201bf57f"></script>
 <script>
 "use strict";
@@ -161,7 +161,7 @@ const QUEST_CAMPAIGN = new Map(window.GW_QUESTS.quests.map(q => [q.name, q.campa
 function renderEvents() {
   const now = new Date();
   const evs = window.GW_EVENTS.map(e => ({ e, w: eventWindow(e, now) })).sort((a, b) => a.w[0] - b.w[0]);
-  const card = ({ e, w: [a, b] }, state) => `<div class="ev-card"><b><a href="events">${esc(e.name)}</a></b>`
+  const card = ({ e, w: [a, b] }, state) => `<div class="ev-card"><b><a href="events">${esc(e.name)}</a></b> `
     + `<span class="ev-when">${state === "on" ? `ends ${eventAway(b - now)}` : `${state === "soon" ? "coming" : "starts"} ${eventAway(a - now)}`}</span>`
     + `<p>${eventText(e.blurb, QUEST_CAMPAIGN)}</p></div>`;
   const on = evs.filter(x => x.w[0] <= now), later = evs.filter(x => x.w[0] > now);

@@ -6,7 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <title>All Places</title>
-<link rel="stylesheet" href="style.css?v=a2d02155">
+<link rel="stylesheet" href="style.css?v=d65fcd7a">
 <style>
   .links { max-width: 900px; padding-top: 8px; }
   .links h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 28px 0 4px; }
@@ -33,7 +33,7 @@
 </div>
 <script src="data/locations.js?v=908bbc78"></script>
 <script src="data/missions.js?v=546fb116"></script>
-<script src="data/world.js?v=ede80891"></script>
+<script src="data/world.js?v=242e5149"></script>
 <script src="common.js?v=0da80b05"></script>
 <script>
 // worked out from the Maps page's data, so the list follows it: each region's areas and map points
@@ -53,7 +53,7 @@ for (const r of window.GW_WORLD) {
   }
   if (!outposts.length && !missions.length && !areas.length) continue;
   if (r.group !== group) { group = r.group; html += `<h2>${esc(group)}</h2>`; }
-  const row = (t, xs) => xs.length ? `<p><b>${t}</b>${xs.join(" · ")}</p>` : "";
+  const row = (t, xs) => xs.length ? `<p><b>${t}</b> ${xs.join(" · ")}</p>` : "";
   html += `<section><h3><a href="maps#${new URLSearchParams({ region: r.id })}">${esc(r.label)}</a></h3>`
     + row("Towns and outposts", outposts) + row("Missions", missions) + row("Explorable areas", areas) + `</section>`;
 }

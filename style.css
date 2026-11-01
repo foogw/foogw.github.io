@@ -376,7 +376,10 @@ table.npcs td.grp { font-size: 12px; padding-top: 8px; }
 
 /* rotations */
 .r-h { font-size: 15px; margin: 18px 0 8px; }
-.h-more { float: right; text-transform: none; letter-spacing: 0; font-weight: 500; font-size: 13px; }
+/* a heading's "more" link sits at its right; as a flex item it copies on its own line, not glued to the heading */
+h2:has(> .h-more) { display: flex; align-items: baseline; gap: 12px; }
+button.h-more { user-select: none; }  /* a button's label is no text to copy */
+.h-more { margin-left: auto; text-transform: none; letter-spacing: 0; font-weight: 500; font-size: 13px; }
 .r-now { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
 .r-card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
 .r-title { font-size: 11px; }
