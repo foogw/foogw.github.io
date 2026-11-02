@@ -400,7 +400,7 @@ const GW_GROUND = {
       "name": "The Fissure of Woe",
       "type": 2,
       "region": 4,
-      "set": 111,
+      "set": 110,
       "terrain": 63058,
       "from": [138, 284, 393],
       "wiki": "https://www.guildwiki.de/wiki/Der_Riss_des_Kummers"
@@ -429,7 +429,7 @@ const GW_GROUND = {
       "order": 14.5,
       "wiki": "https://www.guildwiki.de/wiki/Gerichtsgebäude_in_Grendich"
     },
-    "37": {"name": "Glint's Challenge", "type": 9, "region": 5, "at": [6994, 7128], "terrain": 152265},
+    "37": {"name": "Glint's Challenge", "type": 9, "region": 5, "set": 0, "at": [6994, 7128], "terrain": 152265},
     "38": {
       "name": "Augury Rock",
       "type": 10,
@@ -767,7 +767,7 @@ const GW_GROUND = {
       "name": "The Underworld",
       "type": 2,
       "region": 4,
-      "set": 112,
+      "set": 111,
       "terrain": 63059,
       "from": [138, 284, 393],
       "wiki": "https://www.guildwiki.de/wiki/Die_Unterwelt"
@@ -785,7 +785,7 @@ const GW_GROUND = {
       "after": 19,
       "wiki": "https://www.guildwiki.de/wiki/Flussuferprovinz"
     },
-    "75": {"name": "The Hall of Heroes", "type": 12, "region": 4, "party": 8, "terrain": 14004},
+    "75": {"name": "The Hall of Heroes", "type": 12, "region": 4, "party": 8, "terrain": 14004, "set": 119},
     "76": {"name": "Broken Tower", "type": 12, "region": 4, "party": 8},
     "77": {
       "name": "House zu Heltzer",
@@ -799,9 +799,9 @@ const GW_GROUND = {
       "order": 35,
       "wiki": "https://www.guildwiki.de/wiki/Haus_zu_Heltzer"
     },
-    "78": {"name": "The Courtyard", "type": 12, "region": 4, "party": 8, "terrain": 13989},
+    "78": {"name": "The Courtyard", "type": 12, "region": 4, "party": 8, "terrain": 13989, "set": 118},
     "79": {"name": "Unholy Temples", "type": 12, "region": 4, "party": 8},
-    "80": {"name": "Burial Mounds", "type": 12, "region": 4, "party": 8, "terrain": 15282},
+    "80": {"name": "Burial Mounds", "type": 12, "region": 4, "party": 8, "terrain": 15282, "set": 120},
     "81": {
       "name": "Ascalon City",
       "type": 13,
@@ -833,7 +833,7 @@ const GW_GROUND = {
       "type": 12,
       "region": 4,
       "party": 8,
-      "set": 112,
+      "set": 111,
       "terrain": 16428,
       "exits": [{"to": 346}],
       "order": 37.5,
@@ -1360,7 +1360,7 @@ const GW_GROUND = {
       "order": 46,
       "wiki": "https://www.guildwiki.de/wiki/Vorhof_der_Hölle"
     },
-    "126": {"name": "Golden Gates", "type": 12, "region": 4, "party": 8, "terrain": 55617},
+    "126": {"name": "Golden Gates", "type": 12, "region": 4, "party": 8, "terrain": 55617, "set": 122},
     "127": {"name": "Scarred Earth", "type": 12, "region": 4, "party": 8},
     "128": {
       "name": "The Eternal Grove",
@@ -1564,17 +1564,9 @@ const GW_GROUND = {
       "name": "The Catacombs",
       "type": 2,
       "region": 7,
-      "set": 1,
-      "at": [832, 842],
+      "set": 117,
       "terrain": 116016,
-      "exits": [
-        {"to": 164, "at": [815, 842]},
-        {"to": 164, "at": [795, 1866]},
-        {"to": 161, "at": [648, 988]},
-        {"to": 161, "at": [705, 2126]},
-        {"to": 160, "at": [543, 704]},
-        {"to": 160, "at": [538, 1727]}
-      ],
+      "exits": [{"to": 164, "at": [372, 220]}, {"to": 161, "at": [282, 480]}, {"to": 160, "at": [115, 81]}],
       "order": 1.5,
       "wiki": "https://www.guildwiki.de/wiki/Die_Katakomben"
     },
@@ -1604,7 +1596,8 @@ const GW_GROUND = {
       "exits": [
         {"to": 146, "at": [903, 625]},
         {"to": 40, "dir": "E"},
-        {"to": 780, "dir": "NW"},
+        {"to": 780, "at": [1179, 320]},
+        {"to": 780, "at": [995, 293]},
         {"to": 779, "at": [883, 430]},
         {"to": 779, "at": [918, 403]}
       ],
@@ -1728,7 +1721,6 @@ const GW_GROUND = {
       "at": [556, 751],
       "exits": [
         {"to": 145, "at": [543, 704]},
-        {"to": 145, "at": [538, 1727]},
         {"to": 163, "at": [496, 785]},
         {"to": 146, "at": [806, 665]},
         {"to": 161, "at": [548, 1024]}
@@ -1743,7 +1735,6 @@ const GW_GROUND = {
       "set": 1,
       "exits": [
         {"to": 145, "at": [648, 988]},
-        {"to": 145, "at": [705, 2126]},
         {"to": 160, "at": [548, 1024]},
         {"to": 165, "at": [710, 1108]},
         {"to": 162, "at": [920, 1286]},
@@ -1782,7 +1773,7 @@ const GW_GROUND = {
       "set": 1,
       "at": [832, 842],
       "terrain": 113021,
-      "exits": [{"to": 146, "at": [843, 833]}, {"to": 145, "at": [815, 842]}, {"to": 145, "at": [795, 1866]}],
+      "exits": [{"to": 146, "at": [843, 833]}, {"to": 145, "at": [815, 842]}],
       "order": 1.5,
       "wiki": "https://www.guildwiki.de/wiki/Aschfurt-Abtei"
     },
@@ -1849,7 +1840,8 @@ const GW_GROUND = {
       "region": 21,
       "terrain": 165083,
       "exits": [{"to": 330}, {"to": 248}, {"to": 180}],
-      "wiki": "https://www.guildwiki.de/wiki/Zufallsarenen"
+      "wiki": "https://www.guildwiki.de/wiki/Zufallsarenen",
+      "set": 127
     },
     "190": {
       "name": "Sorrow's Furnace",
@@ -2501,7 +2493,8 @@ const GW_GROUND = {
       "party": 8,
       "terrain": 165811,
       "exits": [{"to": 280, "dir": "N"}, {"to": 281, "dir": "S"}, {"to": 796}, {"to": 188}],
-      "wiki": "https://www.guildwiki.de/wiki/Großer_Tempel_des_Balthasar"
+      "wiki": "https://www.guildwiki.de/wiki/Großer_Tempel_des_Balthasar",
+      "set": 115
     },
     "249": {
       "name": "Tsumei Village",
@@ -2703,7 +2696,7 @@ const GW_GROUND = {
       "name": "Isle of the Nameless",
       "type": 2,
       "region": 21,
-      "set": 130,
+      "set": 115,
       "terrain": 165811,
       "exits": [{"to": 248, "dir": "S"}],
       "notes": [
@@ -2729,7 +2722,8 @@ const GW_GROUND = {
         {"to": 353},
         {"to": 282, "dir": "SE"}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Zaishen-Herausforderung"
+      "wiki": "https://www.guildwiki.de/wiki/Zaishen-Herausforderung",
+      "set": 129
     },
     "282": {
       "name": "Zaishen Elite",
@@ -2738,7 +2732,8 @@ const GW_GROUND = {
       "party": 4,
       "terrain": 165842,
       "exits": [{"to": 281, "dir": "NW"}],
-      "wiki": "https://www.guildwiki.de/wiki/Zaishen-Elite"
+      "wiki": "https://www.guildwiki.de/wiki/Zaishen-Elite",
+      "set": 130
     },
     "283": {
       "name": "Maatu Keep",
@@ -3004,7 +2999,8 @@ const GW_GROUND = {
       "party": 8,
       "terrain": 165788,
       "exits": [{"to": 796}, {"to": 188}],
-      "wiki": "https://www.guildwiki.de/wiki/Aufstieg_der_Helden"
+      "wiki": "https://www.guildwiki.de/wiki/Aufstieg_der_Helden",
+      "set": 128
     },
     "331": {
       "name": "Grenz Frontier (Luxon)",
@@ -3176,7 +3172,7 @@ const GW_GROUND = {
       "exits": [{"to": 281}],
       "wiki": "https://www.guildwiki.de/wiki/Meeresgrund-Arena"
     },
-    "368": {"name": "Dragon Arena", "type": 1, "region": 21, "at": [2682, 838]},
+    "368": {"name": "Dragon Arena", "type": 1, "region": 21},
     "369": {
       "name": "Jahai Bluffs",
       "type": 2,
@@ -3643,7 +3639,7 @@ const GW_GROUND = {
       "name": "The Hidden City of Ahdashim",
       "type": 2,
       "region": 13,
-      "set": 138,
+      "set": 116,
       "terrain": 212497,
       "exits": [{"to": 434}],
       "order": 39.5,
@@ -3966,7 +3962,7 @@ const GW_GROUND = {
       "set": 4,
       "at": [2482, 614],
       "terrain": 210292,
-      "exits": [{"to": 439, "at": [2441, 610]}, {"to": 439, "at": [2517, 558]}, {"to": 450, "at": [226, 192]}],
+      "exits": [{"to": 439, "at": [2441, 610]}, {"to": 439, "at": [2517, 558]}, {"to": 450}],
       "order": 50.5,
       "wiki": "https://www.guildwiki.de/wiki/Der_Schlund_der_Qual"
     },
@@ -4029,7 +4025,7 @@ const GW_GROUND = {
       "name": "The Ebony Citadel of Mallyx",
       "type": 8,
       "region": 100,
-      "set": 115,
+      "set": 114,
       "from": [474],
       "notes": [
         "High Priest Zhellix in Gate of Anguish takes you here, once the four Margonite lords of the Domain of Anguish are defeated."
@@ -4065,7 +4061,7 @@ const GW_GROUND = {
         {"to": 439, "at": [2197, 514]},
         {"to": 439, "at": [2301, 522]},
         {"to": 446, "at": [2289, 954]},
-        {"to": 112, "at": [6761, 8682]}
+        {"to": 112, "dir": "N"}
       ],
       "order": 36.5,
       "foes": [191, 280],
@@ -4091,13 +4087,7 @@ const GW_GROUND = {
       "party": 8,
       "set": 101,
       "terrain": 214315,
-      "exits": [
-        {"to": 440, "at": [226, 192]},
-        {"to": 465, "at": [130, 136]},
-        {"to": 465, "at": [244, 407]},
-        {"to": 555, "at": [326, 176]},
-        {"to": 555, "at": [68, 127]}
-      ],
+      "exits": [{"to": 440, "at": [226, 192]}, {"to": 465, "at": [130, 136]}, {"to": 555, "at": [326, 176]}],
       "order": 51,
       "wiki": "https://www.guildwiki.de/wiki/Tor_der_Qualen"
     },
@@ -4130,14 +4120,7 @@ const GW_GROUND = {
       "type": 2,
       "region": 16,
       "set": 102,
-      "exits": [
-        {"to": 450, "at": [130, 136]},
-        {"to": 450, "at": [244, 407]},
-        {"to": 494, "at": [38, 224]},
-        {"to": 494, "at": [469, 50]},
-        {"to": 559, "at": [47, 83]},
-        {"to": 559, "at": [184, 159]}
-      ],
+      "exits": [{"to": 450, "at": [244, 407]}, {"to": 494, "at": [469, 50]}, {"to": 559, "at": [184, 159]}],
       "order": 50.5,
       "bosses": [100255, 100256, 100257, 100258, 100259, 100260, 100261, 100262, 100263],
       "wiki": "https://www.guildwiki.de/wiki/Jahai_in_Finsternis"
@@ -4152,19 +4135,14 @@ const GW_GROUND = {
       "bosses": [100080, 100081, 100082, 100083, 100084],
       "wiki": "https://www.guildwiki.de/wiki/Abgründe_des_Wahnsinns"
     },
-    "467": {"name": "Rollerbeetle Racing", "type": 1, "region": 21, "at": [2682, 838]},
+    "467": {"name": "Rollerbeetle Racing", "type": 1, "region": 21},
     "468": {
       "name": "Domain of Fear",
       "type": 2,
       "region": 16,
       "set": 104,
       "terrain": 219186,
-      "exits": [
-        {"to": 469, "at": [298, 80]},
-        {"to": 469, "at": [337, 201]},
-        {"to": 473, "at": [390, 344]},
-        {"to": 473, "at": [121, 269]}
-      ],
+      "exits": [{"to": 469, "at": [337, 201]}, {"to": 473, "at": [121, 269]}],
       "order": 52.5,
       "bosses": [100086, 100087, 100088, 100089, 100090, 100091, 100092, 100093],
       "wiki": "https://www.guildwiki.de/wiki/Domäne_der_Angst"
@@ -4176,12 +4154,7 @@ const GW_GROUND = {
       "party": 8,
       "set": 101,
       "terrain": 214315,
-      "exits": [
-        {"to": 470, "at": [366, 64]},
-        {"to": 470, "at": [103, 208]},
-        {"to": 468, "at": [298, 80]},
-        {"to": 468, "at": [337, 201]}
-      ],
+      "exits": [{"to": 470, "at": [366, 64]}, {"to": 468, "at": [298, 80]}],
       "order": 53,
       "wiki": "https://www.guildwiki.de/wiki/Tor_der_Angst"
     },
@@ -4191,7 +4164,7 @@ const GW_GROUND = {
       "region": 16,
       "set": 103,
       "terrain": 216012,
-      "exits": [{"to": 494, "at": [591, 284]}, {"to": 469, "at": [366, 64]}, {"to": 469, "at": [103, 208]}],
+      "exits": [{"to": 494, "at": [591, 284]}, {"to": 469, "at": [103, 208]}],
       "order": 51.5,
       "bosses": [100094, 100095, 100096, 100097, 100098],
       "wiki": "https://www.guildwiki.de/wiki/Domäne_der_Schmerzen"
@@ -4209,12 +4182,7 @@ const GW_GROUND = {
       "type": 2,
       "region": 16,
       "set": 105,
-      "exits": [
-        {"to": 495, "at": [46, 416]},
-        {"to": 495, "at": [108, 417]},
-        {"to": 473, "at": [338, 292]},
-        {"to": 473, "at": [364, 77]}
-      ],
+      "exits": [{"to": 495, "at": [108, 417]}, {"to": 473, "at": [364, 77]}],
       "order": 53.5,
       "bosses": [100099, 100100, 100101, 100102, 100103, 100104, 100105],
       "wiki": "https://www.guildwiki.de/wiki/Domäne_der_Geheimnisse"
@@ -4226,12 +4194,7 @@ const GW_GROUND = {
       "party": 8,
       "set": 101,
       "terrain": 214315,
-      "exits": [
-        {"to": 468, "at": [390, 344]},
-        {"to": 468, "at": [121, 269]},
-        {"to": 472, "at": [338, 292]},
-        {"to": 472, "at": [364, 77]}
-      ],
+      "exits": [{"to": 468, "at": [390, 344]}, {"to": 472, "at": [338, 292]}],
       "order": 54,
       "wiki": "https://www.guildwiki.de/wiki/Tor_der_Geheimnisse"
     },
@@ -4377,19 +4340,19 @@ const GW_GROUND = {
       "name": "Arbor Bay",
       "type": 2,
       "region": 17,
-      "set": 109,
       "terrain": 287262,
       "exits": [
-        {"to": 624, "at": [1492, 115]},
-        {"to": 501, "at": [1050, 192]},
-        {"to": 501, "at": [1142, 142]},
-        {"to": 572, "at": [1134, 439]},
-        {"to": 572, "at": [1051, 465]},
-        {"to": 581, "at": [1427, 442]}
+        {"to": 624, "at": [2786, 5913]},
+        {"to": 501, "at": [2321, 5994]},
+        {"to": 501, "at": [2417, 5941]},
+        {"to": 572, "at": [2409, 6254]},
+        {"to": 572, "at": [2322, 6281]},
+        {"to": 581, "at": [2717, 6257]}
       ],
       "foes": [462, 572],
       "bosses": [100005, 100006, 100007, 100008],
-      "wiki": "https://www.guildwiki.de/wiki/Arborbucht"
+      "wiki": "https://www.guildwiki.de/wiki/Arborbucht",
+      "set": 0
     },
     "486": {
       "name": "Issnur Isles",
@@ -4494,7 +4457,7 @@ const GW_GROUND = {
       "party": 8,
       "set": 101,
       "terrain": 214315,
-      "exits": [{"to": 465, "at": [38, 224]}, {"to": 465, "at": [469, 50]}],
+      "exits": [{"to": 465, "at": [38, 224]}],
       "from": [470],
       "order": 52,
       "after": 469,
@@ -4507,7 +4470,7 @@ const GW_GROUND = {
       "party": 8,
       "set": 101,
       "terrain": 214315,
-      "exits": [{"to": 472, "at": [46, 416]}, {"to": 472, "at": [108, 417]}],
+      "exits": [{"to": 472, "at": [46, 416]}],
       "from": [466],
       "order": 55,
       "after": 496,
@@ -4520,7 +4483,7 @@ const GW_GROUND = {
       "party": 8,
       "set": 107,
       "terrain": 214168,
-      "exits": [{"to": 466, "at": [71, 331]}, {"to": 462, "dir": "NE"}],
+      "exits": [{"to": 466, "dir": "SE"}, {"to": 462, "dir": "NE"}],
       "order": 56,
       "after": 503,
       "wiki": "https://www.guildwiki.de/wiki/Abaddons_Tor"
@@ -4565,19 +4528,19 @@ const GW_GROUND = {
       "name": "Riven Earth",
       "type": 2,
       "region": 17,
-      "set": 109,
       "terrain": 290897,
       "exits": [
-        {"to": 485, "at": [1050, 192]},
-        {"to": 485, "at": [1142, 142]},
-        {"to": 640, "at": [442, 256]},
-        {"to": 640, "at": [530, 248]},
-        {"to": 572, "at": [754, 435]},
-        {"to": 572, "at": [705, 351]}
+        {"to": 485, "at": [2321, 5994]},
+        {"to": 485, "at": [2417, 5941]},
+        {"to": 640, "at": [1681, 6061]},
+        {"to": 640, "at": [1774, 6053]},
+        {"to": 572, "at": [2009, 6250]},
+        {"to": 572, "at": [1958, 6161]}
       ],
       "foes": [275, 302],
       "bosses": [100306, 100307, 100308, 100309, 100310],
-      "wiki": "https://www.guildwiki.de/wiki/Zerrissene_Erde"
+      "wiki": "https://www.guildwiki.de/wiki/Zerrissene_Erde",
+      "set": 0
     },
     "502": {
       "name": "The Astralarium",
@@ -4626,7 +4589,7 @@ const GW_GROUND = {
     },
     "515": {"name": "Jokanur Diggings", "type": 14, "region": 15, "set": 4},
     "516": {"name": "Blacktide Den", "type": 14, "region": 15, "set": 4},
-    "517": {"name": "Consulate Docks", "type": 14, "region": 15, "set": 125},
+    "517": {"name": "Consulate Docks", "type": 14, "region": 15, "set": 4},
     "518": {"name": "Tihark Orchard", "type": 14, "region": 13, "set": 4},
     "519": {"name": "Dzagonur Bastion", "type": 14, "region": 13, "set": 4},
     "520": {"name": "Dasha Vestibule", "type": 14, "region": 13, "set": 4},
@@ -4747,7 +4710,7 @@ const GW_GROUND = {
       "type": 9,
       "region": 16,
       "set": 108,
-      "exits": [{"to": 450, "at": [326, 176]}, {"to": 450, "at": [68, 127]}],
+      "exits": [{"to": 450, "at": [68, 127]}],
       "order": 50.5,
       "wiki": "https://www.guildwiki.de/wiki/Der_Nexus_der_Schatten"
     },
@@ -4756,12 +4719,12 @@ const GW_GROUND = {
       "name": "Sparkfly Swamp",
       "type": 2,
       "region": 17,
-      "set": 109,
       "terrain": 287493,
-      "exits": [{"to": 615, "at": [2990, 340]}, {"to": 612, "at": [2982, 861]}, {"to": 638, "at": [2765, 812]}],
+      "exits": [{"to": 615, "at": [4362, 6150]}, {"to": 612, "at": [4353, 6698]}, {"to": 638, "at": [4125, 6646]}],
       "foes": [281, 348],
       "bosses": [100348, 100349, 100350, 100351, 100352],
-      "wiki": "https://www.guildwiki.de/wiki/Funkenschwärmersumpf"
+      "wiki": "https://www.guildwiki.de/wiki/Funkenschwärmersumpf",
+      "set": 0
     },
     "559": {
       "name": "Gate of the Nightfallen Lands",
@@ -4770,7 +4733,7 @@ const GW_GROUND = {
       "party": 8,
       "set": 101,
       "terrain": 214315,
-      "exits": [{"to": 465, "at": [47, 83]}, {"to": 465, "at": [184, 159]}],
+      "exits": [{"to": 465, "at": [47, 83]}],
       "order": 50.5,
       "wiki": "https://www.guildwiki.de/wiki/Tor_zu_den_Ländern_in_Finsternis"
     },
@@ -4814,18 +4777,18 @@ const GW_GROUND = {
       "name": "Magus Stones",
       "type": 2,
       "region": 17,
-      "set": 109,
       "terrain": 287783,
       "exits": [
-        {"to": 640, "at": [404, 287]},
-        {"to": 572, "at": [526, 507]},
-        {"to": 572, "at": [445, 497]},
-        {"to": 578, "at": [39, 344]},
-        {"to": 584, "at": [130, 614]}
+        {"to": 640, "at": [1641, 6094]},
+        {"to": 572, "at": [1769, 6325]},
+        {"to": 572, "at": [1684, 6315]},
+        {"to": 578, "at": [1257, 6154]},
+        {"to": 584, "at": [1353, 6438]}
       ],
       "foes": [373, 402],
       "bosses": [100196, 100197, 100198, 100199, 100200, 100201, 100202],
-      "wiki": "https://www.guildwiki.de/wiki/Magussteine"
+      "wiki": "https://www.guildwiki.de/wiki/Magussteine",
+      "set": 0
     },
     "570": {
       "name": "Catacombs of Kathandrax",
@@ -4841,21 +4804,21 @@ const GW_GROUND = {
       "name": "Alcazia Tangle",
       "type": 2,
       "region": 17,
-      "set": 109,
       "terrain": 288071,
       "exits": [
-        {"to": 485, "at": [1134, 439]},
-        {"to": 485, "at": [1051, 465]},
-        {"to": 501, "at": [754, 435]},
-        {"to": 501, "at": [705, 351]},
-        {"to": 569, "at": [526, 507]},
-        {"to": 569, "at": [445, 497]},
-        {"to": 641, "at": [1005, 686]},
-        {"to": 641, "at": [982, 712]}
+        {"to": 485, "at": [2409, 6254]},
+        {"to": 485, "at": [2322, 6281]},
+        {"to": 501, "at": [2009, 6250]},
+        {"to": 501, "at": [1958, 6161]},
+        {"to": 569, "at": [1769, 6325]},
+        {"to": 569, "at": [1684, 6315]},
+        {"to": 641, "at": [2273, 6514]},
+        {"to": 641, "at": [2249, 6541]}
       ],
       "foes": [225, 336],
       "bosses": [100000, 100001, 100002, 100003, 100004],
-      "wiki": "https://www.guildwiki.de/wiki/Alcazia-Dickicht"
+      "wiki": "https://www.guildwiki.de/wiki/Alcazia-Dickicht",
+      "set": 0
     },
     "573": {
       "name": "Rragar's Menagerie",
@@ -4890,9 +4853,9 @@ const GW_GROUND = {
       "name": "Oola's Lab",
       "type": 18,
       "region": 17,
-      "set": 109,
-      "at": [40, 345],
-      "exits": [{"to": 569, "at": [39, 344]}],
+      "set": 0,
+      "at": [1258, 6155],
+      "exits": [{"to": 569, "at": [1257, 6154]}],
       "levels": 3,
       "wiki": "https://www.guildwiki.de/wiki/Oolas_Labor"
     },
@@ -4900,9 +4863,9 @@ const GW_GROUND = {
       "name": "Shards of Orr",
       "type": 18,
       "region": 17,
-      "set": 109,
-      "at": [1425, 446],
-      "exits": [{"to": 485, "at": [1427, 442]}, {"to": 638, "at": [2731, 853]}],
+      "set": 0,
+      "at": [2715, 6261],
+      "exits": [{"to": 485, "at": [2717, 6257]}, {"to": 638, "at": [4089, 6689]}],
       "levels": 3,
       "wiki": "https://www.guildwiki.de/wiki/Scherben_von_Orr"
     },
@@ -4910,22 +4873,22 @@ const GW_GROUND = {
       "name": "Arachni's Haunt",
       "type": 18,
       "region": 17,
-      "set": 109,
-      "at": [127, 617],
-      "exits": [{"to": 569, "at": [130, 614]}],
+      "set": 0,
+      "at": [1350, 6441],
+      "exits": [{"to": 569, "at": [1353, 6438]}],
       "levels": 2,
       "wiki": "https://www.guildwiki.de/wiki/Arachnis_Schlupfwinkel"
     },
-    "593": {"name": "Fetid River", "type": 12, "region": 4, "party": 8, "terrain": 290186},
+    "593": {"name": "Fetid River", "type": 12, "region": 4, "party": 8, "terrain": 290186, "set": 136},
     "596": {"name": "Forgotten Shrines", "type": 12, "region": 4, "party": 8},
-    "598": {"name": "The Antechamber", "type": 12, "region": 4, "party": 8, "terrain": 290232},
+    "598": {"name": "The Antechamber", "type": 12, "region": 4, "party": 8, "terrain": 290232, "set": 137},
     "604": {
       "name": "Vloxen Excavations",
       "type": 18,
       "region": 17,
       "set": 0,
       "at": [4527, 2418],
-      "exits": [{"to": 639, "at": [4524, 2425]}, {"to": 624, "at": [1539, 46]}],
+      "exits": [{"to": 639, "at": [4524, 2425]}, {"to": 624, "at": [2835, 5840]}],
       "levels": 3,
       "wiki": "https://www.guildwiki.de/wiki/Vlox-Ausgrabungen"
     },
@@ -4933,7 +4896,7 @@ const GW_GROUND = {
       "name": "Heart of the Shiverpeaks",
       "type": 18,
       "region": 18,
-      "set": 110,
+      "set": 109,
       "terrain": 292090,
       "exits": [{"to": 625, "dir": "N"}, {"to": 615}],
       "levels": 3,
@@ -4943,9 +4906,9 @@ const GW_GROUND = {
       "name": "Bloodstone Caves",
       "type": 18,
       "region": 17,
-      "set": 109,
-      "at": [2982, 863],
-      "exits": [{"to": 558, "at": [2982, 861]}],
+      "set": 0,
+      "at": [4353, 6700],
+      "exits": [{"to": 558, "at": [4353, 6698]}],
       "levels": 3,
       "wiki": "https://www.guildwiki.de/wiki/Blutstein-Höhlen"
     },
@@ -4953,9 +4916,9 @@ const GW_GROUND = {
       "name": "Bogroot Growths",
       "type": 18,
       "region": 17,
-      "set": 109,
-      "at": [2987, 342],
-      "exits": [{"to": 558, "at": [2990, 340]}, {"to": 607}],
+      "set": 0,
+      "at": [4359, 6152],
+      "exits": [{"to": 558, "at": [4362, 6150]}, {"to": 607}],
       "levels": 2,
       "wiki": "https://www.guildwiki.de/wiki/Sumpfwurzel-Gewirr"
     },
@@ -4974,24 +4937,19 @@ const GW_GROUND = {
       "type": 10,
       "region": 17,
       "party": 8,
-      "set": 109,
-      "at": [1500, 89],
+      "set": 0,
+      "at": [2794, 5886],
       "terrain": 287262,
-      "exits": [{"to": 485, "at": [1492, 115]}, {"to": 604, "at": [1539, 46]}],
+      "exits": [{"to": 485, "at": [2786, 5913]}, {"to": 604, "at": [2835, 5840]}],
       "wiki": "https://www.guildwiki.de/wiki/Vlox-Fälle"
     },
     "625": {
       "name": "Battledepths",
       "type": 2,
       "region": 18,
-      "set": 110,
+      "set": 109,
       "terrain": 292300,
-      "exits": [
-        {"to": 499, "at": [6264, 2142]},
-        {"to": 607, "dir": "S"},
-        {"to": 553, "at": [5692, 2277]},
-        {"to": 652, "dir": "SW"}
-      ],
+      "exits": [{"to": 499, "dir": "E"}, {"to": 607, "dir": "S"}, {"to": 553, "dir": "W"}, {"to": 652, "dir": "SW"}],
       "wiki": "https://www.guildwiki.de/wiki/Schlachttiefen"
     },
     "628": {
@@ -5029,10 +4987,10 @@ const GW_GROUND = {
       "type": 10,
       "region": 17,
       "party": 8,
-      "set": 109,
-      "at": [2760, 835],
+      "set": 0,
+      "at": [4120, 6670],
       "terrain": 287493,
-      "exits": [{"to": 558, "at": [2765, 812]}, {"to": 581, "at": [2731, 853]}],
+      "exits": [{"to": 558, "at": [4125, 6646]}, {"to": 581, "at": [4089, 6689]}],
       "wiki": "https://www.guildwiki.de/wiki/Gadds_Lager"
     },
     "639": {
@@ -5051,10 +5009,10 @@ const GW_GROUND = {
       "type": 13,
       "region": 17,
       "party": 8,
-      "set": 109,
-      "at": [411, 259],
+      "set": 0,
+      "at": [1648, 6064],
       "terrain": 287783,
-      "exits": [{"to": 501, "at": [442, 256]}, {"to": 501, "at": [530, 248]}, {"to": 569, "at": [404, 287]}],
+      "exits": [{"to": 501, "at": [1681, 6061]}, {"to": 501, "at": [1774, 6053]}, {"to": 569, "at": [1641, 6094]}],
       "wiki": "https://www.guildwiki.de/wiki/Rata_Sum"
     },
     "641": {
@@ -5062,10 +5020,10 @@ const GW_GROUND = {
       "type": 10,
       "region": 17,
       "party": 8,
-      "set": 109,
-      "at": [1011, 713],
+      "set": 0,
+      "at": [2280, 6542],
       "terrain": 288071,
-      "exits": [{"to": 572, "at": [1005, 686]}, {"to": 572, "at": [982, 712]}],
+      "exits": [{"to": 572, "at": [2273, 6514]}, {"to": 572, "at": [2249, 6541]}],
       "wiki": "https://www.guildwiki.de/wiki/Trübwinkel"
     },
     "642": {
@@ -5202,29 +5160,29 @@ const GW_GROUND = {
       "type": 10,
       "region": 18,
       "party": 8,
-      "set": 124,
-      "at": [360, 360],
+      "set": 0,
+      "at": [5916, 3286],
       "terrain": 290182,
       "exits": [{"to": 625, "dir": "N"}],
       "wiki": "https://www.guildwiki.de/wiki/Zentrale_Transferkammer"
     },
-    "653": {"name": "Curse of the Nornbear", "type": 2, "region": 19, "at": [5480, 1470], "set": 126},
-    "654": {"name": "Blood Washes Blood", "type": 2, "region": 19, "at": [6500, 1325], "set": 119},
-    "655": {"name": "A Gate Too Far", "type": 18, "region": 19, "at": [5160, 1950]},
-    "658": {"name": "The Elusive Golemancer", "type": 18, "region": 17, "at": [1266, 6111]},
-    "661": {"name": "Finding the Bloodstone", "type": 18, "region": 18, "at": [4353, 6800]},
+    "653": {"name": "Curse of the Nornbear", "type": 2, "region": 19, "set": 0, "at": [5480, 1470]},
+    "654": {"name": "Blood Washes Blood", "type": 2, "region": 19, "set": 0, "at": [6500, 1325]},
+    "655": {"name": "A Gate Too Far", "type": 18, "region": 19, "set": 0, "at": [5160, 1950]},
+    "658": {"name": "The Elusive Golemancer", "type": 18, "region": 17, "set": 0, "at": [1266, 6111]},
+    "661": {"name": "Finding the Bloodstone", "type": 18, "region": 18, "set": 0, "at": [4353, 6800]},
     "664": {
       "name": "Genius Operated Living Enchanted Manifestation",
       "type": 2,
       "region": 17,
-      "at": [1892, 5906],
-      "set": 129
+      "set": 0,
+      "at": [1892, 5906]
     },
-    "665": {"name": "Against the Charr", "type": 2, "region": 20, "at": [7092, 1794], "set": 116},
-    "666": {"name": "Warband of Brothers", "type": 18, "region": 20, "at": [7376, 1328], "set": 110},
-    "669": {"name": "Assault on the Stronghold", "type": 2, "region": 20, "at": [7550, 1946], "set": 118},
-    "670": {"name": "Destruction's Depths", "type": 18, "region": 18, "at": [5968, 2477]},
-    "673": {"name": "A Time for Heroes", "type": 2, "region": 18, "at": [6106, 3436], "terrain": 325399},
+    "665": {"name": "Against the Charr", "type": 2, "region": 20, "set": 0, "at": [7092, 1794]},
+    "666": {"name": "Warband of Brothers", "type": 18, "region": 20, "set": 0, "at": [7376, 1328]},
+    "669": {"name": "Assault on the Stronghold", "type": 2, "region": 20, "set": 0, "at": [7550, 1946]},
+    "670": {"name": "Destruction's Depths", "type": 18, "region": 18, "set": 0, "at": [5968, 2477]},
+    "673": {"name": "A Time for Heroes", "type": 2, "region": 18, "set": 0, "at": [6106, 3436], "terrain": 325399},
     "675": {
       "name": "Boreal Station",
       "type": 10,
@@ -5240,7 +5198,7 @@ const GW_GROUND = {
       "name": "Beneath Lion's Arch",
       "type": 2,
       "region": 18,
-      "set": 110,
+      "set": 109,
       "terrain": 292198,
       "exits": [{"to": 675, "dir": "N"}],
       "wiki": "https://www.guildwiki.de/wiki/Unter_Löwenstein"
@@ -5249,7 +5207,7 @@ const GW_GROUND = {
       "name": "Tunnels Below Cantha",
       "type": 2,
       "region": 18,
-      "set": 110,
+      "set": 109,
       "terrain": 292198,
       "exits": [{"to": 675, "dir": "N"}],
       "wiki": "https://www.guildwiki.de/wiki/Tunnel_unter_Cantha"
@@ -5258,7 +5216,7 @@ const GW_GROUND = {
       "name": "Caverns Below Kamadan",
       "type": 2,
       "region": 18,
-      "set": 110,
+      "set": 109,
       "terrain": 292198,
       "exits": [{"to": 675, "dir": "N"}],
       "wiki": "https://www.guildwiki.de/wiki/Höhlen_unter_Kamadan"
@@ -5303,7 +5261,12 @@ const GW_GROUND = {
       "type": 18,
       "region": 18,
       "set": 100,
-      "exits": [{"to": 147, "dir": "SE"}],
+      "exits": [
+        {"to": 147, "at": [93, 115]},
+        {"to": 147, "at": [172, 60]},
+        {"to": 877, "at": [508, 347]},
+        {"to": 877, "at": [136, 326]}
+      ],
       "order": 1.5,
       "wiki": "https://www.guildwiki.de/wiki/Verlassene_Tunnel"
     },
@@ -5413,13 +5376,30 @@ const GW_GROUND = {
       "region": 4,
       "wiki": "https://www.guildwiki.de/wiki/Verletzte_Psyche"
     },
-    "877": {"name": "Forsaken Tunnels: Level 2", "type": 18, "region": 18, "set": 100},
-    "878": {"name": "Forsaken Tunnels: Level 3", "type": 18, "region": 18, "set": 100},
+    "877": {
+      "name": "Forsaken Tunnels: Level 2",
+      "type": 18,
+      "region": 18,
+      "set": 100,
+      "exits": [
+        {"to": 780, "at": [508, 347]},
+        {"to": 780, "at": [136, 326]},
+        {"to": 878, "at": [550, 102]},
+        {"to": 878, "at": [971, 232]}
+      ]
+    },
+    "878": {
+      "name": "Forsaken Tunnels: Level 3",
+      "type": 18,
+      "region": 18,
+      "set": 100,
+      "exits": [{"to": 877, "at": [550, 102]}, {"to": 877, "at": [971, 232]}]
+    },
     "100000": {
       "name": "City of Torc'qua",
       "type": 2,
       "region": 100,
-      "set": 115,
+      "set": 114,
       "exits": [{"to": 100002, "dir": "E"}],
       "from": [100003, 474],
       "wiki": "https://www.guildwiki.de/wiki/Die_Stadt_Torc'qua"
@@ -5428,7 +5408,7 @@ const GW_GROUND = {
       "name": "Ravenheart Gloom",
       "type": 2,
       "region": 100,
-      "set": 115,
+      "set": 114,
       "exits": [{"to": 100003, "dir": "W"}],
       "from": [100002, 474],
       "wiki": "https://www.guildwiki.de/wiki/Rabenherz"
@@ -5437,7 +5417,7 @@ const GW_GROUND = {
       "name": "Stygian Veil",
       "type": 2,
       "region": 100,
-      "set": 115,
+      "set": 114,
       "exits": [{"to": 100001, "dir": "N"}],
       "from": [100000, 474],
       "wiki": "https://www.guildwiki.de/wiki/Stygischer_Schleier"
@@ -5446,7 +5426,7 @@ const GW_GROUND = {
       "name": "The Foundry of Failed Creations",
       "type": 2,
       "region": 100,
-      "set": 115,
+      "set": 114,
       "exits": [{"to": 100000, "dir": "S"}],
       "from": [100001, 474],
       "wiki": "https://www.guildwiki.de/wiki/Das_Inferno_der_gescheiterten_Schöpfung"

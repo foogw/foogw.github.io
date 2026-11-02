@@ -97,7 +97,7 @@ function renderPlace(l) {
   const questRows = quests.map(q => `<li><span>${LINK.quest(q.id)}${q.travel != null ? ` <span class="tag" title="Takes you to ${CAMPAIGNS[q.travel]}">To ${CAMP_SHORT[q.travel]}</span>`
     : q.type !== "secondary" ? ` <span class="tag">${esc(q.type[0].toUpperCase() + q.type.slice(1))}</span>` : STORY.has(q.id) ? ' <span class="tag" title="A secondary quest the campaign\'s storyline goes through">Story</span>' : ""}</span>${
     q.skills?.length ? `<span class="qsk">${q.skills.filter(id => SKILLS[id]).map(id => `<a href="${HREF.skill(id)}" title="${esc(SKILLS[id].name)}">${skillIcon(id, "sk-ic sm")}</a>`).join("")}</span>` : ""}</li>`).join("");
-  const side = mapHTML(placeAreas(l), { self: isOutpost(l) ? l.id : null })
+  const side = mapHTML(placeAreas(l), { self: isOutpost(l) ? l.id : null, town: l.id })
     + box("Services", services && `<ul class="lrows">${services}</ul>`)
     + box("Elite skills to capture", bosses && `<ul class="lrows">${bosses}</ul>`)
     + box(`Quests <span class="dim">${quests.length || ""}</span>`, questRows && `<ul class="lrows lquests">${questRows}</ul>`);
@@ -116,7 +116,7 @@ function renderPlace(l) {
   initMaps(els.place);
   // with the area's ground, the exits take their directions from where the portals are on it
   loadWalk(l.id).then(w => {
-    const b = w && ringsBox([w]);
+    const b = w && w.set === l.set && ringsBox([w.town ? { rings: w.town } : w]);  // the portals are on the place's map
     if (b && state.place === l.id) $("exits").innerHTML = exitsHTML(l, [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2]);
   });
 }

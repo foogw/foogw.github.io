@@ -3,7 +3,9 @@
 /* Maps: a map set's picture (game/maps.js) drawn from its tiles, darkened except where the chosen areas can be
    walked (game/walk/<map id>.json), with markers for places and portals. mapHTML(ids) gives a window on some areas,
    initMaps(root) brings the windows in it to life; paintMap draws any view, for the Maps page and the route finder. */
-const MAP_SETS = data("GW_MAPS")?.sets || {}, HAS_WALK = new Set(data("GW_MAPS")?.walks || []);
+// the maps, and the places with walkable ground: map id -> the map it is on
+const MAP_SETS = data("GW_MAPS")?.sets || {}, WALK_SET = new Map(Object.entries(data("GW_MAPS")?.walks || {}).map(([k, s]) => [+k, s]));
+const HAS_WALK = { has: id => WALK_SET.has(+id) };
 const TILE = 256;
 const MAP_TINT = "#06080a", MAP_RING = "#ffd98a", MAP_MAX_H = 520;
 
@@ -15,7 +17,7 @@ function loadWalk(id) {
   if (!WALKS.has(+id)) WALKS.set(+id, fetch(`game/walk/${id}.json`).then(r => (r.ok ? r.json() : null)).catch(() => null));
   return WALKS.get(+id);
 }
-// the rings as one path in map pixels (filled even-odd, holes stay dark)
+// the rings as one path in map pixels (filled non-zero: holes run the other way and stay dark)
 function walkPath(walks) {
   const p = new Path2D();
   for (const w of walks) for (const r of w.rings) {
@@ -72,6 +74,17 @@ function drawSwirl(g, x, y, scale = 1, color = "#d8f6ff") {
   }
   g.restore();
 }
+// a swirl or a dot drawn once per look and size, then copied: a continent has hundreds
+const SPRITES = new Map();
+function sprite(key, size, paint) {
+  if (!SPRITES.has(key)) {
+    const c = document.createElement("canvas");
+    c.width = c.height = Math.ceil(size);
+    paint(c.getContext("2d"), size / 2);
+    SPRITES.set(key, c);
+  }
+  return SPRITES.get(key);
+}
 // a dot, and the place's name beside it (in device pixels; scale = device pixels per CSS px)
 function drawMark(g, kind, x, y, scale = 1, name = "", self = false) {
   const [fill, r] = MARK_STYLE[kind] || MARK_STYLE.outpost;
@@ -79,8 +92,11 @@ function drawMark(g, kind, x, y, scale = 1, name = "", self = false) {
     scale *= 1.3;
     g.beginPath(); g.arc(x, y, (r + 5) * scale, 0, 2 * Math.PI); g.lineWidth = 3 * scale; g.strokeStyle = MAP_RING; g.stroke();
   }
-  g.beginPath(); g.arc(x, y, r * scale, 0, 2 * Math.PI);
-  g.fillStyle = fill; g.fill(); g.lineWidth = 2.5 * scale; g.strokeStyle = "#111"; g.stroke();
+  const dot = sprite(`${kind}:${scale}`, (r + 2) * scale * 2, (c, m) => {
+    c.beginPath(); c.arc(m, m, r * scale, 0, 2 * Math.PI);
+    c.fillStyle = fill; c.fill(); c.lineWidth = 2.5 * scale; c.strokeStyle = "#111"; c.stroke();
+  });
+  g.drawImage(dot, x - dot.width / 2, y - dot.height / 2);
   if (!name) return;
   g.font = `600 ${13 * scale}px system-ui, sans-serif`; g.textBaseline = "middle"; g.lineJoin = "round";
   // beside the dot on the right, or on the left where the right would run off the picture
@@ -94,7 +110,7 @@ function drawMark(g, kind, x, y, scale = 1, name = "", self = false) {
 
 const veil = document.createElement("canvas");
 /* One view of a map set onto a canvas. v: { set, zoom (CSS px per map pixel), x, y (CSS px of the map's corner),
-   dpr, lit: Path2D of the ground to keep bright (or null: all bright), dark (0-1), outlines: [[Path2D, color, width]],
+   dpr, ground(ctx, z): draws over the tiles, lit: Path2D of the ground to keep bright (or null: all bright), dark (0-1), outlines: [[Path2D, color, width]],
    marks: [{ x, y, kind, name, self }], portals: [[x, y]], redraw }. */
 function paintMap(ctx, v) {
   const W = ctx.canvas.width, H = ctx.canvas.height, d = v.dpr, z = v.zoom * d;
@@ -116,9 +132,10 @@ function paintMap(ctx, v) {
     const g = veil.getContext("2d");
     g.setTransform(1, 0, 0, 1, 0, 0); g.globalCompositeOperation = "source-over";
     g.fillStyle = MAP_TINT; g.fillRect(0, 0, W, H);
-    g.setTransform(...T); g.globalCompositeOperation = "destination-out"; g.fill(v.lit, "evenodd");
+    g.setTransform(...T); g.globalCompositeOperation = "destination-out"; g.fill(v.lit, "nonzero");
     ctx.globalAlpha = v.dark; ctx.drawImage(veil, 0, 0); ctx.globalAlpha = 1;
   }
+  if (v.ground) v.ground(ctx, z);  // the caller's own darkening and outlines (the Maps page caches them)
   ctx.setTransform(...T); ctx.lineJoin = "round";
   for (const [p, color, width, alpha = 1] of v.outlines || []) {
     ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.lineWidth = width * d / z; ctx.stroke(p);
@@ -126,16 +143,19 @@ function paintMap(ctx, v) {
   ctx.globalAlpha = 1;
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   const at = (x, y) => [(v.x + x * v.zoom) * d, (v.y + y * v.zoom) * d];
-  for (const [x, y] of v.portals || []) drawSwirl(ctx, ...at(x, y), d);
-  for (const m of v.marks || []) drawMark(ctx, m.kind, ...at(m.x, m.y), d, m.name, m.self);
+  const seen = ([x, y]) => x > -40 && y > -40 && x < W + 40 && y < H + 40;  // and the rest skipped
+  const swirl = sprite(`swirl:${d}`, 16 * d, (c, m) => drawSwirl(c, m, m, d));
+  for (const [x, y] of v.portals || []) { const p = at(x, y); if (seen(p)) ctx.drawImage(swirl, p[0] - swirl.width / 2, p[1] - swirl.height / 2); }
+  for (const m of v.marks || []) { const p = at(m.x, m.y); if (m.self || seen(p)) drawMark(ctx, m.kind, ...p, d, m.name, m.self); }
 }
 
 /* ---------- a window on some areas ---------- */
 // ids: the areas lit; self: a place the page is about, marked out (an outpost shows the areas around it)
-function mapHTML(ids, { self = null, height = MAP_MAX_H } = {}) {
+// town: an outpost whose own town to light (where its mission's ground shares its map id), not the mission's ground
+function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null } = {}) {
   ids = [...new Set(ids.map(Number))];
   if (!ids.length && !self) return "";
-  return `<figure class="gmap" data-ids="${ids.join(",")}"${self ? ` data-self="${self}"` : ""} data-h="${height}">
+  return `<figure class="gmap" data-ids="${ids.join(",")}"${self ? ` data-self="${self}"` : ""}${town ? ` data-town="${town}"` : ""} data-h="${height}">
     <div class="gmap-win" tabindex="0" role="img"><canvas></canvas></div>
     <figcaption><label>Darkness <input type="range" min="0" max="100" value="66"></label>
       <label title="Outposts, mission outposts and dungeons"><input type="checkbox" class="gmap-nomarks"${hideMarks() ? " checked" : ""}> Hide markers</label></figcaption>
@@ -158,7 +178,8 @@ function nearMarks(set, ids, self, box) {
 async function initMap(fig) {
   const ids = (fig.dataset.ids || "").split(",").filter(Boolean).map(Number), self = +fig.dataset.self || null;
   // only places on a map have ground to load
-  const walks = (await Promise.all(ids.map(loadWalk))).map((w, i) => w && { ...w, id: ids[i] }).filter(Boolean);
+  const town = +fig.dataset.town || null;
+  const walks = (await Promise.all(ids.map(loadWalk))).map((w, i) => w && { set: w.set, rings: ids[i] === town && w.town ? w.town : w.rings, id: ids[i] }).filter(Boolean);
   const place = LOCATIONS[self] || LOCATIONS[ids[0]];
   const set = walks[0]?.set ?? place?.set;
   if (set == null || !MAP_SETS[set]) { fig.remove(); return; }
@@ -183,17 +204,20 @@ async function initMap(fig) {
   const portals = [];
   for (const i of ids) for (const e of LOCATIONS[i]?.exits || []) if (e.at && !portals.some(p => p[0] === e.at[0] && p[1] === e.at[1])) portals.push(e.at);
   // each marker is also a link, for the keyboard and for clicks
-  win.insertAdjacentHTML("beforeend", marks.map(m => `<a class="gmap-mark" href="${HREF.place(m.id)}" title="${esc(m.name)} · ${MARK_STYLE[m.kind][2]}" aria-label="${esc(m.name)}"
-    style="left:${(100 * (m.x - box[0]) / bw).toFixed(2)}%;top:${(100 * (m.y - box[1]) / bh).toFixed(2)}%"></a>`).join(""));
+  win.insertAdjacentHTML("beforeend", marks.map(m => `<a class="gmap-mark" href="${HREF.place(m.id)}" title="${esc(m.name)} · ${MARK_STYLE[m.kind][2]}" aria-label="${esc(m.name)}"></a>`).join(""));
+  const links = [...win.querySelectorAll(".gmap-mark")];
+  // what is shown: the box, or a part of it (Shift+wheel zooms in, a drag then moves about)
+  let cur = [...box];
   let raf = 0;
   const draw = () => {
     raf = 0;
     const d = window.devicePixelRatio || 1, w = Math.round(win.clientWidth * d), h = Math.round(win.clientHeight * d);
     if (!w) return;
     if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
-    const zoom = win.clientWidth / bw;
+    const cw = cur[2] - cur[0], ch = cur[3] - cur[1], zoom = win.clientWidth / cw;
+    links.forEach((a, i) => { a.style.left = `${(100 * (marks[i].x - cur[0]) / cw).toFixed(2)}%`; a.style.top = `${(100 * (marks[i].y - cur[1]) / ch).toFixed(2)}%`; });
     win.classList.toggle("nomarks", nomarks.checked);
-    paintMap(ctx, { set, zoom, x: -box[0] * zoom, y: -box[1] * zoom, dpr: d, lit: path, dark: slider.value / 100,
+    paintMap(ctx, { set, zoom, x: -cur[0] * zoom, y: -cur[1] * zoom, dpr: d, lit: path, dark: slider.value / 100,
       outlines: path ? [[path, MAP_RING, 1.2, 0.8 * slider.value / 100]] : [], portals, marks: nomarks.checked ? [] : marks,
       redraw: () => { raf ||= requestAnimationFrame(draw); } });
   };
@@ -203,7 +227,34 @@ async function initMap(fig) {
     draw();
   });
   new ResizeObserver(draw).observe(win);
-  fig.mapView = { set, box, path, win, draw };  // for pages that draw more on it (the route finder)
+  // for pages that draw more on it (the route finder): box is what is shown now, onchange called when it moves,
+  // dragged set when the last press moved the map (so it isn't a click)
+  const mv = fig.mapView = { set, get box() { return cur; }, path, win, draw, onchange: null, dragged: false };
+  const show = b => {
+    const w = Math.min(bw, Math.max(bw / 12, b[2] - b[0])), h = w * bh / bw;
+    const x0 = Math.min(box[2] - w, Math.max(box[0], b[0])), y0 = Math.min(box[3] - h, Math.max(box[1], b[1]));
+    cur = [x0, y0, x0 + w, y0 + h];
+    draw(); mv.onchange?.();
+  };
+  win.addEventListener("wheel", e => {
+    if (!e.shiftKey) return;  // a plain wheel scrolls the page
+    e.preventDefault();
+    const r = win.getBoundingClientRect(), fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+    const k = Math.exp((e.deltaY || e.deltaX) * 0.002), w = (cur[2] - cur[0]) * k, h = (cur[3] - cur[1]) * k;  // Shift turns the wheel sideways on a Mac
+    const x = cur[0] + fx * (cur[2] - cur[0]), y = cur[1] + fy * (cur[3] - cur[1]);
+    show([x - fx * w, y - fy * h, x - fx * w + w, y - fy * h + h]);
+  }, { passive: false });
+  let grab = null;
+  win.addEventListener("pointerdown", e => { grab = { x: e.clientX, y: e.clientY, cur }; mv.dragged = false; });
+  win.addEventListener("pointermove", e => {
+    if (!grab || cur[2] - cur[0] >= bw) return;  // nothing to move about when all of it shows
+    const dx = e.clientX - grab.x, dy = e.clientY - grab.y;
+    if (!mv.dragged && Math.abs(dx) + Math.abs(dy) < 5) return;
+    mv.dragged = true;
+    const k = (cur[2] - cur[0]) / win.clientWidth, [x0, y0, x1, y1] = grab.cur;
+    show([x0 - dx * k, y0 - dy * k, x1 - dx * k, y1 - dy * k]);
+  });
+  window.addEventListener("pointerup", () => { grab = null; });
 }
 function initMaps(root = document) {
   return Promise.all([...root.querySelectorAll(".gmap:not([data-ready])")].map(fig => { fig.dataset.ready = ""; return initMap(fig); }));
@@ -211,5 +262,6 @@ function initMaps(root = document) {
 // the areas to show for a place: its own ground, or an outpost's surroundings (the areas its exits lead to)
 function placeAreas(l) {
   if (!l) return [];
-  return isOutpost(l) ? [l.id, ...(l.exits || []).map(e => e.to).filter(i => !isOutpost(LOCATIONS[i]))] : [l.id];
+  // an outpost, or a place with no ground of its own (a dungeon's entrance): it and the areas its exits lead to
+  return isOutpost(l) || !HAS_WALK.has(l.id) ? [l.id, ...(l.exits || []).map(e => e.to).filter(i => !isOutpost(LOCATIONS[i]))] : [l.id];
 }
