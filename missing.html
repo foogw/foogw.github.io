@@ -6,7 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <title>What's Missing</title>
-<link rel="stylesheet" href="style.css?v=c2972f25">
+<link rel="stylesheet" href="style.css">
 <style>
   .missing { max-width: 760px; padding-top: 8px; }
   .missing ul { list-style: none; margin: 0; padding: 0; }
@@ -41,17 +41,17 @@
   </ul>
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
-<script src="data/locations.js?v=908bbc78"></script>
-<script src="data/missions.js?v=546fb116"></script>
-<script src="data/maps.js?v=945e788b"></script>
-<script src="common.js?v=0da80b05"></script>
+<script src="game/ground.js"></script>
+<script src="game/maps.js"></script>
+<script src="game/missions.js"></script>
+<script src="common.js"></script>
+<script src="mapwidget.js"></script>
 <script>
-// explorable areas and PvE missions with no map window, worked out from the data so the list stays current
-const placeHref = name => `locations#${new URLSearchParams({ place: name })}`;
+// explorable areas and PvE missions with no walkable ground on a map, worked out from the data so the list stays current
 const pages = [
-  ...window.GW_LOCATIONS.filter(p => p.type === "explorable").map(p => [p.name, placeHref(p.name)]),
-  ...window.GW_MISSIONS.filter(m => m.kind === "PvE").map(m => [m.name, missionHref(m.name)]),
-].filter(([n]) => !window.GW_MAPS[n]);
+  ...Object.values(LOCATIONS).filter(l => [2, 18].includes(l.type) && !HAS_WALK.has(l.id)).map(l => [l.name, HREF.place(l.id)]),
+  ...Object.values(MISSIONS).filter(m => m.kind !== "pvp" && !HAS_WALK.has(m.id)).map(m => [m.name, HREF.mission(m.id)]),
+];
 const seen = new Set();
 document.getElementById("nomap").innerHTML = pages.filter(([n]) => !seen.has(n) && seen.add(n))
   .sort(([a], [b]) => a.localeCompare(b)).map(([n, h]) => `<a href="${esc(h)}">${esc(n)}</a>`).join(" · ");

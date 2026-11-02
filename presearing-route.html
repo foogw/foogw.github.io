@@ -6,7 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <title>Pre-Searing Route Finder</title>
-<link rel="stylesheet" href="style.css?v=c2972f25">
+<link rel="stylesheet" href="style.css">
 <style>
   .route { max-width: 1000px; padding-top: 8px; }
   .route .bar { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; margin: 10px 0; font-size: 14px; }
@@ -35,36 +35,37 @@
   <div id="map"></div>
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
-<script src="data/locations.js?v=908bbc78"></script>
-<script src="data/world.js?v=242e5149"></script>
-<script src="data/maps.js?v=945e788b"></script>
-<script src="data/missions.js?v=546fb116"></script>
-<script src="common.js?v=0da80b05"></script>
-<script src="mapwidget.js?v=adbbb6b7"></script>
-<script src="walkroute.js?v=c3f6921c"></script>
+<script src="game/ground.js"></script>
+<script src="game/maps.js"></script>
+<script src="common.js"></script>
+<script src="mapwidget.js"></script>
+<script src="walkroute.js"></script>
 <script>
-const R = GW_REGIONS.get("presearing-main");
-const UNITS = 96;  // game units per picture pixel (32 pixels per 3072-unit cell)
+// every pre-Searing area on the surface map, lit; two clicks give the way between them
+const IDS = Object.values(LOCATIONS).filter(l => l.region === 7 && l.set === 1 && HAS_WALK.has(l.id)).map(l => l.id);
+const UNITS = 96;  // game units per map pixel (32 pixels per 3072-unit cell)
 const status = document.getElementById("status"), clear = document.getElementById("clear");
-document.getElementById("map").innerHTML = regionMapHTML(R.id, 760);
-initMaps(document.getElementById("map"));
-const win = document.querySelector(".gmap-win");
-let grid;
-walkGrid(R).then(g => { grid = g; status.textContent = "Click where you are."; });
+document.getElementById("map").innerHTML = mapHTML(IDS, { height: 760 });
+let grid, view, win;
+Promise.all([initMaps(document.getElementById("map")), walkGrid(IDS)]).then(([, g]) => {
+  grid = g; view = document.querySelector(".gmap").mapView; win = view.win;
+  status.textContent = "Click where you are.";
+  win.addEventListener("click", onClick, true);
+});
 
 let ends = [];
+// a point in map pixels, as a share of the window, and the way as an SVG over it
+const pct = ([x, y]) => [100 * (x - view.box[0]) / (view.box[2] - view.box[0]), 100 * (y - view.box[1]) / (view.box[3] - view.box[1])];
 function draw(pts) {
   for (const e of win.querySelectorAll(".end, .gmap-path")) e.remove();
-  ends.forEach(([x, y], k) => win.insertAdjacentHTML("beforeend",
-    `<span class="end ${k ? "b" : "a"}" style="left:${100 * x / R.w}%;top:${100 * y / R.h}%"></span>`));
-  if (pts) win.insertAdjacentHTML("beforeend", pathSVG(R, pts));
+  ends.forEach((p, k) => { const [x, y] = pct(p); win.insertAdjacentHTML("beforeend", `<span class="end ${k ? "b" : "a"}" style="left:${x}%;top:${y}%"></span>`); });
+  if (pts) win.insertAdjacentHTML("beforeend", `<svg class="gmap-path" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="${pts.map(p => pct(p).join(",")).join(" ")}"/></svg>`);
 }
-win.addEventListener("click", e => {
+function onClick(e) {
   e.preventDefault();  // a marker is a link: here a click on it picks that spot
-  if (!grid) return;
-  const r = win.getBoundingClientRect();
+  const r = win.getBoundingClientRect(), [x0, y0, x1, y1] = view.box;
   if (ends.length === 2) ends = [];
-  ends.push([(e.clientX - r.left) / r.width * R.w, (e.clientY - r.top) / r.height * R.h]);
+  ends.push([x0 + (e.clientX - r.left) / r.width * (x1 - x0), y0 + (e.clientY - r.top) / r.height * (y1 - y0)]);
   clear.hidden = false;
   if (ends.length === 1) { draw(null); status.textContent = "Now click where you want to go."; return; }
   const t = performance.now(), pts = walkRoute(grid, ...ends);
@@ -73,7 +74,7 @@ win.addEventListener("click", e => {
   for (let i = 1; i < pts.length; i++) len += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
   draw(pts);
   status.textContent = `About ${Math.round(len * UNITS).toLocaleString()} game units (found in ${Math.round(performance.now() - t)} ms). Click to start again.`;
-}, true);
+}
 clear.onclick = () => { ends = []; draw(null); clear.hidden = true; status.textContent = "Click where you are."; };
 </script>
 </body>

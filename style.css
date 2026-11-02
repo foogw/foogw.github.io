@@ -663,7 +663,7 @@ button.rnd-copy:hover { color: var(--text); }
 .lbox, .lexits { padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .ltype { --c: var(--loc-out); font-size: 11px; font-weight: 600; border-radius: 4px; padding: 1px 6px; white-space: nowrap;
   color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 45%, var(--line)); }
-.ltype.explorable, .ltype.dungeon { --c: var(--loc-exp); }
+.ltype.t2, .ltype.t18, .ltype.t8, .ltype.t9 { --c: var(--loc-exp); }
 .compass { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .compass .cell { display: grid; gap: 6px; align-content: start; min-height: 54px; position: relative; white-space: normal; overflow: visible; }
 .compass .cell.none { border: 1px dashed color-mix(in srgb, var(--line) 70%, transparent); border-radius: 8px; }

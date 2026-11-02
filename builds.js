@@ -1,33 +1,25 @@
 "use strict";
 
-const { teams: TEAMS, builds: BUILDS, singles: SINGLES = [], players: PLAYERS = [] } = window.GW_BUILDS;
-const BUILD = new Map(BUILDS.map(b => [b.id, b]));
-const SKILL = new Map(window.GW_SKILLS.map(s => [s.id, s]));
-const MISSIONS = new Set((window.GW_MISSIONS || []).map(m => m.name));
-const PROF_NAMES = ["None", "Warrior", "Ranger", "Monk", "Necromancer", "Mesmer", "Elementalist", "Assassin", "Ritualist", "Paragon", "Dervish"];
+const { teams: TEAMS, singles: SINGLES = [], players: PLAYERS = [] } = BUILDDATA;
+const BUILD = BUILDS;
 const MODE_HINT = { Fight: "Fight: attacks what you target and what attacks the party",
   Guard: "Guard: fights only to defend the party", Avoid: "Avoid: stays out of combat" };
+const attrProf = id => SKILLDATA.attributes[id]?.profession;
 
-// each attribute's profession, from the skills that use it (Soul Reaping and the like have no skills of their own)
-const ATTR_PROF = Object.fromEntries(window.GW_SKILLS.filter(s => s.attribute && s.profession !== "None").map(s => [s.attribute, s.profession]));
-Object.assign(ATTR_PROF, { Strength: "Warrior", Expertise: "Ranger", "Divine Favor": "Monk", "Soul Reaping": "Necromancer",
-  "Fast Casting": "Mesmer", "Energy Storage": "Elementalist", "Critical Strikes": "Assassin", "Spawning Power": "Ritualist",
-  Leadership: "Paragon", Mysticism: "Dervish" });
-
-for (const b of BUILDS) {
+for (const b of BUILD.values()) {
   try { b._bar = TemplateCode.decode(b.code); } catch { b._bar = null; }
-  b._profs = b._bar ? b._bar.professions.map(p => PROF_NAMES[p]) : [];
+  b._profs = b._bar ? [...b._bar.professions] : [];
   // a bar with nothing of its primary profession (no skill, no attribute) fits any primary: "Any/Paragon"
-  if (b._bar && !b._bar.skills.some(id => SKILL.get(id)?.profession === b._profs[0])
-    && !b._bar.attributes.some(a => ATTR_PROF[ATTRIBUTES[a.id]] === b._profs[0])) b._profs[0] = "None";
+  if (b._bar && !b._bar.skills.some(id => SKILLS[id]?.profession === b._profs[0])
+    && !b._bar.attributes.some(a => attrProf(a.id) === b._profs[0])) b._profs[0] = 0;
 }
 
-// always two icon slots wide, so build names line up whether or not a build has a secondary profession
+// always two icon slots wide, so build names line up whether or not a build has a secondary profession;
 // an "Any" primary shows the grey any-profession icon; a missing secondary shows nothing
-const profIcons = b => `<span class="bd-pi">${b._profs.map((p, i) => (p !== "None" ? p : i === 0 ? "Any" : null)).filter(Boolean)
-  .map(p => `<img class="bd-prof" src="img/prof/${p}.png" alt="" title="${p}">`).join("")}</span>`;
+const shownProfs = b => b._profs.filter((p, i) => p || i === 0);
+const profIcons = b => `<span class="bd-pi">${shownProfs(b).map(p => `<img class="bd-prof" src="${profImg(p)}" alt="" title="${p ? PROFS[p] : "Any"}">`).join("")}</span>`;
 // "Any" for an any-primary bar; no secondary is simply left out ("Monk", not "Monk / Any")
-const profText = b => b._profs.map((p, i) => (p !== "None" ? p : i === 0 ? "Any" : null)).filter(Boolean).join(" / ");
+const profText = b => shownProfs(b).map(p => (p ? PROFS[p] : "Any")).join(" / ");
 
 // the player's tag, or a hero's behaviour when the build sets one
 const modeHTML = b => (b.role === "You" ? '<span class="bd-mode you">You</span>'
@@ -35,7 +27,7 @@ const modeHTML = b => (b.role === "You" ? '<span class="bd-mode you">You</span>'
 
 // attributes with their rune bonuses ("Communing 12+3+1"), then the insignia
 const attrsHTML = b => byRank(b._bar?.attributes || [], b.runes).map(a => {
-  const name = ATTRIBUTES[a.id] || "", runes = b.runes?.[name];
+  const name = ATTRIBUTES[a.id] || "", runes = b.runes?.[a.id];
   return `<span>${esc(name)} ${a.rank}${runes ? `+${esc(runes)}` : ""}</span>`;
 }).join("") + (insignia(b) ? `<span class="bd-ins">${esc(insignia(b))}</span>` : "");
 // the armor insignia, from the build or its gear notes ("Blessed on every piece" reads "Blessed")
@@ -44,8 +36,8 @@ const insignia = b => (b.insignia || b.gear?.insignias || "").replace(/ on every
 function barHTML(b) {
   if (!b._bar) return '<p class="dim">This template code could not be read.</p>';
   return `<div class="bd-bar">${b._bar.skills.map(id => {
-    const s = SKILL.get(id);
-    return s ? `<a class="bd-skill${s.elite ? " elite" : ""}" href="skills#skill=${id}" title="${esc(s.name)}" style="--pc:${profVar(s.profession)}">
+    const s = SKILLS[id];
+    return s ? `<a class="bd-skill${s.elite ? " elite" : ""}" href="${HREF.skill(id)}" title="${esc(s.name)}" style="--pc:${profVar(s.profession)}">
       <img src="img/skills/${id}.jpg" alt="" loading="lazy" onerror="this.remove()"><span>${esc(s.name)}</span></a>` : `<span class="bd-skill bd-none"><i class="bd-noskill">?</i><span>Empty</span></span>`;
   }).join("")}</div>`;
 }
@@ -92,8 +84,8 @@ function overviewHTML(builds, groups) {
     <a class="bd-oname" href="#card-${card(b)}" data-card="card-${card(b)}">${profIcons(b)}<span>${esc(b.name)}</span></a>
     ${modeHTML(b) || "<span></span>"}
     <div class="bd-obar">${(b._bar?.skills || []).map(id => {
-      const s = SKILL.get(id);
-      return s ? `<a href="skills#skill=${id}" title="${esc(s.name)}" class="${s.elite ? "elite" : ""}"><img src="img/skills/${id}.jpg" alt="${esc(s.name)}" loading="lazy"></a>` : '<i class="bd-noskill" title="Empty slot">?</i>';
+      const s = SKILLS[id];
+      return s ? `<a href="${HREF.skill(id)}" title="${esc(s.name)}" class="${s.elite ? "elite" : ""}"><img src="img/skills/${id}.jpg" alt="${esc(s.name)}" loading="lazy"></a>` : '<i class="bd-noskill" title="Empty slot">?</i>';
     }).join("")}</div>
     <a class="bd-obuilder" href="${esc(builderHref(b))}" title="Open in builder">Builder →</a>
   </div>`).join("")}</section>`;
@@ -101,8 +93,8 @@ function overviewHTML(builds, groups) {
 
 function placeLink(t) {
   const parts = [];
-  if (t.place) parts.push(`<a href="locations#${new URLSearchParams({ place: t.place })}">${esc(t.place)}</a>`);
-  if (t.mission && MISSIONS.has(t.mission)) parts.push(`<a href="${esc(missionHref(t.mission))}">mission details</a>`);
+  if (t.place) parts.push(LINK.place(t.place));
+  if (t.mission && MISSIONS[t.mission]) parts.push(LINK.mission(t.mission, "mission details"));
   return parts.join(" · ");
 }
 
@@ -129,8 +121,8 @@ function teamHTML(t) {
 }
 
 // a bar as a row of small icons, empty slots as "?"
-const miniBar = b => (b._bar?.skills || []).map(id => (SKILL.has(id)
-  ? `<img src="img/skills/${id}.jpg" alt="" loading="lazy" title="${esc(SKILL.get(id).name)}"${SKILL.get(id).elite ? ' class="elite"' : ""}>`
+const miniBar = b => (b._bar?.skills || []).map(id => (SKILLS[id]
+  ? `<img src="img/skills/${id}.jpg" alt="" loading="lazy" title="${esc(SKILLS[id].name)}"${SKILLS[id].elite ? ' class="elite"' : ""}>`
   : '<i class="bd-noskill" title="Empty slot">?</i>')).join("");
 
 // player and hero builds, each list narrowed to one profession (their primary) on its own
@@ -138,9 +130,9 @@ const listProf = { players: null, singles: null };
 function singlesHTML(key, title, ids) {
   const all = ids.map(id => BUILD.get(id)).filter(Boolean);
   if (!all.length) return "";
-  const profs = PROFS.map(([p]) => p).filter(p => all.some(b => b._profs[0] === p));
-  const chips = `<div class="profs bd-sprofs">${profs.map(p => `<button class="prof-chip" data-list="${key}" data-sprof="${p}" aria-pressed="${p === listProf[key]}" style="--c:${profVar(p)}">${p}</button>`).join("")}</div>`;
-  const rank = b => PROF_ORDER[b._profs[0]] ?? 99;
+  const profs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0].filter(p => all.some(b => b._profs[0] === p));
+  const chips = `<div class="profs bd-sprofs">${profs.map(p => `<button class="prof-chip" data-list="${key}" data-sprof="${p}" aria-pressed="${p === listProf[key]}" style="--c:${profVar(p)}">${p ? PROFS[p] : "Any"}</button>`).join("")}</div>`;
+  const rank = b => b._profs[0] || 99;
   const shown = all.filter(b => !listProf[key] || b._profs[0] === listProf[key])
     .sort((x, y) => rank(x) - rank(y) || cmpStr(x.name, y.name));
   return `<h2 class="bd-section">${title}</h2>${chips}<div class="bd-singles">${shown.map(b =>
@@ -188,19 +180,13 @@ document.addEventListener("click", e => {
   const chip = e.target.closest("[data-sprof]");
   if (chip) {
     const key = chip.dataset.list;
-    listProf[key] = listProf[key] === chip.dataset.sprof ? null : chip.dataset.sprof;
+    listProf[key] = listProf[key] === +chip.dataset.sprof ? null : +chip.dataset.sprof;
     $("index").innerHTML = indexHTML();
     return;
   }
   // the address names the team, so a jump to a card scrolls instead of changing it
   const card = e.target.closest("[data-card]");
-  if (card) { e.preventDefault(); $(card.dataset.card)?.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
-  const b = e.target.closest("[data-copy]");
-  if (!b) return;
-  navigator.clipboard?.writeText(b.dataset.copy).then(() => {
-    b.textContent = "Copied";
-    setTimeout(() => { b.textContent = "Copy code"; }, 1500);
-  });
+  if (card) { e.preventDefault(); $(card.dataset.card)?.scrollIntoView({ behavior: "smooth", block: "start" }); }
 });
 window.addEventListener("hashchange", render);
 render();

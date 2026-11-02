@@ -1,7 +1,6 @@
 "use strict";
 
-const ROT = Object.fromEntries(window.GW_ROTATIONS.map(r => [r.key, r]));
-const MISSION_NAMES = new Set(window.GW_MISSIONS.filter(m => m.kind === "PvE").map(m => m.name));
+const ROT = ROTATIONS;
 const DAILY = ["zaishen-mission", "zaishen-bounty", "zaishen-vanquish", "zaishen-combat", "wanted",
   "nicholas-sandford", "vanguard"].map(k => ROT[k]);
 const WEEKLY = ["nicholas-traveler", "weekly-pve", "weekly-pvp"].map(k => ROT[k]);
@@ -28,21 +27,20 @@ const NOW = [["zaishen-mission", "Zaishen Mission"], ["zaishen-bounty", "Zaishen
   ["nicholas-traveler", "Nicholas"], ["weekly-pve", "PvE bonus"], ["weekly-pvp", "PvP bonus"]];
 
 function renderNow() {
-  $("now").innerHTML = rotationListHTML(NOW, ROT, MISSION_NAMES);
+  $("now").innerHTML = rotationListHTML(NOW);
 }
 
 function matches(e, ts) {
   if (!ts.length) return true;
   // the entry's name and place (a bounty's area too; no region, no aliases), each search word the start of one of
   // their words, so a search marks just what it names ("rn" is not inside "Southern")
-  const words = fold([e.name, e.where].filter(Boolean).join(" ")).split(/[\s'-]+/);
+  const words = fold([entryName(e), e.creature && locName(e.location)].filter(Boolean).join(" ")).split(/[\s'-]+/);
   return ts.every(t => words.some(w => w.startsWith(t)));
 }
 
 // a cell the search matched is marked as a whole, so it stands out in a wide table
 function cell(r, e, ts) {
-  return ts.length && matches(e, ts) ? `<td class="r-hit">${rotationEntryHTML(r, e, MISSION_NAMES)}</td>`
-    : `<td>${rotationEntryHTML(r, e, MISSION_NAMES)}</td>`;
+  return `<td${ts.length && matches(e, ts) ? ' class="r-hit"' : ""}>${entryHTML(e)}</td>`;
 }
 
 // time to the column's next reset: 5h 06m, or 3d 4h for a weekly
@@ -88,23 +86,13 @@ function render() {
 }
 
 /* ---------- one weekly PvE bonus's page ---------- */
-const BONUS = new Map((window.GW_BONUSES || []).map(b => [b.name, b]));
-const PLACES = new Set((window.GW_LOCATIONS || []).map(p => p.name));
 const fmtWeek = withYear({ weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
-// a place, or its explorable twin when an outpost has the same name
-const placeLink = name => {
-  const place = [name, `${name} (explorable)`].find(n => PLACES.has(n));
-  return place ? `<a href="locations#${new URLSearchParams({ place })}">${esc(name)}</a>` : esc(name);
-};
-// tips mark links as {place:Name} and {page:href|text}
-const tipHTML = t => esc(t).replace(/\{place:([^}]+)\}/g, (_, n) => placeLink(n))
-  .replace(/\{page:([^|}]+)\|([^}]+)\}/g, (_, href, text) => `<a href="${href}">${text}</a>`);
 
 // the weeks this bonus runs, from the current one on: [start, end] in ms
-function bonusWeeks(name, count) {
+function bonusWeeks(id, count) {
   const r = ROT["weekly-pve"], k0 = Rotation.period(r), out = [];
   for (let k = k0; out.length < count; k++) {
-    if (Rotation.entry(r, k).name === name) out.push([Rotation.startsAt(r, k), Rotation.startsAt(r, k + 1)]);
+    if (Rotation.entry(r, k).bonus === id) out.push([Rotation.startsAt(r, k), Rotation.startsAt(r, k + 1)]);
   }
   return out;
 }
@@ -118,15 +106,14 @@ function dailyPicks(key, [start, end]) {
 }
 
 function bonusPageHTML(b) {
-  const weeks = bonusWeeks(b.name, 4);
+  const weeks = bonusWeeks(b.id, 4);
   const now = Date.now();
   const active = weeks[0][0] <= now;
   const status = active ? `Active now, ends in ${timeLeft(weeks[0][1] - now)}` : `Next: ${fmtWeek.format(weeks[0][0])}`;
   const week = weeks[0];
   const picks = b.daily ? dailyPicks(b.daily, week) : [];
-  const pickHTML = e => (b.daily === "zaishen-mission" ? rotationEntryHTML(ROT[b.daily], e, MISSION_NAMES)
-    : b.daily === "zaishen-vanquish" ? placeLink(e.name) : esc(e.name));
-  const others = window.GW_BONUSES.filter(x => x !== b);
+  const pickHTML = e => entryHTML(e) + (e.creature ? entryWhere(e) : "");
+  const others = Object.values(BONUSES).filter(x => x !== b);
   return `<p class="back"><a href="#">← Rotations</a></p>
     <div class="sp-head" style="--pc:var(--accent)">
       <div class="sp-title"><h2>${esc(b.name)} Bonus</h2><div class="sp-sub">Weekly PvE bonus · Monday 15:00 UTC to the next Monday</div></div>
@@ -136,7 +123,7 @@ function bonusPageHTML(b) {
       <div class="lside">
         <section class="lbox"><h4>What it does</h4><p class="sp-desc">${esc(b.effect)}</p>
           <p class="dim sp-concise">In game: “${esc(b.announcement)}”</p></section>
-        <section class="lbox"><h4>Best things to do</h4><ul class="lnotes">${b.tips.map(t => `<li>${tipHTML(t)}</li>`).join("")}</ul></section>
+        <section class="lbox"><h4>Best things to do</h4><ul class="lnotes">${b.tips.map(t => `<li>${text(t)}</li>`).join("")}</ul></section>
       </div>
       <div class="lside">
         <section class="lbox"><h4>When</h4><ul class="lrows">${weeks.map(([s, e], i) =>
@@ -145,7 +132,7 @@ function bonusPageHTML(b) {
         ${picks.length ? `<section class="lbox"><h4>${{ "zaishen-mission": "Zaishen missions", "zaishen-bounty": "Zaishen bounties", "zaishen-vanquish": "Zaishen vanquishes" }[b.daily]} ${active ? "this week" : "that week"}</h4><ul class="lrows">${picks.map(([t, e]) =>
           `<li><span>${pickHTML(e)}</span><span class="dim">${fmtDay.format(t)}</span></li>`).join("")}</ul></section>` : ""}
         <section class="lbox"><h4>Other PvE bonuses</h4><div class="chips">${others.map(x =>
-          `<a class="chip" style="text-decoration:none" href="#${new URLSearchParams({ bonus: x.name })}">${esc(x.name)}</a>`).join("")}</div></section>
+          `<a class="chip" style="text-decoration:none" href="${hash({ bonus: x.id })}">${esc(x.name)}</a>`).join("")}</div></section>
       </div>
     </div>
     <p class="dim" style="font-size:12px;margin-top:10px">Effects from the <a href="https://web.archive.org/web/2025/https://wiki.guildwars.com/wiki/Weekly_bonuses" target="_blank" rel="noopener">Guild Wars Wiki</a> (archived); tips written for this site.</p>`;
@@ -154,7 +141,7 @@ function bonusPageHTML(b) {
 // the rotation tables, or one bonus's page when the address names one
 function show() {
   const p = new URLSearchParams(location.hash.slice(1));
-  const b = BONUS.get(p.get("bonus"));
+  const b = BONUSES[p.get("bonus")];
   $("browse").hidden = !!b;
   $("bonus").hidden = !b;
   if (b) {

@@ -1,7 +1,8 @@
 "use strict";
 
-const HEROES = window.GW_HEROES;
-const CAMP_COLOR = { Prophecies: "--p-paragon", Factions: "--p-ritualist", Nightfall: "--p-elementalist", "Eye of the North": "--p-monk" };
+const ALL = Object.values(HEROES);
+// the diagram's groups and boxes go by campaign names
+const campNames = h => h.campaigns.map(c => CAMPAIGNS[c]);
 
 /* ---------- diagram ----------
    A 6 × 3 grid. Each campaign is a box over some cells; a hero group sits in the cells that lie
@@ -29,29 +30,29 @@ const GROUPS = [
   { key: "Factions", area: "1 / 5 / 2 / 7", cls: "below-label trim-right" },
   { key: "Nightfall", area: "3 / 3 / 4 / 6" },
 ];
-const groupKey = h => h.campaigns.join("+");
+const groupKey = h => campNames(h).join("+");
 const groupTitle = key => (key.includes("+") ? key.split("+").join(" + ") : `${key} only`);
 
-const profColor = p => (p === "Any" ? "var(--p-none)" : profVar(p));
-const chip = h => `<a class="hchip" href="${esc(heroHref(h.name))}" style="--pc:${profColor(h.profession)}" title="${esc(h.profession)}">
-  <img src="img/prof/${esc(h.profession)}.png" alt="">${esc(h.name)}</a>`;
+const profName = h => (h.profession ? PROFS[h.profession] : "Any");
+const chip = h => `<a class="hchip" href="${HREF.hero(h.id)}" style="--pc:${profVar(h.profession)}" title="${profName(h)}">
+  <img src="img/prof/${profName(h)}.png" alt="">${esc(h.name)}</a>`;
 
 // either/or heroes ("Margrid or Master of Whispers") stay together
 function units(list) {
   const done = new Set(), out = [];
   for (const h of list) {
-    if (done.has(h.name)) continue;
-    const alt = list.filter(x => h.alternative_to.includes(x.name));
-    [h, ...alt].forEach(x => done.add(x.name));
+    if (done.has(h.id)) continue;
+    const alt = list.filter(x => (h.alternative_to || []).includes(x.id));
+    [h, ...alt].forEach(x => done.add(x.id));
     out.push(alt.length ? `<span class="halt">${[h, ...alt].map(chip).join('<i>or</i>')}</span>` : chip(h));
   }
   return out.join("");
 }
 
 function renderVenn() {
-  const boxes = BOXES.map(b => `<div class="vbox lbl-${b.label}" style="grid-area:${b.area};--c:var(${CAMP_COLOR[b.camp]})"><span>${esc(b.camp)}</span></div>`);
+  const boxes = BOXES.map(b => `<div class="vbox lbl-${b.label}" style="grid-area:${b.area};--c:var(${CAMP_COLOR[CAMPAIGNS.indexOf(b.camp)]})"><span>${esc(b.camp)}</span></div>`);
   const groups = GROUPS.map(g => {
-    const list = HEROES.filter(h => groupKey(h) === g.key);
+    const list = ALL.filter(h => groupKey(h) === g.key);
     if (!list.length) return "";
     return `<div class="vgroup${g.cls ? ` ${g.cls}` : ""}" style="grid-area:${g.area}">
       <h4>${esc(groupTitle(g.key))}</h4><div class="vchips">${units(list)}</div></div>`;
@@ -62,23 +63,23 @@ function renderVenn() {
 /* ---------- list ---------- */
 
 function recruitHTML(h) {
-  // link each recruiting step the story flow shows
-  let text = esc(h.recruit);
-  for (const [step, [camp, id]] of Object.entries(h.links)) {
-    const href = `quests#${new URLSearchParams({ c: camp, q: id })}`;
-    text = text.replace(esc(step), `<a href="${esc(href)}">${esc(step)}</a>`);
+  // link each recruiting step: the quest's or mission's page
+  let t = esc(h.recruit);
+  for (const st of h.recruit_steps || []) {
+    const name = st.quest ? QUESTS[st.quest]?.name : locName(st.mission);
+    if (name) t = t.replace(esc(name), st.quest ? LINK.quest(st.quest) : whereLink(st.mission));
   }
-  return text;
+  return t;
 }
 
 const SHORT = { Prophecies: "Proph", Factions: "Factions", Nightfall: "NF", "Eye of the North": "EotN" };
-const campsHTML = h => (h.campaigns.length === 3 && !h.campaigns.includes("Eye of the North") ? "All 3"
-  : h.campaigns.map(c => `<span style="color:var(${CAMP_COLOR[c]})">${SHORT[c]}</span>`).join(" + "));
+const campsHTML = h => (h.campaigns.length === 3 && !h.campaigns.includes(4) ? "All 3"
+  : h.campaigns.map(c => `<span style="color:var(${CAMP_COLOR[c]})">${SHORT[CAMPAIGNS[c]]}</span>`).join(" + "));
 
 // the builds suggested for each hero (the "heroes" of each build on the Builds page)
 const SUGGESTED = new Map();
-for (const b of window.GW_BUILDS?.builds || []) {
-  for (const name of b.heroes || []) (SUGGESTED.get(name) || SUGGESTED.set(name, []).get(name)).push(b);
+for (const b of BUILDS.values()) {
+  for (const id of b.heroes || []) (SUGGESTED.get(id) || SUGGESTED.set(id, []).get(id)).push(b);
 }
 // the whole bar opens in the builder; the code can also be copied straight away
 function barIcons(code) {
@@ -87,8 +88,7 @@ function barIcons(code) {
   return skills.map(id => (id ? `<img src="img/skills/${id}.jpg" alt="" loading="lazy">` : '<i class="hb-none">?</i>')).join("");
 }
 const COPY_ICON = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>';
-const DONE_ICON = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-const suggestedHTML = h => (SUGGESTED.get(h.name) || []).map(b =>
+const suggestedHTML = h => (SUGGESTED.get(h.id) || []).map(b =>
   `<div class="hbuild">
     <a class="hb-bar" href="${esc(builderHref(b))}" title="Open ${esc(b.name)} in the builder">${barIcons(b.code)}</a>
     <button class="hb-copy" data-copy="${esc(b.code)}" title="Copy the template code" aria-label="Copy the template code">${COPY_ICON}</button>
@@ -97,14 +97,14 @@ const suggestedHTML = h => (SUGGESTED.get(h.name) || []).map(b =>
 function renderList() {
   const order = ["Eye of the North", "Prophecies+Eye of the North", "Prophecies", "Prophecies+Nightfall", "Nightfall",
     "Factions+Nightfall", "Factions", "Prophecies+Factions+Nightfall"];
-  const rows = [...HEROES].sort((a, b) => order.indexOf(groupKey(a)) - order.indexOf(groupKey(b)));
+  const rows = [...ALL].sort((a, b) => order.indexOf(groupKey(a)) - order.indexOf(groupKey(b)));
   let html = `<div class="hrow hhead"><span>Campaigns</span><span>Hero</span><span>Suggested build</span><span>How to recruit</span></div>`, group;
   for (const h of rows) {
     const first = groupKey(h) !== group;
     group = groupKey(h);
-    html += `<div class="hrow${first ? " first" : ""}" style="--pc:${profColor(h.profession)}">
+    html += `<div class="hrow${first ? " first" : ""}" style="--pc:${profVar(h.profession)}">
       <div class="hcamp" title="${esc(groupTitle(group))}">${campsHTML(h)}</div>
-      <div class="hname"><img src="img/prof/${esc(h.profession)}.png" alt="" title="${esc(h.profession === "Any" ? "Any profession" : h.profession)}"><a href="${esc(heroHref(h.name))}"><b>${esc(h.name)}</b></a></div>
+      <div class="hname"><img src="img/prof/${profName(h)}.png" alt="" title="${h.profession ? profName(h) : "Any profession"}"><a href="${HREF.hero(h.id)}"><b>${esc(h.name)}</b></a></div>
       <div class="hbuilds">${suggestedHTML(h)}</div>
       <div>${recruitHTML(h)}</div>
     </div>`;
@@ -113,32 +113,28 @@ function renderList() {
 }
 
 /* ---------- one hero's page ---------- */
-const HERO = new Map(HEROES.map(h => [h.name, h]));
-const MISSIONS = window.GW_MISSIONS || [];
-const needsHTML = h => h.campaigns.join(", ").replace(/, ([^,]+)$/, " and $1");
-
 function heroPageHTML(h) {
-  const alts = h.alternative_to.map(n => HERO.get(n)).filter(Boolean);
-  const missions = MISSIONS.filter(m => (m.hero || "").split(" and ").includes(h.name));
-  const builds = SUGGESTED.get(h.name) || [];
-  const single = new Set(window.GW_BUILDS?.singles || []);
+  const alts = (h.alternative_to || []).map(i => HEROES[i]).filter(Boolean);
+  const missions = Object.values(MISSIONS).filter(m => (m.hero || []).includes(h.id));
+  const builds = SUGGESTED.get(h.id) || [];
+  const single = new Set(BUILDDATA?.singles || []);
   return `<p class="back"><a href="#">← All heroes</a></p>
-    <div class="sp-head" style="--pc:${profColor(h.profession)}">
-      <img class="sp-icon hp-icon" src="img/prof/${esc(h.profession)}.png" alt="">
-      <div class="sp-title"><h2>${esc(h.name)}</h2><div class="sp-sub">${esc(h.profession === "Any" ? "Any profession" : h.profession)} · needs ${esc(needsHTML(h))}</div></div>
+    <div class="sp-head" style="--pc:${profVar(h.profession)}">
+      <img class="sp-icon hp-icon" src="img/prof/${profName(h)}.png" alt="">
+      <div class="sp-title"><h2>${esc(h.name)}</h2><div class="sp-sub">${h.profession ? profName(h) : "Any profession"} · needs ${esc(listText(campNames(h)))}</div></div>
     </div>
     <div class="lgrid">
       <div class="lside">
         <section class="lbox"><h4>How to recruit</h4><p class="hp-recruit">${recruitHTML(h)}</p>
-          ${alts.length ? `<p class="dim">You get either ${esc(h.name)} or ${alts.map(a => `<a href="${esc(heroHref(a.name))}">${esc(a.name)}</a>`).join(" or ")}, not both.</p>` : ""}</section>
+          ${alts.length ? `<p class="dim">You get either ${esc(h.name)} or ${alts.map(a => LINK.hero(a.id)).join(" or ")}, not both.</p>` : ""}</section>
         ${builds.length ? `<section class="lbox"><h4>Suggested builds</h4>${builds.map(b => `<div class="hp-build">
-          <div class="hp-bname">${single.has(b.id) ? `<a href="builds#${new URLSearchParams({ build: b.id })}">${esc(b.name)}</a>` : esc(b.name)}</div>
+          <div class="hp-bname">${single.has(b.id) ? `<a href="builds${hash({ build: b.id })}">${esc(b.name)}</a>` : esc(b.name)}</div>
           <div class="hbuild"><a class="hb-bar" href="${esc(builderHref(b))}" title="Open ${esc(b.name)} in the builder">${barIcons(b.code)}</a>
           <button class="hb-copy" data-copy="${esc(b.code)}" title="Copy the template code" aria-label="Copy the template code">${COPY_ICON}</button></div></div>`).join("")}</section>` : ""}
       </div>
       <div class="lside">
         ${missions.length ? `<section class="lbox"><h4>Required in</h4><ul class="lrows">${missions.map(m =>
-          `<li><a href="${esc(missionHref(m.name))}">${esc(m.name)}</a><span class="dim">${esc(m.campaign || "")}</span></li>`).join("")}</ul></section>` : ""}
+          `<li>${LINK.mission(m.id)}<span class="dim">${CAMPAIGNS[missionCampaign(m)] || ""}</span></li>`).join("")}</ul></section>` : ""}
       </div>
     </div>`;
 }
@@ -146,7 +142,7 @@ function heroPageHTML(h) {
 // the list, or one hero's page when the address names one ("h" is how older links named a hero)
 function render() {
   const p = new URLSearchParams(location.hash.slice(1));
-  const h = HERO.get(p.get("hero") || p.get("h"));
+  const h = HEROES[p.get("hero")];
   $("browse").hidden = !!h;
   $("hero").hidden = !h;
   if (h) {
@@ -161,11 +157,3 @@ renderList();
 render();
 window.addEventListener("hashchange", render);
 
-document.addEventListener("click", e => {
-  const b = e.target.closest("[data-copy]");
-  if (!b) return;
-  navigator.clipboard?.writeText(b.dataset.copy).then(() => {
-    b.innerHTML = DONE_ICON;
-    setTimeout(() => { b.innerHTML = COPY_ICON; }, 1500);
-  });
-});

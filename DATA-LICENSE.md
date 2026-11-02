@@ -1,6 +1,8 @@
 # Data license
 
-The data in `data/` combines the sources below.
+The data in `game/` and `data/` combines the sources below. Its keys, and each place's and skill's campaign,
+region, type, profession, attribute and world-map position, are the game's own, read from the Guild Wars client's
+data tables (see `NOTICE.md` for ArenaNet's rights).
 
 ## GuildWiki.de — CC BY-NC-SA 4.0
 

@@ -6,7 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <title>Guild Wars info</title>
-<link rel="stylesheet" href="style.css?v=c2972f25">
+<link rel="stylesheet" href="style.css">
 <style>
   .home { max-width: 1000px; }
   .hero { padding: 8px 0 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; }
@@ -89,81 +89,67 @@
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
 
-<script src="data/skills.js?v=8d0a8eb7"></script>
-<script src="data/missions.js?v=546fb116"></script>
-<script src="data/locations.js?v=908bbc78"></script>
-<script src="data/rotations.js?v=cc0be059"></script>
-<script src="data/quests.js?v=ebe87db4"></script>
-<script src="data/builds.js?v=e52a90e8"></script>
-<script src="data/maps.js?v=945e788b"></script>
-<script src="data/events.js?v=65001546"></script>
-<script src="data/aliases.js?v=fad5bb54"></script>
-<script src="common.js?v=0da80b05"></script>
-<script src="mapwidget.js?v=adbbb6b7"></script>
-<script src="template-code.js?v=201bf57f"></script>
+<script src="game/skills.js"></script>
+<script src="game/missions.js"></script>
+<script src="game/ground.js"></script>
+<script src="game/maps.js"></script>
+<script src="game/quests.js"></script>
+<script src="game/creatures.js"></script>
+<script src="game/calendar.js"></script>
+<script src="data/builds.js"></script>
+<script src="data/aliases.js"></script>
+<script src="common.js"></script>
+<script src="mapwidget.js"></script>
+<script src="template-code.js"></script>
 <script>
 "use strict";
-const SKILLS = window.GW_SKILLS.filter(s => !s.pvp_only);
-const MISSIONS = window.GW_MISSIONS;
-const PLACES = (window.GW_LOCATIONS || []).filter(p => p.type !== "arena");
-for (const p of PLACES) p._k = fold(`${p.name} ${aliasText(p.name)}`);
-const SKILL = new Map(window.GW_SKILLS.map(s => [s.id, s]));
-for (const s of SKILLS) s._k = fold(`${s.name} ${aliasText(s.name)}`);
-for (const m of MISSIONS) {
-  m._k = fold(`${m.name} ${aliasText(m.name)}`);
-  m._bosses = m.bosses.map(b => ({ b, k: fold(b.name) }));
-}
+const SKILL_LIST = Object.values(SKILLS).filter(s => !s.pvp_only);
+const MISSION_LIST = Object.values(MISSIONS);
+const PLACE_LIST = Object.values(LOCATIONS).filter(l => !isPvP(l) && l.type !== 14 && l.type !== 17);
+const QUEST_LIST = Object.values(QUESTS);
+// every boss a mission names, with the mission
+const BOSS_LIST = MISSION_LIST.flatMap(m => (m.bosses || []).map(b => ({ c: CREATURES[b.creature], m }))).filter(x => x.c);
+for (const s of SKILL_LIST) s._k = fold(`${s.name} ${aliasText("skills", s.id)}`);
+for (const m of MISSION_LIST) m._k = fold(`${m.name} ${aliasText("locations", m.id)} ${aliasText("locations", m.outpost)}`);
+for (const l of PLACE_LIST) l._k = fold(`${l.name} ${aliasText("locations", l.id)}`);
+for (const q of QUEST_LIST) q._k = fold(q.name);
+for (const x of BOSS_LIST) x.k = fold(x.c.name);
+const STORY = new Set((QUESTDATA.storylines || []).flatMap(s => [...(s.nodes || []), ...(s.parts || []).flatMap(p => p.steps)]).map(n => n.quest).filter(Boolean));
 
 // "Something random": a player build and a hero build from the Builds page, and today's Zaishen Vanquish on its map
-const BUILD = new Map((window.GW_BUILDS?.builds || []).map(b => [b.id, b]));
-const PROF_NAMES = ["None", "Warrior", "Ranger", "Monk", "Necromancer", "Mesmer", "Elementalist", "Assassin", "Ritualist", "Paragon", "Dervish"];
-const pick = ids => BUILD.get(ids[Math.floor(Math.random() * ids.length)]);
+const pick = ids => BUILDS.get(ids[Math.floor(Math.random() * ids.length)]);
 function buildCardHTML(title, b) {
   if (!b) return "";
   let bar = null;
   try { bar = TemplateCode.decode(b.code); } catch { /* an unreadable code shows no bar */ }
-  const profs = bar ? bar.professions.map(p => PROF_NAMES[p]).filter(p => p && p !== "None") : [];
-  return `<div class="rnd-card" style="--pc:${profVar(profs[0] || "None")}"><a href="builds#${new URLSearchParams({ build: b.id })}">
+  const profs = bar ? bar.professions.filter(Boolean) : [];
+  return `<div class="rnd-card" style="--pc:${profVar(profs[0] || 0)}"><a href="builds${hash({ build: b.id })}">
     <small>${title}</small><span class="rnd-bar">${(bar?.skills || []).filter(Boolean).map(id => skillIcon(id, "rnd-ic")).join("")}</span>
-    <b>${esc(b.name)}</b><span class="dim">${esc(profs.join(" / ") || "Any profession")}</span></a>
+    <b>${esc(b.name)}</b><span class="dim">${esc(profs.map(p => PROFS[p]).join(" / ") || "Any profession")}</span></a>
     <button class="link rnd-copy" type="button" data-copy="${esc(b.code)}">Copy template</button></div>`;
 }
 function renderRandom() {
-  const vq = Rotation.current(ROT["zaishen-vanquish"])?.name;
-  $("rnd").innerHTML = `<div class="rnd-builds">${buildCardHTML("Player build", pick(window.GW_BUILDS.players))}
-    ${buildCardHTML("Hero build", pick(window.GW_BUILDS.singles))}</div>`
-    + (vq && GW_MAPS[vq] ? `<div class="rnd-map"><small>Today's Zaishen Vanquish:
-      <a href="locations#${new URLSearchParams({ place: vq })}">${esc(vq)}</a></small>${mapHTML(vq)}</div>` : "");
+  const vq = Rotation.current(ROTATIONS["zaishen-vanquish"])?.location;
+  $("rnd").innerHTML = `<div class="rnd-builds">${buildCardHTML("Player build", pick(BUILDDATA.players))}
+    ${buildCardHTML("Hero build", pick(BUILDDATA.singles))}</div>`
+    + (LOCATIONS[vq]?.set != null ? `<div class="rnd-map"><small>Today's Zaishen Vanquish: ${LINK.place(vq)}</small>${mapHTML([vq])}</div>` : "");
   initMaps($("rnd"));
 }
 $("rnd-again").addEventListener("click", renderRandom);
-$("rnd").addEventListener("click", e => {
-  const b = e.target.closest("[data-copy]");
-  if (!b) return;
-  navigator.clipboard?.writeText(b.dataset.copy).then(() => {
-    b.textContent = "Copied";
-    setTimeout(() => { b.textContent = "Copy template"; }, 1500);
-  });
-});
 
 const TODAY = [["zaishen-mission", "Mission"], ["zaishen-bounty", "Bounty"], ["zaishen-vanquish", "Vanquish"],
   ["nicholas-sandford", "Sandford"], ["vanguard", "Vanguard"], null, ["weekly-pve", "PvE bonus"], ["nicholas-traveler", "Nicholas"]];
-const ROT = Object.fromEntries(window.GW_ROTATIONS.map(r => [r.key, r]));
-const MISSION_NAMES = new Set(MISSIONS.filter(m => m.kind === "PvE").map(m => m.name));
-function renderToday() {
-  $("today").innerHTML = rotationListHTML(TODAY, ROT, MISSION_NAMES);
-}
+const renderToday = () => { $("today").innerHTML = rotationListHTML(TODAY); };
 renderToday();
 setInterval(renderToday, 30000);
 
-// the running event above Today, the next one below it (data/events.js)
-const QUEST_CAMPAIGN = new Map(window.GW_QUESTS.quests.map(q => [q.name, q.campaign]));
+// the running event above Today, the next one below it
 function renderEvents() {
   const now = new Date();
-  const evs = window.GW_EVENTS.map(e => ({ e, w: eventWindow(e, now) })).sort((a, b) => a.w[0] - b.w[0]);
+  const evs = Object.values(EVENTS).map(e => ({ e, w: eventWindow(e, now) })).sort((a, b) => a.w[0] - b.w[0]);
   const card = ({ e, w: [a, b] }, state) => `<div class="ev-card"><b><a href="events">${esc(e.name)}</a></b> `
     + `<span class="ev-when">${state === "on" ? `ends ${eventAway(b - now)}` : `${state === "soon" ? "coming" : "starts"} ${eventAway(a - now)}`}</span>`
-    + `<p>${eventText(e.blurb, QUEST_CAMPAIGN)}</p></div>`;
+    + `<p>${text(e.blurb, true)}</p></div>`;
   const on = evs.filter(x => x.w[0] <= now), later = evs.filter(x => x.w[0] > now);
   // with nothing on, an event starting within three days moves up above Today, and the one after it takes its place
   const soon = !on.length && later[0] && later[0].w[0] - now < 3 * 86400000 ? later.shift() : null;
@@ -194,10 +180,6 @@ const PAGES = [
   ["Thanks", "thanks", "Everyone this site builds on", "thanks credits contributors"],
   ["License & credits", "license", "Sources and licenses", "license credits copyright"],
 ].map(([name, href, about, words]) => ({ name, href, about, _k: fold(`${name} ${words}`) }));
-const { quests: QUESTS, flows: FLOWS } = window.GW_QUESTS;
-const QUEST_FLOW = new Map(FLOWS.flatMap(f =>
-  f.nodes.filter(n => n.id.startsWith("q:")).map(n => [n.id.slice(2), f.campaign])));
-for (const q of QUESTS) q._k = fold(q.name);
 
 // "See a template": a valid code opens in the builder
 function openTemplate() {
@@ -219,37 +201,33 @@ const LIMIT = 8;
 const fmtDay = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric" });
 const fmtYear = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" });
 const fmtNext = { format: t => (new Date(t).getFullYear() === new Date().getFullYear() ? fmtDay : fmtYear).format(t) };
-function rank(k, t) { return k.startsWith(t) ? 0 : k.includes(" " + t) ? 1 : 2; }
+const rank = (k, t) => (k.startsWith(t) ? 0 : k.includes(" " + t) ? 1 : 2);
 
 function search(q) {
   const ts = fold(q).split(/\s+/).filter(Boolean);
   if (!ts.length) return null;
   // a typed plural also finds the singular ("mursaat tokens", "energy surges")
   const has = k => ts.every(t => k.includes(t) || (t.length > 3 && t.endsWith("s") && k.includes(t.slice(0, -1))));
-  const skills = SKILLS.filter(s => has(s._k)).sort((a, b) => rank(a._k, ts[0]) - rank(b._k, ts[0]) || cmpStr(a.name, b.name));
-  const missions = MISSIONS.filter(m => has(m._k)).sort((a, b) => rank(a._k, ts[0]) - rank(b._k, ts[0]) || cmpStr(a.name, b.name));
-  const bosses = [];
-  for (const m of MISSIONS) for (const { b, k } of m._bosses) if (has(k)) bosses.push({ b, m });
+  const best = (list, k = x => x._k) => list.filter(x => has(k(x))).sort((a, b) => rank(k(a), ts[0]) - rank(k(b), ts[0]) || cmpStr(a.name ?? a.c.name, b.name ?? b.c.name));
   // a word matches as typed or as its plural/singular ("skills" finds "skill quests")
   const word = (w, t) => w.startsWith(t) || (w.length >= 4 && t.startsWith(w) && t.length - w.length <= 1);
-  const pages = PAGES.filter(p => ts.every(t => p._k.split(" ").some(w => word(w, t))));
-  const quests = QUESTS.filter(q => has(q._k)).sort((a, b) => rank(a._k, ts[0]) - rank(b._k, ts[0]) || cmpStr(a.name, b.name));
-  const places = PLACES.filter(p => has(p._k)).sort((a, b) => rank(a._k, ts[0]) - rank(b._k, ts[0]) || cmpStr(a.name, b.name));
   // rotation entries (Nicholas's items, bounty targets, bonuses...), once per rotation, by when they're next up
   const rotations = [];
-  for (const r of window.GW_ROTATIONS) {
+  for (const r of Object.values(ROTATIONS)) {
     const seen = new Set();
     for (const e of r.entries) {
-      if (seen.has(e.name) || !has(fold(e.name))) continue;
-      seen.add(e.name);
-      const k = Rotation.period(r), n = r.entries.length;
+      const n = entryName(e);
+      if (seen.has(n) || !has(fold(n))) continue;
+      seen.add(n);
+      const k = Rotation.period(r);
       let i = 0;
-      while (i < n && Rotation.entry(r, k + i).name !== e.name) i++;
+      while (i < r.entries.length && entryName(Rotation.entry(r, k + i)) !== n) i++;
       rotations.push({ r, e: Rotation.entry(r, k + i), i, at: Rotation.startsAt(r, k + i) });
     }
   }
   rotations.sort((a, b) => a.at - b.at);
-  return { ts, pages, skills, missions, places, quests, bosses, rotations };
+  return { ts, pages: PAGES.filter(p => ts.every(t => p._k.split(" ").some(w => word(w, t)))), skills: best(SKILL_LIST),
+    missions: best(MISSION_LIST), places: best(PLACE_LIST), quests: best(QUEST_LIST), bosses: best(BOSS_LIST, x => x.k), rotations };
 }
 
 function section(title, items, render, moreHref) {
@@ -259,40 +237,26 @@ function section(title, items, render, moreHref) {
 }
 
 function render() {
-  const q = $("q").value;
-  const r = search(q);
+  const q = $("q").value, r = search(q);
   $("sections").hidden = !!r;
   if (!r) { $("results").innerHTML = ""; return; }
   const qs = encodeURIComponent(q);
+  const hit = (pc, href, title, sub, right) => `<a class="hit" style="--pc:${pc}" href="${href}"><span>${title} <span class="s">${sub}</span></span><span class="s">${right}</span></a>`;
   $("results").innerHTML =
-    section("Pages", r.pages, p => `<a class="hit" style="--pc:var(--accent)" href="${p.href}">
-      <span><span class="t">${esc(p.name)}</span> <span class="s">${esc(p.about)}</span></span><span class="s">→</span></a>`) +
-    section("Skills", r.skills, s => `<a class="hit${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}" href="skills#skill=${s.id}">
-      <span>${skillIcon(s.id, "sk-ic sm")}<span class="t">${highlight(s.name, r.ts)}</span> <span class="s">${esc(s.profession === "None" ? "Common" : s.profession)} · ${esc(s.attribute)}</span></span>
-      <span class="s">${esc(s.type || "")}</span></a>`, `skills#q=${qs}`) +
-    section("Missions", r.missions, m => `<a class="hit" style="--pc:${profVar("None")}" href="${esc(missionHref(m.name))}">
-      <span><span class="t">${highlight(m.name, r.ts)}</span> <span class="s">${esc(m.kind === "PvP" ? "PvP" : m.campaign)} · ${esc(m.region || "")}</span></span>
-      <span class="s">${esc(m.type)}</span></a>`, `missions#q=${qs}`) +
-    section("Places", r.places, p => `<a class="hit" style="--pc:var(${p.type === "explorable" ? "--loc-exp" : "--loc-out"})" href="locations#${new URLSearchParams({ place: p.name })}">
-      <span><span class="t">${highlight(p.name, r.ts)}</span> <span class="s">${esc(p.campaign || "")} · ${esc(p.region || "")}</span></span>
-      <span class="s">${esc({ explorable: "Explorable", "mission outpost": "Mission outpost", town: "Town", dungeon: "Dungeon" }[p.type] || "Outpost")}</span></a>`, `locations`) +
-    section("Quests", r.quests, q => {
-      const camp = QUEST_FLOW.get(q.name_de);
-      const href = questHref(q.name, q.campaign);
-      return `<a class="hit" style="--pc:${camp ? profVar("None") : "var(--q-skill)"}" href="${href}">
-        <span><span class="t">${highlight(q.name, r.ts)}</span> <span class="s">${esc(q.campaign || "")} · ${esc(q.region || "")}</span></span>
-        <span class="s">${camp ? "Story quest" : q.skills.length ? "Skill quest" : `${esc(q.type)} quest`}</span></a>`;
-    }, `all-quests#q=${qs}`) +
-    section("Bosses", r.bosses, ({ b, m }) => {
-      const s = SKILL.get(b.elite_skill_id);
-      return `<a class="hit" style="--pc:${profVar(b.profession)}" href="${esc(bossHref(b.name))}">
-        <span><span class="t">${highlight(b.name, r.ts)}</span> <span class="s">${esc(m.name)}</span></span>
-        <span class="s">${s ? esc(s.name) : ""}</span></a>`;
-    }, `bosses#q=${qs}`) +
-    section("Rotations", r.rotations, ({ r: rot, e, i, at }) =>
-      `<a class="hit" style="--pc:var(--accent)" href="rotations#${new URLSearchParams({ q: e.name })}">
-        <span><span class="t">${e.count ? `${e.count} × ` : ""}${highlight(e.name, r.ts)}</span> <span class="s">${esc(rot.title)}${e.where ? ` · ${esc(e.where)}` : ""}</span></span>
-        <span class="s">${i ? `next ${fmtNext.format(at)}` : "now"}</span></a>`) ||
+    section("Pages", r.pages, p => hit("var(--accent)", p.href, `<span class="t">${esc(p.name)}</span>`, esc(p.about), "→")) +
+    section("Skills", r.skills, s => hit(profVar(s.profession), HREF.skill(s.id), `${skillIcon(s.id, "sk-ic sm")}<span class="t">${highlight(s.name, r.ts)}</span>`,
+      `${s.profession ? PROFS[s.profession] : "Common"} · ${esc(ATTRIBUTES[s.attribute] || "")}`, esc(s.label || "")), `skills#q=${qs}`) +
+    section("Missions", r.missions, m => hit(profVar(0), HREF.mission(m.id), `<span class="t">${highlight(m.name, r.ts)}</span>`,
+      `${m.kind === "pvp" ? "PvP" : CAMPAIGNS[missionCampaign(m)]} · ${esc(missionRegion(m)?.name || "")}`, esc(m.kind === "story" ? "Mission" : m.kind)), `missions#q=${qs}`) +
+    section("Places", r.places, l => hit(`var(${isOutpost(l) ? "--loc-out" : "--loc-exp"})`, HREF.place(l.id), `<span class="t">${highlight(l.name, r.ts)}</span>`,
+      `${CAMPAIGNS[campaignOf(l)] || ""} · ${esc(regionOf(l)?.name || "")}`, esc(TYPE_LABEL[l.type] || "")), "locations") +
+    section("Quests", r.quests, x => hit(STORY.has(x.id) ? profVar(0) : "var(--q-skill)", HREF.quest(x.id), `<span class="t">${highlight(x.name, r.ts)}</span>`,
+      `${CAMPAIGNS[questCampaign(x)]} · ${esc(questRegion(x)?.name || "")}`, STORY.has(x.id) ? "Story quest" : x.skills?.length ? "Skill quest" : `${esc(x.type)} quest`), `all-quests#q=${qs}`) +
+    section("Bosses", r.bosses, ({ c, m }) => hit(profVar(c.profession), HREF.boss(c.id), `<span class="t">${highlight(c.name, r.ts)}</span>`,
+      esc(m.name), esc((c.elites || []).map(e => SKILLS[e]?.name).filter(Boolean).join(", "))), `bosses#q=${qs}`) +
+    section("Rotations", r.rotations, ({ r: rot, e, i, at }) => hit("var(--accent)", `rotations#${new URLSearchParams({ q: entryName(e) })}`,
+      `<span class="t">${e.count ? `${e.count} × ` : ""}${highlight(entryName(e), r.ts)}</span>`, `${esc(rot.title)}${e.creature && e.location ? ` · ${esc(locName(e.location))}` : ""}`,
+      i ? `next ${fmtNext.format(at)}` : "now")) ||
     `<p class="dim" style="padding:12px 0">Nothing found.</p>`;
 }
 

@@ -6,7 +6,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <title>Yearly Events</title>
-<link rel="stylesheet" href="style.css?v=c2972f25">
+<link rel="stylesheet" href="style.css">
 <style>
   .events { max-width: 900px; padding-top: 8px; }
   .events .tz { color: var(--muted); font-size: 14px; }
@@ -40,24 +40,22 @@
   <div id="list"></div>
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
-<script src="data/quests.js?v=ebe87db4"></script>
-<script src="data/events.js?v=65001546"></script>
-<script src="common.js?v=0da80b05"></script>
+<script src="game/calendar.js"></script>
+<script src="game/quests.js"></script>
+<script src="game/ground.js"></script>
+<script src="common.js"></script>
 <script>
-const QUESTS = window.GW_QUESTS.quests;
-const CAMPAIGN = new Map(QUESTS.map(q => [q.name, q.campaign]));
-const text = s => eventText(s, CAMPAIGN);
 let utc = false;
 try { utc = localStorage.getItem("events-utc") === "1"; } catch (e) {}
 
 const fmt = d => d.toLocaleString([], { month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", ...(utc ? { timeZone: "UTC", hourCycle: "h23" } : {}) }) + (utc ? " UTC" : "");
 const row = (t, html) => html ? `<div class="ev-row"><b>${t}</b><div>${html}</div></div>` : "";
-const list = xs => xs && xs.length ? `<ul>${xs.map(x => `<li>${x}</li>`).join("")}</ul>` : "";
-// the event's quests on the All Quests page (they're tagged with the event's name)
+const items = xs => xs && xs.length ? `<ul>${xs.map(x => `<li>${x}</li>`).join("")}</ul>` : "";
+// the event's quests: one by name, or all of them on the All Quests page
 function questsLink(e) {
-  const n = QUESTS.filter(q => q.event === e.name).length;
-  if (n === 1) return text(`[[${QUESTS.find(q => q.event === e.name).name}]]`);
-  return n ? `<a href="all-quests#${new URLSearchParams({ q: e.name })}">All ${n} ${esc(e.name)} quests</a>` : "";
+  const qs = Object.values(QUESTS).filter(q => q.event === e.id);
+  if (qs.length === 1) return LINK.quest(qs[0].id);
+  return qs.length ? `<a href="all-quests${hash({ q: e.name })}">All ${qs.length} ${esc(e.name)} quests</a>` : "";
 }
 
 function render() {
@@ -70,14 +68,14 @@ function render() {
     try { localStorage.setItem("events-utc", utc ? "1" : "0"); } catch (e) {}
     render();
   };
-  document.getElementById("list").innerHTML = window.GW_EVENTS.map(e => ({ e, w: eventWindow(e, now) }))
+  document.getElementById("list").innerHTML = Object.entries(EVENTS).map(([id, e]) => ({ e: Object.assign(e, { id: +id }), w: eventWindow(e, now) }))
     .sort((p, q) => p.w[0] - q.w[0])
     .map(({ e, w: [a, b, s] }) => {
       const state = a <= now ? `<span class="now">On now</span>, ends ${eventAway(b - now)}` : `<span class="soon">Starts ${eventAway(a - now)}</span>`;
-      const miss = (e.miss || []).map(([t, lock]) => text(t) + (lock ? ` <span class="lock">once-a-year chance</span>` : ""));
+      const miss = (e.miss || []).map(([t, lock]) => text(t, true) + (lock ? ` <span class="lock">once-a-year chance</span>` : ""));
       return `<section><h2><a href="https://wiki.guildwars.com/wiki/${e.wiki}" target="_blank" rel="noopener">${esc(e.name)}</a></h2>`
         + `<p class="when">${state} · <b>${fmt(a)} – ${fmt(b)}</b>${s ? ` · collectors stay until ${fmt(s)}` : ""}</p>`
-        + row("Don't miss", list(miss)) + row("Drops", list(e.drops)) + row("Quests", questsLink(e))
+        + row("Don't miss", items(miss)) + row("Drops", items((e.drops || []).map(t => text(t, true)))) + row("Quests", questsLink(e))
         + `</section>`;
     }).join("");
 }

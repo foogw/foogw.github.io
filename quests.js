@@ -1,122 +1,79 @@
 "use strict";
 
-const { quests: QUESTS, flows: FLOWS } = window.GW_QUESTS;
-// English-only story steps (no German page) come with the flows
-const QUEST = new Map([...QUESTS, ...FLOWS.flatMap(f => f.extra_quests || [])].map(q => [q.name_de, q]));
-const FLOW_NODE = new Map(FLOWS.flatMap(f => [...f.nodes, ...(f.parts || []).flatMap(p => p.steps)].map(n => [n.id, n])));
-const MISSION = new Map(window.GW_MISSIONS.map(m => [m.name_de, m]));
-const SKILL = new Map(window.GW_SKILLS.map(s => [s.id, s]));
-const CAMPS = FLOWS.map(f => f.campaign);
-const HERO = new Map((window.GW_HEROES || []).map(h => [h.name, h]));
-const MISSION_EN = new Map(window.GW_MISSIONS.map(m => [m.name, m]));
-const PLACES = new Map((window.GW_LOCATIONS || []).map(p => [p.name, p]));
-// quests by English name; a name several quests share is told apart by campaign
-const BY_NAME = new Map();
-for (const q of QUEST.values()) (BY_NAME.get(q.name) || BY_NAME.set(q.name, []).get(q.name)).push(q);
-const questURL = q => questHref(q.name, BY_NAME.get(q.name).length > 1 ? q.campaign : null);
-// the places whose quest lists name each quest
-const QUEST_PLACES = new Map();
-for (const p of window.GW_LOCATIONS || []) {
-  for (const x of p.quests || []) (QUEST_PLACES.get(x.name) || QUEST_PLACES.set(x.name, []).get(x.name)).push(p.name);
-}
-// each quest's step in a story flow: [campaign, step id]
-const FLOW_STEP = new Map(FLOWS.flatMap(f => [...f.nodes, ...(f.parts || []).flatMap(p => p.steps)]
-  .filter(n => n.id.startsWith("q:")).map(n => [n.id.slice(2), [f.campaign, n.id]])));
+const STORYLINES = QUESTDATA.storylines;
+const CAMPS = STORYLINES.map(s => s.campaign);
+// a step of a story: a mission ("m28") or a quest ("q100023")
+const key = n => (n.mission != null ? `m${n.mission}` : `q${n.quest}`);
+const stepOf = k => (k[0] === "m" ? { mission: MISSIONS[k.slice(1)] || LOCATIONS[k.slice(1)] } : { quest: QUESTS[k.slice(1)] });
+const stepName = k => { const s = stepOf(k); return (s.mission || s.quest)?.name || ""; };
+const allSteps = s => [...(s.nodes || []), ...(s.parts || []).flatMap(p => p.steps)];
+// each quest's place in a story: quest id -> [campaign, step key]
+const IN_STORY = new Map(STORYLINES.flatMap(s => allSteps(s).filter(n => n.quest).map(n => [n.quest, [s.campaign, key(n)]])));
 const MIN_W = 104, MAX_W = 230, NODE_H = 44, GAP_X = 10, GAP_Y = 30;
-
-const state = { camp: CAMPS[0], sel: null, quest: null };
+const state = { camp: CAMPS[0], sel: null };
 
 /* ---------- helpers ---------- */
-const nodeInfo = id => (id.startsWith("m:") ? { kind: "mission", m: MISSION.get(id.slice(2)) }
-  : { kind: "quest", q: QUEST.get(id.slice(2)) });
-const nodeName = id => {
-  if (FLOW_NODE.get(id)?.name) return FLOW_NODE.get(id).name;  // English wiki title
-  const n = nodeInfo(id); return n.m ? n.m.name : n.q ? n.q.name : id.slice(2);
+const storyline = () => STORYLINES.find(s => s.campaign === state.camp);
+const NODE = new Map();  // step key -> its node (kind, note) in the current storyline
+const edgesOf = s => (s.edges || []).map(([a, b, inferred]) => ({ from: key(a), to: key(b), inferred }));
+const neighbours = k => {
+  const es = edgesOf(storyline());
+  return { prev: es.filter(e => e.to === k).map(e => e.from), next: es.filter(e => e.from === k).map(e => e.to) };
 };
-// previous/next steps as the flow links them
-const flowNeighbours = id => {
-  const flow = FLOWS.find(f => f.campaign === state.camp);
-  return {
-    prev: flow.edges.filter(e => e.to === id).map(e => nodeName(e.from)),
-    next: flow.edges.filter(e => e.from === id).map(e => nodeName(e.to)),
-  };
-};
-const sourceLinks = (id, wikiDe) => [
-  FLOW_NODE.get(id)?.wiki_en && `<a href="${esc(FLOW_NODE.get(id).wiki_en)}" target="_blank" rel="noopener">English wiki (archived)</a>`,
-  wikiDe && `<a href="${esc(wikiDe)}" target="_blank" rel="noopener">guildwiki.de</a>`,
-].filter(Boolean).join(" · ");
-const questProfs = q => [...new Set(q.skills.map(id => SKILL.get(id)?.profession))].filter(p => p && p !== "None");
-// heroes a mission or quest requires in the party
-const stepHeroes = id => {
-  const n = nodeInfo(id);
-  return (n.m?.hero || n.q?.hero || "").split(" and ").map(name => HERO.get(name)).filter(Boolean);
-};
-const heroBadge = (id, style = "") => {
-  const hs = stepHeroes(id);
+const stepHeroes = k => { const s = stepOf(k); return ((s.mission || s.quest)?.hero || []).map(i => HEROES[i]).filter(Boolean); };
+const heroBadge = (k, style = "") => {
+  const hs = stepHeroes(k);
   return hs.length ? `<span class="qn-hero" style="${style}" title="Required hero: ${esc(hs.map(h => h.name).join(" and "))}">${hs.map(h =>
-    `<img src="img/prof/${esc(h.profession)}.png" alt="">${esc(h.name.split(" ")[0])}`).join(" + ")}</span>` : "";
+    `<img src="${profImg(h.profession)}" alt="">${esc(h.name.split(" ")[0])}`).join(" + ")}</span>` : "";
 };
-const heroLinks = hs => hs.map(h => `<a href="${esc(heroHref(h.name))}"><img src="img/prof/${esc(h.profession)}.png" alt=""> ${esc(h.name)}</a>`);
-const profIcon = p => `<img class="qp" src="img/prof/${p}.png" alt="${p}" title="${p}">`;
+const questProfs = q => [...new Set((q.skills || []).map(id => SKILLS[id]?.profession))].filter(p => p);
+const stepLink = k => { const s = stepOf(k); return s.quest ? LINK.quest(s.quest.id) : s.mission ? whereLink(s.mission.id) : ""; };
 
 /* ---------- layout ----------
-   Rows follow the story (rank) and the width is fixed to the container. Each row's steps form one
-   evenly spaced group, ordered by where the steps they follow sit and centred under them: a split
-   A → B, C → D puts B and C either side of A, and D back under both. A row with more steps than fit
-   wraps onto an extra line. */
-function layout(flow, avail) {
-  // box width: narrow enough that the widest row fits on one line, within reason
-  const widest = Math.max(1, ...Object.values(flow.nodes.reduce((n, x) => ((n[x.rank] = (n[x.rank] || 0) + 1), n), {})));
+   Rows follow the story (rank) and the width is fixed to the container. Each row's steps form one evenly spaced
+   group, ordered by where the steps they follow sit and centred under them; a row with more steps than fit wraps. */
+function layout(s, avail) {
+  const nodes = s.nodes.map(n => ({ id: key(n), rank: n.rank, kind: n.kind }));
+  const widest = Math.max(1, ...Object.values(nodes.reduce((n, x) => ((n[x.rank] = (n[x.rank] || 0) + 1), n), {})));
   const fit = Math.max(1, Math.floor((avail + GAP_X) / (MIN_W + GAP_X)));
   const cols = Math.max(3, Math.min(fit, Math.max(widest, Math.floor((avail + GAP_X) / (180 + GAP_X)))));
-  const w = Math.min(MAX_W, Math.floor((avail - (cols - 1) * GAP_X) / cols));
-  const step = w + GAP_X;
-  const middle = avail / 2;
-
+  const w = Math.min(MAX_W, Math.floor((avail - (cols - 1) * GAP_X) / cols)), step = w + GAP_X, middle = avail / 2;
   const preds = new Map(), succs = new Map();
-  for (const e of flow.edges) {
+  for (const e of edgesOf(s)) {
     (preds.get(e.to) || preds.set(e.to, []).get(e.to)).push(e.from);
     (succs.get(e.from) || succs.set(e.from, []).get(e.from)).push(e.to);
   }
   const rows = [];
-  for (const n of flow.nodes) (rows[n.rank] ||= []).push(n.id);
+  for (const n of nodes) (rows[n.rank] ||= []).push(n.id);
   for (let i = 0; i < rows.length; i++) rows[i] ||= [];
-
-  const cx = new Map();  // centre x of each placed step
+  const cx = new Map();
   const mean = ids => { const v = (ids || []).filter(i => cx.has(i)).map(i => cx.get(i)); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
   let lines = [];
   for (let pass = 0; pass < 2; pass++) {
     lines = [];
     for (const row of rows) {
-      // side branches (attribute quests, and optional steps that lead nowhere while the story goes on) don't
-      // count towards centring the row: they go beside what they follow
+      // side branches (attribute quests, and optional steps that lead nowhere) go beside what they follow
       const deadEnd = id => !succs.has(id) && (preds.get(id) || []).some(p => succs.get(p).length > 1);
-      const side = row.filter(id => FLOW_NODE.get(id)?.kind === "attribute" || deadEnd(id));
-      const main = row.filter(id => !side.includes(id));
-      const want = main.map(id => ({ id, at: mean(preds.get(id)) ?? (pass ? mean(succs.get(id)) : null) ?? middle }));
-      want.sort((a, b) => a.at - b.at || cmpStr(nodeName(a.id), nodeName(b.id)));
+      const side = row.filter(id => NODE.get(id)?.kind === "attribute" || deadEnd(id));
+      const want = row.filter(id => !side.includes(id)).map(id => ({ id, at: mean(preds.get(id)) ?? (pass ? mean(succs.get(id)) : null) ?? middle }));
+      want.sort((a, b) => a.at - b.at || cmpStr(stepName(a.id), stepName(b.id)));
       for (let i = 0; i < Math.max(want.length, 1); i += cols) {
-        const group = want.slice(i, i + cols);
-        const span = (group.length - 1) * step;
-        const target = group.length ? group.reduce((s, g) => s + g.at, 0) / group.length : middle;
+        const group = want.slice(i, i + cols), span = (group.length - 1) * step;
+        const target = group.length ? group.reduce((t, g) => t + g.at, 0) / group.length : middle;
         const first = Math.min(Math.max(target - span / 2, w / 2), avail - w / 2 - span);
         const line = group.map((g, k) => [g.id, first + k * step]);
-        if (i + cols >= want.length) {
-          for (const id of side) {  // right of the step it follows, past anything already on the line
-            const taken = line.map(([, x]) => x);
-            // a chain of side steps stays in one column; the first one sits right of the story step
-            const fromSide = (preds.get(id) || []).some(p => FLOW_NODE.get(p)?.kind === "attribute");
-            let x = (mean(preds.get(id)) ?? middle) + (fromSide ? 0 : step);
-            while (taken.some(o => Math.abs(o - x) < step - 1)) x += step;
-            line.push([id, Math.min(x, avail - w / 2)]);
-          }
+        if (i + cols >= want.length) for (const id of side) {
+          const taken = line.map(([, x]) => x);
+          const fromSide = (preds.get(id) || []).some(p => NODE.get(p)?.kind === "attribute");
+          let x = (mean(preds.get(id)) ?? middle) + (fromSide ? 0 : step);
+          while (taken.some(o => Math.abs(o - x) < step - 1)) x += step;
+          line.push([id, Math.min(x, avail - w / 2)]);
         }
         for (const [id, x] of line) cx.set(id, x);
         if (line.length) lines.push(line);
       }
     }
   }
-
   const placed = new Map();
   let y = 0;
   for (const line of lines) {
@@ -128,51 +85,40 @@ function layout(flow, avail) {
 
 /* ---------- rendering ---------- */
 function nodeHTML(p) {
-  const n = nodeInfo(p.id);
-  const fn = FLOW_NODE.get(p.id) || {};
-  const attr = fn.kind === "attribute";
-  const cls = attr ? "attribute" : n.kind === "mission" ? "mission" : "primary";
-  const givesAttr = attr && (n.q?.rewards || []).some(r => /Attribute point/.test(r));
-  const sub = attr ? [givesAttr ? "+15 attribute points" : "Unlocks an attribute quest", fn.note].filter(Boolean).join(" · ")
-    : n.kind === "mission" ? `Mission ${n.m?.story_label ?? ""}` : n.q?.region || "";
-  const narrow = p.w < 160 ? " narrow" : "";
-  let html = `<button class="qn ${cls}${narrow}${state.sel === p.id ? " sel" : ""}" data-id="${esc(p.id)}" title="${esc(nodeName(p.id))}" style="left:${p.x}px;top:${p.y}px;width:${p.w}px;height:${NODE_H}px">
-    <span class="qn-t">${esc(nodeName(p.id))}</span><span class="qn-s">${esc(sub)}</span></button>`;
-  return html + heroBadge(p.id, `left:${p.x + p.w - 8}px;top:${p.y - 9}px;right:auto;transform:translateX(-100%)`);
+  const s = stepOf(p.id), n = NODE.get(p.id) || {}, attr = n.kind === "attribute";
+  const cls = attr ? "attribute" : s.mission ? "mission" : "primary";
+  const givesAttr = attr && (s.quest?.rewards || []).some(r => /Attribute point/.test(r));
+  const sub = attr ? [givesAttr ? "+15 attribute points" : "Unlocks an attribute quest", n.note].filter(Boolean).join(" · ")
+    : s.mission ? `Mission ${MISSIONS[s.mission.id]?.label ?? ""}` : questRegion(s.quest || {})?.name || "";
+  return `<button class="qn ${cls}${p.w < 160 ? " narrow" : ""}${state.sel === p.id ? " sel" : ""}" data-id="${p.id}" title="${esc(stepName(p.id))}" style="left:${p.x}px;top:${p.y}px;width:${p.w}px;height:${NODE_H}px">
+    <span class="qn-t">${esc(stepName(p.id))}</span><span class="qn-s">${esc(sub)}</span></button>`
+    + heroBadge(p.id, `left:${p.x + p.w - 8}px;top:${p.y - 9}px;right:auto;transform:translateX(-100%)`);
 }
-
 function edgePath(a, b) {
-  const x1 = a.x + a.w / 2, y1 = a.y + a.h, x2 = b.x + b.w / 2, y2 = b.y;
-  const dy = Math.max(14, (y2 - y1) / 2);
+  const x1 = a.x + a.w / 2, y1 = a.y + a.h, x2 = b.x + b.w / 2, y2 = b.y, dy = Math.max(14, (y2 - y1) / 2);
   return `M${x1},${y1} C${x1},${y1 + dy} ${x2},${y2 - dy} ${x2},${y2}`;
 }
-
-/* Eye of the North: the opening steps, one column per storyline, then the steps after they converge.
-   Steps drawn on one diagram row sit side by side; missions are gold, connecting quests plain. */
-function renderParts(flow) {
-  const box = s => {
-    const q = QUEST.get(s.id.slice(2));
-    return `<button class="eotn-step${s.mission ? " mission" : ""}${state.sel === s.id ? " sel" : ""}" data-id="${esc(s.id)}" title="${esc(s.name)}">
-      <span class="qn-t">${esc(s.name)}</span><span class="qn-s">${esc(s.mission ? "Mission" : q?.region || "")}</span>${heroBadge(s.id)}</button>`;
+/* Eye of the North: the opening steps, one column per storyline, then the steps after they converge. */
+function renderParts(s) {
+  const box = n => {
+    const k = key(n), m = n.mission != null;
+    return `<button class="eotn-step${m ? " mission" : ""}${state.sel === k ? " sel" : ""}" data-id="${k}" title="${esc(stepName(k))}">
+      <span class="qn-t">${esc(stepName(k))}</span><span class="qn-s">${m ? "Mission" : esc(questRegion(QUESTS[n.quest] || {})?.name || "")}</span>${heroBadge(k)}</button>`;
   };
   const list = part => {
     const rows = [];
-    for (const s of part.steps) {
-      if (rows.length && rows[rows.length - 1][0].row === s.row) rows[rows.length - 1].push(s);
-      else rows.push([s]);
+    for (const n of part.steps) {
+      if (rows.length && rows.at(-1)[0].row === n.row) rows.at(-1).push(n); else rows.push([n]);
     }
-    return `<div class="eotn-part"><h4>${esc(part.part)}</h4><ol>${rows.map(r =>
-      `<li class="eotn-row">${r.map(box).join("")}</li>`).join("")}</ol></div>`;
+    return `<div class="eotn-part"><h4>${esc(part.part)}</h4><ol>${rows.map(r => `<li class="eotn-row">${r.map(box).join("")}</li>`).join("")}</ol></div>`;
   };
-  const named = name => flow.parts.find(p => p.part === name);
-  const parallel = flow.parts.filter(p => p.part !== "Start" && p.part !== "All together");
+  const named = n => s.parts.find(p => p.part === n), parallel = s.parts.filter(p => p.part !== "Start" && p.part !== "All together");
   const join = '<div class="eotn-join" aria-hidden="true">↓</div>';
   $("canvas").style.width = $("canvas").style.height = "";
   $("canvas").innerHTML = `<div class="eotn">
     ${named("Start") ? `<div class="eotn-wide">${list(named("Start"))}</div>${join}` : ""}
     <div class="eotn-parallel">${parallel.map(list).join("")}</div>
-    ${named("All together") ? `${join}<div class="eotn-final">${list(named("All together"))}</div>` : ""}
-  </div>`;
+    ${named("All together") ? `${join}<div class="eotn-final">${list(named("All together"))}</div>` : ""}</div>`;
   // join each row to the next; several steps on a row merge into (or fan out from) the next one
   for (const ol of $("canvas").querySelectorAll(".eotn-part ol")) {
     const o = ol.getBoundingClientRect();
@@ -183,29 +129,19 @@ function renderParts(flow) {
     ol.insertAdjacentHTML("afterbegin", `<svg class="eotn-links" aria-hidden="true">${svg}</svg>`);
   }
 }
-
-function renderHeroes(flow) {
-  $("legend-hero").hidden = ![...flow.nodes, ...(flow.parts || []).flatMap(p => p.steps)].some(n => stepHeroes(n.id).length);
-}
-
 function render() {
-  const flow = FLOWS.find(f => f.campaign === state.camp);
-  renderHeroes(flow);
-  $("legend-primary").hidden = false;
-  $("legend-attr").hidden = !flow.nodes.some(n => n.kind === "attribute");
-  if (flow.parts) {
-    $("legend-inferred").hidden = true;
-    renderParts(flow);
-    writeHash();
-    return;
-  }
-  $("legend-inferred").hidden = !flow.edges.some(e => e.inferred);
-  const avail = $("canvas").parentElement.clientWidth - 32;
-  const { placed, width, height } = layout(flow, avail);
+  const s = storyline();
+  NODE.clear();
+  for (const n of allSteps(s)) NODE.set(key(n), n);
+  $("legend-hero").hidden = ![...NODE.keys()].some(k => stepHeroes(k).length);
+  $("legend-attr").hidden = !(s.nodes || []).some(n => n.kind === "attribute");
+  $("legend-inferred").hidden = !(s.edges || []).some(e => e[2]);
+  if (s.parts) { renderParts(s); writeHash(); return; }
+  const { placed, width, height } = layout(s, $("canvas").parentElement.clientWidth - 32);
   let svg = "";
-  for (const e of flow.edges) {
+  for (const e of edgesOf(s)) {
     const a = placed.get(e.from), b = placed.get(e.to);
-    if (a && b) svg += `<path d="${edgePath(a, b)}" class="${e.inferred ? "inferred" : ""}${FLOW_NODE.get(e.to)?.kind === "attribute" ? " attr" : ""}"/>`;
+    if (a && b) svg += `<path d="${edgePath(a, b)}" class="${e.inferred ? "inferred" : ""}${NODE.get(e.to)?.kind === "attribute" ? " attr" : ""}"/>`;
   }
   $("canvas").style.width = width + "px";
   $("canvas").style.height = height + "px";
@@ -214,159 +150,128 @@ function render() {
 }
 
 function rewardsHTML(q) {
-  const parts = [q.xp && `${q.xp.toLocaleString("en")} XP`, q.gold && `${q.gold.toLocaleString("en")} gold`, ...q.rewards].filter(Boolean);
-  const skills = q.skills.map(id => SKILL.get(id)).filter(Boolean).map(s =>
-    `<a class="q-skill${s.elite ? " elite" : ""}" href="skills#skill=${s.id}" style="--pc:${profVar(s.profession)}"><img src="img/skills/${s.id}.jpg" alt="" onerror="this.remove()">${esc(s.name)}</a>`).join("");
+  const parts = [q.xp && `${q.xp.toLocaleString("en")} XP`, q.gold && `${q.gold.toLocaleString("en")} gold`, ...(q.rewards || [])].filter(Boolean);
+  const skills = (q.skills || []).filter(id => SKILLS[id]).map(id => { const s = SKILLS[id];
+    return `<a class="q-skill${s.elite ? " elite" : ""}" href="${HREF.skill(id)}" style="--pc:${profVar(s.profession)}"><img src="img/skills/${id}.jpg" alt="" onerror="this.remove()">${esc(s.name)}</a>`; }).join("");
   return (parts.length ? `<p>${parts.map(esc).join(" · ")}</p>` : "") + (skills ? `<div class="q-skills">${skills}</div>` : "");
 }
-
-const heroRow = id => {
-  const hs = stepHeroes(id);
-  return hs.length ? `<div class="q-row"><span>Hero</span><span>${heroLinks(hs).join(" and ")} (required)</span></div>` : "";
-};
-
+const row = (k, v) => (v ? `<div class="q-row"><span>${k}</span><span>${v}</span></div>` : "");
 function renderDetail() {
-  const id = state.sel;
-  if (!id) { $("detail").innerHTML = '<p class="dim">Click a step to see its details.</p>'; return; }
-  const n = nodeInfo(id);
-  if (n.kind === "mission" && n.m) {
-    const m = n.m;
-    const nb = flowNeighbours(id);
-    $("detail").innerHTML = `<div class="q-dk">Mission ${m.story_label ?? ""}</div><h3>${esc(nodeName(id))}</h3>
-      <p class="dim">${esc(m.region || "")}${m.party_size ? ` · party of ${esc(m.party_size)}` : ""}</p>
-      ${nb.prev.length ? `<div class="q-row"><span>After</span><span>${nb.prev.map(esc).join(", ")}</span></div>` : ""}
-      ${nb.next.length ? `<div class="q-row"><span>Leads to</span><span>${nb.next.map(esc).join(", ")}</span></div>` : ""}
-      ${heroRow(id)}
-      <p><a href="${esc(missionHref(m.name))}">Open mission →</a></p>
-      <p class="dim" style="font-size:12px">${sourceLinks(id)}</p>`;
+  const k = state.sel;
+  if (!k || !NODE.has(k)) { $("detail").innerHTML = '<p class="dim">Click a step to see its details.</p>'; return; }
+  const s = stepOf(k), nb = neighbours(k), hs = stepHeroes(k);
+  const heroes = row("Hero", hs.length && `${hs.map(heroChip).join(" and ")} (required)`);
+  if (s.mission) {
+    const m = MISSIONS[s.mission.id], l = LOCATIONS[m?.outpost] || LOCATIONS[s.mission.id];
+    $("detail").innerHTML = `<div class="q-dk">Mission ${m?.label ?? ""}</div><h3>${esc(stepName(k))}</h3>
+      <p class="dim">${esc(regionOf(l)?.name || "")}${l?.party ? ` · party of ${l.party}` : ""}</p>
+      ${row("After", nb.prev.map(stepLink).join(", "))}${row("Leads to", nb.next.map(stepLink).join(", "))}${heroes}
+      <p>${whereLink(s.mission.id).replace(/>([^<]*)</, ">Open mission →<")}</p>`;
     return;
   }
-  const q = n.q;
+  const q = s.quest;
   if (!q) return;
-  const row = (k, v) => (v ? `<div class="q-row"><span>${k}</span><span>${v}</span></div>` : "");
-  const kind = `${q.type} quest`;
-  const nb = flowNeighbours(id);
-  $("detail").innerHTML = `<div class="q-dk">${esc(kind)}${q.repeatable ? " · repeatable" : ""}</div><h3>${esc(nodeName(id))}</h3>
-    ${row("Region", esc(q.region || ""))}
-    ${row("Giver", esc([q.giver, q.where].filter(Boolean).join(" — ")))}
-    ${row("After", nb.prev.map(esc).join(", "))}
-    ${row("Leads to", nb.next.filter(n => !(q.missions || []).includes(n)).map(esc).join(", "))}
-    ${row("Opens mission", (q.missions || []).map(n => `<a href="${esc(missionHref(n))}">${esc(n)}</a>`).join(", "))}
-    ${row("Profession", questProfs(q).map(p => `${profIcon(p)} ${esc(p)}`).join(" ") || esc(q.profession || ""))}
-    ${heroRow(id)}
+  const givers = questGivers(q);
+  $("detail").innerHTML = `<div class="q-dk">${esc(q.type)} quest${q.repeatable ? " · repeatable" : ""}</div><h3>${esc(q.name)}</h3>
+    ${row("Region", esc(questRegion(q)?.name || ""))}
+    ${row("Giver", givers.map(n => `${esc(n.name)}${n.location ? ` — ${LINK.place(n.location)}` : ""}`).join("<br>"))}
+    ${row("After", nb.prev.map(stepLink).join(", "))}
+    ${row("Leads to", nb.next.filter(n => n[0] !== "m" || !(q.next_missions || []).includes(+n.slice(1))).map(stepLink).join(", "))}
+    ${row("Opens mission", [...(q.missions || []), ...(q.next_missions || [])].map(whereLink).join(", "))}
+    ${row("Profession", questProfs(q).map(p => `${profIcon(p)} ${PROFS[p]}`).join(" ") || (q.profession ? PROFS[q.profession] : ""))}
+    ${heroes}
     <div class="q-dk" style="margin-top:12px">Rewards</div>${rewardsHTML(q) || '<p class="dim">—</p>'}
-    ${q.wiki_de ? `<p><a href="${esc(questURL(q))}">Open quest →</a></p>` : ""}
-    <p class="dim" style="font-size:12px">${sourceLinks(id, q.wiki_de)}</p>`;
+    <p><a href="${HREF.quest(q.id)}">Open quest →</a></p>`;
 }
 
 /* ---------- one quest's page ---------- */
-const CAMP_COLOR = { Prophecies: "--p-paragon", Factions: "--p-ritualist", Nightfall: "--p-elementalist", "Eye of the North": "--p-monk" };
-// a prerequisite or follow-up: a quest (of the same campaign when the name is shared) or a mission
-function refLink(name, camp) {
-  const qs = BY_NAME.get(name);
-  if (qs) return `<a href="${esc(questURL(qs.find(q => q.campaign === camp) || qs[0]))}">${esc(name)}</a>`;
-  return MISSION_EN.has(name) ? `<a href="${esc(missionHref(name))}">${esc(name)}</a>` : esc(name);
-}
-const placeLink = name => (PLACES.has(name) ? `<a href="locations#${new URLSearchParams({ place: name })}">${esc(name)}</a>` : esc(name));
-
 function questPageHTML(q) {
-  const sub = [`${q.type} quest`, q.campaign, q.region].filter(Boolean).map(esc).join(" · ");
+  const camp = questCampaign(q);
+  const sub = [`${q.type[0].toUpperCase() + q.type.slice(1)} quest`, CAMPAIGNS[camp], questRegion(q)?.name].filter(Boolean).map(esc).join(" · ");
   const stats = [q.xp && ["XP", q.xp.toLocaleString("en")], q.gold && ["Gold", q.gold.toLocaleString("en")]].filter(Boolean);
-  const skills = q.skills.map(id => SKILL.get(id)).filter(Boolean);
-  const heroes = (q.hero || "").split(" and ").map(n => HERO.get(n)).filter(Boolean);
-  const profs = questProfs(q);
-  const places = [...new Set([q.where, ...(QUEST_PLACES.get(q.name) || [])].filter(Boolean))];
-  const next = q.next.filter(n => !q.missions.includes(n));  // missions get their own line
+  const skills = (q.skills || []).filter(id => SKILLS[id]);
+  const heroes = (q.hero || []).map(i => HEROES[i]).filter(Boolean);
+  const givers = questGivers(q), places = questPlaces(q), profs = questProfs(q);
   const facts = [
-    q.giver && ["Giver", esc(q.giver)],
-    places.length && ["Where", places.map(placeLink).join(", ")],
-    (profs.length || q.profession) && ["Profession", profs.map(p => `${profIcon(p)} ${esc(p)}`).join(" ") || esc(q.profession)],
-    heroes.length && ["Required hero", heroLinks(heroes).join(" and ")],
-    q.requires.length && ["After", q.requires.map(n => refLink(n, q.campaign)).join(", ")],
-    next.length && ["Leads to", next.map(n => refLink(n, q.campaign)).join(", ")],
-    q.missions?.length && ["Opens mission", q.missions.map(n => `<a href="${esc(missionHref(n))}">${esc(n)}</a>`).join(", ")],
+    givers.length && ["Giver", [...new Set(givers.map(n => n.name))].map(esc).join(", ")],
+    places.length && ["Where", places.map(l => LINK.place(l.id)).join(", ")],
+    (profs.length || q.profession) && ["Profession", profs.map(p => `${profIcon(p)} ${PROFS[p]}`).join(" ") || PROFS[q.profession]],
+    heroes.length && ["Required hero", heroes.map(heroChip).join(" and ")],
+    (q.requires?.length || q.requires_missions?.length || q.requires_other?.length) && ["After", [...(q.requires || []).map(i => LINK.quest(i)),
+      ...(q.requires_missions || []).map(whereLink), ...(q.requires_other || []).map(esc)].join(", ")],
+    q.next?.length && ["Leads to", q.next.map(i => LINK.quest(i)).join(", ")],
+    (q.missions?.length || q.next_missions?.length) && ["Opens mission", [...(q.missions || []), ...(q.next_missions || [])].map(whereLink).join(", ")],
+    q.travel != null && ["Takes you to", CAMPAIGNS[q.travel]],
+    q.event && ["Event", `<a href="events">${esc(EVENTS[q.event]?.name)}</a>`],
   ].filter(Boolean);
-  const step = FLOW_STEP.get(q.name_de);
-  return `<p class="back"><a href="#${new URLSearchParams({ c: state.camp })}">← Storylines</a></p>
-    <div class="sp-head" style="--pc:var(${CAMP_COLOR[q.campaign] || "--p-none"})">
-      <div class="sp-title"><h2>${esc(q.name)}${q.type === "Secondary" && FLOW_STEP.has(q.name_de) ? '<span class="tag" title="A secondary quest the campaign\'s storyline goes through">Story</span>' : ""}${q.repeatable ? '<span class="tag">Repeatable</span>' : ""}${q.missions?.length ? '<span class="tag">Leads to a mission</span>' : ""}</h2><div class="sp-sub">${sub}</div></div>
+  const step = IN_STORY.get(q.id);
+  return `<p class="back"><a href="${hash({ c: CAMPS.includes(camp) ? camp : CAMPS[0] })}">← Storylines</a></p>
+    <div class="sp-head" style="--pc:var(${CAMP_COLOR[camp]})">
+      <div class="sp-title"><h2>${esc(q.name)}${q.type === "secondary" && step ? '<span class="tag" title="A secondary quest the campaign\'s storyline goes through">Story</span>' : ""}${q.repeatable ? '<span class="tag">Repeatable</span>' : ""}${q.missions?.length ? '<span class="tag">Leads to a mission</span>' : ""}</h2><div class="sp-sub">${sub}</div></div>
       ${stats.length ? `<div class="lstats">${stats.map(([k, v]) => `<span class="lstat"><small>${k}</small><b>${esc(v)}</b></span>`).join("")}</div>` : ""}
     </div>
     <div class="lgrid">
       <div class="lside">
         ${facts.length ? `<section class="lbox"><h4>Quest</h4><ul class="lrows">${facts.map(([k, v]) => `<li><span class="dim">${k}</span><span>${v}</span></li>`).join("")}</ul></section>` : ""}
-        ${q.objectives?.length ? `<section class="lbox"><h4>Objectives</h4><ul class="qp-obj">${q.objectives.map(([d, t]) =>
-          `<li style="--d:${d}">${esc(t)}</li>`).join("")}</ul></section>` : ""}
+        ${q.objectives?.length ? `<section class="lbox"><h4>Objectives</h4><ul class="qp-obj">${q.objectives.map(([d, t]) => `<li style="--d:${d}">${esc(t)}</li>`).join("")}</ul></section>` : ""}
       </div>
       <div class="lside">
         <section class="lbox"><h4>Rewards</h4>
-          ${skills.length ? `<div class="qp-skills">${skills.map(s => `<a class="skill-link${s.elite ? " elite" : ""}" href="skills#skill=${s.id}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${esc(s.name)}</a>`).join("")}</div>` : ""}
-          ${q.rewards.length ? `<ul class="qp-rewards">${q.rewards.map(r => `<li>${esc(r)}</li>`).join("")}</ul>` : ""}
-          ${!skills.length && !q.rewards.length ? `<p class="dim">${q.xp && q.gold ? "Experience and gold only." : q.xp ? "Experience only." : q.gold ? "Gold only." : "—"}</p>` : ""}</section>
+          ${skills.length ? `<div class="qp-skills">${skills.map(id => LINK.skill(id)).join("")}</div>` : ""}
+          ${q.rewards?.length ? `<ul class="qp-rewards">${q.rewards.map(r => `<li>${esc(r)}</li>`).join("")}</ul>` : ""}
+          ${!skills.length && !q.rewards?.length ? `<p class="dim">${q.xp && q.gold ? "Experience and gold only." : q.xp ? "Experience only." : q.gold ? "Gold only." : "—"}</p>` : ""}</section>
+        ${mapHTML(places.flatMap(placeAreas), { self: places[0]?.id })}
       </div>
     </div>
-    <p class="llinks">${step ? `<a href="#${new URLSearchParams({ c: step[0], q: step[1] })}">In the storyline →</a>` : ""}${skills.length && q.type !== "Primary" ? `<a href="skill-quests#${new URLSearchParams({ q: q.name })}">Skill quests →</a>` : ""}${q.wiki_en ? `<a href="${esc(q.wiki_en)}" target="_blank" rel="noopener">Guild Wars Wiki (archived)</a>` : ""}${q.wiki_de ? `<a href="${esc(q.wiki_de)}" target="_blank" rel="noopener">guildwiki.de</a>` : ""}</p>`;
+    <p class="llinks">${step ? `<a href="${hash({ c: step[0], s: step[1] })}">In the storyline →</a>` : ""}${skills.length && q.type !== "primary" ? `<a href="skill-quests${hash({ q: q.name })}">Skill quests →</a>` : ""}${q.wiki_en ? `<a href="${esc(q.wiki_en)}" target="_blank" rel="noopener">Guild Wars Wiki (archived)</a>` : ""}${q.wiki ? `<a href="${esc(q.wiki)}" target="_blank" rel="noopener">guildwiki.de</a>` : ""}</p>`;
 }
 
 // the storyline, or one quest's page when the address names one
 function show() {
   const p = new URLSearchParams(location.hash.slice(1));
-  const qs = BY_NAME.get(p.get("quest")) || [];
-  const q = qs.find(x => x.campaign === p.get("qc")) || qs[0];
+  const q = QUESTS[p.get("quest")];
   $("story").hidden = !!q;
   $("quest").hidden = !q;
   if (q) {
-    if (CAMPS.includes(q.campaign)) state.camp = q.campaign;
     $("quest").innerHTML = questPageHTML(q);
+    initMaps($("quest"));
     document.title = `${q.name} · GW Storylines`;
     window.scrollTo(0, 0);
     return;
   }
   document.title = "GW Storylines";
-  readHash();
-  for (const x of $("camps").children) x.setAttribute("aria-pressed", x.dataset.camp === state.camp);
+  if (CAMPS.includes(+p.get("c")) && p.has("c")) state.camp = +p.get("c");
+  state.sel = p.get("s") || (p.get("m") ? `m${p.get("m")}` : null);
+  syncChips($("camps"), new Set([String(state.camp)]));
   render();
   renderDetail();
   document.querySelector("#canvas .sel")?.scrollIntoView({ block: "center" });
 }
-
-/* ---------- controls ---------- */
-function buildControls() {
-  $("camps").innerHTML = CAMPS.map(c => `<button class="prof-chip" data-camp="${c}" aria-pressed="${c === state.camp}">${c}</button>`).join("");
-  $("camps").addEventListener("click", e => {
-    const b = e.target.closest("[data-camp]");
-    if (!b) return;
-    state.camp = b.dataset.camp; state.sel = null;
-    for (const x of $("camps").children) x.setAttribute("aria-pressed", x.dataset.camp === state.camp);
-    render(); renderDetail();
-    $("canvas").parentElement.scrollTop = 0;
-  });
-  $("canvas").addEventListener("click", e => {
-    const n = e.target.closest("[data-id]");
-    if (!n) return;
-    state.sel = n.dataset.id;
-    for (const x of $("canvas").querySelectorAll(".sel")) x.classList.remove("sel");
-    n.classList.add("sel");
-    renderDetail();
-    writeHash();
-  });
-  let timer;
-  window.addEventListener("resize", () => { clearTimeout(timer); timer = setTimeout(() => { if (!$("story").hidden) render(); }, 120); });
-}
-
 function writeHash() {
   const p = new URLSearchParams({ c: state.camp });
-  if (state.sel) p.set("q", state.sel);
+  if (state.sel) p.set("s", state.sel);
   history.replaceState(null, "", "#" + p);
 }
 
-function readHash() {
-  const p = new URLSearchParams(location.hash.slice(1));
-  if (CAMPS.includes(p.get("c"))) state.camp = p.get("c");
-  state.sel = p.get("q") || null;
-}
-
-readHash();
-buildControls();
+$("camps").innerHTML = CAMPS.map(c => `<button class="prof-chip" data-v="${c}" aria-pressed="false">${CAMPAIGNS[c]}</button>`).join("");
+$("camps").addEventListener("click", e => {
+  const b = e.target.closest("[data-v]");
+  if (!b) return;
+  state.camp = +b.dataset.v; state.sel = null;
+  syncChips($("camps"), new Set([b.dataset.v]));
+  render(); renderDetail();
+  $("canvas").parentElement.scrollTop = 0;
+});
+$("canvas").addEventListener("click", e => {
+  const n = e.target.closest("[data-id]");
+  if (!n) return;
+  state.sel = n.dataset.id;
+  for (const x of $("canvas").querySelectorAll(".sel")) x.classList.remove("sel");
+  n.classList.add("sel");
+  renderDetail();
+  writeHash();
+});
+let timer;
+window.addEventListener("resize", () => { clearTimeout(timer); timer = setTimeout(() => { if (!$("story").hidden) render(); }, 120); });
 show();
 window.addEventListener("hashchange", show);

@@ -1,6 +1,11 @@
 "use strict";
 
-const ALL = window.GW_SKILLS;
+// the skills as this page reads them: profession, attribute (or "<title> rank"), type and campaign by name
+const titleName = s => (TITLES[s.title] || Object.values(TITLES).find(t => t.also === s.title))?.name;
+const ALL = Object.values(SKILLS).map(s => ({ ...s, profession: PROFS[s.profession], type: s.label, campaign: CAMPAIGNS[s.campaign],
+  attribute: s.title ? `${titleName(s) || "Title"} rank` : ATTRIBUTES[s.attribute] || "No attribute" }));
+const PROF_ORDER = Object.fromEntries(PROFS.map((p, i) => [p, i || 99]));
+const profColor = p => profVar(PROFS.indexOf(p));
 const SKILL = new Map(ALL.map(s => [s.id, s]));
 const PICKABLE = ALL.filter(s => !s.pvp_only && s.name !== "No Skill");
 
@@ -85,7 +90,7 @@ function describe(s) {
 
 /* ---------- rendering ---------- */
 const icon = (s, cls = "") => s
-  ? `<span class="sk-icon ${cls}${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}" data-tip="${s.id}" aria-label="${esc(s.name)}"><img src="img/skills/${s.id}.jpg" alt="" loading="lazy" onerror="this.remove()"><span class="sk-fallback">${esc(s.name)}</span></span>`
+  ? `<span class="sk-icon ${cls}${s.elite ? " elite" : ""}" style="--pc:${profColor(s.profession)}" data-tip="${s.id}" aria-label="${esc(s.name)}"><img src="img/skills/${s.id}.jpg" alt="" loading="lazy" onerror="this.remove()"><span class="sk-fallback">${esc(s.name)}</span></span>`
   : `<span class="sk-icon empty ${cls}"></span>`;
 
 function renderProfs() {
@@ -247,7 +252,7 @@ function renderResults() {
       const k = tier(s) === 1 ? s.attribute : `${s.profession}|${s.attribute}`;
       if (k !== key) {
         const shut = narrowed() ? groupOverride.get(k) === true : groupShut(s, k);
-        html += `${key ? "</div>" : ""}<button type="button" class="b-agrp${shut ? " shut" : ""}" data-group="${esc(k)}" aria-expanded="${!shut}" style="--pc:${tier(s) === 1 ? "var(--muted)" : profVar(s.profession)}">${esc(s.attribute === "No attribute" && s.profession !== "None" ? `${s.profession} · no attribute` : s.attribute)}</button><div class="b-grid"${shut ? " hidden" : ""}>`;
+        html += `${key ? "</div>" : ""}<button type="button" class="b-agrp${shut ? " shut" : ""}" data-group="${esc(k)}" aria-expanded="${!shut}" style="--pc:${tier(s) === 1 ? "var(--muted)" : profColor(s.profession)}">${esc(s.attribute === "No attribute" && s.profession !== "None" ? `${s.profession} · no attribute` : s.attribute)}</button><div class="b-grid"${shut ? " hidden" : ""}>`;
         key = k;
       }
       html += cell(s, false);

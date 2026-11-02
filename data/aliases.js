@@ -1,1 +1,64 @@
-window.GW_ALIASES = {"\"I Am Unstoppable!\"":["iau"],"\"Save Yourselves!\"":["sy"],"\"There's Nothing to Fear!\"":["tnf"],"\"You Move Like a Dwarf!\"":["ymlad"],"Ascalon (pre-Searing)":["pre"],"Assassin":["assa","sin"],"Blood is Power":["bip"],"Cathedral of Flames":["cof"],"Dervish":["derv"],"Distracting Shot":["dshot"],"Domain of Anguish":["doa"],"Ebon Battle Standard of Honor":["ebsoh"],"Ebon Escape":["ee"],"Ebon Vanguard Assassin Support":["evas"],"Edge of Extinction":["eoe"],"Elementalist":["ele"],"Eye of the North":["eotn"],"Fort Aspenwood":["fa"],"Gate of Madness":["gom"],"Great Temple of Balthazar":["gtob"],"Hall of Monuments":["hom"],"Heroes' Ascent":["ha"],"Heroic Refrain":["hr"],"Kamadan, Jewel of Istan":["kama"],"Legendary Defender of Ascalon":["ldoa"],"Lion's Arch":["la"],"Mesmer":["me","mes","mez"],"Monk":["mo"],"Necromancer":["necro"],"Nicholas the Traveler":["nick"],"Nightfall":["nf"],"Pain Inverter":["pi"],"Paragon":["para"],"Prophecies":["proph"],"Quickening Zephyr":["qz"],"Random Arenas":["ra"],"Ritualist":["rit","rt"],"Shadow Form":["sf"],"Shards of Orr":["soo"],"Signet of Ghostly Might":["sogm"],"Signet of Spirits":["sos"],"Soul Twisting":["st"],"Spiteful Spirit":["ss"],"Temple of the Ages":["toa"],"The Deep":["dsc"],"The Fissure of Woe":["fow","fowsc"],"The Jade Quarry":["jq"],"The Underworld":["uw","uwsc"],"The War in Kryta":["wik"],"Tomb of the Primeval Kings":["topk"],"Unyielding Aura":["ua"],"Vow of Strength":["vos"],"Warrior":["war","warr"],"Zaishen Mission":["zm"]};
+const GW_ALIASES = {
+  "aliases_": "The short names players search with, by what they name: skills, locations, regions, professions and campaigns by id; other: by the words they stand for.",
+  "aliases": {
+    "skills": {
+      "2356": ["iau"],
+      "1954": ["sy"],
+      "2112": ["tnf"],
+      "2358": ["ymlad"],
+      "119": ["bip"],
+      "399": ["dshot"],
+      "2233": ["ebsoh"],
+      "2420": ["ee"],
+      "2235": ["evas"],
+      "464": ["eoe"],
+      "3431": ["hr"],
+      "2418": ["pi"],
+      "475": ["qz"],
+      "826": ["sf"],
+      "1742": ["sogm"],
+      "1239": ["sos"],
+      "1240": ["st"],
+      "121": ["ss"],
+      "268": ["ua"],
+      "1759": ["vos"]
+    },
+    "regions": {"7": ["pre"], "100": ["doa"]},
+    "professions": {
+      "7": ["assa", "sin"],
+      "10": ["derv"],
+      "6": ["ele"],
+      "5": ["me", "mes", "mez"],
+      "3": ["mo"],
+      "4": ["necro"],
+      "9": ["para"],
+      "8": ["rit", "rt"],
+      "1": ["war", "warr"]
+    },
+    "locations": {
+      "560": ["cof"],
+      "221": ["fa"],
+      "495": ["gom"],
+      "248": ["gtob"],
+      "646": ["hom"],
+      "330": ["ha"],
+      "449": ["kama"],
+      "55": ["la"],
+      "188": ["ra"],
+      "581": ["soo"],
+      "138": ["toa"],
+      "307": ["dsc"],
+      "34": ["fow", "fowsc"],
+      "223": ["jq"],
+      "72": ["uw", "uwsc"],
+      "82": ["topk"]
+    },
+    "campaigns": {"4": ["eotn"], "3": ["nf"], "1": ["proph"]},
+    "other": {
+      "Legendary Defender of Ascalon": ["ldoa"],
+      "Nicholas the Traveler": ["nick"],
+      "The War in Kryta": ["wik"],
+      "Zaishen Mission": ["zm"]
+    }
+  }
+};

@@ -6,12 +6,15 @@ GitHub Pages.
 
 ## Layout
 
-    index.html, skills.html, quests.html, skill-quests.html, missions.html,
-    builder.html, rotations.html, contact.html, license.html          pages
-    style.css, common.js and one script per page                      page code
-    template-code.js                                                  template-code encode/decode
-    data/            site data (skills, missions, quests, rotations)
-    img/             skill icons (by skill ID) and profession icons
+    *.html, style.css, common.js and one script per page             pages
+    mapwidget.js, walkroute.js                                       maps and the route finder
+    template-code.js                                                 template-code encode/decode
+    game/            the game's data, keyed by the game's ids (see each section's "_" note)
+    game/walk/       each area's walkable ground, as polygons
+    data/            the site's own content: guides, builds, search aliases
+    img/tiles/       the maps, cut into tiles; img/skills/, img/prof/: icons
+
+The data files are the source: edit them by hand. `../tools/check_game.py` checks every pointer.
 
 ## License
 

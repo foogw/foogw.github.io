@@ -1,49 +1,48 @@
 "use strict";
 
-/* The way on foot between two spots of a Maps-page region (data/world.js), worked out in the browser: the areas'
-   walkable shapes laid into one grid, joined at the portals between them, and searched for the shortest walk that
-   keeps off the edges. walkGrid(region, names) builds the grid (names: only those areas, or every area), and
-   walkRoute(grid, from, to) gives the way as a short polyline in the region picture's pixels, or null. */
-const WALK_S = 2;        // picture pixels per grid cell
-const WALK_BRIDGE = 12;  // picture pixels: the disc joining two areas at their portal
+/* The way on foot between two spots on a map, worked out in the browser: the areas' walkable shapes
+   (game/walk/<map id>.json) drawn into one grid, joined at the portals between them, and searched for the shortest
+   walk that keeps off the edges. walkGrid(ids) builds the grid, and walkRoute(grid, from, to) gives the way as a
+   short polyline in the map's pixels, or null. */
+const WALK_S = 2;        // map pixels per grid cell
+const WALK_BRIDGE = 12;  // map pixels: the disc joining two areas at their portal
 const WALK_WALL = 4;     // grid cells from an edge within which a step costs more
 
-function walkGrid(r, names = null) {
-  const keep = l => !names || l.names.some(n => names.includes(n));
-  const layers = r.layers.filter(keep);
-  const load = src => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
-  return Promise.all(layers.map(l => load(`img/world/${r.id}/m${l.m}.png`))).then(ms => {
-    const W = Math.ceil(r.w / WALK_S), H = Math.ceil(r.h / WALK_S);
-    const c = document.createElement("canvas"); c.width = W; c.height = H;
-    const g = c.getContext("2d");
-    layers.forEach((l, i) => g.drawImage(ms[i], l.x / WALK_S, l.y / WALK_S, l.w / WALK_S, l.h / WALK_S));
-    // a portal between two of the areas (with names given, both must be among them)
-    g.fillStyle = "#fff";
-    for (const [x, y, a, b] of r.portals || []) if (a && b && (!names || names.includes(a) && names.includes(b))) {
-      g.beginPath(); g.arc(x / WALK_S, y / WALK_S, WALK_BRIDGE / WALK_S, 0, 2 * Math.PI); g.fill();
+async function walkGrid(ids) {
+  const walks = (await Promise.all(ids.map(loadWalk))).filter(Boolean);
+  const [x0, y0, x1, y1] = ringsBox(walks);
+  const W = Math.ceil((x1 - x0) / WALK_S) + 2, H = Math.ceil((y1 - y0) / WALK_S) + 2;
+  const c = document.createElement("canvas"); c.width = W; c.height = H;
+  const g = c.getContext("2d");
+  g.setTransform(1 / WALK_S, 0, 0, 1 / WALK_S, -x0 / WALK_S + 1, -y0 / WALK_S + 1);
+  g.fillStyle = "#fff";
+  g.fill(walkPath(walks), "evenodd");
+  // a portal between two of the areas
+  for (const id of ids) for (const e of LOCATIONS[id]?.exits || []) if (e.at && ids.includes(e.to)) {
+    g.beginPath(); g.arc(e.at[0], e.at[1], WALK_BRIDGE, 0, 2 * Math.PI); g.fill();
+  }
+  const px = g.getImageData(0, 0, W, H).data, walk = new Uint8Array(W * H);
+  for (let i = 0; i < W * H; i++) walk[i] = px[4 * i + 3] > 0 ? 1 : 0;  // any walkable pixel: a neck one pixel wide still joins
+  // a step costs more near an edge, so the way keeps to the middle of a path
+  let cur = walk.slice(); const d = new Uint8Array(W * H);
+  for (let k = 0; k < WALK_WALL; k++) {
+    const next = new Uint8Array(W * H);
+    for (let i = 0; i < W * H; i++) if (cur[i]) {
+      d[i]++;
+      const x = i % W;
+      next[i] = x > 0 && cur[i - 1] && x < W - 1 && cur[i + 1] && cur[i - W] && cur[i + W] ? 1 : 0;
     }
-    const px = g.getImageData(0, 0, W, H).data, walk = new Uint8Array(W * H);
-    for (let i = 0; i < W * H; i++) walk[i] = px[4 * i + 3] > 0 ? 1 : 0;  // any walkable pixel: a neck one pixel wide still joins
-    // a step costs more near an edge, so the way keeps to the middle of a path
-    let cur = walk.slice(); const d = new Uint8Array(W * H);
-    for (let k = 0; k < WALK_WALL; k++) {
-      const next = new Uint8Array(W * H);
-      for (let i = 0; i < W * H; i++) if (cur[i]) {
-        d[i]++;
-        const x = i % W;
-        next[i] = x > 0 && cur[i - 1] && x < W - 1 && cur[i + 1] && cur[i - W] && cur[i + W] ? 1 : 0;
-      }
-      cur = next;
-    }
-    const cost = new Float32Array(W * H);
-    for (let i = 0; i < W * H; i++) cost[i] = 1 + 3 * (WALK_WALL - d[i]) / WALK_WALL;
-    return { W, H, walk, cost };
-  });
+    cur = next;
+  }
+  const cost = new Float32Array(W * H);
+  for (let i = 0; i < W * H; i++) cost[i] = 1 + 3 * (WALK_WALL - d[i]) / WALK_WALL;
+  // the grid's corner in map pixels
+  return { W, H, walk, cost, ox: x0 - WALK_S, oy: y0 - WALK_S };
 }
 
-// the walkable cell nearest a picture point, or -1
-function walkSnap({ W, H, walk }, x, y) {
-  const cx = Math.round(x / WALK_S), cy = Math.round(y / WALK_S);
+// the walkable cell nearest a map point, or -1
+function walkSnap({ W, H, walk, ox, oy }, x, y) {
+  const cx = Math.round((x - ox) / WALK_S), cy = Math.round((y - oy) / WALK_S);
   for (let r = 0; r < 60; r++) for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
     if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
     const nx = cx + dx, ny = cy + dy;
@@ -53,7 +52,7 @@ function walkSnap({ W, H, walk }, x, y) {
 }
 
 // A* over 8 neighbours with a binary heap: the cells from a to b, or null
-function walkSearch({ W, H, walk, cost }, a, b) {
+function walkSearch({ W, H, walk, cost, ox, oy }, a, b) {
   const g = new Float64Array(W * H).fill(Infinity), from = new Int32Array(W * H).fill(-1);
   const heap = [], bx = b % W, by = (b / W) | 0;
   const h = i => Math.hypot(i % W - bx, ((i / W) | 0) - by);
@@ -91,7 +90,7 @@ function walkSearch({ W, H, walk, cost }, a, b) {
   }
   if (a !== b && from[b] < 0) return null;
   const out = [];
-  for (let i = b; i !== -1; i = i === a ? -1 : from[i]) out.push([(i % W) * WALK_S, ((i / W) | 0) * WALK_S]);
+  for (let i = b; i !== -1; i = i === a ? -1 : from[i]) out.push([ox + (i % W) * WALK_S, oy + ((i / W) | 0) * WALK_S]);
   return out.reverse();
 }
 

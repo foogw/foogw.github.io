@@ -1,8 +1,21 @@
 "use strict";
 
-const SETS = window.GW_ARMOR;
+// the armor data with names in place of ids, and each tier's set total summed from its pieces
+const ARMORDATA = data("GW_ARMOR"), MATS = ARMORDATA.materials;
+const SETS = Object.values(ARMORDATA.armor).map(a => ({
+  name: a.name, kind: a.kind, profession: PROFS[a.profession], campaigns: a.campaigns.map(c => CAMPAIGNS[c]), wiki_de: a.wiki,
+  tiers: a.tiers.map(t => {
+    const mats = cs => cs.map(([count, m]) => ({ count, material: MATS[m].name }));
+    const pieces = Object.fromEntries(Object.entries(t.pieces).map(([k, cs]) => [k, mats(cs)]));
+    const total = new Map();
+    for (const cs of Object.values(pieces)) for (const c of cs) total.set(c.material, (total.get(c.material) || 0) + c.count);
+    return { ...t, pieces, total: [...total].map(([material, count]) => ({ count, material })),
+      at: (t.at || []).map(i => [locName(NPCS[i]?.location), NPCS[i]?.name || ""]) };
+  }),
+}));
 const CAMP_FILTERS = ["Core", "Prophecies", "Factions", "Nightfall", "Eye of the North"];
-const CAMP_COLOR = { Core: "--p-none", Prophecies: "--p-paragon", Factions: "--p-ritualist", Nightfall: "--p-elementalist", "Eye of the North": "--p-monk" };
+const campColor = c => CAMP_COLOR[CAMPAIGNS.indexOf(c)];
+const profColor = p => profVar(PROFS.indexOf(p));
 const SLOTS = [["head", "Head"], ["chest", "Chest"], ["hands", "Hands"], ["legs", "Legs"], ["feet", "Feet"]];
 const PRESTIGE = 1000; // gold per piece above which armor counts as prestige
 // short names for the list; materials not named here show in full
@@ -57,8 +70,8 @@ function chipGroup(el, values, attr, color, set) {
 }
 
 function buildFilterUI() {
-  chipGroup(els.prof, PROFS.map(([p]) => p).filter(p => SETS.some(s => s.profession === p)), "prof", profVar, state.profs);
-  chipGroup(els.camp, CAMP_FILTERS, "camp", c => `var(${CAMP_COLOR[c]})`, state.camps);
+  chipGroup(els.prof, PROFS.slice(1).filter(p => SETS.some(s => s.profession === p)), "prof", profColor, state.profs);
+  chipGroup(els.camp, CAMP_FILTERS, "camp", c => `var(${campColor(c)})`, state.camps);
 
   els.mats.addEventListener("click", e => {
     const b = e.target.closest(".mat");
@@ -99,7 +112,7 @@ function buildFilterUI() {
   });
 }
 
-function syncChips() {
+function syncArmorChips() {
   for (const b of els.prof.children) b.setAttribute("aria-pressed", state.profs.has(b.dataset.prof));
   for (const b of els.camp.children) b.setAttribute("aria-pressed", state.camps.has(b.dataset.camp));
 }
@@ -154,7 +167,7 @@ function bestOnly(rows) {
 const KINDS = ["set", "pieces", "headgear"];
 const campIdx = s => Math.min(...s.campaigns.map(c => CAMP_FILTERS.indexOf(c)));
 const SORTS = {
-  default: (a, b) => PROF_ORDER[a.set.profession] - PROF_ORDER[b.set.profession] || campIdx(a.set) - campIdx(b.set)
+  default: (a, b) => PROFS.indexOf(a.set.profession) - PROFS.indexOf(b.set.profession) || campIdx(a.set) - campIdx(b.set)
     || KINDS.indexOf(a.set.kind) - KINDS.indexOf(b.set.kind) || cmpStr(a.set.name, b.set.name) || a.tier.armor - b.tier.armor || a.tier.price - b.tier.price,
   name: (a, b) => cmpStr(a.set.name, b.set.name) || SORTS.default(a, b),
   profession: (a, b) => SORTS.default(a, b),
@@ -175,10 +188,10 @@ function rowHTML(r, q) {
   const { set: s, tier: t } = r;
   const id = `${s._key}|${s.tiers.indexOf(t)}`;
   const open = state.open === id;
-  return `<div class="row arow${open ? " open" : ""}" data-id="${esc(id)}" style="--pc:${profVar(s.profession)}">
+  return `<div class="row arow${open ? " open" : ""}" data-id="${esc(id)}" style="--pc:${profColor(s.profession)}">
     <div class="name">${highlight(s.name, q)}${KIND_TAG[s.kind] || ""}</div>
     <div class="prof col-prof">${esc(s.profession)}</div>
-    <div class="dim col-camp">${s.campaigns.map(c => CAMP_SHORT[c] || c).join(", ")}</div>
+    <div class="dim col-camp">${s.campaigns.map(c => CAMP_SHORT[CAMPAIGNS.indexOf(c)]).join(", ")}</div>
     <div class="num">${t.armor}</div>
     <div class="num dim col-pieces">${piecesLabel(t._pieces)}</div>
     <div class="num" title="${t.price.toLocaleString("en")} gold for the set, ${t.price_per_piece.toLocaleString("en")} a piece">${gold(t.price)}</div>
@@ -202,7 +215,7 @@ function detailHTML(r, q) {
   const others = s.tiers.length > 1 ? `<h4>All versions</h4><table class="rewards"><tr><th class="num">Armor</th><th class="num">Pieces</th><th class="num">Gold</th><th>Where</th><th>Materials</th></tr>${
     s.tiers.map((x, i) => `<tr class="${x === t ? "cur" : ""}"><td class="num"><button class="link" data-tier="${esc(`${s._key}|${i}`)}">${x.armor}</button></td><td class="num">${piecesLabel(x._pieces)}</td><td class="num">${gold(x.price)}</td><td>${x.at.map(a => esc(a[0])).join(", ")}</td><td class="mqs">${matList(x.total, true)}</td></tr>`).join("")
   }</table>` : "";
-  return `<div class="detail" style="--pc:${profVar(s.profession)}">
+  return `<div class="detail" style="--pc:${profColor(s.profession)}">
     <div>
       <div class="facts" style="margin-top:12px">
         <span>Armor <b>${t.armor}</b></span><span>Per piece <b>${t.price_per_piece.toLocaleString("en")} gold</b></span>
@@ -255,7 +268,7 @@ function usageHTML(n, share) {
 
 let lastVisible = [];
 function update() {
-  syncChips();
+  syncArmorChips();
   const q = terms(els.name);
   let base = ROWS.filter(r => baseMatch(r, q));
   if (els.top.checked) base = bestOnly(base);
