@@ -4,25 +4,26 @@
    (game/walk/<map id>.json) drawn into one grid, joined at the portals between them, and searched for the shortest
    walk that keeps off the edges. walkGrid(ids) builds the grid, and walkRoute(grid, from, to) gives the way as a
    short polyline in the map's pixels, or null. */
-const WALK_S = 2;        // map pixels per grid cell
+const WALK_S = 1;        // map pixels per grid cell: a ridge a few pixels wide stays a wall
 const WALK_BRIDGE = 12;  // map pixels: the disc joining two areas at their portal
-const WALK_WALL = 4;     // grid cells from an edge within which a step costs more
+const WALK_WALL = 8;     // grid cells from an edge within which a step costs more
 
 async function walkGrid(ids) {
-  const walks = (await Promise.all(ids.map(loadWalk))).filter(Boolean);
+  // all the ground there is: an outpost's town too
+  const walks = (await Promise.all(ids.map(loadWalk))).filter(Boolean).map(w => ({ rings: [...w.rings, ...(w.town || [])] }));
   const [x0, y0, x1, y1] = ringsBox(walks);
   const W = Math.ceil((x1 - x0) / WALK_S) + 2, H = Math.ceil((y1 - y0) / WALK_S) + 2;
   const c = document.createElement("canvas"); c.width = W; c.height = H;
   const g = c.getContext("2d");
   g.setTransform(1 / WALK_S, 0, 0, 1 / WALK_S, -x0 / WALK_S + 1, -y0 / WALK_S + 1);
   g.fillStyle = "#fff";
-  g.fill(walkPath(walks), "evenodd");
+  g.fill(walkPath(walks), "nonzero");
   // a portal between two of the areas
   for (const id of ids) for (const e of LOCATIONS[id]?.exits || []) if (e.at && ids.includes(e.to)) {
     g.beginPath(); g.arc(e.at[0], e.at[1], WALK_BRIDGE, 0, 2 * Math.PI); g.fill();
   }
   const px = g.getImageData(0, 0, W, H).data, walk = new Uint8Array(W * H);
-  for (let i = 0; i < W * H; i++) walk[i] = px[4 * i + 3] > 0 ? 1 : 0;  // any walkable pixel: a neck one pixel wide still joins
+  for (let i = 0; i < W * H; i++) walk[i] = px[4 * i + 3] >= 128 ? 1 : 0;  // half covered: the edges' smoothing doesn't close a thin gap
   // a step costs more near an edge, so the way keeps to the middle of a path
   let cur = walk.slice(); const d = new Uint8Array(W * H);
   for (let k = 0; k < WALK_WALL; k++) {
@@ -84,6 +85,7 @@ function walkSearch({ W, H, walk, cost, ox, oy }, a, b) {
     for (const [dx, dy, s] of steps) {
       const nx = x + dx, ny = y + dy, j = ny * W + nx;
       if (nx < 0 || ny < 0 || nx >= W || ny >= H || !walk[j]) continue;
+      if (dx && dy && !(walk[i + dx] && walk[i + dy * W])) continue;  // no cutting a corner: a thin diagonal wall holds
       const ng = g[i] + s * cost[j];
       if (ng < g[j]) { g[j] = ng; from[j] = i; push(ng + h(j), j); }
     }

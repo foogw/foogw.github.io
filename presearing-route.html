@@ -17,6 +17,7 @@
   .route .end.a { border-color: #3ddc84; }
   .route .end.b { border-color: #ff3b3b; }
   .route .gmap-path circle { display: none; }
+  .route .gmap-path.ridge polyline { stroke: #ff4fd8; }
 </style>
 </head>
 <body>
@@ -30,7 +31,7 @@
   </header>
 </div>
 <div class="wrap route">
-  <div class="page-title"><h1>Pre-Searing Route Finder</h1><p>Click where you are, then where you want to go: the way there is drawn over the walkable ground, through the portals between areas.</p></div>
+  <div class="page-title"><h1>Pre-Searing Route Finder</h1><p>Click where you are, then where you want to go: the way there is drawn over the walkable ground, through the portals between areas. Shift+wheel zooms (drag to move about); Shift+click traces a line (logged to the console), to show where the ground is wrong.</p></div>
   <div class="bar"><span id="status" class="hint">Loading the map…</span><button id="clear" hidden>Clear</button></div>
   <div id="map"></div>
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
@@ -51,31 +52,43 @@ Promise.all([initMaps(document.getElementById("map")), walkGrid(IDS)]).then(([, 
   grid = g; view = document.querySelector(".gmap").mapView; win = view.win;
   status.textContent = "Click where you are.";
   win.addEventListener("click", onClick, true);
+  view.onchange = () => draw(lastPts);
 });
 
-let ends = [];
+let ends = [], ridge = [], lastPts = null;  // ridge: a line Shift+clicked along ground that can't be walked, for fixing the walkable
 // a point in map pixels, as a share of the window, and the way as an SVG over it
 const pct = ([x, y]) => [100 * (x - view.box[0]) / (view.box[2] - view.box[0]), 100 * (y - view.box[1]) / (view.box[3] - view.box[1])];
 function draw(pts) {
   for (const e of win.querySelectorAll(".end, .gmap-path")) e.remove();
   ends.forEach((p, k) => { const [x, y] = pct(p); win.insertAdjacentHTML("beforeend", `<span class="end ${k ? "b" : "a"}" style="left:${x}%;top:${y}%"></span>`); });
-  if (pts) win.insertAdjacentHTML("beforeend", `<svg class="gmap-path" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="${pts.map(p => pct(p).join(",")).join(" ")}"/></svg>`);
+  for (const [k, line] of [["", pts], [" ridge", ridge.length > 1 && ridge]]) if (line)
+    win.insertAdjacentHTML("beforeend", `<svg class="gmap-path${k}" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="${line.map(p => pct(p).join(",")).join(" ")}"/></svg>`);
 }
 function onClick(e) {
   e.preventDefault();  // a marker is a link: here a click on it picks that spot
+  if (view.dragged) return;  // the end of a drag about the zoomed map
   const r = win.getBoundingClientRect(), [x0, y0, x1, y1] = view.box;
+  const at = [x0 + (e.clientX - r.left) / r.width * (x1 - x0), y0 + (e.clientY - r.top) / r.height * (y1 - y0)];
+  if (e.shiftKey) {
+    ridge.push(at);
+    console.log(`ridge ${ridge.map(p => p.map(Math.round).join(",")).join(" ")}`);
+    draw(lastPts); clear.hidden = false; return;
+  }
   if (ends.length === 2) ends = [];
-  ends.push([x0 + (e.clientX - r.left) / r.width * (x1 - x0), y0 + (e.clientY - r.top) / r.height * (y1 - y0)]);
+  ends.push(at);
   clear.hidden = false;
+  lastPts = null;
   if (ends.length === 1) { draw(null); status.textContent = "Now click where you want to go."; return; }
-  const t = performance.now(), pts = walkRoute(grid, ...ends);
+  const t = performance.now(), pts = walkRoute(grid, ...ends), ms = Math.round(performance.now() - t);
   if (!pts) { draw(null); status.textContent = "There's no way between those two spots. Click to start again."; return; }
   let len = 0;
   for (let i = 1; i < pts.length; i++) len += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
-  draw(pts);
-  status.textContent = `About ${Math.round(len * UNITS).toLocaleString()} game units (found in ${Math.round(performance.now() - t)} ms). Click to start again.`;
+  draw(lastPts = pts);
+  // the way, for checking: its length, how long the search took, and its points in map pixels
+  console.log(`route ${Math.round(len * UNITS)} units, ${ms} ms, ${pts.length} points: ${pts.map(p => p.map(Math.round).join(",")).join(" ")}`);
+  status.textContent = `About ${Math.round(len * UNITS).toLocaleString()} game units (found in ${ms} ms). Click to start again.`;
 }
-clear.onclick = () => { ends = []; draw(null); clear.hidden = true; status.textContent = "Click where you are."; };
+clear.onclick = () => { ends = []; ridge = []; lastPts = null; draw(null); clear.hidden = true; status.textContent = "Click where you are."; };
 </script>
 </body>
 </html>
