@@ -46,7 +46,7 @@ VIEWS.title = (() => {
       ${unlocksHTML(t)}
       ${skillsHTML(t)}
       ${tableHTML(t)}
-      <p class="t-src"><a href="${esc(t.wiki)}" target="_blank" rel="noopener">guildwiki.de</a></p>
+      <p class="t-src">${wikiLink(t.wiki)}</p>
     </section>`;
   }
   const html = t => `<p class="back"><a href="titles">← All titles</a></p>

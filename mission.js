@@ -82,7 +82,7 @@ VIEWS.mission = (() => {
           <section class="lbox"><h4>Allies</h4>${creaturesHTML(m.allies)}</section>
         </div>
       </div>
-      <p class="llinks">${steps ? `<a href="${storylineHref(steps.campaign, { m: m.id })}">In the storyline →</a>` : ""}${m.wiki_en ? `<a href="${esc(m.wiki_en)}" target="_blank" rel="noopener">Guild Wars Wiki (archived)</a>` : ""}${m.wiki ? `<a href="${esc(m.wiki)}" target="_blank" rel="noopener">guildwiki.de</a>` : ""}</p>`;
+      <p class="llinks">${steps ? `<a href="${storylineHref(steps.campaign, { m: m.id })}">In the storyline →</a>` : ""}${wikiLink(m.wiki)}</p>`;
   }
   return { find: id => MISSIONS[id], title: m => m.name, html };
 })();

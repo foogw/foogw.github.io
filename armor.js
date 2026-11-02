@@ -3,7 +3,7 @@
 // the armor data with names in place of ids, and each tier's set total summed from its pieces
 const ARMORDATA = data("GW_ARMOR"), MATS = ARMORDATA.materials;
 const SETS = Object.values(ARMORDATA.armor).map(a => ({
-  name: a.name, kind: a.kind, profession: PROFS[a.profession], campaigns: a.campaigns.map(c => CAMPAIGNS[c]), wiki_de: a.wiki,
+  name: a.name, kind: a.kind, profession: PROFS[a.profession], campaigns: a.campaigns.map(c => CAMPAIGNS[c]), wiki: a.wiki,
   tiers: a.tiers.map(t => {
     const mats = cs => cs.map(([count, m]) => ({ count, material: MATS[m].name }));
     const pieces = Object.fromEntries(Object.entries(t.pieces).map(([k, cs]) => [k, mats(cs)]));
@@ -229,7 +229,7 @@ function detailHTML(r, q) {
     <div>
       <h4>Crafted at</h4>
       <ul class="acq">${where}</ul>
-      <p style="margin-top:10px;font-size:12px" class="dim"><a href="${esc(s.wiki_de)}" target="_blank" rel="noopener">guildwiki.de</a></p>
+      <p style="margin-top:10px;font-size:12px" class="dim">${wikiLink(s.wiki)}</p>
     </div>
   </div>`;
 }

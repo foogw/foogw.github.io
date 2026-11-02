@@ -86,7 +86,7 @@ VIEWS.place = (() => {
         ${stats ? `<div class="lstats">${stats}</div>` : ""}
       </div>
       ${notesHTML(l)}
-      <div class="llinks">${l.wiki ? `<a href="${esc(l.wiki)}" target="_blank" rel="noopener">guildwiki.de ↗</a>` : ""}</div>
+      <div class="llinks">${wikiLink(l.wiki)}</div>
       <div class="lgrid">
         <section class="lexits"><h4>Exits</h4><div class="exits">${exitsHTML(l, l.at)}</div></section>
         <div class="lside">${side}</div>

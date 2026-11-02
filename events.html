@@ -73,7 +73,7 @@ function render() {
     .map(({ e, w: [a, b, s] }) => {
       const state = a <= now ? `<span class="now">On now</span>, ends ${eventAway(b - now)}` : `<span class="soon">Starts ${eventAway(a - now)}</span>`;
       const miss = (e.miss || []).map(([t, lock]) => text(t, true) + (lock ? ` <span class="lock">once-a-year chance</span>` : ""));
-      return `<section><h2><a href="https://wiki.guildwars.com/wiki/${e.wiki}" target="_blank" rel="noopener">${esc(e.name)}</a></h2>`
+      return `<section><h2>${e.wiki ? `<a href="${esc(wikiHref(e.wiki).href)}" target="_blank" rel="noopener">${esc(e.name)}</a>` : esc(e.name)}</h2>`
         + `<p class="when">${state} · <b>${fmt(a)} – ${fmt(b)}</b>${s ? ` · collectors stay until ${fmt(s)}` : ""}</p>`
         + row("Don't miss", items(miss)) + row("Drops", items((e.drops || []).map(t => text(t, true)))) + row("Quests", questsLink(e))
         + `</section>`;

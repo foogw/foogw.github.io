@@ -69,7 +69,7 @@ const GW_GROUND = {
     "100": {"name": "Domain of Anguish", "campaign": 3, "continent": 5, "within": 16},
     "101": {"name": "Northern Shiverpeaks", "campaign": 1, "continent": 0, "within": 3}
   },
-  "locations_": "Keys are game map ids; 100000 and up are ours, for areas the game gives no id. type: a type above. party: outposts only, the game's maximum. set: the map (maps.js) it is drawn on; at: its marker there (on a continent's map, the game's world-map icon). terrain: the game's terrain file id. exits: {to: map id, at: the portal on its map} or {to, dir} when the portal isn't placed. bosses: creatures. foes: the foe count to vanquish, low and high. from, gateway: locations reached by other means. wiki: the GuildWiki.de page (source credit).",
+  "locations_": "Keys are game map ids; 100000 and up are ours, for areas the game gives no id. type: a type above. party: outposts only, the game's maximum. set: the map (maps.js) it is drawn on; at: its marker there (on a continent's map, the game's world-map icon). terrain: the game's terrain file id. exits: {to: map id, at: the portal on its map} or {to, dir} when the portal isn't placed. bosses: creatures. foes: the foe count to vanquish, low and high. from, gateway: locations reached by other means. wiki: its page on each wiki by language, {en: the Guild Wars Wiki's title, de: GuildWiki.de's} (also the source credit).",
   "locations": {
     "10": {
       "name": "Bloodstone Fen",
@@ -82,7 +82,7 @@ const GW_GROUND = {
       "exits": [{"to": 43, "at": [845, 4682]}],
       "order": 28,
       "after": 142,
-      "wiki": "https://www.guildwiki.de/wiki/Blutsteinsumpf"
+      "wiki": {"en": "Bloodstone Fen", "de": "Blutsteinsumpf"}
     },
     "11": {
       "name": "The Wilds",
@@ -95,7 +95,7 @@ const GW_GROUND = {
       "exits": [{"to": 41, "at": [1417, 4474]}],
       "order": 27,
       "after": 10,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Wildnis"
+      "wiki": {"en": "The Wilds", "de": "Die Wildnis"}
     },
     "12": {
       "name": "Aurora Glade",
@@ -108,7 +108,7 @@ const GW_GROUND = {
       "exits": [{"to": 44, "at": [1337, 5082]}],
       "order": 31,
       "after": 49,
-      "wiki": "https://www.guildwiki.de/wiki/Auroralichtung"
+      "wiki": {"en": "Aurora Glade", "de": "Auroralichtung"}
     },
     "13": {
       "name": "Diessa Lowlands",
@@ -124,7 +124,7 @@ const GW_GROUND = {
       ],
       "order": 14.5,
       "foes": [336, 383],
-      "wiki": "https://www.guildwiki.de/wiki/Tiefland_von_Diessa",
+      "wiki": {"en": "Diessa Lowlands", "de": "Tiefland von Diessa"},
       "set": 0
     },
     "14": {
@@ -138,7 +138,7 @@ const GW_GROUND = {
       "exits": [{"to": 54, "at": [4113, 4610]}],
       "order": 22,
       "after": 55,
-      "wiki": "https://www.guildwiki.de/wiki/Tore_von_Kryta"
+      "wiki": {"en": "Gates of Kryta", "de": "Tore von Kryta"}
     },
     "15": {
       "name": "D'Alessio Seaboard",
@@ -151,7 +151,7 @@ const GW_GROUND = {
       "exits": [{"to": 58, "at": [3717, 4778]}],
       "order": 24,
       "after": 16,
-      "wiki": "https://www.guildwiki.de/wiki/D'Alessio-Küste"
+      "wiki": {"en": "D'Alessio Seaboard", "de": "D'Alessio-Küste"}
     },
     "16": {
       "name": "Divinity Coast",
@@ -164,7 +164,7 @@ const GW_GROUND = {
       "exits": [{"to": 62, "at": [2813, 4237]}],
       "order": 25,
       "after": 140,
-      "wiki": "https://www.guildwiki.de/wiki/Küste_der_Göttlichkeit"
+      "wiki": {"en": "Divinity Coast", "de": "Küste der Göttlichkeit"}
     },
     "17": {
       "name": "Talmark Wilderness",
@@ -174,7 +174,7 @@ const GW_GROUND = {
       "exits": [{"to": 18, "at": [2797, 4518]}, {"to": 60, "at": [2381, 4502]}, {"to": 53, "at": [2573, 4750]}],
       "order": 25.5,
       "foes": [186, 253],
-      "wiki": "https://www.guildwiki.de/wiki/Talmark-Wildnis",
+      "wiki": {"en": "Talmark Wilderness", "de": "Talmark-Wildnis"},
       "set": 0
     },
     "18": {
@@ -191,7 +191,7 @@ const GW_GROUND = {
       ],
       "order": 22.5,
       "foes": [206, 296],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Schwarze_Vorhang",
+      "wiki": {"en": "The Black Curtain", "de": "Der Schwarze Vorhang"},
       "set": 0
     },
     "19": {
@@ -205,7 +205,7 @@ const GW_GROUND = {
       "exits": [{"to": 63, "at": [2769, 5270]}],
       "order": 34,
       "after": 109,
-      "wiki": "https://www.guildwiki.de/wiki/Riff_der_Stille"
+      "wiki": {"en": "Sanctum Cay", "de": "Riff der Stille"}
     },
     "20": {
       "name": "Droknar's Forge",
@@ -217,7 +217,7 @@ const GW_GROUND = {
       "terrain": 33642,
       "exits": [{"to": 26, "at": [5148, 6474]}, {"to": 95, "at": [5217, 6578]}],
       "order": 17.5,
-      "wiki": "https://www.guildwiki.de/wiki/Droknars_Schmiede"
+      "wiki": {"en": "Droknar's Forge", "de": "Droknars Schmiede"}
     },
     "21": {
       "name": "The Frost Gate",
@@ -230,7 +230,7 @@ const GW_GROUND = {
       "exits": [{"to": 89, "at": [5029, 3802]}],
       "order": 18,
       "after": 133,
-      "wiki": "https://www.guildwiki.de/wiki/Das_Frosttor"
+      "wiki": {"en": "The Frost Gate", "de": "Das Frosttor"}
     },
     "22": {
       "name": "Ice Caves of Sorrow",
@@ -243,7 +243,7 @@ const GW_GROUND = {
       "exits": [{"to": 26, "at": [5293, 6422]}],
       "order": 40,
       "after": 24,
-      "wiki": "https://www.guildwiki.de/wiki/Eishöhlen_der_Betrübnis"
+      "wiki": {"en": "Ice Caves of Sorrow", "de": "Eishöhlen der Betrübnis"}
     },
     "23": {
       "name": "Thunderhead Keep",
@@ -256,7 +256,7 @@ const GW_GROUND = {
       "exits": [{"to": 94, "at": [6305, 6158]}],
       "order": 42,
       "after": 35,
-      "wiki": "https://www.guildwiki.de/wiki/Feste_Donnerkopf"
+      "wiki": {"en": "Thunderhead Keep", "de": "Feste Donnerkopf"}
     },
     "24": {
       "name": "Iron Mines of Moladune",
@@ -269,7 +269,7 @@ const GW_GROUND = {
       "exits": [{"to": 98, "at": [5933, 5862]}],
       "order": 41,
       "after": 23,
-      "wiki": "https://www.guildwiki.de/wiki/Eisenminen_von_Moladune"
+      "wiki": {"en": "Iron Mines of Moladune", "de": "Eisenminen von Moladune"}
     },
     "25": {
       "name": "Borlis Pass",
@@ -282,7 +282,7 @@ const GW_GROUND = {
       "exits": [{"to": 99, "at": [5581, 3734]}],
       "order": 17,
       "after": 21,
-      "wiki": "https://www.guildwiki.de/wiki/Borlispass"
+      "wiki": {"en": "Borlis Pass", "de": "Borlispass"}
     },
     "26": {
       "name": "Talus Chute",
@@ -298,7 +298,7 @@ const GW_GROUND = {
       "order": 37.5,
       "foes": [378, 419],
       "bosses": [100381, 100382, 100338, 100354, 100176, 100356, 100383, 100357, 100384, 100385, 100386],
-      "wiki": "https://www.guildwiki.de/wiki/Talusschnelle",
+      "wiki": {"en": "Talus Chute", "de": "Talusschnelle"},
       "set": 0
     },
     "27": {
@@ -308,7 +308,7 @@ const GW_GROUND = {
       "exits": [{"to": 100, "dir": "NE"}, {"to": 54, "at": [4209, 4462]}, {"to": 54, "at": [4209, 4462]}],
       "order": 20,
       "foes": [43, 53],
-      "wiki": "https://www.guildwiki.de/wiki/Greifenmaul",
+      "wiki": {"en": "Griffon's Mouth", "de": "Greifenmaul"},
       "set": 0
     },
     "28": {
@@ -322,7 +322,7 @@ const GW_GROUND = {
       "exits": [{"to": 81, "at": [7210, 4429]}],
       "order": 11,
       "after": 29,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Große_Nordwall"
+      "wiki": {"en": "The Great Northern Wall", "de": "Der Große Nordwall"}
     },
     "29": {
       "name": "Fort Ranik",
@@ -335,7 +335,7 @@ const GW_GROUND = {
       "exits": [{"to": 101, "at": [7401, 4910]}],
       "order": 12,
       "after": 135,
-      "wiki": "https://www.guildwiki.de/wiki/Fort_Ranik"
+      "wiki": {"en": "Fort Ranik", "de": "Fort Ranik"}
     },
     "30": {
       "name": "Ruins of Surmia",
@@ -348,7 +348,7 @@ const GW_GROUND = {
       "exits": [{"to": 107, "at": [7277, 4234]}],
       "order": 14,
       "after": 32,
-      "wiki": "https://www.guildwiki.de/wiki/Ruinen_von_Surmia"
+      "wiki": {"en": "Ruins of Surmia", "de": "Ruinen von Surmia"}
     },
     "31": {
       "name": "Xaquang Skyway",
@@ -365,7 +365,7 @@ const GW_GROUND = {
       "order": 21.5,
       "foes": [155, 171],
       "bosses": [100484, 100485, 100486, 100487],
-      "wiki": "https://www.guildwiki.de/wiki/Xaquang-Himmelsweg"
+      "wiki": {"en": "Xaquang Skyway", "de": "Xaquang-Himmelsweg"}
     },
     "32": {
       "name": "Nolani Academy",
@@ -378,7 +378,7 @@ const GW_GROUND = {
       "exits": [{"to": 13, "at": [5973, 4330]}],
       "order": 15,
       "after": 134,
-      "wiki": "https://www.guildwiki.de/wiki/Nolani-Akademie"
+      "wiki": {"en": "Nolani Academy", "de": "Nolani-Akademie"}
     },
     "33": {
       "name": "Old Ascalon",
@@ -393,7 +393,7 @@ const GW_GROUND = {
       ],
       "order": 8,
       "foes": [200, 291],
-      "wiki": "https://www.guildwiki.de/wiki/Alt-Ascalon",
+      "wiki": {"en": "Old Ascalon", "de": "Alt-Ascalon"},
       "set": 0
     },
     "34": {
@@ -403,7 +403,7 @@ const GW_GROUND = {
       "set": 110,
       "terrain": 63058,
       "from": [138, 284, 393],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Riss_des_Kummers"
+      "wiki": {"en": "The Fissure of Woe", "de": "Der Riss des Kummers"}
     },
     "35": {
       "name": "Ember Light Camp",
@@ -415,7 +415,7 @@ const GW_GROUND = {
       "terrain": 55563,
       "exits": [{"to": 121, "at": [1993, 7733]}],
       "order": 43,
-      "wiki": "https://www.guildwiki.de/wiki/Glutscheinlager"
+      "wiki": {"en": "Ember Light Camp", "de": "Glutscheinlager"}
     },
     "36": {
       "name": "Grendich Courthouse",
@@ -427,7 +427,7 @@ const GW_GROUND = {
       "terrain": 14936,
       "exits": [{"to": 13, "at": [6229, 4014]}],
       "order": 14.5,
-      "wiki": "https://www.guildwiki.de/wiki/Gerichtsgebäude_in_Grendich"
+      "wiki": {"en": "Grendich Courthouse", "de": "Gerichtsgebäude in Grendich"}
     },
     "37": {"name": "Glint's Challenge", "type": 9, "region": 5, "set": 0, "at": [6994, 7128], "terrain": 152265},
     "38": {
@@ -441,7 +441,7 @@ const GW_GROUND = {
       "exits": [{"to": 113, "at": [6673, 8097]}, {"to": 115, "at": [6722, 8073]}],
       "order": 33.5,
       "after": 120,
-      "wiki": "https://www.guildwiki.de/wiki/Fels_der_Weissagung"
+      "wiki": {"en": "Augury Rock", "de": "Fels der Weissagung"}
     },
     "39": {
       "name": "Sardelac Sanitarium",
@@ -453,7 +453,7 @@ const GW_GROUND = {
       "terrain": 14937,
       "exits": [{"to": 33, "at": [6829, 4670]}],
       "order": 7.5,
-      "wiki": "https://www.guildwiki.de/wiki/Sardelac-Sanatorium"
+      "wiki": {"en": "Sardelac Sanitarium", "de": "Sardelac-Sanatorium"}
     },
     "40": {
       "name": "Piken Square",
@@ -466,7 +466,7 @@ const GW_GROUND = {
       "exits": [{"to": 102, "at": [6865, 4270]}],
       "from": [147],
       "order": 7.5,
-      "wiki": "https://www.guildwiki.de/wiki/Pikenplatz"
+      "wiki": {"en": "Piken Square", "de": "Pikenplatz"}
     },
     "41": {
       "name": "Sage Lands",
@@ -482,7 +482,7 @@ const GW_GROUND = {
       ],
       "order": 25.5,
       "foes": [212, 292],
-      "wiki": "https://www.guildwiki.de/wiki/Land_der_Weisen",
+      "wiki": {"en": "Sage Lands", "de": "Land der Weisen"},
       "set": 0
     },
     "42": {
@@ -493,7 +493,7 @@ const GW_GROUND = {
       "exits": [{"to": 41, "at": [1325, 4618]}, {"to": 43, "at": [1182, 4721]}],
       "order": 25.5,
       "foes": [53, 60],
-      "wiki": "https://www.guildwiki.de/wiki/Mamnoon-Lagune",
+      "wiki": {"en": "Mamnoon Lagoon", "de": "Mamnoon-Lagune"},
       "set": 0
     },
     "43": {
@@ -509,7 +509,7 @@ const GW_GROUND = {
       ],
       "order": 27.5,
       "foes": [197, 222],
-      "wiki": "https://www.guildwiki.de/wiki/Silberholz",
+      "wiki": {"en": "Silverwood", "de": "Silberholz"},
       "set": 0
     },
     "44": {
@@ -526,7 +526,7 @@ const GW_GROUND = {
       ],
       "order": 30,
       "foes": [165, 223],
-      "wiki": "https://www.guildwiki.de/wiki/Ettinbuckel",
+      "wiki": {"en": "Ettin's Back", "de": "Ettinbuckel"},
       "set": 0
     },
     "45": {
@@ -537,7 +537,7 @@ const GW_GROUND = {
       "exits": [{"to": 46, "at": [701, 5489]}, {"to": 44, "at": [853, 5334]}],
       "order": 29.5,
       "foes": [54, 101],
-      "wiki": "https://www.guildwiki.de/wiki/Schilfmoor",
+      "wiki": {"en": "Reed Bog", "de": "Schilfmoor"},
       "set": 0
     },
     "46": {
@@ -548,7 +548,7 @@ const GW_GROUND = {
       "exits": [{"to": 45, "at": [701, 5489]}],
       "order": 29.5,
       "foes": [283, 322],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Wasserfälle",
+      "wiki": {"en": "The Falls", "de": "Die Wasserfälle"},
       "set": 0
     },
     "47": {
@@ -559,7 +559,7 @@ const GW_GROUND = {
       "exits": [{"to": 44, "at": [1261, 5290]}, {"to": 48, "at": [1398, 5453]}],
       "order": 29.5,
       "foes": [50, 63],
-      "wiki": "https://www.guildwiki.de/wiki/Trockenkuppe",
+      "wiki": {"en": "Dry Top", "de": "Trockenkuppe"},
       "set": 0
     },
     "48": {
@@ -570,7 +570,7 @@ const GW_GROUND = {
       "exits": [{"to": 47, "at": [1398, 5453]}, {"to": 141, "at": [1605, 5606]}, {"to": 49, "at": [1729, 5358]}],
       "order": 31.5,
       "foes": [187, 285],
-      "wiki": "https://www.guildwiki.de/wiki/Wildwurzel",
+      "wiki": {"en": "Tangle Root", "de": "Wildwurzel"},
       "set": 0
     },
     "49": {
@@ -583,7 +583,7 @@ const GW_GROUND = {
       "terrain": 40759,
       "exits": [{"to": 48, "at": [1729, 5358]}],
       "order": 32,
-      "wiki": "https://www.guildwiki.de/wiki/Steinkreis_von_Denravi"
+      "wiki": {"en": "Henge of Denravi", "de": "Steinkreis von Denravi"}
     },
     "51": {
       "name": "Senji's Corner",
@@ -595,7 +595,7 @@ const GW_GROUND = {
       "terrain": 157168,
       "exits": [{"to": 265, "at": [3214, 1641]}, {"to": 31, "at": [3205, 1606]}],
       "order": 24,
-      "wiki": "https://www.guildwiki.de/wiki/Senjis_Ecke"
+      "wiki": {"en": "Senji's Corner", "de": "Senjis Ecke"}
     },
     "53": {
       "name": "Tears of the Fallen",
@@ -605,7 +605,7 @@ const GW_GROUND = {
       "exits": [{"to": 17, "at": [2573, 4750]}, {"to": 61, "at": [2470, 4909]}, {"to": 63, "at": [2549, 4898]}],
       "order": 32.5,
       "foes": [65, 71],
-      "wiki": "https://www.guildwiki.de/wiki/Tränen_der_Gefallenen",
+      "wiki": {"en": "Tears of the Fallen", "de": "Tränen der Gefallenen"},
       "set": 0
     },
     "54": {
@@ -621,7 +621,7 @@ const GW_GROUND = {
       ],
       "order": 19.5,
       "foes": [63, 110],
-      "wiki": "https://www.guildwiki.de/wiki/Schurkenhügel",
+      "wiki": {"en": "Scoundrel's Rise", "de": "Schurkenhügel"},
       "set": 0
     },
     "55": {
@@ -634,7 +634,7 @@ const GW_GROUND = {
       "terrain": 13565,
       "exits": [{"to": 58, "at": [3909, 4765]}, {"to": 415, "at": [4009, 4874]}],
       "order": 23,
-      "wiki": "https://www.guildwiki.de/wiki/Löwenstein"
+      "wiki": {"en": "Lion's Arch", "de": "Löwenstein"}
     },
     "56": {
       "name": "Cursed Lands",
@@ -646,7 +646,7 @@ const GW_GROUND = {
       "exits": [{"to": 18, "at": [3217, 4490]}, {"to": 18, "at": [3209, 4350]}, {"to": 59, "at": [3381, 4566]}],
       "order": 22.5,
       "foes": [72, 87],
-      "wiki": "https://www.guildwiki.de/wiki/Verfluchtes_Land"
+      "wiki": {"en": "Cursed Lands", "de": "Verfluchtes Land"}
     },
     "57": {
       "name": "Bergen Hot Springs",
@@ -658,7 +658,7 @@ const GW_GROUND = {
       "terrain": 34216,
       "exits": [{"to": 59, "at": [3585, 4598]}],
       "order": 22.5,
-      "wiki": "https://www.guildwiki.de/wiki/Thermalquellen_von_Bergen"
+      "wiki": {"en": "Bergen Hot Springs", "de": "Thermalquellen von Bergen"}
     },
     "58": {
       "name": "North Kryta Province",
@@ -673,7 +673,7 @@ const GW_GROUND = {
       ],
       "order": 22.5,
       "foes": [126, 248],
-      "wiki": "https://www.guildwiki.de/wiki/Provinz_Nordkryta",
+      "wiki": {"en": "North Kryta Province", "de": "Provinz Nordkryta"},
       "set": 0
     },
     "59": {
@@ -692,7 +692,7 @@ const GW_GROUND = {
       "order": 22.5,
       "foes": [140, 269],
       "bosses": [100254],
-      "wiki": "https://www.guildwiki.de/wiki/Nebo-Terrasse"
+      "wiki": {"en": "Nebo Terrace", "de": "Nebo-Terrasse"}
     },
     "60": {
       "name": "Majesty's Rest",
@@ -707,7 +707,7 @@ const GW_GROUND = {
       ],
       "order": 25.5,
       "foes": [45, 82],
-      "wiki": "https://www.guildwiki.de/wiki/Königsruh",
+      "wiki": {"en": "Majesty's Rest", "de": "Königsruh"},
       "set": 0
     },
     "61": {
@@ -718,7 +718,7 @@ const GW_GROUND = {
       "exits": [{"to": 53, "at": [2470, 4909]}, {"to": 73, "at": [2321, 5358]}],
       "order": 32.5,
       "foes": [129, 194],
-      "wiki": "https://www.guildwiki.de/wiki/Zwillingsschlangenseen",
+      "wiki": {"en": "Twin Serpent Lakes", "de": "Zwillingsschlangenseen"},
       "set": 0
     },
     "62": {
@@ -730,7 +730,7 @@ const GW_GROUND = {
       "order": 24.5,
       "foes": [133, 218],
       "bosses": [100471],
-      "wiki": "https://www.guildwiki.de/wiki/Wachturmküste",
+      "wiki": {"en": "Watchtower Coast", "de": "Wachturmküste"},
       "set": 0
     },
     "63": {
@@ -741,7 +741,7 @@ const GW_GROUND = {
       "exits": [{"to": 137, "at": [2710, 5005]}, {"to": 19, "at": [2769, 5270]}, {"to": 53, "at": [2549, 4898]}],
       "order": 33.5,
       "foes": [150, 173],
-      "wiki": "https://www.guildwiki.de/wiki/Stachelrochenstrand",
+      "wiki": {"en": "Stingray Strand", "de": "Stachelrochenstrand"},
       "set": 0
     },
     "64": {
@@ -753,7 +753,7 @@ const GW_GROUND = {
       "order": 22.5,
       "foes": [151, 207],
       "bosses": [100190],
-      "wiki": "https://www.guildwiki.de/wiki/Kessex-Gipfel",
+      "wiki": {"en": "Kessex Peak", "de": "Kessex-Gipfel"},
       "set": 0
     },
     "65": {
@@ -761,7 +761,7 @@ const GW_GROUND = {
       "type": 1,
       "region": 21,
       "exits": [{"to": 281}],
-      "wiki": "https://www.guildwiki.de/wiki/D'Alessio-Arena"
+      "wiki": {"en": "D'Alessio Arena", "de": "D'Alessio-Arena"}
     },
     "72": {
       "name": "The Underworld",
@@ -770,7 +770,7 @@ const GW_GROUND = {
       "set": 111,
       "terrain": 63059,
       "from": [138, 284, 393],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Unterwelt"
+      "wiki": {"en": "The Underworld", "de": "Die Unterwelt"}
     },
     "73": {
       "name": "Riverside Province",
@@ -783,7 +783,7 @@ const GW_GROUND = {
       "exits": [{"to": 61, "at": [2321, 5358]}],
       "order": 33,
       "after": 19,
-      "wiki": "https://www.guildwiki.de/wiki/Flussuferprovinz"
+      "wiki": {"en": "Riverside Province", "de": "Flussuferprovinz"}
     },
     "75": {"name": "The Hall of Heroes", "type": 12, "region": 4, "party": 8, "terrain": 14004, "set": 119},
     "76": {"name": "Broken Tower", "type": 12, "region": 4, "party": 8},
@@ -797,7 +797,7 @@ const GW_GROUND = {
       "terrain": 155155,
       "exits": [{"to": 210, "at": [3561, 2698]}, {"to": 266, "at": [3521, 2605]}],
       "order": 35,
-      "wiki": "https://www.guildwiki.de/wiki/Haus_zu_Heltzer"
+      "wiki": {"en": "House zu Heltzer", "de": "Haus zu Heltzer"}
     },
     "78": {"name": "The Courtyard", "type": 12, "region": 4, "party": 8, "terrain": 13989, "set": 118},
     "79": {"name": "Unholy Temples", "type": 12, "region": 4, "party": 8},
@@ -812,7 +812,7 @@ const GW_GROUND = {
       "terrain": 22052,
       "exits": [{"to": 33, "at": [7065, 4554]}, {"to": 85, "at": [7153, 4542]}, {"to": 28, "at": [7210, 4429]}],
       "order": 10,
-      "wiki": "https://www.guildwiki.de/wiki/Stadt_Ascalon"
+      "wiki": {"en": "Ascalon City", "de": "Stadt Ascalon"}
     },
     "82": {
       "name": "Tomb of the Primeval Kings",
@@ -825,7 +825,7 @@ const GW_GROUND = {
       "exits": [{"to": 120, "dir": "S"}],
       "from": [344],
       "order": 37.5,
-      "wiki": "https://www.guildwiki.de/wiki/Grab_der_altehrwürdigen_Könige"
+      "wiki": {"en": "Tomb of the Primeval Kings", "de": "Grab der altehrwürdigen Könige"}
     },
     "83": {"name": "The Vault", "type": 12, "region": 4, "party": 8},
     "84": {
@@ -837,7 +837,7 @@ const GW_GROUND = {
       "terrain": 16428,
       "exits": [{"to": 346}],
       "order": 37.5,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Unterwelt_(Erforschbar)"
+      "wiki": {"en": "The Underworld", "de": "Die Unterwelt (Erforschbar)"}
     },
     "85": {
       "name": "Ascalon Arena",
@@ -847,7 +847,7 @@ const GW_GROUND = {
       "at": [7176, 4568],
       "exits": [{"to": 81, "at": [7153, 4542]}],
       "order": 9.5,
-      "wiki": "https://www.guildwiki.de/wiki/Arena_von_Ascalon"
+      "wiki": {"en": "Ascalon Arena", "de": "Arena von Ascalon"}
     },
     "86": {"name": "Sacred Temples", "type": 12, "region": 4, "party": 8},
     "87": {
@@ -858,7 +858,7 @@ const GW_GROUND = {
       "exits": [{"to": 26, "at": [5302, 6125]}, {"to": 98, "at": [5470, 6097]}],
       "order": 37.5,
       "foes": [120, 141],
-      "wiki": "https://www.guildwiki.de/wiki/Eisdom",
+      "wiki": {"en": "Icedome", "de": "Eisdom"},
       "set": 0
     },
     "88": {
@@ -869,7 +869,7 @@ const GW_GROUND = {
       "exits": [{"to": 99, "at": [5581, 3497]}, {"to": 89, "at": [5045, 3398]}],
       "order": 15.5,
       "foes": [162, 197],
-      "wiki": "https://www.guildwiki.de/wiki/Eisenrossmine",
+      "wiki": {"en": "Iron Horse Mine", "de": "Eisenrossmine"},
       "set": 0
     },
     "89": {
@@ -885,7 +885,7 @@ const GW_GROUND = {
       ],
       "order": 17.5,
       "foes": [137, 248],
-      "wiki": "https://www.guildwiki.de/wiki/Ambossstein",
+      "wiki": {"en": "Anvil Rock", "de": "Ambossstein"},
       "set": 0
     },
     "90": {
@@ -897,7 +897,7 @@ const GW_GROUND = {
       "order": 18.5,
       "foes": [274, 298],
       "bosses": [100191, 100192, 100193, 100194, 100195],
-      "wiki": "https://www.guildwiki.de/wiki/Lornarpass",
+      "wiki": {"en": "Lornar's Pass", "de": "Lornarpass"},
       "set": 0
     },
     "91": {
@@ -924,7 +924,7 @@ const GW_GROUND = {
         100346,
         100347
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Schlangentanz",
+      "wiki": {"en": "Snake Dance", "de": "Schlangentanz"},
       "set": 0
     },
     "92": {
@@ -937,7 +937,7 @@ const GW_GROUND = {
       "exits": [{"to": 156, "at": [5309, 5366]}, {"to": 96, "at": [5489, 5258]}],
       "order": 40.5,
       "foes": [75, 106],
-      "wiki": "https://www.guildwiki.de/wiki/Tascas_Ableben"
+      "wiki": {"en": "Tasca's Demise", "de": "Tascas Ableben"}
     },
     "93": {
       "name": "Spearhead Peak",
@@ -947,7 +947,7 @@ const GW_GROUND = {
       "order": 40.5,
       "foes": [206, 232],
       "bosses": [100353, 100354, 100355, 100356, 100357, 100125, 100358, 100359, 100360, 100361],
-      "wiki": "https://www.guildwiki.de/wiki/Speerspitzengipfel",
+      "wiki": {"en": "Spearhead Peak", "de": "Speerspitzengipfel"},
       "set": 0
     },
     "94": {
@@ -959,7 +959,7 @@ const GW_GROUND = {
       "order": 41.5,
       "foes": [191, 235],
       "bosses": [100176, 100177],
-      "wiki": "https://www.guildwiki.de/wiki/Eisscholle",
+      "wiki": {"en": "Ice Floe", "de": "Eisscholle"},
       "set": 0
     },
     "95": {
@@ -971,7 +971,7 @@ const GW_GROUND = {
       "order": 37.5,
       "foes": [86, 112],
       "bosses": [100479, 100480, 100481, 100482, 100359, 100483, 100361],
-      "wiki": "https://www.guildwiki.de/wiki/Witmans_Torheit",
+      "wiki": {"en": "Witman's Folly", "de": "Witmans Torheit"},
       "set": 0
     },
     "96": {
@@ -983,7 +983,7 @@ const GW_GROUND = {
       "order": 40.5,
       "foes": [180, 240],
       "bosses": [100222, 100223, 100224, 100225, 100226, 100227, 100228],
-      "wiki": "https://www.guildwiki.de/wiki/Mineralquellen",
+      "wiki": {"en": "Mineral Springs", "de": "Mineralquellen"},
       "set": 0
     },
     "97": {
@@ -995,7 +995,7 @@ const GW_GROUND = {
       "order": 18.5,
       "foes": [106, 121],
       "bosses": [100125],
-      "wiki": "https://www.guildwiki.de/wiki/Schreckensdrift",
+      "wiki": {"en": "Dreadnought's Drift", "de": "Schreckensdrift"},
       "set": 0
     },
     "98": {
@@ -1012,7 +1012,7 @@ const GW_GROUND = {
       "order": 40.5,
       "foes": [298, 322],
       "bosses": [100142, 100143, 100144, 100145, 100146, 100147, 100148, 100149, 100150, 100151],
-      "wiki": "https://www.guildwiki.de/wiki/Frostwald",
+      "wiki": {"en": "Frozen Forest", "de": "Frostwald"},
       "set": 0
     },
     "99": {
@@ -1029,7 +1029,7 @@ const GW_GROUND = {
       ],
       "order": 15.5,
       "foes": [155, 191],
-      "wiki": "https://www.guildwiki.de/wiki/Tal_des_Reisenden",
+      "wiki": {"en": "Traveler's Vale", "de": "Tal des Reisenden"},
       "set": 0
     },
     "100": {
@@ -1045,7 +1045,7 @@ const GW_GROUND = {
       ],
       "order": 18.5,
       "foes": [149, 197],
-      "wiki": "https://www.guildwiki.de/wiki/Deldrimor-Becken",
+      "wiki": {"en": "Deldrimor Bowl", "de": "Deldrimor-Becken"},
       "set": 0
     },
     "101": {
@@ -1056,7 +1056,7 @@ const GW_GROUND = {
       "exits": [{"to": 33, "at": [6989, 4810]}, {"to": 104, "at": [7421, 5033]}, {"to": 29, "at": [7401, 4910]}],
       "order": 7.5,
       "foes": [131, 195],
-      "wiki": "https://www.guildwiki.de/wiki/Regentental",
+      "wiki": {"en": "Regent Valley", "de": "Regentental"},
       "set": 0
     },
     "102": {
@@ -1067,7 +1067,7 @@ const GW_GROUND = {
       "exits": [{"to": 40, "at": [6865, 4270]}, {"to": 13, "at": [6449, 4314]}, {"to": 33, "at": [6678, 4465]}],
       "order": 7.5,
       "foes": [108, 136],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Bresche",
+      "wiki": {"en": "The Breach", "de": "Die Bresche"},
       "set": 0
     },
     "103": {
@@ -1078,7 +1078,7 @@ const GW_GROUND = {
       "exits": [{"to": 13, "at": [5965, 3974]}, {"to": 99, "at": [5810, 3821]}, {"to": 99, "at": [5810, 3821]}],
       "order": 14.5,
       "foes": [50, 59],
-      "wiki": "https://www.guildwiki.de/wiki/Ascalon-Vorgebirge",
+      "wiki": {"en": "Ascalon Foothills", "de": "Ascalon-Vorgebirge"},
       "set": 0
     },
     "104": {
@@ -1089,7 +1089,7 @@ const GW_GROUND = {
       "exits": [{"to": 107, "at": [7653, 4558]}, {"to": 131, "at": [7489, 4598]}, {"to": 101, "at": [7421, 5033]}],
       "order": 7.5,
       "foes": [148, 233],
-      "wiki": "https://www.guildwiki.de/wiki/Pockennarbenebene",
+      "wiki": {"en": "Pockmark Flats", "de": "Pockennarbenebene"},
       "set": 0
     },
     "105": {
@@ -1101,7 +1101,7 @@ const GW_GROUND = {
       "order": 14.5,
       "foes": [116, 178],
       "bosses": [100106, 100107, 100108, 100109, 100110, 100111, 100112],
-      "wiki": "https://www.guildwiki.de/wiki/Drachenschlund",
+      "wiki": {"en": "Dragon's Gullet", "de": "Drachenschlund"},
       "set": 0
     },
     "106": {
@@ -1115,7 +1115,7 @@ const GW_GROUND = {
       "order": 14.5,
       "foes": [96, 122],
       "bosses": [100106, 100108, 100110, 100111],
-      "wiki": "https://www.guildwiki.de/wiki/Flammentempel-Gang"
+      "wiki": {"en": "Flame Temple Corridor", "de": "Flammentempel-Gang"}
     },
     "107": {
       "name": "Eastern Frontier",
@@ -1125,7 +1125,7 @@ const GW_GROUND = {
       "exits": [{"to": 135, "at": [7341, 4302]}, {"to": 30, "at": [7277, 4234]}, {"to": 104, "at": [7653, 4558]}],
       "order": 12.5,
       "foes": [170, 219],
-      "wiki": "https://www.guildwiki.de/wiki/Ostgrenze",
+      "wiki": {"en": "Eastern Frontier", "de": "Ostgrenze"},
       "set": 0
     },
     "108": {
@@ -1136,7 +1136,7 @@ const GW_GROUND = {
       "exits": [{"to": 117, "at": [7434, 8365]}, {"to": 115, "at": [7073, 8286]}, {"to": 154, "at": [7125, 7945]}],
       "order": 35.5,
       "foes": [237, 270],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Narbe",
+      "wiki": {"en": "The Scar", "de": "Die Narbe"},
       "set": 0
     },
     "109": {
@@ -1149,7 +1149,7 @@ const GW_GROUND = {
       "terrain": 52918,
       "exits": [{"to": 113, "at": [6262, 7889]}],
       "order": 32.5,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Oase_Amnoon"
+      "wiki": {"en": "The Amnoon Oasis", "de": "Die Oase Amnoon"}
     },
     "110": {
       "name": "Diviner's Ascent",
@@ -1161,7 +1161,7 @@ const GW_GROUND = {
       "exits": [{"to": 114, "at": [6805, 7506]}, {"to": 115, "at": [6970, 7889]}, {"to": 118, "at": [6925, 7638]}],
       "order": 35.5,
       "foes": [102, 168],
-      "wiki": "https://www.guildwiki.de/wiki/Wahrsagerhöhe"
+      "wiki": {"en": "Diviner's Ascent", "de": "Wahrsagerhöhe"}
     },
     "111": {
       "name": "Vulture Drifts",
@@ -1176,7 +1176,7 @@ const GW_GROUND = {
       ],
       "order": 35.5,
       "foes": [220, 260],
-      "wiki": "https://www.guildwiki.de/wiki/Geierdünen",
+      "wiki": {"en": "Vulture Drifts", "de": "Geierdünen"},
       "set": 0
     },
     "112": {
@@ -1187,7 +1187,7 @@ const GW_GROUND = {
       "exits": [{"to": 115, "at": [6954, 8297]}, {"to": 111, "at": [6769, 8446]}, {"to": 448, "at": [6761, 8682]}],
       "order": 36.5,
       "foes": [87, 137],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Trockene_Meer",
+      "wiki": {"en": "The Arid Sea", "de": "Das Trockene Meer"},
       "set": 0
     },
     "113": {
@@ -1205,7 +1205,7 @@ const GW_GROUND = {
       "order": 34.5,
       "foes": [214, 320],
       "bosses": [100285],
-      "wiki": "https://www.guildwiki.de/wiki/Pfad_des_Propheten",
+      "wiki": {"en": "Prophet's Path", "de": "Pfad des Propheten"},
       "set": 0
     },
     "114": {
@@ -1221,7 +1221,7 @@ const GW_GROUND = {
       ],
       "order": 36.5,
       "foes": [157, 247],
-      "wiki": "https://www.guildwiki.de/wiki/Salzebenen",
+      "wiki": {"en": "Salt Flats", "de": "Salzebenen"},
       "set": 0
     },
     "115": {
@@ -1240,7 +1240,7 @@ const GW_GROUND = {
       ],
       "order": 37,
       "foes": [159, 175],
-      "wiki": "https://www.guildwiki.de/wiki/Himmelsspitze",
+      "wiki": {"en": "Skyward Reach", "de": "Himmelsspitze"},
       "set": 0
     },
     "116": {
@@ -1254,7 +1254,7 @@ const GW_GROUND = {
       "exits": [{"to": 111, "at": [6509, 8638]}],
       "order": 36,
       "after": 38,
-      "wiki": "https://www.guildwiki.de/wiki/Dünen_der_Verzweiflung"
+      "wiki": {"en": "Dunes of Despair", "de": "Dünen der Verzweiflung"}
     },
     "117": {
       "name": "Thirsty River",
@@ -1267,7 +1267,7 @@ const GW_GROUND = {
       "exits": [{"to": 108, "at": [7434, 8365]}],
       "order": 36,
       "after": 38,
-      "wiki": "https://www.guildwiki.de/wiki/Durstiger_Fluss"
+      "wiki": {"en": "Thirsty River", "de": "Durstiger Fluss"}
     },
     "118": {
       "name": "Elona Reach",
@@ -1280,7 +1280,7 @@ const GW_GROUND = {
       "exits": [{"to": 110, "at": [6925, 7638]}],
       "order": 36,
       "after": 38,
-      "wiki": "https://www.guildwiki.de/wiki/Elonaspitze"
+      "wiki": {"en": "Elona Reach", "de": "Elonaspitze"}
     },
     "120": {
       "name": "The Dragon's Lair",
@@ -1293,7 +1293,7 @@ const GW_GROUND = {
       "exits": [{"to": 82, "dir": "N"}],
       "order": 38,
       "after": 20,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Drachenhöhle"
+      "wiki": {"en": "The Dragon's Lair", "de": "Die Drachenhöhle"}
     },
     "121": {
       "name": "Perdition Rock",
@@ -1321,7 +1321,7 @@ const GW_GROUND = {
         100280,
         100281
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Fels_der_Verdammnis",
+      "wiki": {"en": "Perdition Rock", "de": "Fels der Verdammnis"},
       "set": 0
     },
     "122": {
@@ -1335,7 +1335,7 @@ const GW_GROUND = {
       "from": [121],
       "order": 44,
       "after": 123,
-      "wiki": "https://www.guildwiki.de/wiki/Feuerring"
+      "wiki": {"en": "Ring of Fire", "de": "Feuerring"}
     },
     "123": {
       "name": "Abaddon's Mouth",
@@ -1347,7 +1347,7 @@ const GW_GROUND = {
       "terrain": 55559,
       "order": 45,
       "after": 124,
-      "wiki": "https://www.guildwiki.de/wiki/Abaddons_Maul"
+      "wiki": {"en": "Abaddon's Mouth", "de": "Abaddons Maul"}
     },
     "124": {
       "name": "Hell's Precipice",
@@ -1358,7 +1358,7 @@ const GW_GROUND = {
       "at": [1580, 7622],
       "terrain": 55560,
       "order": 46,
-      "wiki": "https://www.guildwiki.de/wiki/Vorhof_der_Hölle"
+      "wiki": {"en": "Hell's Precipice", "de": "Vorhof der Hölle"}
     },
     "126": {"name": "Golden Gates", "type": 12, "region": 4, "party": 8, "terrain": 55617, "set": 122},
     "127": {"name": "Scarred Earth", "type": 12, "region": 4, "party": 8},
@@ -1372,7 +1372,7 @@ const GW_GROUND = {
       "order": 36.5,
       "foes": [222, 260],
       "bosses": [100392, 100393, 100394, 100395, 100396, 100397, 100398, 100399],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Ewige_Hain_(Erforschbar)"
+      "wiki": {"en": "The Eternal Grove", "de": "Der Ewige Hain (Erforschbar)"}
     },
     "129": {
       "name": "Lutgardis Conservatory",
@@ -1384,7 +1384,7 @@ const GW_GROUND = {
       "terrain": 154590,
       "exits": [{"to": 210, "at": [3949, 3086]}, {"to": 201, "at": [3893, 3086]}],
       "order": 34.5,
-      "wiki": "https://www.guildwiki.de/wiki/Lutgardis-Wintergarten"
+      "wiki": {"en": "Lutgardis Conservatory", "de": "Lutgardis-Wintergarten"}
     },
     "130": {
       "name": "Vasburg Armory",
@@ -1396,7 +1396,7 @@ const GW_GROUND = {
       "terrain": 155165,
       "exits": [{"to": 128, "at": [3937, 3585]}, {"to": 205, "at": [3985, 3538]}],
       "order": 38,
-      "wiki": "https://www.guildwiki.de/wiki/Vasburg-Zeughaus"
+      "wiki": {"en": "Vasburg Armory", "de": "Vasburg-Zeughaus"}
     },
     "131": {
       "name": "Serenity Temple",
@@ -1408,7 +1408,7 @@ const GW_GROUND = {
       "terrain": 51063,
       "exits": [{"to": 104, "at": [7489, 4598]}],
       "order": 7.5,
-      "wiki": "https://www.guildwiki.de/wiki/Tempel_der_Gelassenheit"
+      "wiki": {"en": "Serenity Temple", "de": "Tempel der Gelassenheit"}
     },
     "132": {
       "name": "Ice Tooth Cave",
@@ -1420,7 +1420,7 @@ const GW_GROUND = {
       "terrain": 46593,
       "exits": [{"to": 89, "at": [4706, 3493]}],
       "order": 17.5,
-      "wiki": "https://www.guildwiki.de/wiki/Eiszahnhöhle"
+      "wiki": {"en": "Ice Tooth Cave", "de": "Eiszahnhöhle"}
     },
     "133": {
       "name": "Beacon's Perch",
@@ -1437,7 +1437,7 @@ const GW_GROUND = {
         {"to": 90, "at": [4681, 4327]}
       ],
       "order": 19,
-      "wiki": "https://www.guildwiki.de/wiki/Signalfeuer-Posten"
+      "wiki": {"en": "Beacon's Perch", "de": "Signalfeuer-Posten"}
     },
     "134": {
       "name": "Yak's Bend",
@@ -1449,7 +1449,7 @@ const GW_GROUND = {
       "terrain": 46603,
       "exits": [{"to": 99, "at": [5793, 3602]}, {"to": 181, "at": [5782, 3569]}],
       "order": 16,
-      "wiki": "https://www.guildwiki.de/wiki/Jakbiegung"
+      "wiki": {"en": "Yak's Bend", "de": "Jakbiegung"}
     },
     "135": {
       "name": "Frontier Gate",
@@ -1461,7 +1461,7 @@ const GW_GROUND = {
       "terrain": 51066,
       "exits": [{"to": 107, "at": [7341, 4302]}],
       "order": 13,
-      "wiki": "https://www.guildwiki.de/wiki/Grenztor"
+      "wiki": {"en": "Frontier Gate", "de": "Grenztor"}
     },
     "136": {
       "name": "Beetletun",
@@ -1473,7 +1473,7 @@ const GW_GROUND = {
       "terrain": 34222,
       "exits": [{"to": 59, "at": [3273, 4246]}, {"to": 62, "at": [3221, 4226]}],
       "order": 24.5,
-      "wiki": "https://www.guildwiki.de/wiki/Beetletun"
+      "wiki": {"en": "Beetletun", "de": "Beetletun"}
     },
     "137": {
       "name": "Fishermen's Haven",
@@ -1485,7 +1485,7 @@ const GW_GROUND = {
       "terrain": 34281,
       "exits": [{"to": 63, "at": [2710, 5005]}],
       "order": 33.5,
-      "wiki": "https://www.guildwiki.de/wiki/Oase_der_Fischer"
+      "wiki": {"en": "Fishermen's Haven", "de": "Oase der Fischer"}
     },
     "138": {
       "name": "Temple of the Ages",
@@ -1498,7 +1498,7 @@ const GW_GROUND = {
       "exits": [{"to": 18, "at": [2953, 4374]}],
       "gateway": [34, 72],
       "order": 22.5,
-      "wiki": "https://www.guildwiki.de/wiki/Tempel_der_Zeitalter"
+      "wiki": {"en": "Temple of the Ages", "de": "Tempel der Zeitalter"}
     },
     "139": {
       "name": "Ventari's Refuge",
@@ -1510,7 +1510,7 @@ const GW_GROUND = {
       "terrain": 40798,
       "exits": [{"to": 44, "at": [929, 5210]}],
       "order": 29.5,
-      "wiki": "https://www.guildwiki.de/wiki/Ventaris_Zuflucht"
+      "wiki": {"en": "Ventari's Refuge", "de": "Ventaris Zuflucht"}
     },
     "140": {
       "name": "Druid's Overlook",
@@ -1522,7 +1522,7 @@ const GW_GROUND = {
       "terrain": 40803,
       "exits": [{"to": 41, "at": [1633, 4670]}],
       "order": 26,
-      "wiki": "https://www.guildwiki.de/wiki/Druiden-Aussichtspunkt"
+      "wiki": {"en": "Druid's Overlook", "de": "Druiden-Aussichtspunkt"}
     },
     "141": {
       "name": "Maguuma Stade",
@@ -1534,7 +1534,7 @@ const GW_GROUND = {
       "terrain": 40811,
       "exits": [{"to": 48, "at": [1605, 5606]}],
       "order": 31.5,
-      "wiki": "https://www.guildwiki.de/wiki/Maguuma-Gestade"
+      "wiki": {"en": "Maguuma Stade", "de": "Maguuma-Gestade"}
     },
     "142": {
       "name": "Quarrel Falls",
@@ -1546,7 +1546,7 @@ const GW_GROUND = {
       "terrain": 40812,
       "exits": [{"to": 43, "at": [1009, 4890]}],
       "order": 29,
-      "wiki": "https://www.guildwiki.de/wiki/Wasserfälle_des_Zerwürfnisses"
+      "wiki": {"en": "Quarrel Falls", "de": "Wasserfälle des Zerwürfnisses"}
     },
     "144": {
       "name": "Gyala Hatchery",
@@ -1558,7 +1558,7 @@ const GW_GROUND = {
       "order": 36.5,
       "foes": [190, 211],
       "bosses": [100163, 100164, 100165, 100166, 100167, 100168, 100169],
-      "wiki": "https://www.guildwiki.de/wiki/Gyala-Brutstätte_(Erforschbar)"
+      "wiki": {"en": "Gyala Hatchery", "de": "Gyala-Brutstätte (Erforschbar)"}
     },
     "145": {
       "name": "The Catacombs",
@@ -1568,7 +1568,7 @@ const GW_GROUND = {
       "terrain": 116016,
       "exits": [{"to": 164, "at": [372, 220]}, {"to": 161, "at": [282, 480]}, {"to": 160, "at": [115, 81]}],
       "order": 1.5,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Katakomben"
+      "wiki": {"en": "The Catacombs", "de": "Die Katakomben"}
     },
     "146": {
       "name": "Lakeside County",
@@ -1585,7 +1585,7 @@ const GW_GROUND = {
         {"to": 161, "at": [778, 1020]}
       ],
       "order": 2,
-      "wiki": "https://www.guildwiki.de/wiki/Seeufer-Grafschaft"
+      "wiki": {"en": "Lakeside County", "de": "Seeufer-Grafschaft"}
     },
     "147": {
       "name": "The Northlands",
@@ -1602,7 +1602,7 @@ const GW_GROUND = {
         {"to": 779, "at": [918, 403]}
       ],
       "order": 1.5,
-      "wiki": "https://www.guildwiki.de/wiki/Nordländer"
+      "wiki": {"en": "The Northlands", "de": "Nordländer"}
     },
     "148": {
       "name": "Ascalon City",
@@ -1614,7 +1614,7 @@ const GW_GROUND = {
       "terrain": 113021,
       "exits": [{"to": 146, "at": [1034, 715]}],
       "order": 0,
-      "wiki": "https://www.guildwiki.de/wiki/Stadt_Ascalon_(Tutorial)"
+      "wiki": {"en": "Ascalon City (pre-Searing)", "de": "Stadt Ascalon (Tutorial)"}
     },
     "151": {"name": "Ascalon Academy", "type": 2, "region": 7, "set": 1},
     "152": {
@@ -1627,7 +1627,7 @@ const GW_GROUND = {
       "terrain": 52835,
       "exits": [{"to": 113, "at": [6305, 8246]}],
       "order": 34.5,
-      "wiki": "https://www.guildwiki.de/wiki/Heldenaudienz"
+      "wiki": {"en": "Heroes' Audience", "de": "Heldenaudienz"}
     },
     "153": {
       "name": "Seeker's Passage",
@@ -1639,7 +1639,7 @@ const GW_GROUND = {
       "terrain": 52836,
       "exits": [{"to": 114, "at": [6422, 7593]}],
       "order": 36.5,
-      "wiki": "https://www.guildwiki.de/wiki/Passage_des_Suchers"
+      "wiki": {"en": "Seeker's Passage", "de": "Passage des Suchers"}
     },
     "154": {
       "name": "Destiny's Gorge",
@@ -1651,7 +1651,7 @@ const GW_GROUND = {
       "terrain": 52166,
       "exits": [{"to": 108, "at": [7125, 7945]}, {"to": 115, "at": [7089, 7890]}],
       "order": 36,
-      "wiki": "https://www.guildwiki.de/wiki/Schicksalsschlucht"
+      "wiki": {"en": "Destiny's Gorge", "de": "Schicksalsschlucht"}
     },
     "155": {
       "name": "Camp Rankor",
@@ -1663,7 +1663,7 @@ const GW_GROUND = {
       "terrain": 12244,
       "exits": [{"to": 26, "at": [4817, 6130]}, {"to": 91, "at": [4797, 6090]}],
       "order": 37.5,
-      "wiki": "https://www.guildwiki.de/wiki/Rankor-Lager"
+      "wiki": {"en": "Camp Rankor", "de": "Rankor-Lager"}
     },
     "156": {
       "name": "The Granite Citadel",
@@ -1675,7 +1675,7 @@ const GW_GROUND = {
       "terrain": 46597,
       "exits": [{"to": 93, "at": [5289, 5409]}, {"to": 92, "at": [5309, 5366]}],
       "order": 40.5,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Granitzitadelle"
+      "wiki": {"en": "The Granite Citadel", "de": "Die Granitzitadelle"}
     },
     "157": {
       "name": "Marhan's Grotto",
@@ -1687,7 +1687,7 @@ const GW_GROUND = {
       "terrain": 46598,
       "exits": [{"to": 94, "at": [6138, 6425]}],
       "order": 41.5,
-      "wiki": "https://www.guildwiki.de/wiki/Marhans_Grotte"
+      "wiki": {"en": "Marhan's Grotto", "de": "Marhans Grotte"}
     },
     "158": {
       "name": "Port Sledge",
@@ -1699,7 +1699,7 @@ const GW_GROUND = {
       "terrain": 46599,
       "exits": [{"to": 95, "at": [5332, 6682]}],
       "order": 37.5,
-      "wiki": "https://www.guildwiki.de/wiki/Schlittenhafen"
+      "wiki": {"en": "Port Sledge", "de": "Schlittenhafen"}
     },
     "159": {
       "name": "Copperhammer Mines",
@@ -1711,7 +1711,7 @@ const GW_GROUND = {
       "terrain": 46602,
       "exits": [{"to": 93, "at": [5490, 5841]}, {"to": 98, "at": [5542, 5881]}],
       "order": 40.5,
-      "wiki": "https://www.guildwiki.de/wiki/Kupferhammer-Minen"
+      "wiki": {"en": "Copperhammer Mines", "de": "Kupferhammer-Minen"}
     },
     "160": {
       "name": "Green Hills County",
@@ -1726,7 +1726,7 @@ const GW_GROUND = {
         {"to": 161, "at": [548, 1024]}
       ],
       "order": 1.5,
-      "wiki": "https://www.guildwiki.de/wiki/Grünhügel-Grafschaft"
+      "wiki": {"en": "Green Hills County", "de": "Grünhügel-Grafschaft"}
     },
     "161": {
       "name": "Wizard's Folly",
@@ -1741,7 +1741,7 @@ const GW_GROUND = {
         {"to": 146, "at": [778, 1020]}
       ],
       "order": 1.5,
-      "wiki": "https://www.guildwiki.de/wiki/Torheit_des_Zauberers"
+      "wiki": {"en": "Wizard's Folly", "de": "Torheit des Zauberers"}
     },
     "162": {
       "name": "Regent Valley",
@@ -1751,7 +1751,7 @@ const GW_GROUND = {
       "terrain": 113437,
       "exits": [{"to": 161, "at": [920, 1286]}, {"to": 146, "at": [1017, 976]}, {"to": 166, "at": [1420, 1063]}],
       "order": 1.5,
-      "wiki": "https://www.guildwiki.de/wiki/Regentental_(Tutorial)"
+      "wiki": {"en": "Regent Valley (pre-Searing)", "de": "Regentental (Tutorial)"}
     },
     "163": {
       "name": "The Barradin Estate",
@@ -1763,7 +1763,7 @@ const GW_GROUND = {
       "terrain": 113190,
       "exits": [{"to": 160, "at": [496, 785]}],
       "order": 1.5,
-      "wiki": "https://www.guildwiki.de/wiki/Barradins_Anwesen"
+      "wiki": {"en": "The Barradin Estate", "de": "Barradins Anwesen"}
     },
     "164": {
       "name": "Ashford Abbey",
@@ -1775,7 +1775,7 @@ const GW_GROUND = {
       "terrain": 113021,
       "exits": [{"to": 146, "at": [843, 833]}, {"to": 145, "at": [815, 842]}],
       "order": 1.5,
-      "wiki": "https://www.guildwiki.de/wiki/Aschfurt-Abtei"
+      "wiki": {"en": "Ashford Abbey", "de": "Aschfurt-Abtei"}
     },
     "165": {
       "name": "Foible's Fair",
@@ -1787,7 +1787,7 @@ const GW_GROUND = {
       "terrain": 113355,
       "exits": [{"to": 161, "at": [710, 1108]}],
       "order": 1.5,
-      "wiki": "https://www.guildwiki.de/wiki/Markt_in_Foible"
+      "wiki": {"en": "Foible's Fair", "de": "Markt in Foible"}
     },
     "166": {
       "name": "Fort Ranik",
@@ -1799,14 +1799,14 @@ const GW_GROUND = {
       "terrain": 113437,
       "exits": [{"to": 162, "at": [1420, 1063]}],
       "order": 1.5,
-      "wiki": "https://www.guildwiki.de/wiki/Fort_Ranik_(Tutorial)"
+      "wiki": {"en": "Fort Ranik (pre-Searing)", "de": "Fort Ranik (Tutorial)"}
     },
     "180": {
       "name": "Fort Koga",
       "type": 1,
       "region": 21,
       "exits": [{"to": 188}, {"to": 796}, {"to": 281}],
-      "wiki": "https://www.guildwiki.de/wiki/Fort_Koga"
+      "wiki": {"en": "Fort Koga", "de": "Fort Koga"}
     },
     "181": {
       "name": "Shiverpeak Arena",
@@ -1817,14 +1817,14 @@ const GW_GROUND = {
       "terrain": 46603,
       "exits": [{"to": 134, "at": [5782, 3569]}],
       "order": 15.5,
-      "wiki": "https://www.guildwiki.de/wiki/Zittergipfel-Arena"
+      "wiki": {"en": "Shiverpeak Arena", "de": "Zittergipfel-Arena"}
     },
     "182": {
       "name": "Amnoon Arena",
       "type": 1,
       "region": 5,
       "exits": [{"to": 796}, {"to": 281}],
-      "wiki": "https://www.guildwiki.de/wiki/Amnoon-Arena",
+      "wiki": {"en": "Amnoon Arena", "de": "Amnoon-Arena"},
       "set": 0
     },
     "184": {
@@ -1832,7 +1832,7 @@ const GW_GROUND = {
       "type": 1,
       "region": 21,
       "exits": [{"to": 281}],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Felsspitze"
+      "wiki": {"en": "The Crag", "de": "Die Felsspitze"}
     },
     "188": {
       "name": "Random Arenas",
@@ -1840,7 +1840,7 @@ const GW_GROUND = {
       "region": 21,
       "terrain": 165083,
       "exits": [{"to": 330}, {"to": 248}, {"to": 180}],
-      "wiki": "https://www.guildwiki.de/wiki/Zufallsarenen",
+      "wiki": {"en": "Random Arenas", "de": "Zufallsarenen"},
       "set": 127
     },
     "190": {
@@ -1851,7 +1851,7 @@ const GW_GROUND = {
       "at": [4896, 5512],
       "exits": [{"to": 191, "at": [4926, 5517]}, {"to": 206, "dir": "S"}],
       "order": 18.5,
-      "wiki": "https://www.guildwiki.de/wiki/Hochofen_der_Betrübnis"
+      "wiki": {"en": "Sorrow's Furnace", "de": "Hochofen der Betrübnis"}
     },
     "191": {
       "name": "Grenth's Footprint",
@@ -1867,7 +1867,7 @@ const GW_GROUND = {
       "order": 18.5,
       "foes": [238, 243],
       "bosses": [100157, 100158, 100159, 100125, 100160, 100161, 100162],
-      "wiki": "https://www.guildwiki.de/wiki/Grenths_Fußabdruck",
+      "wiki": {"en": "Grenth's Footprint", "de": "Grenths Fußabdruck"},
       "set": 0
     },
     "193": {
@@ -1880,7 +1880,7 @@ const GW_GROUND = {
       "terrain": 155157,
       "exits": [{"to": 198, "at": [4453, 2310]}, {"to": 273, "at": [4433, 2206]}, {"to": 307}],
       "order": 35,
-      "wiki": "https://www.guildwiki.de/wiki/Cavalon"
+      "wiki": {"en": "Cavalon", "de": "Cavalon"}
     },
     "194": {
       "name": "Kaineng Center",
@@ -1892,7 +1892,7 @@ const GW_GROUND = {
       "terrain": 157175,
       "exits": [{"to": 240, "at": [3017, 858]}, {"to": 301, "at": [3101, 814]}, {"to": 290, "at": [2953, 782]}],
       "order": 16.5,
-      "wiki": "https://www.guildwiki.de/wiki/Zentrum_von_Kaineng"
+      "wiki": {"en": "Kaineng Center", "de": "Zentrum von Kaineng"}
     },
     "195": {
       "name": "Drazach Thicket",
@@ -1904,7 +1904,7 @@ const GW_GROUND = {
       "order": 36.5,
       "foes": [207, 272],
       "bosses": [100120, 100121, 100122, 100123, 100124],
-      "wiki": "https://www.guildwiki.de/wiki/Drazachdickicht"
+      "wiki": {"en": "Drazach Thicket", "de": "Drazachdickicht"}
     },
     "196": {
       "name": "Jaya Bluffs",
@@ -1915,7 +1915,7 @@ const GW_GROUND = {
       "exits": [{"to": 250, "at": [1813, 2570]}, {"to": 237, "at": [1941, 2414]}],
       "order": 15,
       "foes": [163, 202],
-      "wiki": "https://www.guildwiki.de/wiki/Jaya-Klippen"
+      "wiki": {"en": "Jaya Bluffs", "de": "Jaya-Klippen"}
     },
     "197": {
       "name": "Shenzun Tunnels",
@@ -1933,7 +1933,7 @@ const GW_GROUND = {
       "order": 24.5,
       "foes": [214, 254],
       "bosses": [100321, 100322, 100323, 100324, 100325],
-      "wiki": "https://www.guildwiki.de/wiki/Shenzun-Tunnel"
+      "wiki": {"en": "Shenzun Tunnels", "de": "Shenzun-Tunnel"}
     },
     "198": {
       "name": "Archipelagos",
@@ -1950,7 +1950,7 @@ const GW_GROUND = {
       "order": 34.5,
       "foes": [156, 248],
       "bosses": [100015, 100016, 100017, 100018, 100019, 100020, 100021],
-      "wiki": "https://www.guildwiki.de/wiki/Archipel"
+      "wiki": {"en": "Archipelagos", "de": "Archipel"}
     },
     "199": {
       "name": "Maishang Hills",
@@ -1967,7 +1967,7 @@ const GW_GROUND = {
       "order": 36.5,
       "foes": [163, 281],
       "bosses": [100203, 100204, 100205, 100206, 100207],
-      "wiki": "https://www.guildwiki.de/wiki/Maishang-Hügel"
+      "wiki": {"en": "Maishang Hills", "de": "Maishang-Hügel"}
     },
     "200": {
       "name": "Mount Qinkai",
@@ -1979,7 +1979,7 @@ const GW_GROUND = {
       "order": 29.5,
       "foes": [130, 190],
       "bosses": [100237, 100238, 100239, 100240, 100241, 100242],
-      "wiki": "https://www.guildwiki.de/wiki/Qinkai"
+      "wiki": {"en": "Mount Qinkai", "de": "Qinkai"}
     },
     "201": {
       "name": "Melandru's Hope",
@@ -1991,7 +1991,7 @@ const GW_GROUND = {
       "order": 34.5,
       "foes": [168, 228],
       "bosses": [100216, 100217, 100218, 100219, 100220, 100221],
-      "wiki": "https://www.guildwiki.de/wiki/Melandrus_Hoffnung"
+      "wiki": {"en": "Melandru's Hope", "de": "Melandrus Hoffnung"}
     },
     "202": {
       "name": "Rhea's Crater",
@@ -2003,7 +2003,7 @@ const GW_GROUND = {
       "order": 36.5,
       "foes": [223, 274],
       "bosses": [100298, 100299, 100300, 100301, 100302, 100303, 100304, 100305],
-      "wiki": "https://www.guildwiki.de/wiki/Rheas_Krater"
+      "wiki": {"en": "Rhea's Crater", "de": "Rheas Krater"}
     },
     "203": {
       "name": "Silent Surf",
@@ -2015,7 +2015,7 @@ const GW_GROUND = {
       "order": 37.5,
       "foes": [233, 286],
       "bosses": [100326, 100327, 100328, 100329, 100330, 100331, 100332, 100333, 100334],
-      "wiki": "https://www.guildwiki.de/wiki/Stumme_Brandung"
+      "wiki": {"en": "Silent Surf", "de": "Stumme Brandung"}
     },
     "204": {"name": "Unwaking Waters", "type": 6, "region": 10, "party": 8, "terrain": 155168, "set": 2},
     "205": {
@@ -2028,7 +2028,7 @@ const GW_GROUND = {
       "order": 37.5,
       "foes": [265, 314],
       "bosses": [100229, 100230, 100231, 100232, 100233, 100234, 100235, 100236],
-      "wiki": "https://www.guildwiki.de/wiki/Morostovweg"
+      "wiki": {"en": "Morostav Trail", "de": "Morostovweg"}
     },
     "206": {
       "name": "Deldrimor War Camp",
@@ -2041,7 +2041,7 @@ const GW_GROUND = {
       "exits": [{"to": 191, "at": [4993, 5646]}],
       "from": [190],
       "order": 18.5,
-      "wiki": "https://www.guildwiki.de/wiki/Deldrimor-Kriegslager"
+      "wiki": {"en": "Deldrimor War Camp", "de": "Deldrimor-Kriegslager"}
     },
     "209": {
       "name": "Mourning Veil Falls",
@@ -2053,7 +2053,7 @@ const GW_GROUND = {
       "order": 36.5,
       "foes": [189, 223],
       "bosses": [100243, 100244, 100245, 100246, 100247, 100248, 100249, 100250, 100251, 100252],
-      "wiki": "https://www.guildwiki.de/wiki/Trauerflorfälle"
+      "wiki": {"en": "Mourning Veil Falls", "de": "Trauerflorfälle"}
     },
     "210": {
       "name": "Ferndale",
@@ -2070,7 +2070,7 @@ const GW_GROUND = {
       "order": 34.5,
       "foes": [232, 357],
       "bosses": [100126, 100127, 100128, 100129, 100130, 100131, 100132, 100133, 100134],
-      "wiki": "https://www.guildwiki.de/wiki/Farntal"
+      "wiki": {"en": "Ferndale", "de": "Farntal"}
     },
     "211": {
       "name": "Pongmei Valley",
@@ -2089,7 +2089,7 @@ const GW_GROUND = {
       "order": 29.5,
       "foes": [140, 170],
       "bosses": [100238, 100282, 100283, 100284],
-      "wiki": "https://www.guildwiki.de/wiki/Pongmei-Tal"
+      "wiki": {"en": "Pongmei Valley", "de": "Pongmei-Tal"}
     },
     "212": {
       "name": "Monastery Overlook",
@@ -2099,7 +2099,7 @@ const GW_GROUND = {
       "terrain": 156969,
       "exits": [{"to": 242, "dir": "N"}],
       "order": 0,
-      "wiki": "https://www.guildwiki.de/wiki/Kloster-Aussichtspunkt"
+      "wiki": {"en": "Monastery Overlook", "de": "Kloster-Aussichtspunkt"}
     },
     "213": {
       "name": "Zen Daijun",
@@ -2112,7 +2112,7 @@ const GW_GROUND = {
       "exits": [{"to": 237, "at": [2249, 2570]}, {"to": 246, "at": [2209, 2586]}],
       "order": 17,
       "after": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Zen_Daijun"
+      "wiki": {"en": "Zen Daijun", "de": "Zen Daijun"}
     },
     "214": {
       "name": "Minister Cho's Estate",
@@ -2125,7 +2125,7 @@ const GW_GROUND = {
       "exits": [{"to": 238, "at": [1321, 2354]}, {"to": 245, "at": [1329, 2314]}],
       "order": 9,
       "after": 251,
-      "wiki": "https://www.guildwiki.de/wiki/Minister_Chos_Anwesen"
+      "wiki": {"en": "Minister Cho's Estate", "de": "Minister Chos Anwesen"}
     },
     "215": {"name": "Vizunah Square", "type": 6, "region": 8, "party": 8, "terrain": 157176, "set": 2},
     "216": {
@@ -2139,7 +2139,7 @@ const GW_GROUND = {
       "exits": [{"to": 239, "at": [2877, 1650]}],
       "order": 23,
       "after": 51,
-      "wiki": "https://www.guildwiki.de/wiki/Nahpuiviertel"
+      "wiki": {"en": "Nahpui Quarter", "de": "Nahpuiviertel"}
     },
     "217": {
       "name": "Tahnnakai Temple",
@@ -2153,7 +2153,7 @@ const GW_GROUND = {
       "from": [269],
       "order": 25,
       "after": 284,
-      "wiki": "https://www.guildwiki.de/wiki/Tahnnakai-Tempel"
+      "wiki": {"en": "Tahnnakai Temple", "de": "Tahnnakai-Tempel"}
     },
     "218": {
       "name": "Arborstone",
@@ -2166,7 +2166,7 @@ const GW_GROUND = {
       "exits": [{"to": 244, "at": [3453, 2242]}],
       "order": 28,
       "after": 272,
-      "wiki": "https://www.guildwiki.de/wiki/Arborstein"
+      "wiki": {"en": "Arborstone", "de": "Arborstein"}
     },
     "219": {
       "name": "Boreas Seabed",
@@ -2180,7 +2180,7 @@ const GW_GROUND = {
       "from": [247],
       "order": 30,
       "after": 273,
-      "wiki": "https://www.guildwiki.de/wiki/Boreas-Meeresgrund"
+      "wiki": {"en": "Boreas Seabed", "de": "Boreas-Meeresgrund"}
     },
     "220": {
       "name": "Sunjiang District",
@@ -2193,7 +2193,7 @@ const GW_GROUND = {
       "exits": [{"to": 197, "at": [3669, 1702]}],
       "order": 33,
       "after": 283,
-      "wiki": "https://www.guildwiki.de/wiki/Sunjiang-Bezirk"
+      "wiki": {"en": "Sunjiang District", "de": "Sunjiang-Bezirk"}
     },
     "221": {"name": "Fort Aspenwood", "type": 7, "region": 10, "party": 8, "set": 2},
     "222": {
@@ -2208,7 +2208,7 @@ const GW_GROUND = {
       "from": [128],
       "order": 37,
       "after": 130,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Ewige_Hain"
+      "wiki": {"en": "The Eternal Grove", "de": "Der Ewige Hain"}
     },
     "223": {"name": "The Jade Quarry", "type": 7, "region": 10, "party": 8, "set": 2},
     "224": {
@@ -2223,7 +2223,7 @@ const GW_GROUND = {
       "from": [144],
       "order": 37,
       "after": 279,
-      "wiki": "https://www.guildwiki.de/wiki/Gyala-Brutstätte"
+      "wiki": {"en": "Gyala Hatchery", "de": "Gyala-Brutstätte"}
     },
     "225": {
       "name": "Raisu Palace",
@@ -2237,7 +2237,7 @@ const GW_GROUND = {
       "from": [233],
       "order": 41,
       "after": 226,
-      "wiki": "https://www.guildwiki.de/wiki/Raisu-Palast"
+      "wiki": {"en": "Raisu Palace", "de": "Raisu-Palast"}
     },
     "226": {
       "name": "Imperial Sanctum",
@@ -2250,7 +2250,7 @@ const GW_GROUND = {
       "exits": [{"to": 233, "at": [3581, 762]}, {"to": 274}],
       "order": 42,
       "after": 351,
-      "wiki": "https://www.guildwiki.de/wiki/Kaiserliches_Refugium"
+      "wiki": {"en": "Imperial Sanctum", "de": "Kaiserliches Refugium"}
     },
     "227": {
       "name": "Unwaking Waters",
@@ -2263,7 +2263,7 @@ const GW_GROUND = {
       "order": 39.5,
       "foes": [123, 153],
       "bosses": [100448, 100449, 100450, 100451],
-      "wiki": "https://www.guildwiki.de/wiki/Verschlafene_Gewässer_(Erforschbar)"
+      "wiki": {"en": "Unwaking Waters", "de": "Verschlafene Gewässer (Erforschbar)"}
     },
     "230": {
       "name": "Amatz Basin",
@@ -2274,7 +2274,7 @@ const GW_GROUND = {
       "terrain": 155172,
       "exits": [{"to": 209, "at": [3793, 3922]}],
       "order": 36.5,
-      "wiki": "https://www.guildwiki.de/wiki/Amatzbecken"
+      "wiki": {"en": "Amatz Basin", "de": "Amatzbecken"}
     },
     "232": {
       "name": "Shadow's Passage",
@@ -2287,7 +2287,7 @@ const GW_GROUND = {
       "order": 20.5,
       "foes": [7, 33],
       "bosses": [100318, 100319, 100320],
-      "wiki": "https://www.guildwiki.de/wiki/Schattenpassage"
+      "wiki": {"en": "Shadow's Passage", "de": "Schattenpassage"}
     },
     "233": {
       "name": "Raisu Palace",
@@ -2299,7 +2299,7 @@ const GW_GROUND = {
       "order": 40.5,
       "foes": [200, 264],
       "bosses": [100286, 100287, 100288, 100289, 100290, 100291, 100292, 100293],
-      "wiki": "https://www.guildwiki.de/wiki/Raisu-Palast_(Erforschbar)"
+      "wiki": {"en": "Raisu Palace", "de": "Raisu-Palast (Erforschbar)"}
     },
     "234": {
       "name": "The Aurios Mines",
@@ -2310,7 +2310,7 @@ const GW_GROUND = {
       "terrain": 155176,
       "exits": [{"to": 202, "at": [5345, 2934]}],
       "order": 36.5,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Auriosminen"
+      "wiki": {"en": "The Aurios Mines", "de": "Die Auriosminen"}
     },
     "235": {
       "name": "Panjiang Peninsula",
@@ -2321,7 +2321,7 @@ const GW_GROUND = {
       "exits": [{"to": 249, "at": [1130, 2697]}, {"to": 236, "at": [793, 2701]}],
       "order": 5,
       "foes": [134, 203],
-      "wiki": "https://www.guildwiki.de/wiki/Panjiang-Halbinsel"
+      "wiki": {"en": "Panjiang Peninsula", "de": "Panjiang-Halbinsel"}
     },
     "236": {
       "name": "Kinya Province",
@@ -2332,7 +2332,7 @@ const GW_GROUND = {
       "exits": [{"to": 235, "at": [793, 2701]}, {"to": 251, "at": [1017, 2306]}, {"to": 238, "at": [1037, 2449]}],
       "order": 5,
       "foes": [90, 153],
-      "wiki": "https://www.guildwiki.de/wiki/Provinz_Kinya"
+      "wiki": {"en": "Kinya Province", "de": "Provinz Kinya"}
     },
     "237": {
       "name": "Haiju Lagoon",
@@ -2343,7 +2343,7 @@ const GW_GROUND = {
       "exits": [{"to": 196, "at": [1941, 2414]}, {"to": 213, "at": [2249, 2570]}],
       "order": 16,
       "foes": [64, 201],
-      "wiki": "https://www.guildwiki.de/wiki/Haiju-Lagune"
+      "wiki": {"en": "Haiju Lagoon", "de": "Haiju-Lagune"}
     },
     "238": {
       "name": "Sunqua Vale",
@@ -2359,7 +2359,7 @@ const GW_GROUND = {
       ],
       "order": 3,
       "foes": [110, 150],
-      "wiki": "https://www.guildwiki.de/wiki/Sunqua-Tal"
+      "wiki": {"en": "Sunqua Vale", "de": "Sunqua-Tal"}
     },
     "239": {
       "name": "Wajjun Bazaar",
@@ -2376,7 +2376,7 @@ const GW_GROUND = {
       "order": 22.5,
       "foes": [82, 257],
       "bosses": [100467, 100468, 100469, 100470],
-      "wiki": "https://www.guildwiki.de/wiki/Wajjun-Basar"
+      "wiki": {"en": "Wajjun Bazaar", "de": "Wajjun-Basar"}
     },
     "240": {
       "name": "Bukdek Byway",
@@ -2395,7 +2395,7 @@ const GW_GROUND = {
       "order": 22,
       "foes": [60, 162],
       "bosses": [100055, 100056, 100057, 100058, 100059],
-      "wiki": "https://www.guildwiki.de/wiki/Bukdek-Seitenweg"
+      "wiki": {"en": "Bukdek Byway", "de": "Bukdek-Seitenweg"}
     },
     "241": {
       "name": "The Undercity",
@@ -2407,7 +2407,7 @@ const GW_GROUND = {
       "exits": [{"to": 239, "at": [2969, 1542]}, {"to": 240, "at": [3050, 1297]}, {"to": 291, "dir": "NE"}],
       "order": 21.5,
       "bosses": [100436, 100437, 100438, 100439, 100440, 100441, 100058, 100442],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Unterstadt"
+      "wiki": {"en": "The Undercity", "de": "Die Unterstadt"}
     },
     "242": {
       "name": "Shing Jea Monastery",
@@ -2419,7 +2419,7 @@ const GW_GROUND = {
       "terrain": 257816,
       "exits": [{"to": 252, "at": [1593, 2650]}, {"to": 238, "at": [1481, 2634]}],
       "order": 2,
-      "wiki": "https://www.guildwiki.de/wiki/Kloster_von_Shing_Jea"
+      "wiki": {"en": "Shing Jea Monastery", "de": "Kloster von Shing Jea"}
     },
     "243": {
       "name": "Shing Jea Arena",
@@ -2428,7 +2428,7 @@ const GW_GROUND = {
       "set": 2,
       "at": [1400, 3232],
       "terrain": 157214,
-      "wiki": "https://www.guildwiki.de/wiki/Shing_Jea-Arena"
+      "wiki": {"en": "Shing Jea Arena", "de": "Shing Jea-Arena"}
     },
     "244": {
       "name": "Arborstone",
@@ -2445,7 +2445,7 @@ const GW_GROUND = {
       "order": 27.5,
       "foes": [249, 350],
       "bosses": [100009, 100010, 100011, 100012, 100013, 100014],
-      "wiki": "https://www.guildwiki.de/wiki/Arborstein_(Erforschbar)"
+      "wiki": {"en": "Arborstone", "de": "Arborstein (Erforschbar)"}
     },
     "245": {
       "name": "Minister Cho's Estate",
@@ -2456,7 +2456,7 @@ const GW_GROUND = {
       "exits": [{"to": 214, "at": [1329, 2314]}, {"to": 251, "at": [1037, 2258]}],
       "order": 8.5,
       "foes": [184, 244],
-      "wiki": "https://www.guildwiki.de/wiki/Minister_Chos_Anwesen_(Erforschbar)"
+      "wiki": {"en": "Minister Cho's Estate", "de": "Minister Chos Anwesen (Erforschbar)"}
     },
     "246": {
       "name": "Zen Daijun",
@@ -2467,7 +2467,7 @@ const GW_GROUND = {
       "exits": [{"to": 250, "at": [1857, 2654]}, {"to": 213, "at": [2209, 2586]}],
       "order": 13.5,
       "foes": [162, 204],
-      "wiki": "https://www.guildwiki.de/wiki/Zen_Daijun_(Erforschbar)"
+      "wiki": {"en": "Zen Daijun", "de": "Zen Daijun (Erforschbar)"}
     },
     "247": {
       "name": "Boreas Seabed",
@@ -2484,7 +2484,7 @@ const GW_GROUND = {
       "order": 29.5,
       "foes": [175, 238],
       "bosses": [100050, 100051, 100052, 100053, 100054],
-      "wiki": "https://www.guildwiki.de/wiki/Boreas-Meeresgrund_(Erforschbar)"
+      "wiki": {"en": "Boreas Seabed", "de": "Boreas-Meeresgrund (Erforschbar)"}
     },
     "248": {
       "name": "Great Temple of Balthazar",
@@ -2493,7 +2493,7 @@ const GW_GROUND = {
       "party": 8,
       "terrain": 165811,
       "exits": [{"to": 280, "dir": "N"}, {"to": 281, "dir": "S"}, {"to": 796}, {"to": 188}],
-      "wiki": "https://www.guildwiki.de/wiki/Großer_Tempel_des_Balthasar",
+      "wiki": {"en": "Great Temple of Balthazar", "de": "Großer Tempel des Balthasar"},
       "set": 115
     },
     "249": {
@@ -2506,7 +2506,7 @@ const GW_GROUND = {
       "terrain": 157087,
       "exits": [{"to": 238, "at": [1197, 2670]}, {"to": 235, "at": [1130, 2697]}],
       "order": 2.5,
-      "wiki": "https://www.guildwiki.de/wiki/Dorf_Tsumei"
+      "wiki": {"en": "Tsumei Village", "de": "Dorf Tsumei"}
     },
     "250": {
       "name": "Seitung Harbor",
@@ -2523,7 +2523,7 @@ const GW_GROUND = {
         {"to": 302, "dir": "E"}
       ],
       "order": 14,
-      "wiki": "https://www.guildwiki.de/wiki/Hafen_von_Seitung"
+      "wiki": {"en": "Seitung Harbor", "de": "Hafen von Seitung"}
     },
     "251": {
       "name": "Ran Musu Gardens",
@@ -2535,7 +2535,7 @@ const GW_GROUND = {
       "terrain": 157048,
       "exits": [{"to": 236, "at": [1017, 2306]}, {"to": 245, "at": [1037, 2258]}],
       "order": 10,
-      "wiki": "https://www.guildwiki.de/wiki/Ran_Musu-Gärten"
+      "wiki": {"en": "Ran Musu Gardens", "de": "Ran Musu-Gärten"}
     },
     "252": {
       "name": "Linnok Courtyard",
@@ -2546,7 +2546,7 @@ const GW_GROUND = {
       "terrain": 156969,
       "exits": [{"to": 242, "at": [1593, 2650]}, {"to": 313, "at": [1637, 2642]}],
       "order": 8,
-      "wiki": "https://www.guildwiki.de/wiki/Linnok-Hof"
+      "wiki": {"en": "Linnok Courtyard", "de": "Linnok-Hof"}
     },
     "253": {"name": "Dwayna Vs Grenth", "type": 1},
     "256": {
@@ -2574,7 +2574,7 @@ const GW_GROUND = {
         100373,
         100374
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Sunjiang-Bezirk_(Erforschbar)"
+      "wiki": {"en": "Sunjiang District", "de": "Sunjiang-Bezirk (Erforschbar)"}
     },
     "257": {"name": "Minister Cho's Estate", "type": 14, "region": 11, "set": 2},
     "258": {"name": "Zen Daijun", "type": 14, "region": 11, "set": 2},
@@ -2594,7 +2594,7 @@ const GW_GROUND = {
       "order": 23.5,
       "foes": [92, 112],
       "bosses": [100253],
-      "wiki": "https://www.guildwiki.de/wiki/Nahpuiviertel_(Erforschbar)"
+      "wiki": {"en": "Nahpui Quarter", "de": "Nahpuiviertel (Erforschbar)"}
     },
     "266": {
       "name": "Urgoz's Warren",
@@ -2605,7 +2605,7 @@ const GW_GROUND = {
       "terrain": 167860,
       "exits": [{"to": 77, "at": [3521, 2605]}],
       "order": 34.5,
-      "wiki": "https://www.guildwiki.de/wiki/Urgoz'_Bau"
+      "wiki": {"en": "Urgoz's Warren", "de": "Urgoz' Bau"}
     },
     "267": {"name": "The Eternal Grove", "type": 14, "region": 9, "set": 2},
     "268": {"name": "Gyala Hatchery", "type": 14, "region": 10, "set": 2},
@@ -2619,7 +2619,7 @@ const GW_GROUND = {
       "order": 24.5,
       "foes": [2, 131],
       "bosses": [100380],
-      "wiki": "https://www.guildwiki.de/wiki/Tahnnakai-Tempel_(Erforschbar)"
+      "wiki": {"en": "Tahnnakai Temple", "de": "Tahnnakai-Tempel (Erforschbar)"}
     },
     "270": {"name": "Raisu Palace", "type": 14, "region": 8, "set": 2},
     "271": {"name": "Imperial Sanctum", "type": 14, "region": 8, "set": 2},
@@ -2632,7 +2632,7 @@ const GW_GROUND = {
       "terrain": 155155,
       "exits": [{"to": 77, "dir": "SE"}, {"to": 244, "at": [3525, 2626]}],
       "order": 29,
-      "wiki": "https://www.guildwiki.de/wiki/Altrumm-Ruinen"
+      "wiki": {"en": "Altrumm Ruins", "de": "Altrumm-Ruinen"}
     },
     "273": {
       "name": "Zos Shivros Channel",
@@ -2643,7 +2643,7 @@ const GW_GROUND = {
       "terrain": 155157,
       "exits": [{"to": 247, "at": [4421, 2166]}, {"to": 193, "at": [4433, 2206]}],
       "order": 31,
-      "wiki": "https://www.guildwiki.de/wiki/Zos_Shivros-Kanal"
+      "wiki": {"en": "Zos Shivros Channel", "de": "Zos Shivros-Kanal"}
     },
     "274": {
       "name": "Dragon's Throat",
@@ -2654,7 +2654,7 @@ const GW_GROUND = {
       "terrain": 167864,
       "exits": [{"to": 226}, {"to": 292, "at": [3341, 1294]}, {"to": 232, "at": [3425, 966]}],
       "order": 21,
-      "wiki": "https://www.guildwiki.de/wiki/Drachenhals"
+      "wiki": {"en": "Dragon's Throat", "de": "Drachenhals"}
     },
     "277": {
       "name": "Harvest Temple",
@@ -2666,7 +2666,7 @@ const GW_GROUND = {
       "terrain": 155168,
       "exits": [{"to": 227, "at": [4641, 3370]}],
       "order": 40,
-      "wiki": "https://www.guildwiki.de/wiki/Erntetempel"
+      "wiki": {"en": "Harvest Temple", "de": "Erntetempel"}
     },
     "278": {
       "name": "Breaker Hollow",
@@ -2678,7 +2678,7 @@ const GW_GROUND = {
       "terrain": 155089,
       "exits": [{"to": 200, "at": [4209, 2321]}, {"to": 198, "dir": "SE"}],
       "order": 34.5,
-      "wiki": "https://www.guildwiki.de/wiki/Brechermulde"
+      "wiki": {"en": "Breaker Hollow", "de": "Brechermulde"}
     },
     "279": {
       "name": "Leviathan Pits",
@@ -2690,7 +2690,7 @@ const GW_GROUND = {
       "terrain": 155167,
       "exits": [{"to": 144, "at": [4989, 2798]}, {"to": 203, "at": [4989, 2862]}],
       "order": 38,
-      "wiki": "https://www.guildwiki.de/wiki/Leviathangruben"
+      "wiki": {"en": "Leviathan Pits", "de": "Leviathangruben"}
     },
     "280": {
       "name": "Isle of the Nameless",
@@ -2703,7 +2703,7 @@ const GW_GROUND = {
         "The Zaishen Chest is here; Zaishen Keys open it.",
         "{hero:15} waits here as a hero once you have completed Finding a Purpose."
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Insel_der_Namenlosen"
+      "wiki": {"en": "Isle of the Nameless", "de": "Insel der Namenlosen"}
     },
     "281": {
       "name": "Zaishen Challenge",
@@ -2722,7 +2722,7 @@ const GW_GROUND = {
         {"to": 353},
         {"to": 282, "dir": "SE"}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Zaishen-Herausforderung",
+      "wiki": {"en": "Zaishen Challenge", "de": "Zaishen-Herausforderung"},
       "set": 129
     },
     "282": {
@@ -2732,7 +2732,7 @@ const GW_GROUND = {
       "party": 4,
       "terrain": 165842,
       "exits": [{"to": 281, "dir": "NW"}],
-      "wiki": "https://www.guildwiki.de/wiki/Zaishen-Elite",
+      "wiki": {"en": "Zaishen Elite", "de": "Zaishen-Elite"},
       "set": 130
     },
     "283": {
@@ -2745,7 +2745,7 @@ const GW_GROUND = {
       "terrain": 155151,
       "exits": [{"to": 211, "at": [3637, 1890]}, {"to": 197, "at": [3589, 1838]}],
       "order": 34,
-      "wiki": "https://www.guildwiki.de/wiki/Feste_Maatu"
+      "wiki": {"en": "Maatu Keep", "de": "Feste Maatu"}
     },
     "284": {
       "name": "Zin Ku Corridor",
@@ -2758,7 +2758,7 @@ const GW_GROUND = {
       "exits": [{"to": 269, "at": [3805, 1442]}, {"to": 256, "at": [3897, 1478]}],
       "gateway": [34, 72],
       "order": 26,
-      "wiki": "https://www.guildwiki.de/wiki/Zin_Ku-Gang"
+      "wiki": {"en": "Zin Ku Corridor", "de": "Zin Ku-Gang"}
     },
     "286": {
       "name": "Brauer Academy",
@@ -2770,7 +2770,7 @@ const GW_GROUND = {
       "terrain": 154527,
       "exits": [{"to": 201, "at": [3893, 3282]}, {"to": 195, "at": [3853, 3282]}],
       "order": 36.5,
-      "wiki": "https://www.guildwiki.de/wiki/Brauer-Akademie"
+      "wiki": {"en": "Brauer Academy", "de": "Brauer-Akademie"}
     },
     "287": {
       "name": "Durheim Archives",
@@ -2782,7 +2782,7 @@ const GW_GROUND = {
       "terrain": 157242,
       "exits": [{"to": 209, "at": [4258, 3777]}, {"to": 205, "at": [4301, 3726]}],
       "order": 37.5,
-      "wiki": "https://www.guildwiki.de/wiki/Durheim-Archive"
+      "wiki": {"en": "Durheim Archives", "de": "Durheim-Archive"}
     },
     "288": {
       "name": "Bai Paasu Reach",
@@ -2794,7 +2794,7 @@ const GW_GROUND = {
       "terrain": 154893,
       "exits": [{"to": 199, "at": [4625, 2061]}],
       "order": 36.5,
-      "wiki": "https://www.guildwiki.de/wiki/Bai_Paasu-Hügel"
+      "wiki": {"en": "Bai Paasu Reach", "de": "Bai Paasu-Hügel"}
     },
     "289": {
       "name": "Seafarer's Rest",
@@ -2806,7 +2806,7 @@ const GW_GROUND = {
       "terrain": 155121,
       "exits": [{"to": 202, "at": [5065, 3102]}, {"to": 203, "at": [5045, 3110]}],
       "order": 37.5,
-      "wiki": "https://www.guildwiki.de/wiki/Seemannsruh"
+      "wiki": {"en": "Seafarer's Rest", "de": "Seemannsruh"}
     },
     "290": {
       "name": "Bejunkan Pier",
@@ -2817,7 +2817,7 @@ const GW_GROUND = {
       "terrain": 157175,
       "exits": [{"to": 194, "at": [2953, 782]}],
       "order": 18,
-      "wiki": "https://www.guildwiki.de/wiki/Bejunkan-Pier"
+      "wiki": {"en": "Bejunkan Pier", "de": "Bejunkan-Pier"}
     },
     "291": {
       "name": "Vizunah Square (Local Quarter)",
@@ -2829,7 +2829,7 @@ const GW_GROUND = {
       "terrain": 157176,
       "exits": [{"to": 241, "dir": "SE"}],
       "order": 21.5,
-      "wiki": "https://www.guildwiki.de/wiki/Vizunahplatz_(Einheimischenviertel)"
+      "wiki": {"en": "Vizunah Square (Local Quarter)", "de": "Vizunahplatz (Einheimischenviertel)"}
     },
     "292": {
       "name": "Vizunah Square (Foreign Quarter)",
@@ -2841,7 +2841,7 @@ const GW_GROUND = {
       "terrain": 157176,
       "exits": [{"to": 240, "at": [3249, 1030]}, {"to": 274, "at": [3341, 1294]}],
       "order": 20.5,
-      "wiki": "https://www.guildwiki.de/wiki/Vizunahplatz_(Fremdenviertel)"
+      "wiki": {"en": "Vizunah Square (Foreign Quarter)", "de": "Vizunahplatz (Fremdenviertel)"}
     },
     "293": {
       "name": "Fort Aspenwood (Luxon)",
@@ -2853,7 +2853,7 @@ const GW_GROUND = {
       "terrain": 155164,
       "exits": [{"to": 389, "dir": "N"}],
       "order": 29.5,
-      "wiki": "https://www.guildwiki.de/wiki/Fort_Espenwald_(Luxon)"
+      "wiki": {"en": "Fort Aspenwood (Luxon)", "de": "Fort Espenwald (Luxon)"}
     },
     "294": {
       "name": "Fort Aspenwood (Kurzick)",
@@ -2865,7 +2865,7 @@ const GW_GROUND = {
       "terrain": 155164,
       "exits": [{"to": 388, "at": [3899, 2538]}],
       "order": 34.5,
-      "wiki": "https://www.guildwiki.de/wiki/Fort_Espenwald_(Kurzick)"
+      "wiki": {"en": "Fort Aspenwood (Kurzick)", "de": "Fort Espenwald (Kurzick)"}
     },
     "295": {
       "name": "The Jade Quarry (Luxon)",
@@ -2877,7 +2877,7 @@ const GW_GROUND = {
       "terrain": 155166,
       "exits": [{"to": 391, "at": [4353, 2580]}],
       "order": 34.5,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Jadesteinbruch_(Luxon)"
+      "wiki": {"en": "The Jade Quarry (Luxon)", "de": "Der Jadesteinbruch (Luxon)"}
     },
     "296": {
       "name": "The Jade Quarry (Kurzick)",
@@ -2889,7 +2889,7 @@ const GW_GROUND = {
       "terrain": 155166,
       "exits": [{"to": 390, "at": [4264, 2807]}],
       "order": 34.5,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Jadesteinbruch_(Kurzick)"
+      "wiki": {"en": "The Jade Quarry (Kurzick)", "de": "Der Jadesteinbruch (Kurzick)"}
     },
     "297": {
       "name": "Unwaking Waters (Luxon)",
@@ -2902,7 +2902,7 @@ const GW_GROUND = {
       "exits": [{"to": 203, "at": [4785, 3278]}],
       "from": [227],
       "order": 37.5,
-      "wiki": "https://www.guildwiki.de/wiki/Verschlafene_Gewässer_(Luxon)"
+      "wiki": {"en": "Unwaking Waters (Luxon)", "de": "Verschlafene Gewässer (Luxon)"}
     },
     "298": {
       "name": "Unwaking Waters (Kurzick)",
@@ -2915,7 +2915,7 @@ const GW_GROUND = {
       "exits": [{"to": 205, "at": [4461, 3474]}],
       "from": [227],
       "order": 37.5,
-      "wiki": "https://www.guildwiki.de/wiki/Verschlafene_Gewässer_(Kurzick)"
+      "wiki": {"en": "Unwaking Waters (Kurzick)", "de": "Verschlafene Gewässer (Kurzick)"}
     },
     "301": {
       "name": "Raisu Pavilion",
@@ -2926,7 +2926,7 @@ const GW_GROUND = {
       "terrain": 157212,
       "exits": [{"to": 194, "at": [3101, 814]}, {"to": 225, "at": [3061, 814]}],
       "order": 32,
-      "wiki": "https://www.guildwiki.de/wiki/Raisu-Pavillion"
+      "wiki": {"en": "Raisu Pavilion", "de": "Raisu-Pavillion"}
     },
     "302": {
       "name": "Kaineng Docks",
@@ -2937,7 +2937,7 @@ const GW_GROUND = {
       "terrain": 157167,
       "exits": [{"to": 303, "at": [2909, 1242]}, {"to": 250, "dir": "W"}],
       "order": 19,
-      "wiki": "https://www.guildwiki.de/wiki/Docks_von_Kaineng"
+      "wiki": {"en": "Kaineng Docks", "de": "Docks von Kaineng"}
     },
     "303": {
       "name": "The Marketplace",
@@ -2949,7 +2949,7 @@ const GW_GROUND = {
       "terrain": 157167,
       "exits": [{"to": 302, "at": [2909, 1242]}, {"to": 240, "at": [2957, 1230]}, {"to": 239, "at": [2901, 1282]}],
       "order": 18.5,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Marktplatz"
+      "wiki": {"en": "The Marketplace", "de": "Der Marktplatz"}
     },
     "307": {
       "name": "The Deep",
@@ -2960,7 +2960,7 @@ const GW_GROUND = {
       "terrain": 188821,
       "exits": [{"to": 193}],
       "order": 34.5,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Tiefe"
+      "wiki": {"en": "The Deep", "de": "Die Tiefe"}
     },
     "313": {
       "name": "Saoshang Trail",
@@ -2972,7 +2972,7 @@ const GW_GROUND = {
       "exits": [{"to": 250, "at": [1805, 2609]}, {"to": 252, "at": [1637, 2642]}],
       "order": 7.5,
       "foes": [28, 38],
-      "wiki": "https://www.guildwiki.de/wiki/Saoshangweg"
+      "wiki": {"en": "Saoshang Trail", "de": "Saoshangweg"}
     },
     "328": {
       "name": "Saltspray Beach (Luxon)",
@@ -2981,7 +2981,7 @@ const GW_GROUND = {
       "party": 4,
       "set": 2,
       "at": [4400, 3050],
-      "wiki": "https://www.guildwiki.de/wiki/Salzgischtstrand_(Luxon)"
+      "wiki": {"en": "Saltspray Beach (Luxon)", "de": "Salzgischtstrand (Luxon)"}
     },
     "329": {
       "name": "Saltspray Beach (Kurzick)",
@@ -2990,7 +2990,7 @@ const GW_GROUND = {
       "party": 4,
       "set": 2,
       "at": [4400, 3050],
-      "wiki": "https://www.guildwiki.de/wiki/Salzgischtstrand_(Kurzick)"
+      "wiki": {"en": "Saltspray Beach (Kurzick)", "de": "Salzgischtstrand (Kurzick)"}
     },
     "330": {
       "name": "Heroes' Ascent",
@@ -2999,7 +2999,7 @@ const GW_GROUND = {
       "party": 8,
       "terrain": 165788,
       "exits": [{"to": 796}, {"to": 188}],
-      "wiki": "https://www.guildwiki.de/wiki/Aufstieg_der_Helden",
+      "wiki": {"en": "Heroes' Ascent", "de": "Aufstieg der Helden"},
       "set": 128
     },
     "331": {
@@ -3009,7 +3009,7 @@ const GW_GROUND = {
       "party": 4,
       "set": 2,
       "at": [4298, 3226],
-      "wiki": "https://www.guildwiki.de/wiki/Grenzland_(Luxon)"
+      "wiki": {"en": "Grenz Frontier (Luxon)", "de": "Grenzland (Luxon)"}
     },
     "332": {
       "name": "Grenz Frontier (Kurzick)",
@@ -3018,7 +3018,7 @@ const GW_GROUND = {
       "party": 4,
       "set": 2,
       "at": [4298, 3226],
-      "wiki": "https://www.guildwiki.de/wiki/Grenzland_(Kurzick)"
+      "wiki": {"en": "Grenz Frontier (Kurzick)", "de": "Grenzland (Kurzick)"}
     },
     "333": {
       "name": "The Ancestral Lands (Luxon)",
@@ -3027,7 +3027,7 @@ const GW_GROUND = {
       "party": 4,
       "set": 2,
       "at": [4190, 3390],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Land_der_Ahnen_(Luxon)"
+      "wiki": {"en": "The Ancestral Lands (Luxon)", "de": "Das Land der Ahnen (Luxon)"}
     },
     "334": {
       "name": "The Ancestral Lands (Kurzick)",
@@ -3036,7 +3036,7 @@ const GW_GROUND = {
       "party": 4,
       "set": 2,
       "at": [4190, 3390],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Land_der_Ahnen_(Kurzick)"
+      "wiki": {"en": "The Ancestral Lands (Kurzick)", "de": "Das Land der Ahnen (Kurzick)"}
     },
     "335": {
       "name": "Etnaran Keys (Luxon)",
@@ -3045,7 +3045,7 @@ const GW_GROUND = {
       "party": 4,
       "set": 2,
       "at": [4524, 2956],
-      "wiki": "https://www.guildwiki.de/wiki/Etnaran-Inseln_(Luxon)"
+      "wiki": {"en": "Etnaran Keys (Luxon)", "de": "Etnaran-Inseln (Luxon)"}
     },
     "336": {
       "name": "Etnaran Keys (Kurzick)",
@@ -3054,7 +3054,7 @@ const GW_GROUND = {
       "party": 4,
       "set": 2,
       "at": [4524, 2956],
-      "wiki": "https://www.guildwiki.de/wiki/Etnaran-Inseln_(Kurzick)"
+      "wiki": {"en": "Etnaran Keys (Kurzick)", "de": "Etnaran-Inseln (Kurzick)"}
     },
     "337": {
       "name": "Kaanai Canyon (Luxon)",
@@ -3063,7 +3063,7 @@ const GW_GROUND = {
       "party": 4,
       "set": 2,
       "at": [4636, 2808],
-      "wiki": "https://www.guildwiki.de/wiki/Kaanai-Schlucht_(Luxon)"
+      "wiki": {"en": "Kaanai Canyon (Luxon)", "de": "Kaanai-Schlucht (Luxon)"}
     },
     "338": {
       "name": "Kaanai Canyon (Kurzick)",
@@ -3072,7 +3072,7 @@ const GW_GROUND = {
       "party": 4,
       "set": 2,
       "at": [4636, 2808],
-      "wiki": "https://www.guildwiki.de/wiki/Kaanai-Schlucht_(Kurzick)"
+      "wiki": {"en": "Kaanai Canyon (Kurzick)", "de": "Kaanai-Schlucht (Kurzick)"}
     },
     "344": {
       "name": "The Hall of Heroes",
@@ -3084,7 +3084,7 @@ const GW_GROUND = {
       "exits": [{"to": 82}, {"to": 345}],
       "order": 37.5,
       "bosses": [100409, 100409, 100409],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Halle_der_Helden_(Erforschbar)"
+      "wiki": {"en": "The Hall of Heroes", "de": "Die Halle der Helden (Erforschbar)"}
     },
     "345": {
       "name": "The Courtyard",
@@ -3095,7 +3095,7 @@ const GW_GROUND = {
       "terrain": 13989,
       "exits": [{"to": 344}, {"to": 346}],
       "order": 37.5,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Hof_(Erforschbar)"
+      "wiki": {"en": "The Courtyard", "de": "Der Hof (Erforschbar)"}
     },
     "346": {
       "name": "Scarred Earth",
@@ -3105,7 +3105,7 @@ const GW_GROUND = {
       "at": [7022, 6980],
       "exits": [{"to": 345}, {"to": 84}],
       "order": 37.5,
-      "wiki": "https://www.guildwiki.de/wiki/Vernarbte_Erde"
+      "wiki": {"en": "Scarred Earth", "de": "Vernarbte Erde"}
     },
     "348": {
       "name": "Tanglewood Copse",
@@ -3122,7 +3122,7 @@ const GW_GROUND = {
         {"to": 244, "at": [3573, 2154]}
       ],
       "order": 27.5,
-      "wiki": "https://www.guildwiki.de/wiki/Wirrwaldhain"
+      "wiki": {"en": "Tanglewood Copse", "de": "Wirrwaldhain"}
     },
     "349": {
       "name": "Saint Anjeka's Shrine",
@@ -3134,7 +3134,7 @@ const GW_GROUND = {
       "terrain": 154676,
       "exits": [{"to": 210, "at": [3609, 3070]}, {"to": 195, "at": [3593, 3082]}],
       "order": 34.5,
-      "wiki": "https://www.guildwiki.de/wiki/Schrein_der_Heiligen_Anjeka"
+      "wiki": {"en": "Saint Anjeka's Shrine", "de": "Schrein der Heiligen Anjeka"}
     },
     "350": {
       "name": "Eredon Terrace",
@@ -3146,7 +3146,7 @@ const GW_GROUND = {
       "terrain": 154893,
       "exits": [{"to": 199, "at": [4989, 2082]}],
       "order": 36.5,
-      "wiki": "https://www.guildwiki.de/wiki/Eredon-Terrasse"
+      "wiki": {"en": "Eredon Terrace", "de": "Eredon-Terrasse"}
     },
     "351": {
       "name": "Divine Path",
@@ -3156,21 +3156,21 @@ const GW_GROUND = {
       "at": [3330, 868],
       "exits": [{"to": 194, "dir": "W"}],
       "order": 42.5,
-      "wiki": "https://www.guildwiki.de/wiki/Göttlicher_Pfad"
+      "wiki": {"en": "Divine Path", "de": "Göttlicher Pfad"}
     },
     "353": {
       "name": "Petrified Arena",
       "type": 1,
       "region": 21,
       "exits": [{"to": 281}],
-      "wiki": "https://www.guildwiki.de/wiki/Versteinerte_Arena"
+      "wiki": {"en": "Petrified Arena", "de": "Versteinerte Arena"}
     },
     "354": {
       "name": "Seabed Arena",
       "type": 1,
       "region": 21,
       "exits": [{"to": 281}],
-      "wiki": "https://www.guildwiki.de/wiki/Meeresgrund-Arena"
+      "wiki": {"en": "Seabed Arena", "de": "Meeresgrund-Arena"}
     },
     "368": {"name": "Dragon Arena", "type": 1, "region": 21},
     "369": {
@@ -3190,7 +3190,7 @@ const GW_GROUND = {
       ],
       "order": 31,
       "foes": [272, 312],
-      "wiki": "https://www.guildwiki.de/wiki/Jahai-Klippen"
+      "wiki": {"en": "Jahai Bluffs", "de": "Jahai-Klippen"}
     },
     "371": {
       "name": "Marga Coast",
@@ -3210,7 +3210,7 @@ const GW_GROUND = {
       "order": 32,
       "foes": [263, 316],
       "bosses": [100208, 100209, 100210, 100211, 100212, 100213, 100214, 100215],
-      "wiki": "https://www.guildwiki.de/wiki/Marga-Küste"
+      "wiki": {"en": "Marga Coast", "de": "Marga-Küste"}
     },
     "373": {
       "name": "Sunward Marches",
@@ -3222,7 +3222,7 @@ const GW_GROUND = {
       "order": 24.5,
       "foes": [292, 326],
       "bosses": [100375, 100376, 100377, 100378, 100379],
-      "wiki": "https://www.guildwiki.de/wiki/Sonnenwärtige_Sümpfe"
+      "wiki": {"en": "Sunward Marches", "de": "Sonnenwärtige Sümpfe"}
     },
     "375": {
       "name": "Barbarous Shore",
@@ -3234,7 +3234,7 @@ const GW_GROUND = {
       "order": 31.5,
       "foes": [165, 201],
       "bosses": [100037, 100038, 100039, 100040, 100041],
-      "wiki": "https://www.guildwiki.de/wiki/Barbarenküste"
+      "wiki": {"en": "Barbarous Shore", "de": "Barbarenküste"}
     },
     "376": {
       "name": "Camp Hojanu",
@@ -3246,7 +3246,7 @@ const GW_GROUND = {
       "terrain": 212976,
       "exits": [{"to": 379, "at": [4489, 3145]}, {"to": 375, "at": [4561, 3170]}],
       "order": 31.5,
-      "wiki": "https://www.guildwiki.de/wiki/Hojanu-Lager"
+      "wiki": {"en": "Camp Hojanu", "de": "Hojanu-Lager"}
     },
     "377": {
       "name": "Bahdok Caverns",
@@ -3259,7 +3259,7 @@ const GW_GROUND = {
       "order": 33.5,
       "foes": [259, 304],
       "bosses": [100031, 100032, 100033, 100034, 100035, 100036],
-      "wiki": "https://www.guildwiki.de/wiki/Bahdok-Höhlen"
+      "wiki": {"en": "Bahdok Caverns", "de": "Bahdok-Höhlen"}
     },
     "378": {
       "name": "Wehhan Terraces",
@@ -3275,7 +3275,7 @@ const GW_GROUND = {
         {"to": 392, "at": [4496, 2029]}
       ],
       "order": 35,
-      "wiki": "https://www.guildwiki.de/wiki/Terrassen_von_Wehhan"
+      "wiki": {"en": "Wehhan Terraces", "de": "Terrassen von Wehhan"}
     },
     "379": {
       "name": "Dejarin Estate",
@@ -3287,7 +3287,7 @@ const GW_GROUND = {
       "order": 32,
       "foes": [229, 346],
       "bosses": [100074, 100075, 100076, 100077, 100078, 100079],
-      "wiki": "https://www.guildwiki.de/wiki/Dejarin-Anwesen"
+      "wiki": {"en": "Dejarin Estate", "de": "Dejarin-Anwesen"}
     },
     "380": {
       "name": "Arkjok Ward",
@@ -3307,7 +3307,7 @@ const GW_GROUND = {
       "order": 21.5,
       "foes": [309, 362],
       "bosses": [100022, 100023, 100024, 100025, 100026, 100027, 100028, 100029, 100030],
-      "wiki": "https://www.guildwiki.de/wiki/Arkjok-Bastei"
+      "wiki": {"en": "Arkjok Ward", "de": "Arkjok-Bastei"}
     },
     "381": {
       "name": "Yohlon Haven",
@@ -3318,7 +3318,7 @@ const GW_GROUND = {
       "at": [3520, 3116],
       "exits": [{"to": 371, "at": [3461, 3050]}, {"to": 380, "at": [3561, 3094]}],
       "order": 22,
-      "wiki": "https://www.guildwiki.de/wiki/Yohlon-Winkel"
+      "wiki": {"en": "Yohlon Haven", "de": "Yohlon-Winkel"}
     },
     "382": {
       "name": "Gandara, the Moon Fortress",
@@ -3329,7 +3329,7 @@ const GW_GROUND = {
       "exits": [{"to": 426, "at": [4057, 3254]}],
       "order": 32.5,
       "foes": [64, 124],
-      "wiki": "https://www.guildwiki.de/wiki/Gandara,_die_Mondfestung"
+      "wiki": {"en": "Gandara, the Moon Fortress", "de": "Gandara, die Mondfestung"}
     },
     "384": {
       "name": "The Floodplain of Mahnkelon",
@@ -3347,7 +3347,7 @@ const GW_GROUND = {
       "order": 28.5,
       "foes": [204, 274],
       "bosses": [100400, 100401, 100402, 100403, 100404, 100405, 100406, 100407, 100408],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Schwemmebene_von_Mahnkelon"
+      "wiki": {"en": "The Floodplain of Mahnkelon", "de": "Die Schwemmebene von Mahnkelon"}
     },
     "386": {
       "name": "Turai's Procession",
@@ -3365,7 +3365,7 @@ const GW_GROUND = {
       "order": 24.5,
       "foes": [170, 246],
       "bosses": [100443, 100444, 100445, 100446, 100447],
-      "wiki": "https://www.guildwiki.de/wiki/Turais_Weg"
+      "wiki": {"en": "Turai's Procession", "de": "Turais Weg"}
     },
     "387": {
       "name": "Sunspear Sanctuary",
@@ -3377,7 +3377,7 @@ const GW_GROUND = {
       "terrain": 216120,
       "exits": [{"to": 371, "at": [3370, 2721]}, {"to": 436, "dir": "N"}],
       "order": 23,
-      "wiki": "https://www.guildwiki.de/wiki/Zufluchtsort_der_Sonnenspeere"
+      "wiki": {"en": "Sunspear Sanctuary", "de": "Zufluchtsort der Sonnenspeere"}
     },
     "388": {
       "name": "Aspenwood Gate (Kurzick)",
@@ -3389,7 +3389,7 @@ const GW_GROUND = {
       "terrain": 155164,
       "exits": [{"to": 210, "at": [3893, 2614]}, {"to": 294, "at": [3899, 2538]}],
       "order": 34.5,
-      "wiki": "https://www.guildwiki.de/wiki/Espenwald-Tor_(Kurzick)"
+      "wiki": {"en": "Aspenwood Gate (Kurzick)", "de": "Espenwald-Tor (Kurzick)"}
     },
     "389": {
       "name": "Aspenwood Gate (Luxon)",
@@ -3401,7 +3401,7 @@ const GW_GROUND = {
       "terrain": 155164,
       "exits": [{"to": 200, "at": [3949, 2431]}, {"to": 293, "dir": "SE"}],
       "order": 29.5,
-      "wiki": "https://www.guildwiki.de/wiki/Espenwald-Tor_(Luxon)"
+      "wiki": {"en": "Aspenwood Gate (Luxon)", "de": "Espenwald-Tor (Luxon)"}
     },
     "390": {
       "name": "Jade Flats (Kurzick)",
@@ -3413,7 +3413,7 @@ const GW_GROUND = {
       "terrain": 155166,
       "exits": [{"to": 296, "at": [4264, 2807]}, {"to": 201, "at": [4213, 2842]}],
       "order": 34.5,
-      "wiki": "https://www.guildwiki.de/wiki/Jadeebenen_(Kurzick)"
+      "wiki": {"en": "Jade Flats (Kurzick)", "de": "Jadeebenen (Kurzick)"}
     },
     "391": {
       "name": "Jade Flats (Luxon)",
@@ -3425,7 +3425,7 @@ const GW_GROUND = {
       "terrain": 155166,
       "exits": [{"to": 295, "at": [4353, 2580]}, {"to": 198, "at": [4357, 2538]}],
       "order": 34.5,
-      "wiki": "https://www.guildwiki.de/wiki/Jadeebenen_(Luxon)"
+      "wiki": {"en": "Jade Flats (Luxon)", "de": "Jadeebenen (Luxon)"}
     },
     "392": {
       "name": "Yatendi Canyons",
@@ -3445,7 +3445,7 @@ const GW_GROUND = {
       "order": 34.5,
       "foes": [193, 229],
       "bosses": [100488, 100489, 100490, 100491, 100492, 100493],
-      "wiki": "https://www.guildwiki.de/wiki/Yahtendi-Schluchten"
+      "wiki": {"en": "Yatendi Canyons", "de": "Yahtendi-Schluchten"}
     },
     "393": {
       "name": "Chantry of Secrets",
@@ -3458,7 +3458,7 @@ const GW_GROUND = {
       "exits": [{"to": 392, "at": [4229, 1998]}, {"to": 392, "at": [4229, 1998]}, {"to": 474, "dir": "S"}],
       "gateway": [34, 72],
       "order": 34.5,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Heilige_Halle_der_Geheimnisse"
+      "wiki": {"en": "Chantry of Secrets", "de": "Die Heilige Halle der Geheimnisse"}
     },
     "394": {
       "name": "Garden of Seborhin",
@@ -3470,7 +3470,7 @@ const GW_GROUND = {
       "order": 35.5,
       "foes": [218, 340],
       "bosses": [100152, 100153, 100154, 100155, 100156],
-      "wiki": "https://www.guildwiki.de/wiki/Seborhin-Garten"
+      "wiki": {"en": "Garden of Seborhin", "de": "Seborhin-Garten"}
     },
     "395": {
       "name": "Holdings of Chokhin",
@@ -3482,7 +3482,7 @@ const GW_GROUND = {
       "order": 38.5,
       "foes": [244, 248],
       "bosses": [100170, 100171, 100172, 100173],
-      "wiki": "https://www.guildwiki.de/wiki/Güter_von_Chokhin"
+      "wiki": {"en": "Holdings of Chokhin", "de": "Güter von Chokhin"}
     },
     "396": {
       "name": "Mihanu Township",
@@ -3494,7 +3494,7 @@ const GW_GROUND = {
       "terrain": 211075,
       "exits": [{"to": 419, "at": [4409, 854]}, {"to": 395, "at": [4346, 741]}],
       "order": 38.5,
-      "wiki": "https://www.guildwiki.de/wiki/Gemeinde_Mihanu"
+      "wiki": {"en": "Mihanu Township", "de": "Gemeinde Mihanu"}
     },
     "397": {
       "name": "Vehjin Mines",
@@ -3512,7 +3512,7 @@ const GW_GROUND = {
       "order": 44.5,
       "foes": [137, 247],
       "bosses": [100456, 100457, 100458, 100459],
-      "wiki": "https://www.guildwiki.de/wiki/Vehjin-Minen"
+      "wiki": {"en": "Vehjin Mines", "de": "Vehjin-Minen"}
     },
     "398": {
       "name": "Basalt Grotto",
@@ -3529,7 +3529,7 @@ const GW_GROUND = {
         {"to": 397, "at": [3318, 881]}
       ],
       "order": 44.5,
-      "wiki": "https://www.guildwiki.de/wiki/Basaltgrotte"
+      "wiki": {"en": "Basalt Grotto", "de": "Basaltgrotte"}
     },
     "399": {
       "name": "Forum Highlands",
@@ -3549,7 +3549,7 @@ const GW_GROUND = {
       "order": 35.5,
       "foes": [244, 337],
       "bosses": [100135, 100136, 100137, 100138, 100139, 100140, 100141],
-      "wiki": "https://www.guildwiki.de/wiki/Forum-Hochland"
+      "wiki": {"en": "Forum Highlands", "de": "Forum-Hochland"}
     },
     "400": {
       "name": "Kaineng Center",
@@ -3558,7 +3558,7 @@ const GW_GROUND = {
       "set": 2,
       "at": [2965, 816],
       "bosses": [100189],
-      "wiki": "https://www.guildwiki.de/wiki/Zentrum_von_Kaineng_(Erforschbar)"
+      "wiki": {"en": "Kaineng Center", "de": "Zentrum von Kaineng (Erforschbar)"}
     },
     "402": {
       "name": "Resplendent Makuun",
@@ -3577,7 +3577,7 @@ const GW_GROUND = {
       "order": 37.5,
       "foes": [157, 211],
       "bosses": [100294, 100295, 100296, 100297],
-      "wiki": "https://www.guildwiki.de/wiki/Makuun_die_Leuchtende"
+      "wiki": {"en": "Resplendent Makuun", "de": "Makuun die Leuchtende"}
     },
     "403": {
       "name": "Honur Hill",
@@ -3589,7 +3589,7 @@ const GW_GROUND = {
       "terrain": 212420,
       "exits": [{"to": 419, "at": [4878, 1193]}, {"to": 402, "at": [4893, 1261]}],
       "order": 38,
-      "wiki": "https://www.guildwiki.de/wiki/Honurhügel"
+      "wiki": {"en": "Honur Hill", "de": "Honurhügel"}
     },
     "404": {
       "name": "Wilderness of Bahdza",
@@ -3601,7 +3601,7 @@ const GW_GROUND = {
       "order": 39.5,
       "foes": [165, 172],
       "bosses": [100472, 100473, 100474, 100475, 100476, 100477, 100478],
-      "wiki": "https://www.guildwiki.de/wiki/Wildnis_von_Bahdza"
+      "wiki": {"en": "Wilderness of Bahdza", "de": "Wildnis von Bahdza"}
     },
     "406": {
       "name": "Vehtendi Valley",
@@ -3621,7 +3621,7 @@ const GW_GROUND = {
       "order": 36.5,
       "foes": [226, 257],
       "bosses": [100460, 100461, 100462, 100463],
-      "wiki": "https://www.guildwiki.de/wiki/Vehtendi-Tal"
+      "wiki": {"en": "Vehtendi Valley", "de": "Vehtendi-Tal"}
     },
     "407": {
       "name": "Yahnur Market",
@@ -3633,7 +3633,7 @@ const GW_GROUND = {
       "terrain": 212438,
       "exits": [{"to": 406, "at": [4781, 1654]}, {"to": 406, "at": [4785, 1597]}, {"to": 402, "at": [4881, 1614]}],
       "order": 36.5,
-      "wiki": "https://www.guildwiki.de/wiki/Markt_von_Yahnur"
+      "wiki": {"en": "Yahnur Market", "de": "Markt von Yahnur"}
     },
     "413": {
       "name": "The Hidden City of Ahdashim",
@@ -3645,7 +3645,7 @@ const GW_GROUND = {
       "order": 39.5,
       "foes": [194, 255],
       "bosses": [100410, 100411, 100412, 100413, 100414, 100415],
-      "wiki": "https://www.guildwiki.de/wiki/Verborgene_Stadt_von_Ahdashim"
+      "wiki": {"en": "The Hidden City of Ahdashim", "de": "Verborgene Stadt von Ahdashim"}
     },
     "414": {
       "name": "The Kodash Bazaar",
@@ -3657,7 +3657,7 @@ const GW_GROUND = {
       "terrain": 216071,
       "exits": [{"to": 406, "at": [4490, 1294]}, {"to": 399, "at": [4397, 1297]}, {"to": 419, "at": [4442, 1193]}],
       "order": 37,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Kodash-Basar"
+      "wiki": {"en": "The Kodash Bazaar", "de": "Der Kodash-Basar"}
     },
     "415": {
       "name": "Lion's Gate",
@@ -3666,7 +3666,7 @@ const GW_GROUND = {
       "terrain": 195066,
       "exits": [{"to": 55, "at": [4009, 4874]}],
       "order": 22.5,
-      "wiki": "https://www.guildwiki.de/wiki/Löwentor",
+      "wiki": {"en": "Lion's Gate", "de": "Löwentor"},
       "set": 0
     },
     "419": {
@@ -3688,7 +3688,7 @@ const GW_GROUND = {
       "order": 39,
       "foes": [142, 256],
       "bosses": [100416, 100417, 100418, 100419, 100420],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Spiegel_von_Lyss"
+      "wiki": {"en": "The Mirror of Lyss", "de": "Der Spiegel von Lyss"}
     },
     "420": {
       "name": "Secure the Refuge",
@@ -3698,7 +3698,7 @@ const GW_GROUND = {
       "at": [3580, 2600],
       "order": 31.5,
       "bosses": [100029],
-      "wiki": "https://www.guildwiki.de/wiki/Sichert_den_Zufluchtsort"
+      "wiki": {"en": "Secure the Refuge", "de": "Sichert den Zufluchtsort"}
     },
     "421": {
       "name": "Venta Cemetery",
@@ -3710,7 +3710,7 @@ const GW_GROUND = {
       "exits": [{"to": 373, "at": [3341, 2314]}, {"to": 386, "at": [3378, 2285]}],
       "order": 25,
       "after": 449,
-      "wiki": "https://www.guildwiki.de/wiki/Totenanger_von_Venta"
+      "wiki": {"en": "Venta Cemetery", "de": "Totenanger von Venta"}
     },
     "423": {
       "name": "The Tribunal",
@@ -3720,7 +3720,7 @@ const GW_GROUND = {
       "at": [2185, 3236],
       "exits": [{"to": 449, "dir": "W"}],
       "order": 4.5,
-      "wiki": "https://www.guildwiki.de/wiki/Das_Tribunal"
+      "wiki": {"en": "The Tribunal", "de": "Das Tribunal"}
     },
     "424": {
       "name": "Kodonur Crossroads",
@@ -3733,7 +3733,7 @@ const GW_GROUND = {
       "exits": [{"to": 369, "at": [4174, 2637]}, {"to": 384, "at": [4277, 2638]}, {"to": 379, "at": [4259, 2732]}],
       "order": 29,
       "after": 387,
-      "wiki": "https://www.guildwiki.de/wiki/Kodonur-Kreuzung"
+      "wiki": {"en": "Kodonur Crossroads", "de": "Kodonur-Kreuzung"}
     },
     "425": {
       "name": "Rilohn Refuge",
@@ -3746,7 +3746,7 @@ const GW_GROUND = {
       "exits": [{"to": 384, "at": [4358, 2369]}],
       "order": 33,
       "after": 427,
-      "wiki": "https://www.guildwiki.de/wiki/Rilohn-Refugium"
+      "wiki": {"en": "Rilohn Refuge", "de": "Rilohn-Refugium"}
     },
     "426": {
       "name": "Pogahn Passage",
@@ -3759,7 +3759,7 @@ const GW_GROUND = {
       "exits": [{"to": 380, "at": [3990, 3152]}, {"to": 379, "at": [4082, 3160]}, {"to": 382, "at": [4057, 3254]}],
       "order": 33,
       "after": 427,
-      "wiki": "https://www.guildwiki.de/wiki/Passage_von_Pogahn"
+      "wiki": {"en": "Pogahn Passage", "de": "Passage von Pogahn"}
     },
     "427": {
       "name": "Moddok Crevice",
@@ -3771,7 +3771,7 @@ const GW_GROUND = {
       "terrain": 215315,
       "exits": [{"to": 384, "at": [4641, 2342]}, {"to": 377, "at": [4662, 2273]}],
       "order": 34,
-      "wiki": "https://www.guildwiki.de/wiki/Moddok-Spalte"
+      "wiki": {"en": "Moddok Crevice", "de": "Moddok-Spalte"}
     },
     "428": {
       "name": "Tihark Orchard",
@@ -3783,7 +3783,7 @@ const GW_GROUND = {
       "terrain": 217403,
       "exits": [{"to": 399, "at": [4142, 1317]}, {"to": 399, "at": [4161, 1338]}],
       "order": 36,
-      "wiki": "https://www.guildwiki.de/wiki/Obstgarten_von_Tihark"
+      "wiki": {"en": "Tihark Orchard", "de": "Obstgarten von Tihark"}
     },
     "429": {
       "name": "Consulate",
@@ -3794,7 +3794,7 @@ const GW_GROUND = {
       "terrain": 214476,
       "exits": [{"to": 449, "dir": "W"}, {"to": 493, "dir": "E"}],
       "order": 27,
-      "wiki": "https://www.guildwiki.de/wiki/Konsulat"
+      "wiki": {"en": "Consulate", "de": "Konsulat"}
     },
     "430": {
       "name": "Plains of Jarin",
@@ -3811,7 +3811,7 @@ const GW_GROUND = {
       ],
       "order": 15,
       "foes": [184, 218],
-      "wiki": "https://www.guildwiki.de/wiki/Flachland_von_Jarin"
+      "wiki": {"en": "Plains of Jarin", "de": "Flachland von Jarin"}
     },
     "431": {
       "name": "Sunspear Great Hall",
@@ -3823,7 +3823,7 @@ const GW_GROUND = {
       "terrain": 210513,
       "exits": [{"to": 430, "at": [1953, 3125]}],
       "order": 3,
-      "wiki": "https://www.guildwiki.de/wiki/Große_Halle_der_Sonnenspeere"
+      "wiki": {"en": "Sunspear Great Hall", "de": "Große Halle der Sonnenspeere"}
     },
     "432": {
       "name": "Cliffs of Dohjok",
@@ -3842,7 +3842,7 @@ const GW_GROUND = {
       "order": 7.5,
       "foes": [115, 143],
       "bosses": [100060, 100061, 100062, 100063, 100064],
-      "wiki": "https://www.guildwiki.de/wiki/Felsen_von_Dohjok"
+      "wiki": {"en": "Cliffs of Dohjok", "de": "Felsen von Dohjok"}
     },
     "433": {
       "name": "Dzagonur Bastion",
@@ -3854,7 +3854,7 @@ const GW_GROUND = {
       "terrain": 212428,
       "exits": [{"to": 419, "at": [4890, 909]}, {"to": 404, "at": [4985, 883]}],
       "order": 40,
-      "wiki": "https://www.guildwiki.de/wiki/Bastion_von_Dzagonur"
+      "wiki": {"en": "Dzagonur Bastion", "de": "Bastion von Dzagonur"}
     },
     "434": {
       "name": "Dasha Vestibule",
@@ -3867,7 +3867,7 @@ const GW_GROUND = {
       "exits": [{"to": 419, "at": [4757, 1101]}, {"to": 413}],
       "order": 40,
       "after": 414,
-      "wiki": "https://www.guildwiki.de/wiki/Vorhof_von_Dasha"
+      "wiki": {"en": "Dasha Vestibule", "de": "Vorhof von Dasha"}
     },
     "435": {
       "name": "Grand Court of Sebelkeh",
@@ -3880,7 +3880,7 @@ const GW_GROUND = {
       "exits": [{"to": 419, "at": [4670, 937]}, {"to": 419, "at": [4640, 938]}],
       "order": 39,
       "after": 414,
-      "wiki": "https://www.guildwiki.de/wiki/Großer_Hof_von_Sebelkeh"
+      "wiki": {"en": "Grand Court of Sebelkeh", "de": "Großer Hof von Sebelkeh"}
     },
     "436": {
       "name": "Command Post",
@@ -3897,7 +3897,7 @@ const GW_GROUND = {
         {"to": 386, "at": [3514, 2285]}
       ],
       "order": 22.5,
-      "wiki": "https://www.guildwiki.de/wiki/Kommandostelle"
+      "wiki": {"en": "Command Post", "de": "Kommandostelle"}
     },
     "437": {
       "name": "Joko's Domain",
@@ -3917,7 +3917,7 @@ const GW_GROUND = {
       "order": 47.5,
       "foes": [413, 438],
       "bosses": [100183, 100184, 100185, 100186, 100187, 100188],
-      "wiki": "https://www.guildwiki.de/wiki/Jokos_Domäne"
+      "wiki": {"en": "Joko's Domain", "de": "Jokos Domäne"}
     },
     "438": {
       "name": "Bone Palace",
@@ -3929,7 +3929,7 @@ const GW_GROUND = {
       "terrain": 210198,
       "exits": [{"to": 446, "at": [2705, 949]}, {"to": 446, "at": [2797, 946]}, {"to": 437, "at": [2857, 985]}],
       "order": 49,
-      "wiki": "https://www.guildwiki.de/wiki/Knochenpalast"
+      "wiki": {"en": "Bone Palace", "de": "Knochenpalast"}
     },
     "439": {
       "name": "The Ruptured Heart",
@@ -3952,7 +3952,7 @@ const GW_GROUND = {
       "order": 49.5,
       "foes": [236, 246],
       "bosses": [100421, 100422, 100423, 100424],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Zerrissene_Herz"
+      "wiki": {"en": "The Ruptured Heart", "de": "Das Zerrissene Herz"}
     },
     "440": {
       "name": "The Mouth of Torment",
@@ -3964,7 +3964,7 @@ const GW_GROUND = {
       "terrain": 210292,
       "exits": [{"to": 439, "at": [2441, 610]}, {"to": 439, "at": [2517, 558]}, {"to": 450}],
       "order": 50.5,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Schlund_der_Qual"
+      "wiki": {"en": "The Mouth of Torment", "de": "Der Schlund der Qual"}
     },
     "441": {
       "name": "The Shattered Ravines",
@@ -3984,7 +3984,7 @@ const GW_GROUND = {
       "order": 47.5,
       "foes": [179, 392],
       "bosses": [100425, 100426, 100427, 100428],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Zerklüfteten_Schluchten"
+      "wiki": {"en": "The Shattered Ravines", "de": "Die Zerklüfteten Schluchten"}
     },
     "442": {
       "name": "Lair of the Forgotten",
@@ -3996,7 +3996,7 @@ const GW_GROUND = {
       "terrain": 210307,
       "exits": [{"to": 441, "at": [3085, 490]}, {"to": 443, "at": [3129, 394]}],
       "order": 47.5,
-      "wiki": "https://www.guildwiki.de/wiki/Höhle_der_Vergessenen"
+      "wiki": {"en": "Lair of the Forgotten", "de": "Höhle der Vergessenen"}
     },
     "443": {
       "name": "Poisoned Outcrops",
@@ -4007,7 +4007,7 @@ const GW_GROUND = {
       "exits": [{"to": 442, "at": [3129, 394]}, {"to": 439, "at": [2709, 354]}],
       "order": 49.5,
       "foes": [176, 250],
-      "wiki": "https://www.guildwiki.de/wiki/Giftige_Auswüchse"
+      "wiki": {"en": "Poisoned Outcrops", "de": "Giftige Auswüchse"}
     },
     "444": {
       "name": "The Sulfurous Wastes",
@@ -4019,7 +4019,7 @@ const GW_GROUND = {
       "order": 46.5,
       "foes": [243, 400],
       "bosses": [100429, 100430, 100431, 100432, 100433, 100434, 100435],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Schwefel-Einöde"
+      "wiki": {"en": "The Sulfurous Wastes", "de": "Die Schwefel-Einöde"}
     },
     "445": {
       "name": "The Ebony Citadel of Mallyx",
@@ -4030,7 +4030,7 @@ const GW_GROUND = {
       "notes": [
         "High Priest Zhellix in Gate of Anguish takes you here, once the four Margonite lords of the Domain of Anguish are defeated."
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Ebenholz-Zitadelle_des_Mallyx"
+      "wiki": {"en": "The Ebony Citadel of Mallyx", "de": "Die Ebenholz-Zitadelle des Mallyx"}
     },
     "446": {
       "name": "The Alkali Pan",
@@ -4050,7 +4050,7 @@ const GW_GROUND = {
       "order": 48.5,
       "foes": [294, 309],
       "bosses": [100388, 100389, 100390, 100391],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Alkalibecken"
+      "wiki": {"en": "The Alkali Pan", "de": "Das Alkalibecken"}
     },
     "448": {
       "name": "Crystal Overlook",
@@ -4066,7 +4066,7 @@ const GW_GROUND = {
       "order": 36.5,
       "foes": [191, 280],
       "bosses": [100065, 100066, 100067, 100068],
-      "wiki": "https://www.guildwiki.de/wiki/Kristallspitze"
+      "wiki": {"en": "Crystal Overlook", "de": "Kristallspitze"}
     },
     "449": {
       "name": "Kamadan, Jewel of Istan",
@@ -4078,7 +4078,7 @@ const GW_GROUND = {
       "terrain": 214476,
       "exits": [{"to": 430, "at": [2178, 3173]}, {"to": 429, "dir": "E"}, {"to": 543, "dir": "E"}],
       "order": 5,
-      "wiki": "https://www.guildwiki.de/wiki/Kamadan,_Juwel_von_Istan"
+      "wiki": {"en": "Kamadan, Jewel of Istan", "de": "Kamadan, Juwel von Istan"}
     },
     "450": {
       "name": "Gate of Torment",
@@ -4089,7 +4089,7 @@ const GW_GROUND = {
       "terrain": 214315,
       "exits": [{"to": 440, "at": [226, 192]}, {"to": 465, "at": [130, 136]}, {"to": 555, "at": [326, 176]}],
       "order": 51,
-      "wiki": "https://www.guildwiki.de/wiki/Tor_der_Qualen"
+      "wiki": {"en": "Gate of Torment", "de": "Tor der Qualen"}
     },
     "453": {"name": "Venta Cemetery", "type": 14, "region": 12, "set": 4},
     "456": {
@@ -4101,7 +4101,7 @@ const GW_GROUND = {
       "terrain": 249289,
       "exits": [{"to": 544, "dir": "E"}],
       "order": 3,
-      "wiki": "https://www.guildwiki.de/wiki/Churrhir-Felder"
+      "wiki": {"en": "Churrhir Fields", "de": "Churrhir-Felder"}
     },
     "458": {"name": "Kodonur Crossroads", "type": 14, "region": 12, "set": 4},
     "459": {"name": "Rilohn Refuge", "type": 14, "region": 12, "set": 4},
@@ -4113,7 +4113,7 @@ const GW_GROUND = {
       "set": 107,
       "exits": [{"to": 496, "dir": "SW"}],
       "order": 55.5,
-      "wiki": "https://www.guildwiki.de/wiki/Abaddons_Herz"
+      "wiki": {"en": "Heart of Abaddon", "de": "Abaddons Herz"}
     },
     "465": {
       "name": "Nightfallen Jahai",
@@ -4123,7 +4123,7 @@ const GW_GROUND = {
       "exits": [{"to": 450, "at": [244, 407]}, {"to": 494, "at": [469, 50]}, {"to": 559, "at": [184, 159]}],
       "order": 50.5,
       "bosses": [100255, 100256, 100257, 100258, 100259, 100260, 100261, 100262, 100263],
-      "wiki": "https://www.guildwiki.de/wiki/Jahai_in_Finsternis"
+      "wiki": {"en": "Nightfallen Jahai", "de": "Jahai in Finsternis"}
     },
     "466": {
       "name": "Depths of Madness",
@@ -4133,7 +4133,7 @@ const GW_GROUND = {
       "exits": [{"to": 496, "at": [71, 331]}, {"to": 495, "at": [392, 51]}],
       "order": 54.5,
       "bosses": [100080, 100081, 100082, 100083, 100084],
-      "wiki": "https://www.guildwiki.de/wiki/Abgründe_des_Wahnsinns"
+      "wiki": {"en": "Depths of Madness", "de": "Abgründe des Wahnsinns"}
     },
     "467": {"name": "Rollerbeetle Racing", "type": 1, "region": 21},
     "468": {
@@ -4145,7 +4145,7 @@ const GW_GROUND = {
       "exits": [{"to": 469, "at": [337, 201]}, {"to": 473, "at": [121, 269]}],
       "order": 52.5,
       "bosses": [100086, 100087, 100088, 100089, 100090, 100091, 100092, 100093],
-      "wiki": "https://www.guildwiki.de/wiki/Domäne_der_Angst"
+      "wiki": {"en": "Domain of Fear", "de": "Domäne der Angst"}
     },
     "469": {
       "name": "Gate of Fear",
@@ -4156,7 +4156,7 @@ const GW_GROUND = {
       "terrain": 214315,
       "exits": [{"to": 470, "at": [366, 64]}, {"to": 468, "at": [298, 80]}],
       "order": 53,
-      "wiki": "https://www.guildwiki.de/wiki/Tor_der_Angst"
+      "wiki": {"en": "Gate of Fear", "de": "Tor der Angst"}
     },
     "470": {
       "name": "Domain of Pain",
@@ -4167,7 +4167,7 @@ const GW_GROUND = {
       "exits": [{"to": 494, "at": [591, 284]}, {"to": 469, "at": [103, 208]}],
       "order": 51.5,
       "bosses": [100094, 100095, 100096, 100097, 100098],
-      "wiki": "https://www.guildwiki.de/wiki/Domäne_der_Schmerzen"
+      "wiki": {"en": "Domain of Pain", "de": "Domäne der Schmerzen"}
     },
     "471": {
       "name": "Bloodstone Fen",
@@ -4175,7 +4175,7 @@ const GW_GROUND = {
       "region": 1,
       "set": 0,
       "at": [830, 4696],
-      "wiki": "https://www.guildwiki.de/wiki/Blutsteinsumpf_(Erforschbar)"
+      "wiki": {"en": "Bloodstone Fen", "de": "Blutsteinsumpf (Erforschbar)"}
     },
     "472": {
       "name": "Domain of Secrets",
@@ -4185,7 +4185,7 @@ const GW_GROUND = {
       "exits": [{"to": 495, "at": [108, 417]}, {"to": 473, "at": [364, 77]}],
       "order": 53.5,
       "bosses": [100099, 100100, 100101, 100102, 100103, 100104, 100105],
-      "wiki": "https://www.guildwiki.de/wiki/Domäne_der_Geheimnisse"
+      "wiki": {"en": "Domain of Secrets", "de": "Domäne der Geheimnisse"}
     },
     "473": {
       "name": "Gate of Secrets",
@@ -4196,7 +4196,7 @@ const GW_GROUND = {
       "terrain": 214315,
       "exits": [{"to": 468, "at": [390, 344]}, {"to": 472, "at": [338, 292]}],
       "order": 54,
-      "wiki": "https://www.guildwiki.de/wiki/Tor_der_Geheimnisse"
+      "wiki": {"en": "Gate of Secrets", "de": "Tor der Geheimnisse"}
     },
     "474": {
       "name": "Gate of Anguish",
@@ -4213,7 +4213,7 @@ const GW_GROUND = {
         {"to": 100002, "at": [202, 484]}
       ],
       "order": 34.5,
-      "wiki": "https://www.guildwiki.de/wiki/Tor_der_Pein"
+      "wiki": {"en": "Gate of Anguish", "de": "Tor der Pein"}
     },
     "476": {
       "name": "Jennur's Horde",
@@ -4226,7 +4226,7 @@ const GW_GROUND = {
       "exits": [{"to": 399, "at": [3921, 1295]}, {"to": 397, "at": [3817, 1270]}, {"to": 397, "at": [3710, 1201]}],
       "order": 45,
       "after": 414,
-      "wiki": "https://www.guildwiki.de/wiki/Jennurs_Horde"
+      "wiki": {"en": "Jennur's Horde", "de": "Jennurs Horde"}
     },
     "477": {
       "name": "Nundu Bay",
@@ -4239,7 +4239,7 @@ const GW_GROUND = {
       "exits": [{"to": 371, "at": [3069, 2926]}],
       "order": 45,
       "after": 387,
-      "wiki": "https://www.guildwiki.de/wiki/Nundu-Bucht"
+      "wiki": {"en": "Nundu Bay", "de": "Nundu-Bucht"}
     },
     "478": {
       "name": "Gate of Desolation",
@@ -4252,7 +4252,7 @@ const GW_GROUND = {
       "exits": [{"to": 386, "at": [3374, 1741]}, {"to": 386, "at": [3374, 1741]}, {"to": 444, "at": [3278, 1649]}],
       "order": 47,
       "after": 545,
-      "wiki": "https://www.guildwiki.de/wiki/Ödland-Tor"
+      "wiki": {"en": "Gate of Desolation", "de": "Ödland-Tor"}
     },
     "479": {
       "name": "Champion's Dawn",
@@ -4264,7 +4264,7 @@ const GW_GROUND = {
       "terrain": 210612,
       "exits": [{"to": 430, "at": [1789, 3294]}, {"to": 432, "at": [1785, 3354]}],
       "order": 19,
-      "wiki": "https://www.guildwiki.de/wiki/Champions_Erwachen"
+      "wiki": {"en": "Champion's Dawn", "de": "Champions Erwachen"}
     },
     "480": {
       "name": "Ruins of Morah",
@@ -4277,7 +4277,7 @@ const GW_GROUND = {
       "exits": [{"to": 446, "at": [2465, 806]}, {"to": 439, "at": [2469, 714]}],
       "order": 50,
       "after": 450,
-      "wiki": "https://www.guildwiki.de/wiki/Ruinen_von_Morah"
+      "wiki": {"en": "Ruins of Morah", "de": "Ruinen von Morah"}
     },
     "481": {
       "name": "Fahranur, The First City",
@@ -4288,7 +4288,7 @@ const GW_GROUND = {
       "exits": [{"to": 491, "at": [1185, 3238]}, {"to": 492, "at": [1169, 3526]}],
       "order": 7.5,
       "foes": [196, 225],
-      "wiki": "https://www.guildwiki.de/wiki/Fahranur,_die_Erste_Stadt"
+      "wiki": {"en": "Fahranur, The First City", "de": "Fahranur, die Erste Stadt"}
     },
     "482": {
       "name": "Bjora Marches",
@@ -4306,7 +4306,7 @@ const GW_GROUND = {
       ],
       "foes": [218, 280],
       "bosses": [100042, 100043, 100044, 100045, 100046, 100047, 100048, 100049],
-      "wiki": "https://www.guildwiki.de/wiki/Bjora-Sümpfe",
+      "wiki": {"en": "Bjora Marches", "de": "Bjora-Sümpfe"},
       "set": 0
     },
     "483": {
@@ -4323,7 +4323,7 @@ const GW_GROUND = {
       ],
       "order": 7.5,
       "foes": [230, 276],
-      "wiki": "https://www.guildwiki.de/wiki/Zehlon-Bucht"
+      "wiki": {"en": "Zehlon Reach", "de": "Zehlon-Bucht"}
     },
     "484": {
       "name": "Lahtenda Bog",
@@ -4334,7 +4334,7 @@ const GW_GROUND = {
       "exits": [{"to": 492, "at": [1221, 3634]}],
       "order": 15.5,
       "foes": [361, 624],
-      "wiki": "https://www.guildwiki.de/wiki/Lahtenda-Sumpf"
+      "wiki": {"en": "Lahtenda Bog", "de": "Lahtenda-Sumpf"}
     },
     "485": {
       "name": "Arbor Bay",
@@ -4351,7 +4351,7 @@ const GW_GROUND = {
       ],
       "foes": [462, 572],
       "bosses": [100005, 100006, 100007, 100008],
-      "wiki": "https://www.guildwiki.de/wiki/Arborbucht",
+      "wiki": {"en": "Arbor Bay", "de": "Arborbucht"},
       "set": 0
     },
     "486": {
@@ -4364,7 +4364,7 @@ const GW_GROUND = {
       "order": 7.5,
       "foes": [339, 361],
       "bosses": [100178],
-      "wiki": "https://www.guildwiki.de/wiki/Issnur-Inseln"
+      "wiki": {"en": "Issnur Isles", "de": "Issnur-Inseln"}
     },
     "487": {
       "name": "Beknur Harbor",
@@ -4376,7 +4376,7 @@ const GW_GROUND = {
       "terrain": 210727,
       "exits": [{"to": 432, "at": [1718, 3617]}, {"to": 432, "at": [1693, 3538]}, {"to": 486, "at": [1761, 3658]}],
       "order": 7.5,
-      "wiki": "https://www.guildwiki.de/wiki/Beknurhafen"
+      "wiki": {"en": "Beknur Harbor", "de": "Beknurhafen"}
     },
     "488": {
       "name": "Mehtani Keys",
@@ -4387,7 +4387,7 @@ const GW_GROUND = {
       "exits": [{"to": 489, "at": [2321, 3714]}],
       "order": 7.5,
       "foes": [227, 279],
-      "wiki": "https://www.guildwiki.de/wiki/Mehtani-Archipel"
+      "wiki": {"en": "Mehtani Keys", "de": "Mehtani-Archipel"}
     },
     "489": {
       "name": "Kodlonu Hamlet",
@@ -4399,7 +4399,7 @@ const GW_GROUND = {
       "terrain": 210732,
       "exits": [{"to": 486, "at": [2229, 3702]}, {"to": 488, "at": [2321, 3714]}],
       "order": 7.5,
-      "wiki": "https://www.guildwiki.de/wiki/Kodlonu"
+      "wiki": {"en": "Kodlonu Hamlet", "de": "Kodlonu"}
     },
     "490": {
       "name": "Island of Shehkah",
@@ -4409,7 +4409,7 @@ const GW_GROUND = {
       "at": [2370, 3316],
       "exits": [{"to": 544, "dir": "S"}],
       "order": 0,
-      "wiki": "https://www.guildwiki.de/wiki/Insel_Shehkah"
+      "wiki": {"en": "Island of Shehkah", "de": "Insel Shehkah"}
     },
     "491": {
       "name": "Jokanur Diggings",
@@ -4422,7 +4422,7 @@ const GW_GROUND = {
       "exits": [{"to": 432, "at": [1261, 3274]}, {"to": 483, "at": [1269, 3182]}, {"to": 481, "at": [1185, 3238]}],
       "order": 8,
       "after": 449,
-      "wiki": "https://www.guildwiki.de/wiki/Ausgrabungsstätte_von_Jokanur"
+      "wiki": {"en": "Jokanur Diggings", "de": "Ausgrabungsstätte von Jokanur"}
     },
     "492": {
       "name": "Blacktide Den",
@@ -4435,7 +4435,7 @@ const GW_GROUND = {
       "exits": [{"to": 432, "at": [1257, 3538]}, {"to": 481, "at": [1169, 3526]}, {"to": 484, "at": [1221, 3634]}],
       "order": 16,
       "after": 431,
-      "wiki": "https://www.guildwiki.de/wiki/Schwarzwasserloch"
+      "wiki": {"en": "Blacktide Den", "de": "Schwarzwasserloch"}
     },
     "493": {
       "name": "Consulate Docks",
@@ -4448,7 +4448,7 @@ const GW_GROUND = {
       "exits": [{"to": 429, "dir": "W"}],
       "order": 21,
       "after": 381,
-      "wiki": "https://www.guildwiki.de/wiki/Konsulatshafen"
+      "wiki": {"en": "Consulate Docks", "de": "Konsulatshafen"}
     },
     "494": {
       "name": "Gate of Pain",
@@ -4461,7 +4461,7 @@ const GW_GROUND = {
       "from": [470],
       "order": 52,
       "after": 469,
-      "wiki": "https://www.guildwiki.de/wiki/Tor_des_Schmerzes"
+      "wiki": {"en": "Gate of Pain", "de": "Tor des Schmerzes"}
     },
     "495": {
       "name": "Gate of Madness",
@@ -4474,7 +4474,7 @@ const GW_GROUND = {
       "from": [466],
       "order": 55,
       "after": 496,
-      "wiki": "https://www.guildwiki.de/wiki/Tor_des_Wahnsinns"
+      "wiki": {"en": "Gate of Madness", "de": "Tor des Wahnsinns"}
     },
     "496": {
       "name": "Abaddon's Gate",
@@ -4486,7 +4486,7 @@ const GW_GROUND = {
       "exits": [{"to": 466, "dir": "SE"}, {"to": 462, "dir": "NE"}],
       "order": 56,
       "after": 503,
-      "wiki": "https://www.guildwiki.de/wiki/Abaddons_Tor"
+      "wiki": {"en": "Abaddon's Gate", "de": "Abaddons Tor"}
     },
     "497": {
       "name": "Sunspear Arena",
@@ -4495,7 +4495,7 @@ const GW_GROUND = {
       "set": 4,
       "at": [2200, 3096],
       "terrain": 216140,
-      "wiki": "https://www.guildwiki.de/wiki/Sonnenspeer-Arena"
+      "wiki": {"en": "Sunspear Arena", "de": "Sonnenspeer-Arena"}
     },
     "499": {
       "name": "Ice Cliff Chasms",
@@ -4512,7 +4512,7 @@ const GW_GROUND = {
       ],
       "foes": [137, 166],
       "bosses": [100174, 100175],
-      "wiki": "https://www.guildwiki.de/wiki/Eisklippen-Abgründe"
+      "wiki": {"en": "Ice Cliff Chasms", "de": "Eisklippen-Abgründe"}
     },
     "500": {
       "name": "Bokka Amphitheatre",
@@ -4522,7 +4522,7 @@ const GW_GROUND = {
       "at": [5090, 1450],
       "exits": [{"to": 402, "at": [5069, 1426]}],
       "order": 37.5,
-      "wiki": "https://www.guildwiki.de/wiki/Amphitheater_von_Bokka"
+      "wiki": {"en": "Bokka Amphitheatre", "de": "Amphitheater von Bokka"}
     },
     "501": {
       "name": "Riven Earth",
@@ -4539,7 +4539,7 @@ const GW_GROUND = {
       ],
       "foes": [275, 302],
       "bosses": [100306, 100307, 100308, 100309, 100310],
-      "wiki": "https://www.guildwiki.de/wiki/Zerrissene_Erde",
+      "wiki": {"en": "Riven Earth", "de": "Zerrissene Erde"},
       "set": 0
     },
     "502": {
@@ -4552,7 +4552,7 @@ const GW_GROUND = {
       "terrain": 210626,
       "exits": [{"to": 430, "at": [1781, 2993]}, {"to": 483, "at": [1677, 3010]}],
       "order": 9,
-      "wiki": "https://www.guildwiki.de/wiki/Das_Astralarium"
+      "wiki": {"en": "The Astralarium", "de": "Das Astralarium"}
     },
     "503": {
       "name": "Throne of Secrets",
@@ -4560,14 +4560,14 @@ const GW_GROUND = {
       "region": 16,
       "set": 107,
       "order": 56.5,
-      "wiki": "https://www.guildwiki.de/wiki/Thron_der_Geheimnisse"
+      "wiki": {"en": "Throne of Secrets", "de": "Thron der Geheimnisse"}
     },
     "504": {
       "name": "Churranu Island Arena",
       "type": 1,
       "region": 21,
       "exits": [{"to": 281}],
-      "wiki": "https://www.guildwiki.de/wiki/Churranu-Insel-Arena"
+      "wiki": {"en": "Churranu Island Arena", "de": "Churranu-Insel-Arena"}
     },
     "513": {
       "name": "Drakkar Lake",
@@ -4584,7 +4584,7 @@ const GW_GROUND = {
       ],
       "foes": [367, 510],
       "bosses": [100113, 100114, 100046, 100115, 100116, 100117, 100118, 100119],
-      "wiki": "https://www.guildwiki.de/wiki/Drakkar-See",
+      "wiki": {"en": "Drakkar Lake", "de": "Drakkar-See"},
       "set": 0
     },
     "515": {"name": "Jokanur Diggings", "type": 14, "region": 15, "set": 4},
@@ -4610,7 +4610,7 @@ const GW_GROUND = {
       "terrain": 214476,
       "exits": [{"to": 449, "dir": "W"}],
       "order": 17,
-      "wiki": "https://www.guildwiki.de/wiki/Sonnenhafen"
+      "wiki": {"en": "Sun Docks", "de": "Sonnenhafen"}
     },
     "544": {
       "name": "Chahbek Village",
@@ -4624,7 +4624,7 @@ const GW_GROUND = {
       "from": [456],
       "order": 2,
       "after": 456,
-      "wiki": "https://www.guildwiki.de/wiki/Chahbek"
+      "wiki": {"en": "Chahbek Village", "de": "Chahbek"}
     },
     "545": {
       "name": "Remains of Sahlahja",
@@ -4635,7 +4635,7 @@ const GW_GROUND = {
       "terrain": 210316,
       "exits": [{"to": 444, "at": [2969, 1326]}, {"to": 437, "at": [2953, 1234]}],
       "order": 48,
-      "wiki": "https://www.guildwiki.de/wiki/Überreste_Sahlahjars"
+      "wiki": {"en": "Remains of Sahlahja", "de": "Überreste Sahlahjars"}
     },
     "546": {
       "name": "Jaga Moraine",
@@ -4650,7 +4650,7 @@ const GW_GROUND = {
       ],
       "foes": [255, 281],
       "bosses": [100179, 100180, 100181, 100182],
-      "wiki": "https://www.guildwiki.de/wiki/Jaga-Moräne",
+      "wiki": {"en": "Jaga Moraine", "de": "Jaga-Moräne"},
       "set": 0
     },
     "548": {
@@ -4669,7 +4669,7 @@ const GW_GROUND = {
       ],
       "foes": [180, 295],
       "bosses": [100264, 100265],
-      "wiki": "https://www.guildwiki.de/wiki/Norrhart-Gebiete",
+      "wiki": {"en": "Norrhart Domains", "de": "Norrhart-Gebiete"},
       "set": 0
     },
     "553": {
@@ -4692,7 +4692,7 @@ const GW_GROUND = {
       ],
       "foes": [460, 544],
       "bosses": [100452, 100046, 100000, 100308, 100350, 100453, 100200, 100454, 100006, 100455],
-      "wiki": "https://www.guildwiki.de/wiki/Varajar-Moor"
+      "wiki": {"en": "Varajar Fells", "de": "Varajar-Moor"}
     },
     "554": {
       "name": "Dajkah Inlet",
@@ -4703,7 +4703,7 @@ const GW_GROUND = {
       "terrain": 212792,
       "exits": [{"to": 371, "at": [3001, 2706]}, {"to": 373, "at": [2901, 2606]}],
       "order": 31.5,
-      "wiki": "https://www.guildwiki.de/wiki/Dajkah-Zulauf"
+      "wiki": {"en": "Dajkah Inlet", "de": "Dajkah-Zulauf"}
     },
     "555": {
       "name": "The Shadow Nexus",
@@ -4712,7 +4712,7 @@ const GW_GROUND = {
       "set": 108,
       "exits": [{"to": 450, "at": [68, 127]}],
       "order": 50.5,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Nexus_der_Schatten"
+      "wiki": {"en": "The Shadow Nexus", "de": "Der Nexus der Schatten"}
     },
     "556": {"name": "Chahbek Village", "type": 14, "region": 15, "set": 4},
     "558": {
@@ -4723,7 +4723,7 @@ const GW_GROUND = {
       "exits": [{"to": 615, "at": [4362, 6150]}, {"to": 612, "at": [4353, 6698]}, {"to": 638, "at": [4125, 6646]}],
       "foes": [281, 348],
       "bosses": [100348, 100349, 100350, 100351, 100352],
-      "wiki": "https://www.guildwiki.de/wiki/Funkenschwärmersumpf",
+      "wiki": {"en": "Sparkfly Swamp", "de": "Funkenschwärmersumpf"},
       "set": 0
     },
     "559": {
@@ -4735,7 +4735,7 @@ const GW_GROUND = {
       "terrain": 214315,
       "exits": [{"to": 465, "at": [47, 83]}],
       "order": 50.5,
-      "wiki": "https://www.guildwiki.de/wiki/Tor_zu_den_Ländern_in_Finsternis"
+      "wiki": {"en": "Gate of the Nightfallen Lands", "de": "Tor zu den Ländern in Finsternis"}
     },
     "560": {
       "name": "Cathedral of Flames",
@@ -4745,7 +4745,7 @@ const GW_GROUND = {
       "at": [7376, 1378],
       "exits": [{"to": 648, "at": [7390, 1361]}],
       "levels": 3,
-      "wiki": "https://www.guildwiki.de/wiki/Kathedrale_der_Flammen"
+      "wiki": {"en": "Cathedral of Flames", "de": "Kathedrale der Flammen"}
     },
     "565": {
       "name": "Dynastic Tombs",
@@ -4755,7 +4755,7 @@ const GW_GROUND = {
       "at": [2528, 1374],
       "exits": [{"to": 545}],
       "order": 47.5,
-      "wiki": "https://www.guildwiki.de/wiki/Dynastie-Gräber"
+      "wiki": {"en": "Dynastic Tombs", "de": "Dynastie-Gräber"}
     },
     "566": {
       "name": "Verdant Cascades",
@@ -4770,7 +4770,7 @@ const GW_GROUND = {
       ],
       "foes": [270, 302],
       "bosses": [100452, 100464, 100465, 100466],
-      "wiki": "https://www.guildwiki.de/wiki/Grüne_Kaskaden",
+      "wiki": {"en": "Verdant Cascades", "de": "Grüne Kaskaden"},
       "set": 0
     },
     "569": {
@@ -4787,7 +4787,7 @@ const GW_GROUND = {
       ],
       "foes": [373, 402],
       "bosses": [100196, 100197, 100198, 100199, 100200, 100201, 100202],
-      "wiki": "https://www.guildwiki.de/wiki/Magussteine",
+      "wiki": {"en": "Magus Stones", "de": "Magussteine"},
       "set": 0
     },
     "570": {
@@ -4798,7 +4798,7 @@ const GW_GROUND = {
       "at": [7787, 2240],
       "exits": [{"to": 651, "at": [7802, 2225]}],
       "levels": 3,
-      "wiki": "https://www.guildwiki.de/wiki/Katakomben_von_Kathandrax"
+      "wiki": {"en": "Catacombs of Kathandrax", "de": "Katakomben von Kathandrax"}
     },
     "572": {
       "name": "Alcazia Tangle",
@@ -4817,7 +4817,7 @@ const GW_GROUND = {
       ],
       "foes": [225, 336],
       "bosses": [100000, 100001, 100002, 100003, 100004],
-      "wiki": "https://www.guildwiki.de/wiki/Alcazia-Dickicht",
+      "wiki": {"en": "Alcazia Tangle", "de": "Alcazia-Dickicht"},
       "set": 0
     },
     "573": {
@@ -4828,7 +4828,7 @@ const GW_GROUND = {
       "at": [7379, 2244],
       "exits": [{"to": 651, "at": [7386, 2225]}],
       "levels": 3,
-      "wiki": "https://www.guildwiki.de/wiki/Rragars_Menagerie"
+      "wiki": {"en": "Rragar's Menagerie", "de": "Rragars Menagerie"}
     },
     "576": {
       "name": "Ooze Pit",
@@ -4838,7 +4838,7 @@ const GW_GROUND = {
       "at": [7098, 1917],
       "exits": [{"to": 649, "at": [7115, 1872]}],
       "levels": 1,
-      "wiki": "https://www.guildwiki.de/wiki/Schleimgrube"
+      "wiki": {"en": "Ooze Pit", "de": "Schleimgrube"}
     },
     "577": {
       "name": "Slavers' Exile",
@@ -4847,7 +4847,7 @@ const GW_GROUND = {
       "set": 0,
       "at": [5067, 2620],
       "exits": [{"to": 566, "at": [4918, 2508]}],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Exil_des_Sklavenhändlers"
+      "wiki": {"en": "Slavers' Exile", "de": "Das Exil des Sklavenhändlers"}
     },
     "578": {
       "name": "Oola's Lab",
@@ -4857,7 +4857,7 @@ const GW_GROUND = {
       "at": [1258, 6155],
       "exits": [{"to": 569, "at": [1257, 6154]}],
       "levels": 3,
-      "wiki": "https://www.guildwiki.de/wiki/Oolas_Labor"
+      "wiki": {"en": "Oola's Lab", "de": "Oolas Labor"}
     },
     "581": {
       "name": "Shards of Orr",
@@ -4867,7 +4867,7 @@ const GW_GROUND = {
       "at": [2715, 6261],
       "exits": [{"to": 485, "at": [2717, 6257]}, {"to": 638, "at": [4089, 6689]}],
       "levels": 3,
-      "wiki": "https://www.guildwiki.de/wiki/Scherben_von_Orr"
+      "wiki": {"en": "Shards of Orr", "de": "Scherben von Orr"}
     },
     "584": {
       "name": "Arachni's Haunt",
@@ -4877,7 +4877,7 @@ const GW_GROUND = {
       "at": [1350, 6441],
       "exits": [{"to": 569, "at": [1353, 6438]}],
       "levels": 2,
-      "wiki": "https://www.guildwiki.de/wiki/Arachnis_Schlupfwinkel"
+      "wiki": {"en": "Arachni's Haunt", "de": "Arachnis Schlupfwinkel"}
     },
     "593": {"name": "Fetid River", "type": 12, "region": 4, "party": 8, "terrain": 290186, "set": 136},
     "596": {"name": "Forgotten Shrines", "type": 12, "region": 4, "party": 8},
@@ -4890,7 +4890,7 @@ const GW_GROUND = {
       "at": [4527, 2418],
       "exits": [{"to": 639, "at": [4524, 2425]}, {"to": 624, "at": [2835, 5840]}],
       "levels": 3,
-      "wiki": "https://www.guildwiki.de/wiki/Vlox-Ausgrabungen"
+      "wiki": {"en": "Vloxen Excavations", "de": "Vlox-Ausgrabungen"}
     },
     "607": {
       "name": "Heart of the Shiverpeaks",
@@ -4900,7 +4900,7 @@ const GW_GROUND = {
       "terrain": 292090,
       "exits": [{"to": 625, "dir": "N"}, {"to": 615}],
       "levels": 3,
-      "wiki": "https://www.guildwiki.de/wiki/Herz_der_Zittergipfel"
+      "wiki": {"en": "Heart of the Shiverpeaks", "de": "Herz der Zittergipfel"}
     },
     "612": {
       "name": "Bloodstone Caves",
@@ -4910,7 +4910,7 @@ const GW_GROUND = {
       "at": [4353, 6700],
       "exits": [{"to": 558, "at": [4353, 6698]}],
       "levels": 3,
-      "wiki": "https://www.guildwiki.de/wiki/Blutstein-Höhlen"
+      "wiki": {"en": "Bloodstone Caves", "de": "Blutstein-Höhlen"}
     },
     "615": {
       "name": "Bogroot Growths",
@@ -4920,7 +4920,7 @@ const GW_GROUND = {
       "at": [4359, 6152],
       "exits": [{"to": 558, "at": [4362, 6150]}, {"to": 607}],
       "levels": 2,
-      "wiki": "https://www.guildwiki.de/wiki/Sumpfwurzel-Gewirr"
+      "wiki": {"en": "Bogroot Growths", "de": "Sumpfwurzel-Gewirr"}
     },
     "617": {
       "name": "Raven's Point",
@@ -4930,7 +4930,7 @@ const GW_GROUND = {
       "at": [5160, 2000],
       "exits": [{"to": 553, "at": [5270, 2081]}],
       "levels": 3,
-      "wiki": "https://www.guildwiki.de/wiki/Rabenthron"
+      "wiki": {"en": "Raven's Point", "de": "Rabenthron"}
     },
     "624": {
       "name": "Vlox's Falls",
@@ -4941,7 +4941,7 @@ const GW_GROUND = {
       "at": [2794, 5886],
       "terrain": 287262,
       "exits": [{"to": 485, "at": [2786, 5913]}, {"to": 604, "at": [2835, 5840]}],
-      "wiki": "https://www.guildwiki.de/wiki/Vlox-Fälle"
+      "wiki": {"en": "Vlox's Falls", "de": "Vlox-Fälle"}
     },
     "625": {
       "name": "Battledepths",
@@ -4950,7 +4950,7 @@ const GW_GROUND = {
       "set": 109,
       "terrain": 292300,
       "exits": [{"to": 499, "dir": "E"}, {"to": 607, "dir": "S"}, {"to": 553, "dir": "W"}, {"to": 652, "dir": "SW"}],
-      "wiki": "https://www.guildwiki.de/wiki/Schlachttiefen"
+      "wiki": {"en": "Battledepths", "de": "Schlachttiefen"}
     },
     "628": {
       "name": "Sepulchre of Dragrimmar",
@@ -4960,7 +4960,7 @@ const GW_GROUND = {
       "at": [5413, 1350],
       "exits": [{"to": 513, "at": [5412, 1358]}],
       "levels": 2,
-      "wiki": "https://www.guildwiki.de/wiki/Grabkammer_des_Dragrimmar"
+      "wiki": {"en": "Sepulchre of Dragrimmar", "de": "Grabkammer des Dragrimmar"}
     },
     "630": {
       "name": "Frostmaw's Burrows",
@@ -4970,7 +4970,7 @@ const GW_GROUND = {
       "at": [5967, 868],
       "exits": [{"to": 546, "at": [5968, 869]}],
       "levels": 5,
-      "wiki": "https://www.guildwiki.de/wiki/Frostrachens_Hort"
+      "wiki": {"en": "Frostmaw's Burrows", "de": "Frostrachens Hort"}
     },
     "635": {
       "name": "Darkrime Delves",
@@ -4980,7 +4980,7 @@ const GW_GROUND = {
       "at": [6369, 1196],
       "exits": [{"to": 482, "at": [6369, 1201]}],
       "levels": 3,
-      "wiki": "https://www.guildwiki.de/wiki/Düsterfels-Höhlen"
+      "wiki": {"en": "Darkrime Delves", "de": "Düsterfels-Höhlen"}
     },
     "638": {
       "name": "Gadd's Encampment",
@@ -4991,7 +4991,7 @@ const GW_GROUND = {
       "at": [4120, 6670],
       "terrain": 287493,
       "exits": [{"to": 558, "at": [4125, 6646]}, {"to": 581, "at": [4089, 6689]}],
-      "wiki": "https://www.guildwiki.de/wiki/Gadds_Lager"
+      "wiki": {"en": "Gadd's Encampment", "de": "Gadds Lager"}
     },
     "639": {
       "name": "Umbral Grotto",
@@ -5002,7 +5002,7 @@ const GW_GROUND = {
       "at": [4578, 2428],
       "terrain": 287674,
       "exits": [{"to": 566, "at": [4564, 2470]}, {"to": 604, "at": [4524, 2425]}],
-      "wiki": "https://www.guildwiki.de/wiki/Umbralgrotte"
+      "wiki": {"en": "Umbral Grotto", "de": "Umbralgrotte"}
     },
     "640": {
       "name": "Rata Sum",
@@ -5013,7 +5013,7 @@ const GW_GROUND = {
       "at": [1648, 6064],
       "terrain": 287783,
       "exits": [{"to": 501, "at": [1681, 6061]}, {"to": 501, "at": [1774, 6053]}, {"to": 569, "at": [1641, 6094]}],
-      "wiki": "https://www.guildwiki.de/wiki/Rata_Sum"
+      "wiki": {"en": "Rata Sum", "de": "Rata Sum"}
     },
     "641": {
       "name": "Tarnished Haven",
@@ -5024,7 +5024,7 @@ const GW_GROUND = {
       "at": [2280, 6542],
       "terrain": 288071,
       "exits": [{"to": 572, "at": [2273, 6514]}, {"to": 572, "at": [2249, 6541]}],
-      "wiki": "https://www.guildwiki.de/wiki/Trübwinkel"
+      "wiki": {"en": "Tarnished Haven", "de": "Trübwinkel"}
     },
     "642": {
       "name": "Eye of the North",
@@ -5035,7 +5035,7 @@ const GW_GROUND = {
       "at": [6280, 2400],
       "terrain": 288299,
       "exits": [{"to": 499, "at": [6312, 2422]}, {"to": 646, "at": [6292, 2334]}],
-      "wiki": "https://www.guildwiki.de/wiki/Auge_des_Nordens"
+      "wiki": {"en": "Eye of the North (outpost)", "de": "Auge des Nordens"}
     },
     "643": {
       "name": "Sifhalla",
@@ -5046,7 +5046,7 @@ const GW_GROUND = {
       "at": [5670, 1394],
       "terrain": 288769,
       "exits": [{"to": 513, "at": [5676, 1421]}, {"to": 513, "at": [5638, 1385]}, {"to": 546, "at": [5712, 1381]}],
-      "wiki": "https://www.guildwiki.de/wiki/Sifhalla"
+      "wiki": {"en": "Sifhalla", "de": "Sifhalla"}
     },
     "644": {
       "name": "Gunnar's Hold",
@@ -5057,7 +5057,7 @@ const GW_GROUND = {
       "at": [6270, 1978],
       "terrain": 289087,
       "exits": [{"to": 548, "dir": "NW"}, {"to": 704}],
-      "wiki": "https://www.guildwiki.de/wiki/Gunnars_Feste"
+      "wiki": {"en": "Gunnar's Hold", "de": "Gunnars Feste"}
     },
     "645": {
       "name": "Olafstead",
@@ -5068,7 +5068,7 @@ const GW_GROUND = {
       "at": [5444, 2174],
       "terrain": 289616,
       "exits": [{"to": 553, "at": [5420, 2166]}],
-      "wiki": "https://www.guildwiki.de/wiki/Olafsheim"
+      "wiki": {"en": "Olafstead", "de": "Olafsheim"}
     },
     "646": {
       "name": "Hall of Monuments",
@@ -5078,7 +5078,7 @@ const GW_GROUND = {
       "at": [6226, 2350],
       "terrain": 288299,
       "exits": [{"to": 642, "at": [6292, 2334]}],
-      "wiki": "https://www.guildwiki.de/wiki/Halle_der_Monumente"
+      "wiki": {"en": "Hall of Monuments", "de": "Halle der Monumente"}
     },
     "647": {
       "name": "Dalada Uplands",
@@ -5094,7 +5094,7 @@ const GW_GROUND = {
       ],
       "foes": [280, 302],
       "bosses": [100069, 100070, 100071, 100072, 100073],
-      "wiki": "https://www.guildwiki.de/wiki/Dalada-Hochlande",
+      "wiki": {"en": "Dalada Uplands", "de": "Dalada-Hochlande"},
       "set": 0
     },
     "648": {
@@ -5106,7 +5106,7 @@ const GW_GROUND = {
       "at": [7418, 1412],
       "terrain": 289960,
       "exits": [{"to": 647, "at": [7442, 1413]}, {"to": 560, "at": [7390, 1361]}],
-      "wiki": "https://www.guildwiki.de/wiki/Schrein_des_Schicksalswissens"
+      "wiki": {"en": "Doomlore Shrine", "de": "Schrein des Schicksalswissens"}
     },
     "649": {
       "name": "Grothmar Wardowns",
@@ -5124,7 +5124,7 @@ const GW_GROUND = {
         {"to": 651, "at": [7262, 1881]}
       ],
       "foes": [207, 244],
-      "wiki": "https://www.guildwiki.de/wiki/Grothmar-Kriegshügel"
+      "wiki": {"en": "Grothmar Wardowns", "de": "Grothmar-Kriegshügel"}
     },
     "650": {
       "name": "Longeye's Ledge",
@@ -5135,7 +5135,7 @@ const GW_GROUND = {
       "at": [6758, 1608],
       "terrain": 290181,
       "exits": [{"to": 649, "dir": "E"}, {"to": 482, "at": [6640, 1611]}, {"to": 482, "at": [6790, 1603]}],
-      "wiki": "https://www.guildwiki.de/wiki/Scharfauges_Anhöhe"
+      "wiki": {"en": "Longeye's Ledge", "de": "Scharfauges Anhöhe"}
     },
     "651": {
       "name": "Sacnoth Valley",
@@ -5152,7 +5152,7 @@ const GW_GROUND = {
       ],
       "foes": [370, 466],
       "bosses": [100311, 100312, 100313, 100314, 100315, 100316, 100317],
-      "wiki": "https://www.guildwiki.de/wiki/Sacnoth-Tal",
+      "wiki": {"en": "Sacnoth Valley", "de": "Sacnoth-Tal"},
       "set": 0
     },
     "652": {
@@ -5164,7 +5164,7 @@ const GW_GROUND = {
       "at": [5916, 3286],
       "terrain": 290182,
       "exits": [{"to": 625, "dir": "N"}],
-      "wiki": "https://www.guildwiki.de/wiki/Zentrale_Transferkammer"
+      "wiki": {"en": "Central Transfer Chamber", "de": "Zentrale Transferkammer"}
     },
     "653": {"name": "Curse of the Nornbear", "type": 2, "region": 19, "set": 0, "at": [5480, 1470]},
     "654": {"name": "Blood Washes Blood", "type": 2, "region": 19, "set": 0, "at": [6500, 1325]},
@@ -5192,7 +5192,7 @@ const GW_GROUND = {
       "at": [6382, 2720],
       "terrain": 288299,
       "exits": [{"to": 499, "at": [6360, 2722]}],
-      "wiki": "https://www.guildwiki.de/wiki/Nördliche_Station"
+      "wiki": {"en": "Boreal Station", "de": "Nördliche Station"}
     },
     "691": {
       "name": "Beneath Lion's Arch",
@@ -5201,7 +5201,7 @@ const GW_GROUND = {
       "set": 109,
       "terrain": 292198,
       "exits": [{"to": 675, "dir": "N"}],
-      "wiki": "https://www.guildwiki.de/wiki/Unter_Löwenstein"
+      "wiki": {"en": "Beneath Lion's Arch", "de": "Unter Löwenstein"}
     },
     "692": {
       "name": "Tunnels Below Cantha",
@@ -5210,7 +5210,7 @@ const GW_GROUND = {
       "set": 109,
       "terrain": 292198,
       "exits": [{"to": 675, "dir": "N"}],
-      "wiki": "https://www.guildwiki.de/wiki/Tunnel_unter_Cantha"
+      "wiki": {"en": "Tunnels Below Cantha", "de": "Tunnel unter Cantha"}
     },
     "693": {
       "name": "Caverns Below Kamadan",
@@ -5219,7 +5219,7 @@ const GW_GROUND = {
       "set": 109,
       "terrain": 292198,
       "exits": [{"to": 675, "dir": "N"}],
-      "wiki": "https://www.guildwiki.de/wiki/Höhlen_unter_Kamadan"
+      "wiki": {"en": "Caverns Below Kamadan", "de": "Höhlen unter Kamadan"}
     },
     "700": {
       "name": "The Norn Fighting Tournament",
@@ -5228,7 +5228,7 @@ const GW_GROUND = {
       "set": 0,
       "at": [6270, 2042],
       "exits": [{"to": 644}],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Kampf-Meisterschaft_der_Norn"
+      "wiki": {"en": "The Norn Fighting Tournament", "de": "Die Kampf-Meisterschaft der Norn"}
     },
     "704": {
       "name": "Fronis Irontoe's Lair",
@@ -5239,7 +5239,7 @@ const GW_GROUND = {
       "terrain": 292319,
       "exits": [{"to": 644}],
       "levels": 1,
-      "wiki": "https://www.guildwiki.de/wiki/Fronis_Eisenzehes_Lager"
+      "wiki": {"en": "Fronis Irontoe's Lair", "de": "Fronis Eisenzehes Lager"}
     },
     "722": {"name": "Whitefury Rapids", "type": 1, "region": 20},
     "723": {"name": "Kysten Shore", "type": 1, "region": 19},
@@ -5254,7 +5254,7 @@ const GW_GROUND = {
       "at": [882, 422],
       "exits": [{"to": 147, "at": [883, 430]}, {"to": 147, "at": [918, 403]}],
       "order": 1.5,
-      "wiki": "https://www.guildwiki.de/wiki/Pikenplatz_(Tutorial)"
+      "wiki": {"en": "Piken Square (pre-Searing)", "de": "Pikenplatz (Tutorial)"}
     },
     "780": {
       "name": "Forsaken Tunnels",
@@ -5268,7 +5268,7 @@ const GW_GROUND = {
         {"to": 877, "at": [136, 326]}
       ],
       "order": 1.5,
-      "wiki": "https://www.guildwiki.de/wiki/Verlassene_Tunnel"
+      "wiki": {"en": "Forsaken Tunnels", "de": "Verlassene Tunnel"}
     },
     "788": {
       "name": "Temple of the Ages",
@@ -5279,7 +5279,7 @@ const GW_GROUND = {
       "exits": [{"to": 138}],
       "order": 22.5,
       "bosses": [100387],
-      "wiki": "https://www.guildwiki.de/wiki/Tempel_der_Zeitalter_(Erforschbar)"
+      "wiki": {"en": "Temple of the Ages", "de": "Tempel der Zeitalter (Erforschbar)"}
     },
     "791": {
       "name": "Secret Underground Lair",
@@ -5288,14 +5288,14 @@ const GW_GROUND = {
       "set": 0,
       "at": [1266, 6111],
       "order": 29.5,
-      "wiki": "https://www.guildwiki.de/wiki/Geheimes_unterirdisches_Versteck"
+      "wiki": {"en": "Secret Underground Lair", "de": "Geheimes unterirdisches Versteck"}
     },
     "794": {
       "name": "Zaishen Menagerie Grounds",
       "type": 2,
       "region": 21,
       "exits": [{"to": 795, "dir": "S"}],
-      "wiki": "https://www.guildwiki.de/wiki/Zaishen-Menageriegelände"
+      "wiki": {"en": "Zaishen Menagerie Grounds", "de": "Zaishen-Menageriegelände"}
     },
     "795": {
       "name": "Zaishen Menagerie",
@@ -5303,21 +5303,21 @@ const GW_GROUND = {
       "region": 21,
       "party": 4,
       "exits": [{"to": 794, "dir": "N"}],
-      "wiki": "https://www.guildwiki.de/wiki/Zaishen_Menagerie"
+      "wiki": {"en": "Zaishen Menagerie Grounds", "de": "Zaishen Menagerie"}
     },
     "796": {
       "name": "Codex Arena",
       "type": 1,
       "region": 21,
       "exits": [{"to": 330}, {"to": 248}, {"to": 182}, {"to": 180}],
-      "wiki": "https://www.guildwiki.de/wiki/Kodex-Arena"
+      "wiki": {"en": "Codex Arena", "de": "Kodex-Arena"}
     },
     "839": {
       "name": "Divinity Coast",
       "type": 2,
       "region": 0,
       "bosses": [100085],
-      "wiki": "https://www.guildwiki.de/wiki/Küste_der_Göttlichkeit_(Erforschbar)",
+      "wiki": {"en": "Divinity Coast", "de": "Küste der Göttlichkeit (Erforschbar)"},
       "set": 0
     },
     "840": {
@@ -5328,7 +5328,7 @@ const GW_GROUND = {
       "at": [4036, 4732],
       "exits": [{"to": 55}],
       "order": 22.5,
-      "wiki": "https://www.guildwiki.de/wiki/Burgfried_von_Löwenstein"
+      "wiki": {"en": "Lion's Arch Keep", "de": "Burgfried von Löwenstein"}
     },
     "841": {
       "name": "D'Alessio Seaboard",
@@ -5336,7 +5336,7 @@ const GW_GROUND = {
       "region": 0,
       "set": 0,
       "at": [3784, 4856],
-      "wiki": "https://www.guildwiki.de/wiki/D'Alessio-Küste_(Erforschbar)"
+      "wiki": {"en": "D'Alessio Seaboard", "de": "D'Alessio-Küste (Erforschbar)"}
     },
     "843": {
       "name": "Riverside Province",
@@ -5344,7 +5344,7 @@ const GW_GROUND = {
       "region": 0,
       "set": 0,
       "at": [2256, 5428],
-      "wiki": "https://www.guildwiki.de/wiki/Flussuferprovinz_(Erforschbar)"
+      "wiki": {"en": "Riverside Province", "de": "Flussuferprovinz (Erforschbar)"}
     },
     "845": {
       "name": "The Mausoleum",
@@ -5352,14 +5352,14 @@ const GW_GROUND = {
       "region": 18,
       "exits": [{"to": 60}],
       "order": 25.5,
-      "wiki": "https://www.guildwiki.de/wiki/Das_Mausoleum"
+      "wiki": {"en": "The Mausoleum", "de": "Das Mausoleum"}
     },
     "857": {
       "name": "Embark Beach",
       "type": 10,
       "region": 21,
       "party": 8,
-      "wiki": "https://www.guildwiki.de/wiki/Aufbruchstrand"
+      "wiki": {"en": "Embark Beach", "de": "Aufbruchstrand"}
     },
     "862": {
       "name": "The Marketplace",
@@ -5368,13 +5368,13 @@ const GW_GROUND = {
       "set": 2,
       "at": [2928, 1258],
       "bosses": [100373],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Marktplatz_(Erforschbar)"
+      "wiki": {"en": "The Marketplace", "de": "Der Marktplatz (Erforschbar)"}
     },
     "868": {
       "name": "Scarred Psyche",
       "type": 9,
       "region": 4,
-      "wiki": "https://www.guildwiki.de/wiki/Verletzte_Psyche"
+      "wiki": {"en": "Scarred Psyche", "de": "Verletzte Psyche"}
     },
     "877": {
       "name": "Forsaken Tunnels: Level 2",
@@ -5402,7 +5402,7 @@ const GW_GROUND = {
       "set": 114,
       "exits": [{"to": 100002, "dir": "E"}],
       "from": [100003, 474],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Stadt_Torc'qua"
+      "wiki": {"en": "City of Torc'qua", "de": "Die Stadt Torc'qua"}
     },
     "100001": {
       "name": "Ravenheart Gloom",
@@ -5411,7 +5411,7 @@ const GW_GROUND = {
       "set": 114,
       "exits": [{"to": 100003, "dir": "W"}],
       "from": [100002, 474],
-      "wiki": "https://www.guildwiki.de/wiki/Rabenherz"
+      "wiki": {"en": "Ravenheart Gloom", "de": "Rabenherz"}
     },
     "100002": {
       "name": "Stygian Veil",
@@ -5420,7 +5420,7 @@ const GW_GROUND = {
       "set": 114,
       "exits": [{"to": 100001, "dir": "N"}],
       "from": [100000, 474],
-      "wiki": "https://www.guildwiki.de/wiki/Stygischer_Schleier"
+      "wiki": {"en": "Stygian Veil", "de": "Stygischer Schleier"}
     },
     "100003": {
       "name": "The Foundry of Failed Creations",
@@ -5429,7 +5429,7 @@ const GW_GROUND = {
       "set": 114,
       "exits": [{"to": 100000, "dir": "S"}],
       "from": [100001, 474],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Inferno_der_gescheiterten_Schöpfung"
+      "wiki": {"en": "The Foundry of Failed Creations", "de": "Das Inferno der gescheiterten Schöpfung"}
     },
     "100004": {"name": "The Elite Zaishen Battle", "region": 21},
     "100005": {"name": "Snowball Tournament"}

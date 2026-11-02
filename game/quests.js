@@ -1,5 +1,5 @@
 const GW_QUESTS = {
-  "quests_": "Keys are game quest ids; 100000 and up are ours until the game's is known. givers: npcs, one per place it is given (their location and region come from there); campaign and region only when there is no giver. travel: the campaign it takes you to. event: the yearly event (calendar.js) it belongs to. requires, next: quests; requires_missions, next_missions: missions; requires_other: requirements that aren't quests. missions: missions it belongs to. skills: skill ids.",
+  "quests_": "Keys are game quest ids; 100000 and up are ours until the game's is known. givers: npcs, one per place it is given (their location and region come from there); campaign and region only when there is no giver. travel: the campaign it takes you to. event: the yearly event (calendar.js) it belongs to. requires, next: quests; requires_missions, next_missions: missions; requires_other: requirements that aren't quests. missions: missions it belongs to. skills: skill ids. wiki: its page on each wiki, {en, de} (as locations).",
   "quests": {
     "917": {
       "name": "The Last Hierophant",
@@ -8,7 +8,7 @@ const GW_QUESTS = {
       "region": 18,
       "xp": 15000,
       "gold": 2750,
-      "wiki": "https://www.guildwiki.de/wiki/Der_letzte_Hierophant"
+      "wiki": {"en": "The Last Hierophant", "de": "Der letzte Hierophant"}
     },
     "100000": {
       "name": "Reunion",
@@ -19,7 +19,7 @@ const GW_QUESTS = {
       "gold": 1000,
       "requires": [101221],
       "next": [100387],
-      "wiki": "https://www.guildwiki.de/wiki/Wiedervereinigung"
+      "wiki": {"en": "Reunion", "de": "Wiedervereinigung"}
     },
     "100001": {
       "name": "The Necromancer's Novice",
@@ -27,7 +27,7 @@ const GW_QUESTS = {
       "givers": [331],
       "xp": 250,
       "skills": [83, 105, 109],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Nekromantennovize"
+      "wiki": {"en": "The Necromancer's Novice", "de": "Der Nekromantennovize"}
     },
     "100002": {
       "name": "A Gate Too Far/Zaishen Quest",
@@ -36,7 +36,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["2,500 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Portal_zu_weit_(Zaishen-Mission)"
+      "wiki": {"en": "A Gate Too Far (Zaishen quest)", "de": "Ein Portal zu weit (Zaishen-Mission)"}
     },
     "100003": {
       "name": "A Gift of Griffons",
@@ -49,8 +49,7 @@ const GW_QUESTS = {
         [0, "See Rastigan the Eternal for your reward."]
       ],
       "requires": [100297],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Greifen-Geschenk",
-      "wiki_en": "https://web.archive.org/web/20260630161024/https://wiki.guildwars.com/wiki/A_Gift_of_Griffons"
+      "wiki": {"en": "A Gift of Griffons", "de": "Ein Greifen-Geschenk"}
     },
     "100004": {
       "name": "A Time for Heroes (Zaishen quest)",
@@ -59,7 +58,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["2,500 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Zeit_für_Helden_(Zaishen-Mission)"
+      "wiki": {"en": "A Time for Heroes (Zaishen quest)", "de": "Eine Zeit für Helden (Zaishen-Mission)"}
     },
     "100005": {
       "name": "Abaddon's Gate (Zaishen quest)",
@@ -68,7 +67,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["500 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Abaddons_Tor_(Zaishen-Mission)"
+      "wiki": {"en": "Abaddon's Gate (Zaishen quest)", "de": "Abaddons Tor (Zaishen-Mission)"}
     },
     "100006": {
       "name": "Abaddon's Mouth (Zaishen quest)",
@@ -76,7 +75,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Abaddons_Maul_(Zaishen-Mission)"
+      "wiki": {"en": "Abaddon's Mouth (Zaishen quest)", "de": "Abaddons Maul (Zaishen-Mission)"}
     },
     "100007": {
       "name": "Admiral Kantoh (Zaishen quest)",
@@ -85,7 +84,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["100 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Admiral_Kantoh_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Admiral Kantoh (Zaishen quest)", "de": "Admiral Kantoh (Zaishen-Kopfgeld)"}
     },
     "100008": {
       "name": "Against the Charr (Zaishen quest)",
@@ -94,7 +93,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 500,
       "rewards": ["1,500 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Gegen_die_Charr_(Zaishen-Mission)"
+      "wiki": {"en": "Against the Charr (Zaishen quest)", "de": "Gegen die Charr (Zaishen-Mission)"}
     },
     "100009": {
       "name": "Alcazia Tangle (Zaishen vanquish)",
@@ -103,7 +102,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["5,000 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Alcazia-Dickicht_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Alcazia Tangle (Zaishen vanquish)", "de": "Alcazia-Dickicht (Zaishen-Bezwingung)"}
     },
     "100010": {
       "name": "Alliance Battles (Zaishen quest)",
@@ -111,7 +110,7 @@ const GW_QUESTS = {
       "givers": [223],
       "gold": 1000,
       "rewards": ["7,500 Imperial faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Bündniskämpfe"
+      "wiki": {"en": "Alliance Battles (Zaishen quest)", "de": "Bündniskämpfe"}
     },
     "100011": {
       "name": "Annihilator",
@@ -122,7 +121,7 @@ const GW_QUESTS = {
       "xp": 2029,
       "gold": 1000,
       "rewards": ["1,984 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Vernichter_(Quest)"
+      "wiki": {"en": "Annihilator", "de": "Vernichter (Quest)"}
     },
     "100012": {
       "name": "Annihilator 2: Searing Day",
@@ -133,7 +132,7 @@ const GW_QUESTS = {
       "xp": 2029,
       "gold": 1000,
       "rewards": ["1,995 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Vernichter_2:_Tag_des_Großen_Feuers"
+      "wiki": {"en": "Annihilator 2: Searing Day", "de": "Vernichter 2: Tag des Großen Feuers"}
     },
     "100013": {
       "name": "Anvil Rock (Zaishen vanquish)",
@@ -141,7 +140,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Ambossstein_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Anvil Rock (Zaishen vanquish)", "de": "Ambossstein (Zaishen-Bezwingung)"}
     },
     "100014": {
       "name": "Arachni (Zaishen quest)",
@@ -150,7 +149,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Arachni_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Arachni (Zaishen quest)", "de": "Arachni (Zaishen-Kopfgeld)"}
     },
     "100015": {
       "name": "Arbor Bay (Zaishen vanquish)",
@@ -159,7 +158,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["5,000 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Arborbucht_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Arbor Bay (Zaishen vanquish)", "de": "Arborbucht (Zaishen-Bezwingung)"}
     },
     "100016": {
       "name": "Arbor Earthcall (Zaishen quest)",
@@ -168,7 +167,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["500 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Arbor_Erdruf_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Arbor Earthcall (Zaishen quest)", "de": "Arbor Erdruf (Zaishen-Kopfgeld)"}
     },
     "100017": {
       "name": "Arborstone (Zaishen quest)",
@@ -177,7 +176,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["2,500 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Arborstein_(Zaishen-Mission)"
+      "wiki": {"en": "Arborstone (Zaishen quest)", "de": "Arborstein (Zaishen-Mission)"}
     },
     "100018": {
       "name": "Arborstone (Zaishen vanquish)",
@@ -186,7 +185,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["7,000 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Arborstein_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Arborstone (Zaishen vanquish)", "de": "Arborstein (Zaishen-Bezwingung)"}
     },
     "100019": {
       "name": "Archipelagos (Zaishen vanquish)",
@@ -195,7 +194,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["7,000 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Archipel_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Archipelagos (Zaishen vanquish)", "de": "Archipel (Zaishen-Bezwingung)"}
     },
     "100020": {
       "name": "Arkjok Ward (Zaishen vanquish)",
@@ -204,7 +203,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Arkjok-Bastei_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Arkjok Ward (Zaishen vanquish)", "de": "Arkjok-Bastei (Zaishen-Bezwingung)"}
     },
     "100021": {
       "name": "Army of Darkness",
@@ -213,8 +212,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 750,
       "objectives": [[0, "Destroy the Priest of Menzies"], [0, "Deliver the unholy text to Kromril the Eternal"]],
-      "wiki": "https://www.guildwiki.de/wiki/Armee_der_Finsternis",
-      "wiki_en": "https://web.archive.org/web/20260730154442/https://wiki.guildwars.com/wiki/Army_of_Darkness"
+      "wiki": {"en": "Army of Darkness", "de": "Armee der Finsternis"}
     },
     "100022": {
       "name": "Ascalon Foothills (Zaishen vanquish)",
@@ -222,7 +220,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Ascalon-Vorgebirge_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Ascalon Foothills (Zaishen vanquish)", "de": "Ascalon-Vorgebirge (Zaishen-Bezwingung)"}
     },
     "100023": {
       "name": "Assault on the Stronghold (Zaishen quest)",
@@ -231,7 +229,10 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["2,500 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Angriff_auf_die_Festung_(Zaishen-Mission)"
+      "wiki": {
+        "en": "Assault on the Stronghold (Zaishen quest)",
+        "de": "Der Angriff auf die Festung (Zaishen-Mission)"
+      }
     },
     "100024": {
       "name": "Augury Rock (Zaishen quest)",
@@ -239,7 +240,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Fels_der_Weissagung_(Zaishen-Mission)"
+      "wiki": {"en": "Augury Rock (Zaishen quest)", "de": "Fels der Weissagung (Zaishen-Mission)"}
     },
     "100025": {
       "name": "Aurora Glade (Zaishen quest)",
@@ -247,7 +248,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Auroralichtung_(Zaishen-Mission)"
+      "wiki": {"en": "Aurora Glade (Zaishen quest)", "de": "Auroralichtung (Zaishen-Mission)"}
     },
     "100026": {
       "name": "Bahdok Caverns (Zaishen vanquish)",
@@ -256,7 +257,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Bahdok-Höhlen_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Bahdok Caverns (Zaishen vanquish)", "de": "Bahdok-Höhlen (Zaishen-Bezwingung)"}
     },
     "100027": {
       "name": "Barbarous Shore (Zaishen vanquish)",
@@ -265,7 +266,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Barbarenküste_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Barbarous Shore (Zaishen vanquish)", "de": "Barbarenküste (Zaishen-Bezwingung)"}
     },
     "100028": {
       "name": "BauBao Wavewrath (Zaishen quest)",
@@ -273,7 +274,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 1000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Baubao_Wellenzorn_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Baubao Wavewrath (Zaishen quest)", "de": "Baubao Wellenzorn (Zaishen-Kopfgeld)"}
     },
     "100029": {
       "name": "Bjora Marches (Zaishen vanquish)",
@@ -282,7 +283,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["3,500 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Bjora-Sümpfe_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Bjora Marches (Zaishen vanquish)", "de": "Bjora-Sümpfe (Zaishen-Bezwingung)"}
     },
     "100030": {
       "name": "Blacktide Den (Zaishen quest)",
@@ -291,7 +292,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 250,
       "rewards": ["100 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Schwarzwasserloch_(Zaishen-Mission)"
+      "wiki": {"en": "Blacktide Den (Zaishen quest)", "de": "Schwarzwasserloch (Zaishen-Mission)"}
     },
     "100031": {
       "name": "Blood Washes Blood (Zaishen quest)",
@@ -300,7 +301,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 500,
       "rewards": ["1,500 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Blut_wäscht_Blut_(Zaishen-Mission)"
+      "wiki": {"en": "Blood Washes Blood (Zaishen quest)", "de": "Blut wäscht Blut (Zaishen-Mission)"}
     },
     "100032": {
       "name": "Bloodstone Fen (Zaishen quest)",
@@ -308,7 +309,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Blutsteinsumpf_(Zaishen-Mission)"
+      "wiki": {"en": "Bloodstone Fen (Zaishen quest)", "de": "Blutsteinsumpf (Zaishen-Mission)"}
     },
     "100033": {
       "name": "Boreas Seabed (Zaishen quest)",
@@ -317,7 +318,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["2,500 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Boreas-Meeresgrund_(Zaishen-Mission)"
+      "wiki": {"en": "Boreas Seabed (Zaishen quest)", "de": "Boreas-Meeresgrund (Zaishen-Mission)"}
     },
     "100034": {
       "name": "Boreas Seabed (Zaishen vanquish)",
@@ -326,7 +327,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["7,000 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Boreas-Meeresgrund_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Boreas Seabed (Zaishen vanquish)", "de": "Boreas-Meeresgrund (Zaishen-Bezwingung)"}
     },
     "100035": {
       "name": "Borlis Pass (Zaishen quest)",
@@ -334,7 +335,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 1000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Borlispass_(Zaishen-Mission)"
+      "wiki": {"en": "Borlis Pass (Zaishen quest)", "de": "Borlispass (Zaishen-Mission)"}
     },
     "100036": {
       "name": "Borrguus Blisterbark (Zaishen quest)",
@@ -343,7 +344,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["1,250 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Borrguus_Raurinde_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Borrguus Blisterbark (Zaishen quest)", "de": "Borrguus Raurinde (Zaishen-Kopfgeld)"}
     },
     "100037": {
       "name": "Bukdek Byway (Zaishen vanquish)",
@@ -351,7 +352,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Bukdek-Seitenweg_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Bukdek Byway (Zaishen vanquish)", "de": "Bukdek-Seitenweg (Zaishen-Bezwingung)"}
     },
     "100038": {
       "name": "Chahbek Village (Zaishen quest)",
@@ -360,7 +361,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 250,
       "rewards": ["100 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Chahbek_(Zaishen-Mission)"
+      "wiki": {"en": "Chahbek Village (Zaishen quest)", "de": "Chahbek (Zaishen-Mission)"}
     },
     "100039": {
       "name": "Charged Blackness (Zaishen quest)",
@@ -368,7 +369,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Geladene_Schwärze_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Charged Blackness (Zaishen quest)", "de": "Geladene Schwärze (Zaishen-Kopfgeld)"}
     },
     "100040": {
       "name": "Chung, the Attuned (Zaishen quest)",
@@ -376,7 +377,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 1000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Chung_der_Eingestimmte_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Chung, the Attuned (Zaishen quest)", "de": "Chung der Eingestimmte (Zaishen-Kopfgeld)"}
     },
     "100041": {
       "name": "Clear the Chamber",
@@ -390,8 +391,7 @@ const GW_QUESTS = {
         [0, "See Reaper of the Labyrinth for your reward."]
       ],
       "next": [100309, 100076, 100213],
-      "wiki": "https://www.guildwiki.de/wiki/Säubert_die_Kammer",
-      "wiki_en": "https://web.archive.org/web/20260624125405/https://wiki.guildwars.com/wiki/Clear_the_Chamber"
+      "wiki": {"en": "Clear the Chamber", "de": "Säubert die Kammer"}
     },
     "100042": {
       "name": "Cliffs of Dohjok (Zaishen vanquish)",
@@ -400,7 +400,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["500 Sunspear points"],
-      "wiki": "https://www.guildwiki.de/wiki/Felsen_von_Dohjok_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Cliffs of Dohjok (Zaishen vanquish)", "de": "Felsen von Dohjok (Zaishen-Bezwingung)"}
     },
     "100043": {
       "name": "Codex Arena (Zaishen quest)",
@@ -408,7 +408,7 @@ const GW_QUESTS = {
       "givers": [223],
       "gold": 1000,
       "rewards": ["6,000 Balthazar faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Kodex-Arena_(Zaishen-Kampf)"
+      "wiki": {"en": "Codex Arena (Zaishen quest)", "de": "Kodex-Arena (Zaishen-Kampf)"}
     },
     "100044": {
       "name": "Commander Wahli (Zaishen quest)",
@@ -417,7 +417,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["100 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Kommandeur_Wahli_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Commander Wahli (Zaishen quest)", "de": "Kommandeur Wahli (Zaishen-Kopfgeld)"}
     },
     "100045": {
       "name": "Consulate Docks (Zaishen quest)",
@@ -426,7 +426,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 250,
       "rewards": ["100 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Konsulatshafen_(Zaishen-Mission)"
+      "wiki": {"en": "Consulate Docks (Zaishen quest)", "de": "Konsulatshafen (Zaishen-Mission)"}
     },
     "100046": {
       "name": "Crystal Overlook (Zaishen vanquish)",
@@ -435,7 +435,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["1,000 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Kristallspitze_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Crystal Overlook (Zaishen vanquish)", "de": "Kristallspitze (Zaishen-Bezwingung)"}
     },
     "100047": {
       "name": "Curse of the Nornbear (Zaishen quest)",
@@ -444,7 +444,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 500,
       "rewards": ["1,500 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Fluch_des_Nornbären_(Zaishen-Mission)"
+      "wiki": {"en": "Curse of the Nornbear (Zaishen quest)", "de": "Der Fluch des Nornbären (Zaishen-Mission)"}
     },
     "100048": {
       "name": "Cursed Lands (Zaishen vanquish)",
@@ -452,7 +452,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Verfluchtes_Land_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Cursed Lands (Zaishen vanquish)", "de": "Verfluchtes Land (Zaishen-Bezwingung)"}
     },
     "100049": {
       "name": "D'Alessio Seaboard (Zaishen quest)",
@@ -460,7 +460,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/D'Alessio-Küste_(Zaishen-Mission)"
+      "wiki": {"en": "D'Alessio Seaboard (Zaishen quest)", "de": "D'Alessio-Küste (Zaishen-Mission)"}
     },
     "100050": {
       "name": "Dalada Uplands (Zaishen vanquish)",
@@ -469,7 +469,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["5,000 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Dalada-Hochlande_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Dalada Uplands (Zaishen vanquish)", "de": "Dalada-Hochlande (Zaishen-Bezwingung)"}
     },
     "100051": {
       "name": "Dasha Vestibule (Zaishen quest)",
@@ -478,25 +478,25 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["500 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Vorhof_von_Dasha_(Zaishen-Mission)"
+      "wiki": {"en": "Dasha Vestibule (Zaishen quest)", "de": "Vorhof von Dasha (Zaishen-Mission)"}
     },
     "100052": {
       "name": "Deactivating N.O.X.",
       "type": "secondary",
       "givers": [668],
-      "wiki": "https://www.guildwiki.de/wiki/N.O.X._deaktivieren"
+      "wiki": {"en": "Deactivating N.O.X.", "de": "N.O.X. deaktivieren"}
     },
     "100053": {
       "name": "Deactivating P.O.X.",
       "type": "secondary",
       "givers": [668],
-      "wiki": "https://www.guildwiki.de/wiki/P.O.X._deaktivieren"
+      "wiki": {"en": "Deactivating P.O.X.", "de": "P.O.X. deaktivieren"}
     },
     "100054": {
       "name": "Deactivating R.O.X.",
       "type": "secondary",
       "givers": [668],
-      "wiki": "https://www.guildwiki.de/wiki/R.O.X._deaktivieren"
+      "wiki": {"en": "Deactivating R.O.X.", "de": "R.O.X. deaktivieren"}
     },
     "100055": {
       "name": "Defend the Temple of War",
@@ -511,8 +511,7 @@ const GW_QUESTS = {
       ],
       "requires": [100265],
       "next": [100212, 100139],
-      "wiki": "https://www.guildwiki.de/wiki/Verteidigt_den_Tempel_des_Krieges",
-      "wiki_en": "https://web.archive.org/web/20260807155035/https://wiki.guildwars.com/wiki/Defend_the_Temple_of_War"
+      "wiki": {"en": "Defend the Temple of War", "de": "Verteidigt den Tempel des Krieges"}
     },
     "100056": {
       "name": "Dejarin Estate (Zaishen vanquish)",
@@ -521,7 +520,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Dejarin-Anwesen_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Dejarin Estate (Zaishen vanquish)", "de": "Dejarin-Anwesen (Zaishen-Bezwingung)"}
     },
     "100057": {
       "name": "Deldrimor Bowl (Zaishen vanquish)",
@@ -529,7 +528,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Deldrimor-Becken_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Deldrimor Bowl (Zaishen vanquish)", "de": "Deldrimor-Becken (Zaishen-Bezwingung)"}
     },
     "100058": {
       "name": "Demon Assassin",
@@ -542,8 +541,7 @@ const GW_QUESTS = {
         [0, "Return to Reaper of the Twin Serpent Mountains for your reward."]
       ],
       "requires": [100041],
-      "wiki": "https://www.guildwiki.de/wiki/Dämonischer_Meuchler",
-      "wiki_en": "https://web.archive.org/web/20260624131506/https://wiki.guildwars.com/wiki/Demon_Assassin"
+      "wiki": {"en": "Demon Assassin", "de": "Dämonischer Meuchler"}
     },
     "100059": {
       "name": "Destruction's Depths (Zaishen quest)",
@@ -552,7 +550,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["2,500 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Tiefen_der_Zerstörung_(Zaishen-Mission)"
+      "wiki": {"en": "Destruction's Depths (Zaishen quest)", "de": "Die Tiefen der Zerstörung (Zaishen-Mission)"}
     },
     "100060": {
       "name": "Diessa Lowlands (Zaishen vanquish)",
@@ -560,7 +558,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Tiefland_von_Diessa_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Diessa Lowlands (Zaishen vanquish)", "de": "Tiefland von Diessa (Zaishen-Bezwingung)"}
     },
     "100061": {
       "name": "Diviner's Ascent (Zaishen vanquish)",
@@ -568,7 +566,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Wahrsagerhöhe_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Diviner's Ascent (Zaishen vanquish)", "de": "Wahrsagerhöhe (Zaishen-Bezwingung)"}
     },
     "100062": {
       "name": "Divinity Coast (Zaishen quest)",
@@ -576,7 +574,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Küste_der_Göttlichkeit_(Zaishen-Mission)"
+      "wiki": {"en": "Divinity Coast (Zaishen quest)", "de": "Küste der Göttlichkeit (Zaishen-Mission)"}
     },
     "100063": {
       "name": "Dragon Lich (Zaishen quest)",
@@ -585,7 +583,7 @@ const GW_QUESTS = {
       "region": 21,
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Drachen-Lich_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Dragon Lich (Zaishen quest)", "de": "Drachen-Lich (Zaishen-Kopfgeld)"}
     },
     "100064": {
       "name": "Dragon's Gullet (Zaishen vanquish)",
@@ -593,7 +591,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 15000,
       "gold": 2000,
-      "wiki": "https://www.guildwiki.de/wiki/Drachenschlund_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Dragon's Gullet (Zaishen vanquish)", "de": "Drachenschlund (Zaishen-Bezwingung)"}
     },
     "100065": {
       "name": "Drakkar Lake (Zaishen vanquish)",
@@ -602,7 +600,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["5,000 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Drakkar-See_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Drakkar Lake (Zaishen vanquish)", "de": "Drakkar-See (Zaishen-Bezwingung)"}
     },
     "100066": {
       "name": "Drazach Thicket (Zaishen vanquish)",
@@ -611,7 +609,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["7,000 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Drazachdickicht_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Drazach Thicket (Zaishen vanquish)", "de": "Drazachdickicht (Zaishen-Bezwingung)"}
     },
     "100067": {
       "name": "Dreadnought's Drift (Zaishen vanquish)",
@@ -619,7 +617,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 15000,
       "gold": 2000,
-      "wiki": "https://www.guildwiki.de/wiki/Schreckensdrift_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Dreadnought's Drift (Zaishen vanquish)", "de": "Schreckensdrift (Zaishen-Bezwingung)"}
     },
     "100068": {
       "name": "Droajam, Mage of the Sands (Zaishen quest)",
@@ -628,7 +626,10 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["100 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Droajam,_Magier_des_Sandes_(Zaishen-Kopfgeld)"
+      "wiki": {
+        "en": "Droajam, Mage of the Sands (Zaishen quest)",
+        "de": "Droajam, Magier des Sandes (Zaishen-Kopfgeld)"
+      }
     },
     "100069": {
       "name": "Dry Top (Zaishen vanquish)",
@@ -636,7 +637,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Trockenkuppe_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Dry Top (Zaishen vanquish)", "de": "Trockenkuppe (Zaishen-Bezwingung)"}
     },
     "100070": {
       "name": "Duncan the Black (Zaishen quest)",
@@ -645,7 +646,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["3,750 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Duncan_der_Schwarze_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Duncan the Black (Zaishen quest)", "de": "Duncan der Schwarze (Zaishen-Kopfgeld)"}
     },
     "100071": {
       "name": "Dunes of Despair (Zaishen quest)",
@@ -653,7 +654,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Dünen_der_Verzweiflung_(Zaishen-Mission)"
+      "wiki": {"en": "Dunes of Despair (Zaishen quest)", "de": "Dünen der Verzweiflung (Zaishen-Mission)"}
     },
     "100072": {
       "name": "Dzagonur Bastion (Zaishen quest)",
@@ -662,7 +663,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["500 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Bastion_von_Dzagonur_(Zaishen-Mission)"
+      "wiki": {"en": "Dzagonur Bastion (Zaishen quest)", "de": "Bastion von Dzagonur (Zaishen-Mission)"}
     },
     "100073": {
       "name": "Eastern Frontier (Zaishen vanquish)",
@@ -670,7 +671,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Ostgrenze_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Eastern Frontier (Zaishen vanquish)", "de": "Ostgrenze (Zaishen-Bezwingung)"}
     },
     "100074": {
       "name": "Eldritch Ettin (Zaishen quest)",
@@ -679,7 +680,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Eldritch-Ettin_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Eldritch Ettin (Zaishen quest)", "de": "Eldritch-Ettin (Zaishen-Kopfgeld)"}
     },
     "100075": {
       "name": "Elona Reach (Zaishen quest)",
@@ -687,7 +688,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Elonaspitze_(Zaishen-Mission)"
+      "wiki": {"en": "Elona Reach (Zaishen quest)", "de": "Elonaspitze (Zaishen-Mission)"}
     },
     "100076": {
       "name": "Escort of Souls",
@@ -700,8 +701,7 @@ const GW_QUESTS = {
         [0, "See Mayor Alegheri for your reward."]
       ],
       "requires": [100041],
-      "wiki": "https://www.guildwiki.de/wiki/Geleit_der_Seelen",
-      "wiki_en": "https://web.archive.org/web/20260624131340/https://wiki.guildwars.com/wiki/Escort_of_Souls"
+      "wiki": {"en": "Escort of Souls", "de": "Geleit der Seelen"}
     },
     "100077": {
       "name": "Ettin's Back (Zaishen vanquish)",
@@ -709,7 +709,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Ettinbuckel_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Ettin's Back (Zaishen vanquish)", "de": "Ettinbuckel (Zaishen-Bezwingung)"}
     },
     "100078": {
       "name": "Fahranur, The First City (Zaishen vanquish)",
@@ -718,7 +718,10 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["500 Sunspear points"],
-      "wiki": "https://www.guildwiki.de/wiki/Fahranur,_die_Erste_Stadt_(Zaishen-Bezwingung)"
+      "wiki": {
+        "en": "Fahranur, the First City (Zaishen vanquish)",
+        "de": "Fahranur, die Erste Stadt (Zaishen-Bezwingung)"
+      }
     },
     "100079": {
       "name": "Fendi Nin (Zaishen quest)",
@@ -727,7 +730,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Fendi_Nin_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Fendi Nin (Zaishen quest)", "de": "Fendi Nin (Zaishen-Kopfgeld)"}
     },
     "100080": {
       "name": "Fenrir (Zaishen quest)",
@@ -736,7 +739,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["500 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Fenrir_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Fenrir (Zaishen quest)", "de": "Fenrir (Zaishen-Kopfgeld)"}
     },
     "100081": {
       "name": "Ferndale (Zaishen vanquish)",
@@ -745,7 +748,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["10,000 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Farntal_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Ferndale (Zaishen vanquish)", "de": "Farntal (Zaishen-Bezwingung)"}
     },
     "100082": {
       "name": "Finding the Bloodstone (Zaishen quest)",
@@ -754,7 +757,10 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 500,
       "rewards": ["1,500 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Auf_der_Suche_nach_dem_Blutstein_(Zaishen-Mission)"
+      "wiki": {
+        "en": "Finding the Bloodstone (Zaishen quest)",
+        "de": "Auf der Suche nach dem Blutstein (Zaishen-Mission)"
+      }
     },
     "100083": {
       "name": "Flame Temple Corridor (Zaishen vanquish)",
@@ -762,7 +768,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Flammentempel-Gang_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Flame Temple Corridor (Zaishen vanquish)", "de": "Flammentempel-Gang (Zaishen-Bezwingung)"}
     },
     "100084": {
       "name": "Forgewight (Zaishen quest)",
@@ -771,7 +777,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Schmiedewicht_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Forgewight (Zaishen quest)", "de": "Schmiedewicht (Zaishen-Kopfgeld)"}
     },
     "100085": {
       "name": "Fort Aspenwood (Zaishen quest)",
@@ -779,7 +785,7 @@ const GW_QUESTS = {
       "givers": [223],
       "gold": 500,
       "rewards": ["5,000 Imperial faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Fort_Espenwald_(Zaishen-Kampf)"
+      "wiki": {"en": "Fort Aspenwood (Zaishen quest)", "de": "Fort Espenwald (Zaishen-Kampf)"}
     },
     "100086": {
       "name": "Fort Ranik (Zaishen quest)",
@@ -787,7 +793,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 1000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Fort_Ranik_(Zaishen-Mission)"
+      "wiki": {"en": "Fort Ranik (Zaishen quest)", "de": "Fort Ranik (Zaishen-Mission)"}
     },
     "100087": {
       "name": "Forum Highlands (Zaishen vanquish)",
@@ -796,7 +802,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["3,500 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Forum-Hochland_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Forum Highlands (Zaishen vanquish)", "de": "Forum-Hochland (Zaishen-Bezwingung)"}
     },
     "100088": {
       "name": "Fozzy Yeoryios (Zaishen quest)",
@@ -805,7 +811,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["1,250 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Fozzy_Yeoryios_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Fozzy Yeoryios (Zaishen quest)", "de": "Fozzy Yeoryios (Zaishen-Kopfgeld)"}
     },
     "100089": {
       "name": "Fronis Irontoe (Zaishen quest)",
@@ -814,7 +820,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["500 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Fronis_Eisenzehe_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Fronis Irontoe (Zaishen quest)", "de": "Fronis Eisenzehe (Zaishen-Kopfgeld)"}
     },
     "100090": {
       "name": "Frostmaw the Kinslayer (Zaishen quest)",
@@ -823,7 +829,10 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Frostrachen_der_Sippenschlächter_(Zaishen-Kopfgeld)"
+      "wiki": {
+        "en": "Frostmaw the Kinslayer (Zaishen quest)",
+        "de": "Frostrachen der Sippenschlächter (Zaishen-Kopfgeld)"
+      }
     },
     "100091": {
       "name": "Frozen Forest (Zaishen vanquish)",
@@ -831,7 +840,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Frostwald_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Frozen Forest (Zaishen vanquish)", "de": "Frostwald (Zaishen-Bezwingung)"}
     },
     "100092": {
       "name": "G.O.L.E.M. (Zaishen quest)",
@@ -840,7 +849,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["2,500 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/G.O.L.E.M._(Zaishen-Mission)"
+      "wiki": {"en": "G.O.L.E.M. (Zaishen quest)", "de": "G.O.L.E.M. (Zaishen-Mission)"}
     },
     "100093": {
       "name": "Gandara, the Moon Fortress (Zaishen vanquish)",
@@ -849,7 +858,10 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["500 Sunspear points"],
-      "wiki": "https://www.guildwiki.de/wiki/Gandara,_die_Mondfestung_(Zaishen-Bezwingung)"
+      "wiki": {
+        "en": "Gandara, the Moon Fortress (Zaishen vanquish)",
+        "de": "Gandara, die Mondfestung (Zaishen-Bezwingung)"
+      }
     },
     "100094": {
       "name": "Garden of Seborhin (Zaishen vanquish)",
@@ -858,7 +870,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Garten_von_Seborhin_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Garden of Seborhin (Zaishen vanquish)", "de": "Garten von Seborhin (Zaishen-Bezwingung)"}
     },
     "100095": {
       "name": "Gate of Desolation (Zaishen quest)",
@@ -867,7 +879,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["500 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Ödland-Tor_(Zaishen-Mission)"
+      "wiki": {"en": "Gate of Desolation (Zaishen quest)", "de": "Ödland-Tor (Zaishen-Mission)"}
     },
     "100096": {
       "name": "Gate of Madness (Zaishen quest)",
@@ -876,7 +888,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["500 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Tor_des_Wahnsinns_(Zaishen-Mission)"
+      "wiki": {"en": "Gate of Madness (Zaishen quest)", "de": "Tor des Wahnsinns (Zaishen-Mission)"}
     },
     "100097": {
       "name": "Gate of Pain (Zaishen quest)",
@@ -885,7 +897,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["500 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Tor_des_Schmerzes_(Zaishen-Mission)"
+      "wiki": {"en": "Gate of Pain (Zaishen quest)", "de": "Tor des Schmerzes (Zaishen-Mission)"}
     },
     "100098": {
       "name": "Gates of Kryta (Zaishen quest)",
@@ -893,7 +905,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 1000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Tore_von_Kryta_(Zaishen-Mission)"
+      "wiki": {"en": "Gates of Kryta (Zaishen quest)", "de": "Tore von Kryta (Zaishen-Mission)"}
     },
     "100099": {
       "name": "Ghial the Bone Dancer (Zaishen quest)",
@@ -901,7 +913,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 1000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Ghial_der_Knochentänzer_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Ghial the Bone Dancer (Zaishen quest)", "de": "Ghial der Knochentänzer (Zaishen-Kopfgeld)"}
     },
     "100100": {
       "name": "Grand Court of Sebelkeh (Zaishen quest)",
@@ -910,7 +922,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["500 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Großer_Hof_von_Sebelkeh_(Zaishen-Mission)"
+      "wiki": {"en": "Grand Court of Sebelkeh (Zaishen quest)", "de": "Großer Hof von Sebelkeh (Zaishen-Mission)"}
     },
     "100101": {
       "name": "Grenth's Footprint (Zaishen vanquish)",
@@ -918,7 +930,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Grenths_Fußabdruck_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Grenth's Footprint (Zaishen vanquish)", "de": "Grenths Fußabdruck (Zaishen-Bezwingung)"}
     },
     "100102": {
       "name": "Griffon's Mouth (Zaishen vanquish)",
@@ -926,7 +938,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Greifenmaul_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Griffon's Mouth (Zaishen vanquish)", "de": "Greifenmaul (Zaishen-Bezwingung)"}
     },
     "100103": {
       "name": "Grothmar Wardowns (Zaishen vanquish)",
@@ -935,7 +947,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["3,500 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Grothmar-Kriegshügel_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Grothmar Wardowns (Zaishen vanquish)", "de": "Grothmar-Kriegshügel (Zaishen-Bezwingung)"}
     },
     "100104": {
       "name": "Guild Versus Guild (Zaishen quest)",
@@ -943,7 +955,7 @@ const GW_QUESTS = {
       "givers": [223],
       "gold": 1500,
       "rewards": ["9,000 Balthazar faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Gilde_gegen_Gilde_(Zaishen-Kampf)"
+      "wiki": {"en": "Guild Versus Guild (Zaishen quest)", "de": "Gilde gegen Gilde (Zaishen-Kampf)"}
     },
     "100105": {
       "name": "Gyala Hatchery (Zaishen quest)",
@@ -952,7 +964,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["2,500 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Gyala-Brutstätte_(Zaishen-Mission)"
+      "wiki": {"en": "Gyala Hatchery (Zaishen quest)", "de": "Gyala-Brutstätte (Zaishen-Mission)"}
     },
     "100106": {
       "name": "Gyala Hatchery (Zaishen vanquish)",
@@ -961,7 +973,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["7,000 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Gyala-Brutstätte_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Gyala Hatchery (Zaishen vanquish)", "de": "Gyala-Brutstätte (Zaishen-Bezwingung)"}
     },
     "100107": {
       "name": "Haiju Lagoon (Zaishen vanquish)",
@@ -969,7 +981,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Haiju-Lagune_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Haiju Lagoon (Zaishen vanquish)", "de": "Haiju-Lagune (Zaishen-Bezwingung)"}
     },
     "100108": {
       "name": "Harn and Maxine Coldstone (Zaishen quest)",
@@ -977,7 +989,10 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 1000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Harn_und_Maxine_Coldstone_(Zaishen-Kopfgeld)"
+      "wiki": {
+        "en": "Harn and Maxine Coldstone (Zaishen quest)",
+        "de": "Harn und Maxine Coldstone (Zaishen-Kopfgeld)"
+      }
     },
     "100109": {
       "name": "Havok Soulwail (Zaishen quest)",
@@ -986,7 +1001,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Havok_Seelenheuler_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Havok Soulwail (Zaishen quest)", "de": "Havok Seelenheuler (Zaishen-Kopfgeld)"}
     },
     "100110": {
       "name": "Hell's Precipice (Zaishen quest)",
@@ -994,7 +1009,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Vorhof_der_Hölle_(Zaishen-Mission)"
+      "wiki": {"en": "Hell's Precipice (Zaishen quest)", "de": "Vorhof der Hölle (Zaishen-Mission)"}
     },
     "100111": {
       "name": "Hero Battles (Zaishen quest)",
@@ -1002,7 +1017,7 @@ const GW_QUESTS = {
       "givers": [223],
       "gold": 1000,
       "rewards": ["6,000 Balthazar faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Heldenkämpfe_(Zaishen-Kampf)"
+      "wiki": {"en": "Hero Battles (Zaishen quest)", "de": "Heldenkämpfe (Zaishen-Kampf)"}
     },
     "100112": {
       "name": "Heroes' Ascent (Zaishen quest)",
@@ -1010,7 +1025,7 @@ const GW_QUESTS = {
       "givers": [223],
       "gold": 1500,
       "rewards": ["9,000 Balthazar faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Aufstieg_der_Helden_(Zaishen-Kampf)"
+      "wiki": {"en": "Heroes' Ascent (Zaishen quest)", "de": "Aufstieg der Helden (Zaishen-Kampf)"}
     },
     "100113": {
       "name": "Holdings of Chokhin (Zaishen vanquish)",
@@ -1019,7 +1034,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Güter_von_Chokhin_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Holdings of Chokhin (Zaishen vanquish)", "de": "Güter von Chokhin (Zaishen-Bezwingung)"}
     },
     "100114": {
       "name": "Ice Caves of Sorrow (Zaishen quest)",
@@ -1027,7 +1042,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Eishöhlen_der_Betrübnis_(Zaishen-Mission)"
+      "wiki": {"en": "Ice Caves of Sorrow (Zaishen quest)", "de": "Eishöhlen der Betrübnis (Zaishen-Mission)"}
     },
     "100115": {
       "name": "Ice Cliff Chasms (Zaishen vanquish)",
@@ -1036,7 +1051,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["3,500 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Eisklippen-Abgründe_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Ice Cliff Chasms (Zaishen vanquish)", "de": "Eisklippen-Abgründe (Zaishen-Bezwingung)"}
     },
     "100116": {
       "name": "Ice Floe (Zaishen vanquish)",
@@ -1044,7 +1059,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Eisscholle_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Ice Floe (Zaishen vanquish)", "de": "Eisscholle (Zaishen-Bezwingung)"}
     },
     "100117": {
       "name": "Icedome (Zaishen vanquish)",
@@ -1052,7 +1067,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 15000,
       "gold": 2000,
-      "wiki": "https://www.guildwiki.de/wiki/Eisdom_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Icedome (Zaishen vanquish)", "de": "Eisdom (Zaishen-Bezwingung)"}
     },
     "100118": {
       "name": "Ilsundur, Lord of Fire (Zaishen quest)",
@@ -1061,7 +1076,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Ilsundur,_Herr_des_Feuers_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Ilsundur, Lord of Fire (Zaishen quest)", "de": "Ilsundur, Herr des Feuers (Zaishen-Kopfgeld)"}
     },
     "100119": {
       "name": "Imperial Sanctum (Zaishen quest)",
@@ -1069,7 +1084,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Kaiserliches_Refugium_(Zaishen-Mission)"
+      "wiki": {"en": "Imperial Sanctum (Zaishen quest)", "de": "Kaiserliches Refugium (Zaishen-Mission)"}
     },
     "100120": {
       "name": "Imprisoned Spirits",
@@ -1083,8 +1098,7 @@ const GW_QUESTS = {
         [0, "Return to the Reaper of the Bone Pits for your reward."]
       ],
       "requires": [100213],
-      "wiki": "https://www.guildwiki.de/wiki/Eingesperrte_Geister",
-      "wiki_en": "https://web.archive.org/web/20260624125103/https://wiki.guildwars.com/wiki/Imprisoned_Spirits"
+      "wiki": {"en": "Imprisoned Spirits", "de": "Eingesperrte Geister"}
     },
     "100121": {
       "name": "Iron Horse Mine (Zaishen vanquish)",
@@ -1092,7 +1106,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Eisenrossmine_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Iron Horse Mine (Zaishen vanquish)", "de": "Eisenrossmine (Zaishen-Bezwingung)"}
     },
     "100122": {
       "name": "Iron Mines of Moladune (Zaishen quest)",
@@ -1100,7 +1114,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Eisenminen_von_Moladune_(Zaishen-Mission)"
+      "wiki": {"en": "Iron Mines of Moladune (Zaishen quest)", "de": "Eisenminen von Moladune (Zaishen-Mission)"}
     },
     "100123": {
       "name": "Issnur Isles (Zaishen vanquish)",
@@ -1109,7 +1123,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Issnur-Inseln_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Issnur Isles (Zaishen vanquish)", "de": "Issnur-Inseln (Zaishen-Bezwingung)"}
     },
     "100124": {
       "name": "Jade Quarry (Zaishen quest)",
@@ -1117,7 +1131,7 @@ const GW_QUESTS = {
       "givers": [223],
       "gold": 500,
       "rewards": ["5,000 Imperial faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Jadesteinbruch"
+      "wiki": {"en": "Jade Quarry (Zaishen quest)", "de": "Jadesteinbruch"}
     },
     "100125": {
       "name": "Jaga Moraine (Zaishen vanquish)",
@@ -1126,7 +1140,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["5,000 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Jaga-Moräne_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Jaga Moraine (Zaishen vanquish)", "de": "Jaga-Moräne (Zaishen-Bezwingung)"}
     },
     "100126": {
       "name": "Jahai Bluffs (Zaishen vanquish)",
@@ -1135,7 +1149,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["1,000 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Jahai-Klippen_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Jahai Bluffs (Zaishen vanquish)", "de": "Jahai-Klippen (Zaishen-Bezwingung)"}
     },
     "100127": {
       "name": "Jarimiya the Unmerciful (Zaishen quest)",
@@ -1144,7 +1158,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["100 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Jarimiya_der_Gnadenlose_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Jarimiya the Unmerciful (Zaishen quest)", "de": "Jarimiya der Gnadenlose (Zaishen-Kopfgeld)"}
     },
     "100128": {
       "name": "Jaya Bluffs (Zaishen vanquish)",
@@ -1152,7 +1166,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Jaya-Klippen_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Jaya Bluffs (Zaishen vanquish)", "de": "Jaya-Klippen (Zaishen-Bezwingung)"}
     },
     "100129": {
       "name": "Jedeh the Mighty (Zaishen quest)",
@@ -1161,7 +1175,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["100 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Jedeh_der_Mächtige_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Jedeh the Mighty (Zaishen quest)", "de": "Jedeh der Mächtige (Zaishen-Kopfgeld)"}
     },
     "100130": {
       "name": "Jennur's Horde (Zaishen quest)",
@@ -1170,7 +1184,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["500 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Jennurs_Horde_(Zaishen-Mission)"
+      "wiki": {"en": "Jennur's Horde (Zaishen quest)", "de": "Jennurs Horde (Zaishen-Mission)"}
     },
     "100131": {
       "name": "Joffs the Mitigator (Zaishen quest)",
@@ -1179,7 +1193,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["500 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Joffs_der_Sanfte_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Joffs the Mitigator (Zaishen quest)", "de": "Joffs der Sanfte (Zaishen-Kopfgeld)"}
     },
     "100132": {
       "name": "Jokanur Diggings (Zaishen quest)",
@@ -1188,7 +1202,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 250,
       "rewards": ["100 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Ausgrabungsstätte_von_Jokanur_(Zaishen-Mission)"
+      "wiki": {"en": "Jokanur Diggings (Zaishen quest)", "de": "Ausgrabungsstätte von Jokanur (Zaishen-Mission)"}
     },
     "100133": {
       "name": "Joko's Domain (Zaishen vanquish)",
@@ -1197,7 +1211,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["1,000 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Jokos_Domäne_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Joko's Domain (Zaishen vanquish)", "de": "Jokos Domäne (Zaishen-Bezwingung)"}
     },
     "100134": {
       "name": "Justiciar Thommis (Zaishen quest)",
@@ -1206,7 +1220,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Justiziar_Thommis_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Justiciar Thommis (Zaishen quest)", "de": "Justiziar Thommis (Zaishen-Kopfgeld)"}
     },
     "100135": {
       "name": "Kanaxai (Zaishen quest)",
@@ -1215,7 +1229,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["7,500 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Kanaxai_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Kanaxai (Zaishen quest)", "de": "Kanaxai (Zaishen-Kopfgeld)"}
     },
     "100136": {
       "name": "Kepkhet Marrowfeast (Zaishen quest)",
@@ -1223,7 +1237,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 1000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Kepkhet_Markschmaus_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Kepkhet Marrowfeast (Zaishen quest)", "de": "Kepkhet Markschmaus (Zaishen-Kopfgeld)"}
     },
     "100137": {
       "name": "Kessex Peak (Zaishen vanquish)",
@@ -1231,7 +1245,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Kessex-Gipfel_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Kessex Peak (Zaishen vanquish)", "de": "Kessex-Gipfel (Zaishen-Bezwingung)"}
     },
     "100138": {
       "name": "Khabuus (Zaishen quest)",
@@ -1240,7 +1254,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Khabuus_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Khabuus (Zaishen quest)", "de": "Khabuus (Zaishen-Kopfgeld)"}
     },
     "100139": {
       "name": "Khobay the Betrayer",
@@ -1250,8 +1264,7 @@ const GW_QUESTS = {
       "gold": 750,
       "objectives": [[0, "Strike down Lord Khobay"], [0, "See the Eternal Forgemaster for your reward"]],
       "requires": [100055],
-      "wiki": "https://www.guildwiki.de/wiki/Khobay_der_Verräter",
-      "wiki_en": "https://web.archive.org/web/20260805221352/https://wiki.guildwars.com/wiki/Khobay_the_Betrayer"
+      "wiki": {"en": "Khobay the Betrayer", "de": "Khobay der Verräter"}
     },
     "100140": {
       "name": "Kinya Province (Zaishen vanquish)",
@@ -1259,7 +1272,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Provinz_Kinya_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Kinya Province (Zaishen vanquish)", "de": "Provinz Kinya (Zaishen-Bezwingung)"}
     },
     "100141": {
       "name": "Kodonur Crossroads (Zaishen quest)",
@@ -1268,7 +1281,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 500,
       "rewards": ["300 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Kodonur-Kreuzung_(Zaishen-Mission)"
+      "wiki": {"en": "Kodonur Crossroads (Zaishen quest)", "de": "Kodonur-Kreuzung (Zaishen-Mission)"}
     },
     "100142": {
       "name": "Korshek the Immolated (Zaishen quest)",
@@ -1277,7 +1290,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["100 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Korshek_der_Geopferte_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Korshek the Immolated (Zaishen quest)", "de": "Korshek der Geopferte (Zaishen-Kopfgeld)"}
     },
     "100143": {
       "name": "Kunvie Firewing (Zaishen quest)",
@@ -1286,7 +1299,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["500 Kurzick faction", "500 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Kunvie_Feuerflügel_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Kunvie Firewing (Zaishen quest)", "de": "Kunvie Feuerflügel (Zaishen-Kopfgeld)"}
     },
     "100144": {
       "name": "Lahtenda Bog (Zaishen vanquish)",
@@ -1295,7 +1308,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["1,000 Sunspear points"],
-      "wiki": "https://www.guildwiki.de/wiki/Lahtenda-Sumpf_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Lahtenda Bog (Zaishen vanquish)", "de": "Lahtenda-Sumpf (Zaishen-Bezwingung)"}
     },
     "100145": {
       "name": "Lord Jadoth (Zaishen quest)",
@@ -1304,7 +1317,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["750 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Fürst_Jadoth_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Lord Jadoth (Zaishen quest)", "de": "Fürst Jadoth (Zaishen-Kopfgeld)"}
     },
     "100146": {
       "name": "Lord Khobay (Zaishen quest)",
@@ -1312,7 +1325,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Lord_Khobay_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Lord Khobay (Zaishen quest)", "de": "Lord Khobay (Zaishen-Kopfgeld)"}
     },
     "100147": {
       "name": "Lornar's Pass (Zaishen vanquish)",
@@ -1320,7 +1333,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 15000,
       "gold": 2000,
-      "wiki": "https://www.guildwiki.de/wiki/Lornarpass_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Lornar's Pass (Zaishen vanquish)", "de": "Lornarpass (Zaishen-Bezwingung)"}
     },
     "100148": {
       "name": "Magmus (Zaishen quest)",
@@ -1329,7 +1342,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Magmus_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Magmus (Zaishen quest)", "de": "Magmus (Zaishen-Kopfgeld)"}
     },
     "100149": {
       "name": "Magus Stones (Zaishen vanquish)",
@@ -1338,7 +1351,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["5,000 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Magussteine_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Magus Stones (Zaishen vanquish)", "de": "Magussteine (Zaishen-Bezwingung)"}
     },
     "100150": {
       "name": "Maishang Hills (Zaishen vanquish)",
@@ -1347,7 +1360,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["7,000 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Maishang-Hügel_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Maishang Hills (Zaishen vanquish)", "de": "Maishang-Hügel (Zaishen-Bezwingung)"}
     },
     "100151": {
       "name": "Majesty's Rest (Zaishen vanquish)",
@@ -1355,7 +1368,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Königsruh_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Majesty's Rest (Zaishen vanquish)", "de": "Königsruh (Zaishen-Bezwingung)"}
     },
     "100152": {
       "name": "Mamnoon Lagoon (Zaishen vanquish)",
@@ -1363,7 +1376,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Mamnoon-Lagune_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Mamnoon Lagoon (Zaishen vanquish)", "de": "Mamnoon-Lagune (Zaishen-Bezwingung)"}
     },
     "100153": {
       "name": "Marga Coast (Zaishen vanquish)",
@@ -1372,7 +1385,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["1,000 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Marga-Küste_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Marga Coast (Zaishen vanquish)", "de": "Marga-Küste (Zaishen-Bezwingung)"}
     },
     "100154": {
       "name": "Mehtani Keys (Zaishen vanquish)",
@@ -1381,7 +1394,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Mehtani-Archipel_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Mehtani Keys (Zaishen vanquish)", "de": "Mehtani-Archipel (Zaishen-Bezwingung)"}
     },
     "100155": {
       "name": "Melandru's Hope (Zaishen vanquish)",
@@ -1390,7 +1403,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["7,000 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Melandrus_Hoffnung_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Melandru's Hope (Zaishen vanquish)", "de": "Melandrus Hoffnung (Zaishen-Bezwingung)"}
     },
     "100156": {
       "name": "Mineral Springs (Zaishen vanquish)",
@@ -1398,7 +1411,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 15000,
       "gold": 2000,
-      "wiki": "https://www.guildwiki.de/wiki/Mineralquellen_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Mineral Springs (Zaishen vanquish)", "de": "Mineralquellen (Zaishen-Bezwingung)"}
     },
     "100157": {
       "name": "Miniature Companion: Dungeons",
@@ -1406,7 +1419,7 @@ const GW_QUESTS = {
       "givers": [664],
       "xp": 2025,
       "gold": 2007,
-      "wiki": "https://www.guildwiki.de/wiki/Miniatur-Gefährte:_Verliese"
+      "wiki": {"en": "Miniature Companion: Dungeons", "de": "Miniatur-Gefährte: Verliese"}
     },
     "100158": {
       "name": "Miniature Companion: Eye of the North",
@@ -1414,7 +1427,7 @@ const GW_QUESTS = {
       "givers": [664],
       "xp": 2025,
       "gold": 2007,
-      "wiki": "https://www.guildwiki.de/wiki/Miniatur-Gefährte:_Auge_des_Nordens"
+      "wiki": {"en": "Miniature Companion: Eye of the North", "de": "Miniatur-Gefährte: Auge des Nordens"}
     },
     "100159": {
       "name": "Miniature Companion: Factions",
@@ -1422,7 +1435,7 @@ const GW_QUESTS = {
       "givers": [664],
       "xp": 2025,
       "gold": 2006,
-      "wiki": "https://www.guildwiki.de/wiki/Miniatur-Gefährte:_Fraktionen"
+      "wiki": {"en": "Miniature Companion: Factions", "de": "Miniatur-Gefährte: Fraktionen"}
     },
     "100160": {
       "name": "Miniature Companion: Nightfall",
@@ -1430,7 +1443,7 @@ const GW_QUESTS = {
       "givers": [664],
       "xp": 2025,
       "gold": 2006,
-      "wiki": "https://www.guildwiki.de/wiki/Miniatur-Gefährte:_Anbruch_der_Nacht"
+      "wiki": {"en": "Miniature Companion: Nightfall", "de": "Miniatur-Gefährte: Anbruch der Nacht"}
     },
     "100161": {
       "name": "Miniature Companion: Prophecies",
@@ -1438,7 +1451,7 @@ const GW_QUESTS = {
       "givers": [664],
       "xp": 2025,
       "gold": 2005,
-      "wiki": "https://www.guildwiki.de/wiki/Miniatur-Gefährte:_Prophezeiungen"
+      "wiki": {"en": "Miniature Companion: Prophecies", "de": "Miniatur-Gefährte: Prophezeiungen"}
     },
     "100162": {
       "name": "Miniature Companion: Sorrow's Furnace",
@@ -1446,7 +1459,7 @@ const GW_QUESTS = {
       "givers": [664],
       "xp": 2025,
       "gold": 2005,
-      "wiki": "https://www.guildwiki.de/wiki/Miniatur-Gefährte:_Hochofen_der_Betrübnis"
+      "wiki": {"en": "Miniature Companion: Sorrow's Furnace", "de": "Miniatur-Gefährte: Hochofen der Betrübnis"}
     },
     "100163": {
       "name": "Miniature Companion: The Deep",
@@ -1454,7 +1467,7 @@ const GW_QUESTS = {
       "givers": [664],
       "xp": 2025,
       "gold": 2006,
-      "wiki": "https://www.guildwiki.de/wiki/Miniatur-Gefährte:_Die_Tiefe"
+      "wiki": {"en": "Miniature Companion: The Deep", "de": "Miniatur-Gefährte: Die Tiefe"}
     },
     "100164": {
       "name": "Miniature Companion: The Domain of Anguish",
@@ -1462,7 +1475,7 @@ const GW_QUESTS = {
       "givers": [664],
       "xp": 2025,
       "gold": 2006,
-      "wiki": "https://www.guildwiki.de/wiki/Miniatur-Gefährte:_Die_Domäne_der_Pein"
+      "wiki": {"en": "Miniature Companion: The Domain of Anguish", "de": "Miniatur-Gefährte: Die Domäne der Pein"}
     },
     "100165": {
       "name": "Miniature Companion: The Fissure of Woe",
@@ -1470,7 +1483,7 @@ const GW_QUESTS = {
       "givers": [664],
       "xp": 2025,
       "gold": 2006,
-      "wiki": "https://www.guildwiki.de/wiki/Miniatur-Gefährte:_Der_Riss_des_Kummers"
+      "wiki": {"en": "Miniature Companion: The Fissure of Woe", "de": "Miniatur-Gefährte: Der Riss des Kummers"}
     },
     "100166": {
       "name": "Miniature Companion: The Underworld",
@@ -1478,7 +1491,7 @@ const GW_QUESTS = {
       "givers": [664],
       "xp": 2025,
       "gold": 2006,
-      "wiki": "https://www.guildwiki.de/wiki/Miniatur-Gefährte:_Die_Unterwelt"
+      "wiki": {"en": "Miniature Companion: The Underworld", "de": "Miniatur-Gefährte: Die Unterwelt"}
     },
     "100167": {
       "name": "Miniature Companion: Urgoz's Warren",
@@ -1486,7 +1499,7 @@ const GW_QUESTS = {
       "givers": [664],
       "xp": 2025,
       "gold": 2006,
-      "wiki": "https://www.guildwiki.de/wiki/Miniatur-Gefährte:_Urgoz'_Bau"
+      "wiki": {"en": "Miniature Companion: Urgoz's Warren", "de": "Miniatur-Gefährte: Urgoz' Bau"}
     },
     "100168": {
       "name": "Miniature Companion: Young Heroes",
@@ -1494,7 +1507,7 @@ const GW_QUESTS = {
       "givers": [664],
       "xp": 2025,
       "gold": 2006,
-      "wiki": "https://www.guildwiki.de/wiki/Miniatur-Gefährte:_Junge_Helden"
+      "wiki": {"en": "Miniature Companion: Young Heroes", "de": "Miniatur-Gefährte: Junge Helden"}
     },
     "100169": {
       "name": "Minister Cho's Estate (Zaishen quest)",
@@ -1502,7 +1515,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 1000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Minister_Chos_Anwesen_(Zaishen-Mission)"
+      "wiki": {"en": "Minister Cho's Estate (Zaishen quest)", "de": "Minister Chos Anwesen (Zaishen-Mission)"}
     },
     "100170": {
       "name": "Minister Cho's Estate (Zaishen vanquish)",
@@ -1510,7 +1523,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Minister_Chos_Anwesen_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Minister Cho's Estate (Zaishen vanquish)", "de": "Minister Chos Anwesen (Zaishen-Bezwingung)"}
     },
     "100171": {
       "name": "Mobrin, Lord of the Marsh (Zaishen quest)",
@@ -1519,7 +1532,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["1,250 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Mobrin,_Herr_des_Sumpfes_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Mobrin, Lord of the Marsh (Zaishen quest)", "de": "Mobrin, Herr des Sumpfes (Zaishen-Kopfgeld)"}
     },
     "100172": {
       "name": "Moddok Crevice (Zaishen quest)",
@@ -1528,7 +1541,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 500,
       "rewards": ["300 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Moddok-Spalte_(Zaishen-Mission)"
+      "wiki": {"en": "Moddok Crevice (Zaishen quest)", "de": "Moddok-Spalte (Zaishen-Mission)"}
     },
     "100173": {
       "name": "Mohby Windbeak (Zaishen quest)",
@@ -1537,7 +1550,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["500 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Mohby_Windschnabel_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Mohby Windbeak (Zaishen quest)", "de": "Mohby Windschnabel (Zaishen-Kopfgeld)"}
     },
     "100174": {
       "name": "Molotov Rocktail (Zaishen quest)",
@@ -1546,7 +1559,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["1,250 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Molotov_Felsschweif_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Molotov Rocktail (Zaishen quest)", "de": "Molotov Felsschweif (Zaishen-Kopfgeld)"}
     },
     "100175": {
       "name": "Morostav Trail (Zaishen vanquish)",
@@ -1555,7 +1568,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["10,000 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Morostovweg_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Morostav Trail (Zaishen vanquish)", "de": "Morostovweg (Zaishen-Bezwingung)"}
     },
     "100176": {
       "name": "Mount Qinkai (Zaishen vanquish)",
@@ -1564,7 +1577,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["7,000 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Qinkai_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Mount Qinkai (Zaishen vanquish)", "de": "Qinkai (Zaishen-Bezwingung)"}
     },
     "100177": {
       "name": "Mourning Veil Falls (Zaishen vanquish)",
@@ -1573,7 +1586,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["7,000 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Trauerflorfälle_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Mourning Veil Falls (Zaishen vanquish)", "de": "Trauerflorfälle (Zaishen-Bezwingung)"}
     },
     "100178": {
       "name": "Mungri Magicbox (Zaishen quest)",
@@ -1582,7 +1595,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["500 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Mungri_Magiebox_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Mungri Magicbox (Zaishen quest)", "de": "Mungri Magiebox (Zaishen-Kopfgeld)"}
     },
     "100179": {
       "name": "Murakai, Lady of the Night (Zaishen quest)",
@@ -1591,7 +1604,10 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Murakai,_Herrin_der_Nacht_(Zaishen-Kopfgeld)"
+      "wiki": {
+        "en": "Murakai, Lady of the Night (Zaishen quest)",
+        "de": "Murakai, Herrin der Nacht (Zaishen-Kopfgeld)"
+      }
     },
     "100180": {
       "name": "Myish, Lady of the Lake (Zaishen quest)",
@@ -1600,7 +1616,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["500 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Myish,_Herrin_des_Sees_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Myish, Lady of the Lake (Zaishen quest)", "de": "Myish, Herrin des Sees (Zaishen-Kopfgeld)"}
     },
     "100181": {
       "name": "Nahpui Quarter (Zaishen quest)",
@@ -1608,7 +1624,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Nahpuiviertel_(Zaishen-Mission)"
+      "wiki": {"en": "Nahpui Quarter (Zaishen quest)", "de": "Nahpuiviertel (Zaishen-Mission)"}
     },
     "100182": {
       "name": "Nahpui Quarter (Zaishen vanquish)",
@@ -1616,7 +1632,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Nahpuiviertel_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Nahpui Quarter (Zaishen vanquish)", "de": "Nahpuiviertel (Zaishen-Bezwingung)"}
     },
     "100183": {
       "name": "Nebo Terrace (Zaishen vanquish)",
@@ -1624,7 +1640,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Nebo-Terrasse_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Nebo Terrace (Zaishen vanquish)", "de": "Nebo-Terrasse (Zaishen-Bezwingung)"}
     },
     "100184": {
       "name": "Nolani Academy (Zaishen quest)",
@@ -1632,7 +1648,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 1000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Nolani-Akademie_(Zaishen-Mission)"
+      "wiki": {"en": "Nolani Academy (Zaishen quest)", "de": "Nolani-Akademie (Zaishen-Mission)"}
     },
     "100185": {
       "name": "Norrhart Domains (Zaishen vanquish)",
@@ -1641,7 +1657,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["3,500 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Norrhart-Gebiete_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Norrhart Domains (Zaishen vanquish)", "de": "Norrhart-Gebiete (Zaishen-Bezwingung)"}
     },
     "100186": {
       "name": "North Kryta Province (Zaishen vanquish)",
@@ -1649,7 +1665,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Provinz_Nordkryta_(Zaishen-Bezwingung)"
+      "wiki": {"en": "North Kryta Province (Zaishen vanquish)", "de": "Provinz Nordkryta (Zaishen-Bezwingung)"}
     },
     "100187": {
       "name": "Nulfastu Earthbound (Zaishen quest)",
@@ -1658,7 +1674,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["1,250 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Nulfastu_Erdgebundener_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Nulfastu, Earthbound (Zaishen quest)", "de": "Nulfastu Erdgebundener (Zaishen-Kopfgeld)"}
     },
     "100188": {
       "name": "Nundu Bay (Zaishen quest)",
@@ -1667,7 +1683,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["500 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Nundu-Bucht_(Zaishen-Mission)"
+      "wiki": {"en": "Nundu Bay (Zaishen quest)", "de": "Nundu-Bucht (Zaishen-Mission)"}
     },
     "100189": {
       "name": "Old Ascalon (Zaishen vanquish)",
@@ -1675,7 +1691,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Alt-Ascalon_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Old Ascalon (Zaishen vanquish)", "de": "Alt-Ascalon (Zaishen-Bezwingung)"}
     },
     "100190": {
       "name": "Panjiang Peninsula (Zaishen vanquish)",
@@ -1683,7 +1699,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Panjiang-Halbinsel_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Panjiang Peninsula (Zaishen vanquish)", "de": "Panjiang-Halbinsel (Zaishen-Bezwingung)"}
     },
     "100191": {
       "name": "Perdition Rock (Zaishen vanquish)",
@@ -1691,7 +1707,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 15000,
       "gold": 2000,
-      "wiki": "https://www.guildwiki.de/wiki/Fels_der_Verdammnis_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Perdition Rock (Zaishen vanquish)", "de": "Fels der Verdammnis (Zaishen-Bezwingung)"}
     },
     "100192": {
       "name": "Pilgrimage to the Hall of Heroes",
@@ -1699,7 +1715,7 @@ const GW_QUESTS = {
       "givers": [694],
       "event": 5,
       "repeatable": true,
-      "wiki": "https://www.guildwiki.de/wiki/Pilgerreise_zur_Halle_der_Helden"
+      "wiki": {"en": "Pilgrimage to the Hall of Heroes", "de": "Pilgerreise zur Halle der Helden"}
     },
     "100193": {
       "name": "Plague of Destruction (Zaishen quest)",
@@ -1708,7 +1724,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Seuche_der_Zerstörung_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Plague of Destruction (Zaishen quest)", "de": "Seuche der Zerstörung (Zaishen-Kopfgeld)"}
     },
     "100194": {
       "name": "Plains of Jarin (Zaishen vanquish)",
@@ -1717,7 +1733,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear points"],
-      "wiki": "https://www.guildwiki.de/wiki/Flachland_von_Jarin_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Plains of Jarin (Zaishen vanquish)", "de": "Flachland von Jarin (Zaishen-Bezwingung)"}
     },
     "100195": {
       "name": "Pockmark Flats (Zaishen vanquish)",
@@ -1725,7 +1741,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Pockennarbenebene_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Pockmark Flats (Zaishen vanquish)", "de": "Pockennarbenebene (Zaishen-Bezwingung)"}
     },
     "100196": {
       "name": "Pogahn Passage (Zaishen quest)",
@@ -1734,7 +1750,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["500 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Passage_von_Pogahn_(Zaishen-Mission)"
+      "wiki": {"en": "Pogahn Passage (Zaishen quest)", "de": "Passage von Pogahn (Zaishen-Mission)"}
     },
     "100197": {
       "name": "Poisoned Outcrops (Zaishen vanquish)",
@@ -1743,7 +1759,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["1,000 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Giftige_Auswüchse_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Poisoned Outcrops (Zaishen vanquish)", "de": "Giftige Auswüchse (Zaishen-Bezwingung)"}
     },
     "100198": {
       "name": "Pongmei Valley (Zaishen vanquish)",
@@ -1751,7 +1767,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Pongmei-Tal_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Pongmei Valley (Zaishen vanquish)", "de": "Pongmei-Tal (Zaishen-Bezwingung)"}
     },
     "100199": {
       "name": "Priest of Menzies (Zaishen quest)",
@@ -1759,7 +1775,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Menzies'_Priester_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Priest of Menzies (Zaishen quest)", "de": "Menzies' Priester (Zaishen-Kopfgeld)"}
     },
     "100200": {
       "name": "Prismatic Ooze (Zaishen quest)",
@@ -1768,7 +1784,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Spektral-Schleim_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Prismatic Ooze (Zaishen quest)", "de": "Spektral-Schleim (Zaishen-Kopfgeld)"}
     },
     "100201": {
       "name": "Prophet's Path (Zaishen vanquish)",
@@ -1776,7 +1792,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 15000,
       "gold": 2000,
-      "wiki": "https://www.guildwiki.de/wiki/Pfad_des_Propheten_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Prophet's Path (Zaishen vanquish)", "de": "Pfad des Propheten (Zaishen-Bezwingung)"}
     },
     "100202": {
       "name": "Pywatt the Swift (Zaishen quest)",
@@ -1785,7 +1801,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["500 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Pywatt_der_Schnelle_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Pywatt the Swift (Zaishen quest)", "de": "Pywatt der Schnelle (Zaishen-Kopfgeld)"}
     },
     "100203": {
       "name": "Quansong Spiritspeak (Zaishen quest)",
@@ -1793,7 +1809,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 1000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Quansong_Geistsprecher_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Quansong Spiritspeak (Zaishen quest)", "de": "Quansong Geistsprecher (Zaishen-Kopfgeld)"}
     },
     "100204": {
       "name": "Raisu Palace (Zaishen quest)",
@@ -1801,7 +1817,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Raisu-Palast_(Zaishen-Mission)"
+      "wiki": {"en": "Raisu Palace (Zaishen quest)", "de": "Raisu-Palast (Zaishen-Mission)"}
     },
     "100205": {
       "name": "Raisu Palace (Zaishen vanquish)",
@@ -1809,7 +1825,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Raisu-Palast_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Raisu Palace (Zaishen vanquish)", "de": "Raisu-Palast (Zaishen-Bezwingung)"}
     },
     "100206": {
       "name": "Rand Stormweaver (Zaishen quest)",
@@ -1818,7 +1834,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Rand_Sturmweber_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Rand Stormweaver (Zaishen quest)", "de": "Rand Sturmweber (Zaishen-Kopfgeld)"}
     },
     "100207": {
       "name": "Random Arena (Zaishen quest)",
@@ -1826,7 +1842,7 @@ const GW_QUESTS = {
       "givers": [223],
       "gold": 500,
       "rewards": ["3000 Balthazar faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Zufallsarenen_(Zaishen-Kampf)"
+      "wiki": {"en": "Random Arena (Zaishen quest)", "de": "Zufallsarenen (Zaishen-Kampf)"}
     },
     "100208": {
       "name": "Reed Bog (Zaishen vanquish)",
@@ -1834,7 +1850,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Schilfmoor_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Reed Bog (Zaishen vanquish)", "de": "Schilfmoor (Zaishen-Bezwingung)"}
     },
     "100209": {
       "name": "Regent Valley (Zaishen vanquish)",
@@ -1842,7 +1858,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Regentental_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Regent Valley (Zaishen vanquish)", "de": "Regentental (Zaishen-Bezwingung)"}
     },
     "100210": {
       "name": "Remnant of Antiquities (Zaishen quest)",
@@ -1851,7 +1867,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Überrest_der_Vorzeit_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Remnant of Antiquities (Zaishen quest)", "de": "Überrest der Vorzeit (Zaishen-Kopfgeld)"}
     },
     "100211": {
       "name": "Resplendent Makuun (Zaishen vanquish)",
@@ -1860,7 +1876,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Makuun_die_Leuchtende_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Resplendent Makuun (Zaishen vanquish)", "de": "Makuun die Leuchtende (Zaishen-Bezwingung)"}
     },
     "100212": {
       "name": "Restore the Temple of War",
@@ -1873,8 +1889,7 @@ const GW_QUESTS = {
         [0, "Return to Eternal Forgemaster for your reward."]
       ],
       "requires": [100055],
-      "wiki": "https://www.guildwiki.de/wiki/Stellt_den_Tempel_des_Krieges_wieder_her",
-      "wiki_en": "https://web.archive.org/web/20260807155048/https://wiki.guildwars.com/wiki/Restore_the_Temple_of_War"
+      "wiki": {"en": "Restore the Temple of War", "de": "Stellt den Tempel des Krieges wieder her"}
     },
     "100213": {
       "name": "Restoring Grenth's Monuments",
@@ -1893,8 +1908,7 @@ const GW_QUESTS = {
       ],
       "requires": [100041],
       "next": [100120, 100325, 100231, 100058, 100270, 100256],
-      "wiki": "https://www.guildwiki.de/wiki/Grenths_Monumente_wiederherstellen",
-      "wiki_en": "https://web.archive.org/web/20260717161145/https://wiki.guildwars.com/wiki/Restoring_Grenth%27s_Monuments"
+      "wiki": {"en": "Restoring Grenth's Monuments", "de": "Grenths Monumente wiederherstellen"}
     },
     "100214": {
       "name": "Rhea's Crater (Zaishen vanquish)",
@@ -1903,7 +1917,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["7,000 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Rheas_Krater_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Rhea's Crater (Zaishen vanquish)", "de": "Rheas Krater (Zaishen-Bezwingung)"}
     },
     "100215": {
       "name": "Rilohn Refuge (Zaishen quest)",
@@ -1912,7 +1926,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 500,
       "rewards": ["300 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Rilohn-Refugium_(Zaishen-Mission)"
+      "wiki": {"en": "Rilohn Refuge (Zaishen quest)", "de": "Rilohn-Refugium (Zaishen-Mission)"}
     },
     "100216": {
       "name": "Ring of Fire (Zaishen quest)",
@@ -1920,7 +1934,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Feuerring_(Zaishen-Mission)"
+      "wiki": {"en": "Ring of Fire (Zaishen quest)", "de": "Feuerring (Zaishen-Mission)"}
     },
     "100217": {
       "name": "Riven Earth (Zaishen vanquish)",
@@ -1929,7 +1943,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["5,000 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Zerrissene_Erde_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Riven Earth (Zaishen vanquish)", "de": "Zerrissene Erde (Zaishen-Bezwingung)"}
     },
     "100218": {
       "name": "Riverside Province (Zaishen quest)",
@@ -1937,7 +1951,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Flussuferprovinz_(Zaishen-Mission)"
+      "wiki": {"en": "Riverside Province (Zaishen quest)", "de": "Flussuferprovinz (Zaishen-Mission)"}
     },
     "100219": {
       "name": "Rotscale (Zaishen quest)",
@@ -1945,7 +1959,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Faulschuppe_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Rotscale (Zaishen quest)", "de": "Faulschuppe (Zaishen-Kopfgeld)"}
     },
     "100220": {
       "name": "Royen Beastkeeper (Zaishen quest)",
@@ -1953,7 +1967,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 1000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Royen_Bestienwärter_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Royen Beastkeeper (Zaishen quest)", "de": "Royen Bestienwärter (Zaishen-Kopfgeld)"}
     },
     "100221": {
       "name": "Rragar Maneater (Zaishen quest)",
@@ -1962,7 +1976,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Rragar_Menschenfresser_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Rragar Maneater (Zaishen quest)", "de": "Rragar Menschenfresser (Zaishen-Kopfgeld)"}
     },
     "100222": {
       "name": "Ruins of Morah (Zaishen quest)",
@@ -1971,7 +1985,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["500 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Ruinen_von_Morah_(Zaishen-Mission)"
+      "wiki": {"en": "Ruins of Morah (Zaishen quest)", "de": "Ruinen von Morah (Zaishen-Mission)"}
     },
     "100223": {
       "name": "Ruins of Surmia (Zaishen quest)",
@@ -1979,7 +1993,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 1000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Ruinen_von_Surmia_(Zaishen-Mission)"
+      "wiki": {"en": "Ruins of Surmia (Zaishen quest)", "de": "Ruinen von Surmia (Zaishen-Mission)"}
     },
     "100224": {
       "name": "Sacnoth Valley (Zaishen vanquish)",
@@ -1988,7 +2002,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["5,000 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Sacnoth-Tal_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Sacnoth Valley (Zaishen vanquish)", "de": "Sacnoth-Tal (Zaishen-Bezwingung)"}
     },
     "100225": {
       "name": "Sage Lands (Zaishen vanquish)",
@@ -1996,7 +2010,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Land_der_Weisen_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Sage Lands (Zaishen vanquish)", "de": "Land der Weisen (Zaishen-Bezwingung)"}
     },
     "100226": {
       "name": "Salt Flats (Zaishen vanquish)",
@@ -2004,7 +2018,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Salzebenen_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Salt Flats (Zaishen vanquish)", "de": "Salzebenen (Zaishen-Bezwingung)"}
     },
     "100227": {
       "name": "Sanctum Cay (Zaishen quest)",
@@ -2012,7 +2026,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Riff_der_Stille_(Zaishen-Mission)"
+      "wiki": {"en": "Sanctum Cay (Zaishen quest)", "de": "Riff der Stille (Zaishen-Mission)"}
     },
     "100228": {
       "name": "Saoshang Trail (Zaishen vanquish)",
@@ -2020,7 +2034,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Saoshangweg_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Saoshang Trail (Zaishen vanquish)", "de": "Saoshangweg (Zaishen-Bezwingung)"}
     },
     "100229": {
       "name": "Scoundrel's Rise (Zaishen vanquish)",
@@ -2028,7 +2042,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Schurkenhügel_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Scoundrel's Rise (Zaishen vanquish)", "de": "Schurkenhügel (Zaishen-Bezwingung)"}
     },
     "100230": {
       "name": "Selvetarm (Zaishen quest)",
@@ -2037,7 +2051,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Selvetarm_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Selvetarm (Zaishen quest)", "de": "Selvetarm (Zaishen-Kopfgeld)"}
     },
     "100231": {
       "name": "Servants of Grenth",
@@ -2051,8 +2065,7 @@ const GW_QUESTS = {
         [0, "Return to the Reaper of the Ice Wastes for your reward."]
       ],
       "requires": [100213],
-      "wiki": "https://www.guildwiki.de/wiki/Grenths_Diener",
-      "wiki_en": "https://web.archive.org/web/20260624125655/https://wiki.guildwars.com/wiki/Servants_of_Grenth"
+      "wiki": {"en": "Servants of Grenth", "de": "Grenths Diener"}
     },
     "100232": {
       "name": "Shadow's Passage (Zaishen vanquish)",
@@ -2060,7 +2073,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Schattenpassage_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Shadow's Passage (Zaishen vanquish)", "de": "Schattenpassage (Zaishen-Bezwingung)"}
     },
     "100233": {
       "name": "Shenzun Tunnels (Zaishen vanquish)",
@@ -2068,7 +2081,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Shenzun-Tunnel_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Shenzun Tunnels (Zaishen vanquish)", "de": "Shenzun-Tunnel (Zaishen-Bezwingung)"}
     },
     "100234": {
       "name": "Silent Surf (Zaishen vanquish)",
@@ -2077,7 +2090,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["7,000 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Stumme_Brandung_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Silent Surf (Zaishen vanquish)", "de": "Stumme Brandung (Zaishen-Bezwingung)"}
     },
     "100235": {
       "name": "Silverwood (Zaishen vanquish)",
@@ -2085,7 +2098,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Silberholz_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Silverwood (Zaishen vanquish)", "de": "Silberholz (Zaishen-Bezwingung)"}
     },
     "100236": {
       "name": "Skyward Reach (Zaishen vanquish)",
@@ -2093,7 +2106,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Himmelsspitze_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Skyward Reach (Zaishen vanquish)", "de": "Himmelsspitze (Zaishen-Bezwingung)"}
     },
     "100237": {
       "name": "Slaves of Menzies",
@@ -2105,8 +2118,7 @@ const GW_QUESTS = {
         [0, "Destroy the Shadow Overlords. [sic] You have [4...0] Shadow Overlords left."],
         [0, "Return to Miko the Unchained for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Sklaven_von_Menzies",
-      "wiki_en": "https://web.archive.org/web/20260214234403/https://wiki.guildwars.com/wiki/Slaves_of_Menzies"
+      "wiki": {"en": "Slaves of Menzies", "de": "Sklaven von Menzies"}
     },
     "100238": {
       "name": "Snake Dance  (Zaishen vanquish)",
@@ -2114,7 +2126,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 15000,
       "gold": 2000,
-      "wiki": "https://www.guildwiki.de/wiki/Schlangentanz_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Snake Dance (Zaishen vanquish)", "de": "Schlangentanz (Zaishen-Bezwingung)"}
     },
     "100239": {
       "name": "Sparkfly Swamp (Zaishen vanquish)",
@@ -2123,7 +2135,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["5,000 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Funkenschwärmersumpf_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Sparkfly Swamp (Zaishen vanquish)", "de": "Funkenschwärmersumpf (Zaishen-Bezwingung)"}
     },
     "100240": {
       "name": "Spearhead Peak (Zaishen vanquish)",
@@ -2131,7 +2143,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Speerspitzengipfel_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Spearhead Peak (Zaishen vanquish)", "de": "Speerspitzengipfel (Zaishen-Bezwingung)"}
     },
     "100241": {
       "name": "Ssuns, Blessed of Dwayna (Zaishen quest)",
@@ -2140,7 +2152,10 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["500 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Ssuns_der_von_Dwayna_Gesegnete_(Zaishen-Kopfgeld)"
+      "wiki": {
+        "en": "Ssuns, Blessed of Dwayna (Zaishen quest)",
+        "de": "Ssuns der von Dwayna Gesegnete (Zaishen-Kopfgeld)"
+      }
     },
     "100242": {
       "name": "Stingray Strand (Zaishen vanquish)",
@@ -2148,7 +2163,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Stachelrochenstrand_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Stingray Strand (Zaishen vanquish)", "de": "Stachelrochenstrand (Zaishen-Bezwingung)"}
     },
     "100243": {
       "name": "Sunjiang District (Zaishen quest)",
@@ -2156,7 +2171,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Sunjiang-Bezirk_(Zaishen-Mission)"
+      "wiki": {"en": "Sunjiang District (Zaishen quest)", "de": "Sunjiang-Bezirk (Zaishen-Mission)"}
     },
     "100244": {
       "name": "Sunjiang District (Zaishen vanquish)",
@@ -2164,7 +2179,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Sunjiang-Bezirk_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Sunjiang District (Zaishen vanquish)", "de": "Sunjiang-Bezirk (Zaishen-Bezwingung)"}
     },
     "100245": {
       "name": "Sunqua Vale (Zaishen vanquish)",
@@ -2172,7 +2187,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Sunqua-Tal_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Sunqua Vale (Zaishen vanquish)", "de": "Sunqua-Tal (Zaishen-Bezwingung)"}
     },
     "100246": {
       "name": "Sunward Marches (Zaishen vanquish)",
@@ -2181,7 +2196,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Sonnenwärtige_Sümpfe_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Sunward Marches (Zaishen vanquish)", "de": "Sonnenwärtige Sümpfe (Zaishen-Bezwingung)"}
     },
     "100247": {
       "name": "TPS Regulator Golem (Zaishen quest)",
@@ -2190,7 +2205,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/TPS-Regler-Golem_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "TPS Regulator Golem (Zaishen quest)", "de": "TPS-Regler-Golem (Zaishen-Kopfgeld)"}
     },
     "100248": {
       "name": "Tahnnakai Temple (Zaishen quest)",
@@ -2198,7 +2213,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Tahnnakai-Tempel_(Zaishen-Mission)"
+      "wiki": {"en": "Tahnnakai Temple (Zaishen quest)", "de": "Tahnnakai-Tempel (Zaishen-Mission)"}
     },
     "100249": {
       "name": "Tahnnakai Temple (Zaishen vanquish)",
@@ -2206,7 +2221,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Tahnnakai-Tempel_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Tahnnakai Temple (Zaishen vanquish)", "de": "Tahnnakai-Tempel (Zaishen-Bezwingung)"}
     },
     "100250": {
       "name": "Talmark Wilderness (Zaishen vanquish)",
@@ -2214,7 +2229,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Talmark-Wildnis_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Talmark Wilderness (Zaishen vanquish)", "de": "Talmark-Wildnis (Zaishen-Bezwingung)"}
     },
     "100251": {
       "name": "Talus Chute (Zaishen vanquish)",
@@ -2222,7 +2237,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 15000,
       "gold": 2000,
-      "wiki": "https://www.guildwiki.de/wiki/Talusschnelle_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Talus Chute (Zaishen vanquish)", "de": "Talusschnelle (Zaishen-Bezwingung)"}
     },
     "100252": {
       "name": "Tangle Root (Zaishen vanquish)",
@@ -2230,7 +2245,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Wildwurzel_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Tangle Root (Zaishen vanquish)", "de": "Wildwurzel (Zaishen-Bezwingung)"}
     },
     "100253": {
       "name": "Tasca's Demise (Zaishen vanquish)",
@@ -2238,7 +2253,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Tascas_Ableben_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Tasca's Demise (Zaishen vanquish)", "de": "Tascas Ableben (Zaishen-Bezwingung)"}
     },
     "100254": {
       "name": "Team Arena (Zaishen quest)",
@@ -2246,7 +2261,7 @@ const GW_QUESTS = {
       "givers": [223],
       "gold": 1000,
       "rewards": ["6,000 Balthazar faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Team-Arena_(Zaishen-Kampf)"
+      "wiki": {"en": "Team Arena (Zaishen quest)", "de": "Team-Arena (Zaishen-Kampf)"}
     },
     "100255": {
       "name": "Tears of the Fallen (Zaishen vanquish)",
@@ -2254,7 +2269,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Tränen_der_Gefallenen_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Tears of the Fallen (Zaishen vanquish)", "de": "Tränen der Gefallenen (Zaishen-Bezwingung)"}
     },
     "100256": {
       "name": "Terrorweb Queen",
@@ -2267,8 +2282,7 @@ const GW_QUESTS = {
         [0, "Return to Reaper of the Spawning Pools for your reward."]
       ],
       "requires": [100213],
-      "wiki": "https://www.guildwiki.de/wiki/Schrecknetzkönigin_(Quest)",
-      "wiki_en": "https://web.archive.org/web/20260218212422/https://wiki.guildwars.com/wiki/Terrorweb_Queen"
+      "wiki": {"en": "Terrorweb Queen", "de": "Schrecknetzkönigin (Quest)"}
     },
     "100257": {
       "name": "The Alkali Pan (Zaishen vanquish)",
@@ -2277,7 +2291,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["1,000 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Alkalibecken_(Zaishen-Bezwingung)"
+      "wiki": {"en": "The Alkali Pan (Zaishen vanquish)", "de": "Das Alkalibecken (Zaishen-Bezwingung)"}
     },
     "100258": {
       "name": "The Arid Sea (Zaishen vanquish)",
@@ -2285,7 +2299,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Das_Trockene_Meer_(Zaishen-Bezwingung)"
+      "wiki": {"en": "The Arid Sea (Zaishen vanquish)", "de": "Das Trockene Meer (Zaishen-Bezwingung)"}
     },
     "100259": {
       "name": "The Black Beast of Arrgh (Zaishen quest)",
@@ -2294,7 +2308,10 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["750 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Schwarze_Bestie_von_Arrgh_(Zaishen-Kopfgeld)"
+      "wiki": {
+        "en": "The Black Beast of Arrgh (Zaishen quest)",
+        "de": "Die Schwarze Bestie von Arrgh (Zaishen-Kopfgeld)"
+      }
     },
     "100260": {
       "name": "The Black Curtain (Zaishen vanquish)",
@@ -2302,7 +2319,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Schwarze_Vorhang_(Zaishen-Bezwingung)"
+      "wiki": {"en": "The Black Curtain (Zaishen vanquish)", "de": "Der Schwarze Vorhang (Zaishen-Bezwingung)"}
     },
     "100261": {
       "name": "The Breach (Zaishen vanquish)",
@@ -2310,7 +2327,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Bresche_(Zaishen-Bezwingung)"
+      "wiki": {"en": "The Breach (Zaishen vanquish)", "de": "Die Bresche (Zaishen-Bezwingung)"}
     },
     "100262": {
       "name": "The Darkness (Zaishen quest)",
@@ -2318,7 +2335,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Das_Dunkel_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "The Darknesses (Zaishen quest)", "de": "Das Dunkel (Zaishen-Kopfgeld)"}
     },
     "100263": {
       "name": "The Dragon's Lair (Zaishen quest)",
@@ -2326,7 +2343,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Drachenhöhle_(Zaishen-Mission)"
+      "wiki": {"en": "The Dragon's Lair (Zaishen quest)", "de": "Die Drachenhöhle (Zaishen-Mission)"}
     },
     "100264": {
       "name": "The Elusive Golemancer (Zaishen quest)",
@@ -2335,7 +2352,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 500,
       "rewards": ["1,500 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_scheue_Golemantin_(Zaishen-Mission)"
+      "wiki": {"en": "The Elusive Golemancer (Zaishen quest)", "de": "Die scheue Golemantin (Zaishen-Mission)"}
     },
     "100265": {
       "name": "The Eternal Forgemaster",
@@ -2349,8 +2366,7 @@ const GW_QUESTS = {
         [0, "See Eternal Forgemaster for your reward."]
       ],
       "next": [100055],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Herr_der_ewigen_Schmiede",
-      "wiki_en": "https://web.archive.org/web/20260807155025/https://wiki.guildwars.com/wiki/The_Eternal_Forgemaster"
+      "wiki": {"en": "The Eternal Forgemaster", "de": "Der Herr der ewigen Schmiede"}
     },
     "100266": {
       "name": "The Eternal Grove (Zaishen quest)",
@@ -2359,7 +2375,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["2,500 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Ewige_Hain_(Zaishen-Mission)"
+      "wiki": {"en": "The Eternal Grove (Zaishen quest)", "de": "Der Ewige Hain (Zaishen-Mission)"}
     },
     "100267": {
       "name": "The Eternal Grove (Zaishen vanquish)",
@@ -2368,7 +2384,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["7,000 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Ewige_Hain_(Zaishen-Bezwingung)"
+      "wiki": {"en": "The Eternal Grove (Zaishen vanquish)", "de": "Der Ewige Hain (Zaishen-Bezwingung)"}
     },
     "100268": {
       "name": "The Falls (Zaishen vanquish)",
@@ -2376,7 +2392,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 15000,
       "gold": 2000,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Wasserfälle_(Zaishen-Bezwingung)"
+      "wiki": {"en": "The Falls (Zaishen vanquish)", "de": "Die Wasserfälle (Zaishen-Bezwingung)"}
     },
     "100269": {
       "name": "The Floodplain of Mahnkelon (Zaishen vanquish)",
@@ -2385,7 +2401,10 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Schwemmebene_von_Mahnkelon_(Zaishen-Bezwingung)"
+      "wiki": {
+        "en": "The Floodplain of Mahnkelon (Zaishen vanquish)",
+        "de": "Die Schwemmebene von Mahnkelon (Zaishen-Bezwingung)"
+      }
     },
     "100270": {
       "name": "The Four Horsemen",
@@ -2401,8 +2420,7 @@ const GW_QUESTS = {
         [0, "Return to Reaper of the Chaos Planes for your reward."]
       ],
       "requires": [100213],
-      "wiki": "https://www.guildwiki.de/wiki/Die_vier_Reiter",
-      "wiki_en": "https://web.archive.org/web/20260717155346/https://wiki.guildwars.com/wiki/The_Four_Horsemen"
+      "wiki": {"en": "The Four Horsemen", "de": "Die vier Reiter"}
     },
     "100271": {
       "name": "The Four Horsemen (Zaishen quest)",
@@ -2410,7 +2428,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 15000,
       "gold": 2000,
-      "wiki": "https://www.guildwiki.de/wiki/Die_vier_Reiter_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "The Four Horsemen (Zaishen quest)", "de": "Die vier Reiter (Zaishen-Kopfgeld)"}
     },
     "100272": {
       "name": "The Frost Gate (Zaishen quest)",
@@ -2418,7 +2436,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 1000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Das_Frosttor_(Zaishen-Mission)"
+      "wiki": {"en": "The Frost Gate (Zaishen quest)", "de": "Das Frosttor (Zaishen-Mission)"}
     },
     "100273": {
       "name": "The Great Northern Wall (Zaishen quest)",
@@ -2426,7 +2444,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 1000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Große_Nordwall_(Zaishen-Mission)"
+      "wiki": {"en": "The Great Northern Wall (Zaishen quest)", "de": "Der Große Nordwall (Zaishen-Mission)"}
     },
     "100274": {
       "name": "The Greater Darkness (Zaishen quest)",
@@ -2435,7 +2453,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["750 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Große_Dunkel_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "The Greater Darkness (Zaishen quest)", "de": "Das Große Dunkel (Zaishen-Kopfgeld)"}
     },
     "100275": {
       "name": "The Hidden City of Ahdashim (Zaishen vanquish)",
@@ -2444,7 +2462,10 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Verborgene_Stadt_von_Ahdashim_(Zaishen-Bezwingung)"
+      "wiki": {
+        "en": "The Hidden City of Ahdashim (Zaishen vanquish)",
+        "de": "Verborgene Stadt von Ahdashim (Zaishen-Bezwingung)"
+      }
     },
     "100276": {
       "name": "The Hunt",
@@ -2456,8 +2477,7 @@ const GW_QUESTS = {
         [0, "Destroy the Shard Wolves. 7..0 Shard Wolve[s] [sic] remain."],
         [0, "Return to Nimros the Hunter for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Jagd",
-      "wiki_en": "https://web.archive.org/web/20260805221352/https://wiki.guildwars.com/wiki/The_Hunt"
+      "wiki": {"en": "The Hunt", "de": "Die Jagd"}
     },
     "100277": {
       "name": "The Iron Forgeman (Zaishen quest)",
@@ -2465,7 +2485,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Eiserne_Schmied_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "The Iron Forgeman (Zaishen quest)", "de": "Der Eiserne Schmied (Zaishen-Kopfgeld)"}
     },
     "100278": {
       "name": "The Mirror of Lyss (Zaishen vanquish)",
@@ -2474,7 +2494,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Spiegel_von_Lyss_(Zaishen-Bezwingung)"
+      "wiki": {"en": "The Mirror of Lyss (Zaishen vanquish)", "de": "Der Spiegel von Lyss (Zaishen-Bezwingung)"}
     },
     "100279": {
       "name": "The Nameless Masters",
@@ -2482,7 +2502,7 @@ const GW_QUESTS = {
       "givers": [330],
       "rewards": ["Unlocks Zaishen Challenge"],
       "next": [100296],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Namenlose_Meister"
+      "wiki": {"en": "The Nameless Masters", "de": "Der Namenlose Meister"}
     },
     "100280": {
       "name": "The Nightman Cometh",
@@ -2501,14 +2521,13 @@ const GW_QUESTS = {
         [0, "See King Frozenwind for your reward."]
       ],
       "requires": [100120, 100325, 100231, 100058, 100270, 100256],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Nachtmann_kommt",
-      "wiki_en": "https://web.archive.org/web/20260206113456/https://wiki.guildwars.com/wiki/The_Nightman_Cometh"
+      "wiki": {"en": "The Nightman Cometh", "de": "Der Nachtmann kommt"}
     },
     "100281": {
       "name": "The Path of the Zaishen Elite",
       "type": "secondary",
       "givers": [333],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Pfad_der_Zaishen-Elite"
+      "wiki": {"en": "The Path of the Zaishen Elite", "de": "Der Pfad der Zaishen-Elite"}
     },
     "100282": {
       "name": "The Path to Combat: Codex Arena",
@@ -2518,7 +2537,7 @@ const GW_QUESTS = {
       "rewards": ["Strategist's Zaishen Strongbox"],
       "requires": [100285],
       "next": [100286, 100284],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_zum_Kampf:_Kodex-Arena"
+      "wiki": {"en": "The Path to Combat: Codex Arena", "de": "Der Weg zum Kampf: Kodex-Arena"}
     },
     "100283": {
       "name": "The Path to Combat: Guild Battles",
@@ -2528,7 +2547,7 @@ const GW_QUESTS = {
       "rewards": ["Champion's Zaishen Strongbox"],
       "requires": [100286],
       "next": [100287],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_zum_Kampf:_Gildenkämpfe"
+      "wiki": {"en": "The Path to Combat: Guild Battles", "de": "Der Weg zum Kampf: Gildenkämpfe"}
     },
     "100284": {
       "name": "The Path to Combat: Heroes' Ascent",
@@ -2538,7 +2557,7 @@ const GW_QUESTS = {
       "rewards": ["Hero's Zaishen Strongbox"],
       "requires": [100282],
       "next": [100288],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_zum_Kampf:_Aufstieg_der_Helden"
+      "wiki": {"en": "The Path to Combat: Heroes' Ascent", "de": "Der Weg zum Kampf: Aufstieg der Helden"}
     },
     "100285": {
       "name": "The Path to Combat: Random Arena",
@@ -2547,7 +2566,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "rewards": ["Gladiator's Zaishen Strongbox"],
       "next": [100289],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_zum_Kampf:_Zufallsarena"
+      "wiki": {"en": "The Path to Combat: Random Arena", "de": "Der Weg zum Kampf: Zufallsarena"}
     },
     "100286": {
       "name": "The Path to Victory: Codex Arena",
@@ -2557,7 +2576,7 @@ const GW_QUESTS = {
       "rewards": ["Strategist's Zaishen Strongbox"],
       "requires": [100282],
       "next": [100283],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_zum_Sieg:_Kodex-Arena"
+      "wiki": {"en": "The Path to Victory: Codex Arena", "de": "Der Weg zum Sieg: Kodex-Arena"}
     },
     "100287": {
       "name": "The Path to Victory: Guild Battles",
@@ -2566,7 +2585,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "rewards": ["Champion's Zaishen Strongbox"],
       "requires": [100283],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_zum_Sieg:_Gildenkämpfe"
+      "wiki": {"en": "The Path to Victory: Guild Battles", "de": "Der Weg zum Sieg: Gildenkämpfe"}
     },
     "100288": {
       "name": "The Path to Victory: Heroes' Ascent",
@@ -2575,7 +2594,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "rewards": ["Hero's Zaishen Strongbox"],
       "requires": [100284],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_zum_Sieg:_Aufstieg_der_Helden"
+      "wiki": {"en": "The Path to Victory: Heroes' Ascent", "de": "Der Weg zum Sieg: Aufstieg der Helden"}
     },
     "100289": {
       "name": "The Path to Victory: Random Arenas",
@@ -2585,7 +2604,7 @@ const GW_QUESTS = {
       "rewards": ["Gladiator's Zaishen Strongbox"],
       "requires": [100285],
       "next": [100282],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_zum_Sieg:_Zufallsarenen"
+      "wiki": {"en": "The Path to Victory: Random Arenas", "de": "Der Weg zum Sieg: Zufallsarenen"}
     },
     "100290": {
       "name": "The Ruptured Heart (Zaishen vanquish)",
@@ -2594,7 +2613,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["1,000 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Zerrissene_Herz_(Zaishen-Bezwingung)"
+      "wiki": {"en": "The Ruptured Heart (Zaishen vanquish)", "de": "Das Zerrissene Herz (Zaishen-Bezwingung)"}
     },
     "100291": {
       "name": "The Scar (Zaishen vanquish)",
@@ -2602,7 +2621,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 15000,
       "gold": 2000,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Narbe_(Zaishen-Bezwingung)"
+      "wiki": {"en": "The Scar (Zaishen vanquish)", "de": "Die Narbe (Zaishen-Bezwingung)"}
     },
     "100292": {
       "name": "The Shattered Ravines (Zaishen vanquish)",
@@ -2611,7 +2630,10 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["1,000 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Zerklüfteten_Schluchten_(Zaishen-Bezwingung)"
+      "wiki": {
+        "en": "The Shattered Ravines (Zaishen vanquish)",
+        "de": "Die Zerklüfteten Schluchten (Zaishen-Bezwingung)"
+      }
     },
     "100293": {
       "name": "The Stygian Lords (Zaishen quest)",
@@ -2620,7 +2642,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["500 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Stygischen_Fürsten_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "The Stygian Lords (Zaishen quest)", "de": "Die Stygischen Fürsten (Zaishen-Kopfgeld)"}
     },
     "100294": {
       "name": "The Stygian Underlords (Zaishen quest)",
@@ -2629,7 +2651,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["300 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Stygischen_Unterfürsten_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "The Stygian Underlords (Zaishen quest)", "de": "Die Stygischen Unterfürsten (Zaishen-Kopfgeld)"}
     },
     "100295": {
       "name": "The Sulfurous Wastes (Zaishen vanquish)",
@@ -2638,14 +2660,14 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["1,000 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Schwefel-Einöde_(Zaishen-Bezwingung)"
+      "wiki": {"en": "The Sulfurous Wastes (Zaishen vanquish)", "de": "Die Schwefel-Einöde (Zaishen-Bezwingung)"}
     },
     "100296": {
       "name": "The Team Trials",
       "type": "secondary",
       "givers": [330],
       "requires": [100279],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Teamtests"
+      "wiki": {"en": "The Team Trials", "de": "Die Teamtests"}
     },
     "100297": {
       "name": "The Wailing Lord",
@@ -2659,8 +2681,7 @@ const GW_QUESTS = {
         [0, "Return to Rastigan the Eternal for your reward."]
       ],
       "next": [100003],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Herr_der_Klagen",
-      "wiki_en": "https://web.archive.org/web/20260807162941/https://wiki.guildwars.com/wiki/The_Wailing_Lord"
+      "wiki": {"en": "The Wailing Lord", "de": "Der Herr der Klagen"}
     },
     "100298": {
       "name": "The Wilds (Zaishen quest)",
@@ -2668,7 +2689,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Wildnis_(Zaishen-Mission)"
+      "wiki": {"en": "The Wilds (Zaishen quest)", "de": "Die Wildnis (Zaishen-Mission)"}
     },
     "100299": {
       "name": "Thirsty River (Zaishen quest)",
@@ -2676,7 +2697,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Durstiger_Fluss_(Zaishen-Mission)"
+      "wiki": {"en": "Thirsty River (Zaishen quest)", "de": "Durstiger Fluss (Zaishen-Mission)"}
     },
     "100300": {
       "name": "Thunderhead Keep (Zaishen quest)",
@@ -2684,7 +2705,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Feste_Donnerkopf_(Zaishen-Mission)"
+      "wiki": {"en": "Thunderhead Keep (Zaishen quest)", "de": "Feste Donnerkopf (Zaishen-Mission)"}
     },
     "100301": {
       "name": "Tihark Orchard (Zaishen quest)",
@@ -2693,7 +2714,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 500,
       "rewards": ["300 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Obstgarten_von_Tihark_(Zaishen-Mission)"
+      "wiki": {"en": "Tihark Orchard (Zaishen quest)", "de": "Obstgarten von Tihark (Zaishen-Mission)"}
     },
     "100302": {
       "name": "Tower of Courage",
@@ -2707,8 +2728,7 @@ const GW_QUESTS = {
         [0, "Return to Rastigan the Eternal for your reward."]
       ],
       "next": [100297],
-      "wiki": "https://www.guildwiki.de/wiki/Turm_der_Tapferkeit_(Quest)",
-      "wiki_en": "https://web.archive.org/web/20260807152108/https://wiki.guildwars.com/wiki/Tower_of_Courage"
+      "wiki": {"en": "Tower of Courage", "de": "Turm der Tapferkeit (Quest)"}
     },
     "100303": {
       "name": "Tower of Strength",
@@ -2722,8 +2742,7 @@ const GW_QUESTS = {
         [0, "Return to Eternal Lord Taeres for your reward."]
       ],
       "requires": [100055],
-      "wiki": "https://www.guildwiki.de/wiki/Turm_der_Stärke_(Quest)",
-      "wiki_en": "https://web.archive.org/web/20260806161710/https://wiki.guildwars.com/wiki/Tower_of_Strength"
+      "wiki": {"en": "Tower of Strength", "de": "Turm der Stärke (Quest)"}
     },
     "100304": {
       "name": "Traveler's Vale  (Zaishen vanquish)",
@@ -2731,7 +2750,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Tal_des_Reisenden_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Traveler's Vale (Zaishen vanquish)", "de": "Tal des Reisenden (Zaishen-Bezwingung)"}
     },
     "100305": {
       "name": "Turai's Procession (Zaishen vanquish)",
@@ -2740,7 +2759,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["1,000 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Turais_Weg_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Turai's Procession (Zaishen vanquish)", "de": "Turais Weg (Zaishen-Bezwingung)"}
     },
     "100306": {
       "name": "Twin Serpent Lakes (Zaishen vanquish)",
@@ -2748,7 +2767,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Zwillingsschlangenseen_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Twin Serpent Lakes (Zaishen vanquish)", "de": "Zwillingsschlangenseen (Zaishen-Bezwingung)"}
     },
     "100307": {
       "name": "Unwaking Waters (Zaishen quest)",
@@ -2757,7 +2776,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["2,500 Kurzick faction", "2,500 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Verschlafene_Gewässer_(Zaishen-Mission)"
+      "wiki": {"en": "Unwaking Waters (Zaishen quest)", "de": "Verschlafene Gewässer (Zaishen-Mission)"}
     },
     "100308": {
       "name": "Unwaking Waters (Zaishen vanquish)",
@@ -2766,7 +2785,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["7,000 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Verschlafene_Gewässer_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Unwaking Waters (Zaishen vanquish)", "de": "Verschlafene Gewässer (Zaishen-Bezwingung)"}
     },
     "100309": {
       "name": "Unwanted Guests",
@@ -2779,8 +2798,7 @@ const GW_QUESTS = {
         [0, "Return to Reaper of the Labyrinth for your reward."]
       ],
       "requires": [100041],
-      "wiki": "https://www.guildwiki.de/wiki/Ungebetene_Gäste",
-      "wiki_en": "https://web.archive.org/web/20260730143923/https://wiki.guildwars.com/wiki/Unwanted_Guests"
+      "wiki": {"en": "Unwanted Guests", "de": "Ungebetene Gäste"}
     },
     "100310": {
       "name": "Urgoz (Zaishen quest)",
@@ -2789,7 +2807,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["7,500 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Urgoz_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Urgoz (Zaishen quest)", "de": "Urgoz (Zaishen-Kopfgeld)"}
     },
     "100311": {
       "name": "Varajar Fells (Zaishen vanquish)",
@@ -2798,7 +2816,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2000,
       "rewards": ["5,000 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Varajar-Moor_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Varajar Fells (Zaishen vanquish)", "de": "Varajar-Moor (Zaishen-Bezwingung)"}
     },
     "100312": {
       "name": "Vehjin Mines (Zaishen vanquish)",
@@ -2807,7 +2825,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Vehjin-Minen_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Vehjin Mines (Zaishen vanquish)", "de": "Vehjin-Minen (Zaishen-Bezwingung)"}
     },
     "100313": {
       "name": "Vehtendi Valley (Zaishen vanquish)",
@@ -2816,7 +2834,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Vehtendi-Tal_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Vehtendi Valley (Zaishen vanquish)", "de": "Vehtendi-Tal (Zaishen-Bezwingung)"}
     },
     "100314": {
       "name": "Vengeful Aatxe (Zaishen quest)",
@@ -2824,7 +2842,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Rachsüchtiger_Aatxe_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Vengeful Aatxe (Zaishen quest)", "de": "Rachsüchtiger Aatxe (Zaishen-Kopfgeld)"}
     },
     "100315": {
       "name": "Venta Cemetery (Zaishen quest)",
@@ -2833,7 +2851,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 500,
       "rewards": ["300 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Totenanger_von_Venta_(Zaishen-Mission)"
+      "wiki": {"en": "Venta Cemetery (Zaishen quest)", "de": "Totenanger von Venta (Zaishen-Mission)"}
     },
     "100316": {
       "name": "Verata (Zaishen quest)",
@@ -2841,7 +2859,7 @@ const GW_QUESTS = {
       "givers": [190],
       "xp": 1000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Verata_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Verata (Zaishen quest)", "de": "Verata (Zaishen-Kopfgeld)"}
     },
     "100317": {
       "name": "Verdant Cascades (Zaishen vanquish)",
@@ -2850,7 +2868,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["3,500 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Grüne_Kaskaden_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Verdant Cascades (Zaishen vanquish)", "de": "Grüne Kaskaden (Zaishen-Bezwingung)"}
     },
     "100318": {
       "name": "Vizunah Square (Zaishen quest)",
@@ -2858,7 +2876,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Vizunahplatz_(Zaishen-Mission)"
+      "wiki": {"en": "Vizunah Square (Zaishen quest)", "de": "Vizunahplatz (Zaishen-Mission)"}
     },
     "100319": {
       "name": "Vulture Drifts (Zaishen vanquish)",
@@ -2866,7 +2884,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Geierdünen_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Vulture Drifts (Zaishen vanquish)", "de": "Geierdünen (Zaishen-Bezwingung)"}
     },
     "100320": {
       "name": "Wajjun Bazaar (Zaishen vanquish)",
@@ -2874,7 +2892,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Wajjun-Basar_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Wajjun Bazaar (Zaishen vanquish)", "de": "Wajjun-Basar (Zaishen-Bezwingung)"}
     },
     "100321": {
       "name": "Warband of Brothers (Zaishen quest)",
@@ -2883,7 +2901,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 500,
       "rewards": ["1,500 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Brudertrupp_(Zaishen-Mission)"
+      "wiki": {"en": "Warband of Brothers (Zaishen quest)", "de": "Brudertrupp (Zaishen-Mission)"}
     },
     "100322": {
       "name": "Watchtower Coast (Zaishen vanquish)",
@@ -2891,7 +2909,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Wachturmküste_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Watchtower Coast (Zaishen vanquish)", "de": "Wachturmküste (Zaishen-Bezwingung)"}
     },
     "100323": {
       "name": "Wilderness of Bahdza (Zaishen vanquish)",
@@ -2900,7 +2918,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Wildnis_von_Bahdza_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Wilderness of Bahdza (Zaishen vanquish)", "de": "Wildnis von Bahdza (Zaishen-Bezwingung)"}
     },
     "100324": {
       "name": "Witman's Folly (Zaishen vanquish)",
@@ -2908,7 +2926,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Witmans_Torheit_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Witman's Folly (Zaishen vanquish)", "de": "Witmans Torheit (Zaishen-Bezwingung)"}
     },
     "100325": {
       "name": "Wrathful Spirits",
@@ -2921,8 +2939,7 @@ const GW_QUESTS = {
         [0, "Return to the Reaper of the Forgotten Vale for your reward."]
       ],
       "requires": [100213],
-      "wiki": "https://www.guildwiki.de/wiki/Zornige_Geister",
-      "wiki_en": "https://web.archive.org/web/20260624125106/https://wiki.guildwars.com/wiki/Wrathful_Spirits"
+      "wiki": {"en": "Wrathful Spirits", "de": "Zornige Geister"}
     },
     "100326": {
       "name": "Xaquang Skyway (Zaishen vanquish)",
@@ -2930,7 +2947,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Xaquang-Himmelsweg_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Xaquang Skyway (Zaishen vanquish)", "de": "Xaquang-Himmelsweg (Zaishen-Bezwingung)"}
     },
     "100327": {
       "name": "Yatendi Canyons (Zaishen vanquish)",
@@ -2939,7 +2956,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["750 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Yahtendi-Schluchten_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Yatendi Canyons (Zaishen vanquish)", "de": "Yahtendi-Schluchten (Zaishen-Bezwingung)"}
     },
     "100328": {
       "name": "Z'him Monns (Zaishen quest)",
@@ -2948,7 +2965,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Asura reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Z'him_Monns_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Z'him Monns (Zaishen quest)", "de": "Z'him Monns (Zaishen-Kopfgeld)"}
     },
     "100329": {
       "name": "Zehlon Reach (Zaishen vanquish)",
@@ -2957,7 +2974,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["750 Sunspear points"],
-      "wiki": "https://www.guildwiki.de/wiki/Zehlon-Bucht_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Zehlon Reach (Zaishen vanquish)", "de": "Zehlon-Bucht (Zaishen-Bezwingung)"}
     },
     "100330": {
       "name": "Zen Daijun (Zaishen quest)",
@@ -2965,7 +2982,7 @@ const GW_QUESTS = {
       "givers": [185],
       "xp": 1000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Zen_Daijun_(Zaishen-Mission)"
+      "wiki": {"en": "Zen Daijun (Zaishen quest)", "de": "Zen Daijun (Zaishen-Mission)"}
     },
     "100331": {
       "name": "Zen Daijun (Zaishen vanquish)",
@@ -2973,7 +2990,7 @@ const GW_QUESTS = {
       "givers": [191],
       "xp": 10000,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Zen_Daijun_(Zaishen-Bezwingung)"
+      "wiki": {"en": "Zen Daijun (Zaishen vanquish)", "de": "Zen Daijun (Zaishen-Bezwingung)"}
     },
     "100332": {
       "name": "Zinn's Task",
@@ -2982,7 +2999,7 @@ const GW_QUESTS = {
       "xp": 50000,
       "gold": 10000,
       "rewards": ["10 Automaton Summoning Stones", "10 Sinister Automatonics"],
-      "wiki": "https://www.guildwiki.de/wiki/Zinns_Aufgabe"
+      "wiki": {"en": "Zinn's Task", "de": "Zinns Aufgabe"}
     },
     "100333": {
       "name": "Zoldark the Unholy (Zaishen quest)",
@@ -2991,14 +3008,14 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["2,500 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Zoldark_der_Unheilige_(Zaishen-Kopfgeld)"
+      "wiki": {"en": "Zoldark the Unholy (Zaishen quest)", "de": "Zoldark der Unheilige (Zaishen-Kopfgeld)"}
     },
     "100334": {
       "name": "A Gate Too Far",
       "type": "primary",
       "givers": [249],
       "requires": [100454],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Portal_zu_weit"
+      "wiki": {"en": "A Gate Too Far", "de": "Ein Portal zu weit"}
     },
     "100335": {
       "name": "A Good Deed",
@@ -3007,7 +3024,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 500,
       "rewards": ["500 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_gute_Tat."
+      "wiki": {"en": "A Good Deed.", "de": "Eine gute Tat."}
     },
     "100336": {
       "name": "A Hunter's Pride",
@@ -3016,7 +3033,7 @@ const GW_QUESTS = {
       "skills": [2374],
       "rewards": ["100 Norn reputation points", "3 Honeycombs"],
       "requires": [100346],
-      "wiki": "https://www.guildwiki.de/wiki/Jägerstolz"
+      "wiki": {"en": "A Hunter's Pride", "de": "Jägerstolz"}
     },
     "100337": {
       "name": "A Little Help",
@@ -3025,20 +3042,20 @@ const GW_QUESTS = {
       "xp": 2000,
       "rewards": ["250 Asura reputation points"],
       "next": [100361, 100380],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_wenig_Hilfe"
+      "wiki": {"en": "A Little Help", "de": "Ein wenig Hilfe"}
     },
     "100338": {
       "name": "A Time for Heroes",
       "type": "primary",
       "givers": [453],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Zeit_für_Helden"
+      "wiki": {"en": "A Time for Heroes", "de": "Eine Zeit für Helden"}
     },
     "100339": {
       "name": "Against the Charr",
       "type": "primary",
       "givers": [571],
       "next": [100433],
-      "wiki": "https://www.guildwiki.de/wiki/Gegen_die_Charr"
+      "wiki": {"en": "Against the Charr", "de": "Gegen die Charr"}
     },
     "100340": {
       "name": "Against the Destroyers",
@@ -3047,7 +3064,7 @@ const GW_QUESTS = {
       "region": 19,
       "xp": 10000,
       "rewards": ["1,000 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Gegen_die_Zerstörer"
+      "wiki": {"en": "Against the Destroyers", "de": "Gegen die Zerstörer"}
     },
     "100341": {
       "name": "Anything You Can Do",
@@ -3058,14 +3075,14 @@ const GW_QUESTS = {
       "rewards": ["250 Norn reputation points"],
       "requires": [100460],
       "next": [100350],
-      "wiki": "https://www.guildwiki.de/wiki/Was_ich_kann,_könnt_Ihr_auch"
+      "wiki": {"en": "Anything You Can Do", "de": "Was ich kann, könnt Ihr auch"}
     },
     "100342": {
       "name": "Assault on the Stronghold",
       "type": "primary",
       "givers": [307, 308],
       "requires": [100458],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Angriff_auf_die_Festung"
+      "wiki": {"en": "Assault on the Stronghold", "de": "Der Angriff auf die Festung"}
     },
     "100343": {
       "name": "Attack on Jalis's Camp",
@@ -3075,7 +3092,7 @@ const GW_QUESTS = {
       "rewards": ["200 Deldrimor reputation points", "Diamond"],
       "requires": [100389],
       "next": [100374],
-      "wiki": "https://www.guildwiki.de/wiki/Angriff_auf_Jalis'_Lager"
+      "wiki": {"en": "Attack on Jalis's Camp", "de": "Angriff auf Jalis' Lager"}
     },
     "100344": {
       "name": "Be Very, Very Quiet...",
@@ -3085,7 +3102,7 @@ const GW_QUESTS = {
       "rewards": ["100 Ebon Vanguard reputation points"],
       "requires": [100342],
       "next": [100391],
-      "wiki": "https://www.guildwiki.de/wiki/Seid_ganz,_ganz_still_..."
+      "wiki": {"en": "Be Very, Very Quiet...", "de": "Seid ganz, ganz still ..."}
     },
     "100345": {
       "name": "Bear Club for Women / Men",
@@ -3093,14 +3110,14 @@ const GW_QUESTS = {
       "givers": [249, 250],
       "skills": [2361],
       "rewards": ["100 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Bärenkeule"
+      "wiki": {"en": "Bear Club for Women", "de": "Bärenkeule"}
     },
     "100346": {
       "name": "Blood Washes Blood",
       "type": "primary",
       "givers": [243],
       "requires": [100364],
-      "wiki": "https://www.guildwiki.de/wiki/Blut_wäscht_Blut"
+      "wiki": {"en": "Blood Washes Blood", "de": "Blut wäscht Blut"}
     },
     "100347": {
       "name": "Charr Invaders",
@@ -3110,7 +3127,7 @@ const GW_QUESTS = {
       "skills": [2422],
       "rewards": ["150 Ebon Vanguard reputation points"],
       "next": [100411],
-      "wiki": "https://www.guildwiki.de/wiki/Charr-Invasoren"
+      "wiki": {"en": "Charr Invaders", "de": "Charr-Invasoren"}
     },
     "100348": {
       "name": "Charr-broiled Plans",
@@ -3127,7 +3144,7 @@ const GW_QUESTS = {
       ],
       "requires": [100446],
       "next": [100459, 100414],
-      "wiki": "https://www.guildwiki.de/wiki/Langsam_geröstete_Pläne"
+      "wiki": {"en": "Charr-broiled Plans", "de": "Langsam geröstete Pläne"}
     },
     "100349": {
       "name": "Cold Vengeance",
@@ -3135,7 +3152,7 @@ const GW_QUESTS = {
       "givers": [627, 628],
       "xp": 10000,
       "gold": 2000,
-      "wiki": "https://www.guildwiki.de/wiki/Kalte_Rache"
+      "wiki": {"en": "Cold Vengeance", "de": "Kalte Rache"}
     },
     "100350": {
       "name": "Cold as Ice",
@@ -3143,7 +3160,7 @@ const GW_QUESTS = {
       "givers": [315],
       "skills": [2356],
       "rewards": ["500 Norn reputation points", "Perfect Salvage Kit"],
-      "wiki": "https://www.guildwiki.de/wiki/Eiskalt_erwischt"
+      "wiki": {"en": "Cold as Ice", "de": "Eiskalt erwischt"}
     },
     "100351": {
       "name": "Crystal Method",
@@ -3153,7 +3170,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 500,
       "requires": [100362],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Kristall-Methode"
+      "wiki": {"en": "Crystal Method", "de": "Die Kristall-Methode"}
     },
     "100352": {
       "name": "Curse of the Nornbear",
@@ -3161,7 +3178,7 @@ const GW_QUESTS = {
       "givers": [315],
       "requires": [100450],
       "next": [100364, 100454],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Fluch_des_Nornbären"
+      "wiki": {"en": "Curse of the Nornbear", "de": "Der Fluch des Nornbären"}
     },
     "100353": {
       "name": "Deeprunner's Map",
@@ -3171,7 +3188,7 @@ const GW_QUESTS = {
       "skills": [2218],
       "rewards": ["1,500 Deldrimor reputation points"],
       "next": [100384],
-      "wiki": "https://www.guildwiki.de/wiki/Tiefenläufers_Karte"
+      "wiki": {"en": "Deeprunner's Map", "de": "Tiefenläufers Karte"}
     },
     "100354": {
       "name": "Defending the Breach",
@@ -3179,7 +3196,7 @@ const GW_QUESTS = {
       "givers": [387, 319],
       "xp": 5000,
       "gold": 1250,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Bresche_(Quest)"
+      "wiki": {"en": "Defending the Breach", "de": "Die Bresche (Quest)"}
     },
     "100355": {
       "name": "Destruction's Depths",
@@ -3188,7 +3205,7 @@ const GW_QUESTS = {
       "requires": [100372],
       "next": [100338],
       "missions": [673],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Tiefen_der_Zerstörung"
+      "wiki": {"en": "Destruction's Depths", "de": "Die Tiefen der Zerstörung"}
     },
     "100356": {
       "name": "Destructive Research",
@@ -3198,7 +3215,7 @@ const GW_QUESTS = {
       "rewards": ["150 Deldrimor reputation points"],
       "requires": [100389],
       "next": [100434],
-      "wiki": "https://www.guildwiki.de/wiki/Zerstörerische_Forschung"
+      "wiki": {"en": "Destructive Research", "de": "Zerstörerische Forschung"}
     },
     "100357": {
       "name": "Dredging the Depths",
@@ -3206,7 +3223,7 @@ const GW_QUESTS = {
       "givers": [602, 603],
       "xp": 7500,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Hammer_und_Schaufel"
+      "wiki": {"en": "Dredging the Depths", "de": "Hammer und Schaufel"}
     },
     "100358": {
       "name": "Failure to Communicate",
@@ -3216,7 +3233,7 @@ const GW_QUESTS = {
       "rewards": ["100 Ebon Vanguard reputation points"],
       "requires": [100342],
       "next": [100439],
-      "wiki": "https://www.guildwiki.de/wiki/Kommunikationsfehler"
+      "wiki": {"en": "Failure to Communicate", "de": "Kommunikationsfehler"}
     },
     "100359": {
       "name": "Falling Out",
@@ -3226,7 +3243,7 @@ const GW_QUESTS = {
       "rewards": ["100 Ebon Vanguard reputation points"],
       "requires": [100342],
       "next": [100438],
-      "wiki": "https://www.guildwiki.de/wiki/Ausfall"
+      "wiki": {"en": "Falling Out", "de": "Ausfall"}
     },
     "100360": {
       "name": "Final Round: Fight!",
@@ -3234,7 +3251,7 @@ const GW_QUESTS = {
       "givers": [273],
       "rewards": ["150 Norn reputation points", "The Bison Cup", "1 Bison Championship Token"],
       "requires": [100407],
-      "wiki": "https://www.guildwiki.de/wiki/Letzte_Runde:_Kämpft!"
+      "wiki": {"en": "Final Round: Fight!", "de": "Letzte Runde: Kämpft!"}
     },
     "100361": {
       "name": "Finding Gadd",
@@ -3245,7 +3262,7 @@ const GW_QUESTS = {
       "requires": [100337],
       "next": [100362],
       "missions": [661],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Suche_nach_Gadd"
+      "wiki": {"en": "Finding Gadd", "de": "Die Suche nach Gadd"}
     },
     "100362": {
       "name": "Finding the Bloodstone",
@@ -3254,7 +3271,7 @@ const GW_QUESTS = {
       "requires": [100361],
       "next": [100368],
       "missions": [664],
-      "wiki": "https://www.guildwiki.de/wiki/Auf_der_Suche_nach_dem_Blutstein"
+      "wiki": {"en": "Finding the Bloodstone", "de": "Auf der Suche nach dem Blutstein"}
     },
     "100363": {
       "name": "Fire and Pain",
@@ -3264,7 +3281,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "rewards": ["Rose Focus"],
       "requires": [100443],
-      "wiki": "https://www.guildwiki.de/wiki/Feuer_und_Schmerz"
+      "wiki": {"en": "Fire and Pain", "de": "Feuer und Schmerz"}
     },
     "100364": {
       "name": "Flames of the Bear Spirit",
@@ -3275,7 +3292,7 @@ const GW_QUESTS = {
       "requires": [100352],
       "next": [100346],
       "missions": [654],
-      "wiki": "https://www.guildwiki.de/wiki/Flammen_der_Großen_Bärin"
+      "wiki": {"en": "Flames of the Bear Spirit", "de": "Flammen der Großen Bärin"}
     },
     "100365": {
       "name": "Forbidden Fruit",
@@ -3285,7 +3302,7 @@ const GW_QUESTS = {
       "skills": [2230],
       "rewards": ["150 Ebon Vanguard reputation points"],
       "requires": [100391],
-      "wiki": "https://www.guildwiki.de/wiki/Verbotene_Frucht"
+      "wiki": {"en": "Forbidden Fruit", "de": "Verbotene Frucht"}
     },
     "100366": {
       "name": "Forgotten Relics",
@@ -3293,7 +3310,7 @@ const GW_QUESTS = {
       "givers": [767],
       "skills": [2232],
       "rewards": ["100 Ebon Vanguard reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Vergessene_Reliquien"
+      "wiki": {"en": "Forgotten Relics", "de": "Vergessene Reliquien"}
     },
     "100367": {
       "name": "Frogstomp",
@@ -3302,14 +3319,17 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "next": [100370],
-      "wiki": "https://www.guildwiki.de/wiki/Ausgequakt"
+      "wiki": {"en": "Frogstomp", "de": "Ausgequakt"}
     },
     "100368": {
       "name": "Genius Operated Living Enchanted Manifestation",
       "type": "primary",
       "givers": [570],
       "requires": [100337, 100362, 100435],
-      "wiki": "https://www.guildwiki.de/wiki/Geführter_Operand_Lebender_Entfesselter_Magie"
+      "wiki": {
+        "en": "Genius Operated Living Enchanted Manifestation",
+        "de": "Geführter Operand Lebender Entfesselter Magie"
+      }
     },
     "100369": {
       "name": "Giriff's War",
@@ -3317,7 +3337,7 @@ const GW_QUESTS = {
       "givers": [586, 587],
       "xp": 5000,
       "gold": 1250,
-      "wiki": "https://www.guildwiki.de/wiki/Giriffs_Krieg"
+      "wiki": {"en": "Giriff's War", "de": "Giriffs Krieg"}
     },
     "100370": {
       "name": "Give Peace a Chance",
@@ -3325,7 +3345,7 @@ const GW_QUESTS = {
       "givers": [227],
       "xp": 10000,
       "requires": [100367],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Chance_für_den_Frieden"
+      "wiki": {"en": "Give Peace a Chance", "de": "Eine Chance für den Frieden"}
     },
     "100371": {
       "name": "Haunted",
@@ -3333,7 +3353,7 @@ const GW_QUESTS = {
       "givers": [273],
       "hero": [25],
       "xp": 15000,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Heimsuchung"
+      "wiki": {"en": "Haunted", "de": "Die Heimsuchung"}
     },
     "100372": {
       "name": "Heart of the Shiverpeaks",
@@ -3342,7 +3362,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "rewards": ["250 Deldrimor reputation points"],
       "requires": [100389, 100441, 100443],
-      "wiki": "https://www.guildwiki.de/wiki/Herz_der_Zittergipfel_(Quest)"
+      "wiki": {"en": "Heart of the Shiverpeaks (quest)", "de": "Herz der Zittergipfel (Quest)"}
     },
     "100373": {
       "name": "Hero Tutorial",
@@ -3350,7 +3370,7 @@ const GW_QUESTS = {
       "givers": [606],
       "xp": 1000,
       "rewards": ["Burol Ironfist's Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Helden-Tutorial"
+      "wiki": {"en": "Hero Tutorial", "de": "Helden-Tutorial"}
     },
     "100374": {
       "name": "In the Service of Revenge",
@@ -3359,7 +3379,7 @@ const GW_QUESTS = {
       "skills": [2220, 2223],
       "rewards": ["300 Deldrimor reputation points", "Onyx Gemstone"],
       "requires": [100343],
-      "wiki": "https://www.guildwiki.de/wiki/Im_Dienste_der_Rache"
+      "wiki": {"en": "In the Service of Revenge", "de": "Im Dienste der Rache"}
     },
     "100375": {
       "name": "Insidious Remnants",
@@ -3371,7 +3391,7 @@ const GW_QUESTS = {
       "rewards": ["150 Asura reputation points"],
       "requires": [100423],
       "next": [100386],
-      "wiki": "https://www.guildwiki.de/wiki/Heimtückische_Überreste"
+      "wiki": {"en": "Insidious Remnants", "de": "Heimtückische Überreste"}
     },
     "100376": {
       "name": "Kathandrax's Crusher",
@@ -3379,7 +3399,7 @@ const GW_QUESTS = {
       "givers": [632, 633],
       "xp": 7500,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Kathandrax'_Malmer"
+      "wiki": {"en": "Kathandrax's Crusher", "de": "Kathandrax' Malmer"}
     },
     "100377": {
       "name": "Kilroy Stonekin's Punch-Out Extravaganza!",
@@ -3390,7 +3410,7 @@ const GW_QUESTS = {
       "rewards": ["250 Deldrimor reputation points"],
       "requires": [100402],
       "next": [100447],
-      "wiki": "https://www.guildwiki.de/wiki/Kilroy_Steinsipps_Fausthieb-Fete"
+      "wiki": {"en": "Kilroy Stonekin's Punch-Out Extravaganza!", "de": "Kilroy Steinsipps Fausthieb-Fete"}
     },
     "100378": {
       "name": "Kilroy's Punchout Tournament",
@@ -3398,7 +3418,7 @@ const GW_QUESTS = {
       "givers": [619],
       "rewards": ["120 Deldrimor reputation points"],
       "requires": [100447],
-      "wiki": "https://www.guildwiki.de/wiki/Kilroys_Turnier_der_Fliegenden_Fäuste"
+      "wiki": {"en": "Kilroy's Punchout Tournament", "de": "Kilroys Turnier der Fliegenden Fäuste"}
     },
     "100379": {
       "name": "Krak's Cavalry",
@@ -3407,7 +3427,7 @@ const GW_QUESTS = {
       "gold": 1000,
       "skills": [2216],
       "rewards": ["200 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Kraks_Kavallerie"
+      "wiki": {"en": "Krak's Cavalry", "de": "Kraks Kavallerie"}
     },
     "100380": {
       "name": "Lab Space",
@@ -3418,7 +3438,7 @@ const GW_QUESTS = {
       "requires": [100337],
       "next": [100435],
       "missions": [658],
-      "wiki": "https://www.guildwiki.de/wiki/Labor-Suche"
+      "wiki": {"en": "Lab Space", "de": "Labor-Suche"}
     },
     "100381": {
       "name": "Leader of the Pack",
@@ -3427,7 +3447,7 @@ const GW_QUESTS = {
       "skills": [2379],
       "rewards": ["250 Norn reputation points", "Scroll of Hero's Insight"],
       "requires": [100352],
-      "wiki": "https://www.guildwiki.de/wiki/Rudelführer"
+      "wiki": {"en": "Leader of the Pack", "de": "Rudelführer"}
     },
     "100382": {
       "name": "Little Workshop of Horrors",
@@ -3436,7 +3456,7 @@ const GW_QUESTS = {
       "xp": 7500,
       "gold": 1500,
       "requires": [100380],
-      "wiki": "https://www.guildwiki.de/wiki/Die_kleine_Horror-Werkstatt"
+      "wiki": {"en": "Little Workshop of Horrors", "de": "Die kleine Horror-Werkstatt"}
     },
     "100383": {
       "name": "Lost Souls",
@@ -3444,7 +3464,7 @@ const GW_QUESTS = {
       "givers": [769, 770],
       "xp": 7500,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Verlorene_Seelen"
+      "wiki": {"en": "Lost Souls", "de": "Verlorene Seelen"}
     },
     "100384": {
       "name": "Lost Treasure of King Hundar",
@@ -3454,7 +3474,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["The Chest of Wintersday Past appears"],
       "requires": [100353],
-      "wiki": "https://www.guildwiki.de/wiki/Der_verlorene_Schatz_König_Hundars"
+      "wiki": {"en": "Lost Treasure of King Hundar", "de": "Der verlorene Schatz König Hundars"}
     },
     "100385": {
       "name": "Mano a Norn-o",
@@ -3462,7 +3482,7 @@ const GW_QUESTS = {
       "givers": [257],
       "skills": [2228],
       "rewards": ["100 Ebon Vanguard reputation points", "Lockpick"],
-      "wiki": "https://www.guildwiki.de/wiki/Mensch_gegen_Norn"
+      "wiki": {"en": "Mano a Norn-o", "de": "Mensch gegen Norn"}
     },
     "100386": {
       "name": "Moths to a Flame",
@@ -3474,7 +3494,7 @@ const GW_QUESTS = {
       "rewards": ["175 Asura reputation points"],
       "requires": [100375],
       "next": [100440],
-      "wiki": "https://www.guildwiki.de/wiki/Motten_um_eine_Flamme"
+      "wiki": {"en": "Moths to a Flame", "de": "Motten um eine Flamme"}
     },
     "100387": {
       "name": "Norn Catering",
@@ -3484,7 +3504,7 @@ const GW_QUESTS = {
       "gold": 1000,
       "rewards": ["1,500 Ebon Vanguard reputation points"],
       "requires": [100000],
-      "wiki": "https://www.guildwiki.de/wiki/Norn-Verköstigung"
+      "wiki": {"en": "Norn Catering", "de": "Norn-Verköstigung"}
     },
     "100388": {
       "name": "Nornhood",
@@ -3492,7 +3512,7 @@ const GW_QUESTS = {
       "givers": [273],
       "hero": [23],
       "xp": 15000,
-      "wiki": "https://www.guildwiki.de/wiki/Das_Norn-Ritual"
+      "wiki": {"en": "Nornhood", "de": "Das Norn-Ritual"}
     },
     "100389": {
       "name": "Northern Allies",
@@ -3500,7 +3520,7 @@ const GW_QUESTS = {
       "givers": [461],
       "xp": 10000,
       "rewards": ["1000 Norn reputation points", "Monumental Tapestry"],
-      "wiki": "https://www.guildwiki.de/wiki/Verbündete_im_Norden"
+      "wiki": {"en": "Northern Allies", "de": "Verbündete im Norden"}
     },
     "100390": {
       "name": "O Brave New World",
@@ -3509,7 +3529,7 @@ const GW_QUESTS = {
       "skills": [2411],
       "rewards": ["100 Asura reputation points", "Essence of Celerity"],
       "requires": [100435],
-      "wiki": "https://www.guildwiki.de/wiki/Schöne_neue_Welt"
+      "wiki": {"en": "O Brave New World", "de": "Schöne neue Welt"}
     },
     "100391": {
       "name": "Plan A",
@@ -3518,7 +3538,7 @@ const GW_QUESTS = {
       "skills": [2116],
       "rewards": ["100 Ebon Vanguard reputation points", "Lockpick"],
       "next": [100365],
-      "wiki": "https://www.guildwiki.de/wiki/Plan_A"
+      "wiki": {"en": "Plan A", "de": "Plan A"}
     },
     "100392": {
       "name": "Polymock: Defeat Blarp",
@@ -3527,7 +3547,7 @@ const GW_QUESTS = {
       "rewards": ["200 Asura reputation points", "Ice Imp Polymock Piece"],
       "requires": [100398],
       "next": [100394],
-      "wiki": "https://www.guildwiki.de/wiki/Polymock:_Besiegt_Blarp"
+      "wiki": {"en": "Polymock: Defeat Blarp", "de": "Polymock: Besiegt Blarp"}
     },
     "100393": {
       "name": "Polymock: Defeat Dune Teardrinker",
@@ -3537,7 +3557,7 @@ const GW_QUESTS = {
       "rewards": ["250 Asura reputation points", "Aloe Seed Polymock Piece"],
       "requires": [100394, 100433],
       "next": [100396],
-      "wiki": "https://www.guildwiki.de/wiki/Polymock:_Besiegt_Dune_Tränentrinker"
+      "wiki": {"en": "Polymock: Defeat Dune Teardrinker", "de": "Polymock: Besiegt Dune Tränentrinker"}
     },
     "100394": {
       "name": "Polymock: Defeat Fonk",
@@ -3546,7 +3566,7 @@ const GW_QUESTS = {
       "rewards": ["250 Asura reputation points", "Earth Elemental Polymock Piece"],
       "requires": [100392],
       "next": [100395, 100397, 100393],
-      "wiki": "https://www.guildwiki.de/wiki/Polymock:_Besiegt_Fonk"
+      "wiki": {"en": "Polymock: Defeat Fonk", "de": "Polymock: Besiegt Fonk"}
     },
     "100395": {
       "name": "Polymock: Defeat Grulhammer Silverfist",
@@ -3556,7 +3576,7 @@ const GW_QUESTS = {
       "rewards": ["250 Asura reputation points", "Fire Elemental Polymock Piece"],
       "requires": [100394],
       "next": [100396],
-      "wiki": "https://www.guildwiki.de/wiki/Polymock:_Besiegt_Grulhammer_Silberfaust"
+      "wiki": {"en": "Polymock: Defeat Grulhammer Silverfist", "de": "Polymock: Besiegt Grulhammer Silberfaust"}
     },
     "100396": {
       "name": "Polymock: Defeat Master Hoff",
@@ -3565,7 +3585,7 @@ const GW_QUESTS = {
       "skills": [2224],
       "rewards": ["1,000 Asura reputation points", "Mirage Iboga Polymock Piece"],
       "requires": [100395, 100397, 100393],
-      "wiki": "https://www.guildwiki.de/wiki/Polymock:_Besiegt_Meister_Hoff"
+      "wiki": {"en": "Polymock: Defeat Master Hoff", "de": "Polymock: Besiegt Meister Hoff"}
     },
     "100397": {
       "name": "Polymock: Defeat Necromancer Volumandus",
@@ -3575,7 +3595,7 @@ const GW_QUESTS = {
       "rewards": ["250 Asura reputation points", "Ice Elemental Polymock Piece"],
       "requires": [100394],
       "next": [100396],
-      "wiki": "https://www.guildwiki.de/wiki/Polymock:_Besiegt_Nekromant_Volumandus"
+      "wiki": {"en": "Polymock: Defeat Necromancer Volumandus", "de": "Polymock: Besiegt Nekromant Volumandus"}
     },
     "100398": {
       "name": "Polymock: Defeat Plurgg",
@@ -3584,7 +3604,7 @@ const GW_QUESTS = {
       "rewards": ["100 Asura reputation points", "Kappa Polymock Piece"],
       "requires": [100399],
       "next": [100392],
-      "wiki": "https://www.guildwiki.de/wiki/Polymock:_Besiegt_Plurgg"
+      "wiki": {"en": "Polymock: Defeat Plurgg", "de": "Polymock: Besiegt Plurgg"}
     },
     "100399": {
       "name": "Polymock: Defeat Yulma",
@@ -3592,7 +3612,7 @@ const GW_QUESTS = {
       "givers": [696],
       "rewards": ["100 Asura reputation points", "Fire Imp Polymock Piece"],
       "next": [100398],
-      "wiki": "https://www.guildwiki.de/wiki/Polymock:_Besiegt_Yulma"
+      "wiki": {"en": "Polymock: Defeat Yulma", "de": "Polymock: Besiegt Yulma"}
     },
     "100400": {
       "name": "Prenuptial Disagreement",
@@ -3600,7 +3620,7 @@ const GW_QUESTS = {
       "givers": [318, 319],
       "rewards": ["250 Norn reputation points", "Grail of Might"],
       "requires": [100345],
-      "wiki": "https://www.guildwiki.de/wiki/Voreheliche_Verstimmung_(männlich)"
+      "wiki": {"en": "Prenuptial Disagreement (male)", "de": "Voreheliche Verstimmung (männlich)"}
     },
     "100401": {
       "name": "Prenuptial Disagreement",
@@ -3608,7 +3628,7 @@ const GW_QUESTS = {
       "givers": [249, 250],
       "rewards": ["250 Norn reputation points", "Grail of Might"],
       "requires": [100345],
-      "wiki": "https://www.guildwiki.de/wiki/Voreheliche_Verstimmung_(weiblich)"
+      "wiki": {"en": "Prenuptial Disagreement (female)", "de": "Voreheliche Verstimmung (weiblich)"}
     },
     "100402": {
       "name": "Punch the Clown",
@@ -3617,7 +3637,7 @@ const GW_QUESTS = {
       "skills": [2215],
       "rewards": ["100 Deldrimor reputation points"],
       "next": [100377],
-      "wiki": "https://www.guildwiki.de/wiki/Verhaut_den_Hampelmann"
+      "wiki": {"en": "Punch the Clown", "de": "Verhaut den Hampelmann"}
     },
     "100403": {
       "name": "Round 1: Fight!",
@@ -3626,7 +3646,7 @@ const GW_QUESTS = {
       "skills": [2353, 2354, 2357],
       "rewards": ["150 Norn reputation points", "The Bison Cup", "1 Bison Championship Token"],
       "next": [100404],
-      "wiki": "https://www.guildwiki.de/wiki/Ring_frei_zur_ersten_Runde!"
+      "wiki": {"en": "Round 1: Fight!", "de": "Ring frei zur ersten Runde!"}
     },
     "100404": {
       "name": "Round 2: Fight!",
@@ -3635,7 +3655,7 @@ const GW_QUESTS = {
       "rewards": ["150 Norn reputation points", "The Bison Cup", "1 Bison Championship Token"],
       "requires": [100403],
       "next": [100405],
-      "wiki": "https://www.guildwiki.de/wiki/Ring_frei_zur_zweiten_Runde!"
+      "wiki": {"en": "Round 2: Fight!", "de": "Ring frei zur zweiten Runde!"}
     },
     "100405": {
       "name": "Round 3: Fight!",
@@ -3644,7 +3664,7 @@ const GW_QUESTS = {
       "rewards": ["150 Norn reputation points", "The Bison Cup", "1 Bison Championship Token"],
       "requires": [100404],
       "next": [100406],
-      "wiki": "https://www.guildwiki.de/wiki/Ring_frei_zur_dritten_Runde!"
+      "wiki": {"en": "Round 3: Fight!", "de": "Ring frei zur dritten Runde!"}
     },
     "100406": {
       "name": "Round 4: Fight!",
@@ -3653,7 +3673,7 @@ const GW_QUESTS = {
       "rewards": ["150 Norn reputation points", "The Bison Cup", "1 Bison Championship Token"],
       "requires": [100405],
       "next": [100407],
-      "wiki": "https://www.guildwiki.de/wiki/Ring_frei_zur_vierten_Runde!"
+      "wiki": {"en": "Round 4: Fight!", "de": "Ring frei zur vierten Runde!"}
     },
     "100407": {
       "name": "Round 5: Fight!",
@@ -3662,7 +3682,7 @@ const GW_QUESTS = {
       "rewards": ["150 Norn reputation points", "The Bison Cup", "1 Bison Championship Token"],
       "requires": [100406],
       "next": [100360],
-      "wiki": "https://www.guildwiki.de/wiki/Ring_frei_zur_fünften_Runde!"
+      "wiki": {"en": "Round 5: Fight!", "de": "Ring frei zur fünften Runde!"}
     },
     "100408": {
       "name": "Scrambled Reinforcements",
@@ -3671,7 +3691,7 @@ const GW_QUESTS = {
       "repeatable": true,
       "xp": 7500,
       "gold": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Ins_Netz_gegangen"
+      "wiki": {"en": "Scrambled Reinforcements", "de": "Ins Netz gegangen"}
     },
     "100409": {
       "name": "Search for the Ebon Vanguard",
@@ -3681,7 +3701,7 @@ const GW_QUESTS = {
       "rewards": ["250 Ebon Vanguard reputation points"],
       "next": [100339],
       "missions": [665],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Suche_nach_der_Ebon-Vorhut"
+      "wiki": {"en": "Search for the Ebon Vanguard", "de": "Die Suche nach der Ebon-Vorhut"}
     },
     "100410": {
       "name": "Service: In Defense of the Eye",
@@ -3690,7 +3710,7 @@ const GW_QUESTS = {
       "skills": [2420],
       "rewards": ["250 Ebon Vanguard reputation points", "Powerstone of Courage"],
       "requires": [100411],
-      "wiki": "https://www.guildwiki.de/wiki/Dienst:_Die_Verteidigung_des_Auges"
+      "wiki": {"en": "Service: In Defense of the Eye", "de": "Dienst: Die Verteidigung des Auges"}
     },
     "100411": {
       "name": "Service: Practice, Dummy",
@@ -3700,7 +3720,7 @@ const GW_QUESTS = {
       "rewards": ["100 Ebon Vanguard reputation points"],
       "requires": [100347],
       "next": [100410],
-      "wiki": "https://www.guildwiki.de/wiki/Dienst:_Kampfübung"
+      "wiki": {"en": "Service: Practice, Dummy", "de": "Dienst: Kampfübung"}
     },
     "100412": {
       "name": "Shadows in the Night",
@@ -3709,7 +3729,7 @@ const GW_QUESTS = {
       "skills": [2384],
       "rewards": ["100 Norn reputation points", "Lockpick"],
       "requires": [100334],
-      "wiki": "https://www.guildwiki.de/wiki/Schatten_in_der_Nacht"
+      "wiki": {"en": "Shadows in the Night", "de": "Schatten in der Nacht"}
     },
     "100413": {
       "name": "Single Ugly Grawl Seeks Same for Mindless Destruction in Ascalon",
@@ -3718,7 +3738,10 @@ const GW_QUESTS = {
       "skills": [2421],
       "rewards": ["150 Ebon Vanguard reputation points", "Lockpick"],
       "requires": [100365],
-      "wiki": "https://www.guildwiki.de/wiki/Einsamer,_hässlicher_Grawl_sucht_Gleichgesinnte_für_brutale_Zerstörung_in_Ascalon"
+      "wiki": {
+        "en": "Single Ugly Grawl Seeks Same for Mindless Destruction in Ascalon",
+        "de": "Einsamer, hässlicher Grawl sucht Gleichgesinnte für brutale Zerstörung in Ascalon"
+      }
     },
     "100414": {
       "name": "Snowball Dominance",
@@ -3735,28 +3758,28 @@ const GW_QUESTS = {
         "10 Wintersday Gifts"
       ],
       "requires": [100348],
-      "wiki": "https://www.guildwiki.de/wiki/Schneeball-Dominanz"
+      "wiki": {"en": "Snowball Dominance", "de": "Schneeball-Dominanz"}
     },
     "100415": {
       "name": "Special Ops: Dragon's Gullet",
       "type": "secondary",
       "givers": [731],
       "requires": [100443],
-      "wiki": "https://www.guildwiki.de/wiki/Spezialeinsatz:_Drachenschlund"
+      "wiki": {"en": "Special Ops: Dragon's Gullet", "de": "Spezialeinsatz: Drachenschlund"}
     },
     "100416": {
       "name": "Special Ops: Flame Temple Corridor",
       "type": "secondary",
       "givers": [731],
       "requires": [100443],
-      "wiki": "https://www.guildwiki.de/wiki/Spezialeinsatz:_Flammentempel-Gang"
+      "wiki": {"en": "Special Ops: Flame Temple Corridor", "de": "Spezialeinsatz: Flammentempel-Gang"}
     },
     "100417": {
       "name": "Special Ops: Grendich Courthouse",
       "type": "secondary",
       "givers": [731],
       "requires": [100443],
-      "wiki": "https://www.guildwiki.de/wiki/Spezialeinsatz:_Gerichtsgebäude_in_Grendich"
+      "wiki": {"en": "Special Ops: Grendich Courthouse", "de": "Spezialeinsatz: Gerichtsgebäude in Grendich"}
     },
     "100418": {
       "name": "Tekks's War",
@@ -3764,7 +3787,7 @@ const GW_QUESTS = {
       "givers": [747, 748],
       "xp": 5000,
       "gold": 1250,
-      "wiki": "https://www.guildwiki.de/wiki/Tekks'_Krieg"
+      "wiki": {"en": "Tekks's War", "de": "Tekks' Krieg"}
     },
     "100419": {
       "name": "Temple of the Damned",
@@ -3773,7 +3796,7 @@ const GW_QUESTS = {
       "xp": 7500,
       "gold": 1500,
       "requires": [100433],
-      "wiki": "https://www.guildwiki.de/wiki/Tempel_der_Verdammten"
+      "wiki": {"en": "Temple of the Damned", "de": "Tempel der Verdammten"}
     },
     "100420": {
       "name": "The Anvil of Dragrimmar",
@@ -3781,7 +3804,7 @@ const GW_QUESTS = {
       "givers": [303, 304],
       "xp": 5000,
       "gold": 1250,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Amboss_des_Dragrimmar"
+      "wiki": {"en": "The Anvil of Dragrimmar", "de": "Der Amboss des Dragrimmar"}
     },
     "100421": {
       "name": "The Arrow's Point",
@@ -3790,7 +3813,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 500,
       "requires": [100362],
-      "wiki": "https://www.guildwiki.de/wiki/Spitze_Pfeile"
+      "wiki": {"en": "The Arrow's Point", "de": "Spitze Pfeile"}
     },
     "100422": {
       "name": "The Assassin's Revenge",
@@ -3798,7 +3821,7 @@ const GW_QUESTS = {
       "givers": [317],
       "rewards": ["150 Ebon Vanguard reputation points"],
       "requires": [100439],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Rache_des_Assassinen"
+      "wiki": {"en": "The Assassin's Revenge", "de": "Die Rache des Assassinen"}
     },
     "100423": {
       "name": "The Asura Trap",
@@ -3810,7 +3833,7 @@ const GW_QUESTS = {
       "rewards": ["125 Asura reputation points"],
       "requires": [100452],
       "next": [100375],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Asura-Falle"
+      "wiki": {"en": "The Asura Trap", "de": "Die Asura-Falle"}
     },
     "100424": {
       "name": "The Beginning of the End",
@@ -3819,7 +3842,7 @@ const GW_QUESTS = {
       "region": 18,
       "requires": [100573],
       "next": [100340],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Anfang_vom_Ende"
+      "wiki": {"en": "The Beginning of the End", "de": "Der Anfang vom Ende"}
     },
     "100425": {
       "name": "The Big Unfriendly Jotun",
@@ -3828,7 +3851,7 @@ const GW_QUESTS = {
       "gold": 1000,
       "skills": [2222, 2423],
       "rewards": ["100 Deldrimor reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_große,_unfreundliche_Jotun"
+      "wiki": {"en": "The Big Unfriendly Jotun", "de": "Der große, unfreundliche Jotun"}
     },
     "100426": {
       "name": "The Blade's Essence",
@@ -3837,7 +3860,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 500,
       "requires": [100362],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Essenz_der_Klinge"
+      "wiki": {"en": "The Blade's Essence", "de": "Die Essenz der Klinge"}
     },
     "100427": {
       "name": "The Cipher of Balthazar",
@@ -3847,7 +3870,7 @@ const GW_QUESTS = {
       "rewards": ["100 Asura reputation points"],
       "requires": [100432],
       "next": [100430],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Schlüssel_von_Balthasar"
+      "wiki": {"en": "The Cipher of Balthazar", "de": "Der Schlüssel von Balthasar"}
     },
     "100428": {
       "name": "The Cipher of Dwayna",
@@ -3857,7 +3880,7 @@ const GW_QUESTS = {
       "rewards": ["100 Asura reputation points"],
       "requires": [100432],
       "next": [100430],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Schlüssel_von_Dwayna"
+      "wiki": {"en": "The Cipher of Dwayna", "de": "Der Schlüssel von Dwayna"}
     },
     "100429": {
       "name": "The Cipher of Grenth",
@@ -3867,7 +3890,7 @@ const GW_QUESTS = {
       "rewards": ["100 Asura reputation points"],
       "requires": [100432],
       "next": [100430],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Schlüssel_von_Grenth"
+      "wiki": {"en": "The Cipher of Grenth", "de": "Der Schlüssel von Grenth"}
     },
     "100430": {
       "name": "The Cipher of Kormir",
@@ -3877,7 +3900,7 @@ const GW_QUESTS = {
       "rewards": ["100 Asura reputation points"],
       "requires": [100427, 100428, 100429, 100431],
       "next": [100444],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Schlüssel_von_Kormir"
+      "wiki": {"en": "The Cipher of Kormir", "de": "Der Schlüssel von Kormir"}
     },
     "100431": {
       "name": "The Cipher of Lyssa",
@@ -3887,7 +3910,7 @@ const GW_QUESTS = {
       "rewards": ["100 Asura reputation points"],
       "requires": [100432],
       "next": [100430],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Schlüssel_von_Lyssa"
+      "wiki": {"en": "The Cipher of Lyssa", "de": "Der Schlüssel von Lyssa"}
     },
     "100432": {
       "name": "The Cipher of Melandru",
@@ -3896,7 +3919,7 @@ const GW_QUESTS = {
       "skills": [2412],
       "rewards": ["100 Asura reputation points"],
       "next": [100427, 100428, 100429, 100431],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Schlüssel_von_Melandru"
+      "wiki": {"en": "The Cipher of Melandru", "de": "Der Schlüssel von Melandru"}
     },
     "100433": {
       "name": "The Dawn of Rebellion",
@@ -3907,7 +3930,7 @@ const GW_QUESTS = {
       "requires": [100339],
       "next": [100455],
       "missions": [666],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Anbruch_der_Rebellion"
+      "wiki": {"en": "The Dawn of Rebellion", "de": "Der Anbruch der Rebellion"}
     },
     "100434": {
       "name": "The Destroyer Challenge",
@@ -3916,7 +3939,7 @@ const GW_QUESTS = {
       "skills": [2211],
       "rewards": ["150 Deldrimor reputation points", "Armor of Salvation"],
       "requires": [100356],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Zerstörer-Probe"
+      "wiki": {"en": "The Destroyer Challenge", "de": "Die Zerstörer-Probe"}
     },
     "100435": {
       "name": "The Elusive Golemancer",
@@ -3924,7 +3947,7 @@ const GW_QUESTS = {
       "givers": [463],
       "next": [100368],
       "missions": [664],
-      "wiki": "https://www.guildwiki.de/wiki/Die_scheue_Golemantin"
+      "wiki": {"en": "The Elusive Golemancer", "de": "Die scheue Golemantin"}
     },
     "100436": {
       "name": "The Great Norn Alemoot",
@@ -3935,7 +3958,7 @@ const GW_QUESTS = {
       "rewards": ["100 Norn reputation points"],
       "requires": [100334],
       "next": [100345],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Große_Bierrat_der_Norn_(männlich)"
+      "wiki": {"en": "The Great Norn Alemoot", "de": "Der Große Bierrat der Norn (männlich)"}
     },
     "100437": {
       "name": "The Great Norn Alemoot",
@@ -3946,7 +3969,7 @@ const GW_QUESTS = {
       "rewards": ["100 Norn reputation points"],
       "requires": [100334],
       "next": [100345],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Große_Bierrat_der_Norn_(weiblich)"
+      "wiki": {"en": "The Great Norn Alemoot", "de": "Der Große Bierrat der Norn (weiblich)"}
     },
     "100438": {
       "name": "The Hunting of the Charr",
@@ -3955,7 +3978,7 @@ const GW_QUESTS = {
       "skills": [2229],
       "rewards": ["250 Ebon Vanguard reputation points", "Powerstone of Courage"],
       "requires": [100359],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Jagd_auf_die_Charr"
+      "wiki": {"en": "The Hunting of the Charr", "de": "Die Jagd auf die Charr"}
     },
     "100439": {
       "name": "The Imploding Past",
@@ -3965,7 +3988,7 @@ const GW_QUESTS = {
       "rewards": ["150 Ebon Vanguard reputation points"],
       "requires": [100358],
       "next": [100422],
-      "wiki": "https://www.guildwiki.de/wiki/Die_implodierende_Vergangenheit"
+      "wiki": {"en": "The Imploding Past", "de": "Die implodierende Vergangenheit"}
     },
     "100440": {
       "name": "The Justiciar's End",
@@ -3974,7 +3997,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "rewards": ["250 Asura reputation points", "Scroll of Resurrection"],
       "requires": [100386],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Ende_des_Justiziars"
+      "wiki": {"en": "The Justiciar's End", "de": "Das Ende des Justiziars"}
     },
     "100441": {
       "name": "The Knowledgeable Asura",
@@ -3983,7 +4006,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "rewards": ["1000 Asura reputation points", "Monumental Tapestry"],
       "requires": [100340],
-      "wiki": "https://www.guildwiki.de/wiki/Die_klugen_Asura"
+      "wiki": {"en": "The Knowledgeable Asura", "de": "Die klugen Asura"}
     },
     "100442": {
       "name": "The Misanthropic Jotun Principle",
@@ -3991,7 +4014,7 @@ const GW_QUESTS = {
       "givers": [708, 709],
       "repeatable": true,
       "xp": 7500,
-      "wiki": "https://www.guildwiki.de/wiki/Ruhm_und_Missgunst"
+      "wiki": {"en": "The Misanthropic Jotun Principle", "de": "Ruhm und Missgunst"}
     },
     "100443": {
       "name": "The Missing Vanguard",
@@ -4000,7 +4023,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "rewards": ["1,000 Ebon Vanguard reputation points", "Monumental Tapestry"],
       "requires": [100340],
-      "wiki": "https://www.guildwiki.de/wiki/Die_verschwundene_Vorhut"
+      "wiki": {"en": "The Missing Vanguard", "de": "Die verschwundene Vorhut"}
     },
     "100444": {
       "name": "The Path to Revelations",
@@ -4009,7 +4032,7 @@ const GW_QUESTS = {
       "skills": [2416],
       "rewards": ["100 Asura reputation points", "Kerrsh's Staff (unique item)"],
       "requires": [100430],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_zu_Enthüllungen"
+      "wiki": {"en": "The Path to Revelations", "de": "Der Weg zu Enthüllungen"}
     },
     "100445": {
       "name": "The Smell of Titan in the Morning",
@@ -4018,7 +4041,7 @@ const GW_QUESTS = {
       "skills": [2233],
       "rewards": ["250 Ebon Vanguard reputation points", "Scroll of Hero's Insight"],
       "requires": [100443],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Geruch_von_Titanen_am_Morgen"
+      "wiki": {"en": "The Smell of Titan in the Morning", "de": "Der Geruch von Titanen am Morgen"}
     },
     "100446": {
       "name": "The Three Wise Norn",
@@ -4034,7 +4057,7 @@ const GW_QUESTS = {
         "10 Wintersday Gifts"
       ],
       "next": [100348],
-      "wiki": "https://www.guildwiki.de/wiki/Die_drei_weisen_Norn"
+      "wiki": {"en": "The Three Wise Norn", "de": "Die drei weisen Norn"}
     },
     "100447": {
       "name": "The Throwdown in a Norn Town",
@@ -4044,14 +4067,14 @@ const GW_QUESTS = {
       "rewards": ["300 Deldrimor reputation points", "Armor of Salvation"],
       "requires": [100377],
       "next": [100378],
-      "wiki": "https://www.guildwiki.de/wiki/In_dieser_Stadt_macht_Ihr_ihn_platt"
+      "wiki": {"en": "The Throwdown in a Norn Town", "de": "In dieser Stadt macht Ihr ihn platt"}
     },
     "100448": {
       "name": "The Wedding",
       "type": "primary",
       "givers": [405],
       "requires": [100000],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Hochzeit"
+      "wiki": {"en": "The Wedding", "de": "Die Hochzeit"}
     },
     "100449": {
       "name": "Then and Now, Here and There",
@@ -4060,7 +4083,7 @@ const GW_QUESTS = {
       "hero": [24],
       "xp": 15000,
       "requires": [100443],
-      "wiki": "https://www.guildwiki.de/wiki/Damals_und_heute,_dort_und_hier"
+      "wiki": {"en": "Then and Now, Here and There", "de": "Damals und heute, dort und hier"}
     },
     "100450": {
       "name": "Tracking the Nornbear",
@@ -4071,7 +4094,7 @@ const GW_QUESTS = {
       "requires": [100389],
       "next": [100352],
       "missions": [653],
-      "wiki": "https://www.guildwiki.de/wiki/Dem_Nornbären_auf_der_Spur"
+      "wiki": {"en": "Tracking the Nornbear", "de": "Dem Nornbären auf der Spur"}
     },
     "100451": {
       "name": "Truthseeker",
@@ -4081,7 +4104,7 @@ const GW_QUESTS = {
       "skills": [2355],
       "rewards": ["100 Norn reputation points"],
       "requires": [100352],
-      "wiki": "https://www.guildwiki.de/wiki/Wahrheitssucher"
+      "wiki": {"en": "Truthseeker", "de": "Wahrheitssucher"}
     },
     "100452": {
       "name": "Turning the Page",
@@ -4091,7 +4114,7 @@ const GW_QUESTS = {
       "gold": 1000,
       "rewards": ["100 Asura reputation points"],
       "next": [100423],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Blatt_wendet_sich"
+      "wiki": {"en": "Turning the Page", "de": "Das Blatt wendet sich"}
     },
     "100453": {
       "name": "Veiled Threat",
@@ -4100,7 +4123,7 @@ const GW_QUESTS = {
       "xp": 7500,
       "gold": 1500,
       "requires": [100433],
-      "wiki": "https://www.guildwiki.de/wiki/Verborgene_Bedrohung"
+      "wiki": {"en": "Veiled Threat", "de": "Verborgene Bedrohung"}
     },
     "100454": {
       "name": "Vision of the Raven Spirit",
@@ -4111,7 +4134,7 @@ const GW_QUESTS = {
       "requires": [100352],
       "next": [100334],
       "missions": [655],
-      "wiki": "https://www.guildwiki.de/wiki/Vision_des_Rabengeists"
+      "wiki": {"en": "Vision of the Raven Spirit", "de": "Vision des Rabengeists"}
     },
     "100455": {
       "name": "Warband of Brothers",
@@ -4120,7 +4143,7 @@ const GW_QUESTS = {
       "region": 20,
       "requires": [100433],
       "next": [100458],
-      "wiki": "https://www.guildwiki.de/wiki/Brudertrupp"
+      "wiki": {"en": "Warband of Brothers", "de": "Brudertrupp"}
     },
     "100456": {
       "name": "Watch It Jiggle",
@@ -4128,7 +4151,7 @@ const GW_QUESTS = {
       "givers": [588, 589],
       "xp": 5000,
       "gold": 1250,
-      "wiki": "https://www.guildwiki.de/wiki/Glibberige_Sache"
+      "wiki": {"en": "Watch it Jiggle", "de": "Glibberige Sache"}
     },
     "100457": {
       "name": "Wayfarer's Reverie: The Far North",
@@ -4139,7 +4162,7 @@ const GW_QUESTS = {
       "xp": 2007,
       "gold": 2012,
       "rewards": ["Proof of Mountains"],
-      "wiki": "https://www.guildwiki.de/wiki/Erinnerung_des_Reisenden:_Der_Hohe_Norden"
+      "wiki": {"en": "Wayfarer's Reverie: The Far North", "de": "Erinnerung des Reisenden: Der Hohe Norden"}
     },
     "100458": {
       "name": "What Must Be Done",
@@ -4150,7 +4173,7 @@ const GW_QUESTS = {
       "requires": [100455],
       "next": [100342],
       "missions": [669],
-      "wiki": "https://www.guildwiki.de/wiki/Was_getan_werden_muss"
+      "wiki": {"en": "What Must Be Done", "de": "Was getan werden muss"}
     },
     "100459": {
       "name": "Wintersday Cheer",
@@ -4160,7 +4183,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "rewards": ["500 Ebon Vanguard reputation points", "10 Candy Cane Shards", "5 Mischievous Tonics"],
       "requires": [100348],
-      "wiki": "https://www.guildwiki.de/wiki/Wintertagsgrüße"
+      "wiki": {"en": "Wintersday Cheer", "de": "Wintertagsgrüße"}
     },
     "100460": {
       "name": "Worthy Deeds (Done Dirt Cheap)",
@@ -4169,7 +4192,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "skills": [2358],
       "rewards": ["250 Norn reputation points"],
-      "wiki": "https://www.guildwiki.de/wiki/Ruhmreiche_Taten_(spottbillig_erledigt)"
+      "wiki": {"en": "Worthy Deeds (Done Dirt Cheap)", "de": "Ruhmreiche Taten (spottbillig erledigt)"}
     },
     "100461": {
       "name": "A Belt Pouch",
@@ -4177,7 +4200,7 @@ const GW_QUESTS = {
       "givers": [519],
       "xp": 1500,
       "gold": 75,
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Gürteltasche"
+      "wiki": {"en": "A Belt Pouch", "de": "Eine Gürteltasche"}
     },
     "100462": {
       "name": "A Chance Encounter",
@@ -4188,7 +4211,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100781],
       "next": [100463, 100464],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_zufälliges_Treffen"
+      "wiki": {"en": "A Chance Encounter", "de": "Ein zufälliges Treffen"}
     },
     "100463": {
       "name": "A Chance Encounter (Hard mode)",
@@ -4199,7 +4222,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation", "Ministerial Commendation"],
       "requires": [100782, 100462],
       "next": [100465],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_zufälliges_Treffen_(Schwerer_Modus)"
+      "wiki": {"en": "A Chance Encounter (Hard mode)", "de": "Ein zufälliges Treffen (Schwerer Modus)"}
     },
     "100464": {
       "name": "A Favor Returned",
@@ -4210,7 +4233,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100462],
       "next": [100465, 100537, 100554],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_erwiderter_Gefallen"
+      "wiki": {"en": "A Favor Returned", "de": "Ein erwiderter Gefallen"}
     },
     "100465": {
       "name": "A Favor Returned (Hard mode)",
@@ -4221,7 +4244,7 @@ const GW_QUESTS = {
       "rewards": ["2 Imperial Guard Requisition Orders", "1 Imperial Commendation"],
       "requires": [100463, 100464],
       "next": [100538],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_erwiderter_Gefallen_(Schwerer_Modus)"
+      "wiki": {"en": "A Favor Returned (Hard mode)", "de": "Ein erwiderter Gefallen (Schwerer Modus)"}
     },
     "100466": {
       "name": "A Formal Introduction",
@@ -4232,7 +4255,7 @@ const GW_QUESTS = {
       "rewards": ["1 Skill point"],
       "requires": [100508],
       "missions": [257],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_förmliche_Vorstellung"
+      "wiki": {"en": "A Formal Introduction", "de": "Eine förmliche Vorstellung"}
     },
     "100467": {
       "name": "A Letter Home",
@@ -4241,7 +4264,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["1,000 Luxon faction", "Luxon Totem"],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Brief_nach_Hause"
+      "wiki": {"en": "A Letter Home", "de": "Ein Brief nach Hause"}
     },
     "100468": {
       "name": "A Master's Burden",
@@ -4251,7 +4274,7 @@ const GW_QUESTS = {
       "gold": 150,
       "requires_missions": [258],
       "next": [100610],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Bürde_eines_Meisters"
+      "wiki": {"en": "A Master's Burden", "de": "Die Bürde eines Meisters"}
     },
     "100469": {
       "name": "A Meeting With the Emperor",
@@ -4261,7 +4284,7 @@ const GW_QUESTS = {
       "gold": 150,
       "requires_missions": [261],
       "next": [100710],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Treffen_mit_dem_Kaiser"
+      "wiki": {"en": "A Meeting With the Emperor", "de": "Ein Treffen mit dem Kaiser"}
     },
     "100470": {
       "name": "A Monstrous Revelation",
@@ -4271,7 +4294,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["Imperial Commendation"],
       "requires": [100646],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_ungeheuere_Enthüllung"
+      "wiki": {"en": "A Monstrous Revelation", "de": "Eine ungeheuere Enthüllung"}
     },
     "100471": {
       "name": "A New Escort",
@@ -4280,7 +4303,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["750 Kurzick faction", "Equipment Requisition"],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_neue_Eskorte"
+      "wiki": {"en": "A New Escort", "de": "Eine neue Eskorte"}
     },
     "100472": {
       "name": "A Strange Request",
@@ -4292,7 +4315,7 @@ const GW_QUESTS = {
       "rewards": ["60 Victory Tokenns"],
       "requires": [100740],
       "next": [100536],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_sonderbare_Bitte"
+      "wiki": {"en": "A Strange Request", "de": "Eine sonderbare Bitte"}
     },
     "100473": {
       "name": "A Treaty's a Treaty",
@@ -4303,7 +4326,7 @@ const GW_QUESTS = {
       "rewards": ["Sapphire", "2 Lockpicks"],
       "requires": [100569],
       "next": [100644, 100474, 100558, 100770],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Vertrag_ist_ein_Vertrag"
+      "wiki": {"en": "A Treaty's a Treaty", "de": "Ein Vertrag ist ein Vertrag"}
     },
     "100474": {
       "name": "A Treaty's a Treaty (Hard mode)",
@@ -4314,7 +4337,7 @@ const GW_QUESTS = {
       "rewards": ["Gold Zaishen Coin", "Ruby", "Sapphire", "Lockpick"],
       "requires": [100570, 100473],
       "next": [100557, 100771, 100645],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Vertrag_ist_ein_Vertrag_(Schwerer_Modus)"
+      "wiki": {"en": "A Treaty's a Treaty (Hard mode)", "de": "Ein Vertrag ist ein Vertrag (Schwerer Modus)"}
     },
     "100475": {
       "name": "Advanced Defense Techniques",
@@ -4323,7 +4346,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 50,
       "skills": [43, 118, 176, 299, 345, 424, 871, 973],
-      "wiki": "https://www.guildwiki.de/wiki/Fortgeschrittene_Verteidigungstechniken"
+      "wiki": {"en": "Advanced Defense Techniques", "de": "Fortgeschrittene Verteidigungstechniken"}
     },
     "100476": {
       "name": "An Audience with Master Togo",
@@ -4333,7 +4356,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100546],
       "next": [100680, 100685, 100683, 100686, 100681, 100682, 100687, 100508],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Audienz_bei_Meister_Togo_(Assassine)"
+      "wiki": {"en": "An Audience with Master Togo", "de": "Eine Audienz bei Meister Togo (Assassine)"}
     },
     "100477": {
       "name": "An Audience with Master Togo",
@@ -4343,7 +4366,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100679],
       "next": [100684, 100687, 100685, 100683, 100681, 100682, 100680],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Audienz_bei_Meister_Togo_(Elementarmagier)"
+      "wiki": {"en": "An Audience with Master Togo", "de": "Eine Audienz bei Meister Togo (Elementarmagier)"}
     },
     "100478": {
       "name": "An Audience with Master Togo",
@@ -4353,7 +4376,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100711],
       "next": [100684, 100685, 100683, 100686, 100681, 100682, 100680],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Audienz_bei_Meister_Togo_(Krieger)"
+      "wiki": {"en": "An Audience with Master Togo", "de": "Eine Audienz bei Meister Togo (Krieger)"}
     },
     "100479": {
       "name": "An Audience with Master Togo",
@@ -4363,7 +4386,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100595],
       "next": [100684, 100685, 100683, 100686, 100680, 100681, 100687],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Audienz_bei_Meister_Togo_(Mesmer)"
+      "wiki": {"en": "An Audience with Master Togo", "de": "Eine Audienz bei Meister Togo (Mesmer)"}
     },
     "100480": {
       "name": "An Audience with Master Togo",
@@ -4373,7 +4396,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100668],
       "next": [100684, 100685, 100683, 100686, 100681, 100682, 100687],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Audienz_bei_Meister_Togo_(Mönch)"
+      "wiki": {"en": "An Audience with Master Togo", "de": "Eine Audienz bei Meister Togo (Mönch)"}
     },
     "100481": {
       "name": "An Audience with Master Togo",
@@ -4383,7 +4406,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100642],
       "next": [100684, 100685, 100687, 100686, 100681, 100682, 100680],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Audienz_bei_Meister_Togo_(Nekromant)"
+      "wiki": {"en": "An Audience with Master Togo", "de": "Eine Audienz bei Meister Togo (Nekromant)"}
     },
     "100482": {
       "name": "An Audience with Master Togo",
@@ -4393,7 +4416,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100672],
       "next": [100684, 100687, 100683, 100686, 100681, 100682, 100680],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Audienz_bei_Meister_Togo_(Ritualist)"
+      "wiki": {"en": "An Audience with Master Togo", "de": "Eine Audienz bei Meister Togo (Ritualist)"}
     },
     "100483": {
       "name": "An Audience with Master Togo",
@@ -4403,7 +4426,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100747],
       "next": [100684, 100685, 100683, 100686, 100680, 100682, 100687],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Audienz_bei_Meister_Togo_(Waldläufer)"
+      "wiki": {"en": "An Audience with Master Togo", "de": "Eine Audienz bei Meister Togo (Waldläufer)"}
     },
     "100484": {
       "name": "An End to Suffering",
@@ -4412,7 +4435,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Dem_Leiden_ein_Ende"
+      "wiki": {"en": "An End to Suffering", "de": "Dem Leiden ein Ende"}
     },
     "100485": {
       "name": "An Unwelcome Guest",
@@ -4422,7 +4445,7 @@ const GW_QUESTS = {
       "gold": 175,
       "rewards": ["15 Attribute points"],
       "requires_missions": [258],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_unwillkommener_Gast"
+      "wiki": {"en": "An Unwelcome Guest", "de": "Ein unwillkommener Gast"}
     },
     "100486": {
       "name": "Appearance of the Naga",
@@ -4432,7 +4455,7 @@ const GW_QUESTS = {
       "gold": 75,
       "rewards": ["Monastery Credit"],
       "next": [100730],
-      "wiki": "https://www.guildwiki.de/wiki/Auftauchen_der_Naga"
+      "wiki": {"en": "Appearance of the Naga", "de": "Auftauchen der Naga"}
     },
     "100487": {
       "name": "Architect of Corruption",
@@ -4443,7 +4466,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100764],
       "next": [100488, 100719],
-      "wiki": "https://www.guildwiki.de/wiki/Architekt_der_Verdorbenheit"
+      "wiki": {"en": "Architect of Corruption", "de": "Architekt der Verdorbenheit"}
     },
     "100488": {
       "name": "Architect of Corruption (Hard mode)",
@@ -4454,7 +4477,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation", "Ministerial Commendation"],
       "requires": [100765, 100487],
       "next": [100720],
-      "wiki": "https://www.guildwiki.de/wiki/Architekt_der_Verdorbenheit_(Schwerer_Modus)"
+      "wiki": {"en": "Architect of Corruption (Hard mode)", "de": "Architekt der Verdorbenheit (Schwerer Modus)"}
     },
     "100489": {
       "name": "Artistic Endeavors",
@@ -4463,7 +4486,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["750 Kurzick faction", "Equipment Requisition"],
-      "wiki": "https://www.guildwiki.de/wiki/Künstlerische_Bemühungen"
+      "wiki": {"en": "Artistic Endeavors", "de": "Künstlerische Bemühungen"}
     },
     "100490": {
       "name": "Assassin Insignia",
@@ -4474,7 +4497,7 @@ const GW_QUESTS = {
       "gold": 75,
       "rewards": ["Monastery Credit"],
       "next": [100529],
-      "wiki": "https://www.guildwiki.de/wiki/Assassinen-Befähigung"
+      "wiki": {"en": "Assassin Insignia", "de": "Assassinen-Befähigung"}
     },
     "100491": {
       "name": "Assassination Attempt",
@@ -4483,7 +4506,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Mordversuch"
+      "wiki": {"en": "Assassination Attempt", "de": "Mordversuch"}
     },
     "100492": {
       "name": "Assist the Guards",
@@ -4493,7 +4516,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["Imperial Commendation"],
       "next": [100692],
-      "wiki": "https://www.guildwiki.de/wiki/Helft_den_Wächtern"
+      "wiki": {"en": "Assist the Guards", "de": "Helft den Wächtern"}
     },
     "100493": {
       "name": "Attack the Kurzicks!",
@@ -4502,7 +4525,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["750 Luxon faction", "Luxon Totem"],
-      "wiki": "https://www.guildwiki.de/wiki/Greift_die_Kurzick_an!"
+      "wiki": {"en": "Attack the Kurzicks!", "de": "Greift die Kurzick an!"}
     },
     "100494": {
       "name": "Battle in the Sewers",
@@ -4514,7 +4537,7 @@ const GW_QUESTS = {
       "requires": [100509],
       "next_missions": [264],
       "missions": [264],
-      "wiki": "https://www.guildwiki.de/wiki/Schlacht_in_der_Kanalisation"
+      "wiki": {"en": "Battle in the Sewers", "de": "Schlacht in der Kanalisation"}
     },
     "100495": {
       "name": "Befriending the Kurzicks",
@@ -4524,7 +4547,7 @@ const GW_QUESTS = {
       "gold": 700,
       "requires": [100585],
       "next": [100712],
-      "wiki": "https://www.guildwiki.de/wiki/Freundschaft_mit_den_Kurzick"
+      "wiki": {"en": "Befriending the Kurzicks", "de": "Freundschaft mit den Kurzick"}
     },
     "100496": {
       "name": "Befriending the Luxons",
@@ -4534,7 +4557,7 @@ const GW_QUESTS = {
       "gold": 700,
       "requires": [100584],
       "next": [100691],
-      "wiki": "https://www.guildwiki.de/wiki/Freundschaft_mit_den_Luxon"
+      "wiki": {"en": "Befriending the Luxons", "de": "Freundschaft mit den Luxon"}
     },
     "100497": {
       "name": "Calling All Thugs",
@@ -4545,7 +4568,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100558],
       "next": [100636, 100498],
-      "wiki": "https://www.guildwiki.de/wiki/Aufruf_an_alle_Schurken"
+      "wiki": {"en": "Calling All Thugs", "de": "Aufruf an alle Schurken"}
     },
     "100498": {
       "name": "Calling All Thugs (Hard mode)",
@@ -4556,7 +4579,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Guard Requisition Order", "Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100557, 100497],
       "next": [100637],
-      "wiki": "https://www.guildwiki.de/wiki/Aufruf_an_alle_Schurken_(Schwerer_Modus)"
+      "wiki": {"en": "Calling All Thugs (Hard mode)", "de": "Aufruf an alle Schurken (Schwerer Modus)"}
     },
     "100499": {
       "name": "Cantha Courier Crisis",
@@ -4567,7 +4590,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Commendation"],
       "requires": [100510],
       "next": [100500],
-      "wiki": "https://www.guildwiki.de/wiki/Canthanische_Kurierkrise"
+      "wiki": {"en": "Cantha Courier Crisis", "de": "Canthanische Kurierkrise"}
     },
     "100500": {
       "name": "Cantha Courier Crisis (Hard mode)",
@@ -4577,7 +4600,7 @@ const GW_QUESTS = {
       "gold": 2000,
       "rewards": ["2 Imperial Commendations"],
       "requires": [100511, 100499],
-      "wiki": "https://www.guildwiki.de/wiki/Canthanische_Kurierkrise_(Schwerer_Modus)"
+      "wiki": {"en": "Cantha Courier Crisis (Hard mode)", "de": "Canthanische Kurierkrise (Schwerer Modus)"}
     },
     "100501": {
       "name": "Captured",
@@ -4586,14 +4609,14 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Gefangen"
+      "wiki": {"en": "Captured", "de": "Gefangen"}
     },
     "100502": {
       "name": "Capturing the Orrian Tome",
       "type": "secondary",
       "givers": [302],
       "next": [100618],
-      "wiki": "https://www.guildwiki.de/wiki/Den_orrianischen_Folianten_erbeuten"
+      "wiki": {"en": "Capturing the Orrian Tome", "de": "Den orrianischen Folianten erbeuten"}
     },
     "100503": {
       "name": "Cash Crops",
@@ -4602,7 +4625,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 75,
       "rewards": ["Monastery Credit"],
-      "wiki": "https://www.guildwiki.de/wiki/Ernte_zum_Verkauf"
+      "wiki": {"en": "Cash Crops", "de": "Ernte zum Verkauf"}
     },
     "100504": {
       "name": "Challenge of Strength",
@@ -4611,7 +4634,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["750 Luxon faction", "Luxon Totem"],
-      "wiki": "https://www.guildwiki.de/wiki/Herausforderung_der_Kraft"
+      "wiki": {"en": "Challenge of Strength", "de": "Herausforderung der Kraft"}
     },
     "100505": {
       "name": "Chaos in Kryta",
@@ -4619,7 +4642,7 @@ const GW_QUESTS = {
       "givers": [254],
       "travel": 1,
       "xp": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Chaos_in_Kryta"
+      "wiki": {"en": "Chaos in Kryta", "de": "Chaos in Kryta"}
     },
     "100506": {
       "name": "Charting the Forests",
@@ -4628,7 +4651,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 200,
       "rewards": ["500 Kurzick faction", "Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Wälder_kartographieren"
+      "wiki": {"en": "Charting the Forests", "de": "Die Wälder kartographieren"}
     },
     "100507": {
       "name": "Charting the Jade Sea",
@@ -4637,7 +4660,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 200,
       "rewards": ["500 Luxon faction", "Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Jademeer_kartographieren"
+      "wiki": {"en": "Charting the Jade Sea", "de": "Das Jademeer kartographieren"}
     },
     "100508": {
       "name": "Choose Your Secondary Profession (Factions)",
@@ -4646,7 +4669,10 @@ const GW_QUESTS = {
       "xp": 3500,
       "gold": 250,
       "rewards": ["Monastery Credit"],
-      "wiki": "https://www.guildwiki.de/wiki/Wählt_Eure_sekundäre_Klasse_(Factions)"
+      "wiki": {
+        "en": "Choose Your Secondary Profession (Factions quest)",
+        "de": "Wählt Eure sekundäre Klasse (Factions)"
+      }
     },
     "100509": {
       "name": "City Under Attack",
@@ -4655,7 +4681,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 150,
       "next": [100494],
-      "wiki": "https://www.guildwiki.de/wiki/Angriff_auf_die_Stadt"
+      "wiki": {"en": "City Under Attack", "de": "Angriff auf die Stadt"}
     },
     "100510": {
       "name": "Cleansing Bukdek Byway",
@@ -4665,7 +4691,7 @@ const GW_QUESTS = {
       "gold": 500,
       "rewards": ["Ministerial Commendation"],
       "next": [100511, 100520, 100499],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_des_Bukdek-Seitenweges"
+      "wiki": {"en": "Cleansing Bukdek Byway", "de": "Säuberung des Bukdek-Seitenweges"}
     },
     "100511": {
       "name": "Cleansing Bukdek Byway (Hard mode)",
@@ -4676,7 +4702,7 @@ const GW_QUESTS = {
       "rewards": ["2 Ministerial Commendations"],
       "requires": [100510],
       "next": [100521, 100592, 100500],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_des_Bukdek-Seitenweges_(Schwerer_Modus)"
+      "wiki": {"en": "Cleansing Bukdek Byway (Hard mode)", "de": "Säuberung des Bukdek-Seitenweges (Schwerer Modus)"}
     },
     "100512": {
       "name": "Cleansing Haiju Lagoon",
@@ -4687,7 +4713,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100647],
       "next": [100513, 100524],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_der_Haiju-Lagune"
+      "wiki": {"en": "Cleansing Haiju Lagoon", "de": "Säuberung der Haiju-Lagune"}
     },
     "100513": {
       "name": "Cleansing Haiju Lagoon (Hard mode)",
@@ -4698,7 +4724,7 @@ const GW_QUESTS = {
       "rewards": ["2 Ministerial Commendations"],
       "requires": [100648, 100512],
       "next": [100524],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_der_Haiju-Lagune_(Schwerer_Modus)"
+      "wiki": {"en": "Cleansing Haiju Lagoon (Hard mode)", "de": "Säuberung der Haiju-Lagune (Schwerer Modus)"}
     },
     "100514": {
       "name": "Cleansing Morostav Trail",
@@ -4709,7 +4735,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100527],
       "next": [100514, 100578],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_des_Morostavweges"
+      "wiki": {"en": "Cleansing Morostav Trail", "de": "Säuberung des Morostavweges"}
     },
     "100515": {
       "name": "Cleansing Morostav Trail",
@@ -4720,7 +4746,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation", "Ministerial Commendation"],
       "requires": [100527],
       "next": [100579],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_des_Morostavweges_(Schwerer_Modus)"
+      "wiki": {"en": "Cleansing Morostav Trail", "de": "Säuberung des Morostavweges (Schwerer Modus)"}
     },
     "100516": {
       "name": "Cleansing Pongmei Valley",
@@ -4731,7 +4757,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100530],
       "next": [100517, 100647],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_des_Pongmei-Tals"
+      "wiki": {"en": "Cleansing Pongmei Valley", "de": "Säuberung des Pongmei-Tals"}
     },
     "100517": {
       "name": "Cleansing Pongmei Valley (Hard mode)",
@@ -4742,7 +4768,7 @@ const GW_QUESTS = {
       "rewards": ["2 Ministerial Commendations"],
       "requires": [100531, 100516],
       "next": [100648],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_des_Pongmei-Tals_(Schwerer_Modus)"
+      "wiki": {"en": "Cleansing Pongmei Valley (Hard mode)", "de": "Säuberung des Pongmei-Tals (Schwerer Modus)"}
     },
     "100518": {
       "name": "Cleansing Rhea's Crater",
@@ -4753,7 +4779,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100524],
       "next": [100519, 100527],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_von_Rheas_Krater"
+      "wiki": {"en": "Cleansing Rhea's Crater", "de": "Säuberung von Rheas Krater"}
     },
     "100519": {
       "name": "Cleansing Rhea's Crater (Hard mode)",
@@ -4764,7 +4790,7 @@ const GW_QUESTS = {
       "rewards": ["2 Ministerial Commendations"],
       "requires": [100524, 100518],
       "next": [100527],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_von_Rheas_Krater_(Schwerer_Modus)"
+      "wiki": {"en": "Cleansing Rhea's Crater (Hard mode)", "de": "Säuberung von Rheas Krater (Schwerer Modus)"}
     },
     "100520": {
       "name": "Cleansing Shadow's Passage",
@@ -4775,7 +4801,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100510],
       "next": [100521, 100522],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_der_Schattenpassage"
+      "wiki": {"en": "Cleansing Shadow's Passage", "de": "Säuberung der Schattenpassage"}
     },
     "100521": {
       "name": "Cleansing Shadow's Passage (Hard mode)",
@@ -4786,7 +4812,7 @@ const GW_QUESTS = {
       "rewards": ["2 Ministerial Commendations"],
       "requires": [100511, 100520],
       "next": [100523],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_der_Schattenpassage_(Schwerer_Modus)"
+      "wiki": {"en": "Cleansing Shadow's Passage (Hard mode)", "de": "Säuberung der Schattenpassage (Schwerer Modus)"}
     },
     "100522": {
       "name": "Cleansing Shenzun Tunnels",
@@ -4797,7 +4823,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100520],
       "next": [100523, 100532],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_der_Shenzun-Tunnel"
+      "wiki": {"en": "Cleansing Shenzun Tunnels", "de": "Säuberung der Shenzun-Tunnel"}
     },
     "100523": {
       "name": "Cleansing Shenzun Tunnels (Hard mode)",
@@ -4808,7 +4834,7 @@ const GW_QUESTS = {
       "rewards": ["2 Ministerial Commendations"],
       "requires": [100521, 100522],
       "next": [100533],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_der_Shenzun-Tunnel_(Schwerer_Modus)"
+      "wiki": {"en": "Cleansing Shenzun Tunnels (Hard mode)", "de": "Säuberung der Shenzun-Tunnel (Schwerer Modus)"}
     },
     "100524": {
       "name": "Cleansing Zen Daijun",
@@ -4819,7 +4845,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100512],
       "next": [100524, 100518],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_von_Zen_Daijun"
+      "wiki": {"en": "Cleansing Zen Daijun", "de": "Säuberung von Zen Daijun"}
     },
     "100525": {
       "name": "Cleansing Zen Daijun",
@@ -4830,7 +4856,7 @@ const GW_QUESTS = {
       "rewards": ["2 Ministerial Commendations"],
       "requires": [100513, 100524],
       "next": [100519],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_von_Zen_Daijun_(Schwerer_Modus)"
+      "wiki": {"en": "Cleansing Zen Daijun", "de": "Säuberung von Zen Daijun (Schwerer Modus)"}
     },
     "100526": {
       "name": "Cleansing the Shrine",
@@ -4841,7 +4867,7 @@ const GW_QUESTS = {
       "skills": [28, 67],
       "requires": [100597],
       "next": [100759],
-      "wiki": "https://www.guildwiki.de/wiki/Den_Schrein_säubern"
+      "wiki": {"en": "Cleansing the Shrine", "de": "Den Schrein säubern"}
     },
     "100527": {
       "name": "Cleansing the Silent Surf",
@@ -4852,7 +4878,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100518],
       "next": [100527],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_der_Stummen_Brandung"
+      "wiki": {"en": "Cleansing the Silent Surf", "de": "Säuberung der Stummen Brandung"}
     },
     "100528": {
       "name": "Cleansing the Silent Surf",
@@ -4862,7 +4888,7 @@ const GW_QUESTS = {
       "gold": 1000,
       "rewards": ["Ministerial Commendation", "Ministerial Commendation"],
       "requires": [100519, 100527],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_der_Stummen_Brandung_(Schwerer_Modus)"
+      "wiki": {"en": "Cleansing the Silent Surf", "de": "Säuberung der Stummen Brandung (Schwerer Modus)"}
     },
     "100529": {
       "name": "Cleansing the Steel",
@@ -4871,7 +4897,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 100,
       "requires": [100490],
-      "wiki": "https://www.guildwiki.de/wiki/Den_Stahl_säubern"
+      "wiki": {"en": "Cleansing the Steel", "de": "Den Stahl säubern"}
     },
     "100530": {
       "name": "Cleansing the Sunjiang District",
@@ -4882,7 +4908,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100532],
       "next": [100531, 100516],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_des_Sunjiang-Bezirks"
+      "wiki": {"en": "Cleansing the Sunjiang District", "de": "Säuberung des Sunjiang-Bezirks"}
     },
     "100531": {
       "name": "Cleansing the Sunjiang District (Hard mode)",
@@ -4893,7 +4919,10 @@ const GW_QUESTS = {
       "rewards": ["2 Ministerial Commendations"],
       "requires": [100533, 100530],
       "next": [100517],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_des_Sunjiang-Bezirks_(Schwerer_Modus)"
+      "wiki": {
+        "en": "Cleansing the Sunjiang District (Hard mode)",
+        "de": "Säuberung des Sunjiang-Bezirks (Schwerer Modus)"
+      }
     },
     "100532": {
       "name": "Cleansing the Undercity",
@@ -4904,7 +4933,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100522],
       "next": [100533, 100530],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_der_Unterstadt"
+      "wiki": {"en": "Cleansing the Undercity", "de": "Säuberung der Unterstadt"}
     },
     "100533": {
       "name": "Cleansing the Undercity (Hard mode)",
@@ -4915,7 +4944,7 @@ const GW_QUESTS = {
       "rewards": ["2 Ministerial Commendations"],
       "requires": [100523, 100532],
       "next": [100531],
-      "wiki": "https://www.guildwiki.de/wiki/Säuberung_der_Unterstadt_(Schwerer_Modus)"
+      "wiki": {"en": "Cleansing the Undercity (Hard mode)", "de": "Säuberung der Unterstadt (Schwerer Modus)"}
     },
     "100534": {
       "name": "Closer to the Stars",
@@ -4927,7 +4956,7 @@ const GW_QUESTS = {
       "requires": [100559],
       "next_missions": [260],
       "missions": [260],
-      "wiki": "https://www.guildwiki.de/wiki/Näher_an_den_Sternen"
+      "wiki": {"en": "Closer to the Stars", "de": "Näher an den Sternen"}
     },
     "100535": {
       "name": "Condition Removal",
@@ -4936,7 +4965,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 50,
       "skills": [154, 277, 787],
-      "wiki": "https://www.guildwiki.de/wiki/Zustandsentfernung"
+      "wiki": {"en": "Condition Removal", "de": "Zustandsentfernung"}
     },
     "100536": {
       "name": "Darkness at Kaitan",
@@ -4947,7 +4976,7 @@ const GW_QUESTS = {
       "gold": 150,
       "rewards": ["90 Victory Tokenns"],
       "requires": [100472],
-      "wiki": "https://www.guildwiki.de/wiki/Dunkelheit_in_Kaitan"
+      "wiki": {"en": "Darkness at Kaitan", "de": "Dunkelheit in Kaitan"}
     },
     "100537": {
       "name": "Deadly Cargo",
@@ -4958,7 +4987,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100464],
       "next": [100538, 100766],
-      "wiki": "https://www.guildwiki.de/wiki/Tödliche_Fracht"
+      "wiki": {"en": "Deadly Cargo", "de": "Tödliche Fracht"}
     },
     "100538": {
       "name": "Deadly Cargo (Hard mode)",
@@ -4969,7 +4998,7 @@ const GW_QUESTS = {
       "rewards": ["2 Imperial Guard Requisition Orders", "1 Imperial Commendation"],
       "requires": [100465, 100537],
       "next": [100767],
-      "wiki": "https://www.guildwiki.de/wiki/Tödliche_Fracht_(Schwerer_Modus)"
+      "wiki": {"en": "Deadly Cargo (Hard mode)", "de": "Tödliche Fracht (Schwerer Modus)"}
     },
     "100539": {
       "name": "Death with Honor",
@@ -4978,7 +5007,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["Monastery Credit"],
-      "wiki": "https://www.guildwiki.de/wiki/Ehrenvoller_Tod"
+      "wiki": {"en": "Death with Honor", "de": "Ehrenvoller Tod"}
     },
     "100540": {
       "name": "Defend Fort Aspenwood",
@@ -4986,7 +5015,7 @@ const GW_QUESTS = {
       "givers": [204],
       "xp": 3000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Fort_Espenwald_verteidigen"
+      "wiki": {"en": "Defend Fort Aspenwood", "de": "Fort Espenwald verteidigen"}
     },
     "100541": {
       "name": "Defense Against Hexes",
@@ -4995,7 +5024,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 50,
       "skills": [67, 301],
-      "wiki": "https://www.guildwiki.de/wiki/Verteidigung_gegen_Verhexungen"
+      "wiki": {"en": "Defense Against Hexes", "de": "Verteidigung gegen Verhexungen"}
     },
     "100542": {
       "name": "Discord Wallow Lyre",
@@ -5005,7 +5034,7 @@ const GW_QUESTS = {
       "gold": 175,
       "rewards": ["750 Kurzick faction", "Equipment Requisition"],
       "requires": [100612],
-      "wiki": "https://www.guildwiki.de/wiki/Misstönende_Suhler-Lyra"
+      "wiki": {"en": "Discord Wallow Lyre", "de": "Misstönende Suhler-Lyra"}
     },
     "100543": {
       "name": "Disenchantment Course",
@@ -5014,7 +5043,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 50,
       "skills": [69, 143, 990],
-      "wiki": "https://www.guildwiki.de/wiki/Entzauberungskurs"
+      "wiki": {"en": "Disenchantment Course", "de": "Entzauberungskurs"}
     },
     "100544": {
       "name": "Disruption",
@@ -5023,7 +5052,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 50,
       "skills": [23, 162, 325, 399, 921],
-      "wiki": "https://www.guildwiki.de/wiki/Störung"
+      "wiki": {"en": "Disruption", "de": "Störung"}
     },
     "100545": {
       "name": "Drink from the Chalice of Corruption",
@@ -5033,7 +5062,7 @@ const GW_QUESTS = {
       "gold": 275,
       "requires": [100666],
       "next": [100609],
-      "wiki": "https://www.guildwiki.de/wiki/Trinkt_aus_dem_Kelch_der_Verdorbenheit"
+      "wiki": {"en": "Drink from the Chalice of Corruption", "de": "Trinkt aus dem Kelch der Verdorbenheit"}
     },
     "100546": {
       "name": "Dual Strike",
@@ -5046,7 +5075,7 @@ const GW_QUESTS = {
       "rewards": ["Monastery Credit"],
       "requires": [100760],
       "next": [100476],
-      "wiki": "https://www.guildwiki.de/wiki/Doppelschlag"
+      "wiki": {"en": "Dual Strike", "de": "Doppelschlag"}
     },
     "100547": {
       "name": "Duel of the Houses",
@@ -5056,7 +5085,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 150,
       "rewards": ["400 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Duell_der_Häuser"
+      "wiki": {"en": "Duel of the Houses", "de": "Das Duell der Häuser"}
     },
     "100548": {
       "name": "Elementalist Insignia",
@@ -5067,7 +5096,7 @@ const GW_QUESTS = {
       "gold": 75,
       "rewards": ["Monastery Credit"],
       "next": [100743],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier-Befähigung"
+      "wiki": {"en": "Elementalist Insignia", "de": "Elementarmagier-Befähigung"}
     },
     "100549": {
       "name": "Eliminate the Am Fah",
@@ -5076,7 +5105,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Vernichtet_die_Am_Fah"
+      "wiki": {"en": "Eliminate the Am Fah", "de": "Vernichtet die Am Fah"}
     },
     "100550": {
       "name": "Eliminate the Jade Brotherhood",
@@ -5086,7 +5115,7 @@ const GW_QUESTS = {
       "gold": 175,
       "rewards": ["Imperial Commendation"],
       "requires_missions": [260],
-      "wiki": "https://www.guildwiki.de/wiki/Eliminiert_die_Jadebruderschaft"
+      "wiki": {"en": "Eliminate the Jade Brotherhood", "de": "Eliminiert die Jadebruderschaft"}
     },
     "100551": {
       "name": "Envoy of the Dredge",
@@ -5096,7 +5125,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["750 Kurzick faction", "Equipment Requisition"],
       "next": [100699],
-      "wiki": "https://www.guildwiki.de/wiki/Gesandter_der_Schaufler"
+      "wiki": {"en": "Envoy of the Dredge", "de": "Gesandter der Schaufler"}
     },
     "100552": {
       "name": "Ever Closer to the Edge",
@@ -5107,7 +5136,7 @@ const GW_QUESTS = {
       "rewards": ["1,000 Luxon faction", "Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100766],
       "next": [100553, 100772],
-      "wiki": "https://www.guildwiki.de/wiki/Noch_näher_am_Abgrund"
+      "wiki": {"en": "Ever Closer to the Edge", "de": "Noch näher am Abgrund"}
     },
     "100553": {
       "name": "Ever Closer to the Edge (Hard mode)",
@@ -5118,7 +5147,7 @@ const GW_QUESTS = {
       "rewards": ["2,000 Luxon faction", "2 Imperial Guard Requisition Orders", "1 Imperial Commendation"],
       "requires": [100767, 100552],
       "next": [100773],
-      "wiki": "https://www.guildwiki.de/wiki/Noch_näher_am_Abgrund_(Schwerer_Modus)"
+      "wiki": {"en": "Ever Closer to the Edge (Hard mode)", "de": "Noch näher am Abgrund (Schwerer Modus)"}
     },
     "100554": {
       "name": "Family Matters",
@@ -5129,7 +5158,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Commendation"],
       "requires": [100464],
       "next": [100555],
-      "wiki": "https://www.guildwiki.de/wiki/Familienangelegenheit"
+      "wiki": {"en": "Family Matters", "de": "Familienangelegenheit"}
     },
     "100555": {
       "name": "Family Matters (Hard mode)",
@@ -5139,7 +5168,7 @@ const GW_QUESTS = {
       "gold": 2000,
       "rewards": ["Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100465, 100554],
-      "wiki": "https://www.guildwiki.de/wiki/Familienangelegenheit_(Schwerer_Modus)"
+      "wiki": {"en": "Family Matters (Hard mode)", "de": "Familienangelegenheit (Schwerer Modus)"}
     },
     "100556": {
       "name": "Feed the Hungry",
@@ -5148,7 +5177,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Hungernden_ernähren"
+      "wiki": {"en": "Feed the Hungry", "de": "Die Hungernden ernähren"}
     },
     "100557": {
       "name": "Finding Jinnai (Hard mode)‎",
@@ -5159,7 +5188,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Guard Requisition Order", "Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100474, 100558],
       "next": [100498],
-      "wiki": "https://www.guildwiki.de/wiki/Suche_nach_Jinnai_(Schwerer_Modus)"
+      "wiki": {"en": "Finding Jinnai (Hard mode)", "de": "Suche nach Jinnai (Schwerer Modus)"}
     },
     "100558": {
       "name": "Finding Jinnai‎",
@@ -5170,7 +5199,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100473],
       "next": [100497, 100557],
-      "wiki": "https://www.guildwiki.de/wiki/Suche_nach_Jinnai"
+      "wiki": {"en": "Finding Jinnai", "de": "Suche nach Jinnai"}
     },
     "100559": {
       "name": "Finding The Oracle",
@@ -5180,7 +5209,7 @@ const GW_QUESTS = {
       "gold": 150,
       "requires_missions": [215],
       "next": [100534],
-      "wiki": "https://www.guildwiki.de/wiki/Findet_das_Orakel"
+      "wiki": {"en": "Finding The Oracle", "de": "Findet das Orakel"}
     },
     "100560": {
       "name": "Fire in the Sky",
@@ -5191,7 +5220,7 @@ const GW_QUESTS = {
       "gold": 300,
       "rewards": ["25 Lunar Tokens", "1 Bottle Rocket", "1 Champagne Popper", "1 Sparkler"],
       "next": [100704],
-      "wiki": "https://www.guildwiki.de/wiki/Feuer_am_Himmel"
+      "wiki": {"en": "Fire in the Sky", "de": "Feuer am Himmel"}
     },
     "100561": {
       "name": "Forming a Party",
@@ -5200,7 +5229,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 10,
       "rewards": ["Monastery Credit"],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Gruppe_bilden"
+      "wiki": {"en": "Forming a Party", "de": "Eine Gruppe bilden"}
     },
     "100562": {
       "name": "Fort Aspenwood",
@@ -5209,7 +5238,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "requires": [100584],
-      "wiki": "https://www.guildwiki.de/wiki/Fort_Espenwald_(Quest)"
+      "wiki": {"en": "Fort Aspenwood (quest)", "de": "Fort Espenwald (Quest)"}
     },
     "100563": {
       "name": "Free Birds",
@@ -5220,7 +5249,7 @@ const GW_QUESTS = {
       "rewards": ["Diamond", "2 Lockpicks"],
       "requires": [100775],
       "next": [100564, 100569],
-      "wiki": "https://www.guildwiki.de/wiki/Frei_wie_ein_Vogel"
+      "wiki": {"en": "Free Birds", "de": "Frei wie ein Vogel"}
     },
     "100564": {
       "name": "Free Birds (Hard mode)",
@@ -5231,7 +5260,7 @@ const GW_QUESTS = {
       "rewards": ["Ruby", "Diamond", "Lockpick"],
       "requires": [100776, 100563],
       "next": [100570],
-      "wiki": "https://www.guildwiki.de/wiki/Frei_wie_ein_Vogel_(Schwerer_Modus)"
+      "wiki": {"en": "Free Birds (Hard mode)", "de": "Frei wie ein Vogel (Schwerer Modus)"}
     },
     "100565": {
       "name": "Free the Fur",
@@ -5243,14 +5272,14 @@ const GW_QUESTS = {
       "skills": [436, 450],
       "requires": [100602],
       "next": [100763],
-      "wiki": "https://www.guildwiki.de/wiki/Freie_Felle"
+      "wiki": {"en": "Free the Fur", "de": "Freie Felle"}
     },
     "100566": {
       "name": "Gain Zenmai",
       "type": "secondary",
       "givers": [728],
       "xp": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Zenmai_aufnehmen"
+      "wiki": {"en": "Gain Zenmai", "de": "Zenmai aufnehmen"}
     },
     "100567": {
       "name": "Going Home",
@@ -5259,7 +5288,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Zurück_in_die_Heimat"
+      "wiki": {"en": "Going Home", "de": "Zurück in die Heimat"}
     },
     "100568": {
       "name": "Haiju Lagoon",
@@ -5267,7 +5296,7 @@ const GW_QUESTS = {
       "givers": [473],
       "event": 6,
       "rewards": ["50 Victory Tokens"],
-      "wiki": "https://www.guildwiki.de/wiki/Haiju-Lagune_(Mission)"
+      "wiki": {"en": "Haiju Lagoon (mission)", "de": "Haiju-Lagune (Mission)"}
     },
     "100569": {
       "name": "Honorable Combat",
@@ -5278,7 +5307,7 @@ const GW_QUESTS = {
       "rewards": ["Ruby", "2 Lockpicks"],
       "requires": [100563],
       "next": [100570, 100473],
-      "wiki": "https://www.guildwiki.de/wiki/Ehrenhafter_Kampf"
+      "wiki": {"en": "Honorable Combat", "de": "Ehrenhafter Kampf"}
     },
     "100570": {
       "name": "Honorable Combat (Hard mode)",
@@ -5289,7 +5318,7 @@ const GW_QUESTS = {
       "rewards": ["Sapphire", "Diamond", "Lockpick"],
       "requires": [100564, 100569],
       "next": [100474],
-      "wiki": "https://www.guildwiki.de/wiki/Ehrenhafter_Kampf_(Schwerer_Modus)"
+      "wiki": {"en": "Honorable Combat (Hard mode)", "de": "Ehrenhafter Kampf (Schwerer Modus)"}
     },
     "100571": {
       "name": "Hopeless Romantic",
@@ -5299,7 +5328,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 300,
       "rewards": ["25 Lunar Tokens"],
-      "wiki": "https://www.guildwiki.de/wiki/Hoffnungsloser_Romantiker"
+      "wiki": {"en": "Hopeless Romantic", "de": "Hoffnungsloser Romantiker"}
     },
     "100572": {
       "name": "Housing for Refugees",
@@ -5308,7 +5337,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Unterkünfte_für_Flüchtlinge"
+      "wiki": {"en": "Housing for Refugees", "de": "Unterkünfte für Flüchtlinge"}
     },
     "100573": {
       "name": "I Feel the Earth Move Under Cantha's Feet",
@@ -5317,7 +5346,7 @@ const GW_QUESTS = {
       "travel": 4,
       "xp": 2500,
       "next": [100424],
-      "wiki": "https://www.guildwiki.de/wiki/Erschütterungen_unter_Cantha"
+      "wiki": {"en": "I Feel the Earth Move Under Cantha's Feet", "de": "Erschütterungen unter Cantha"}
     },
     "100574": {
       "name": "If It Weren't for Bad Luck....",
@@ -5326,7 +5355,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["750 Luxon faction", "Luxon Totem"],
-      "wiki": "https://www.guildwiki.de/wiki/Pech_gehabt_..."
+      "wiki": {"en": "If It Weren't for Bad Luck....", "de": "Pech gehabt ..."}
     },
     "100575": {
       "name": "Imperial Assistance",
@@ -5335,7 +5364,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Kaiserliche_Unterstützung"
+      "wiki": {"en": "Imperial Assistance", "de": "Kaiserliche Unterstützung"}
     },
     "100576": {
       "name": "In the Army (Luxon)",
@@ -5345,7 +5374,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 150,
       "rewards": ["400 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Dienst_fürs_Vaterland_(Luxon)"
+      "wiki": {"en": "In the Army (Luxon)", "de": "Dienst fürs Vaterland (Luxon)"}
     },
     "100577": {
       "name": "In the Army Now (Kurzick)",
@@ -5355,7 +5384,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 150,
       "rewards": ["400 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Dienst_fürs_Vaterland_(Kurzick)"
+      "wiki": {"en": "In the Army Now (Kurzick)", "de": "Dienst fürs Vaterland (Kurzick)"}
     },
     "100578": {
       "name": "Intercepting the Am Fah",
@@ -5365,7 +5394,7 @@ const GW_QUESTS = {
       "gold": 500,
       "rewards": ["Ministerial Commendation"],
       "next": [100579, 100764],
-      "wiki": "https://www.guildwiki.de/wiki/Abfangen_des_Am_Fah"
+      "wiki": {"en": "Intercepting the Am Fah", "de": "Abfangen des Am Fah"}
     },
     "100579": {
       "name": "Intercepting the Am Fah (Hard mode)",
@@ -5376,7 +5405,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation", "Ministerial Commendation"],
       "requires": [100578],
       "next": [100765],
-      "wiki": "https://www.guildwiki.de/wiki/Abfangen_des_Am_Fah_(Schwerer_Modus)"
+      "wiki": {"en": "Intercepting the Am Fah (Hard mode)", "de": "Abfangen des Am Fah (Schwerer Modus)"}
     },
     "100580": {
       "name": "Into the Whirlpool",
@@ -5386,7 +5415,7 @@ const GW_QUESTS = {
       "gold": 150,
       "rewards": ["1,250 Kurzick faction", "1 Skill point"],
       "missions": [204],
-      "wiki": "https://www.guildwiki.de/wiki/In_den_Strudel"
+      "wiki": {"en": "Into the Whirlpool", "de": "In den Strudel"}
     },
     "100581": {
       "name": "Invoking the Saints",
@@ -5396,7 +5425,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["750 Kurzick faction", "Equipment Requisition"],
       "requires_missions": [267],
-      "wiki": "https://www.guildwiki.de/wiki/Anrufung_der_Heiligen"
+      "wiki": {"en": "Invoking the Saints", "de": "Anrufung der Heiligen"}
     },
     "100582": {
       "name": "It Ends Here",
@@ -5406,7 +5435,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["Imperial Commendation"],
       "requires": [100731],
-      "wiki": "https://www.guildwiki.de/wiki/Hier_endet_es"
+      "wiki": {"en": "It Ends Here", "de": "Hier endet es"}
     },
     "100583": {
       "name": "Jaya Bluffs",
@@ -5414,7 +5443,7 @@ const GW_QUESTS = {
       "givers": [473],
       "event": 6,
       "rewards": ["50 Victory Tokens"],
-      "wiki": "https://www.guildwiki.de/wiki/Jaya-Klippen_(Mission)"
+      "wiki": {"en": "Jaya Bluffs (mission)", "de": "Jaya-Klippen (Mission)"}
     },
     "100584": {
       "name": "Journey to Cavalon",
@@ -5423,7 +5452,7 @@ const GW_QUESTS = {
       "xp": 4000,
       "rewards": ["250 Luxon faction", "1 Skill point"],
       "next": [100496],
-      "wiki": "https://www.guildwiki.de/wiki/Reise_nach_Cavalon"
+      "wiki": {"en": "Journey to Cavalon", "de": "Reise nach Cavalon"}
     },
     "100585": {
       "name": "Journey to House zu Heltzer",
@@ -5433,7 +5462,7 @@ const GW_QUESTS = {
       "rewards": ["250 Kurzick faction", "1 Skill point"],
       "requires_missions": [264],
       "next": [100495],
-      "wiki": "https://www.guildwiki.de/wiki/Reise_zum_Haus_zu_Heltzer"
+      "wiki": {"en": "Journey to House zu Heltzer", "de": "Reise zum Haus zu Heltzer"}
     },
     "100586": {
       "name": "Journey to the Master",
@@ -5443,7 +5472,7 @@ const GW_QUESTS = {
       "gold": 100,
       "requires": [100745],
       "next": [100737],
-      "wiki": "https://www.guildwiki.de/wiki/Reise_zum_Meister"
+      "wiki": {"en": "Journey to the Master", "de": "Reise zum Meister"}
     },
     "100587": {
       "name": "Journey to the Whirlpool",
@@ -5454,7 +5483,7 @@ const GW_QUESTS = {
       "rewards": ["1,250 Luxon faction", "1 Skill point"],
       "requires_missions": [268],
       "missions": [204],
-      "wiki": "https://www.guildwiki.de/wiki/Reise_zum_Strudel"
+      "wiki": {"en": "Journey to the Whirlpool", "de": "Reise zum Strudel"}
     },
     "100588": {
       "name": "Just My Luck",
@@ -5464,7 +5493,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 500,
       "rewards": ["25 Lunar Tokens"],
-      "wiki": "https://www.guildwiki.de/wiki/Zum_Glück_geküsst"
+      "wiki": {"en": "Just My Luck", "de": "Zum Glück geküsst"}
     },
     "100589": {
       "name": "Kurzick Supply Lines",
@@ -5474,7 +5503,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 150,
       "rewards": ["400 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Nachschubwege_der_Kurzick"
+      "wiki": {"en": "Kurzick Supply Lines", "de": "Nachschubwege der Kurzick"}
     },
     "100590": {
       "name": "Lambs to the Slaughter",
@@ -5484,7 +5513,7 @@ const GW_QUESTS = {
       "gold": 175,
       "rewards": ["Imperial Commendation"],
       "requires": [100739],
-      "wiki": "https://www.guildwiki.de/wiki/Lämmer_zur_Schlachtbank"
+      "wiki": {"en": "Lambs to the Slaughter", "de": "Lämmer zur Schlachtbank"}
     },
     "100591": {
       "name": "Light My Fire",
@@ -5495,7 +5524,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Commendation"],
       "requires": [100510],
       "next": [100783],
-      "wiki": "https://www.guildwiki.de/wiki/Feuer_frei!"
+      "wiki": {"en": "Light My Fire", "de": "Feuer frei!"}
     },
     "100592": {
       "name": "Light My Fire (Hard mode)",
@@ -5506,7 +5535,7 @@ const GW_QUESTS = {
       "rewards": ["2 Imperial Commendations"],
       "requires": [100511],
       "next": [100784],
-      "wiki": "https://www.guildwiki.de/wiki/Feuer_frei!_(Schwerer_Modus)"
+      "wiki": {"en": "Light My Fire (Hard mode)", "de": "Feuer frei! (Schwerer Modus)"}
     },
     "100593": {
       "name": "Little Creatures",
@@ -5518,7 +5547,7 @@ const GW_QUESTS = {
       "skills": [84, 135],
       "requires": [100599],
       "next": [100761],
-      "wiki": "https://www.guildwiki.de/wiki/Kleine_Geschöpfe"
+      "wiki": {"en": "Little Creatures", "de": "Kleine Geschöpfe"}
     },
     "100594": {
       "name": "Little Lost Bear",
@@ -5527,7 +5556,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Kleiner_verlorener_Bär"
+      "wiki": {"en": "Little Lost Bear", "de": "Kleiner verlorener Bär"}
     },
     "100595": {
       "name": "Lo Sha's Gift",
@@ -5540,7 +5569,7 @@ const GW_QUESTS = {
       "rewards": ["Monastery Credit"],
       "requires": [100759],
       "next": [100476],
-      "wiki": "https://www.guildwiki.de/wiki/Lo_Shas_Geschenk"
+      "wiki": {"en": "Lo Sha's Gift", "de": "Lo Shas Geschenk"}
     },
     "100596": {
       "name": "Locate Jinzo",
@@ -5551,7 +5580,7 @@ const GW_QUESTS = {
       "skills": [783, 814, 858, 2091],
       "requires": [100684],
       "next": [100628],
-      "wiki": "https://www.guildwiki.de/wiki/Macht_Jinzo_ausfindig"
+      "wiki": {"en": "Locate Jinzo", "de": "Macht Jinzo ausfindig"}
     },
     "100597": {
       "name": "Locate Mei Ling",
@@ -5562,7 +5591,7 @@ const GW_QUESTS = {
       "skills": [26, 31, 40],
       "requires": [100682],
       "next": [100526],
-      "wiki": "https://www.guildwiki.de/wiki/Macht_Mei_Ling_ausfindig"
+      "wiki": {"en": "Locate Mei Ling", "de": "Macht Mei Ling ausfindig"}
     },
     "100598": {
       "name": "Locate Professor Gai",
@@ -5573,7 +5602,7 @@ const GW_QUESTS = {
       "skills": [964, 1237, 1247],
       "requires": [100685],
       "next": [100617],
-      "wiki": "https://www.guildwiki.de/wiki/Macht_Professor_Gai_ausfindig"
+      "wiki": {"en": "Locate Professor Gai", "de": "Macht Professor Gai ausfindig"}
     },
     "100599": {
       "name": "Locate Reng Ku",
@@ -5584,7 +5613,7 @@ const GW_QUESTS = {
       "skills": [105, 109, 153],
       "requires": [100683],
       "next": [100593],
-      "wiki": "https://www.guildwiki.de/wiki/Macht_Reng_Ku_ausfindig"
+      "wiki": {"en": "Locate Reng Ku", "de": "Macht Reng Ku ausfindig"}
     },
     "100600": {
       "name": "Locate Ronsu",
@@ -5595,7 +5624,7 @@ const GW_QUESTS = {
       "skills": [180, 194, 229],
       "requires": [100664],
       "next": [100678],
-      "wiki": "https://www.guildwiki.de/wiki/Macht_Ronsu_ausfindig"
+      "wiki": {"en": "Locate Ronsu", "de": "Macht Ronsu ausfindig"}
     },
     "100601": {
       "name": "Locate Sister Tai",
@@ -5606,7 +5635,7 @@ const GW_QUESTS = {
       "skills": [281, 288, 296],
       "requires": [100680],
       "next": [100689],
-      "wiki": "https://www.guildwiki.de/wiki/Macht_Schwester_Tai_ausfindig"
+      "wiki": {"en": "Locate Sister Tai", "de": "Macht Schwester Tai ausfindig"}
     },
     "100602": {
       "name": "Locate Sujun",
@@ -5617,7 +5646,7 @@ const GW_QUESTS = {
       "skills": [394, 411, 446],
       "requires": [100681],
       "next": [100565],
-      "wiki": "https://www.guildwiki.de/wiki/Macht_Sujun_ausfindig"
+      "wiki": {"en": "Locate Sujun", "de": "Macht Sujun ausfindig"}
     },
     "100603": {
       "name": "Locate Talon Silverwing",
@@ -5628,7 +5657,7 @@ const GW_QUESTS = {
       "skills": [1, 322, 382],
       "requires": [100687],
       "next": [100698],
-      "wiki": "https://www.guildwiki.de/wiki/Sucht_Talon_Silberflügel"
+      "wiki": {"en": "Locate Talon Silverwing", "de": "Sucht Talon Silberflügel"}
     },
     "100604": {
       "name": "Looking For Trouble",
@@ -5638,7 +5667,7 @@ const GW_QUESTS = {
       "gold": 100,
       "requires": [100737],
       "next": [100753],
-      "wiki": "https://www.guildwiki.de/wiki/Auf_der_Suche_nach_Ärger"
+      "wiki": {"en": "Looking For Trouble", "de": "Auf der Suche nach Ärger"}
     },
     "100605": {
       "name": "Lost Treasure",
@@ -5647,7 +5676,7 @@ const GW_QUESTS = {
       "xp": 4000,
       "gold": 175,
       "rewards": ["15 Attribute points"],
-      "wiki": "https://www.guildwiki.de/wiki/Verschollener_Schatz"
+      "wiki": {"en": "Lost Treasure", "de": "Verschollener Schatz"}
     },
     "100606": {
       "name": "Luxon Supply Lines",
@@ -5657,7 +5686,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 150,
       "rewards": ["400 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Nachschubwege_der_Luxon"
+      "wiki": {"en": "Luxon Supply Lines", "de": "Nachschubwege der Luxon"}
     },
     "100607": {
       "name": "Luxury Goods",
@@ -5666,7 +5695,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Luxusartikel"
+      "wiki": {"en": "Luxury Goods", "de": "Luxusartikel"}
     },
     "100608": {
       "name": "Mantid Hatchlings",
@@ -5675,7 +5704,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "skills": [1, 26, 153, 194, 281, 296, 322, 382, 793, 1247],
       "next": [100663, 100660, 100665, 100659, 100664, 100658, 100661, 100662],
-      "wiki": "https://www.guildwiki.de/wiki/Mantiden-Junge"
+      "wiki": {"en": "Mantid Hatchlings", "de": "Mantiden-Junge"}
     },
     "100609": {
       "name": "Masters of Corruption",
@@ -5685,7 +5714,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["Imperial Commendation"],
       "requires": [100545],
-      "wiki": "https://www.guildwiki.de/wiki/Meister_der_Verdorbenheit"
+      "wiki": {"en": "Masters of Corruption", "de": "Meister der Verdorbenheit"}
     },
     "100610": {
       "name": "Mayhem in the Market",
@@ -5696,7 +5725,7 @@ const GW_QUESTS = {
       "rewards": ["1 Skill point"],
       "requires": [100468],
       "missions": [215],
-      "wiki": "https://www.guildwiki.de/wiki/Chaos_am_Markt"
+      "wiki": {"en": "Mayhem in the Market", "de": "Chaos am Markt"}
     },
     "100611": {
       "name": "Medical Emergency",
@@ -5705,7 +5734,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Medizinischer_Notfall"
+      "wiki": {"en": "Medical Emergency", "de": "Medizinischer Notfall"}
     },
     "100612": {
       "name": "Melodic Gaki Flute",
@@ -5715,13 +5744,13 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["750 Kurzick faction", "Equipment Requisition"],
       "next": [100542],
-      "wiki": "https://www.guildwiki.de/wiki/Melodische_Gaki-Flöte"
+      "wiki": {"en": "Melodic Gaki Flute", "de": "Melodische Gaki-Flöte"}
     },
     "100613": {
       "name": "Memories of Purity",
       "type": "secondary",
       "givers": [502],
-      "wiki": "https://www.guildwiki.de/wiki/Erinnerungen_der_Reinheit"
+      "wiki": {"en": "Memories of Purity", "de": "Erinnerungen der Reinheit"}
     },
     "100614": {
       "name": "Mesmer Insignia",
@@ -5732,7 +5761,7 @@ const GW_QUESTS = {
       "gold": 75,
       "rewards": ["Monastery Credit"],
       "next": [100706],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer-Befähigung"
+      "wiki": {"en": "Mesmer Insignia", "de": "Mesmer-Befähigung"}
     },
     "100615": {
       "name": "Message on a Dragon Scale",
@@ -5741,7 +5770,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["750 Luxon faction", "1 Luxon Totem"],
-      "wiki": "https://www.guildwiki.de/wiki/Nachricht_auf_einer_Drachenschuppe"
+      "wiki": {"en": "Message on a Dragon Scale", "de": "Nachricht auf einer Drachenschuppe"}
     },
     "100616": {
       "name": "Messages, Messages Everywhere",
@@ -5751,7 +5780,7 @@ const GW_QUESTS = {
       "gold": 275,
       "rewards": ["750 Luxon faction", "Luxon Totem"],
       "requires": [100615],
-      "wiki": "https://www.guildwiki.de/wiki/Nachrichten,_überall_Nachrichten"
+      "wiki": {"en": "Messages, Messages Everywhere", "de": "Nachrichten, überall Nachrichten"}
     },
     "100617": {
       "name": "Minions Gone Wild",
@@ -5763,7 +5792,7 @@ const GW_QUESTS = {
       "skills": [911, 1258],
       "requires": [100598],
       "next": [100756],
-      "wiki": "https://www.guildwiki.de/wiki/Wild_gewordene_Diener"
+      "wiki": {"en": "Minions Gone Wild", "de": "Wild gewordene Diener"}
     },
     "100618": {
       "name": "Minister's Test",
@@ -5771,7 +5800,7 @@ const GW_QUESTS = {
       "givers": [302],
       "xp": 2500,
       "requires": [100502],
-      "wiki": "https://www.guildwiki.de/wiki/Test_des_Ministers"
+      "wiki": {"en": "Minister's Test", "de": "Test des Ministers"}
     },
     "100619": {
       "name": "Ministry of Oppression",
@@ -5781,7 +5810,7 @@ const GW_QUESTS = {
       "gold": 1000,
       "rewards": ["Imperial Guard Requisition Order", "Imperial Commendation"],
       "next": [100638, 100620],
-      "wiki": "https://www.guildwiki.de/wiki/Ministerium_der_Unterdrückung"
+      "wiki": {"en": "Ministry of Oppression", "de": "Ministerium der Unterdrückung"}
     },
     "100620": {
       "name": "Ministry of Oppression (Hard mode)",
@@ -5792,7 +5821,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Guard Requisition Order", "Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100619],
       "next": [100639],
-      "wiki": "https://www.guildwiki.de/wiki/Ministerium_der_Unterdrückung_(Schwerer_Modus)"
+      "wiki": {"en": "Ministry of Oppression (Hard mode)", "de": "Ministerium der Unterdrückung (Schwerer Modus)"}
     },
     "100621": {
       "name": "Missing Daughter",
@@ -5801,7 +5830,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Vermisste_Tochter"
+      "wiki": {"en": "Missing Daughter", "de": "Vermisste Tochter"}
     },
     "100622": {
       "name": "Monk Insignia",
@@ -5812,7 +5841,7 @@ const GW_QUESTS = {
       "gold": 75,
       "rewards": ["Monastery Credit"],
       "next": [100741],
-      "wiki": "https://www.guildwiki.de/wiki/Mönchs-Befähigung"
+      "wiki": {"en": "Monk Insignia", "de": "Mönchs-Befähigung"}
     },
     "100623": {
       "name": "More Cowbell",
@@ -5821,7 +5850,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["750 Luxon faction", "Luxon Totem"],
-      "wiki": "https://www.guildwiki.de/wiki/Mehr_Kuhglocke"
+      "wiki": {"en": "More Cowbell", "de": "Mehr Kuhglocke"}
     },
     "100624": {
       "name": "Naga Oil",
@@ -5830,7 +5859,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "next": [100693],
-      "wiki": "https://www.guildwiki.de/wiki/Nagaöl"
+      "wiki": {"en": "Naga Oil", "de": "Nagaöl"}
     },
     "100625": {
       "name": "Necromancer Insignia",
@@ -5840,7 +5869,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 75,
       "rewards": ["Monastery Credit"],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromanten-Befähigung"
+      "wiki": {"en": "Necromancer Insignia", "de": "Nekromanten-Befähigung"}
     },
     "100626": {
       "name": "Night Raiders",
@@ -5850,7 +5879,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["750 Luxon faction", "Luxon Totem"],
       "requires_missions": [264],
-      "wiki": "https://www.guildwiki.de/wiki/Nacht-Plünderer"
+      "wiki": {"en": "Night Raiders", "de": "Nacht-Plünderer"}
     },
     "100627": {
       "name": "Old Friends, Dark Times",
@@ -5858,7 +5887,7 @@ const GW_QUESTS = {
       "givers": [196],
       "gold": 100,
       "requires": [100625],
-      "wiki": "https://www.guildwiki.de/wiki/Alte_Freunde,_dunkle_Zeiten"
+      "wiki": {"en": "Old Friends, Dark Times", "de": "Alte Freunde, dunkle Zeiten"}
     },
     "100628": {
       "name": "Opening Strike",
@@ -5870,7 +5899,7 @@ const GW_QUESTS = {
       "skills": [780, 952],
       "requires": [100596],
       "next": [100760],
-      "wiki": "https://www.guildwiki.de/wiki/Eröffnungsschlag"
+      "wiki": {"en": "Opening Strike", "de": "Eröffnungsschlag"}
     },
     "100629": {
       "name": "Outcasts in the Quarry",
@@ -5879,7 +5908,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["1,000 Luxon faction", "Luxon Totem"],
-      "wiki": "https://www.guildwiki.de/wiki/Geächtete_im_Steinbruch"
+      "wiki": {"en": "Outcasts in the Quarry", "de": "Geächtete im Steinbruch"}
     },
     "100630": {
       "name": "Passing the Buck",
@@ -5888,7 +5917,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Den_Schwarzen_Peter_weitergeben"
+      "wiki": {"en": "Passing the Buck", "de": "Den Schwarzen Peter weitergeben"}
     },
     "100631": {
       "name": "Pest Control",
@@ -5897,7 +5926,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 75,
       "rewards": ["Monastery Credit"],
-      "wiki": "https://www.guildwiki.de/wiki/Kammerjäger"
+      "wiki": {"en": "Pest Control", "de": "Kammerjäger"}
     },
     "100632": {
       "name": "Power Surge",
@@ -5907,7 +5936,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 100,
       "requires": [100653],
-      "wiki": "https://www.guildwiki.de/wiki/Kraftwelle"
+      "wiki": {"en": "Power Surge", "de": "Kraftwelle"}
     },
     "100633": {
       "name": "Problem Salving",
@@ -5916,7 +5945,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Salbenproblem"
+      "wiki": {"en": "Problem Salving", "de": "Das Salbenproblem"}
     },
     "100634": {
       "name": "Protect the Halcyon",
@@ -5926,7 +5955,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["750 Luxon faction", "Luxon Totem"],
       "requires": [100721],
-      "wiki": "https://www.guildwiki.de/wiki/Schützt_die_Halkyon"
+      "wiki": {"en": "Protect the Halcyon", "de": "Schützt die Halkyon"}
     },
     "100635": {
       "name": "Quimang's Last Stand",
@@ -5936,7 +5965,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Monastery Credit"],
       "requires": [100742],
-      "wiki": "https://www.guildwiki.de/wiki/Quimangs_Widerstand"
+      "wiki": {"en": "Quimang's Last Stand", "de": "Quimangs Widerstand"}
     },
     "100636": {
       "name": "Raid on Kaineng Center",
@@ -5951,7 +5980,7 @@ const GW_QUESTS = {
       ],
       "requires": [100497],
       "next": [100637],
-      "wiki": "https://www.guildwiki.de/wiki/Überfall_auf_Kaineng"
+      "wiki": {"en": "Raid on Kaineng Center", "de": "Überfall auf Kaineng"}
     },
     "100637": {
       "name": "Raid on Kaineng Center (Hard mode)",
@@ -5968,7 +5997,7 @@ const GW_QUESTS = {
         "Imperial Guard Requisition Order"
       ],
       "requires": [100498, 100636],
-      "wiki": "https://www.guildwiki.de/wiki/Überfall_auf_Kaineng_(Schwerer_Modus)"
+      "wiki": {"en": "Raid on Kaineng Center (Hard mode)", "de": "Überfall auf Kaineng (Schwerer Modus)"}
     },
     "100638": {
       "name": "Raid on Shing Jea Monastery",
@@ -5983,7 +6012,7 @@ const GW_QUESTS = {
       ],
       "requires": [100619],
       "next": [100717, 100639],
-      "wiki": "https://www.guildwiki.de/wiki/Überfall_auf_das_Kloster_von_Shing_Jea"
+      "wiki": {"en": "Raid on Shing Jea Monastery", "de": "Überfall auf das Kloster von Shing Jea"}
     },
     "100639": {
       "name": "Raid on Shing Jea Monastery (Hard mode)",
@@ -6001,7 +6030,10 @@ const GW_QUESTS = {
       ],
       "requires": [100620, 100638],
       "next": [100718],
-      "wiki": "https://www.guildwiki.de/wiki/Überfall_auf_das_Kloster_von_Shing_Jea_(Schwerer_Modus)"
+      "wiki": {
+        "en": "Raid on Shing Jea Monastery (Hard mode)",
+        "de": "Überfall auf das Kloster von Shing Jea (Schwerer Modus)"
+      }
     },
     "100640": {
       "name": "Ranger Insignia",
@@ -6012,14 +6044,14 @@ const GW_QUESTS = {
       "gold": 75,
       "rewards": ["Monastery Credit"],
       "next": [100733],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer-Befähigung"
+      "wiki": {"en": "Ranger Insignia", "de": "Waldläufer-Befähigung"}
     },
     "100641": {
       "name": "Raze the Roost",
       "type": "secondary",
       "campaign": 2,
       "region": 8,
-      "wiki": "https://www.guildwiki.de/wiki/Den_Schlafplatz_schleifen"
+      "wiki": {"en": "Raze the Roost", "de": "Den Schlafplatz schleifen"}
     },
     "100642": {
       "name": "Reaping the Naga",
@@ -6032,7 +6064,7 @@ const GW_QUESTS = {
       "rewards": ["Monastery Credit"],
       "requires": [100761],
       "next": [100476],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Naga_ernten"
+      "wiki": {"en": "Reaping the Naga", "de": "Die Naga ernten"}
     },
     "100643": {
       "name": "Red Tape",
@@ -6042,7 +6074,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["Imperial Commendation"],
       "requires": [100611],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Amtsschimmel_wiehert"
+      "wiki": {"en": "Red Tape", "de": "Der Amtsschimmel wiehert"}
     },
     "100644": {
       "name": "Redemption for the Lost",
@@ -6053,7 +6085,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Commendation"],
       "requires": [100473],
       "next": [100645],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Erlösung_der_Verlorenen"
+      "wiki": {"en": "Redemption for the Lost", "de": "Die Erlösung der Verlorenen"}
     },
     "100645": {
       "name": "Redemption for the Lost (Hard mode)",
@@ -6063,7 +6095,7 @@ const GW_QUESTS = {
       "gold": 2000,
       "rewards": ["Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100644, 100474],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Erlösung_der_Verlorenen_(Schwerer_Modus)"
+      "wiki": {"en": "Redemption for the Lost (Hard mode)", "de": "Die Erlösung der Verlorenen (Schwerer Modus)"}
     },
     "100646": {
       "name": "Refuse to Drink",
@@ -6073,7 +6105,7 @@ const GW_QUESTS = {
       "gold": 275,
       "requires": [100666],
       "next": [100470],
-      "wiki": "https://www.guildwiki.de/wiki/Weigerung_zu_trinken"
+      "wiki": {"en": "Refuse to Drink", "de": "Weigerung zu trinken"}
     },
     "100647": {
       "name": "Rescue at Minister Cho's Estate",
@@ -6084,7 +6116,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100516],
       "next": [100648, 100512],
-      "wiki": "https://www.guildwiki.de/wiki/Rettung_auf_dem_Anwesen_von_Minister_Cho"
+      "wiki": {"en": "Rescue at Minister Cho's Estate", "de": "Rettung auf dem Anwesen von Minister Cho"}
     },
     "100648": {
       "name": "Rescue at Minister Cho's Estate (Hard mode)",
@@ -6095,7 +6127,10 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation", "Ministerial Commendation"],
       "requires": [100516, 100647],
       "next": [100513],
-      "wiki": "https://www.guildwiki.de/wiki/Rettung_auf_dem_Anwesen_von_Minister_Cho_(Schwerer_Modus)"
+      "wiki": {
+        "en": "Rescue at Minister Cho's Estate (Hard mode)",
+        "de": "Rettung auf dem Anwesen von Minister Cho (Schwerer Modus)"
+      }
     },
     "100649": {
       "name": "Return of the Yeti",
@@ -6104,7 +6139,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["1,000 Luxon faction", "Luxon Totem"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Rückkehr_des_Yeti"
+      "wiki": {"en": "Return of the Yeti", "de": "Die Rückkehr des Yeti"}
     },
     "100650": {
       "name": "Revenge of the Yeti",
@@ -6113,7 +6148,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["Monastery Credit"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Rache_des_Yeti"
+      "wiki": {"en": "Revenge of the Yeti", "de": "Die Rache des Yeti"}
     },
     "100651": {
       "name": "Revolt of the Dredge",
@@ -6123,7 +6158,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["750 Kurzick faction", "Equipment Requisition"],
       "requires": [100699],
-      "wiki": "https://www.guildwiki.de/wiki/Aufstand_der_Schaufler"
+      "wiki": {"en": "Revolt of the Dredge", "de": "Aufstand der Schaufler"}
     },
     "100652": {
       "name": "Rhythm Drinker Drum",
@@ -6133,7 +6168,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["750 Kurzick faction", "Equipment Requisition"],
       "requires": [100542],
-      "wiki": "https://www.guildwiki.de/wiki/Rhythmustrinker-Trommel"
+      "wiki": {"en": "Rhythm Drinker Drum", "de": "Rhythmustrinker-Trommel"}
     },
     "100653": {
       "name": "Ritualist Insignia",
@@ -6143,7 +6178,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 75,
       "rewards": ["Monastery Credit"],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualisten-Befähigung"
+      "wiki": {"en": "Ritualist Insignia", "de": "Ritualisten-Befähigung"}
     },
     "100654": {
       "name": "Scout the Coast",
@@ -6153,7 +6188,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 150,
       "rewards": ["400 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Kundschaftet_die_Küste_aus"
+      "wiki": {"en": "Scout the Coast", "de": "Kundschaftet die Küste aus"}
     },
     "100655": {
       "name": "Scouting Ferndale",
@@ -6163,7 +6198,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 150,
       "rewards": ["400 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Farntal_auskundschaften"
+      "wiki": {"en": "Scouting Ferndale", "de": "Farntal auskundschaften"}
     },
     "100656": {
       "name": "Scouting Maishang Hills",
@@ -6173,7 +6208,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 150,
       "rewards": ["400 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Maishang-Hügel_erforschen"
+      "wiki": {"en": "Scouting Maishang Hills", "de": "Die Maishang-Hügel erforschen"}
     },
     "100657": {
       "name": "Securing Echovald Forest",
@@ -6183,7 +6218,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 150,
       "rewards": ["400 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Den_Echowald_sichern"
+      "wiki": {"en": "Securing Echovald Forest", "de": "Den Echowald sichern"}
     },
     "100658": {
       "name": "Seek Out Headmaster Amara",
@@ -6194,7 +6229,7 @@ const GW_QUESTS = {
       "xp": 250,
       "gold": 20,
       "next": [100601],
-      "wiki": "https://www.guildwiki.de/wiki/Sucht_Großmeisterin_Amara_auf"
+      "wiki": {"en": "Seek Out Headmaster Amara", "de": "Sucht Großmeisterin Amara auf"}
     },
     "100659": {
       "name": "Seek Out Headmaster Greico",
@@ -6204,7 +6239,7 @@ const GW_QUESTS = {
       "xp": 250,
       "gold": 20,
       "next": [100602],
-      "wiki": "https://www.guildwiki.de/wiki/Sucht_Großmeister_Greico_auf"
+      "wiki": {"en": "Seek Out Headmaster Greico", "de": "Sucht Großmeister Greico auf"}
     },
     "100660": {
       "name": "Seek Out Headmaster Kaa",
@@ -6214,7 +6249,7 @@ const GW_QUESTS = {
       "xp": 250,
       "gold": 20,
       "next": [100597],
-      "wiki": "https://www.guildwiki.de/wiki/Sucht_Großmeister_Kaa_auf"
+      "wiki": {"en": "Seek Out Headmaster Kaa", "de": "Sucht Großmeister Kaa auf"}
     },
     "100661": {
       "name": "Seek Out Headmaster Kuju",
@@ -6224,7 +6259,7 @@ const GW_QUESTS = {
       "xp": 250,
       "gold": 20,
       "next": [100599],
-      "wiki": "https://www.guildwiki.de/wiki/Sucht_Großmeisterin_Kuju_auf"
+      "wiki": {"en": "Seek Out Headmaster Kuju", "de": "Sucht Großmeisterin Kuju auf"}
     },
     "100662": {
       "name": "Seek Out Headmaster Lee",
@@ -6234,7 +6269,7 @@ const GW_QUESTS = {
       "xp": 250,
       "gold": 20,
       "next": [100596],
-      "wiki": "https://www.guildwiki.de/wiki/Sucht_Großmeisterin_Lee_auf"
+      "wiki": {"en": "Seek Out Headmaster Lee", "de": "Sucht Großmeisterin Lee auf"}
     },
     "100663": {
       "name": "Seek Out Headmaster Quin",
@@ -6244,7 +6279,7 @@ const GW_QUESTS = {
       "xp": 250,
       "gold": 20,
       "next": [100598],
-      "wiki": "https://www.guildwiki.de/wiki/Sucht_Großmeisterin_Quin_auf"
+      "wiki": {"en": "Seek Out Headmaster Quin", "de": "Sucht Großmeisterin Quin auf"}
     },
     "100664": {
       "name": "Seek Out Headmaster Vhang",
@@ -6254,7 +6289,7 @@ const GW_QUESTS = {
       "xp": 250,
       "gold": 20,
       "next": [100600],
-      "wiki": "https://www.guildwiki.de/wiki/Sucht_Großmeister_Vhang_auf"
+      "wiki": {"en": "Seek Out Headmaster Vhang", "de": "Sucht Großmeister Vhang auf"}
     },
     "100665": {
       "name": "Seek Out Headmaster Zhan",
@@ -6264,7 +6299,7 @@ const GW_QUESTS = {
       "xp": 250,
       "gold": 20,
       "next": [100603],
-      "wiki": "https://www.guildwiki.de/wiki/Sucht_Großmeister_Zhan_auf"
+      "wiki": {"en": "Seek Out Headmaster Zhan", "de": "Sucht Großmeister Zhan auf"}
     },
     "100666": {
       "name": "Seek out Brother Tosai",
@@ -6274,7 +6309,7 @@ const GW_QUESTS = {
       "gold": 175,
       "requires": [100738],
       "next": [100545],
-      "wiki": "https://www.guildwiki.de/wiki/Sucht_nach_Bruder_Tosai"
+      "wiki": {"en": "Seek out Brother Tosai", "de": "Sucht nach Bruder Tosai"}
     },
     "100667": {
       "name": "Seeking Shelter",
@@ -6283,7 +6318,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Suche_nach_Obdach"
+      "wiki": {"en": "Seeking Shelter", "de": "Die Suche nach Obdach"}
     },
     "100668": {
       "name": "Seeking a Cure",
@@ -6296,7 +6331,7 @@ const GW_QUESTS = {
       "rewards": ["Monastery Credit"],
       "requires": [100757],
       "next": [100476],
-      "wiki": "https://www.guildwiki.de/wiki/Auf_der_Suche_nach_einem_Heilmittel"
+      "wiki": {"en": "Seeking a Cure", "de": "Auf der Suche nach einem Heilmittel"}
     },
     "100669": {
       "name": "Seitung Harbor (Mission)",
@@ -6304,7 +6339,7 @@ const GW_QUESTS = {
       "givers": [473],
       "event": 6,
       "rewards": ["75 Victory Tokens"],
-      "wiki": "https://www.guildwiki.de/wiki/Hafen_von_Seitung_(Mission)"
+      "wiki": {"en": "Seitung Harbor (mission)", "de": "Hafen von Seitung (Mission)"}
     },
     "100670": {
       "name": "Seitung Harbor (mission 2)",
@@ -6312,7 +6347,7 @@ const GW_QUESTS = {
       "givers": [473],
       "event": 6,
       "rewards": ["100 Victory Tokens"],
-      "wiki": "https://www.guildwiki.de/wiki/Hafen_von_Seitung_(Mission_2)"
+      "wiki": {"en": "Seitung Harbor (mission)", "de": "Hafen von Seitung (Mission 2)"}
     },
     "100671": {
       "name": "Sentimental Treasures",
@@ -6322,7 +6357,7 @@ const GW_QUESTS = {
       "gold": 150,
       "rewards": ["Monastery Credit"],
       "next": [100675],
-      "wiki": "https://www.guildwiki.de/wiki/Schätze_mit_nostalgischem_Wert"
+      "wiki": {"en": "Sentimental Treasures", "de": "Schätze mit nostalgischem Wert"}
     },
     "100672": {
       "name": "Shackled Spirits",
@@ -6335,7 +6370,7 @@ const GW_QUESTS = {
       "rewards": ["Monastery Credit"],
       "requires": [100756],
       "next": [100476],
-      "wiki": "https://www.guildwiki.de/wiki/Gefesselte_Geister"
+      "wiki": {"en": "Shackled Spirits", "de": "Gefesselte Geister"}
     },
     "100673": {
       "name": "Shing Jea Monastery",
@@ -6343,7 +6378,7 @@ const GW_QUESTS = {
       "givers": [473],
       "event": 6,
       "rewards": ["100 Victory Tokens"],
-      "wiki": "https://www.guildwiki.de/wiki/Kloster_von_Shing_Jea_(Mission)"
+      "wiki": {"en": "Shing Jea Monastery (mission)", "de": "Kloster von Shing Jea (Mission)"}
     },
     "100674": {
       "name": "Skill Chaining",
@@ -6352,7 +6387,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 50,
       "skills": [14, 76, 85, 104, 171, 200, 271, 311, 371, 396, 433, 1018, 1028, 1133, 1218, 1225],
-      "wiki": "https://www.guildwiki.de/wiki/Fertigkeitsfolgen"
+      "wiki": {"en": "Skill Chaining", "de": "Fertigkeitsfolgen"}
     },
     "100675": {
       "name": "Skin the Snake",
@@ -6362,7 +6397,7 @@ const GW_QUESTS = {
       "gold": 150,
       "rewards": ["Monastery Credit"],
       "requires": [100671],
-      "wiki": "https://www.guildwiki.de/wiki/Häutet_die_Schlange"
+      "wiki": {"en": "Skin the Snake", "de": "Häutet die Schlange"}
     },
     "100676": {
       "name": "Snaring Course",
@@ -6371,7 +6406,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 50,
       "skills": [234, 349, 392, 985],
-      "wiki": "https://www.guildwiki.de/wiki/Fallenstellkurs"
+      "wiki": {"en": "Snaring Course", "de": "Fallenstellkurs"}
     },
     "100677": {
       "name": "Song and Stone",
@@ -6380,7 +6415,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 350,
       "rewards": ["1,000 Kurzick faction", "Equipment Requisition"],
-      "wiki": "https://www.guildwiki.de/wiki/Gesang_und_Gestein"
+      "wiki": {"en": "Song and Stone", "de": "Gesang und Gestein"}
     },
     "100678": {
       "name": "Spark of Interest",
@@ -6392,7 +6427,7 @@ const GW_QUESTS = {
       "skills": [165, 211],
       "requires": [100600],
       "next": [100758],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Funken_Interesse"
+      "wiki": {"en": "Spark of Interest", "de": "Ein Funken Interesse"}
     },
     "100679": {
       "name": "Sparring Elements",
@@ -6404,7 +6439,7 @@ const GW_QUESTS = {
       "skills": [172, 197],
       "requires": [100758],
       "next": [100476],
-      "wiki": "https://www.guildwiki.de/wiki/Duell_mit_den_Elementen"
+      "wiki": {"en": "Sparring Elements", "de": "Duell mit den Elementen"}
     },
     "100680": {
       "name": "Speak with Headmaster Amara (Monk)",
@@ -6412,7 +6447,7 @@ const GW_QUESTS = {
       "givers": [467],
       "xp": 50,
       "next": [100601],
-      "wiki": "https://www.guildwiki.de/wiki/Sprecht_mit_Großmeisterin_Amara_(Mönchin)"
+      "wiki": {"en": "Speak with Headmaster Amara (Monk)", "de": "Sprecht mit Großmeisterin Amara (Mönchin)"}
     },
     "100681": {
       "name": "Speak with Headmaster Greico (Ranger)",
@@ -6420,7 +6455,7 @@ const GW_QUESTS = {
       "givers": [467],
       "xp": 50,
       "next": [100602],
-      "wiki": "https://www.guildwiki.de/wiki/Sprecht_mit_Großmeister_Greico_(Waldläufer)"
+      "wiki": {"en": "Speak with Headmaster Greico (Ranger)", "de": "Sprecht mit Großmeister Greico (Waldläufer)"}
     },
     "100682": {
       "name": "Speak with Headmaster Kaa (Mesmer)",
@@ -6428,7 +6463,7 @@ const GW_QUESTS = {
       "givers": [467],
       "xp": 50,
       "next": [100597],
-      "wiki": "https://www.guildwiki.de/wiki/Sprecht_mit_Großmeister_Kaa_(Mesmer)"
+      "wiki": {"en": "Speak with Headmaster Kaa (Mesmer)", "de": "Sprecht mit Großmeister Kaa (Mesmer)"}
     },
     "100683": {
       "name": "Speak with Headmaster Kuju (Necromancer)",
@@ -6436,7 +6471,7 @@ const GW_QUESTS = {
       "givers": [467],
       "xp": 50,
       "next": [100599],
-      "wiki": "https://www.guildwiki.de/wiki/Sprecht_mit_Großmeisterin_Kuju_(Nekromantin)"
+      "wiki": {"en": "Speak with Headmaster Kuju (Necromancer)", "de": "Sprecht mit Großmeisterin Kuju (Nekromantin)"}
     },
     "100684": {
       "name": "Speak with Headmaster Lee (Assassin)",
@@ -6444,7 +6479,7 @@ const GW_QUESTS = {
       "givers": [467],
       "xp": 50,
       "next": [100596],
-      "wiki": "https://www.guildwiki.de/wiki/Sprecht_mit_Großmeisterin_Lee_(Assassinin)"
+      "wiki": {"en": "Speak with Headmaster Lee (Assassin)", "de": "Sprecht mit Großmeisterin Lee (Assassinin)"}
     },
     "100685": {
       "name": "Speak with Headmaster Quin (Ritualist)",
@@ -6452,7 +6487,7 @@ const GW_QUESTS = {
       "givers": [467],
       "xp": 50,
       "next": [100598],
-      "wiki": "https://www.guildwiki.de/wiki/Sprecht_mit_Großmeisterin_Quin_(Ritualistin)"
+      "wiki": {"en": "Speak with Headmaster Quin (Ritualist)", "de": "Sprecht mit Großmeisterin Quin (Ritualistin)"}
     },
     "100686": {
       "name": "Speak with Headmaster Vhang (Elementalist)",
@@ -6460,7 +6495,10 @@ const GW_QUESTS = {
       "givers": [467],
       "xp": 50,
       "next": [100600],
-      "wiki": "https://www.guildwiki.de/wiki/Sprecht_mit_Großmeister_Vhang_(Elementarmagier)"
+      "wiki": {
+        "en": "Speak with Headmaster Vhang (Elementalist)",
+        "de": "Sprecht mit Großmeister Vhang (Elementarmagier)"
+      }
     },
     "100687": {
       "name": "Speak with Headmaster Zhan (Warrior)",
@@ -6468,7 +6506,7 @@ const GW_QUESTS = {
       "givers": [467],
       "xp": 50,
       "next": [100603],
-      "wiki": "https://www.guildwiki.de/wiki/Sprecht_mit_Großmeister_Zhan_(Krieger)"
+      "wiki": {"en": "Speak with Headmaster Zhan (Warrior)", "de": "Sprecht mit Großmeister Zhan (Krieger)"}
     },
     "100688": {
       "name": "Spirit of the Celebration",
@@ -6476,7 +6514,7 @@ const GW_QUESTS = {
       "campaign": 2,
       "region": 11,
       "rewards": ["Imperial Mask Token"],
-      "wiki": "https://www.guildwiki.de/wiki/Geist_des_Festes"
+      "wiki": {"en": "Spirit of the Celebration", "de": "Geist des Festes"}
     },
     "100689": {
       "name": "Stale Mate",
@@ -6488,7 +6526,7 @@ const GW_QUESTS = {
       "skills": [307, 313],
       "requires": [100601],
       "next": [100757],
-      "wiki": "https://www.guildwiki.de/wiki/Schachmatt"
+      "wiki": {"en": "Stale Mate", "de": "Schachmatt"}
     },
     "100690": {
       "name": "Stemming the Tide",
@@ -6497,7 +6535,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Flut_eindämmen"
+      "wiki": {"en": "Stemming the Tide", "de": "Die Flut eindämmen"}
     },
     "100691": {
       "name": "Stolen Eggs",
@@ -6509,7 +6547,7 @@ const GW_QUESTS = {
       "requires": [100496],
       "next_missions": [268],
       "missions": [268],
-      "wiki": "https://www.guildwiki.de/wiki/Gestohlene_Eier"
+      "wiki": {"en": "Stolen Eggs", "de": "Gestohlene Eier"}
     },
     "100692": {
       "name": "Straight to the Top",
@@ -6519,7 +6557,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["Imperial Commendation"],
       "requires": [100492],
-      "wiki": "https://www.guildwiki.de/wiki/Direkt_an_die_Spitze"
+      "wiki": {"en": "Straight to the Top", "de": "Direkt an die Spitze"}
     },
     "100693": {
       "name": "Street Justice",
@@ -6529,7 +6567,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["Imperial Commendation"],
       "requires": [100624],
-      "wiki": "https://www.guildwiki.de/wiki/Straßenjustiz"
+      "wiki": {"en": "Street Justice", "de": "Straßenjustiz"}
     },
     "100694": {
       "name": "Study Buddy",
@@ -6539,7 +6577,7 @@ const GW_QUESTS = {
       "gold": 75,
       "rewards": ["Monastery Credit"],
       "requires": [100466],
-      "wiki": "https://www.guildwiki.de/wiki/Paukergemeinschaft"
+      "wiki": {"en": "Study Buddy", "de": "Paukergemeinschaft"}
     },
     "100695": {
       "name": "Sunspears in Cantha",
@@ -6548,7 +6586,7 @@ const GW_QUESTS = {
       "travel": 3,
       "xp": 1000,
       "next": [100831],
-      "wiki": "https://www.guildwiki.de/wiki/Sonnenspeere_in_Cantha"
+      "wiki": {"en": "Sunspears in Cantha", "de": "Sonnenspeere in Cantha"}
     },
     "100696": {
       "name": "Take My Sister, Please",
@@ -6556,7 +6594,7 @@ const GW_QUESTS = {
       "givers": [286],
       "event": 1,
       "rewards": ["1 Celestial Miniature Token"],
-      "wiki": "https://www.guildwiki.de/wiki/Das_lustige_Schwesterlein"
+      "wiki": {"en": "Take My Sister, Please", "de": "Das lustige Schwesterlein"}
     },
     "100697": {
       "name": "Taking Back the Palace",
@@ -6568,7 +6606,7 @@ const GW_QUESTS = {
       "requires_missions": [204],
       "next_missions": [270],
       "missions": [270],
-      "wiki": "https://www.guildwiki.de/wiki/Wiedereinnahme_des_Palastes"
+      "wiki": {"en": "Taking Back the Palace", "de": "Wiedereinnahme des Palastes"}
     },
     "100698": {
       "name": "Talon's Duel",
@@ -6578,7 +6616,7 @@ const GW_QUESTS = {
       "skills": [330, 348],
       "requires": [100603],
       "next": [100762],
-      "wiki": "https://www.guildwiki.de/wiki/Talons_Duell"
+      "wiki": {"en": "Talon's Duel", "de": "Talons Duell"}
     },
     "100699": {
       "name": "Temple of the Dredge",
@@ -6589,7 +6627,7 @@ const GW_QUESTS = {
       "rewards": ["750 Kurzick faction", "Equipment Requisition"],
       "requires": [100551],
       "next": [100651],
-      "wiki": "https://www.guildwiki.de/wiki/Tempel_der_Schaufler"
+      "wiki": {"en": "Temple of the Dredge", "de": "Tempel der Schaufler"}
     },
     "100700": {
       "name": "The Afflicted Guard",
@@ -6598,7 +6636,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_befallene_Wächter"
+      "wiki": {"en": "The Afflicted Guard", "de": "Der befallene Wächter"}
     },
     "100701": {
       "name": "The Agriculturist",
@@ -6607,7 +6645,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 75,
       "rewards": ["Monastery Credit"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Landwirtschaftsexperte"
+      "wiki": {"en": "The Agriculturist", "de": "Der Landwirtschaftsexperte"}
     },
     "100702": {
       "name": "The Ancient Forest",
@@ -6617,7 +6655,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["750 Kurzick faction", "Equipment Requisition"],
       "next": [100716],
-      "wiki": "https://www.guildwiki.de/wiki/Der_alte_Wald"
+      "wiki": {"en": "The Ancient Forest", "de": "Der alte Wald"}
     },
     "100703": {
       "name": "The Beak of Darkness",
@@ -6626,7 +6664,7 @@ const GW_QUESTS = {
       "xp": 3500,
       "gold": 275,
       "rewards": ["750 Kurzick faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Schnabel_der_Dunkelheit"
+      "wiki": {"en": "The Beak of Darkness", "de": "Der Schnabel der Dunkelheit"}
     },
     "100704": {
       "name": "The Big Bang",
@@ -6637,7 +6675,7 @@ const GW_QUESTS = {
       "gold": 500,
       "rewards": ["25 Lunar Tokens", "2 Bottle Rockets", "2 Champagne Poppers", "2 Sparklers"],
       "requires": [100560],
-      "wiki": "https://www.guildwiki.de/wiki/Der_große_Knall"
+      "wiki": {"en": "The Big Bang", "de": "Der große Knall"}
     },
     "100705": {
       "name": "The Bog Beast of Bokku",
@@ -6646,7 +6684,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 150,
       "rewards": ["Monastery Credit"],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Sumpfmonster_von_Bokku"
+      "wiki": {"en": "The Bog Beast of Bokku", "de": "Das Sumpfmonster von Bokku"}
     },
     "100706": {
       "name": "The Box of Illusions",
@@ -6654,7 +6692,7 @@ const GW_QUESTS = {
       "givers": [430],
       "xp": 2500,
       "gold": 100,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Schatulle_der_Illusionen"
+      "wiki": {"en": "The Box of Illusions", "de": "Die Schatulle der Illusionen"}
     },
     "100707": {
       "name": "The Captured Son",
@@ -6663,7 +6701,7 @@ const GW_QUESTS = {
       "xp": 4000,
       "gold": 500,
       "rewards": ["Monastery Credit"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_gefangene_Sohn"
+      "wiki": {"en": "The Captured Son", "de": "Der gefangene Sohn"}
     },
     "100708": {
       "name": "The Challenge",
@@ -6672,7 +6710,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Herausforderung"
+      "wiki": {"en": "The Challenge", "de": "Die Herausforderung"}
     },
     "100709": {
       "name": "The Convocation",
@@ -6684,7 +6722,7 @@ const GW_QUESTS = {
       "requires_missions": [262],
       "next_missions": [263],
       "missions": [263],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Versammlung"
+      "wiki": {"en": "The Convocation", "de": "Die Versammlung"}
     },
     "100710": {
       "name": "The Count's Daughter",
@@ -6695,7 +6733,7 @@ const GW_QUESTS = {
       "rewards": ["1 Skill point"],
       "requires": [100469],
       "missions": [262],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Tochter_des_Grafen"
+      "wiki": {"en": "The Count's Daughter", "de": "Die Tochter des Grafen"}
     },
     "100711": {
       "name": "The Crop Thieves",
@@ -6708,7 +6746,7 @@ const GW_QUESTS = {
       "rewards": ["Monastery Credit"],
       "requires": [100762],
       "next": [100476],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Erntediebe"
+      "wiki": {"en": "The Crop Thieves", "de": "Die Erntediebe"}
     },
     "100712": {
       "name": "The Defenders of the Forest",
@@ -6720,7 +6758,7 @@ const GW_QUESTS = {
       "requires": [100495],
       "next_missions": [267],
       "missions": [267],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Verteidiger_des_Waldes"
+      "wiki": {"en": "The Defenders of the Forest", "de": "Die Verteidiger des Waldes"}
     },
     "100713": {
       "name": "The Dragon Hunter",
@@ -6729,7 +6767,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["1,000 Luxon faction", "Luxon Totem"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Drachenjäger"
+      "wiki": {"en": "The Dragon Hunter", "de": "Der Drachenjäger"}
     },
     "100714": {
       "name": "The Drunken Master",
@@ -6738,7 +6776,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_betrunkene_Meister"
+      "wiki": {"en": "The Drunken Master", "de": "Der betrunkene Meister"}
     },
     "100715": {
       "name": "The Emperor in Peril",
@@ -6747,7 +6785,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 175,
       "next": [100731],
-      "wiki": "https://www.guildwiki.de/wiki/Kaiser_in_Gefahr"
+      "wiki": {"en": "The Emperor in Peril", "de": "Kaiser in Gefahr"}
     },
     "100716": {
       "name": "The Experimental Weaponsmith",
@@ -6756,7 +6794,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["750 Kurzick faction", "Equipment Requisition"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_experimentelle_Waffenschmied"
+      "wiki": {"en": "The Experimental Weaponsmith", "de": "Der experimentelle Waffenschmied"}
     },
     "100717": {
       "name": "The Final Confrontation",
@@ -6766,7 +6804,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Dragon's Tear"],
       "requires": [100638],
       "next": [100718],
-      "wiki": "https://www.guildwiki.de/wiki/Die_letzte_Gegenüberstellung"
+      "wiki": {"en": "The Final Confrontation", "de": "Die letzte Gegenüberstellung"}
     },
     "100718": {
       "name": "The Final Confrontation (Hard mode)",
@@ -6775,7 +6813,7 @@ const GW_QUESTS = {
       "xp": 20000,
       "rewards": ["Imperial Dragon's Tear", "Imperial Dragon's Tear"],
       "requires": [100717, 100639],
-      "wiki": "https://www.guildwiki.de/wiki/Die_letzte_Gegenüberstellung_(Schwerer_Modus)"
+      "wiki": {"en": "The Final Confrontation (Hard mode)", "de": "Die letzte Gegenüberstellung (Schwerer Modus)"}
     },
     "100719": {
       "name": "The Gangs of Kaineng",
@@ -6786,7 +6824,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100487],
       "next": [100720, 100781],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Banden_von_Kaineng"
+      "wiki": {"en": "The Gangs of Kaineng", "de": "Die Banden von Kaineng"}
     },
     "100720": {
       "name": "The Gangs of Kaineng (Hard mode)",
@@ -6797,7 +6835,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation", "Ministerial Commendation"],
       "requires": [100488, 100719],
       "next": [100782],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Banden_von_Kaineng_(Schwerer_Modus)"
+      "wiki": {"en": "The Gangs of Kaineng (Hard mode)", "de": "Die Banden von Kaineng (Schwerer Modus)"}
     },
     "100721": {
       "name": "The Halcyon Job",
@@ -6807,7 +6845,7 @@ const GW_QUESTS = {
       "gold": 350,
       "rewards": ["1,000 Luxon faction", "Luxon Totem"],
       "next": [100634],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Halkyon-Job"
+      "wiki": {"en": "The Halcyon Job", "de": "Der Halkyon-Job"}
     },
     "100722": {
       "name": "The Impossible Sea Monster",
@@ -6816,7 +6854,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["750 Luxon faction", "Luxon Totem"],
-      "wiki": "https://www.guildwiki.de/wiki/Das_unmögliche_Meeresmonster_(Quest)"
+      "wiki": {"en": "The Impossible Sea Monster", "de": "Das unmögliche Meeresmonster (Quest)"}
     },
     "100723": {
       "name": "The Jade Arena",
@@ -6826,7 +6864,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 150,
       "rewards": ["400 Luxon faction"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Jade-Arena"
+      "wiki": {"en": "The Jade Arena", "de": "Die Jade-Arena"}
     },
     "100724": {
       "name": "The Jade Quarry (Kurzick quest)",
@@ -6835,7 +6873,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "requires": [100585],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Jadesteinbruch_(Kurzick-Quest)"
+      "wiki": {"en": "The Jade Quarry (Kurzick quest)", "de": "Der Jadesteinbruch (Kurzick-Quest)"}
     },
     "100725": {
       "name": "The Jade Quarry (Luxon quest)",
@@ -6844,7 +6882,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "requires": [100584],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Jadesteinbruch_(Luxon-Quest)"
+      "wiki": {"en": "The Jade Quarry (Luxon quest)", "de": "Der Jadesteinbruch (Luxon-Quest)"}
     },
     "100726": {
       "name": "The Kaguchi Brothers",
@@ -6853,7 +6891,7 @@ const GW_QUESTS = {
       "profession": 1,
       "xp": 2500,
       "gold": 100,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Gebrüder_Kaguchi"
+      "wiki": {"en": "The Kaguchi Brothers", "de": "Die Gebrüder Kaguchi"}
     },
     "100727": {
       "name": "The Knights Who Say Nian",
@@ -6863,7 +6901,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 300,
       "rewards": ["25 Lunar Tokens"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Ritter,_die_Nian_sagen"
+      "wiki": {"en": "The Knights Who Say Nian", "de": "Die Ritter, die Nian sagen"}
     },
     "100728": {
       "name": "The Missing Corpses",
@@ -6872,7 +6910,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_verschollenen_Kadaver"
+      "wiki": {"en": "The Missing Corpses", "de": "Die verschollenen Kadaver"}
     },
     "100729": {
       "name": "The Missing Link",
@@ -6882,7 +6920,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Das_fehlende_Bindeglied"
+      "wiki": {"en": "The Missing Link", "de": "Das fehlende Bindeglied"}
     },
     "100730": {
       "name": "The Naga Source",
@@ -6892,7 +6930,7 @@ const GW_QUESTS = {
       "gold": 150,
       "rewards": ["Monastery Credit"],
       "requires": [100486],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Ursprung_der_Naga"
+      "wiki": {"en": "The Naga Source", "de": "Der Ursprung der Naga"}
     },
     "100731": {
       "name": "The Plot Thickens",
@@ -6902,7 +6940,7 @@ const GW_QUESTS = {
       "gold": 175,
       "requires": [100715],
       "next": [100582],
-      "wiki": "https://www.guildwiki.de/wiki/Langsam_wird_es_interessant"
+      "wiki": {"en": "The Plot Thickens", "de": "Langsam wird es interessant"}
     },
     "100732": {
       "name": "The Rampaging Yetis",
@@ -6913,7 +6951,7 @@ const GW_QUESTS = {
       "gold": 150,
       "rewards": ["40 Victory Tokenns"],
       "next": [100740],
-      "wiki": "https://www.guildwiki.de/wiki/Die_randalierenden_Yetis"
+      "wiki": {"en": "The Rampaging Yetis", "de": "Die randalierenden Yetis"}
     },
     "100733": {
       "name": "The Red Frog",
@@ -6922,7 +6960,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 100,
       "requires": [100640],
-      "wiki": "https://www.guildwiki.de/wiki/Der_rote_Frosch"
+      "wiki": {"en": "The Red Frog", "de": "Der rote Frosch"}
     },
     "100734": {
       "name": "The Rescue Attempt",
@@ -6933,7 +6971,7 @@ const GW_QUESTS = {
       "rewards": ["Silver Zaishen Coin"],
       "requires": [100772],
       "next": [100735, 100775],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Rettungsversuch"
+      "wiki": {"en": "The Rescue Attempt", "de": "Der Rettungsversuch"}
     },
     "100735": {
       "name": "The Rescue Attempt (Hard mode)",
@@ -6944,7 +6982,7 @@ const GW_QUESTS = {
       "rewards": ["Gold Zaishen Coin"],
       "requires": [100773, 100734],
       "next": [100776],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Rettungsversuch_(Schwerer_Modus)"
+      "wiki": {"en": "The Rescue Attempt (Hard mode)", "de": "Der Rettungsversuch (Schwerer Modus)"}
     },
     "100736": {
       "name": "The Rite of Valor",
@@ -6953,7 +6991,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["Monastery Credit"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Ritus_der_Tapferkeit"
+      "wiki": {"en": "The Rite of Valor", "de": "Der Ritus der Tapferkeit"}
     },
     "100737": {
       "name": "The Road Less Traveled",
@@ -6963,7 +7001,7 @@ const GW_QUESTS = {
       "gold": 100,
       "requires": [100586],
       "next": [100604],
-      "wiki": "https://www.guildwiki.de/wiki/Die_wenig_begangene_Straße"
+      "wiki": {"en": "The Road Less Traveled", "de": "Die wenig begangene Straße"}
     },
     "100738": {
       "name": "The Search for a Cure",
@@ -6973,7 +7011,7 @@ const GW_QUESTS = {
       "gold": 175,
       "skills": [305],
       "next": [100666],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Suche_nach_einem_Heilmittel"
+      "wiki": {"en": "The Search for a Cure", "de": "Die Suche nach einem Heilmittel"}
     },
     "100739": {
       "name": "The Shadow Blades",
@@ -6984,7 +7022,7 @@ const GW_QUESTS = {
       "gold": 175,
       "rewards": ["Imperial Commendation"],
       "next": [100590],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Schattenklingen"
+      "wiki": {"en": "The Shadow Blades", "de": "Die Schattenklingen"}
     },
     "100740": {
       "name": "The Shrine of Maat",
@@ -6996,7 +7034,7 @@ const GW_QUESTS = {
       "rewards": ["50 Victory Tokenns"],
       "requires": [100732],
       "next": [100472],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Schrein_des_Maat"
+      "wiki": {"en": "The Shrine of Maat", "de": "Der Schrein des Maat"}
     },
     "100741": {
       "name": "The Sickened Village",
@@ -7005,7 +7043,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 100,
       "requires": [100622],
-      "wiki": "https://www.guildwiki.de/wiki/Das_erkrankte_Dorf"
+      "wiki": {"en": "The Sickened Village", "de": "Das erkrankte Dorf"}
     },
     "100742": {
       "name": "The Siege at Tsumei Village",
@@ -7016,7 +7054,7 @@ const GW_QUESTS = {
       "rewards": ["Monastery Credit"],
       "requires": [100754],
       "next": [100635],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Belagerung_des_Dorfes_Tsumei"
+      "wiki": {"en": "The Siege at Tsumei Village", "de": "Die Belagerung des Dorfes Tsumei"}
     },
     "100743": {
       "name": "The Stone of the Elements",
@@ -7025,7 +7063,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 100,
       "requires": [100548],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Stein_der_Elemente_(Quest)"
+      "wiki": {"en": "The Stone of the Elements", "de": "Der Stein der Elemente (Quest)"}
     },
     "100744": {
       "name": "The Thieving Nanny",
@@ -7034,7 +7072,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 150,
       "rewards": ["Monastery Credit"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_diebische_Kinderfrau"
+      "wiki": {"en": "The Thieving Nanny", "de": "Die diebische Kinderfrau"}
     },
     "100745": {
       "name": "The Threat Grows",
@@ -7044,7 +7082,7 @@ const GW_QUESTS = {
       "gold": 100,
       "requires": [100777],
       "next": [100586],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Bedrohung_wächst"
+      "wiki": {"en": "The Threat Grows", "de": "Die Bedrohung wächst"}
     },
     "100746": {
       "name": "The Xunlai Agent",
@@ -7053,7 +7091,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Xunlai-Agentin"
+      "wiki": {"en": "The Xunlai Agent", "de": "Die Xunlai-Agentin"}
     },
     "100747": {
       "name": "The Yeti Hunt",
@@ -7066,7 +7104,7 @@ const GW_QUESTS = {
       "rewards": ["Monastery Credit"],
       "requires": [100763],
       "next": [100476],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Jagd_auf_den_Yeti"
+      "wiki": {"en": "The Yeti Hunt", "de": "Die Jagd auf den Yeti"}
     },
     "100748": {
       "name": "The Zenos Squad",
@@ -7076,7 +7114,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["750 Luxon faction", "Luxon Totem"],
       "next": [100722],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Zenos-Trupp"
+      "wiki": {"en": "The Zenos Squad", "de": "Der Zenos-Trupp"}
     },
     "100749": {
       "name": "There Goes the Neighborhood (Hard mode)‎",
@@ -7087,7 +7125,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Guard Requisition Order", "Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100637],
       "next": [100620],
-      "wiki": "https://www.guildwiki.de/wiki/Lebe_wohl,_Nachbarschaft_(Schwerer_Modus)"
+      "wiki": {"en": "There Goes the Neighborhood (Hard mode)", "de": "Lebe wohl, Nachbarschaft (Schwerer Modus)"}
     },
     "100750": {
       "name": "There Goes the Neighborhood‎",
@@ -7098,7 +7136,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100636],
       "next": [100619],
-      "wiki": "https://www.guildwiki.de/wiki/Lebe_wohl,_Nachbarschaft"
+      "wiki": {"en": "There Goes the Neighborhood", "de": "Lebe wohl, Nachbarschaft"}
     },
     "100751": {
       "name": "To Tahnnakai Temple",
@@ -7110,7 +7148,7 @@ const GW_QUESTS = {
       "requires_missions": [260],
       "next_missions": [261],
       "missions": [261],
-      "wiki": "https://www.guildwiki.de/wiki/Zum_Tahnnakai-Tempel"
+      "wiki": {"en": "To Tahnnakai Temple", "de": "Zum Tahnnakai-Tempel"}
     },
     "100752": {
       "name": "To Zen Daijun",
@@ -7121,7 +7159,7 @@ const GW_QUESTS = {
       "rewards": ["1 Skill point"],
       "requires": [100753],
       "missions": [258],
-      "wiki": "https://www.guildwiki.de/wiki/Nach_Zen_Daijun"
+      "wiki": {"en": "To Zen Daijun", "de": "Nach Zen Daijun"}
     },
     "100753": {
       "name": "To the Rescue (Factions quest)",
@@ -7131,7 +7169,7 @@ const GW_QUESTS = {
       "gold": 150,
       "requires": [100604],
       "next": [100752],
-      "wiki": "https://www.guildwiki.de/wiki/Zu_Hilfe"
+      "wiki": {"en": "To the Rescue (Factions quest)", "de": "Zu Hilfe"}
     },
     "100754": {
       "name": "Togo's Ultimatum",
@@ -7141,7 +7179,7 @@ const GW_QUESTS = {
       "gold": 150,
       "rewards": ["Monastery Credit"],
       "next": [100742],
-      "wiki": "https://www.guildwiki.de/wiki/Togos_Ultimatum"
+      "wiki": {"en": "Togo's Ultimatum", "de": "Togos Ultimatum"}
     },
     "100755": {
       "name": "Too High a Price",
@@ -7150,7 +7188,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 175,
       "rewards": ["Imperial Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Preis_ist_zu_hoch"
+      "wiki": {"en": "Too High a Price", "de": "Der Preis ist zu hoch"}
     },
     "100756": {
       "name": "Track Down Ang the Ephemeral",
@@ -7161,7 +7199,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100617],
       "next": [100672],
-      "wiki": "https://www.guildwiki.de/wiki/Findet_Ang_den_Kurzlebigen"
+      "wiki": {"en": "Track Down Ang the Ephemeral", "de": "Findet Ang den Kurzlebigen"}
     },
     "100757": {
       "name": "Track Down Brother Pe Wan",
@@ -7171,7 +7209,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100689],
       "next": [100668],
-      "wiki": "https://www.guildwiki.de/wiki/Sucht_nach_Bruder_Pe_Wan"
+      "wiki": {"en": "Track Down Brother Pe Wan", "de": "Sucht nach Bruder Pe Wan"}
     },
     "100758": {
       "name": "Track Down Kai Ying",
@@ -7181,7 +7219,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100678],
       "next": [100679],
-      "wiki": "https://www.guildwiki.de/wiki/Spürt_Kai_Ying_auf"
+      "wiki": {"en": "Track Down Kai Ying", "de": "Spürt Kai Ying auf"}
     },
     "100759": {
       "name": "Track Down Lo Sha",
@@ -7191,7 +7229,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100526],
       "next": [100595],
-      "wiki": "https://www.guildwiki.de/wiki/Spürt_Lo_Sha_auf"
+      "wiki": {"en": "Track Down Lo Sha", "de": "Spürt Lo Sha auf"}
     },
     "100760": {
       "name": "Track Down Panaku",
@@ -7201,7 +7239,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100628],
       "next": [100546],
-      "wiki": "https://www.guildwiki.de/wiki/Sucht_nach_Panaku"
+      "wiki": {"en": "Track Down Panaku", "de": "Sucht nach Panaku"}
     },
     "100761": {
       "name": "Track Down Su",
@@ -7211,7 +7249,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100593],
       "next": [100642],
-      "wiki": "https://www.guildwiki.de/wiki/Sucht_nach_Su"
+      "wiki": {"en": "Track Down Su", "de": "Sucht nach Su"}
     },
     "100762": {
       "name": "Track Down Weng Gha",
@@ -7221,7 +7259,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100698],
       "next": [100711],
-      "wiki": "https://www.guildwiki.de/wiki/Spürt_Weng_Gha_auf"
+      "wiki": {"en": "Track Down Weng Gha", "de": "Spürt Weng Gha auf"}
     },
     "100763": {
       "name": "Track Down Zho",
@@ -7231,7 +7269,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100565],
       "next": [100747],
-      "wiki": "https://www.guildwiki.de/wiki/Sucht_nach_Zho"
+      "wiki": {"en": "Track Down Zho", "de": "Sucht nach Zho"}
     },
     "100764": {
       "name": "Tracking the Corruption",
@@ -7242,7 +7280,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100578],
       "next": [100765, 100487],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Verdorbenheit_auf_der_Spur"
+      "wiki": {"en": "Tracking the Corruption", "de": "Der Verdorbenheit auf der Spur"}
     },
     "100765": {
       "name": "Tracking the Corruption (Hard mode)",
@@ -7253,7 +7291,7 @@ const GW_QUESTS = {
       "rewards": ["2 Ministerial Commendations"],
       "requires": [100579, 100764],
       "next": [100488],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Verdorbenheit_auf_der_Spur_(Schwerer_Modus)"
+      "wiki": {"en": "Tracking the Corruption (Hard mode)", "de": "Der Verdorbenheit auf der Spur (Schwerer Modus)"}
     },
     "100766": {
       "name": "Trading Blows",
@@ -7264,7 +7302,7 @@ const GW_QUESTS = {
       "rewards": ["1,000 Kurzick faction", "Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100537],
       "next": [100767, 100552],
-      "wiki": "https://www.guildwiki.de/wiki/Schlagabtausch"
+      "wiki": {"en": "Trading Blows", "de": "Schlagabtausch"}
     },
     "100767": {
       "name": "Trading Blows (Hard mode)",
@@ -7275,7 +7313,7 @@ const GW_QUESTS = {
       "rewards": ["2,000 Kurzick faction", "2 Imperial Guard Requisition Orders", "1 Imperial Commendation"],
       "requires": [100538, 100766],
       "next": [100553],
-      "wiki": "https://www.guildwiki.de/wiki/Schlagabtausch_(Schwerer_Modus)"
+      "wiki": {"en": "Trading Blows (Hard mode)", "de": "Schlagabtausch (Schwerer Modus)"}
     },
     "100768": {
       "name": "Tsumei Village",
@@ -7283,7 +7321,7 @@ const GW_QUESTS = {
       "givers": [473],
       "event": 6,
       "rewards": ["75 Victory Tokens"],
-      "wiki": "https://www.guildwiki.de/wiki/Dorf_Tsumei_(Mission)"
+      "wiki": {"en": "Tsumei Village (mission)", "de": "Dorf Tsumei (Mission)"}
     },
     "100769": {
       "name": "Tsumei Village (mission 2)",
@@ -7291,7 +7329,7 @@ const GW_QUESTS = {
       "givers": [473],
       "event": 6,
       "rewards": ["100 Victory Tokens"],
-      "wiki": "https://www.guildwiki.de/wiki/Dorf_Tsumei_(Mission_2)"
+      "wiki": {"en": "Tsumei Village (mission)", "de": "Dorf Tsumei (Mission 2)"}
     },
     "100770": {
       "name": "Vassal States",
@@ -7302,7 +7340,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Commendation"],
       "requires": [100473],
       "next": [100771],
-      "wiki": "https://www.guildwiki.de/wiki/Vasallenstaaten"
+      "wiki": {"en": "Vassal States", "de": "Vasallenstaaten"}
     },
     "100771": {
       "name": "Vassal States (Hard mode)",
@@ -7312,7 +7350,7 @@ const GW_QUESTS = {
       "gold": 2000,
       "rewards": ["Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100770, 100474],
-      "wiki": "https://www.guildwiki.de/wiki/Vasallenstaaten_(Schwerer_Modus)"
+      "wiki": {"en": "Vassal States (Hard mode)", "de": "Vasallenstaaten (Schwerer Modus)"}
     },
     "100772": {
       "name": "Violence in the Streets",
@@ -7323,7 +7361,7 @@ const GW_QUESTS = {
       "rewards": ["Imperial Guard Requisition Order", "Imperial Commendation"],
       "requires": [100552],
       "next": [100773, 100734],
-      "wiki": "https://www.guildwiki.de/wiki/Gewalt_auf_den_Straßen"
+      "wiki": {"en": "Violence in the Streets", "de": "Gewalt auf den Straßen"}
     },
     "100773": {
       "name": "Violence in the Streets (Hard mode)",
@@ -7334,7 +7372,7 @@ const GW_QUESTS = {
       "rewards": ["2 Imperial Guard Requisition Orders", "1 Imperial Commendation"],
       "requires": [100553, 100772],
       "next": [100735],
-      "wiki": "https://www.guildwiki.de/wiki/Gewalt_auf_den_Straßen_(Schwerer_Modus)"
+      "wiki": {"en": "Violence in the Streets (Hard mode)", "de": "Gewalt auf den Straßen (Schwerer Modus)"}
     },
     "100774": {
       "name": "Wardens On the March",
@@ -7343,7 +7381,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["750 Kurzick faction", "Equipment Requisition"],
-      "wiki": "https://www.guildwiki.de/wiki/Aufseher_im_Anmarsch"
+      "wiki": {"en": "Wardens On the March", "de": "Aufseher im Anmarsch"}
     },
     "100775": {
       "name": "Warning the Angchu",
@@ -7354,7 +7392,7 @@ const GW_QUESTS = {
       "rewards": ["Onyx Gemstone", "2 Lockpicks"],
       "requires": [100734],
       "next": [100776, 100563],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Angchu_warnen"
+      "wiki": {"en": "Warning the Angchu", "de": "Die Angchu warnen"}
     },
     "100776": {
       "name": "Warning the Angchu (Hard mode)",
@@ -7365,7 +7403,7 @@ const GW_QUESTS = {
       "rewards": ["Ruby", "Onyx Gemstone", "Lockpick"],
       "requires": [100735, 100775],
       "next": [100564],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Angchu_warnen_(Schwerer_Modus)"
+      "wiki": {"en": "Warning the Angchu (Hard mode)", "de": "Die Angchu warnen (Schwerer Modus)"}
     },
     "100777": {
       "name": "Warning the Tengu",
@@ -7375,7 +7413,7 @@ const GW_QUESTS = {
       "gold": 75,
       "requires_missions": [257],
       "next": [100745],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Tengu_warnen"
+      "wiki": {"en": "Warning the Tengu", "de": "Die Tengu warnen"}
     },
     "100778": {
       "name": "Warrior Insignia",
@@ -7386,7 +7424,7 @@ const GW_QUESTS = {
       "gold": 75,
       "rewards": ["Monastery Credit"],
       "next": [100726],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger-Befähigung"
+      "wiki": {"en": "Warrior Insignia", "de": "Krieger-Befähigung"}
     },
     "100779": {
       "name": "Wayfarer's Reverie: Cantha",
@@ -7397,7 +7435,7 @@ const GW_QUESTS = {
       "xp": 2006,
       "gold": 2012,
       "rewards": ["Proof of Waves"],
-      "wiki": "https://www.guildwiki.de/wiki/Erinnerung_des_Reisenden:_Cantha"
+      "wiki": {"en": "Wayfarer's Reverie: Cantha", "de": "Erinnerung des Reisenden: Cantha"}
     },
     "100780": {
       "name": "Welcome to Cantha",
@@ -7407,7 +7445,7 @@ const GW_QUESTS = {
       "gold": 150,
       "rewards": ["1 Skill point"],
       "requires": [101193],
-      "wiki": "https://www.guildwiki.de/wiki/Willkommen_in_Cantha"
+      "wiki": {"en": "Welcome to Cantha", "de": "Willkommen in Cantha"}
     },
     "100781": {
       "name": "What Waits in Shadow",
@@ -7418,7 +7456,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation"],
       "requires": [100719],
       "next": [100782, 100462],
-      "wiki": "https://www.guildwiki.de/wiki/Was_im_Schatten_lauert"
+      "wiki": {"en": "What Waits in Shadow", "de": "Was im Schatten lauert"}
     },
     "100782": {
       "name": "What Waits in Shadow (Hard mode)",
@@ -7429,7 +7467,7 @@ const GW_QUESTS = {
       "rewards": ["Ministerial Commendation", "Ministerial Commendation"],
       "requires": [100720, 100781],
       "next": [100463],
-      "wiki": "https://www.guildwiki.de/wiki/Was_im_Schatten_lauert_(Schwerer_Modus)"
+      "wiki": {"en": "What Waits in Shadow (Hard mode)", "de": "Was im Schatten lauert (Schwerer Modus)"}
     },
     "100783": {
       "name": "When Kappa Attack",
@@ -7439,7 +7477,7 @@ const GW_QUESTS = {
       "gold": 1500,
       "rewards": ["Imperial Commendation"],
       "next": [100784],
-      "wiki": "https://www.guildwiki.de/wiki/Kappa-Angriff"
+      "wiki": {"en": "When Kappa Attack", "de": "Kappa-Angriff"}
     },
     "100784": {
       "name": "When Kappa Attack (Hard mode)",
@@ -7449,7 +7487,7 @@ const GW_QUESTS = {
       "gold": 2000,
       "rewards": ["Imperial Commendation", "Imperial Commendation"],
       "requires": [100783],
-      "wiki": "https://www.guildwiki.de/wiki/Kappa-Angriff_(Schwerer_Modus)"
+      "wiki": {"en": "When Kappa Attack (Hard mode)", "de": "Kappa-Angriff (Schwerer Modus)"}
     },
     "100785": {
       "name": "Wicked Wardens",
@@ -7458,7 +7496,7 @@ const GW_QUESTS = {
       "xp": 3000,
       "gold": 250,
       "rewards": ["1,000 Kurzick faction", "Equipment Requisition"],
-      "wiki": "https://www.guildwiki.de/wiki/Niederträchtige_Aufseher"
+      "wiki": {"en": "Wicked Wardens", "de": "Niederträchtige Aufseher"}
     },
     "100786": {
       "name": "A Brief Introduction",
@@ -7468,7 +7506,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["10 Lightbringer points"],
       "next": [100833],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_kurze_Einführung"
+      "wiki": {"en": "A Brief Introduction", "de": "Eine kurze Einführung"}
     },
     "100787": {
       "name": "A Burning Desire",
@@ -7478,7 +7516,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 300,
       "rewards": ["25 Lunar Tokens", "2 Sparklers"],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_brandheiße_Sache"
+      "wiki": {"en": "A Burning Desire", "de": "Eine brandheiße Sache"}
     },
     "100788": {
       "name": "A Bushel of Trouble",
@@ -7489,7 +7527,7 @@ const GW_QUESTS = {
       "rewards": ["10 Lightbringer points", "Kournan Coin"],
       "requires": [100943],
       "next": [101060],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Haufen_Probleme"
+      "wiki": {"en": "A Bushel of Trouble", "de": "Ein Haufen Probleme"}
     },
     "100789": {
       "name": "A Deal's a Deal",
@@ -7500,7 +7538,7 @@ const GW_QUESTS = {
       "rewards": ["30 Lightbringer points"],
       "requires_missions": [524],
       "next": [100918],
-      "wiki": "https://www.guildwiki.de/wiki/Geschäft_ist_Geschäft"
+      "wiki": {"en": "A Deal's a Deal", "de": "Geschäft ist Geschäft"}
     },
     "100790": {
       "name": "A Decayed Monument",
@@ -7508,7 +7546,7 @@ const GW_QUESTS = {
       "givers": [500],
       "xp": 2000,
       "gold": 200,
-      "wiki": "https://www.guildwiki.de/wiki/Ein_verfallenes_Monument"
+      "wiki": {"en": "A Decayed Monument", "de": "Ein verfallenes Monument"}
     },
     "100791": {
       "name": "A Delayed Delivery",
@@ -7519,7 +7557,7 @@ const GW_QUESTS = {
       "rewards": ["15 Sunspear Promotion Points", "Battle Commendation"],
       "requires": [100819],
       "next": [100816],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_verspätete_Lieferung"
+      "wiki": {"en": "A Delayed Delivery", "de": "Eine verspätete Lieferung"}
     },
     "100792": {
       "name": "A Father's Fate",
@@ -7527,7 +7565,7 @@ const GW_QUESTS = {
       "givers": [535],
       "xp": 500,
       "gold": 50,
-      "wiki": "https://www.guildwiki.de/wiki/Eines_Vaters_Schicksal"
+      "wiki": {"en": "A Father's Fate", "de": "Eines Vaters Schicksal"}
     },
     "100793": {
       "name": "A Fleshy Operation",
@@ -7537,7 +7575,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Inscribed Secret"],
       "requires": [100878],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_fleischige_Angelegenheit"
+      "wiki": {"en": "A Fleshy Operation", "de": "Eine fleischige Angelegenheit"}
     },
     "100794": {
       "name": "A Flickering Flame",
@@ -7547,7 +7585,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["75 Lightbringer points", "Inscribed Secret"],
       "next": [100866],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_flackernde_Flamme"
+      "wiki": {"en": "A Flickering Flame", "de": "Eine flackernde Flamme"}
     },
     "100795": {
       "name": "A Fool's Luck",
@@ -7557,7 +7595,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Glück_eines_Narren"
+      "wiki": {"en": "A Fool's Luck", "de": "Das Glück eines Narren"}
     },
     "100796": {
       "name": "A Friend in Need",
@@ -7565,7 +7603,7 @@ const GW_QUESTS = {
       "givers": [761],
       "xp": 250,
       "gold": 100,
-      "wiki": "https://www.guildwiki.de/wiki/Unter_Freunden"
+      "wiki": {"en": "A Friend in Need", "de": "Unter Freunden"}
     },
     "100797": {
       "name": "A Ghostly Request",
@@ -7575,7 +7613,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["20 Sunspear Promotion Points", "Battle Commendation"],
       "requires": [100815],
-      "wiki": "https://www.guildwiki.de/wiki/Rache_für_einen_Geist"
+      "wiki": {"en": "A Ghostly Request", "de": "Rache für einen Geist"}
     },
     "100798": {
       "name": "A Hidden Threat",
@@ -7584,7 +7622,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 50,
       "rewards": ["5 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_verborgene_Bedrohung"
+      "wiki": {"en": "A Hidden Threat", "de": "Eine verborgene Bedrohung"}
     },
     "100799": {
       "name": "A History of Violence",
@@ -7594,7 +7632,7 @@ const GW_QUESTS = {
       "gold": 400,
       "rewards": ["100 Lightbringer points"],
       "next": [100829],
-      "wiki": "https://www.guildwiki.de/wiki/Aus_dem_Geschichtsbuch_der_Gewalt"
+      "wiki": {"en": "A History of Violence", "de": "Aus dem Geschichtsbuch der Gewalt"}
     },
     "100800": {
       "name": "A Land of Heroes",
@@ -7604,7 +7642,7 @@ const GW_QUESTS = {
       "rewards": ["300 Sunspear Promotion Points"],
       "requires": [100993],
       "next": [101041],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Land_der_Helden"
+      "wiki": {"en": "A Land of Heroes", "de": "Ein Land der Helden"}
     },
     "100801": {
       "name": "A Leap of Faith",
@@ -7614,7 +7652,7 @@ const GW_QUESTS = {
       "gold": 125,
       "rewards": ["15 Sunspear Promotion Points"],
       "requires": [100928],
-      "wiki": "https://www.guildwiki.de/wiki/Vertrauenssache"
+      "wiki": {"en": "A Leap of Faith", "de": "Vertrauenssache"}
     },
     "100802": {
       "name": "A Little Recon",
@@ -7624,7 +7662,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["Kournan Coin"],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_bisschen_Aufklärung"
+      "wiki": {"en": "A Little Recon", "de": "Ein bisschen Aufklärung"}
     },
     "100803": {
       "name": "A Loose Cannon",
@@ -7632,7 +7670,7 @@ const GW_QUESTS = {
       "givers": [533],
       "xp": 500,
       "gold": 50,
-      "wiki": "https://www.guildwiki.de/wiki/Eine_öffentliche_Gefahr"
+      "wiki": {"en": "A Loose Cannon", "de": "Eine öffentliche Gefahr"}
     },
     "100804": {
       "name": "A Message Home",
@@ -7640,7 +7678,7 @@ const GW_QUESTS = {
       "givers": [521],
       "xp": 1500,
       "gold": 125,
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Nachricht_an_die_Heimat"
+      "wiki": {"en": "A Message Home", "de": "Eine Nachricht an die Heimat"}
     },
     "100805": {
       "name": "A Message for Janeera",
@@ -7650,7 +7688,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Kournan Coin"],
       "requires": [100812],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Nachricht_für_Janeera"
+      "wiki": {"en": "A Message for Janeera", "de": "Eine Nachricht für Janeera"}
     },
     "100806": {
       "name": "A Mysterious Missive",
@@ -7660,7 +7698,7 @@ const GW_QUESTS = {
       "gold": 125,
       "rewards": ["15 Sunspear Promotion Points", "Battle Commendation"],
       "requires": [100816],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_mysteriöses_Sendschreiben"
+      "wiki": {"en": "A Mysterious Missive", "de": "Ein mysteriöses Sendschreiben"}
     },
     "100807": {
       "name": "A New Guide",
@@ -7671,7 +7709,7 @@ const GW_QUESTS = {
       "rewards": ["30 Lightbringer points", "Ancient Artifact"],
       "requires": [101073],
       "next": [100902],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_neuer_Fremdenführer"
+      "wiki": {"en": "A New Guide", "de": "Ein neuer Fremdenführer"}
     },
     "100808": {
       "name": "A Peaceful Solution",
@@ -7680,7 +7718,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 50,
       "rewards": ["5 Sunspear Promotion Points", "Battle Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_friedliche_Lösung"
+      "wiki": {"en": "A Peaceful Solution", "de": "Eine friedliche Lösung"}
     },
     "100809": {
       "name": "A Perplexing Plague",
@@ -7690,14 +7728,14 @@ const GW_QUESTS = {
       "gold": 125,
       "rewards": ["15 Sunspear Promotion Points", "Battle Commendation"],
       "next": [100819],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_geheimnisvolle_Seuche"
+      "wiki": {"en": "A Perplexing Plague", "de": "Eine geheimnisvolle Seuche"}
     },
     "100810": {
       "name": "A Personal Vault",
       "type": "secondary",
       "givers": [493],
       "xp": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Ein_eigener_Tresor"
+      "wiki": {"en": "A Personal Vault", "de": "Ein eigener Tresor"}
     },
     "100811": {
       "name": "A Prescription for Conscription",
@@ -7707,7 +7745,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points"],
       "requires_missions": [453],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Vorwand_zur_Einberufung"
+      "wiki": {"en": "A Prescription for Conscription", "de": "Ein Vorwand zur Einberufung"}
     },
     "100812": {
       "name": "A Question of Morality",
@@ -7718,7 +7756,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points", "Kournan Coin"],
       "next": [100805],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Frage_der_Moral"
+      "wiki": {"en": "A Question of Morality", "de": "Eine Frage der Moral"}
     },
     "100813": {
       "name": "A Show of Force",
@@ -7728,7 +7766,7 @@ const GW_QUESTS = {
       "gold": 400,
       "rewards": ["45 Lightbringer points"],
       "requires": [101008],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Demonstration_der_Stärke"
+      "wiki": {"en": "A Show of Force", "de": "Eine Demonstration der Stärke"}
     },
     "100814": {
       "name": "A Sound of Ancient Horns",
@@ -7738,7 +7776,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["Trade Contract"],
       "requires_missions": [520],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Klang_alter_Hörner"
+      "wiki": {"en": "A Sound of Ancient Horns", "de": "Der Klang alter Hörner"}
     },
     "100815": {
       "name": "A Sticky Operation",
@@ -7749,7 +7787,7 @@ const GW_QUESTS = {
       "rewards": ["15 Sunspear Promotion Points", "Battle Commendation"],
       "requires": [100861],
       "next": [101075],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_brenzlige_Angelegenheit"
+      "wiki": {"en": "A Sticky Operation", "de": "Eine brenzlige Angelegenheit"}
     },
     "100816": {
       "name": "A Stolen Spore",
@@ -7760,7 +7798,7 @@ const GW_QUESTS = {
       "rewards": ["15 Sunspear Promotion Points", "Battle Commendation"],
       "requires": [100791],
       "next": [100806],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_gestohlene_Spore"
+      "wiki": {"en": "A Stolen Spore", "de": "Eine gestohlene Spore"}
     },
     "100817": {
       "name": "A Tasty Morsel",
@@ -7770,7 +7808,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["30 Lightbringer points"],
       "requires": [101065],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Leckerbissen"
+      "wiki": {"en": "A Tasty Morsel", "de": "Ein Leckerbissen"}
     },
     "100818": {
       "name": "A Thorn in Varesh's Side",
@@ -7779,7 +7817,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Dorn_in_Vareshs_Seite"
+      "wiki": {"en": "A Thorn in Varesh's Side", "de": "Ein Dorn in Vareshs Seite"}
     },
     "100819": {
       "name": "A Troubling Theory",
@@ -7790,7 +7828,7 @@ const GW_QUESTS = {
       "rewards": ["15 Sunspear Promotion Points", "Battle Commendation"],
       "requires": [100809],
       "next": [100791],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_beunruhigende_Theorie"
+      "wiki": {"en": "A Troubling Theory", "de": "Eine beunruhigende Theorie"}
     },
     "100820": {
       "name": "All Alone in the Darkness",
@@ -7800,14 +7838,14 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Lightbringer points"],
       "missions": [527],
-      "wiki": "https://www.guildwiki.de/wiki/Alleine_in_der_Dunkelheit"
+      "wiki": {"en": "All Alone in the Darkness", "de": "Alleine in der Dunkelheit"}
     },
     "100821": {
       "name": "All for One and One for Justice",
       "type": "secondary",
       "givers": [192],
       "xp": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Alle_für_einen_und_einer_für_Gerechtigkeit"
+      "wiki": {"en": "All for One and One for Justice", "de": "Alle für einen und einer für Gerechtigkeit"}
     },
     "100822": {
       "name": "All's Well That Ends Well",
@@ -7818,7 +7856,7 @@ const GW_QUESTS = {
       "rewards": ["10 Lightbringer points"],
       "requires_missions": [518],
       "next": [101071],
-      "wiki": "https://www.guildwiki.de/wiki/Ende_gut,_alles_gut"
+      "wiki": {"en": "All's Well That Ends Well", "de": "Ende gut, alles gut"}
     },
     "100823": {
       "name": "Ancestral Anguish",
@@ -7829,7 +7867,7 @@ const GW_QUESTS = {
       "rewards": ["Kournan Coin", "10 Lightbringer points"],
       "requires": [101060],
       "next": [101057],
-      "wiki": "https://www.guildwiki.de/wiki/Qual_der_Ahnen"
+      "wiki": {"en": "Ancestral Anguish", "de": "Qual der Ahnen"}
     },
     "100824": {
       "name": "And a Hero Shall Lead Them",
@@ -7841,7 +7879,7 @@ const GW_QUESTS = {
       "rewards": ["100 Sunspear Promotion Points"],
       "requires": [101022],
       "missions": [453],
-      "wiki": "https://www.guildwiki.de/wiki/Neue_Helden_braucht_das_Land"
+      "wiki": {"en": "And a Hero Shall Lead Them", "de": "Neue Helden braucht das Land"}
     },
     "100825": {
       "name": "Anger of the Stone Face",
@@ -7850,7 +7888,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 100,
       "requires": [101001],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Zorn_des_Steinernen_Antlitzes"
+      "wiki": {"en": "Anger of the Stone Face", "de": "Der Zorn des Steinernen Antlitzes"}
     },
     "100826": {
       "name": "Armored Transport",
@@ -7859,7 +7897,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 20,
       "rewards": ["5 Sunspear Promotion Points", "Battle Commendation", "2 Tanned Hide Squares", "2 Bolt of Cloths"],
-      "wiki": "https://www.guildwiki.de/wiki/Gepanzerter_Transport"
+      "wiki": {"en": "Armored Transport", "de": "Gepanzerter Transport"}
     },
     "100827": {
       "name": "Assault on Beknur Harbor",
@@ -7870,7 +7908,7 @@ const GW_QUESTS = {
       "rewards": ["25 Sunspear Promotion Points", "Battle Commendation"],
       "requires": [100946],
       "next": [101017],
-      "wiki": "https://www.guildwiki.de/wiki/Angriff_auf_Beknurhafen"
+      "wiki": {"en": "Assault on Beknur Harbor", "de": "Angriff auf Beknurhafen"}
     },
     "100828": {
       "name": "Attack at the Kodash",
@@ -7881,7 +7919,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["10 Lightbringer points"],
       "next": [100911, 100912],
-      "wiki": "https://www.guildwiki.de/wiki/Angriff_auf_Kodash"
+      "wiki": {"en": "Attack at the Kodash", "de": "Angriff auf Kodash"}
     },
     "100829": {
       "name": "Bad Fortune",
@@ -7891,7 +7929,7 @@ const GW_QUESTS = {
       "gold": 400,
       "rewards": ["100 Lightbringer points", "Inscribed Secret"],
       "requires": [100799],
-      "wiki": "https://www.guildwiki.de/wiki/Wahrheitsfindung"
+      "wiki": {"en": "Bad Fortune", "de": "Wahrheitsfindung"}
     },
     "100830": {
       "name": "Bad Tide Rising",
@@ -7902,7 +7940,7 @@ const GW_QUESTS = {
       "rewards": ["10 Sunspear Promotion Points"],
       "requires": [100928],
       "next": [100998],
-      "wiki": "https://www.guildwiki.de/wiki/Die_dunkle_Flut_steigt"
+      "wiki": {"en": "Bad Tide Rising", "de": "Die dunkle Flut steigt"}
     },
     "100831": {
       "name": "Battle Preparations",
@@ -7912,7 +7950,7 @@ const GW_QUESTS = {
       "rewards": ["15 Sunspear Promotion Points", "Battle Commendation"],
       "requires": [101240, 100695],
       "next": [100993],
-      "wiki": "https://www.guildwiki.de/wiki/Kampfvorbereitungen"
+      "wiki": {"en": "Battle Preparations", "de": "Kampfvorbereitungen"}
     },
     "100832": {
       "name": "Battle of Turai's Procession",
@@ -7922,7 +7960,7 @@ const GW_QUESTS = {
       "gold": 400,
       "rewards": ["10 Lightbringer points", "Kournan Coin"],
       "requires": [101057],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Schlacht_an_Turais_Weg"
+      "wiki": {"en": "Battle of Turai's Procession", "de": "Die Schlacht an Turais Weg"}
     },
     "100833": {
       "name": "Between a Rock...",
@@ -7932,7 +7970,7 @@ const GW_QUESTS = {
       "gold": 400,
       "rewards": ["15 Lightbringer points"],
       "requires": [100786],
-      "wiki": "https://www.guildwiki.de/wiki/In_der_Klemme_..."
+      "wiki": {"en": "Between a Rock...", "de": "In der Klemme ..."}
     },
     "100834": {
       "name": "Big News, Small Package",
@@ -7943,7 +7981,7 @@ const GW_QUESTS = {
       "rewards": ["10 Sunspear Promotion Points"],
       "requires": [100998],
       "next": [100888],
-      "wiki": "https://www.guildwiki.de/wiki/Stückwerk"
+      "wiki": {"en": "Big News, Small Package", "de": "Stückwerk"}
     },
     "100835": {
       "name": "Blueprint of the Fall",
@@ -7952,7 +7990,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "rewards": ["50 Lightbringer points", "Inscribed Secret"],
       "requires": [100875],
-      "wiki": "https://www.guildwiki.de/wiki/Licht_ins_Dunkel"
+      "wiki": {"en": "Blueprint of the Fall", "de": "Licht ins Dunkel"}
     },
     "100836": {
       "name": "Botanical Research",
@@ -7961,7 +7999,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 250,
       "rewards": ["Trade Contract"],
-      "wiki": "https://www.guildwiki.de/wiki/Botanische_Recherchen"
+      "wiki": {"en": "Botanical Research", "de": "Botanische Recherchen"}
     },
     "100837": {
       "name": "Brains or Brawn",
@@ -7971,7 +8009,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["10 Lightbringer points"],
       "next": [101036],
-      "wiki": "https://www.guildwiki.de/wiki/Muskeln_oder_Grips_(Entscheidung_für_Goren)"
+      "wiki": {"en": "Brains or Brawn", "de": "Muskeln oder Grips (Entscheidung für Goren)"}
     },
     "100838": {
       "name": "Brains or Brawn",
@@ -7981,7 +8019,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["10 Lightbringer points"],
       "next": [100906],
-      "wiki": "https://www.guildwiki.de/wiki/Muskeln_oder_Grips_(Entscheidung_für_Norgu)"
+      "wiki": {"en": "Brains or Brawn", "de": "Muskeln oder Grips (Entscheidung für Norgu)"}
     },
     "100839": {
       "name": "Breaching the Stygian Veil",
@@ -7991,7 +8029,7 @@ const GW_QUESTS = {
       "gold": 500,
       "rewards": ["500 Lightbringer points"],
       "next": [100841],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Bresche_im_Stygischen_Schleier"
+      "wiki": {"en": "Breaching the Stygian Veil", "de": "Eine Bresche im Stygischen Schleier"}
     },
     "100840": {
       "name": "Breaking the Broken",
@@ -8002,7 +8040,7 @@ const GW_QUESTS = {
       "rewards": ["100 Lightbringer points", "Inscribed Secret"],
       "requires": [101061],
       "next": [101045],
-      "wiki": "https://www.guildwiki.de/wiki/Angriff_ist_die_beste_Verteidigung"
+      "wiki": {"en": "Breaking the Broken", "de": "Angriff ist die beste Verteidigung"}
     },
     "100841": {
       "name": "Brood Wars",
@@ -8011,7 +8049,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "rewards": ["800 Lightbringer points"],
       "requires": [100839],
-      "wiki": "https://www.guildwiki.de/wiki/Brutkriege"
+      "wiki": {"en": "Brood Wars", "de": "Brutkriege"}
     },
     "100842": {
       "name": "Building the Base: Prisoners of War",
@@ -8023,7 +8061,7 @@ const GW_QUESTS = {
       "rewards": ["100 Sunspear Promotion Points"],
       "requires": [101014],
       "next": [100843],
-      "wiki": "https://www.guildwiki.de/wiki/Bau_des_Stützpunkts:_Kriegsgefangene"
+      "wiki": {"en": "Building the Base: Prisoners of War", "de": "Bau des Stützpunkts: Kriegsgefangene"}
     },
     "100843": {
       "name": "Building the Base: The Interrogation",
@@ -8034,7 +8072,7 @@ const GW_QUESTS = {
       "rewards": ["100 Sunspear Promotion Points"],
       "requires": [100842],
       "next": [100844],
-      "wiki": "https://www.guildwiki.de/wiki/Bau_des_Stützpunkts:_Das_Verhör"
+      "wiki": {"en": "Building the Base: The Interrogation", "de": "Bau des Stützpunkts: Das Verhör"}
     },
     "100844": {
       "name": "Building the Base: The Meeting",
@@ -8044,7 +8082,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points"],
       "requires": [100843],
-      "wiki": "https://www.guildwiki.de/wiki/Bau_des_Stützpunkts:_Das_Treffen"
+      "wiki": {"en": "Building the Base: The Meeting", "de": "Bau des Stützpunkts: Das Treffen"}
     },
     "100845": {
       "name": "Calling the Order",
@@ -8057,7 +8095,7 @@ const GW_QUESTS = {
       "requires": [101071],
       "next_missions": [519],
       "missions": [519],
-      "wiki": "https://www.guildwiki.de/wiki/Hilfe_vom_Orden"
+      "wiki": {"en": "Calling the Order", "de": "Hilfe vom Orden"}
     },
     "100846": {
       "name": "Capturing the Signet of Capture",
@@ -8067,7 +8105,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points"],
       "requires": [101022],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Siegel_der_Erbeutung"
+      "wiki": {"en": "Capturing the Signet of Capture", "de": "Das Siegel der Erbeutung"}
     },
     "100847": {
       "name": "Catch of the Day",
@@ -8076,7 +8114,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 125,
       "rewards": ["10 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_großer_Fang"
+      "wiki": {"en": "Catch of the Day", "de": "Ein großer Fang"}
     },
     "100848": {
       "name": "Centaur Blackmail",
@@ -8087,7 +8125,7 @@ const GW_QUESTS = {
       "requires": [101054],
       "next_missions": [458],
       "missions": [458],
-      "wiki": "https://www.guildwiki.de/wiki/Wink_mit_dem_Schattenhuf"
+      "wiki": {"en": "Centaur Blackmail", "de": "Wink mit dem Schattenhuf"}
     },
     "100849": {
       "name": "Centaur Concerns",
@@ -8097,14 +8135,14 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["Kournan Coin"],
-      "wiki": "https://www.guildwiki.de/wiki/Unter_Zentauren"
+      "wiki": {"en": "Centaur Concerns", "de": "Unter Zentauren"}
     },
     "100850": {
       "name": "Chasing Zenmai",
       "type": "secondary",
       "givers": [192],
       "xp": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Jagd_auf_Zenmai"
+      "wiki": {"en": "Chasing Zenmai", "de": "Jagd auf Zenmai"}
     },
     "100851": {
       "name": "Choose Your Secondary Profession (Nightfall)",
@@ -8114,7 +8152,10 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100990],
       "next": [100935],
-      "wiki": "https://www.guildwiki.de/wiki/Wählt_Eure_sekundäre_Klasse_(Nightfall)"
+      "wiki": {
+        "en": "Choose Your Secondary Profession (Nightfall quest)",
+        "de": "Wählt Eure sekundäre Klasse (Nightfall)"
+      }
     },
     "100852": {
       "name": "Coffer of Joko",
@@ -8127,7 +8168,7 @@ const GW_QUESTS = {
       "rewards": ["10 Lightbringer points", "Trade Contract"],
       "requires": [101055],
       "next": [100970],
-      "wiki": "https://www.guildwiki.de/wiki/Jokos_Schatulle"
+      "wiki": {"en": "Coffer of Joko", "de": "Jokos Schatulle"}
     },
     "100853": {
       "name": "Command Training",
@@ -8135,7 +8176,7 @@ const GW_QUESTS = {
       "givers": [235],
       "xp": 250,
       "gold": 125,
-      "wiki": "https://www.guildwiki.de/wiki/Befehlstraining"
+      "wiki": {"en": "Command Training", "de": "Befehlstraining"}
     },
     "100854": {
       "name": "Corsair Invasion",
@@ -8146,7 +8187,7 @@ const GW_QUESTS = {
       "rewards": ["15 Sunspear Promotion Points", "1 Battle Commendation"],
       "requires": [101031],
       "next": [100855],
-      "wiki": "https://www.guildwiki.de/wiki/Korsaren-Invasion"
+      "wiki": {"en": "Corsair Invasion", "de": "Korsaren-Invasion"}
     },
     "100855": {
       "name": "Corsair Vengeance",
@@ -8156,7 +8197,7 @@ const GW_QUESTS = {
       "gold": 125,
       "rewards": ["15 Sunspear Promotion Points", "1 Battle Commendation"],
       "requires": [100854],
-      "wiki": "https://www.guildwiki.de/wiki/Korsaren-Rache"
+      "wiki": {"en": "Corsair Vengeance", "de": "Korsaren-Rache"}
     },
     "100856": {
       "name": "Cover Your Tracks",
@@ -8166,7 +8207,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Inscribed Secret"],
       "requires": [100930],
-      "wiki": "https://www.guildwiki.de/wiki/Verlorene_Fährte"
+      "wiki": {"en": "Cover Your Tracks", "de": "Verlorene Fährte"}
     },
     "100857": {
       "name": "Crossing the Desolation",
@@ -8177,7 +8218,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["10 Lightbringer points"],
       "missions": [524],
-      "wiki": "https://www.guildwiki.de/wiki/Durchquerung_des_Ödlands"
+      "wiki": {"en": "Crossing the Desolation", "de": "Durchquerung des Ödlands"}
     },
     "100858": {
       "name": "Dark Gateway",
@@ -8187,7 +8228,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Inscribed Secret"],
       "requires": [100873],
-      "wiki": "https://www.guildwiki.de/wiki/Das_dunkle_Tor"
+      "wiki": {"en": "Dark Gateway", "de": "Das dunkle Tor"}
     },
     "100859": {
       "name": "Data Mining",
@@ -8198,7 +8239,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["1 Trade Contract"],
       "next": [101055],
-      "wiki": "https://www.guildwiki.de/wiki/Datensuche"
+      "wiki": {"en": "Data Mining", "de": "Datensuche"}
     },
     "100860": {
       "name": "Deathbringer Company",
@@ -8206,7 +8247,7 @@ const GW_QUESTS = {
       "givers": [753],
       "xp": 10000,
       "rewards": ["800 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Tod_den_Todbringern!"
+      "wiki": {"en": "Deathbringer Company", "de": "Tod den Todbringern!"}
     },
     "100861": {
       "name": "Defender's Choice",
@@ -8216,7 +8257,7 @@ const GW_QUESTS = {
       "gold": 125,
       "rewards": ["15 Sunspear Promotion Points", "Battle Commendation"],
       "next": [100815],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Wahl_des_Verteidigers"
+      "wiki": {"en": "Defender's Choice", "de": "Die Wahl des Verteidigers"}
     },
     "100862": {
       "name": "Desperate Measures",
@@ -8225,7 +8266,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 250,
       "rewards": ["10 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Verzweifelte_Maßnahmen"
+      "wiki": {"en": "Desperate Measures", "de": "Verzweifelte Maßnahmen"}
     },
     "100863": {
       "name": "Destroy the Harpies",
@@ -8236,7 +8277,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["Trade Contract"],
       "requires_missions": [520],
-      "wiki": "https://www.guildwiki.de/wiki/Vernichtet_die_Harpyien"
+      "wiki": {"en": "Destroy the Harpies", "de": "Vernichtet die Harpyien"}
     },
     "100864": {
       "name": "Destroy the Ungrateful Slaves",
@@ -8245,7 +8286,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["Ancient Artifact"],
-      "wiki": "https://www.guildwiki.de/wiki/Vernichtet_die_undankbaren_Sklaven"
+      "wiki": {"en": "Destroy the Ungrateful Slaves", "de": "Vernichtet die undankbaren Sklaven"}
     },
     "100865": {
       "name": "Diamond in the Rough",
@@ -8253,7 +8294,7 @@ const GW_QUESTS = {
       "givers": [455],
       "xp": 1000,
       "gold": 100,
-      "wiki": "https://www.guildwiki.de/wiki/Die_diebische_Harpyie"
+      "wiki": {"en": "Diamond in the Rough", "de": "Die diebische Harpyie"}
     },
     "100866": {
       "name": "Dismember the Titans",
@@ -8263,7 +8304,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["75 Lightbringer points", "Inscribed Secret"],
       "requires": [100794],
-      "wiki": "https://www.guildwiki.de/wiki/Nieder_mit_den_Titanen"
+      "wiki": {"en": "Dismember the Titans", "de": "Nieder mit den Titanen"}
     },
     "100867": {
       "name": "Double Dog Dare",
@@ -8272,7 +8313,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 200,
       "requires": [101017],
-      "wiki": "https://www.guildwiki.de/wiki/Schatzsuche"
+      "wiki": {"en": "Double Dog Dare", "de": "Schatzsuche"}
     },
     "100868": {
       "name": "Double Your Pleasure and RUN!",
@@ -8280,7 +8321,7 @@ const GW_QUESTS = {
       "givers": [766],
       "event": 11,
       "rewards": ["Ghoulish Accessory Token"],
-      "wiki": "https://www.guildwiki.de/wiki/Verdoppelt_Euren_Spaß_und_LAUFT"
+      "wiki": {"en": "Double Your Pleasure and RUN!", "de": "Verdoppelt Euren Spaß und LAUFT"}
     },
     "100869": {
       "name": "Douse Your Enthusiasm",
@@ -8290,7 +8331,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 300,
       "rewards": ["10 Sunspear Promotion Points", "25 Lunar Tokens", "1 Sugary Blue Drink"],
-      "wiki": "https://www.guildwiki.de/wiki/O_heiliger_Sankt_Florian"
+      "wiki": {"en": "Douse Your Enthusiasm", "de": "O heiliger Sankt Florian"}
     },
     "100870": {
       "name": "Down on the Bayou",
@@ -8299,7 +8340,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 125,
       "rewards": ["10 Sunspear points"],
-      "wiki": "https://www.guildwiki.de/wiki/Sumpfgeschichten"
+      "wiki": {"en": "Down on the Bayou", "de": "Sumpfgeschichten"}
     },
     "100871": {
       "name": "Drake in a Cage",
@@ -8310,7 +8351,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points", "Kournan Coin"],
       "next": [100882],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Lindwurm_im_Käfig"
+      "wiki": {"en": "Drake in a Cage", "de": "Ein Lindwurm im Käfig"}
     },
     "100872": {
       "name": "Drakes on the Plain",
@@ -8319,7 +8360,7 @@ const GW_QUESTS = {
       "hero": [6],
       "xp": 2500,
       "gold": 200,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Lindwürmer_sind_los"
+      "wiki": {"en": "Drakes on the Plain", "de": "Die Lindwürmer sind los"}
     },
     "100873": {
       "name": "Drink of the Gods",
@@ -8329,7 +8370,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Inscribed Secret"],
       "next": [100858],
-      "wiki": "https://www.guildwiki.de/wiki/Trunk_der_Götter"
+      "wiki": {"en": "Drink of the Gods", "de": "Trunk der Götter"}
     },
     "100874": {
       "name": "Eavesdropping",
@@ -8338,7 +8379,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Lauschangriff"
+      "wiki": {"en": "Eavesdropping", "de": "Lauschangriff"}
     },
     "100875": {
       "name": "Escape from the Torment",
@@ -8348,7 +8389,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["50 Lightbringer points", "Inscribed Secret"],
       "next": [100835],
-      "wiki": "https://www.guildwiki.de/wiki/Flucht_aus_den_Qualen"
+      "wiki": {"en": "Escape from the Torment", "de": "Flucht aus den Qualen"}
     },
     "100876": {
       "name": "Estate Planning",
@@ -8360,7 +8401,7 @@ const GW_QUESTS = {
       "rewards": ["100 Sunspear Promotion Points", "Kournan Coin"],
       "requires": [101018],
       "next": [101009],
-      "wiki": "https://www.guildwiki.de/wiki/Besitzansprüche"
+      "wiki": {"en": "Estate Planning", "de": "Besitzansprüche"}
     },
     "100877": {
       "name": "Extinction",
@@ -8370,7 +8411,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["Trade Contract"],
       "requires": [100910],
-      "wiki": "https://www.guildwiki.de/wiki/Auslöschung"
+      "wiki": {"en": "Extinction", "de": "Auslöschung"}
     },
     "100878": {
       "name": "Faded Memory",
@@ -8380,7 +8421,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Inscribed Secret"],
       "next": [100793],
-      "wiki": "https://www.guildwiki.de/wiki/Verblasste_Erinnerung"
+      "wiki": {"en": "Faded Memory", "de": "Verblasste Erinnerung"}
     },
     "100879": {
       "name": "Family Soul",
@@ -8389,7 +8430,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["Ancient Artifact"],
-      "wiki": "https://www.guildwiki.de/wiki/Familienseele"
+      "wiki": {"en": "Family Soul", "de": "Familienseele"}
     },
     "100880": {
       "name": "Family Ties (Nightfall quest)",
@@ -8400,7 +8441,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points", "Kournan Coin"],
       "requires": [101009, 101046],
-      "wiki": "https://www.guildwiki.de/wiki/Familienbande_(Nightfall)"
+      "wiki": {"en": "Family Ties (Nightfall quest)", "de": "Familienbande (Nightfall)"}
     },
     "100881": {
       "name": "Feast of Bokka",
@@ -8408,7 +8449,7 @@ const GW_QUESTS = {
       "givers": [244],
       "xp": 1500,
       "gold": 450,
-      "wiki": "https://www.guildwiki.de/wiki/Bokkas_Festmahl"
+      "wiki": {"en": "Feast of Bokka", "de": "Bokkas Festmahl"}
     },
     "100882": {
       "name": "Feeding Frenzy",
@@ -8419,7 +8460,7 @@ const GW_QUESTS = {
       "rewards": ["100 Sunspear Promotion Points", "Kournan Coin"],
       "requires": [100871],
       "next": [100923],
-      "wiki": "https://www.guildwiki.de/wiki/Fressrausch_(Quest)"
+      "wiki": {"en": "Feeding Frenzy", "de": "Fressrausch (Quest)"}
     },
     "100883": {
       "name": "Find the Stolen Presents",
@@ -8431,14 +8472,14 @@ const GW_QUESTS = {
       "rewards": ["5 Candy Cane Shards", "5 Wintersday Gifts"],
       "requires": [100986],
       "next": [100999],
-      "wiki": "https://www.guildwiki.de/wiki/Findet_die_gestohlenen_Geschenke"
+      "wiki": {"en": "Find the Stolen Presents", "de": "Findet die gestohlenen Geschenke"}
     },
     "100884": {
       "name": "Finding a Purpose",
       "type": "secondary",
       "givers": [343],
       "xp": 2500,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Sinn_des_Lebens"
+      "wiki": {"en": "Finding a Purpose", "de": "Der Sinn des Lebens"}
     },
     "100885": {
       "name": "First Born",
@@ -8447,7 +8488,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 125,
       "next": [100989],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Erstgeborene"
+      "wiki": {"en": "First Born", "de": "Der Erstgeborene"}
     },
     "100886": {
       "name": "Fish in a Barrel",
@@ -8458,7 +8499,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Kournan Coin"],
       "next": [101079],
-      "wiki": "https://www.guildwiki.de/wiki/Fische_im_Fass"
+      "wiki": {"en": "Fish in a Barrel", "de": "Fische im Fass"}
     },
     "100887": {
       "name": "Flamingo... gehen... gegangen",
@@ -8467,7 +8508,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 125,
       "rewards": ["15 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Flamingo..._gehen..._gegangen"
+      "wiki": {"en": "Flamingo-ing... going... gone.", "de": "Flamingo... gehen... gegangen"}
     },
     "100888": {
       "name": "Following the Trail",
@@ -8479,7 +8520,7 @@ const GW_QUESTS = {
       "rewards": ["10 Sunspear Promotion Points"],
       "requires": [100834],
       "missions": [516],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_heiße_Spur"
+      "wiki": {"en": "Following the Trail", "de": "Eine heiße Spur"}
     },
     "100889": {
       "name": "For Your Ears Only",
@@ -8489,7 +8530,7 @@ const GW_QUESTS = {
       "gold": 200,
       "requires": [100955],
       "next": [100924],
-      "wiki": "https://www.guildwiki.de/wiki/Nur_für_Eure_Ohren_bestimmt"
+      "wiki": {"en": "For Your Ears Only", "de": "Nur für Eure Ohren bestimmt"}
     },
     "100890": {
       "name": "For a Price",
@@ -8500,7 +8541,7 @@ const GW_QUESTS = {
       "rewards": ["Kournan Coin"],
       "requires": [100950],
       "next": [100953],
-      "wiki": "https://www.guildwiki.de/wiki/Für_einen_Preis"
+      "wiki": {"en": "For a Price", "de": "Für einen Preis"}
     },
     "100891": {
       "name": "Forgotten Retribution",
@@ -8509,7 +8550,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["30 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Vergessene_Rache"
+      "wiki": {"en": "Forgotten Retribution", "de": "Vergessene Rache"}
     },
     "100892": {
       "name": "Foundry Breakout",
@@ -8517,7 +8558,7 @@ const GW_QUESTS = {
       "givers": [703],
       "xp": 10000,
       "rewards": ["800 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Raus_aus_dem_Inferno"
+      "wiki": {"en": "Foundry Breakout", "de": "Raus aus dem Inferno"}
     },
     "100893": {
       "name": "Fury of a Grieving Heart",
@@ -8526,7 +8567,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 125,
       "requires": [101067],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Zorn_eines_trauernden_Herzens"
+      "wiki": {"en": "Fury of a Grieving Heart", "de": "Der Zorn eines trauernden Herzens"}
     },
     "100894": {
       "name": "Gain Goren",
@@ -8534,14 +8575,14 @@ const GW_QUESTS = {
       "givers": [590],
       "xp": 2500,
       "next": [100988],
-      "wiki": "https://www.guildwiki.de/wiki/Goren_aufnehmen"
+      "wiki": {"en": "Gain Goren", "de": "Goren aufnehmen"}
     },
     "100895": {
       "name": "Gain Jin",
       "type": "secondary",
       "givers": [625],
       "xp": 2500,
-      "wiki": "https://www.guildwiki.de/wiki/Jin_aufnehmen"
+      "wiki": {"en": "Gain Jin", "de": "Jin aufnehmen"}
     },
     "100896": {
       "name": "Gain Margrid",
@@ -8549,14 +8590,14 @@ const GW_QUESTS = {
       "givers": [658],
       "xp": 2500,
       "requires_missions": [528],
-      "wiki": "https://www.guildwiki.de/wiki/Margrid_aufnehmen"
+      "wiki": {"en": "Gain Margrid", "de": "Margrid aufnehmen"}
     },
     "100897": {
       "name": "Gain Master of Whispers",
       "type": "secondary",
       "givers": [299],
       "xp": 2500,
-      "wiki": "https://www.guildwiki.de/wiki/Den_Meister_der_Gerüchte_aufnehmen"
+      "wiki": {"en": "Gain Master of Whispers", "de": "Den Meister der Gerüchte aufnehmen"}
     },
     "100898": {
       "name": "Gain Norgu",
@@ -8564,21 +8605,21 @@ const GW_QUESTS = {
       "givers": [682],
       "xp": 2500,
       "next": [100954],
-      "wiki": "https://www.guildwiki.de/wiki/Norgu_aufnehmen"
+      "wiki": {"en": "Gain Norgu", "de": "Norgu aufnehmen"}
     },
     "100899": {
       "name": "Gain Olias",
       "type": "secondary",
       "givers": [192],
       "xp": 1500,
-      "wiki": "https://www.guildwiki.de/wiki/Olias_aufnehmen"
+      "wiki": {"en": "Gain Olias", "de": "Olias aufnehmen"}
     },
     "100900": {
       "name": "Gain Sousuke",
       "type": "secondary",
       "givers": [730],
       "xp": 2500,
-      "wiki": "https://www.guildwiki.de/wiki/Sousuke_aufnehmen"
+      "wiki": {"en": "Gain Sousuke", "de": "Sousuke aufnehmen"}
     },
     "100901": {
       "name": "Garden Chores",
@@ -8590,7 +8631,7 @@ const GW_QUESTS = {
       "rewards": ["Trade Contract"],
       "requires": [100970],
       "next": [100958],
-      "wiki": "https://www.guildwiki.de/wiki/Gartenarbeit"
+      "wiki": {"en": "Garden Chores", "de": "Gartenarbeit"}
     },
     "100902": {
       "name": "Getting Even",
@@ -8600,7 +8641,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["30 Lightbringer points", "Ancient Artifact"],
       "requires": [100807],
-      "wiki": "https://www.guildwiki.de/wiki/Rache_(Quest)"
+      "wiki": {"en": "Getting Even", "de": "Rache (Quest)"}
     },
     "100903": {
       "name": "Ghosts in the Graveyard",
@@ -8610,7 +8651,7 @@ const GW_QUESTS = {
       "gold": 125,
       "rewards": ["15 Sunspear Promotion Points", "1 Battle Commendation"],
       "requires": [100909],
-      "wiki": "https://www.guildwiki.de/wiki/Heimleuchten"
+      "wiki": {"en": "Ghosts in the Graveyard", "de": "Heimleuchten"}
     },
     "100904": {
       "name": "Gift of the Djinn",
@@ -8619,7 +8660,7 @@ const GW_QUESTS = {
       "xp": 4000,
       "gold": 1000,
       "rewards": ["2 Trade Contracts"],
-      "wiki": "https://www.guildwiki.de/wiki/Geschenk_der_Dschinn"
+      "wiki": {"en": "Gift of the Djinn", "de": "Geschenk der Dschinn"}
     },
     "100905": {
       "name": "Good Demon Hunting",
@@ -8628,7 +8669,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["Inscribed Secret"],
-      "wiki": "https://www.guildwiki.de/wiki/Jagd_auf_den_Dämonen"
+      "wiki": {"en": "Good Demon Hunting", "de": "Jagd auf den Dämonen"}
     },
     "100906": {
       "name": "Goren's Stuff: Part 1",
@@ -8637,7 +8678,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "requires": [100837],
       "next": [100907],
-      "wiki": "https://www.guildwiki.de/wiki/Gorens_Hab_und_Gut:_Teil_1"
+      "wiki": {"en": "Goren's Stuff: Part 1", "de": "Gorens Hab und Gut: Teil 1"}
     },
     "100907": {
       "name": "Goren's Stuff: Part 2",
@@ -8648,7 +8689,7 @@ const GW_QUESTS = {
       "gold": 250,
       "requires": [100906],
       "requires_missions": [528],
-      "wiki": "https://www.guildwiki.de/wiki/Gorens_Hab_und_Gut:_Teil_2"
+      "wiki": {"en": "Goren's Stuff: Part 2", "de": "Gorens Hab und Gut: Teil 2"}
     },
     "100908": {
       "name": "Greed and Regret",
@@ -8661,7 +8702,7 @@ const GW_QUESTS = {
       "requires": [101071],
       "next_missions": [520],
       "missions": [520],
-      "wiki": "https://www.guildwiki.de/wiki/Gier_und_Reue"
+      "wiki": {"en": "Greed and Regret", "de": "Gier und Reue"}
     },
     "100909": {
       "name": "Gruft-ologie",
@@ -8670,7 +8711,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 125,
       "next": [100903],
-      "wiki": "https://www.guildwiki.de/wiki/Gruft-ologie"
+      "wiki": {"en": "Crypt-ology", "de": "Gruft-ologie"}
     },
     "100910": {
       "name": "Guard Rescue",
@@ -8681,7 +8722,7 @@ const GW_QUESTS = {
       "rewards": ["Trade Contract"],
       "requires": [100966],
       "next": [100877],
-      "wiki": "https://www.guildwiki.de/wiki/Wächterrettung"
+      "wiki": {"en": "Guard Rescue", "de": "Wächterrettung"}
     },
     "100911": {
       "name": "Heart or Mind: Garden in Danger",
@@ -8693,7 +8734,7 @@ const GW_QUESTS = {
       "rewards": ["10 Lightbringer points"],
       "next_missions": [522],
       "missions": [522],
-      "wiki": "https://www.guildwiki.de/wiki/Herz_oder_Verstand:_Garten_in_Gefahr"
+      "wiki": {"en": "Heart or Mind: Garden in Danger", "de": "Herz oder Verstand: Garten in Gefahr"}
     },
     "100912": {
       "name": "Heart or Mind: Ronjok in Danger",
@@ -8704,7 +8745,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["10 Lightbringer points"],
       "missions": [523],
-      "wiki": "https://www.guildwiki.de/wiki/Herz_oder_Verstand:_Ronjok_in_Gefahr"
+      "wiki": {"en": "Heart or Mind: Ronjok in Danger", "de": "Herz oder Verstand: Ronjok in Gefahr"}
     },
     "100913": {
       "name": "Herds to the Slaughter",
@@ -8713,7 +8754,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_guter_Hirte"
+      "wiki": {"en": "Herds to the Slaughter", "de": "Ein guter Hirte"}
     },
     "100914": {
       "name": "Hog Hunt",
@@ -8722,7 +8763,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 100,
       "rewards": ["10 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Schweinejagd"
+      "wiki": {"en": "Hog Hunt", "de": "Schweinejagd"}
     },
     "100915": {
       "name": "Holding the Line",
@@ -8732,7 +8773,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Inscribed Secret"],
       "next": [100930],
-      "wiki": "https://www.guildwiki.de/wiki/Haltet_die_Stellung"
+      "wiki": {"en": "Holding the Line", "de": "Haltet die Stellung"}
     },
     "100916": {
       "name": "Hole of Istan",
@@ -8741,7 +8782,7 @@ const GW_QUESTS = {
       "travel": 4,
       "xp": 2500,
       "next": [100424],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Loch_von_Istan"
+      "wiki": {"en": "Hole of Istan", "de": "Das Loch von Istan"}
     },
     "100917": {
       "name": "Honing your Skills",
@@ -8752,7 +8793,7 @@ const GW_QUESTS = {
       "rewards": ["10 Sunspear Promotion Points"],
       "requires": [100967],
       "next": [100990],
-      "wiki": "https://www.guildwiki.de/wiki/Ohne_Fleiß_kein_Preis"
+      "wiki": {"en": "Honing your Skills", "de": "Ohne Fleiß kein Preis"}
     },
     "100918": {
       "name": "Horde of Darkness",
@@ -8764,7 +8805,7 @@ const GW_QUESTS = {
       "requires": [100789],
       "next_missions": [525],
       "missions": [525],
-      "wiki": "https://www.guildwiki.de/wiki/Dunkle_Horde_(Quest)"
+      "wiki": {"en": "Horde of Darkness", "de": "Dunkle Horde (Quest)"}
     },
     "100919": {
       "name": "How the Grentches Stole Wintersday",
@@ -8775,7 +8816,7 @@ const GW_QUESTS = {
       "rewards": ["5 Candy Cane Shards", "5 Wintersday Gifts"],
       "requires": [101077],
       "next": [101021],
-      "wiki": "https://www.guildwiki.de/wiki/Als_die_Grentche_den_Wintertag_stahlen"
+      "wiki": {"en": "How the Grentches Stole Wintersday", "de": "Als die Grentche den Wintertag stahlen"}
     },
     "100920": {
       "name": "Hunted!",
@@ -8786,7 +8827,7 @@ const GW_QUESTS = {
       "rewards": ["100 Sunspear Promotion Points"],
       "requires_missions": [517],
       "next": [101022],
-      "wiki": "https://www.guildwiki.de/wiki/Gejagt!"
+      "wiki": {"en": "Hunted!", "de": "Gejagt!"}
     },
     "100921": {
       "name": "Identity Theft",
@@ -8795,7 +8836,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 50,
       "rewards": ["10 Sunspear Promotion Points", "Identification Kit (25 uses)", "Battle Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Identitäts-Diebstahl"
+      "wiki": {"en": "Identity Theft", "de": "Identitäts-Diebstahl"}
     },
     "100922": {
       "name": "In Defense of Theatre",
@@ -8806,7 +8847,7 @@ const GW_QUESTS = {
       "gold": 400,
       "rewards": ["15 Lightbringer points", "Trade Contract"],
       "requires": [101064],
-      "wiki": "https://www.guildwiki.de/wiki/Verteidigung_des_Theaters"
+      "wiki": {"en": "In Defense of Theatre", "de": "Verteidigung des Theaters"}
     },
     "100923": {
       "name": "Insatiable Appetite",
@@ -8814,7 +8855,7 @@ const GW_QUESTS = {
       "givers": [490],
       "repeatable": true,
       "rewards": ["Branch of Juni Berries"],
-      "wiki": "https://www.guildwiki.de/wiki/Unstillbarer_Appetit"
+      "wiki": {"en": "Insatiable Appetite", "de": "Unstillbarer Appetit"}
     },
     "100924": {
       "name": "Interception",
@@ -8825,7 +8866,7 @@ const GW_QUESTS = {
       "rewards": ["Trade Contract"],
       "requires": [100889],
       "next": [100966],
-      "wiki": "https://www.guildwiki.de/wiki/Reiseunterbrechung"
+      "wiki": {"en": "Interception", "de": "Reiseunterbrechung"}
     },
     "100925": {
       "name": "Into Chahbek Village",
@@ -8833,7 +8874,7 @@ const GW_QUESTS = {
       "givers": [383],
       "next": [100974],
       "missions": [556],
-      "wiki": "https://www.guildwiki.de/wiki/Nach_Chahbek"
+      "wiki": {"en": "Into Chahbek Village", "de": "Nach Chahbek"}
     },
     "100926": {
       "name": "Into the Fire",
@@ -8842,7 +8883,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "next": [101030],
-      "wiki": "https://www.guildwiki.de/wiki/Ab_ins_Getümmel"
+      "wiki": {"en": "Into the Fire", "de": "Ab ins Getümmel"}
     },
     "100927": {
       "name": "Invasion From Within",
@@ -8852,7 +8893,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["50 Lightbringer points"],
       "requires": [101047],
-      "wiki": "https://www.guildwiki.de/wiki/Feinde_in_den_eigenen_Reihen"
+      "wiki": {"en": "Invasion From Within", "de": "Feinde in den eigenen Reihen"}
     },
     "100928": {
       "name": "Isle of the Dead (Quest)",
@@ -8863,7 +8904,7 @@ const GW_QUESTS = {
       "rewards": ["10 Sunspear Promotion Points"],
       "requires_missions": [515],
       "next": [100830],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Insel_der_Toten"
+      "wiki": {"en": "Isle of the Dead (quest)", "de": "Die Insel der Toten"}
     },
     "100929": {
       "name": "Jedur, the Youngest Child",
@@ -8872,7 +8913,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 150,
       "requires": [101048],
-      "wiki": "https://www.guildwiki.de/wiki/Jedur,_der_Jüngste"
+      "wiki": {"en": "Jedur, the Youngest Child", "de": "Jedur, der Jüngste"}
     },
     "100930": {
       "name": "Know Thine Enemy",
@@ -8883,7 +8924,7 @@ const GW_QUESTS = {
       "rewards": ["Inscribed Secret"],
       "requires": [100915],
       "next": [100856],
-      "wiki": "https://www.guildwiki.de/wiki/Kennt_Eure_Feinde"
+      "wiki": {"en": "Know Thine Enemy", "de": "Kennt Eure Feinde"}
     },
     "100931": {
       "name": "Kormir's Crusade",
@@ -8893,7 +8934,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Lightbringer points"],
       "next": [100820],
-      "wiki": "https://www.guildwiki.de/wiki/Kormirs_Suche"
+      "wiki": {"en": "Kormir's Crusade", "de": "Kormirs Suche"}
     },
     "100932": {
       "name": "Koss Goes Recruiting",
@@ -8904,7 +8945,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points"],
       "requires": [101043],
-      "wiki": "https://www.guildwiki.de/wiki/Koss_als_Anwerber"
+      "wiki": {"en": "Koss Goes Recruiting", "de": "Koss als Anwerber"}
     },
     "100933": {
       "name": "Koss's Elixir",
@@ -8914,7 +8955,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points", "Kournan Coin"],
-      "wiki": "https://www.guildwiki.de/wiki/Koss'_Elixier"
+      "wiki": {"en": "Koss's Elixir", "de": "Koss' Elixier"}
     },
     "100934": {
       "name": "Last of the Breed",
@@ -8923,7 +8964,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["Ancient Artifact"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Letzte_seiner_Art"
+      "wiki": {"en": "Last of the Breed", "de": "Der Letzte seiner Art"}
     },
     "100935": {
       "name": "Leaving a Legacy",
@@ -8934,7 +8975,7 @@ const GW_QUESTS = {
       "rewards": ["20 Sunspear Promotion Points"],
       "requires": [100851],
       "next": [101027],
-      "wiki": "https://www.guildwiki.de/wiki/Leute_für_Kormir"
+      "wiki": {"en": "Leaving a Legacy", "de": "Leute für Kormir"}
     },
     "100936": {
       "name": "Loyal 'til the End",
@@ -8943,7 +8984,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 25,
       "rewards": ["15 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Treue_oder_Gold"
+      "wiki": {"en": "Loyal 'til the End", "de": "Treue oder Gold"}
     },
     "100937": {
       "name": "Mad Little Pony",
@@ -8953,7 +8994,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 1000,
       "rewards": ["50 Trick-or-Treat Bags"],
-      "wiki": "https://www.guildwiki.de/wiki/Verrücktes_kleines_Pony"
+      "wiki": {"en": "Mad Little Pony", "de": "Verrücktes kleines Pony"}
     },
     "100938": {
       "name": "Mallyx the Unyielding (Quest)",
@@ -8967,7 +9008,7 @@ const GW_QUESTS = {
         "Titan Gemstone",
         "Torment Gemstone"
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mallyx_der_Unnachgiebige_(Quest)"
+      "wiki": {"en": "Mallyx the Unyielding (quest)", "de": "Mallyx der Unnachgiebige (Quest)"}
     },
     "100939": {
       "name": "Map-Travel Inventor",
@@ -8975,7 +9016,7 @@ const GW_QUESTS = {
       "givers": [412],
       "xp": 250,
       "gold": 50,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Kartenerfinderin"
+      "wiki": {"en": "Map-Travel Inventor", "de": "Die Kartenerfinderin"}
     },
     "100940": {
       "name": "Material Girl",
@@ -8984,7 +9025,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 100,
       "rewards": ["5 Sunspear Promotion Points", "Expert Salvage Kit (25 uses)"],
-      "wiki": "https://www.guildwiki.de/wiki/Fleißiges_Mädchen"
+      "wiki": {"en": "Material Girl", "de": "Fleißiges Mädchen"}
     },
     "100941": {
       "name": "Melonni Goes Recruiting",
@@ -8995,7 +9036,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points"],
       "requires": [101043],
-      "wiki": "https://www.guildwiki.de/wiki/Melonni_als_Anwerberin"
+      "wiki": {"en": "Melonni Goes Recruiting", "de": "Melonni als Anwerberin"}
     },
     "100942": {
       "name": "Melonni's Meditations",
@@ -9005,7 +9046,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Melonni_meditiert"
+      "wiki": {"en": "Melonni's Meditations", "de": "Melonni meditiert"}
     },
     "100943": {
       "name": "Mirza's Last Stand",
@@ -9017,7 +9058,7 @@ const GW_QUESTS = {
       "requires": [100849],
       "requires_missions": [458],
       "next": [100788],
-      "wiki": "https://www.guildwiki.de/wiki/Mirzas_letztes_Gefecht"
+      "wiki": {"en": "Mirza's Last Stand", "de": "Mirzas letztes Gefecht"}
     },
     "100944": {
       "name": "Misela, the Middle Child",
@@ -9026,7 +9067,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 150,
       "requires": [101048],
-      "wiki": "https://www.guildwiki.de/wiki/Misela,_die_Zweitgeborene"
+      "wiki": {"en": "Misela, the Middle Child", "de": "Misela, die Zweitgeborene"}
     },
     "100945": {
       "name": "Missing Shipment",
@@ -9036,7 +9077,7 @@ const GW_QUESTS = {
       "gold": 100,
       "rewards": ["5 Sunspear Promotion Points", "Battle Commendation"],
       "requires": [100826],
-      "wiki": "https://www.guildwiki.de/wiki/Fehlende_Lieferung"
+      "wiki": {"en": "Missing Shipment", "de": "Fehlende Lieferung"}
     },
     "100946": {
       "name": "Moa'vu'Kaal, Awakened",
@@ -9047,7 +9088,7 @@ const GW_QUESTS = {
       "rewards": ["15 Sunspear Promotion Points", "Battle Commendation"],
       "requires": [101066],
       "next": [100827],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Erweckung_des_Moa'vu'Kaal"
+      "wiki": {"en": "Moa'vu'Kaal, Awakened", "de": "Die Erweckung des Moa'vu'Kaal"}
     },
     "100947": {
       "name": "Money Back Guarantee",
@@ -9055,7 +9096,7 @@ const GW_QUESTS = {
       "givers": [575, 576],
       "rewards": ["Margonite Gemstone", "Stygian Gemstone", "Titan Gemstone", "Torment Gemstone"],
       "requires": [100884],
-      "wiki": "https://www.guildwiki.de/wiki/Geld-zurück-Garantie"
+      "wiki": {"en": "Money Back Guarantee", "de": "Geld-zurück-Garantie"}
     },
     "100948": {
       "name": "Money on the Side",
@@ -9063,7 +9104,7 @@ const GW_QUESTS = {
       "givers": [676],
       "xp": 500,
       "gold": 200,
-      "wiki": "https://www.guildwiki.de/wiki/Nebeneinkünfte"
+      "wiki": {"en": "Money on the Side", "de": "Nebeneinkünfte"}
     },
     "100949": {
       "name": "Mutu, the Oldest Child",
@@ -9072,7 +9113,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 150,
       "requires": [101048],
-      "wiki": "https://www.guildwiki.de/wiki/Mutu,_der_Erstgeborene"
+      "wiki": {"en": "Mutu, the Oldest Child", "de": "Mutu, der Erstgeborene"}
     },
     "100950": {
       "name": "Mysterious Message (Nightfall quest)",
@@ -9082,7 +9123,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points"],
       "next": [100992, 100890],
-      "wiki": "https://www.guildwiki.de/wiki/Rätselhafte_Nachricht_(Nightfall)"
+      "wiki": {"en": "Mysterious Message (Nightfall quest)", "de": "Rätselhafte Nachricht (Nightfall)"}
     },
     "100951": {
       "name": "Need More Stuff",
@@ -9091,7 +9132,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 50,
       "rewards": ["5 Sunspear Promotion Points", "Battle Commendation", "Belt Pouch"],
-      "wiki": "https://www.guildwiki.de/wiki/Braucht_mehr_Sachen"
+      "wiki": {"en": "Need More Stuff", "de": "Braucht mehr Sachen"}
     },
     "100952": {
       "name": "Never Fight Alone",
@@ -9099,7 +9140,7 @@ const GW_QUESTS = {
       "givers": [644, 645],
       "xp": 250,
       "gold": 25,
-      "wiki": "https://www.guildwiki.de/wiki/Kämpft_niemals_allein"
+      "wiki": {"en": "Never Fight Alone", "de": "Kämpft niemals allein"}
     },
     "100953": {
       "name": "No Me, No Kormir",
@@ -9110,7 +9151,7 @@ const GW_QUESTS = {
       "requires": [100890],
       "next_missions": [460],
       "missions": [460],
-      "wiki": "https://www.guildwiki.de/wiki/Ohne_mich_keine_Kormir"
+      "wiki": {"en": "No Me, No Kormir", "de": "Ohne mich keine Kormir"}
     },
     "100954": {
       "name": "Norgu's Nightfall",
@@ -9122,7 +9163,7 @@ const GW_QUESTS = {
       "rewards": ["10 Lightbringer points"],
       "requires": [101036],
       "requires_missions": [528],
-      "wiki": "https://www.guildwiki.de/wiki/Norgus_Finsternis"
+      "wiki": {"en": "Norgu's Nightfall", "de": "Norgus Finsternis"}
     },
     "100955": {
       "name": "Old Friends",
@@ -9131,7 +9172,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 150,
       "next": [100889],
-      "wiki": "https://www.guildwiki.de/wiki/Alte_Freunde"
+      "wiki": {"en": "Old Friends", "de": "Alte Freunde"}
     },
     "100956": {
       "name": "Old Woman River",
@@ -9140,7 +9181,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "requires_missions": [459],
-      "wiki": "https://www.guildwiki.de/wiki/Unten_am_Fluss"
+      "wiki": {"en": "Old Woman River", "de": "Unten am Fluss"}
     },
     "100957": {
       "name": "One Good Turn Deserves Another",
@@ -9151,7 +9192,7 @@ const GW_QUESTS = {
       "rewards": ["Official Papers"],
       "requires": [100804],
       "next": [101053],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Hand_wäscht_die_andere"
+      "wiki": {"en": "One Good Turn Deserves Another", "de": "Eine Hand wäscht die andere"}
     },
     "100958": {
       "name": "One Man's Dream",
@@ -9161,7 +9202,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["Trade Contract"],
       "requires": [100901],
-      "wiki": "https://www.guildwiki.de/wiki/Eines_Mannes_Traum"
+      "wiki": {"en": "One Man's Dream", "de": "Eines Mannes Traum"}
     },
     "100959": {
       "name": "Open Season",
@@ -9171,7 +9212,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Lightbringer points"],
       "requires": [100856],
-      "wiki": "https://www.guildwiki.de/wiki/Jagdsaison_(Quest)"
+      "wiki": {"en": "Open Season", "de": "Jagdsaison (Quest)"}
     },
     "100960": {
       "name": "Open the Flood Gates of Death",
@@ -9183,14 +9224,14 @@ const GW_QUESTS = {
       "rewards": ["100 Trick-or-Treat Bags"],
       "requires": [101049],
       "next": [101029],
-      "wiki": "https://www.guildwiki.de/wiki/Öffnet_die_Schleusen_des_Todes"
+      "wiki": {"en": "Open the Flood Gates of Death", "de": "Öffnet die Schleusen des Todes"}
     },
     "100961": {
       "name": "Out of Kourna",
       "type": "secondary",
       "givers": [624],
       "xp": 1,
-      "wiki": "https://www.guildwiki.de/wiki/Jenseits_von_Kourna"
+      "wiki": {"en": "Out of Kourna", "de": "Jenseits von Kourna"}
     },
     "100962": {
       "name": "Pilgrimage",
@@ -9199,7 +9240,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["Ancient Artifact"],
-      "wiki": "https://www.guildwiki.de/wiki/Pilgerreise"
+      "wiki": {"en": "Pilgrimage", "de": "Pilgerreise"}
     },
     "100963": {
       "name": "Plague in Cantha",
@@ -9210,7 +9251,7 @@ const GW_QUESTS = {
       "gold": 200,
       "requires": [101041],
       "next": [100780],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Seuche_in_Cantha"
+      "wiki": {"en": "Plague in Cantha", "de": "Eine Seuche in Cantha"}
     },
     "100964": {
       "name": "Plague of Frogs",
@@ -9219,7 +9260,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 250,
       "rewards": ["Trade Contract"],
-      "wiki": "https://www.guildwiki.de/wiki/Froschplage"
+      "wiki": {"en": "Plague of Frogs", "de": "Froschplage"}
     },
     "100965": {
       "name": "Pledge of the Merchant Princes",
@@ -9229,7 +9270,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["10 Lightbringer points"],
       "missions": [521],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Schwur_der_Handelsfürsten"
+      "wiki": {"en": "Pledge of the Merchant Princes", "de": "Der Schwur der Handelsfürsten"}
     },
     "100966": {
       "name": "Population Control",
@@ -9240,7 +9281,7 @@ const GW_QUESTS = {
       "rewards": ["Trade Contract"],
       "requires": [100924],
       "next": [100910],
-      "wiki": "https://www.guildwiki.de/wiki/Bevölkerungskontrolle"
+      "wiki": {"en": "Population Control", "de": "Bevölkerungskontrolle"}
     },
     "100967": {
       "name": "Primary Training",
@@ -9299,7 +9340,7 @@ const GW_QUESTS = {
       ],
       "rewards": ["5 Sunspear Promotion Points", "Battle Commendation"],
       "next": [100917],
-      "wiki": "https://www.guildwiki.de/wiki/Primärtraining"
+      "wiki": {"en": "Primary Training", "de": "Primärtraining"}
     },
     "100968": {
       "name": "Proof of Courage",
@@ -9308,7 +9349,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 50,
       "rewards": ["10 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Mutprobe"
+      "wiki": {"en": "Proof of Courage", "de": "Mutprobe"}
     },
     "100969": {
       "name": "Protect the Learned",
@@ -9318,7 +9359,7 @@ const GW_QUESTS = {
       "gold": 400,
       "rewards": ["10 Lightbringer points", "Trade Contract"],
       "requires": [101038],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Gelehrten_beschützen"
+      "wiki": {"en": "Protect the Learned", "de": "Die Gelehrten beschützen"}
     },
     "100970": {
       "name": "Puzzling Parchment",
@@ -9329,7 +9370,7 @@ const GW_QUESTS = {
       "rewards": ["Trade Contract"],
       "requires": [100852],
       "next": [100901],
-      "wiki": "https://www.guildwiki.de/wiki/Rätselhafte_Pergamentschrift"
+      "wiki": {"en": "Puzzling Parchment", "de": "Rätselhafte Pergamentschrift"}
     },
     "100971": {
       "name": "Quality Steel",
@@ -9338,7 +9379,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 20,
       "rewards": ["5 Sunspear Promotion Points", "Battle Commendation", "2 Iron Ingots", "2 Wood Planks"],
-      "wiki": "https://www.guildwiki.de/wiki/Qualitätsstahl"
+      "wiki": {"en": "Quality Steel", "de": "Qualitätsstahl"}
     },
     "100972": {
       "name": "Quarry Quandry",
@@ -9348,7 +9389,7 @@ const GW_QUESTS = {
       "gold": 100,
       "rewards": ["10 Sunspear Promotion Points", "Battle Commendation"],
       "next": [100973],
-      "wiki": "https://www.guildwiki.de/wiki/Stunk_im_Steinbruch"
+      "wiki": {"en": "Quarry Quandry", "de": "Stunk im Steinbruch"}
     },
     "100973": {
       "name": "Queen of the Quarry",
@@ -9358,7 +9399,7 @@ const GW_QUESTS = {
       "gold": 100,
       "rewards": ["10 Sunspear Promotion Points", "Battle Commendation"],
       "requires": [100972],
-      "wiki": "https://www.guildwiki.de/wiki/Königin_des_Steinbruchs"
+      "wiki": {"en": "Queen of the Quarry", "de": "Königin des Steinbruchs"}
     },
     "100974": {
       "name": "Quiz the Recruits",
@@ -9367,7 +9408,7 @@ const GW_QUESTS = {
       "xp": 250,
       "next_missions": [556],
       "missions": [556],
-      "wiki": "https://www.guildwiki.de/wiki/Prüft_die_Rekruten"
+      "wiki": {"en": "Quiz the Recruits", "de": "Prüft die Rekruten"}
     },
     "100975": {
       "name": "Raising an Army",
@@ -9377,7 +9418,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Ancient Artifact"],
       "requires": [100981],
-      "wiki": "https://www.guildwiki.de/wiki/Aufbau_einer_Armee"
+      "wiki": {"en": "Raising an Army", "de": "Aufbau einer Armee"}
     },
     "100976": {
       "name": "Rally The Princes",
@@ -9389,7 +9430,7 @@ const GW_QUESTS = {
       "requires_missions": [427],
       "next_missions": [518],
       "missions": [518],
-      "wiki": "https://www.guildwiki.de/wiki/Sammelt_die_Fürsten"
+      "wiki": {"en": "Rally The Princes", "de": "Sammelt die Fürsten"}
     },
     "100977": {
       "name": "Rally the Recruits (Tutorial)",
@@ -9398,7 +9439,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "skills": [322],
       "next": [100925],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Rekruten_abholen_(Tutorial)"
+      "wiki": {"en": "Rally the Recruits (Tutorial)", "de": "Die Rekruten abholen (Tutorial)"}
     },
     "100978": {
       "name": "Re-enlist Rojis",
@@ -9408,7 +9449,7 @@ const GW_QUESTS = {
       "gold": 125,
       "rewards": ["15 Sunspear Promotion Points", "1 Battle Commendation"],
       "requires": [100983],
-      "wiki": "https://www.guildwiki.de/wiki/Rojis_Rückkehr"
+      "wiki": {"en": "Re-enlist Rojis", "de": "Rojis Rückkehr"}
     },
     "100979": {
       "name": "Reclaiming the Temple",
@@ -9418,7 +9459,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["10 Lightbringer points"],
       "requires": [101039],
-      "wiki": "https://www.guildwiki.de/wiki/Rückeroberung_des_Tempels"
+      "wiki": {"en": "Reclaiming the Temple", "de": "Rückeroberung des Tempels"}
     },
     "100980": {
       "name": "Refuse the King",
@@ -9427,7 +9468,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["Ancient Artifact"],
-      "wiki": "https://www.guildwiki.de/wiki/Den_König_abweisen"
+      "wiki": {"en": "Refuse the King", "de": "Den König abweisen"}
     },
     "100981": {
       "name": "Requiem for a Brain",
@@ -9438,7 +9479,7 @@ const GW_QUESTS = {
       "rewards": ["1 Ancient Artifact"],
       "requires": [100918],
       "next": [100975],
-      "wiki": "https://www.guildwiki.de/wiki/Requiem_für_ein_Gehirn"
+      "wiki": {"en": "Requiem for a Brain", "de": "Requiem für ein Gehirn"}
     },
     "100982": {
       "name": "Return of the Undead King",
@@ -9447,7 +9488,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["Ancient Artifact"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Rückkehr_des_untoten_Königs"
+      "wiki": {"en": "Return of the Undead King", "de": "Die Rückkehr des untoten Königs"}
     },
     "100983": {
       "name": "Rising Suns",
@@ -9458,7 +9499,7 @@ const GW_QUESTS = {
       "rewards": ["10 Sunspear Promotion Points", "1 Battle Commendation"],
       "requires_missions": [515],
       "next": [100978],
-      "wiki": "https://www.guildwiki.de/wiki/Aufgehende_Sonnen"
+      "wiki": {"en": "Rising Suns", "de": "Aufgehende Sonnen"}
     },
     "100984": {
       "name": "Rising in the Ranks: First Spear",
@@ -9467,7 +9508,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "rewards": ["15 Attribute points"],
       "requires": [100985],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Karriereleiter:_Erster_Speer"
+      "wiki": {"en": "Rising in the Ranks: First Spear", "de": "Die Karriereleiter: Erster Speer"}
     },
     "100985": {
       "name": "Rising in the Ranks: Master Sergeant",
@@ -9476,7 +9517,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "rewards": ["15 Attribute points"],
       "next": [100984],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Karriereleiter:_Hauptfeldwebel"
+      "wiki": {"en": "Rising in the Ranks: Master Sergeant", "de": "Die Karriereleiter: Hauptfeldwebel"}
     },
     "100986": {
       "name": "Save the Reindeer",
@@ -9487,7 +9528,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["5 Candy Cane Shards", "5 Wintersday Gifts"],
       "next": [100883],
-      "wiki": "https://www.guildwiki.de/wiki/Rettet_die_Rentiere"
+      "wiki": {"en": "Save the Reindeer", "de": "Rettet die Rentiere"}
     },
     "100987": {
       "name": "Scholarly Affairs",
@@ -9496,7 +9537,7 @@ const GW_QUESTS = {
       "xp": 250,
       "gold": 50,
       "rewards": ["10 Sunspear Promotion Points", "Battle Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Gelehrte_Angelegenheiten"
+      "wiki": {"en": "Scholarly Affairs", "de": "Gelehrte Angelegenheiten"}
     },
     "100988": {
       "name": "Scorched Earth (Nightfall quest)",
@@ -9508,7 +9549,7 @@ const GW_QUESTS = {
       "rewards": ["Trade Contract"],
       "requires": [100894],
       "next": [101064],
-      "wiki": "https://www.guildwiki.de/wiki/Verbrannte_Erde"
+      "wiki": {"en": "Scorched Earth (Nightfall quest)", "de": "Verbrannte Erde"}
     },
     "100989": {
       "name": "Second Born",
@@ -9518,7 +9559,7 @@ const GW_QUESTS = {
       "gold": 125,
       "requires": [100885],
       "next": [101048],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Zweitgeborene"
+      "wiki": {"en": "Second Born", "de": "Die Zweitgeborene"}
     },
     "100990": {
       "name": "Secondary Training",
@@ -9579,7 +9620,7 @@ const GW_QUESTS = {
       "rewards": ["5 Sunspear Promotion Points", "Battle Commendation"],
       "requires": [100917],
       "next": [100851],
-      "wiki": "https://www.guildwiki.de/wiki/Sekundärtraining"
+      "wiki": {"en": "Secondary Training", "de": "Sekundärtraining"}
     },
     "100991": {
       "name": "Secret Passage",
@@ -9587,7 +9628,7 @@ const GW_QUESTS = {
       "givers": [425],
       "xp": 1000,
       "gold": 100,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Reifeprüfung"
+      "wiki": {"en": "Secret Passage", "de": "Die Reifeprüfung"}
     },
     "100992": {
       "name": "Secrets in the Shadow",
@@ -9598,7 +9639,7 @@ const GW_QUESTS = {
       "rewards": ["Kournan Coin"],
       "requires": [100950],
       "next": [101052],
-      "wiki": "https://www.guildwiki.de/wiki/Geheimnisse_in_den_Schatten"
+      "wiki": {"en": "Secrets in the Shadow", "de": "Geheimnisse in den Schatten"}
     },
     "100993": {
       "name": "Securing Champion's Dawn",
@@ -9608,7 +9649,7 @@ const GW_QUESTS = {
       "rewards": ["15 Sunspear Promotion Points"],
       "requires": [100831],
       "next": [100800],
-      "wiki": "https://www.guildwiki.de/wiki/Champions_Erwachen_sichern"
+      "wiki": {"en": "Securing Champion's Dawn", "de": "Champions Erwachen sichern"}
     },
     "100994": {
       "name": "She Hungers",
@@ -9618,7 +9659,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Ancient Artifact"],
       "requires": [100789],
-      "wiki": "https://www.guildwiki.de/wiki/Heißhunger"
+      "wiki": {"en": "She Hungers", "de": "Heißhunger"}
     },
     "100995": {
       "name": "Signs and Portents",
@@ -9629,7 +9670,7 @@ const GW_QUESTS = {
       "gold": 125,
       "rewards": ["15 Sunspear Promotion Points"],
       "missions": [515],
-      "wiki": "https://www.guildwiki.de/wiki/Zeichen_und_Omen"
+      "wiki": {"en": "Signs and Portents", "de": "Zeichen und Omen"}
     },
     "100996": {
       "name": "Skale and Magic Compass",
@@ -9637,7 +9678,7 @@ const GW_QUESTS = {
       "givers": [724],
       "xp": 1000,
       "gold": 100,
-      "wiki": "https://www.guildwiki.de/wiki/Skal_und_magischer_Kompass"
+      "wiki": {"en": "Skale and Magic Compass", "de": "Skal und magischer Kompass"}
     },
     "100997": {
       "name": "Skree Hatchling Season",
@@ -9646,7 +9687,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 100,
       "rewards": ["10 Sunspear Promotion Points", "Battle Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Zicke-zacke,_Skree-Kacke"
+      "wiki": {"en": "Skree Hatchling Season", "de": "Zicke-zacke, Skree-Kacke"}
     },
     "100998": {
       "name": "Special Delivery",
@@ -9657,7 +9698,7 @@ const GW_QUESTS = {
       "rewards": ["10 Sunspear Promotion Points"],
       "requires": [100830],
       "next": [100834],
-      "wiki": "https://www.guildwiki.de/wiki/Botenauftrag"
+      "wiki": {"en": "Special Delivery", "de": "Botenauftrag"}
     },
     "100999": {
       "name": "Spreading the Wintersday Spirit",
@@ -9669,7 +9710,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["5 Candy Cane Shards", "5 Wintersday Gifts"],
       "requires": [100883],
-      "wiki": "https://www.guildwiki.de/wiki/Wintertags-Stimmung_verbreiten"
+      "wiki": {"en": "Spreading the Wintersday Spirit", "de": "Wintertags-Stimmung verbreiten"}
     },
     "101000": {
       "name": "Sticks and Stones",
@@ -9678,7 +9719,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["Ancient Artifact"],
-      "wiki": "https://www.guildwiki.de/wiki/Stöcke_und_Steine"
+      "wiki": {"en": "Sticks and Stones", "de": "Stöcke und Steine"}
     },
     "101001": {
       "name": "Stone-Faced Orders",
@@ -9688,7 +9729,7 @@ const GW_QUESTS = {
       "gold": 100,
       "requires": [101016],
       "next": [100825],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Befehl_vom_Steinernen_Antlitz"
+      "wiki": {"en": "Stone-Faced Orders", "de": "Ein Befehl vom Steinernen Antlitz"}
     },
     "101002": {
       "name": "Strange Bedfellows",
@@ -9698,7 +9739,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Ancient Artifact"],
       "next": [101063],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_seltsames_Gespann"
+      "wiki": {"en": "Strange Bedfellows", "de": "Ein seltsames Gespann"}
     },
     "101003": {
       "name": "Student Jin",
@@ -9706,7 +9747,7 @@ const GW_QUESTS = {
       "givers": [721],
       "xp": 1500,
       "gold": 125,
-      "wiki": "https://www.guildwiki.de/wiki/Schülerin_Jin"
+      "wiki": {"en": "Student Jin", "de": "Schülerin Jin"}
     },
     "101004": {
       "name": "Student Sousuke",
@@ -9714,7 +9755,7 @@ const GW_QUESTS = {
       "givers": [721],
       "xp": 1500,
       "gold": 125,
-      "wiki": "https://www.guildwiki.de/wiki/Schüler_Sousuke"
+      "wiki": {"en": "Student Sousuke", "de": "Schüler Sousuke"}
     },
     "101005": {
       "name": "Summertime for Bokka",
@@ -9725,7 +9766,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["Trade Contract"],
       "requires": [101040],
-      "wiki": "https://www.guildwiki.de/wiki/Sommer_für_Bokka"
+      "wiki": {"en": "Summertime for Bokka", "de": "Sommer für Bokka"}
     },
     "101006": {
       "name": "Suwash the Pirate",
@@ -9734,7 +9775,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 50,
       "rewards": ["5 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Suwash_der_Pirat"
+      "wiki": {"en": "Suwash the Pirate", "de": "Suwash der Pirat"}
     },
     "101007": {
       "name": "Take the Shortcut (Skip Tutorial)",
@@ -9744,7 +9785,7 @@ const GW_QUESTS = {
       "skills": [322],
       "next": [100974],
       "missions": [556],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Abkürzung_nehmen_(Tutorial_überspringen)"
+      "wiki": {"en": "Take the Shortcut (Skip Tutorial)", "de": "Die Abkürzung nehmen (Tutorial überspringen)"}
     },
     "101008": {
       "name": "Temple of the Monoliths",
@@ -9755,7 +9796,7 @@ const GW_QUESTS = {
       "rewards": ["30 Lightbringer points"],
       "requires": [100789],
       "next": [100813],
-      "wiki": "https://www.guildwiki.de/wiki/Tempel_der_Monolithen"
+      "wiki": {"en": "Temple of the Monoliths", "de": "Tempel der Monolithen"}
     },
     "101009": {
       "name": "Tendering an Offer",
@@ -9766,7 +9807,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points", "Kournan Coin"],
       "requires": [100876],
-      "wiki": "https://www.guildwiki.de/wiki/Freundliche_Übernahme"
+      "wiki": {"en": "Tendering an Offer", "de": "Freundliche Übernahme"}
     },
     "101010": {
       "name": "Terror in Tyria",
@@ -9776,7 +9817,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "requires": [101041],
-      "wiki": "https://www.guildwiki.de/wiki/Terror_in_Tyria"
+      "wiki": {"en": "Terror in Tyria", "de": "Terror in Tyria"}
     },
     "101011": {
       "name": "The Apostate",
@@ -9785,7 +9826,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["75 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Apostat"
+      "wiki": {"en": "The Apostate", "de": "Der Apostat"}
     },
     "101012": {
       "name": "The City of Torc'qua",
@@ -9793,7 +9834,7 @@ const GW_QUESTS = {
       "givers": [432],
       "xp": 10000,
       "rewards": ["500 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Stadt_Torc'qua_(Quest)"
+      "wiki": {"en": "The City of Torc'qua", "de": "Die Stadt Torc'qua (Quest)"}
     },
     "101013": {
       "name": "The Cold Touch of the Past",
@@ -9803,7 +9844,7 @@ const GW_QUESTS = {
       "gold": 400,
       "rewards": ["45 Lightbringer points"],
       "next": [101025],
-      "wiki": "https://www.guildwiki.de/wiki/Der_kalte_Hauch_der_Vergangenheit"
+      "wiki": {"en": "The Cold Touch of the Past", "de": "Der kalte Hauch der Vergangenheit"}
     },
     "101014": {
       "name": "The Command Post",
@@ -9812,7 +9853,7 @@ const GW_QUESTS = {
       "xp": 4000,
       "gold": 200,
       "rewards": ["160 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Kommandostelle"
+      "wiki": {"en": "The Command Post", "de": "Die Kommandostelle"}
     },
     "101015": {
       "name": "The Council is Called",
@@ -9823,7 +9864,7 @@ const GW_QUESTS = {
       "rewards": ["20 Sunspear Promotion Points"],
       "requires_missions": [517],
       "next": [101054],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Rat_wird_einberufen"
+      "wiki": {"en": "The Council is Called", "de": "Der Rat wird einberufen"}
     },
     "101016": {
       "name": "The Cult of the Stone Face",
@@ -9832,7 +9873,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 100,
       "next": [101001],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Kult_um_das_Steinerne_Antlitz"
+      "wiki": {"en": "The Cult of the Stone Face", "de": "Der Kult um das Steinerne Antlitz"}
     },
     "101017": {
       "name": "The Cyclone Palace",
@@ -9843,7 +9884,7 @@ const GW_QUESTS = {
       "rewards": ["25 Sunspear Promotion Points", "Battle Commendation"],
       "requires": [100827],
       "next": [100867],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Zyklonpalast_(Quest)"
+      "wiki": {"en": "The Cyclone Palace", "de": "Der Zyklonpalast (Quest)"}
     },
     "101018": {
       "name": "The Dejarin Estate",
@@ -9853,7 +9894,7 @@ const GW_QUESTS = {
       "gold": 400,
       "rewards": ["160 Sunspear Promotion Points", "2 Kournan Coins"],
       "requires": [101019],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Dejarin-Anwesen"
+      "wiki": {"en": "The Dejarin Estate", "de": "Das Dejarin-Anwesen"}
     },
     "101019": {
       "name": "The Foolhardy Father",
@@ -9863,7 +9904,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points", "Kournan Coin"],
       "next": [101018],
-      "wiki": "https://www.guildwiki.de/wiki/Der_tollkühne_Vater"
+      "wiki": {"en": "The Foolhardy Father", "de": "Der tollkühne Vater"}
     },
     "101020": {
       "name": "The Foundry of Failed Creations",
@@ -9872,7 +9913,10 @@ const GW_QUESTS = {
       "xp": 10000,
       "rewards": ["500 Lightbringer points"],
       "next": [100892],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Inferno_der_gescheiterten_Schöpfung_(Quest)"
+      "wiki": {
+        "en": "The Foundry of Failed Creations (quest)",
+        "de": "Das Inferno der gescheiterten Schöpfung (Quest)"
+      }
     },
     "101021": {
       "name": "The Gift of Giving",
@@ -9882,7 +9926,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "rewards": ["5 Candy Cane Shards", "5 Wintersday Gifts"],
       "requires": [100919],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Gabe_des_Schenkens"
+      "wiki": {"en": "The Gift of Giving", "de": "Die Gabe des Schenkens"}
     },
     "101022": {
       "name": "The Great Escape",
@@ -9893,7 +9937,7 @@ const GW_QUESTS = {
       "rewards": ["100 Sunspear Promotion Points"],
       "requires": [100920],
       "next": [100824],
-      "wiki": "https://www.guildwiki.de/wiki/Gesprengte_Ketten"
+      "wiki": {"en": "The Great Escape", "de": "Gesprengte Ketten"}
     },
     "101023": {
       "name": "The Great Zehtuka",
@@ -9902,7 +9946,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["2 Kournan Coins"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Große_Zehtuka_(Quest)"
+      "wiki": {"en": "The Great Zehtuka", "de": "Der Große Zehtuka (Quest)"}
     },
     "101024": {
       "name": "The Growing Threat",
@@ -9912,7 +9956,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["30 Lightbringer points", "1 Ancient Artifact"],
       "requires": [100817],
-      "wiki": "https://www.guildwiki.de/wiki/Wachsende_Bedrohung"
+      "wiki": {"en": "The Growing Threat", "de": "Wachsende Bedrohung"}
     },
     "101025": {
       "name": "The Hallowed Point",
@@ -9922,7 +9966,7 @@ const GW_QUESTS = {
       "gold": 400,
       "rewards": ["30 Lightbringer points"],
       "requires": [101013],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Geweihte_Stelle"
+      "wiki": {"en": "The Hallowed Point", "de": "Die Geweihte Stelle"}
     },
     "101026": {
       "name": "The Hanging Gardener",
@@ -9931,7 +9975,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 250,
       "rewards": ["Trade Contract"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_hängende_Gärtner"
+      "wiki": {"en": "The Hanging Gardener", "de": "Der hängende Gärtner"}
     },
     "101027": {
       "name": "The Honorable General",
@@ -9941,7 +9985,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["20 Sunspear Promotion Points"],
       "next": [100995],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_General_und_Ehrenmann"
+      "wiki": {"en": "The Honorable General", "de": "Ein General und Ehrenmann"}
     },
     "101028": {
       "name": "The Iron Truth",
@@ -9951,7 +9995,7 @@ const GW_QUESTS = {
       "gold": 125,
       "rewards": ["15 Sunspear Promotion Points"],
       "next": [101059],
-      "wiki": "https://www.guildwiki.de/wiki/Die_eiserne_Wahrheit"
+      "wiki": {"en": "The Iron Truth", "de": "Die eiserne Wahrheit"}
     },
     "101029": {
       "name": "The Killing Joke",
@@ -9962,7 +10006,7 @@ const GW_QUESTS = {
       "gold": 2500,
       "rewards": ["100 Trick-or-Treat Bags"],
       "requires": [100960],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_mörderischer_Witz"
+      "wiki": {"en": "The Killing Joke", "de": "Ein mörderischer Witz"}
     },
     "101030": {
       "name": "The Last Patrol",
@@ -9971,7 +10015,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "requires": [100926],
-      "wiki": "https://www.guildwiki.de/wiki/Die_letzte_Patrouille"
+      "wiki": {"en": "The Last Patrol", "de": "Die letzte Patrouille"}
     },
     "101031": {
       "name": "The Lone Raider",
@@ -9981,7 +10025,7 @@ const GW_QUESTS = {
       "gold": 125,
       "rewards": ["15 Sunspear Promotion Points", "1 Battle Commendation"],
       "next": [100854],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Ein-Mann-Armee"
+      "wiki": {"en": "The Lone Raider", "de": "Eine Ein-Mann-Armee"}
     },
     "101032": {
       "name": "The Madness of Prophecy",
@@ -9992,7 +10036,7 @@ const GW_QUESTS = {
       "rewards": ["10 Lightbringer points"],
       "requires": [100965],
       "next": [101038],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Wahnwitz_der_Prophezeiung"
+      "wiki": {"en": "The Madness of Prophecy", "de": "Der Wahnwitz der Prophezeiung"}
     },
     "101033": {
       "name": "The Missing Patrol",
@@ -10000,7 +10044,7 @@ const GW_QUESTS = {
       "givers": [464],
       "xp": 2500,
       "gold": 200,
-      "wiki": "https://www.guildwiki.de/wiki/Die_verschollene_Patrouille"
+      "wiki": {"en": "The Missing Patrol", "de": "Die verschollene Patrouille"}
     },
     "101034": {
       "name": "The Oddbodies",
@@ -10010,7 +10054,7 @@ const GW_QUESTS = {
       "gold": 200,
       "requires": [101033],
       "next": [100926],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Käuze_(Quest)"
+      "wiki": {"en": "The Oddbodies (quest)", "de": "Die Käuze (Quest)"}
     },
     "101035": {
       "name": "The Rifts Between Us",
@@ -10020,7 +10064,7 @@ const GW_QUESTS = {
       "rewards": ["800 Lightbringer points"],
       "requires": [101056],
       "next": [100860],
-      "wiki": "https://www.guildwiki.de/wiki/Tür_zu,_es_zieht!"
+      "wiki": {"en": "The Rifts Between Us", "de": "Tür zu, es zieht!"}
     },
     "101036": {
       "name": "The Role of a Lifetime",
@@ -10029,7 +10073,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "requires": [100837],
       "next": [100954],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Rolle_seines_Lebens"
+      "wiki": {"en": "The Role of a Lifetime", "de": "Die Rolle seines Lebens"}
     },
     "101037": {
       "name": "The Scourge of Vabbi",
@@ -10039,7 +10083,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["10 Lightbringer points"],
       "requires": [100786, 100982],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Geißel_von_Vaabi"
+      "wiki": {"en": "The Scourge of Vabbi", "de": "Die Geißel von Vaabi"}
     },
     "101038": {
       "name": "The Search for Enlightenment",
@@ -10050,7 +10094,7 @@ const GW_QUESTS = {
       "rewards": ["10 Lightbringer points"],
       "requires": [101032],
       "next": [100969],
-      "wiki": "https://www.guildwiki.de/wiki/Suche_nach_Erleuchtung"
+      "wiki": {"en": "The Search for Enlightenment", "de": "Suche nach Erleuchtung"}
     },
     "101039": {
       "name": "The Search for Survivors",
@@ -10061,7 +10105,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["10 Lightbringer points"],
       "next": [100979],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Suche_nach_Überlebenden"
+      "wiki": {"en": "The Search for Survivors", "de": "Die Suche nach Überlebenden"}
     },
     "101040": {
       "name": "The Show Must Go On",
@@ -10072,7 +10116,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["Trade Contract"],
       "next": [101005],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Show_muss_weitergehen!"
+      "wiki": {"en": "The Show Must Go On", "de": "Die Show muss weitergehen!"}
     },
     "101041": {
       "name": "The Time is Nigh",
@@ -10084,7 +10128,7 @@ const GW_QUESTS = {
       "requires": [100800],
       "next_missions": [517],
       "missions": [517],
-      "wiki": "https://www.guildwiki.de/wiki/Der_richtige_Moment"
+      "wiki": {"en": "The Time is Nigh", "de": "Der richtige Moment"}
     },
     "101042": {
       "name": "The Time is Nigh",
@@ -10095,7 +10139,7 @@ const GW_QUESTS = {
       "rewards": ["15 Sunspear Promotion Points"],
       "requires": [101068, 101069, 101070],
       "missions": [517],
-      "wiki": "https://www.guildwiki.de/wiki/Zeit_zu_handeln"
+      "wiki": {"en": "The Time is Nigh", "de": "Zeit zu handeln"}
     },
     "101043": {
       "name": "The Tools of War",
@@ -10104,7 +10148,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Werkzeuge_des_Krieges"
+      "wiki": {"en": "The Tools of War", "de": "Die Werkzeuge des Krieges"}
     },
     "101044": {
       "name": "The Toy's Story",
@@ -10112,7 +10156,7 @@ const GW_QUESTS = {
       "givers": [732],
       "xp": 1000,
       "rewards": ["Miniature Gray Giant"],
-      "wiki": "https://www.guildwiki.de/wiki/Spielzeug_ist_nicht_gleich_Spielzeug"
+      "wiki": {"en": "The Toy's Story", "de": "Spielzeug ist nicht gleich Spielzeug"}
     },
     "101045": {
       "name": "The Troubled Keeper",
@@ -10122,7 +10166,7 @@ const GW_QUESTS = {
       "gold": 400,
       "rewards": ["100 Lightbringer points", "Inscribed Secret"],
       "requires": [100840],
-      "wiki": "https://www.guildwiki.de/wiki/Hüterin_in_Not"
+      "wiki": {"en": "The Troubled Keeper", "de": "Hüterin in Not"}
     },
     "101046": {
       "name": "The Young Lady Vanishes",
@@ -10132,7 +10176,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Sunspear Promotion Points", "Kournan Coin"],
       "requires": [101018],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Verschwinden_der_jungen_Dame"
+      "wiki": {"en": "The Young Lady Vanishes", "de": "Das Verschwinden der jungen Dame"}
     },
     "101047": {
       "name": "They Only Come Out at Night",
@@ -10142,7 +10186,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["75 Lightbringer points"],
       "next": [100927],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Nachtaktiven"
+      "wiki": {"en": "They Only Come Out at Night", "de": "Die Nachtaktiven"}
     },
     "101048": {
       "name": "Third Born",
@@ -10151,7 +10195,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 125,
       "requires": [100989],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Drittgeborene"
+      "wiki": {"en": "Third Born", "de": "Der Drittgeborene"}
     },
     "101049": {
       "name": "Til Death Do Us Part...",
@@ -10162,7 +10206,7 @@ const GW_QUESTS = {
       "gold": 1000,
       "rewards": ["50 Trick-or-Treat Bags"],
       "next": [100960],
-      "wiki": "https://www.guildwiki.de/wiki/Bis_dass_der_Tod_uns_scheidet..."
+      "wiki": {"en": "Til Death Do Us Part...", "de": "Bis dass der Tod uns scheidet..."}
     },
     "101050": {
       "name": "To Ask For More",
@@ -10171,7 +10215,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 125,
       "requires": [101053],
-      "wiki": "https://www.guildwiki.de/wiki/Nochmal_mit_Gefühl"
+      "wiki": {"en": "To Ask For More", "de": "Nochmal mit Gefühl"}
     },
     "101051": {
       "name": "To Dye For",
@@ -10181,7 +10225,7 @@ const GW_QUESTS = {
       "gold": 100,
       "rewards": ["5 Sunspear Promotion Points"],
       "requires": [100935],
-      "wiki": "https://www.guildwiki.de/wiki/Todschicke_Farbe"
+      "wiki": {"en": "To Dye For", "de": "Todschicke Farbe"}
     },
     "101052": {
       "name": "To Kill a Demon",
@@ -10192,7 +10236,7 @@ const GW_QUESTS = {
       "requires": [100992],
       "next_missions": [459],
       "missions": [459],
-      "wiki": "https://www.guildwiki.de/wiki/Wie_tötet_man_einen_Dämon?"
+      "wiki": {"en": "To Kill a Demon", "de": "Wie tötet man einen Dämon?"}
     },
     "101053": {
       "name": "To See the Sights",
@@ -10202,7 +10246,7 @@ const GW_QUESTS = {
       "gold": 50,
       "requires": [100957],
       "next": [101050],
-      "wiki": "https://www.guildwiki.de/wiki/Sehenswürdigkeiten_besichtigen"
+      "wiki": {"en": "To See the Sights", "de": "Sehenswürdigkeiten besichtigen"}
     },
     "101054": {
       "name": "To Vabbi!",
@@ -10213,7 +10257,7 @@ const GW_QUESTS = {
       "rewards": ["100 Sunspear Promotion Points"],
       "requires": [101015],
       "next": [100848],
-      "wiki": "https://www.guildwiki.de/wiki/Auf_nach_Vaabi!"
+      "wiki": {"en": "To Vabbi!", "de": "Auf nach Vaabi!"}
     },
     "101055": {
       "name": "To the Rescue (Nightfall quest)",
@@ -10225,7 +10269,7 @@ const GW_QUESTS = {
       "rewards": ["15 Lightbringer points", "1 Trade Contract"],
       "requires": [100859],
       "next": [100852],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Befreiung"
+      "wiki": {"en": "To the Rescue (Nightfall quest)", "de": "Die Befreiung"}
     },
     "101056": {
       "name": "To the Rescue!",
@@ -10234,7 +10278,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 500,
       "rewards": ["500 Lightbringer points"],
-      "wiki": "https://www.guildwiki.de/wiki/Hinter_die_feindlichen_Linien"
+      "wiki": {"en": "To the Rescue!", "de": "Hinter die feindlichen Linien"}
     },
     "101057": {
       "name": "Total Corruption",
@@ -10245,7 +10289,7 @@ const GW_QUESTS = {
       "rewards": ["10 Lightbringer points", "Kournan Coin"],
       "requires": [100823],
       "next": [100832],
-      "wiki": "https://www.guildwiki.de/wiki/Extrem_starker_Befall"
+      "wiki": {"en": "Total Corruption", "de": "Extrem starker Befall"}
     },
     "101058": {
       "name": "Trade Relations",
@@ -10253,7 +10297,7 @@ const GW_QUESTS = {
       "givers": [516],
       "xp": 1500,
       "gold": 125,
-      "wiki": "https://www.guildwiki.de/wiki/Handelsbeziehungen"
+      "wiki": {"en": "Trade Relations", "de": "Handelsbeziehungen"}
     },
     "101059": {
       "name": "Trial by Fire",
@@ -10264,7 +10308,7 @@ const GW_QUESTS = {
       "rewards": ["15 Sunspear Promotion Points"],
       "requires": [101028],
       "next": [101068, 101069, 101070],
-      "wiki": "https://www.guildwiki.de/wiki/Feuertaufe"
+      "wiki": {"en": "Trial by Fire", "de": "Feuertaufe"}
     },
     "101060": {
       "name": "Troubled Lands",
@@ -10275,7 +10319,7 @@ const GW_QUESTS = {
       "rewards": ["10 Lightbringer points", "Kournan Coin"],
       "requires": [100788],
       "next": [100823],
-      "wiki": "https://www.guildwiki.de/wiki/Gequälte_Länder"
+      "wiki": {"en": "Troubled Lands", "de": "Gequälte Länder"}
     },
     "101061": {
       "name": "Uncharted Territory",
@@ -10286,7 +10330,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["100 Lightbringer points"],
       "missions": [526],
-      "wiki": "https://www.guildwiki.de/wiki/Unkartiertes_Gelände"
+      "wiki": {"en": "Uncharted Territory", "de": "Unkartiertes Gelände"}
     },
     "101062": {
       "name": "Undead Defenders",
@@ -10297,7 +10341,7 @@ const GW_QUESTS = {
       "rewards": ["100 Sunspear Promotion Points"],
       "requires": [100942, 100913],
       "requires_missions": [453],
-      "wiki": "https://www.guildwiki.de/wiki/Untote_Verteidiger"
+      "wiki": {"en": "Undead Defenders", "de": "Untote Verteidiger"}
     },
     "101063": {
       "name": "Under New Management",
@@ -10307,7 +10351,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Ancient Artifact"],
       "requires": [101002],
-      "wiki": "https://www.guildwiki.de/wiki/Unter_neuer_Leitung"
+      "wiki": {"en": "Under New Management", "de": "Unter neuer Leitung"}
     },
     "101064": {
       "name": "Valley of the Rifts",
@@ -10319,7 +10363,7 @@ const GW_QUESTS = {
       "rewards": ["Trade Contract", "15 Lightbringer points"],
       "requires": [100988],
       "next": [100922],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Risstal"
+      "wiki": {"en": "Valley of the Rifts", "de": "Das Risstal"}
     },
     "101065": {
       "name": "Vanishing Spirits",
@@ -10329,7 +10373,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Ancient Artifact"],
       "next": [100817],
-      "wiki": "https://www.guildwiki.de/wiki/Verschwundene_Geister"
+      "wiki": {"en": "Vanishing Spirits", "de": "Verschwundene Geister"}
     },
     "101066": {
       "name": "Voices in the Night",
@@ -10339,7 +10383,7 @@ const GW_QUESTS = {
       "gold": 100,
       "rewards": ["10 Sunspear Promotion Points", "Battle Commendation"],
       "next": [100946],
-      "wiki": "https://www.guildwiki.de/wiki/Stimmen_im_Dunkeln"
+      "wiki": {"en": "Voices in the Night", "de": "Stimmen im Dunkeln"}
     },
     "101067": {
       "name": "Wandered Off Again",
@@ -10348,7 +10392,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 125,
       "next": [100893],
-      "wiki": "https://www.guildwiki.de/wiki/Auf_der_Suche"
+      "wiki": {"en": "Wandered Off Again", "de": "Auf der Suche"}
     },
     "101068": {
       "name": "War Preparations (Ghost Reconnaissance)",
@@ -10359,7 +10403,7 @@ const GW_QUESTS = {
       "rewards": ["15 Sunspear Promotion Points"],
       "requires": [101059],
       "next": [101041],
-      "wiki": "https://www.guildwiki.de/wiki/Kriegsvorbereitungen_(Geisteraufklärung)"
+      "wiki": {"en": "War Preparations (Ghost Reconnaissance)", "de": "Kriegsvorbereitungen (Geisteraufklärung)"}
     },
     "101069": {
       "name": "War Preparations (Recruit Training)",
@@ -10370,7 +10414,7 @@ const GW_QUESTS = {
       "rewards": ["15 Sunspear Promotion Points"],
       "requires": [101059],
       "next": [101041],
-      "wiki": "https://www.guildwiki.de/wiki/Kriegsvorbereitungen_(Rekrutenausbildung)"
+      "wiki": {"en": "War Preparations (Recruit Training)", "de": "Kriegsvorbereitungen (Rekrutenausbildung)"}
     },
     "101070": {
       "name": "War Preparations (Wind and Water)",
@@ -10381,7 +10425,7 @@ const GW_QUESTS = {
       "rewards": ["15 Sunspear Promotion Points"],
       "requires": [101059],
       "next": [101041],
-      "wiki": "https://www.guildwiki.de/wiki/Kriegsvorbereitungen_(Wind_und_Wasser)"
+      "wiki": {"en": "War Preparations (Wind and Water)", "de": "Kriegsvorbereitungen (Wind und Wasser)"}
     },
     "101071": {
       "name": "Warning Kehanni",
@@ -10391,7 +10435,7 @@ const GW_QUESTS = {
       "gold": 250,
       "rewards": ["10 Lightbringer points"],
       "next": [100845],
-      "wiki": "https://www.guildwiki.de/wiki/Kehanni_muss_gewarnt_werden"
+      "wiki": {"en": "Warning Kehanni", "de": "Kehanni muss gewarnt werden"}
     },
     "101072": {
       "name": "Wayfarer's Reverie: Elona",
@@ -10402,7 +10446,7 @@ const GW_QUESTS = {
       "xp": 2006,
       "gold": 2012,
       "rewards": ["Proof of Flames"],
-      "wiki": "https://www.guildwiki.de/wiki/Erinnerung_des_Reisenden:_Elona"
+      "wiki": {"en": "Wayfarer's Reverie: Elona", "de": "Erinnerung des Reisenden: Elona"}
     },
     "101073": {
       "name": "Wayward Guide",
@@ -10413,7 +10457,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Ancient Artifact"],
       "next": [100807],
-      "wiki": "https://www.guildwiki.de/wiki/Eigensinniger_Fremdenführer"
+      "wiki": {"en": "Wayward Guide", "de": "Eigensinniger Fremdenführer"}
     },
     "101074": {
       "name": "Weird Waters",
@@ -10422,7 +10466,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "gold": 200,
       "rewards": ["Kournan Coin"],
-      "wiki": "https://www.guildwiki.de/wiki/Sonderbare_Gewässer"
+      "wiki": {"en": "Weird Waters", "de": "Sonderbare Gewässer"}
     },
     "101075": {
       "name": "What do you do with a drunken shauben",
@@ -10431,7 +10475,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 125,
       "rewards": ["Battle Commendation"],
-      "wiki": "https://www.guildwiki.de/wiki/Trunkene_Shauben"
+      "wiki": {"en": "What Do You Do with a Drunken Shauben?", "de": "Trunkene Shauben"}
     },
     "101076": {
       "name": "Which Way Did He Go?",
@@ -10440,7 +10484,7 @@ const GW_QUESTS = {
       "xp": 1500,
       "gold": 250,
       "rewards": ["Trade Contract"],
-      "wiki": "https://www.guildwiki.de/wiki/Wo_ist_er_hingegangen?"
+      "wiki": {"en": "Which Way Did He Go?", "de": "Wo ist er hingegangen?"}
     },
     "101077": {
       "name": "White Mist",
@@ -10449,7 +10493,7 @@ const GW_QUESTS = {
       "event": 13,
       "xp": 1000,
       "next": [100919],
-      "wiki": "https://www.guildwiki.de/wiki/Weißer_Nebel"
+      "wiki": {"en": "White Mist", "de": "Weißer Nebel"}
     },
     "101078": {
       "name": "Worst. Performance. Ever.",
@@ -10461,7 +10505,7 @@ const GW_QUESTS = {
       "rewards": ["Trade Contract"],
       "requires": [100898],
       "next": [101040],
-      "wiki": "https://www.guildwiki.de/wiki/Die_miserabelste_Aufführung,_die_jemals_stattfand."
+      "wiki": {"en": "Worst. Performance. Ever.", "de": "Die miserabelste Aufführung, die jemals stattfand."}
     },
     "101079": {
       "name": "You Can Run...",
@@ -10472,7 +10516,7 @@ const GW_QUESTS = {
       "gold": 200,
       "rewards": ["Kournan Coin"],
       "requires": [100886],
-      "wiki": "https://www.guildwiki.de/wiki/Ihr_könnt_weglaufen_..."
+      "wiki": {"en": "You Can Run...", "de": "Ihr könnt weglaufen ..."}
     },
     "101080": {
       "name": "Zaishen Elite",
@@ -10483,7 +10527,7 @@ const GW_QUESTS = {
       "rewards": ["15 Sunspear Promotion Points"],
       "requires": [100830],
       "next": [101004],
-      "wiki": "https://www.guildwiki.de/wiki/Zaishen-Elite_(Quest)"
+      "wiki": {"en": "Zaishen Elite (quest)", "de": "Zaishen-Elite (Quest)"}
     },
     "101081": {
       "name": "A Bastion In the North",
@@ -10499,8 +10543,7 @@ const GW_QUESTS = {
       ],
       "requires": [101108],
       "next": [101187],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Bastion_im_Norden.",
-      "wiki_en": "https://web.archive.org/web/20260628090011/https://wiki.guildwars.com/wiki/A_Bastion_In_the_North"
+      "wiki": {"en": "A Bastion In the North", "de": "Eine Bastion im Norden."}
     },
     "101082": {
       "name": "A Belated Betrothal",
@@ -10508,7 +10551,7 @@ const GW_QUESTS = {
       "givers": [532],
       "xp": 1000,
       "skills": [41, 160, 275, 332, 454],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_verspätete_Verlobung"
+      "wiki": {"en": "A Belated Betrothal", "de": "Eine verspätete Verlobung"}
     },
     "101083": {
       "name": "A Brother's Fury",
@@ -10516,7 +10559,7 @@ const GW_QUESTS = {
       "givers": [451],
       "xp": 500,
       "missions": [11],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Wut_eines_Bruders"
+      "wiki": {"en": "A Brother's Fury", "de": "Die Wut eines Bruders"}
     },
     "101084": {
       "name": "A Cure for Ralena",
@@ -10526,7 +10569,7 @@ const GW_QUESTS = {
       "xp": 300,
       "skills": [37, 42],
       "requires": [101331],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Heilmittel_für_Ralena"
+      "wiki": {"en": "A Cure for Ralena", "de": "Ein Heilmittel für Ralena"}
     },
     "101085": {
       "name": "A Gift for Althea",
@@ -10540,8 +10583,7 @@ const GW_QUESTS = {
         [0, "Give the Beautiful Pendant to Captain Osric."],
         [0, "Return to Captain Osric for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Geschenk_für_Althea",
-      "wiki_en": "https://web.archive.org/web/20260621164023/https://wiki.guildwars.com/wiki/A_Gift_for_Althea"
+      "wiki": {"en": "A Gift for Althea", "de": "Ein Geschenk für Althea"}
     },
     "101086": {
       "name": "A Heart of Ice",
@@ -10550,7 +10592,7 @@ const GW_QUESTS = {
       "profession": 6,
       "xp": 350,
       "skills": [163, 177, 210],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Herz_aus_Eis"
+      "wiki": {"en": "A Heart of Ice", "de": "Ein Herz aus Eis"}
     },
     "101087": {
       "name": "A Humbling Gift",
@@ -10558,7 +10600,7 @@ const GW_QUESTS = {
       "givers": [492],
       "event": 13,
       "rewards": ["Frozen Accessory Token"],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_bescheidenes_Geschenk"
+      "wiki": {"en": "A Humbling Gift", "de": "Ein bescheidenes Geschenk"}
     },
     "101088": {
       "name": "A Little Help From Above",
@@ -10569,7 +10611,7 @@ const GW_QUESTS = {
       "rewards": ["5 Royal Gifts", "1 Medal of Honor"],
       "requires": [101223],
       "next": [101245],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_wenig_Hilfe_von_oben"
+      "wiki": {"en": "A Little Help From Above", "de": "Ein wenig Hilfe von oben"}
     },
     "101089": {
       "name": "A Mesmer's Burden",
@@ -10582,8 +10624,7 @@ const GW_QUESTS = {
         [0, "Return to Lady Althea for your reward."]
       ],
       "next": [101298, 101143],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Bürde_eines_Mesmers",
-      "wiki_en": "https://web.archive.org/web/20260630184143/https://wiki.guildwars.com/wiki/A_Mesmer%27s_Burden"
+      "wiki": {"en": "A Mesmer's Burden", "de": "Die Bürde eines Mesmers"}
     },
     "101090": {
       "name": "A Mission of Peace",
@@ -10591,7 +10632,7 @@ const GW_QUESTS = {
       "givers": [262],
       "xp": 250,
       "requires": [101247],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Friedensmission"
+      "wiki": {"en": "A Mission of Peace", "de": "Eine Friedensmission"}
     },
     "101091": {
       "name": "A Monk's Mission",
@@ -10604,8 +10645,7 @@ const GW_QUESTS = {
         [0, "Go with Paulus and use your healing prayers to make sure he survives."],
         [0, "Return to Brother Mhenlo for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Mission_eines_Mönchs",
-      "wiki_en": "https://web.archive.org/web/20260628101528/https://wiki.guildwars.com/wiki/A_Monk%27s_Mission"
+      "wiki": {"en": "A Monk's Mission", "de": "Die Mission eines Mönchs"}
     },
     "101092": {
       "name": "A New Elementalist Trainer",
@@ -10619,8 +10659,7 @@ const GW_QUESTS = {
         ]
       ],
       "next": [101261],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_neue_Elementarmagier-Trainerin",
-      "wiki_en": "https://web.archive.org/web/20260520213123/https://wiki.guildwars.com/wiki/A_New_Elementalist_Trainer"
+      "wiki": {"en": "A New Elementalist Trainer", "de": "Eine neue Elementarmagier-Trainerin"}
     },
     "101093": {
       "name": "A New Mesmer Trainer",
@@ -10629,8 +10668,7 @@ const GW_QUESTS = {
       "xp": 250,
       "objectives": [[0, "Follow the road northwest from town. Talk to Lady Althea at the Actor's Stage."]],
       "requires": [101190],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_neue_Mesmer-Trainerin",
-      "wiki_en": "https://web.archive.org/web/20260630184230/https://wiki.guildwars.com/wiki/A_New_Mesmer_Trainer"
+      "wiki": {"en": "A New Mesmer Trainer", "de": "Eine neue Mesmer-Trainerin"}
     },
     "101094": {
       "name": "A New Monk Trainer",
@@ -10641,8 +10679,7 @@ const GW_QUESTS = {
         [0, "Follow the road southwest toward Ashford. Continue on to Ashford Abbey. Talk to Brother Mhenlo."]
       ],
       "next": [101091],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_neuer_Mönch-Trainer",
-      "wiki_en": "https://web.archive.org/web/20260507161543/https://wiki.guildwars.com/wiki/A_New_Monk_Trainer"
+      "wiki": {"en": "A New Monk Trainer", "de": "Ein neuer Mönch-Trainer"}
     },
     "101095": {
       "name": "A New Necromancer Trainer",
@@ -10657,8 +10694,7 @@ const GW_QUESTS = {
         ]
       ],
       "next": [100001],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_neuer_Nekromanten-Trainer",
-      "wiki_en": "https://web.archive.org/web/20260630184130/https://wiki.guildwars.com/wiki/A_New_Necromancer_Trainer"
+      "wiki": {"en": "A New Necromancer Trainer", "de": "Ein neuer Nekromanten-Trainer"}
     },
     "101096": {
       "name": "A New Ranger Trainer",
@@ -10673,8 +10709,7 @@ const GW_QUESTS = {
         ]
       ],
       "next": [101294],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_neuer_Waldläufer-Trainer",
-      "wiki_en": "https://web.archive.org/web/20260520213241/https://wiki.guildwars.com/wiki/A_New_Ranger_Trainer"
+      "wiki": {"en": "A New Ranger Trainer", "de": "Ein neuer Waldläufer-Trainer"}
     },
     "101097": {
       "name": "A New Warrior Trainer",
@@ -10685,8 +10720,7 @@ const GW_QUESTS = {
         [0, "Follow the road northwest from town. Follow the signs to Green Hills County. Talk to Warmaster Grast."]
       ],
       "next": [101173],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_neuer_Krieger-Trainer",
-      "wiki_en": "https://web.archive.org/web/20260630184131/https://wiki.guildwars.com/wiki/A_New_Warrior_Trainer"
+      "wiki": {"en": "A New Warrior Trainer", "de": "Ein neuer Krieger-Trainer"}
     },
     "101098": {
       "name": "A Second Profession",
@@ -10722,8 +10756,7 @@ const GW_QUESTS = {
       ],
       "requires": [101335],
       "next": [101287],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_zweite_Klasse",
-      "wiki_en": "https://web.archive.org/web/20260711135835/https://wiki.guildwars.com/wiki/A_Second_Profession"
+      "wiki": {"en": "A Second Profession", "de": "Eine zweite Klasse"}
     },
     "101099": {
       "name": "A Second Profession",
@@ -10757,8 +10790,7 @@ const GW_QUESTS = {
         ],
         [0, "Return to Armin Saberlin for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_zweite_Klasse_(Elementarmagier)",
-      "wiki_en": "https://web.archive.org/web/20260711135835/https://wiki.guildwars.com/wiki/A_Second_Profession"
+      "wiki": {"en": "A Second Profession", "de": "Eine zweite Klasse (Elementarmagier)"}
     },
     "101100": {
       "name": "A Second Profession",
@@ -10793,8 +10825,7 @@ const GW_QUESTS = {
         [0, "Return to Armin Saberlin for your reward."]
       ],
       "requires": [101173],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_zweite_Klasse_(Krieger)",
-      "wiki_en": "https://web.archive.org/web/20260711135835/https://wiki.guildwars.com/wiki/A_Second_Profession"
+      "wiki": {"en": "A Second Profession", "de": "Eine zweite Klasse (Krieger)"}
     },
     "101101": {
       "name": "A Second Profession",
@@ -10828,8 +10859,7 @@ const GW_QUESTS = {
         ],
         [0, "Return to Armin Saberlin for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_zweite_Klasse_(Mesmer)",
-      "wiki_en": "https://web.archive.org/web/20260711135835/https://wiki.guildwars.com/wiki/A_Second_Profession"
+      "wiki": {"en": "A Second Profession", "de": "Eine zweite Klasse (Mesmer)"}
     },
     "101102": {
       "name": "A Second Profession",
@@ -10863,8 +10893,7 @@ const GW_QUESTS = {
         ],
         [0, "Return to Armin Saberlin for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_zweite_Klasse_(Mönch)",
-      "wiki_en": "https://web.archive.org/web/20260711135835/https://wiki.guildwars.com/wiki/A_Second_Profession"
+      "wiki": {"en": "A Second Profession", "de": "Eine zweite Klasse (Mönch)"}
     },
     "101103": {
       "name": "A Second Profession",
@@ -10898,8 +10927,7 @@ const GW_QUESTS = {
         ],
         [0, "Return to Armin Saberlin for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_zweite_Klasse_(Nekromant)",
-      "wiki_en": "https://web.archive.org/web/20260711135835/https://wiki.guildwars.com/wiki/A_Second_Profession"
+      "wiki": {"en": "A Second Profession", "de": "Eine zweite Klasse (Nekromant)"}
     },
     "101104": {
       "name": "A Second Profession",
@@ -10933,8 +10961,7 @@ const GW_QUESTS = {
         ],
         [0, "Return to Armin Saberlin for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_zweite_Klasse_(Waldläufer)",
-      "wiki_en": "https://web.archive.org/web/20260711135835/https://wiki.guildwars.com/wiki/A_Second_Profession"
+      "wiki": {"en": "A Second Profession", "de": "Eine zweite Klasse (Waldläufer)"}
     },
     "101105": {
       "name": "A Test of Marksmanship",
@@ -10948,8 +10975,7 @@ const GW_QUESTS = {
         [0, "Kill [5...0]/0 more Plague Worm[s]."],
         [0, "Return to Ivor Trueshot for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Prüfung_in_Treffsicherheit",
-      "wiki_en": "https://web.archive.org/web/20260507160818/https://wiki.guildwars.com/wiki/A_Test_of_Marksmanship"
+      "wiki": {"en": "A Test of Marksmanship", "de": "Eine Prüfung in Treffsicherheit"}
     },
     "101106": {
       "name": "A Vengeance of Blades",
@@ -10962,7 +10988,7 @@ const GW_QUESTS = {
       "rewards": ["1,250 Ebon Vanguard reputation points"],
       "requires": [101306],
       "next": [101253],
-      "wiki": "https://www.guildwiki.de/wiki/Eine_klingende_Vergeltung"
+      "wiki": {"en": "A Vengeance of Blades", "de": "Eine klingende Vergeltung"}
     },
     "101107": {
       "name": "A Very Grentchie Wintersday",
@@ -10971,7 +10997,7 @@ const GW_QUESTS = {
       "event": 13,
       "xp": 5000,
       "rewards": ["Peppermint Shield", "Gingerbread Focus"],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Wintertag_voller_Grentche"
+      "wiki": {"en": "A Very Grentchie Wintersday", "de": "Ein Wintertag voller Grentche"}
     },
     "101108": {
       "name": "Across the Wall",
@@ -10983,8 +11009,7 @@ const GW_QUESTS = {
         [0, "Lead Ben Wolfson back to the gate."],
         [0, "Return to Gate Guard Torin for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Jenseits_des_Walls",
-      "wiki_en": "https://web.archive.org/web/20260628090130/https://wiki.guildwars.com/wiki/Across_the_Wall"
+      "wiki": {"en": "Across the Wall", "de": "Jenseits des Walls"}
     },
     "101109": {
       "name": "Adventure with an Ally",
@@ -10992,8 +11017,7 @@ const GW_QUESTS = {
       "givers": [186],
       "xp": 100,
       "objectives": [[0, "Return to Ascalon City. Form a party with another player."]],
-      "wiki": "https://www.guildwiki.de/wiki/Abenteuer_mit_einem_Verbündeten",
-      "wiki_en": "https://web.archive.org/web/20260628091728/https://wiki.guildwars.com/wiki/Adventure_with_an_Ally"
+      "wiki": {"en": "Adventure with an Ally", "de": "Abenteuer mit einem Verbündeten"}
     },
     "101110": {
       "name": "Althea's Ashes",
@@ -11003,7 +11027,7 @@ const GW_QUESTS = {
       "gold": 300,
       "requires": [101259],
       "next": [101148],
-      "wiki": "https://www.guildwiki.de/wiki/Altheas_Asche"
+      "wiki": {"en": "Althea's Ashes", "de": "Altheas Asche"}
     },
     "101111": {
       "name": "An Ingenious Plan",
@@ -11013,14 +11037,14 @@ const GW_QUESTS = {
       "xp": 15000,
       "gold": 2500,
       "rewards": ["100 Trick-or-Treat Bags"],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_genialer_Plan"
+      "wiki": {"en": "An Ingenious Plan", "de": "Ein genialer Plan"}
     },
     "101112": {
       "name": "Ancient Secrets",
       "type": "secondary",
       "givers": [197],
       "xp": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Alte_Geheimnisse"
+      "wiki": {"en": "Ancient Secrets", "de": "Alte Geheimnisse"}
     },
     "101113": {
       "name": "Army Life",
@@ -11029,16 +11053,16 @@ const GW_QUESTS = {
       "profession": 1,
       "xp": 250,
       "skills": [337, 351],
-      "wiki": "https://www.guildwiki.de/wiki/Leben_in_der_Armee"
+      "wiki": {"en": "Army Life", "de": "Leben in der Armee"}
     },
-    "101114": {"name": "Ascalon Academy", "type": "primary", "campaign": 1},
+    "101114": {"name": "Ascalon Academy", "type": "primary", "campaign": 1, "wiki": {"en": "Ascalon Academy"}},
     "101115": {
       "name": "Asuran Allies",
       "type": "secondary",
       "campaign": 1,
       "region": 0,
       "requires": [101316],
-      "wiki": "https://www.guildwiki.de/wiki/Asura-Verbündete"
+      "wiki": {"en": "Asuran Allies", "de": "Asura-Verbündete"}
     },
     "101116": {
       "name": "Auspicious Beginnings",
@@ -11051,7 +11075,7 @@ const GW_QUESTS = {
       "rewards": ["1,250 Ebon Vanguard reputation points"],
       "requires": [101248],
       "next": [101306],
-      "wiki": "https://www.guildwiki.de/wiki/Verheißungsvoller_Beginn"
+      "wiki": {"en": "Auspicious Beginnings", "de": "Verheißungsvoller Beginn"}
     },
     "101117": {
       "name": "Bandit Raid",
@@ -11062,8 +11086,7 @@ const GW_QUESTS = {
         [0, "Recover the Ashford strongbox from the bandits."],
         [0, "Return the strongbox to Devona in Ashford."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Banditenüberfall",
-      "wiki_en": "https://web.archive.org/web/20260630184241/https://wiki.guildwars.com/wiki/Bandit_Raid"
+      "wiki": {"en": "Bandit Raid", "de": "Banditenüberfall"}
     },
     "101118": {
       "name": "Bandit Trouble",
@@ -11071,7 +11094,7 @@ const GW_QUESTS = {
       "givers": [795],
       "xp": 500,
       "requires": [101146],
-      "wiki": "https://www.guildwiki.de/wiki/Ärger_mit_Banditen"
+      "wiki": {"en": "Bandit Trouble", "de": "Ärger mit Banditen"}
     },
     "101119": {
       "name": "Barradin's Advance",
@@ -11079,7 +11102,7 @@ const GW_QUESTS = {
       "givers": [231],
       "xp": 250,
       "next": [101120],
-      "wiki": "https://www.guildwiki.de/wiki/Barradins_Vormarsch"
+      "wiki": {"en": "Barradin's Advance", "de": "Barradins Vormarsch"}
     },
     "101120": {
       "name": "Barradin's Stand",
@@ -11087,7 +11110,7 @@ const GW_QUESTS = {
       "givers": [232],
       "xp": 500,
       "requires": [101119],
-      "wiki": "https://www.guildwiki.de/wiki/Barradins_Widerstand"
+      "wiki": {"en": "Barradin's Stand", "de": "Barradins Widerstand"}
     },
     "101121": {
       "name": "Better You Than Me",
@@ -11095,14 +11118,14 @@ const GW_QUESTS = {
       "givers": [650],
       "event": 11,
       "rewards": ["Ghoulish Accessory Token"],
-      "wiki": "https://www.guildwiki.de/wiki/Lieber_Ihr_als_ich"
+      "wiki": {"en": "Better You Than Me", "de": "Lieber Ihr als ich"}
     },
     "101122": {
       "name": "Blankets for the Settlers",
       "type": "secondary",
       "givers": [293],
       "xp": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Decken_für_die_Siedler"
+      "wiki": {"en": "Blankets for the Settlers", "de": "Decken für die Siedler"}
     },
     "101123": {
       "name": "Blood And Smoke",
@@ -11111,7 +11134,7 @@ const GW_QUESTS = {
       "xp": 2500,
       "skills": [66, 131, 187, 245, 368, 426],
       "requires": [101145],
-      "wiki": "https://www.guildwiki.de/wiki/Blut_und_Rauch"
+      "wiki": {"en": "Blood And Smoke", "de": "Blut und Rauch"}
     },
     "101124": {
       "name": "Caravan in Trouble",
@@ -11119,7 +11142,7 @@ const GW_QUESTS = {
       "givers": [631],
       "xp": 250,
       "skills": [44, 136, 186, 240, 320, 453],
-      "wiki": "https://www.guildwiki.de/wiki/Karawane_in_Bedrängnis"
+      "wiki": {"en": "Caravan in Trouble", "de": "Karawane in Bedrängnis"}
     },
     "101125": {
       "name": "Casualty Report",
@@ -11128,7 +11151,7 @@ const GW_QUESTS = {
       "xp": 150,
       "skills": [102],
       "next": [101141],
-      "wiki": "https://www.guildwiki.de/wiki/Verlustmeldung"
+      "wiki": {"en": "Casualty Report", "de": "Verlustmeldung"}
     },
     "101126": {
       "name": "Charr Reinforcements",
@@ -11137,7 +11160,7 @@ const GW_QUESTS = {
       "profession": 2,
       "xp": 500,
       "skills": [399, 415],
-      "wiki": "https://www.guildwiki.de/wiki/Charr-Verstärkung"
+      "wiki": {"en": "Charr Reinforcements", "de": "Charr-Verstärkung"}
     },
     "101127": {
       "name": "Charr at the Gate",
@@ -11148,8 +11171,7 @@ const GW_QUESTS = {
         [0, "Follow Rurik and help him defeat the Charr."],
         [0, "Return to Prince Rurik for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Charr_vor_dem_Tor",
-      "wiki_en": "https://web.archive.org/web/20260628085629/https://wiki.guildwars.com/wiki/Charr_at_the_Gate"
+      "wiki": {"en": "Charr at the Gate", "de": "Charr vor dem Tor"}
     },
     "101128": {
       "name": "Charr in the Catacombs",
@@ -11164,8 +11186,7 @@ const GW_QUESTS = {
         [0, "Return to Rurik in Ascalon City and show him the Sharp Charr Tooth."]
       ],
       "requires": [101330],
-      "wiki": "https://www.guildwiki.de/wiki/Charr_in_den_Katakomben",
-      "wiki_en": "https://web.archive.org/web/20260621162142/https://wiki.guildwars.com/wiki/Charr_in_the_Catacombs"
+      "wiki": {"en": "Charr in the Catacombs", "de": "Charr in den Katakomben"}
     },
     "101129": {
       "name": "Charr in the Tunnels",
@@ -11181,15 +11202,14 @@ const GW_QUESTS = {
       ],
       "requires": [101187],
       "next": [101300],
-      "wiki": "https://www.guildwiki.de/wiki/Charr_in_den_Tunneln",
-      "wiki_en": "https://web.archive.org/web/20260628101515/https://wiki.guildwars.com/wiki/Charr_in_the_Tunnels"
+      "wiki": {"en": "Charr in the Tunnels", "de": "Charr in den Tunneln"}
     },
     "101130": {
       "name": "Cities of Ascalon",
       "type": "secondary",
       "givers": [209],
       "xp": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Ascalons_Städte"
+      "wiki": {"en": "Cities of Ascalon", "de": "Ascalons Städte"}
     },
     "101131": {
       "name": "Cold One",
@@ -11197,7 +11217,7 @@ const GW_QUESTS = {
       "givers": [555],
       "xp": 1500,
       "requires": [101239],
-      "wiki": "https://www.guildwiki.de/wiki/Kaltes_(Quest)"
+      "wiki": {"en": "Cold One", "de": "Kaltes (Quest)"}
     },
     "101132": {
       "name": "Commandeering a Mortal Vessel",
@@ -11207,7 +11227,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 1500,
       "rewards": ["100 Trick-or-Treat Bags"],
-      "wiki": "https://www.guildwiki.de/wiki/Rekrutierung_einer_sterblichen_Hülle"
+      "wiki": {"en": "Commandeering a Mortal Vessel", "de": "Rekrutierung einer sterblichen Hülle"}
     },
     "101133": {
       "name": "Counting the Fallen",
@@ -11215,7 +11235,7 @@ const GW_QUESTS = {
       "givers": [209],
       "xp": 500,
       "next": [101130],
-      "wiki": "https://www.guildwiki.de/wiki/Volkszählung_der_Gefallenen"
+      "wiki": {"en": "Counting the Fallen", "de": "Volkszählung der Gefallenen"}
     },
     "101134": {
       "name": "Death in the Ruins",
@@ -11224,7 +11244,7 @@ const GW_QUESTS = {
       "xp": 250,
       "skills": [133, 150],
       "next": [101203],
-      "wiki": "https://www.guildwiki.de/wiki/Tod_in_den_Ruinen"
+      "wiki": {"en": "Death in the Ruins", "de": "Tod in den Ruinen"}
     },
     "101135": {
       "name": "Defend Denravi",
@@ -11233,7 +11253,7 @@ const GW_QUESTS = {
       "xp": 20000,
       "requires": [101137],
       "next": [101307],
-      "wiki": "https://www.guildwiki.de/wiki/Verteidigt_Denravi"
+      "wiki": {"en": "Defend Denravi", "de": "Verteidigt Denravi"}
     },
     "101136": {
       "name": "Defend Denravi (Hard mode)",
@@ -11244,7 +11264,7 @@ const GW_QUESTS = {
       "rewards": ["1 Gold Zaishen Coin"],
       "requires": [101138],
       "next": [101308],
-      "wiki": "https://www.guildwiki.de/wiki/Verteidigt_Denravi_(Schwerer_Modus)"
+      "wiki": {"en": "Defend Denravi (Hard mode)", "de": "Verteidigt Denravi (Schwerer Modus)"}
     },
     "101137": {
       "name": "Defend Droknar's Forge",
@@ -11252,7 +11272,7 @@ const GW_QUESTS = {
       "givers": [347],
       "xp": 20000,
       "next": [101276, 101139, 101135],
-      "wiki": "https://www.guildwiki.de/wiki/Verteidigt_Droknars_Schmiede"
+      "wiki": {"en": "Defend Droknar's Forge", "de": "Verteidigt Droknars Schmiede"}
     },
     "101138": {
       "name": "Defend Droknar's Forge (Hard mode)",
@@ -11263,7 +11283,7 @@ const GW_QUESTS = {
       "rewards": ["1 Gold Zaishen Coin"],
       "requires": [101307],
       "next": [101277, 101140, 101136],
-      "wiki": "https://www.guildwiki.de/wiki/Verteidigt_Droknars_Schmiede_(Schwerer_Modus)"
+      "wiki": {"en": "Defend Droknar's Forge (Hard mode)", "de": "Verteidigt Droknars Schmiede (Schwerer Modus)"}
     },
     "101139": {
       "name": "Defend North Kryta Province",
@@ -11272,7 +11292,7 @@ const GW_QUESTS = {
       "xp": 20000,
       "requires": [101137],
       "next": [101307],
-      "wiki": "https://www.guildwiki.de/wiki/Verteidigt_die_Provinz_Nordkryta"
+      "wiki": {"en": "Defend North Kryta Province", "de": "Verteidigt die Provinz Nordkryta"}
     },
     "101140": {
       "name": "Defend North Kryta Province (Hard mode)",
@@ -11283,7 +11303,10 @@ const GW_QUESTS = {
       "rewards": ["1 Gold Zaishen Coin"],
       "requires": [101138],
       "next": [101308],
-      "wiki": "https://www.guildwiki.de/wiki/Verteidigt_die_Provinz_Nordkryta_(Schwerer_Modus)"
+      "wiki": {
+        "en": "Defend North Kryta Province (Hard mode)",
+        "de": "Verteidigt die Provinz Nordkryta (Schwerer Modus)"
+      }
     },
     "101141": {
       "name": "Defend the Wall",
@@ -11292,14 +11315,14 @@ const GW_QUESTS = {
       "xp": 500,
       "requires": [101274],
       "missions": [28],
-      "wiki": "https://www.guildwiki.de/wiki/Verteidigt_den_Wall"
+      "wiki": {"en": "Defend the Wall", "de": "Verteidigt den Wall"}
     },
     "101142": {
       "name": "Deliver a Message to My Wife",
       "type": "secondary",
       "givers": [247],
       "xp": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Bringt_meiner_Frau_eine_Nachricht."
+      "wiki": {"en": "Deliver a Message to My Wife", "de": "Bringt meiner Frau eine Nachricht."}
     },
     "101143": {
       "name": "Domination Magic",
@@ -11312,8 +11335,7 @@ const GW_QUESTS = {
         [0, "Head east from Foible's Fair to the woods. Destroy the skale brood."],
         [0, "Return to Vassar for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Beherrschungsmagie_(Quest)",
-      "wiki_en": "https://web.archive.org/web/20261001193807/https://wiki.guildwars.com/wiki/Domination_Magic_(quest)"
+      "wiki": {"en": "Domination Magic (quest)", "de": "Beherrschungsmagie (Quest)"}
     },
     "101144": {
       "name": "Don't Fear the Reapers",
@@ -11324,7 +11346,7 @@ const GW_QUESTS = {
       "rewards": ["7 Phantasmal Tonics", "75 Trick-or-Treat Bags", "7 Phantasmal Tonics", "25 Trick-or-Treat Bags"],
       "requires": [101233],
       "next": [101235],
-      "wiki": "https://www.guildwiki.de/wiki/Keine_Angst_vor_den_Schnittern"
+      "wiki": {"en": "Don't Fear the Reapers", "de": "Keine Angst vor den Schnittern"}
     },
     "101145": {
       "name": "Dropping Eaves",
@@ -11333,7 +11355,7 @@ const GW_QUESTS = {
       "xp": 500,
       "skills": [48, 104, 216, 306, 378, 470],
       "next": [101123],
-      "wiki": "https://www.guildwiki.de/wiki/Belauschen"
+      "wiki": {"en": "Dropping Eaves", "de": "Belauschen"}
     },
     "101146": {
       "name": "Duties of a Lionguard",
@@ -11341,7 +11363,7 @@ const GW_QUESTS = {
       "givers": [422],
       "xp": 500,
       "next": [101118],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Pflichten_eines_Löwengardisten"
+      "wiki": {"en": "Duties of a Lionguard", "de": "Die Pflichten eines Löwengardisten"}
     },
     "101147": {
       "name": "Ebon Vanguard Allies",
@@ -11349,7 +11371,7 @@ const GW_QUESTS = {
       "campaign": 1,
       "region": 0,
       "requires": [101316],
-      "wiki": "https://www.guildwiki.de/wiki/Verbündete_von_der_Ebon-Vorhut"
+      "wiki": {"en": "Ebon Vanguard Allies", "de": "Verbündete von der Ebon-Vorhut"}
     },
     "101148": {
       "name": "Elegy for Those Left Behind",
@@ -11359,7 +11381,7 @@ const GW_QUESTS = {
       "gold": 100,
       "requires": [101110],
       "next": [101256],
-      "wiki": "https://www.guildwiki.de/wiki/Elegie_für_die_Zurückgelassenen"
+      "wiki": {"en": "Elegy for Those Left Behind", "de": "Elegie für die Zurückgelassenen"}
     },
     "101149": {
       "name": "Elemental Knowledge",
@@ -11368,7 +11390,7 @@ const GW_QUESTS = {
       "xp": 250,
       "skills": [165, 212],
       "next": [101231],
-      "wiki": "https://www.guildwiki.de/wiki/Elementares_Wissen"
+      "wiki": {"en": "Elemental Knowledge", "de": "Elementares Wissen"}
     },
     "101150": {
       "name": "Elementalist Test",
@@ -11383,8 +11405,7 @@ const GW_QUESTS = {
         [0, "Return to Howland the Elementalist for your reward."]
       ],
       "next": [101166],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier-Prüfung",
-      "wiki_en": "https://web.archive.org/web/20260507161657/https://wiki.guildwars.com/wiki/Elementalist_Test"
+      "wiki": {"en": "Elementalist Test", "de": "Elementarmagier-Prüfung"}
     },
     "101151": {
       "name": "Endangered Species",
@@ -11393,7 +11414,7 @@ const GW_QUESTS = {
       "profession": 2,
       "xp": 200,
       "skills": [391, 411, 436, 446],
-      "wiki": "https://www.guildwiki.de/wiki/Bedrohte_Tierart"
+      "wiki": {"en": "Endangered Species", "de": "Bedrohte Tierart"}
     },
     "101152": {
       "name": "Every Bit Helps",
@@ -11405,7 +11426,7 @@ const GW_QUESTS = {
       "gold": 1000,
       "rewards": ["25 Trick-or-Treat Bags"],
       "requires": [101235],
-      "wiki": "https://www.guildwiki.de/wiki/Jede_Hilfe_zählt"
+      "wiki": {"en": "Every Bit Helps", "de": "Jede Hilfe zählt"}
     },
     "101153": {
       "name": "Evil Residents",
@@ -11416,7 +11437,7 @@ const GW_QUESTS = {
       "gold": 1000,
       "rewards": ["50 Trick-or-Treat Bags"],
       "next": [101153],
-      "wiki": "https://www.guildwiki.de/wiki/Bewohner_des_Bösen"
+      "wiki": {"en": "Evil Residents", "de": "Bewohner des Bösen"}
     },
     "101154": {
       "name": "Evil Residents Code: Harmonica",
@@ -11427,7 +11448,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 200,
       "rewards": ["10 Trick-or-Treat Bags"],
-      "wiki": "https://www.guildwiki.de/wiki/Bewohner_des_Bösen,_Codename:_Mundharmonika"
+      "wiki": {"en": "Evil Residents Code: Harmonica", "de": "Bewohner des Bösen, Codename: Mundharmonika"}
     },
     "101155": {
       "name": "Experimental Elixir",
@@ -11438,7 +11459,7 @@ const GW_QUESTS = {
       "skills": [67],
       "requires": [101332],
       "next": [101331, 101191],
-      "wiki": "https://www.guildwiki.de/wiki/Experimentelles_Heilmittel"
+      "wiki": {"en": "Experimental Elixir", "de": "Experimentelles Heilmittel"}
     },
     "101156": {
       "name": "Eye For Profit",
@@ -11446,7 +11467,7 @@ const GW_QUESTS = {
       "givers": [451],
       "xp": 500,
       "skills": [10, 138, 225, 302, 334, 427],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Auge_für_Profit"
+      "wiki": {"en": "Eye For Profit", "de": "Ein Auge für Profit"}
     },
     "101157": {
       "name": "Fallen Soldiers",
@@ -11455,14 +11476,14 @@ const GW_QUESTS = {
       "profession": 4,
       "xp": 250,
       "skills": [96],
-      "wiki": "https://www.guildwiki.de/wiki/Gefallene_Soldaten"
+      "wiki": {"en": "Fallen Soldiers", "de": "Gefallene Soldaten"}
     },
     "101158": {
       "name": "Family Ties (Prophecies quest)",
       "type": "secondary",
       "givers": [551],
       "xp": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Familienbande_(Prophecies)"
+      "wiki": {"en": "Family Ties (Prophecies quest)", "de": "Familienbande (Prophecies)"}
     },
     "101159": {
       "name": "Fighting in a Winter Wonderland",
@@ -11472,7 +11493,7 @@ const GW_QUESTS = {
       "repeatable": true,
       "xp": 5000,
       "gold": 7500,
-      "wiki": "https://www.guildwiki.de/wiki/Stille_Nacht,_heilige_Schlacht"
+      "wiki": {"en": "Fighting in a Winter Wonderland", "de": "Stille Nacht, heilige Schlacht"}
     },
     "101160": {
       "name": "Final Blow",
@@ -11481,7 +11502,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 100,
       "missions": [122],
-      "wiki": "https://www.guildwiki.de/wiki/Der_letzte_Schlag"
+      "wiki": {"en": "Final Blow", "de": "Der letzte Schlag"}
     },
     "101161": {
       "name": "Fire in the Hole",
@@ -11489,7 +11510,7 @@ const GW_QUESTS = {
       "givers": [555],
       "xp": 1500,
       "requires": [101239],
-      "wiki": "https://www.guildwiki.de/wiki/Feuer_im_Loch"
+      "wiki": {"en": "Fire in the Hole", "de": "Feuer im Loch"}
     },
     "101162": {
       "name": "Fires in the East",
@@ -11497,14 +11518,14 @@ const GW_QUESTS = {
       "givers": [231],
       "xp": 500,
       "requires": [101119],
-      "wiki": "https://www.guildwiki.de/wiki/Feuer_im_Osten"
+      "wiki": {"en": "Fires in the East", "de": "Feuer im Osten"}
     },
     "101163": {
       "name": "Fires in the North",
       "type": "secondary",
       "givers": [198],
       "xp": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Feuer_im_Norden"
+      "wiki": {"en": "Fires in the North", "de": "Feuer im Norden"}
     },
     "101164": {
       "name": "Forgotten Wisdom",
@@ -11514,14 +11535,14 @@ const GW_QUESTS = {
       "rewards": ["15 Attribute points"],
       "requires": [101266],
       "next": [101282],
-      "wiki": "https://www.guildwiki.de/wiki/Vergessene_Weisheit"
+      "wiki": {"en": "Forgotten Wisdom", "de": "Vergessene Weisheit"}
     },
     "101165": {
       "name": "Frontier Gate Fugitives",
       "type": "secondary",
       "givers": [597],
       "xp": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Grenztor-Flüchtlinge"
+      "wiki": {"en": "Frontier Gate Fugitives", "de": "Grenztor-Flüchtlinge"}
     },
     "101166": {
       "name": "Further Adventures",
@@ -11531,15 +11552,14 @@ const GW_QUESTS = {
       "objectives": [[0, "Follow the road southwest from Ashford Abbey. Talk to Devona."]],
       "requires": [101378, 101150, 101190, 101197, 101200, 101213],
       "next": [101335],
-      "wiki": "https://www.guildwiki.de/wiki/Weitere_Abenteuer",
-      "wiki_en": "https://web.archive.org/web/20260628090023/https://wiki.guildwars.com/wiki/Further_Adventures"
+      "wiki": {"en": "Further Adventures", "de": "Weitere Abenteuer"}
     },
     "101167": {
       "name": "Garfazz Bloodfang",
       "type": "secondary",
       "givers": [444],
       "xp": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Garfazz_Bloodfang"
+      "wiki": {"en": "Garfazz Bloodfang (quest)", "de": "Garfazz Bloodfang"}
     },
     "101168": {
       "name": "Gargoyle Trouble",
@@ -11548,7 +11568,7 @@ const GW_QUESTS = {
       "profession": 1,
       "xp": 200,
       "skills": [1, 321, 382, 384],
-      "wiki": "https://www.guildwiki.de/wiki/Ärger_mit_den_Gargoyles"
+      "wiki": {"en": "Gargoyle Trouble", "de": "Ärger mit den Gargoyles"}
     },
     "101169": {
       "name": "Gathering Resources",
@@ -11556,7 +11576,7 @@ const GW_QUESTS = {
       "givers": [555],
       "xp": 1500,
       "requires": [101239],
-      "wiki": "https://www.guildwiki.de/wiki/Ressourcen_sammeln"
+      "wiki": {"en": "Gathering Resources", "de": "Ressourcen sammeln"}
     },
     "101170": {
       "name": "Getting Started in Guild Wars",
@@ -11574,8 +11594,7 @@ const GW_QUESTS = {
         [0, "Speak with Sir Tydus when you are ready to proceed."],
         [0, "Speak with any Town Crier to receive your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Einstieg_in_Guild_Wars",
-      "wiki_en": "https://web.archive.org/web/20260628090142/https://wiki.guildwars.com/wiki/Getting_Started_in_Guild_Wars"
+      "wiki": {"en": "Getting Started in Guild Wars", "de": "Einstieg in Guild Wars"}
     },
     "101171": {
       "name": "Ghostly Vengeance",
@@ -11583,7 +11602,7 @@ const GW_QUESTS = {
       "givers": [573],
       "xp": 1000,
       "skills": [14, 140, 219, 256, 363, 457],
-      "wiki": "https://www.guildwiki.de/wiki/Geisterhafte_Rache"
+      "wiki": {"en": "Ghostly Vengeance", "de": "Geisterhafte Rache"}
     },
     "101172": {
       "name": "Graven Images",
@@ -11591,7 +11610,7 @@ const GW_QUESTS = {
       "givers": [537],
       "xp": 600,
       "skills": [9, 116, 183, 283, 342, 402],
-      "wiki": "https://www.guildwiki.de/wiki/Eingravierte_Bilder"
+      "wiki": {"en": "Graven Images", "de": "Eingravierte Bilder"}
     },
     "101173": {
       "name": "Grawl Invasion",
@@ -11603,8 +11622,7 @@ const GW_QUESTS = {
         [0, "Look for Grawl invaders along the road. Eliminate them."],
         [0, "Return to Warmaster Grast for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Grawl-Invasion",
-      "wiki_en": "https://web.archive.org/web/20260908151433/https://wiki.guildwars.com/wiki/Grawl_Invasion"
+      "wiki": {"en": "Grawl Invasion", "de": "Grawl-Invasion"}
     },
     "101174": {
       "name": "Gwen's Flute",
@@ -11612,8 +11630,7 @@ const GW_QUESTS = {
       "givers": [600],
       "xp": 250,
       "objectives": [[0, "Find Gwen's Flute"]],
-      "wiki": "https://www.guildwiki.de/wiki/Gwens_Flöte_(Quest)",
-      "wiki_en": "https://web.archive.org/web/20260908151427/https://wiki.guildwars.com/wiki/Gwen%27s_Flute_(quest)"
+      "wiki": {"en": "Gwen's Flute (quest)", "de": "Gwens Flöte (Quest)"}
     },
     "101175": {
       "name": "Hammer and Anvil",
@@ -11621,7 +11638,7 @@ const GW_QUESTS = {
       "givers": [198],
       "xp": 500,
       "requires": [101301],
-      "wiki": "https://www.guildwiki.de/wiki/Hammer_und_Amboss"
+      "wiki": {"en": "Hammer and Anvil", "de": "Hammer und Amboss"}
     },
     "101176": {
       "name": "Heirlooms of the Mad King",
@@ -11631,7 +11648,7 @@ const GW_QUESTS = {
       "xp": 5000,
       "gold": 1000,
       "rewards": ["50 Trick-or-Treat Bags"],
-      "wiki": "https://www.guildwiki.de/wiki/Erbstücke_des_verrückten_Königs"
+      "wiki": {"en": "Heirlooms of the Mad King", "de": "Erbstücke des verrückten Königs"}
     },
     "101177": {
       "name": "Helping the Dwarves",
@@ -11640,7 +11657,7 @@ const GW_QUESTS = {
       "xp": 250,
       "skills": [8, 108, 162, 301, 326, 406],
       "next": [101195],
-      "wiki": "https://www.guildwiki.de/wiki/Hilfe_für_die_Zwerge"
+      "wiki": {"en": "Helping the Dwarves", "de": "Hilfe für die Zwerge"}
     },
     "101178": {
       "name": "Helping the People of Ascalon",
@@ -11649,7 +11666,7 @@ const GW_QUESTS = {
       "xp": 200,
       "skills": [80, 155, 290, 343, 398],
       "requires": [101274],
-      "wiki": "https://www.guildwiki.de/wiki/Hilfe_für_das_Volk_von_Ascalon"
+      "wiki": {"en": "Helping the People of Ascalon", "de": "Hilfe für das Volk von Ascalon"}
     },
     "101179": {
       "name": "Hungry Devourer",
@@ -11658,7 +11675,7 @@ const GW_QUESTS = {
       "xp": 400,
       "skills": [69, 106, 222, 310, 344, 392],
       "next": [101257],
-      "wiki": "https://www.guildwiki.de/wiki/Hungriger_Verschlinger"
+      "wiki": {"en": "Hungry Devourer", "de": "Hungriger Verschlinger"}
     },
     "101180": {
       "name": "In Grenth's Defense",
@@ -11668,7 +11685,7 @@ const GW_QUESTS = {
       "repeatable": true,
       "xp": 1000,
       "rewards": ["5 Candy Cane Shards", "5 Wintersday Gifts"],
-      "wiki": "https://www.guildwiki.de/wiki/Zu_Grenths_Verteidigung"
+      "wiki": {"en": "In Grenth's Defense", "de": "Zu Grenths Verteidigung"}
     },
     "101181": {
       "name": "In Memory of Paulus",
@@ -11677,7 +11694,7 @@ const GW_QUESTS = {
       "xp": 300,
       "skills": [291, 305],
       "requires": [101211],
-      "wiki": "https://www.guildwiki.de/wiki/Zum_Angedenken_an_Paulus"
+      "wiki": {"en": "In Memory of Paulus", "de": "Zum Angedenken an Paulus"}
     },
     "101182": {
       "name": "Into the Breach",
@@ -11687,7 +11704,7 @@ const GW_QUESTS = {
       "xp": 300,
       "skills": [339, 347],
       "requires": [101194],
-      "wiki": "https://www.guildwiki.de/wiki/In_der_Bresche"
+      "wiki": {"en": "Into the Breach", "de": "In der Bresche"}
     },
     "101183": {
       "name": "Into the Unknown",
@@ -11695,7 +11712,7 @@ const GW_QUESTS = {
       "givers": [216],
       "xp": 1000,
       "skills": [36, 144, 233, 271, 366, 463],
-      "wiki": "https://www.guildwiki.de/wiki/Auf_ins_Unbekannte"
+      "wiki": {"en": "Into the Unknown", "de": "Auf ins Unbekannte"}
     },
     "101184": {
       "name": "Iron Horse War Machine",
@@ -11703,7 +11720,7 @@ const GW_QUESTS = {
       "givers": [392],
       "xp": 500,
       "requires": [101196],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Eisenross-Kriegsmaschine"
+      "wiki": {"en": "Iron Horse War Machine", "de": "Die Eisenross-Kriegsmaschine"}
     },
     "101185": {
       "name": "Kilroy Stonekin",
@@ -11712,7 +11729,7 @@ const GW_QUESTS = {
       "repeatable": true,
       "xp": 3000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Kilroy_Steinsipp_(Quest)"
+      "wiki": {"en": "Kilroy Stonekin", "de": "Kilroy Steinsipp (Quest)"}
     },
     "101186": {
       "name": "Little Thom's Big Cloak",
@@ -11724,8 +11741,7 @@ const GW_QUESTS = {
         [0, "Take the bear pelt to Alison the Tanner in Ashford."],
         [0, "Go to Barradin Estate in Green Hills County and deliver the cloak to Little Thom."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Der_große_Umhang_des_kleinen_Thom",
-      "wiki_en": "https://web.archive.org/web/20260628090142/https://wiki.guildwars.com/wiki/Little_Thom%27s_Big_Cloak"
+      "wiki": {"en": "Little Thom's Big Cloak", "de": "Der große Umhang des kleinen Thom"}
     },
     "101187": {
       "name": "Long Thought Forgotten",
@@ -11742,8 +11758,7 @@ const GW_QUESTS = {
         [0, "Exit the tunnels and report to Adept Mullenix."]
       ],
       "next": [101129],
-      "wiki": "https://www.guildwiki.de/wiki/Längst_vergessen_geglaubt",
-      "wiki_en": "https://web.archive.org/web/20260628091714/https://wiki.guildwars.com/wiki/Long_Thought_Forgotten"
+      "wiki": {"en": "Long Thought Forgotten", "de": "Längst vergessen geglaubt"}
     },
     "101188": {
       "name": "Malaquire's Test",
@@ -11751,14 +11766,14 @@ const GW_QUESTS = {
       "givers": [652],
       "xp": 500,
       "requires": [101206],
-      "wiki": "https://www.guildwiki.de/wiki/Malaquires_Prüfung"
+      "wiki": {"en": "Malaquire's Test", "de": "Malaquires Prüfung"}
     },
     "101189": {
       "name": "Merchant's Plea",
       "type": "secondary",
       "givers": [266],
       "xp": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Das_Flehen_des_Kaufmanns"
+      "wiki": {"en": "Merchant's Plea", "de": "Das Flehen des Kaufmanns"}
     },
     "101190": {
       "name": "Mesmer Test",
@@ -11772,8 +11787,7 @@ const GW_QUESTS = {
         [0, "Return to Sebedoh the Mesmer for your reward."]
       ],
       "next": [101166],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer-Prüfung",
-      "wiki_en": "https://web.archive.org/web/20260711135836/https://wiki.guildwars.com/wiki/Mesmer_Test"
+      "wiki": {"en": "Mesmer Test", "de": "Mesmer-Prüfung"}
     },
     "101191": {
       "name": "Mesmerizing the Enemy",
@@ -11783,7 +11797,7 @@ const GW_QUESTS = {
       "xp": 200,
       "skills": [24, 31, 40, 76],
       "requires": [101155],
-      "wiki": "https://www.guildwiki.de/wiki/Den_Feind_erstarren_lassen"
+      "wiki": {"en": "Mesmerizing the Enemy", "de": "Den Feind erstarren lassen"}
     },
     "101192": {
       "name": "Message from a Friend",
@@ -11792,8 +11806,7 @@ const GW_QUESTS = {
       "xp": 100,
       "gold": 10,
       "objectives": [[0, "Go to the town square in Ascalon City. Talk to Sir Tydus."]],
-      "wiki": "https://www.guildwiki.de/wiki/Nachricht_von_einem_Freund",
-      "wiki_en": "https://web.archive.org/web/20260908151433/https://wiki.guildwars.com/wiki/Message_from_a_Friend"
+      "wiki": {"en": "Message from a Friend", "de": "Nachricht von einem Freund"}
     },
     "101193": {
       "name": "Mhenlo's Request",
@@ -11802,7 +11815,7 @@ const GW_QUESTS = {
       "travel": 2,
       "xp": 1000,
       "next": [100780],
-      "wiki": "https://www.guildwiki.de/wiki/Mhenlos_Bitte"
+      "wiki": {"en": "Mhenlo's Request", "de": "Mhenlos Bitte"}
     },
     "101194": {
       "name": "Military Matters",
@@ -11812,7 +11825,7 @@ const GW_QUESTS = {
       "xp": 250,
       "skills": [322, 349],
       "next": [101182],
-      "wiki": "https://www.guildwiki.de/wiki/Militärische_Angelegenheiten"
+      "wiki": {"en": "Military Matters", "de": "Militärische Angelegenheiten"}
     },
     "101195": {
       "name": "Minaar's Trouble",
@@ -11820,7 +11833,7 @@ const GW_QUESTS = {
       "givers": [392],
       "xp": 500,
       "next": [101196],
-      "wiki": "https://www.guildwiki.de/wiki/Minaars_Leiden"
+      "wiki": {"en": "Minaar's Trouble", "de": "Minaars Leiden"}
     },
     "101196": {
       "name": "Minaar's Worry",
@@ -11829,7 +11842,7 @@ const GW_QUESTS = {
       "xp": 500,
       "requires": [101195],
       "next": [101184],
-      "wiki": "https://www.guildwiki.de/wiki/Minaars_Sorge"
+      "wiki": {"en": "Minaar's Worry", "de": "Minaars Sorge"}
     },
     "101197": {
       "name": "Monk Test",
@@ -11843,8 +11856,7 @@ const GW_QUESTS = {
         [0, "Lead Gwen back to Ciglo the Monk. Gwen will not move as long as the skale are in the way."]
       ],
       "next": [101166],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch-Prüfung",
-      "wiki_en": "https://web.archive.org/web/20260623033557/https://wiki.guildwars.com/wiki/Monk_Test"
+      "wiki": {"en": "Monk Test", "de": "Mönch-Prüfung"}
     },
     "101198": {
       "name": "Mustering a Response",
@@ -11855,7 +11867,7 @@ const GW_QUESTS = {
       "rewards": ["3 Royal Gifts", "1 Medal of Honor"],
       "requires": [101245],
       "next": [101250],
-      "wiki": "https://www.guildwiki.de/wiki/Sammeln_zur_Gegenwehr"
+      "wiki": {"en": "Mustering a Response", "de": "Sammeln zur Gegenwehr"}
     },
     "101199": {
       "name": "Mysterious Message",
@@ -11864,7 +11876,7 @@ const GW_QUESTS = {
       "xp": 500,
       "skills": [45, 93, 172, 274, 328, 455],
       "next": [101291],
-      "wiki": "https://www.guildwiki.de/wiki/Rätselhafte_Nachricht_(Prophecies)"
+      "wiki": {"en": "Mysterious Message (Prophecies quest)", "de": "Rätselhafte Nachricht (Prophecies)"}
     },
     "101200": {
       "name": "Necromancer Test",
@@ -11875,8 +11887,7 @@ const GW_QUESTS = {
       "skills": [105, 153],
       "objectives": [[0, "Go south to the river. Slay a skale so that Verata can make use of its corpse."]],
       "next": [101166],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromanten-Prüfung",
-      "wiki_en": "https://web.archive.org/web/20260128012821/https://wiki.guildwars.com/wiki/Necromancer_Test"
+      "wiki": {"en": "Necromancer Test", "de": "Nekromanten-Prüfung"}
     },
     "101201": {
       "name": "Noble Intentions",
@@ -11885,7 +11896,7 @@ const GW_QUESTS = {
       "xp": 4000,
       "gold": 500,
       "next": [101202],
-      "wiki": "https://www.guildwiki.de/wiki/Noble_Absichten"
+      "wiki": {"en": "Noble Intentions", "de": "Noble Absichten"}
     },
     "101202": {
       "name": "Noble Intentions Plan B",
@@ -11894,7 +11905,7 @@ const GW_QUESTS = {
       "xp": 4000,
       "gold": 500,
       "requires": [101201],
-      "wiki": "https://www.guildwiki.de/wiki/Noble_Absichten_Plan_B"
+      "wiki": {"en": "Noble Intentions Plan B", "de": "Noble Absichten Plan B"}
     },
     "101203": {
       "name": "Oberan's Rage",
@@ -11903,7 +11914,7 @@ const GW_QUESTS = {
       "xp": 350,
       "skills": [95, 99],
       "requires": [101134],
-      "wiki": "https://www.guildwiki.de/wiki/Oberans_Wut"
+      "wiki": {"en": "Oberan's Rage", "de": "Oberans Wut"}
     },
     "101204": {
       "name": "Operation: Crush Spirits",
@@ -11913,7 +11924,7 @@ const GW_QUESTS = {
       "repeatable": true,
       "xp": 5000,
       "gold": 7500,
-      "wiki": "https://www.guildwiki.de/wiki/Operation:_Willen_brechen"
+      "wiki": {"en": "Operation: Crush Spirits", "de": "Operation: Willen brechen"}
     },
     "101205": {
       "name": "Opposition to the King",
@@ -11929,8 +11940,7 @@ const GW_QUESTS = {
         [0, "Return to Devona for your reward."]
       ],
       "requires": [101335],
-      "wiki": "https://www.guildwiki.de/wiki/Widerstand_gegen_den_König",
-      "wiki_en": "https://web.archive.org/web/20260908151433/https://wiki.guildwars.com/wiki/Opposition_to_the_King"
+      "wiki": {"en": "Opposition to the King", "de": "Widerstand gegen den König"}
     },
     "101206": {
       "name": "Orrian Excavation",
@@ -11938,7 +11948,7 @@ const GW_QUESTS = {
       "givers": [652],
       "xp": 400,
       "next": [101188],
-      "wiki": "https://www.guildwiki.de/wiki/Orrianische_Ausgrabung"
+      "wiki": {"en": "Orrian Excavation", "de": "Orrianische Ausgrabung"}
     },
     "101207": {
       "name": "Oswalt's Epitaph",
@@ -11947,7 +11957,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 250,
       "requires": [101232],
-      "wiki": "https://www.guildwiki.de/wiki/Oswalts_Grabinschrift"
+      "wiki": {"en": "Oswalt's Epitaph", "de": "Oswalts Grabinschrift"}
     },
     "101208": {
       "name": "Passage Through The Dark River",
@@ -11956,14 +11966,14 @@ const GW_QUESTS = {
       "xp": 500,
       "next_missions": [73],
       "missions": [73],
-      "wiki": "https://www.guildwiki.de/wiki/Durchfahrt_durch_den_Düsteren_Fluss"
+      "wiki": {"en": "Passage Through The Dark River", "de": "Durchfahrt durch den Düsteren Fluss"}
     },
     "101209": {
       "name": "Political Ramifications",
       "type": "instance",
       "givers": [695],
       "xp": 6000,
-      "wiki": "https://www.guildwiki.de/wiki/Politische_Konsequenzen"
+      "wiki": {"en": "Political Ramifications", "de": "Politische Konsequenzen"}
     },
     "101210": {
       "name": "Poor Tenant",
@@ -11975,8 +11985,7 @@ const GW_QUESTS = {
         [0, "Use the honeycomb to lure the three bee swarms across the bridge."],
         [0, "Return to Miller Upton for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Armer_Mieter",
-      "wiki_en": "https://web.archive.org/web/20260630184241/https://wiki.guildwars.com/wiki/Poor_Tenant"
+      "wiki": {"en": "Poor Tenant", "de": "Armer Mieter"}
     },
     "101211": {
       "name": "Protecting Ascalon",
@@ -11985,7 +11994,7 @@ const GW_QUESTS = {
       "xp": 300,
       "skills": [280, 289],
       "next": [101181],
-      "wiki": "https://www.guildwiki.de/wiki/Ascalon_schützen"
+      "wiki": {"en": "Protecting Ascalon", "de": "Ascalon schützen"}
     },
     "101212": {
       "name": "Protection Prayers",
@@ -11999,8 +12008,7 @@ const GW_QUESTS = {
         [0, "Keep Farrah alive while she hunts down the infamous Alain."],
         [0, "Return to Grazden the Protector for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Schutzgebete_(Quest)",
-      "wiki_en": "https://web.archive.org/web/20260722115836/https://wiki.guildwars.com/wiki/Protection_Prayers_(quest)"
+      "wiki": {"en": "Protection Prayers (quest)", "de": "Schutzgebete (Quest)"}
     },
     "101213": {
       "name": "Ranger Test",
@@ -12011,8 +12019,7 @@ const GW_QUESTS = {
       "skills": [394, 446],
       "objectives": [[0, "Find the River Skale Queen and slay her."]],
       "next": [101166],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer-Prüfung",
-      "wiki_en": "https://web.archive.org/web/20260507162011/https://wiki.guildwars.com/wiki/Ranger_Test"
+      "wiki": {"en": "Ranger Test", "de": "Waldläufer-Prüfung"}
     },
     "101214": {
       "name": "Rastin's Ritual",
@@ -12020,7 +12027,7 @@ const GW_QUESTS = {
       "givers": [702],
       "xp": 500,
       "gold": 50,
-      "wiki": "https://www.guildwiki.de/wiki/Rastins_Ritual"
+      "wiki": {"en": "Rastin's Ritual", "de": "Rastins Ritual"}
     },
     "101215": {
       "name": "Recruits for Hollis",
@@ -12028,14 +12035,14 @@ const GW_QUESTS = {
       "givers": [287],
       "xp": 500,
       "next": [101120],
-      "wiki": "https://www.guildwiki.de/wiki/Rekruten_für_Hollis"
+      "wiki": {"en": "Recruits for Hollis", "de": "Rekruten für Hollis"}
     },
     "101216": {
       "name": "Regent Valley Defense",
       "type": "secondary",
       "givers": [448],
       "xp": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Verteidigung_des_Regententals"
+      "wiki": {"en": "Regent Valley Defense", "de": "Die Verteidigung des Regententals"}
     },
     "101217": {
       "name": "Renegade Necromancer",
@@ -12044,7 +12051,7 @@ const GW_QUESTS = {
       "profession": 4,
       "xp": 350,
       "skills": [92, 97, 129],
-      "wiki": "https://www.guildwiki.de/wiki/Abtrünniger_Nekromant"
+      "wiki": {"en": "Renegade Necromancer", "de": "Abtrünniger Nekromant"}
     },
     "101218": {
       "name": "Replacement Healers",
@@ -12052,7 +12059,7 @@ const GW_QUESTS = {
       "givers": [547],
       "xp": 500,
       "skills": [243, 292],
-      "wiki": "https://www.guildwiki.de/wiki/Ersatzheiler"
+      "wiki": {"en": "Replacement Healers", "de": "Ersatzheiler"}
     },
     "101219": {
       "name": "Report to the White Mantle",
@@ -12060,14 +12067,14 @@ const GW_QUESTS = {
       "givers": [549],
       "xp": 500,
       "missions": [15],
-      "wiki": "https://www.guildwiki.de/wiki/Erstattet_dem_Weißen_Mantel_Bericht"
+      "wiki": {"en": "Report to the White Mantle", "de": "Erstattet dem Weißen Mantel Bericht"}
     },
     "101220": {
       "name": "Reversing the Skales",
       "type": "secondary",
       "givers": [293],
       "xp": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Skal-Umkehrung"
+      "wiki": {"en": "Reversing the Skales", "de": "Skal-Umkehrung"}
     },
     "101221": {
       "name": "Rise",
@@ -12077,7 +12084,7 @@ const GW_QUESTS = {
       "repeatable": true,
       "requires": [101280],
       "next": [100000],
-      "wiki": "https://www.guildwiki.de/wiki/Aufstand"
+      "wiki": {"en": "Rise", "de": "Aufstand"}
     },
     "101222": {
       "name": "Rites of Remembrance",
@@ -12089,8 +12096,7 @@ const GW_QUESTS = {
         [0, "[0...4]/4 candles placed."],
         [0, "Return to Necromancer Munne for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Gedenkriten",
-      "wiki_en": "https://web.archive.org/web/20260630184143/https://wiki.guildwars.com/wiki/Rites_of_Remembrance"
+      "wiki": {"en": "Rites of Remembrance", "de": "Gedenkriten"}
     },
     "101223": {
       "name": "Riverside Assassination",
@@ -12101,7 +12107,7 @@ const GW_QUESTS = {
       "rewards": ["5 Royal Gifts", "1 Medal of Honor"],
       "requires": [101355, 101356, 101357],
       "next": [101088],
-      "wiki": "https://www.guildwiki.de/wiki/Anschlag_am_Flussufer"
+      "wiki": {"en": "Riverside Assassination", "de": "Anschlag am Flussufer"}
     },
     "101224": {
       "name": "Ruins of Surmia",
@@ -12111,7 +12117,7 @@ const GW_QUESTS = {
       "requires_missions": [29],
       "next": [101224],
       "missions": [30],
-      "wiki": "https://www.guildwiki.de/wiki/Ruinen_von_Surmia_(Quest)"
+      "wiki": {"en": "Ruins of Surmia (quest)", "de": "Ruinen von Surmia (Quest)"}
     },
     "101225": {
       "name": "Sands Of Souls",
@@ -12119,7 +12125,7 @@ const GW_QUESTS = {
       "givers": [713],
       "xp": 500,
       "missions": [117, 116, 118],
-      "wiki": "https://www.guildwiki.de/wiki/Sandwüste_der_Seelen"
+      "wiki": {"en": "Sands Of Souls", "de": "Sandwüste der Seelen"}
     },
     "101226": {
       "name": "Scavengers in Old Ascalon",
@@ -12128,7 +12134,7 @@ const GW_QUESTS = {
       "xp": 500,
       "requires": [101141],
       "requires_missions": [28],
-      "wiki": "https://www.guildwiki.de/wiki/Plünderer_in_Alt-Ascalon"
+      "wiki": {"en": "Scavengers in Old Ascalon", "de": "Plünderer in Alt-Ascalon"}
     },
     "101227": {
       "name": "Scorched Earth (Prophecies quest)",
@@ -12136,7 +12142,7 @@ const GW_QUESTS = {
       "givers": [541],
       "xp": 200,
       "skills": [175],
-      "wiki": "https://www.guildwiki.de/wiki/Verkohlte_Erde"
+      "wiki": {"en": "Scorched Earth (Prophecies quest)", "de": "Verkohlte Erde"}
     },
     "101228": {
       "name": "Securing the Vale",
@@ -12145,7 +12151,7 @@ const GW_QUESTS = {
       "profession": 1,
       "xp": 500,
       "skills": [341, 356, 386],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Sicherung_des_Tals"
+      "wiki": {"en": "Securing the Vale", "de": "Die Sicherung des Tals"}
     },
     "101229": {
       "name": "Seeking the Seer",
@@ -12153,7 +12159,7 @@ const GW_QUESTS = {
       "givers": [437],
       "xp": 500,
       "missions": [22],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Suche_nach_der_Seherin"
+      "wiki": {"en": "Seeking The Seer", "de": "Die Suche nach der Seherin"}
     },
     "101230": {
       "name": "Shadows in the Jungle",
@@ -12166,7 +12172,7 @@ const GW_QUESTS = {
       "rewards": ["1,250 Ebon Vanguard reputation points", "First time: 2 Medal of Honor", "Repeats: 5 War Supplies"],
       "requires": [101253],
       "next": [101280],
-      "wiki": "https://www.guildwiki.de/wiki/Schatten_im_Dschungel"
+      "wiki": {"en": "Shadows in the Jungle", "de": "Schatten im Dschungel"}
     },
     "101231": {
       "name": "Shalev's Task",
@@ -12175,7 +12181,7 @@ const GW_QUESTS = {
       "xp": 300,
       "skills": [167, 213],
       "requires": [101149],
-      "wiki": "https://www.guildwiki.de/wiki/Shalevs_Aufgabe"
+      "wiki": {"en": "Shalev's Task", "de": "Shalevs Aufgabe"}
     },
     "101232": {
       "name": "Shiverpeak Stragglers",
@@ -12183,7 +12189,7 @@ const GW_QUESTS = {
       "givers": [177],
       "xp": 500,
       "gold": 150,
-      "wiki": "https://www.guildwiki.de/wiki/Zittergipfel-Nachzügler"
+      "wiki": {"en": "Shiverpeak Stragglers", "de": "Zittergipfel-Nachzügler"}
     },
     "101233": {
       "name": "Something Wicked This Way Comes",
@@ -12198,7 +12204,7 @@ const GW_QUESTS = {
         "15 Trick-or-Treat Bags"
       ],
       "next": [101144],
-      "wiki": "https://www.guildwiki.de/wiki/Etwas_Böses_kommt_des_Weges"
+      "wiki": {"en": "Something Wicked This Way Comes", "de": "Etwas Böses kommt des Weges"}
     },
     "101234": {
       "name": "Sowing Seeds",
@@ -12206,7 +12212,7 @@ const GW_QUESTS = {
       "givers": [208],
       "xp": 200,
       "skills": [281, 287, 296],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Säen_der_Saat"
+      "wiki": {"en": "Sowing Seeds", "de": "Das Säen der Saat"}
     },
     "101235": {
       "name": "Stemming the Skeletal Tide",
@@ -12223,7 +12229,7 @@ const GW_QUESTS = {
       ],
       "requires": [101144],
       "next": [101152, 101315],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Armee_der_knochigen_Diener"
+      "wiki": {"en": "Stemming the Skeletal Tide", "de": "Die Armee der knochigen Diener"}
     },
     "101236": {
       "name": "Stone Summit Beastmasters",
@@ -12231,7 +12237,7 @@ const GW_QUESTS = {
       "givers": [734],
       "profession": 2,
       "xp": 350,
-      "wiki": "https://www.guildwiki.de/wiki/Steingipfel-Tierbändiger_(Quest)"
+      "wiki": {"en": "Stone Summit Beastmasters", "de": "Steingipfel-Tierbändiger (Quest)"}
     },
     "101237": {
       "name": "Straight to the Heart",
@@ -12241,14 +12247,14 @@ const GW_QUESTS = {
       "repeatable": true,
       "xp": 1000,
       "rewards": ["5 Candy Cane Shards", "5 Wintersday Gifts"],
-      "wiki": "https://www.guildwiki.de/wiki/Mitten_ins_Herz"
+      "wiki": {"en": "Straight to the Heart", "de": "Mitten ins Herz"}
     },
     "101238": {
       "name": "Subversive Ideas",
       "type": "instance",
       "givers": [554],
       "xp": 6000,
-      "wiki": "https://www.guildwiki.de/wiki/Feindliche_Ideen"
+      "wiki": {"en": "Subversive Ideas", "de": "Feindliche Ideen"}
     },
     "101239": {
       "name": "Summit Slaves",
@@ -12257,7 +12263,7 @@ const GW_QUESTS = {
       "repeatable": true,
       "xp": 2000,
       "gold": 300,
-      "wiki": "https://www.guildwiki.de/wiki/Gipfel-Sklaven"
+      "wiki": {"en": "Summit Slaves", "de": "Gipfel-Sklaven"}
     },
     "101240": {
       "name": "Sunspears in Kryta",
@@ -12265,7 +12271,7 @@ const GW_QUESTS = {
       "givers": [729],
       "travel": 3,
       "xp": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Sonnenspeere_in_Kryta"
+      "wiki": {"en": "Sunspears in Kryta", "de": "Sonnenspeere in Kryta"}
     },
     "101241": {
       "name": "Supplies for the Duke",
@@ -12274,7 +12280,7 @@ const GW_QUESTS = {
       "xp": 300,
       "skills": [11, 159, 211, 278, 348, 403],
       "requires": [101247],
-      "wiki": "https://www.guildwiki.de/wiki/Nachschub_für_den_Herzog"
+      "wiki": {"en": "Supplies for the Duke", "de": "Nachschub für den Herzog"}
     },
     "101242": {
       "name": "Surviving After the Searing",
@@ -12283,7 +12289,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "rewards": ["4 Skill points", "Belt Pouch", "Superior Identification Kit", "Superior Salvage Kit"],
-      "wiki": "https://www.guildwiki.de/wiki/Überleben_nach_dem_Großen_Feuer"
+      "wiki": {"en": "Surviving After the Searing", "de": "Überleben nach dem Großen Feuer"}
     },
     "101243": {
       "name": "Symon's History of Ascalon",
@@ -12291,14 +12297,14 @@ const GW_QUESTS = {
       "givers": [702],
       "xp": 2000,
       "requires": [101130],
-      "wiki": "https://www.guildwiki.de/wiki/Symons_Geschichte_von_Ascalon"
+      "wiki": {"en": "Symon's History of Ascalon", "de": "Symons Geschichte von Ascalon"}
     },
     "101244": {
       "name": "Tasca's Reprise",
       "type": "instance",
       "givers": [746],
       "xp": 6000,
-      "wiki": "https://www.guildwiki.de/wiki/Tascas_Last"
+      "wiki": {"en": "Tasca's Reprise", "de": "Tascas Last"}
     },
     "101245": {
       "name": "Temple of the Intolerable",
@@ -12309,7 +12315,7 @@ const GW_QUESTS = {
       "rewards": ["5 Royal Gifts", "1 Medal of Honor"],
       "requires": [101088],
       "next": [101198],
-      "wiki": "https://www.guildwiki.de/wiki/Tempel_der_Unerträglichen"
+      "wiki": {"en": "Temple of the Intolerable", "de": "Tempel der Unerträglichen"}
     },
     "101246": {
       "name": "The Accursed Path",
@@ -12321,8 +12327,7 @@ const GW_QUESTS = {
         [0, "Go south and destroy the crypt fiends."],
         [0, "Return to Oberan the Reviled for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Der_verfluchte_Pfad",
-      "wiki_en": "https://web.archive.org/web/20260828152653/https://wiki.guildwars.com/wiki/The_Accursed_Path"
+      "wiki": {"en": "The Accursed Path", "de": "Der verfluchte Pfad"}
     },
     "101247": {
       "name": "The Ambassador's Quandary",
@@ -12331,7 +12336,7 @@ const GW_QUESTS = {
       "xp": 500,
       "requires": [101274],
       "next": [101090],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Dilemma_des_Botschafters"
+      "wiki": {"en": "The Ambassador's Quandary", "de": "Das Dilemma des Botschafters"}
     },
     "101248": {
       "name": "The Arrowhead",
@@ -12340,7 +12345,7 @@ const GW_QUESTS = {
       "xp": 1000,
       "gold": 500,
       "next": [101116],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Pfeilspitze"
+      "wiki": {"en": "The Arrowhead", "de": "Die Pfeilspitze"}
     },
     "101249": {
       "name": "The Ascalon Settlement",
@@ -12348,7 +12353,7 @@ const GW_QUESTS = {
       "givers": [431],
       "xp": 500,
       "skills": [50, 117, 229, 286, 385, 424],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Siedlung_Ascalon_(Quest)"
+      "wiki": {"en": "The Ascalon Settlement", "de": "Die Siedlung Ascalon (Quest)"}
     },
     "101250": {
       "name": "The Battle for Lion's Arch",
@@ -12358,7 +12363,7 @@ const GW_QUESTS = {
       "gold": 5000,
       "rewards": ["5 Royal Gifts", "3 Medals of Honor"],
       "requires": [101198],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Schlacht_um_Löwenstein"
+      "wiki": {"en": "The Battle for Lion's Arch", "de": "Die Schlacht um Löwenstein"}
     },
     "101251": {
       "name": "The Bear Hunters",
@@ -12366,8 +12371,7 @@ const GW_QUESTS = {
       "givers": [388],
       "repeatable": true,
       "rewards": ["Hunter's Ale"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Bärenjäger",
-      "wiki_en": "https://web.archive.org/web/20260704201740/https://wiki.guildwars.com/wiki/The_bear_hunters"
+      "wiki": {"en": "The bear hunters", "de": "Die Bärenjäger"}
     },
     "101252": {
       "name": "The Blessings of Balthazar",
@@ -12379,8 +12383,7 @@ const GW_QUESTS = {
         [0, "Travel to the fields north of Ashford and dispatch the skeletons there."],
         [0, "Return to Brother Mhenlo for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Balthasars_Segnungen",
-      "wiki_en": "https://web.archive.org/web/20260507153816/https://wiki.guildwars.com/wiki/The_Blessings_of_Balthazar"
+      "wiki": {"en": "The Blessings of Balthazar", "de": "Balthasars Segnungen"}
     },
     "101253": {
       "name": "The Broken Sword",
@@ -12390,7 +12393,7 @@ const GW_QUESTS = {
       "gold": 500,
       "requires": [101106],
       "next": [101230],
-      "wiki": "https://www.guildwiki.de/wiki/Das_gebrochene_Schwert"
+      "wiki": {"en": "The Broken Sword", "de": "Das gebrochene Schwert"}
     },
     "101254": {
       "name": "The Charr Patrol",
@@ -12400,7 +12403,7 @@ const GW_QUESTS = {
       "xp": 250,
       "skills": [439, 472],
       "next": [101255],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Charr-Patrouille"
+      "wiki": {"en": "The Charr Patrol", "de": "Die Charr-Patrouille"}
     },
     "101255": {
       "name": "The Charr Staging Area",
@@ -12410,7 +12413,7 @@ const GW_QUESTS = {
       "xp": 300,
       "skills": [425, 475],
       "requires": [101254],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Sammelpunkt_der_Charr"
+      "wiki": {"en": "The Charr Staging Area", "de": "Der Sammelpunkt der Charr"}
     },
     "101256": {
       "name": "The Cost of Survival",
@@ -12420,7 +12423,7 @@ const GW_QUESTS = {
       "gold": 100,
       "requires": [101148],
       "next": [101258],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Preis_des_Überlebens"
+      "wiki": {"en": "The Cost of Survival", "de": "Der Preis des Überlebens"}
     },
     "101257": {
       "name": "The Deserters",
@@ -12429,7 +12432,7 @@ const GW_QUESTS = {
       "xp": 500,
       "skills": [22, 143, 214, 242, 380, 456],
       "requires": [101179],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Deserteure"
+      "wiki": {"en": "The Deserters", "de": "Die Deserteure"}
     },
     "101258": {
       "name": "The Dreamer and the Zealot",
@@ -12438,7 +12441,7 @@ const GW_QUESTS = {
       "xp": 500,
       "gold": 100,
       "requires": [101256],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Träumer_und_der_Eiferer"
+      "wiki": {"en": "The Dreamer and the Zealot", "de": "Der Träumer und der Eiferer"}
     },
     "101259": {
       "name": "The Duke's Daughter",
@@ -12447,7 +12450,7 @@ const GW_QUESTS = {
       "xp": 2000,
       "gold": 300,
       "next": [101110],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Tochter_des_Herzogs"
+      "wiki": {"en": "The Duke's Daughter", "de": "Die Tochter des Herzogs"}
     },
     "101260": {
       "name": "The Egg Hunter",
@@ -12460,8 +12463,7 @@ const GW_QUESTS = {
         [0, "Escort Fadden Hathorn back to Duke Gaban."],
         [0, "Return to Duke Gaban for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Eiersucher",
-      "wiki_en": "https://web.archive.org/web/20260908151433/https://wiki.guildwars.com/wiki/The_Egg_Hunter"
+      "wiki": {"en": "The Egg Hunter", "de": "Der Eiersucher"}
     },
     "101261": {
       "name": "The Elementalist Experiment",
@@ -12473,8 +12475,7 @@ const GW_QUESTS = {
         [0, "Use your Fire Storm spell to defeat the ice beasts that attack Aziure."],
         [0, "Return to Elementalist Aziure for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Elementarmagier-Experiment",
-      "wiki_en": "https://web.archive.org/web/20260628091728/https://wiki.guildwars.com/wiki/The_Elementalist_Experiment"
+      "wiki": {"en": "The Elementalist Experiment", "de": "Das Elementarmagier-Experiment"}
     },
     "101262": {
       "name": "The Elementalist's Path",
@@ -12482,7 +12483,7 @@ const GW_QUESTS = {
       "givers": [350],
       "xp": 1000,
       "requires": [101271],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_des_Elementarmagiers"
+      "wiki": {"en": "The Elementalist's Path", "de": "Der Weg des Elementarmagiers"}
     },
     "101263": {
       "name": "The False Gods",
@@ -12490,7 +12491,7 @@ const GW_QUESTS = {
       "givers": [457],
       "xp": 750,
       "skills": [49, 130, 234, 297, 316, 434],
-      "wiki": "https://www.guildwiki.de/wiki/Die_falschen_Götter"
+      "wiki": {"en": "The False Gods", "de": "Die falschen Götter"}
     },
     "101264": {
       "name": "The Final Assault",
@@ -12500,7 +12501,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 750,
       "requires": [101328],
-      "wiki": "https://www.guildwiki.de/wiki/Der_letzte_Angriff"
+      "wiki": {"en": "The Final Assault", "de": "Der letzte Angriff"}
     },
     "101265": {
       "name": "The Forge Heart",
@@ -12510,7 +12511,7 @@ const GW_QUESTS = {
       "xp": 8000,
       "gold": 500,
       "requires": [101328],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Herz_der_Schmiede"
+      "wiki": {"en": "The Forge Heart", "de": "Das Herz der Schmiede"}
     },
     "101266": {
       "name": "The Forgotten Ones",
@@ -12518,7 +12519,7 @@ const GW_QUESTS = {
       "givers": [446],
       "skills": [72, 84, 179, 315, 345, 400],
       "next": [101164],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Vergessenen"
+      "wiki": {"en": "The Forgotten Ones", "de": "Die Vergessenen"}
     },
     "101267": {
       "name": "The Geomancer's Test",
@@ -12528,7 +12529,7 @@ const GW_QUESTS = {
       "xp": 500,
       "skills": [168, 169],
       "requires": [101319],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Prüfung_des_Geomanten"
+      "wiki": {"en": "The Geomancer's Test", "de": "Die Prüfung des Geomanten"}
     },
     "101268": {
       "name": "The Greatest Snowman Ever Made",
@@ -12537,14 +12538,14 @@ const GW_QUESTS = {
       "event": 13,
       "xp": 5000,
       "rewards": ["Gingerbread Shield", "Gingerbread Focus"],
-      "wiki": "https://www.guildwiki.de/wiki/Der_größte_Schneemann,_der_jemals_gebaut_wurde"
+      "wiki": {"en": "The Greatest Snowman Ever Made", "de": "Der größte Schneemann, der jemals gebaut wurde"}
     },
     "101269": {
       "name": "The Hero From Ascalon",
       "type": "secondary",
       "givers": [402],
       "xp": 100,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Heldin_von_Ascalon"
+      "wiki": {"en": "The Hero From Ascalon", "de": "Die Heldin von Ascalon"}
     },
     "101270": {
       "name": "The Hero's Challenge",
@@ -12552,7 +12553,7 @@ const GW_QUESTS = {
       "givers": [404],
       "xp": 5000,
       "rewards": ["15 Attribute points"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Herausforderung_des_Helden"
+      "wiki": {"en": "The Hero's Challenge", "de": "Die Herausforderung des Helden"}
     },
     "101271": {
       "name": "The Hero's Journey",
@@ -12560,7 +12561,7 @@ const GW_QUESTS = {
       "givers": [404],
       "xp": 500,
       "next": [101270],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Reise_eines_Helden"
+      "wiki": {"en": "The Hero's Journey", "de": "Die Reise eines Helden"}
     },
     "101272": {
       "name": "The Hot Springs Murders",
@@ -12568,7 +12569,7 @@ const GW_QUESTS = {
       "givers": [440],
       "xp": 500,
       "skills": [32, 120, 173, 277, 357, 437],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Thermalquellen-Morde"
+      "wiki": {"en": "The Hot Springs Murders", "de": "Die Thermalquellen-Morde"}
     },
     "101273": {
       "name": "The Hunter's Horn",
@@ -12579,8 +12580,7 @@ const GW_QUESTS = {
         [0, "Purify the hunter's horn in the healing spring in Regent Valley."],
         [0, "Go to the fishing village south of the tower in Wizard's Folly and deliver the purified horn to Aidan."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Horn_des_Jägers",
-      "wiki_en": "https://web.archive.org/web/20260109123054/https://wiki.guildwars.com/wiki/The_Hunter%27s_Horn"
+      "wiki": {"en": "The Hunter's Horn", "de": "Das Horn des Jägers"}
     },
     "101274": {
       "name": "The King's Message",
@@ -12589,7 +12589,7 @@ const GW_QUESTS = {
       "xp": 100,
       "gold": 50,
       "next": [101178, 101247, 101141],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Nachricht_des_Königs"
+      "wiki": {"en": "The King's Message", "de": "Die Nachricht des Königs"}
     },
     "101275": {
       "name": "The Krytan Ambassador",
@@ -12597,7 +12597,7 @@ const GW_QUESTS = {
       "givers": [373],
       "xp": 500,
       "next": [101274],
-      "wiki": "https://www.guildwiki.de/wiki/Der_krytanische_Botschafter"
+      "wiki": {"en": "The Krytan Ambassador", "de": "Der krytanische Botschafter"}
     },
     "101276": {
       "name": "The Last Day Dawns",
@@ -12606,7 +12606,7 @@ const GW_QUESTS = {
       "xp": 20000,
       "requires": [101137],
       "next": [101307],
-      "wiki": "https://www.guildwiki.de/wiki/Der_letzte_Tag_bricht_an"
+      "wiki": {"en": "The Last Day Dawns", "de": "Der letzte Tag bricht an"}
     },
     "101277": {
       "name": "The Last Day Dawns (Hard mode)",
@@ -12617,7 +12617,7 @@ const GW_QUESTS = {
       "rewards": ["1 Gold Zaishen Coin"],
       "requires": [101138],
       "next": [101308],
-      "wiki": "https://www.guildwiki.de/wiki/Der_letzte_Tag_bricht_an_(Schwerer_Modus)"
+      "wiki": {"en": "The Last Day Dawns (Hard mode)", "de": "Der letzte Tag bricht an (Schwerer Modus)"}
     },
     "101278": {
       "name": "The Last Hog",
@@ -12625,7 +12625,7 @@ const GW_QUESTS = {
       "givers": [285],
       "xp": 500,
       "skills": [61, 157, 162, 244, 360, 447],
-      "wiki": "https://www.guildwiki.de/wiki/Das_letzte_Schwein"
+      "wiki": {"en": "The Last Hog", "de": "Das letzte Schwein"}
     },
     "101279": {
       "name": "The Lost Princess",
@@ -12633,7 +12633,7 @@ const GW_QUESTS = {
       "givers": [462],
       "xp": 500,
       "skills": [29, 103, 170, 272, 371, 464],
-      "wiki": "https://www.guildwiki.de/wiki/Die_verschollene_Prinzessin"
+      "wiki": {"en": "The Lost Princess", "de": "Die verschollene Prinzessin"}
     },
     "101280": {
       "name": "The Mantle's Guise",
@@ -12643,7 +12643,7 @@ const GW_QUESTS = {
       "gold": 500,
       "requires": [101230],
       "next": [101221],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Täuschung_des_Mantels"
+      "wiki": {"en": "The Mantle's Guise", "de": "Die Täuschung des Mantels"}
     },
     "101281": {
       "name": "The Mesmer's Path",
@@ -12651,7 +12651,7 @@ const GW_QUESTS = {
       "givers": [353],
       "xp": 1000,
       "requires_missions": [38],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_des_Mesmers"
+      "wiki": {"en": "The Mesmer's Path", "de": "Der Weg des Mesmers"}
     },
     "101282": {
       "name": "The Misplaced Sword",
@@ -12660,14 +12660,14 @@ const GW_QUESTS = {
       "xp": 1000,
       "skills": [46, 94, 188, 313, 367, 459],
       "requires": [101164],
-      "wiki": "https://www.guildwiki.de/wiki/Das_verlegte_Schwert"
+      "wiki": {"en": "The Misplaced Sword", "de": "Das verlegte Schwert"}
     },
     "101283": {
       "name": "The Missing Artisan",
       "type": "secondary",
       "givers": [381],
       "xp": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Der_verschollene_Kunsthandwerker"
+      "wiki": {"en": "The Missing Artisan", "de": "Der verschollene Kunsthandwerker"}
     },
     "101284": {
       "name": "The Monk's Path",
@@ -12675,7 +12675,7 @@ const GW_QUESTS = {
       "givers": [354],
       "xp": 1000,
       "requires": [101271],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_des_Mönchs"
+      "wiki": {"en": "The Monk's Path", "de": "Der Weg des Mönchs"}
     },
     "101285": {
       "name": "The Necromancer's Path",
@@ -12683,7 +12683,7 @@ const GW_QUESTS = {
       "givers": [355],
       "xp": 1000,
       "requires": [101271],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_des_Nekromanten"
+      "wiki": {"en": "The Necromancer's Path", "de": "Der Weg des Nekromanten"}
     },
     "101286": {
       "name": "The Orchard",
@@ -12691,8 +12691,7 @@ const GW_QUESTS = {
       "givers": [332],
       "xp": 250,
       "objectives": [[0, "Find the Basket of Apples. Take it to Mary Malone."]],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Obstgarten",
-      "wiki_en": "https://web.archive.org/web/20260908151433/https://wiki.guildwars.com/wiki/The_Orchard"
+      "wiki": {"en": "The Orchard", "de": "Der Obstgarten"}
     },
     "101287": {
       "name": "The Path to Glory",
@@ -12701,8 +12700,7 @@ const GW_QUESTS = {
       "xp": 100,
       "objectives": [[0, "Go to Ascalon City to speak to Sir Tydus."]],
       "requires": [101098],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_zum_Ruhm",
-      "wiki_en": "https://web.archive.org/web/20260625213006/https://wiki.guildwars.com/wiki/The_Path_to_Glory"
+      "wiki": {"en": "The Path to Glory", "de": "Der Weg zum Ruhm"}
     },
     "101288": {
       "name": "The Poison Devourer",
@@ -12713,8 +12711,7 @@ const GW_QUESTS = {
         [0, "Cross the river and destroy the plague devourer to get a poisonous stinger."],
         [0, "Deliver the poisonous stinger to Brother Mhenlo in Ashford Abbey."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Gift-Verschlinger",
-      "wiki_en": "https://web.archive.org/web/20260722115836/https://wiki.guildwars.com/wiki/The_Poison_Devourer"
+      "wiki": {"en": "The Poison Devourer", "de": "Der Gift-Verschlinger"}
     },
     "101289": {
       "name": "The Polar Depressed",
@@ -12722,7 +12719,7 @@ const GW_QUESTS = {
       "givers": [458],
       "event": 13,
       "rewards": ["Frozen Accessory Token"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_in_den_Schneeböen_Trübsal_blasen"
+      "wiki": {"en": "The Polar Depressed", "de": "Die in den Schneeböen Trübsal blasen"}
     },
     "101290": {
       "name": "The Power of Blood",
@@ -12736,8 +12733,7 @@ const GW_QUESTS = {
         [0, "Destroy 3...0 more Blood Fanatic(s)."],
         [0, "Return to Kasha Blackblood for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Macht_des_Blutes",
-      "wiki_en": "https://web.archive.org/web/20260908151433/https://wiki.guildwars.com/wiki/The_Power_of_Blood"
+      "wiki": {"en": "The Power of Blood", "de": "Die Macht des Blutes"}
     },
     "101291": {
       "name": "The Price of Steel",
@@ -12745,7 +12741,7 @@ const GW_QUESTS = {
       "givers": [334],
       "xp": 500,
       "skills": [81, 141, 207, 300, 352, 458],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Preis_des_Stahls"
+      "wiki": {"en": "The Price of Steel", "de": "Der Preis des Stahls"}
     },
     "101292": {
       "name": "The Prize Moa Bird",
@@ -12757,8 +12753,7 @@ const GW_QUESTS = {
         [0, "Return to Pitney for your reward."]
       ],
       "requires": [101323],
-      "wiki": "https://www.guildwiki.de/wiki/Der_preisgekrönte_Moa",
-      "wiki_en": "https://web.archive.org/web/20260630184143/https://wiki.guildwars.com/wiki/The_Prize_Moa_Bird"
+      "wiki": {"en": "The Prize Moa Bird", "de": "Der preisgekrönte Moa"}
     },
     "101293": {
       "name": "The Prize Winning Hogs",
@@ -12767,8 +12762,7 @@ const GW_QUESTS = {
       "repeatable": true,
       "gold": 25,
       "objectives": [[0, "Drive the Prize-Winning Hogs back into their pen."]],
-      "wiki": "https://www.guildwiki.de/wiki/Das_preisgekrönte_Schwein",
-      "wiki_en": "https://web.archive.org/web/20260116200107/https://wiki.guildwars.com/wiki/The_Prize_Winning_Hogs"
+      "wiki": {"en": "The Prize Winning Hogs", "de": "Das preisgekrönte Schwein"}
     },
     "101294": {
       "name": "The Ranger's Companion",
@@ -12781,22 +12775,21 @@ const GW_QUESTS = {
         [0, "Use your Charm Animal skill on one of Melandru's Stalkers when it appears."],
         [0, "Return to Master Ranger Nente for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Gefährte_des_Waldläufers",
-      "wiki_en": "https://web.archive.org/web/20260628090142/https://wiki.guildwars.com/wiki/The_Ranger%27s_Companion"
+      "wiki": {"en": "The Ranger's Companion", "de": "Der Gefährte des Waldläufers"}
     },
     "101295": {
       "name": "The Ranger's Path",
       "type": "secondary",
       "givers": [356],
       "xp": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_des_Waldläufers"
+      "wiki": {"en": "The Ranger's Path", "de": "Der Weg des Waldläufers"}
     },
     "101296": {
       "name": "The Red-Cloaked Deserter",
       "type": "secondary",
       "givers": [310],
       "xp": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Deserteur_im_roten_Umhang"
+      "wiki": {"en": "The Red-Cloaked Deserter", "de": "Der Deserteur im roten Umhang"}
     },
     "101297": {
       "name": "The Road to Borlis Pass",
@@ -12805,7 +12798,7 @@ const GW_QUESTS = {
       "xp": 500,
       "requires_missions": [32],
       "next": [101318],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_zum_Borlispass"
+      "wiki": {"en": "The Road to Borlis Pass", "de": "Der Weg zum Borlispass"}
     },
     "101298": {
       "name": "The Rogue's Replacement",
@@ -12817,8 +12810,7 @@ const GW_QUESTS = {
         [0, "Return to Old Mac for your reward."]
       ],
       "requires": [101089],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Ersatz_des_Ausreißers",
-      "wiki_en": "https://web.archive.org/web/20260422155315/https://wiki.guildwars.com/wiki/The_Rogue%27s_Replacement"
+      "wiki": {"en": "The Rogue's Replacement", "de": "Der Ersatz des Ausreißers"}
     },
     "101299": {
       "name": "The Royal Papers",
@@ -12826,7 +12818,7 @@ const GW_QUESTS = {
       "givers": [462],
       "xp": 750,
       "skills": [6, 85, 184, 251, 390, 408],
-      "wiki": "https://www.guildwiki.de/wiki/Die_königlichen_Papiere"
+      "wiki": {"en": "The Royal Papers", "de": "Die königlichen Papiere"}
     },
     "101300": {
       "name": "The Scourge Beneath",
@@ -12843,8 +12835,7 @@ const GW_QUESTS = {
         [0, "Exit the tunnels and report to Devona in Piken Square."]
       ],
       "requires": [101129],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Geißel_in_der_Tiefe",
-      "wiki_en": "https://web.archive.org/web/20260628103926/https://wiki.guildwars.com/wiki/The_Scourge_Beneath"
+      "wiki": {"en": "The Scourge Beneath", "de": "Die Geißel in der Tiefe"}
     },
     "101301": {
       "name": "The Siege of Piken Square",
@@ -12852,7 +12843,7 @@ const GW_QUESTS = {
       "givers": [198],
       "xp": 500,
       "next": [101175],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Belagerung_des_Pikenplatzes"
+      "wiki": {"en": "The Siege of Piken Square", "de": "Die Belagerung des Pikenplatzes"}
     },
     "101302": {
       "name": "The Stolen Artifact",
@@ -12861,7 +12852,7 @@ const GW_QUESTS = {
       "profession": 4,
       "xp": 200,
       "skills": [83, 105, 109, 123],
-      "wiki": "https://www.guildwiki.de/wiki/Das_gestohlene_Artefakt"
+      "wiki": {"en": "The Stolen Artifact", "de": "Das gestohlene Artefakt"}
     },
     "101303": {
       "name": "The Stone Summit Champion",
@@ -12870,7 +12861,7 @@ const GW_QUESTS = {
       "profession": 5,
       "xp": 350,
       "skills": [19, 23, 38],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Steingipfel-Champion"
+      "wiki": {"en": "The Stone Summit Champion", "de": "Der Steingipfel-Champion"}
     },
     "101304": {
       "name": "The Strength of Snow",
@@ -12880,7 +12871,7 @@ const GW_QUESTS = {
       "repeatable": true,
       "xp": 1000,
       "rewards": ["5 Candy Cane Shards", "5 Wintersday Gifts"],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Stärke_des_Schnees"
+      "wiki": {"en": "The Strength of Snow", "de": "Die Stärke des Schnees"}
     },
     "101305": {
       "name": "The Supremacy of Air",
@@ -12891,8 +12882,7 @@ const GW_QUESTS = {
         [0, "Follow the road up to the wizard's tower. Destroy the Tower Golem."],
         [0, "See Elementalist Aziure for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Überlegenheit_der_Luft",
-      "wiki_en": "https://web.archive.org/web/20260621193534/https://wiki.guildwars.com/wiki/The_Supremacy_of_Air"
+      "wiki": {"en": "The Supremacy of Air", "de": "Die Überlegenheit der Luft"}
     },
     "101306": {
       "name": "The Tarnished Emblem",
@@ -12902,7 +12892,7 @@ const GW_QUESTS = {
       "gold": 500,
       "requires": [101116],
       "next": [101106],
-      "wiki": "https://www.guildwiki.de/wiki/Das_verrostete_Abzeichen"
+      "wiki": {"en": "The Tarnished Emblem", "de": "Das verrostete Abzeichen"}
     },
     "101307": {
       "name": "The Titan Source",
@@ -12911,7 +12901,7 @@ const GW_QUESTS = {
       "xp": 50000,
       "requires": [101276, 101139, 101135],
       "next": [101138],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Ursprung_der_Titanen"
+      "wiki": {"en": "The Titan Source", "de": "Der Ursprung der Titanen"}
     },
     "101308": {
       "name": "The Titan Source (Hard mode)",
@@ -12921,7 +12911,7 @@ const GW_QUESTS = {
       "gold": 10000,
       "rewards": ["1 Gold Zaishen Coin"],
       "requires": [101277, 101140, 101136],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Ursprung_der_Titanen_(Schwerer_Modus)"
+      "wiki": {"en": "The Titan Source (Hard mode)", "de": "Der Ursprung der Titanen (Schwerer Modus)"}
     },
     "101309": {
       "name": "The Troublesome Artifact",
@@ -12929,7 +12919,7 @@ const GW_QUESTS = {
       "givers": [287],
       "xp": 500,
       "gold": 100,
-      "wiki": "https://www.guildwiki.de/wiki/Das_lästige_Artefakt"
+      "wiki": {"en": "The Troublesome Artifact", "de": "Das lästige Artefakt"}
     },
     "101310": {
       "name": "The True King",
@@ -12943,8 +12933,7 @@ const GW_QUESTS = {
         ]
       ],
       "requires": [101330],
-      "wiki": "https://www.guildwiki.de/wiki/Der_wahre_König",
-      "wiki_en": "https://web.archive.org/web/20260628101528/https://wiki.guildwars.com/wiki/The_True_King"
+      "wiki": {"en": "The True King", "de": "Der wahre König"}
     },
     "101311": {
       "name": "The Undead Hordes",
@@ -12952,7 +12941,7 @@ const GW_QUESTS = {
       "givers": [406],
       "xp": 500,
       "skills": [21, 154, 208, 309, 327, 468],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Horden_der_Untoten"
+      "wiki": {"en": "The Undead Hordes", "de": "Die Horden der Untoten"}
     },
     "101312": {
       "name": "The Villainy of Galrath",
@@ -12960,7 +12949,7 @@ const GW_QUESTS = {
       "givers": [113],
       "xp": 4000,
       "next": [101313],
-      "wiki": "https://www.guildwiki.de/wiki/Galraths_Abscheulichkeit"
+      "wiki": {"en": "The Villainy of Galrath", "de": "Galraths Abscheulichkeit"}
     },
     "101313": {
       "name": "The Villainy of Galrath (Hard mode)",
@@ -12969,7 +12958,7 @@ const GW_QUESTS = {
       "xp": 30000,
       "gold": 5000,
       "requires": [101312],
-      "wiki": "https://www.guildwiki.de/wiki/Galraths_Abscheulichkeit_(Schwerer_Modus)"
+      "wiki": {"en": "The Villainy of Galrath (Hard mode)", "de": "Galraths Abscheulichkeit (Schwerer Modus)"}
     },
     "101314": {
       "name": "The Vineyard Problem",
@@ -12983,8 +12972,7 @@ const GW_QUESTS = {
         [0, "Kill 4...0 more large aloe seeds."],
         [0, "Return to Little Thom for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Weinberg-Problem",
-      "wiki_en": "https://web.archive.org/web/20260625151559/https://wiki.guildwars.com/wiki/The_Vineyard_Problem"
+      "wiki": {"en": "The Vineyard Problem", "de": "Das Weinberg-Problem"}
     },
     "101315": {
       "name": "The Waiting Game",
@@ -13000,20 +12988,20 @@ const GW_QUESTS = {
         "Passage Scroll to the Underworld"
       ],
       "requires": [101235],
-      "wiki": "https://www.guildwiki.de/wiki/Warten_wir_ab"
+      "wiki": {"en": "The Waiting Game", "de": "Warten wir ab"}
     },
     "101316": {
       "name": "The War in Kryta",
       "type": "primary",
       "givers": [325],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Krieg_in_Kryta"
+      "wiki": {"en": "The War in Kryta", "de": "Der Krieg in Kryta"}
     },
     "101317": {
       "name": "The Warrior's Path",
       "type": "secondary",
       "givers": [352],
       "xp": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_des_Kriegers"
+      "wiki": {"en": "The Warrior's Path", "de": "Der Weg des Kriegers"}
     },
     "101318": {
       "name": "The Way is Blocked",
@@ -13023,7 +13011,7 @@ const GW_QUESTS = {
       "requires": [101297],
       "next_missions": [25],
       "missions": [25],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_ist_versperrt"
+      "wiki": {"en": "The Way is Blocked", "de": "Der Weg ist versperrt"}
     },
     "101319": {
       "name": "The Way of the Geomancer",
@@ -13032,7 +13020,7 @@ const GW_QUESTS = {
       "profession": 6,
       "xp": 500,
       "next": [101267],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weg_des_Geomanten"
+      "wiki": {"en": "The Way of the Geomancer", "de": "Der Weg des Geomanten"}
     },
     "101320": {
       "name": "The Wayward Monk",
@@ -13041,7 +13029,7 @@ const GW_QUESTS = {
       "profession": 3,
       "xp": 350,
       "skills": [254, 264, 284],
-      "wiki": "https://www.guildwiki.de/wiki/Der_eigensinnige_Mönch"
+      "wiki": {"en": "The Wayward Monk", "de": "Der eigensinnige Mönch"}
     },
     "101321": {
       "name": "The Wayward Wizard",
@@ -13053,8 +13041,7 @@ const GW_QUESTS = {
         [0, "Find Orion in Wizard's Folly and convince him to come home."],
         [0, "Return to Sandre Elek for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Der_unberechenbare_Zauberer",
-      "wiki_en": "https://web.archive.org/web/20260621193534/https://wiki.guildwars.com/wiki/The_Wayward_Wizard"
+      "wiki": {"en": "The Wayward Wizard", "de": "Der unberechenbare Zauberer"}
     },
     "101322": {
       "name": "The Weaver of Nebo",
@@ -13062,7 +13049,7 @@ const GW_QUESTS = {
       "givers": [349],
       "xp": 500,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Der_Weber_von_Nebo"
+      "wiki": {"en": "The Weaver of Nebo", "de": "Der Weber von Nebo"}
     },
     "101323": {
       "name": "The Worm Problem",
@@ -13076,8 +13063,7 @@ const GW_QUESTS = {
         [0, "Return to Pitney for your reward."]
       ],
       "next": [101292],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Wurmproblem",
-      "wiki_en": "https://web.archive.org/web/20260621182021/https://wiki.guildwars.com/wiki/The_Worm_Problem"
+      "wiki": {"en": "The Worm Problem", "de": "Das Wurmproblem"}
     },
     "101324": {
       "name": "Tithe for Ashford Abbey",
@@ -13093,8 +13079,7 @@ const GW_QUESTS = {
         [0, "Deliver Barradin's Tithe to Devona."]
       ],
       "requires": [101335],
-      "wiki": "https://www.guildwiki.de/wiki/Zehnt_für_die_Abtei_von_Aschfurt",
-      "wiki_en": "https://web.archive.org/web/20260613160229/https://wiki.guildwars.com/wiki/Tithe_for_Ashford_Abbey"
+      "wiki": {"en": "Tithe for Ashford Abbey", "de": "Zehnt für die Abtei von Aschfurt"}
     },
     "101325": {
       "name": "To Kryta: Journey's End",
@@ -13104,7 +13089,7 @@ const GW_QUESTS = {
       "requires": [101327],
       "next_missions": [14],
       "missions": [14],
-      "wiki": "https://www.guildwiki.de/wiki/Nach_Kryta:_Ende_einer_Reise"
+      "wiki": {"en": "To Kryta: Journey's End", "de": "Nach Kryta: Ende einer Reise"}
     },
     "101326": {
       "name": "To Kryta: Refugees",
@@ -13112,7 +13097,7 @@ const GW_QUESTS = {
       "givers": [391],
       "xp": 500,
       "next": [101327],
-      "wiki": "https://www.guildwiki.de/wiki/Nach_Kryta:_Flüchtlinge"
+      "wiki": {"en": "To Kryta: Refugees", "de": "Nach Kryta: Flüchtlinge"}
     },
     "101327": {
       "name": "To Kryta: The Ice Cave",
@@ -13121,7 +13106,7 @@ const GW_QUESTS = {
       "xp": 500,
       "requires": [101326],
       "next": [101325],
-      "wiki": "https://www.guildwiki.de/wiki/Nach_Kryta:_Die_Eishöhle"
+      "wiki": {"en": "To Kryta: The Ice Cave", "de": "Nach Kryta: Die Eishöhle"}
     },
     "101328": {
       "name": "To Sorrow's Furnace",
@@ -13130,7 +13115,7 @@ const GW_QUESTS = {
       "xp": 10000,
       "gold": 750,
       "next": [101264],
-      "wiki": "https://www.guildwiki.de/wiki/Zum_Hochofen_der_Betrübnis"
+      "wiki": {"en": "To Sorrow's Furnace", "de": "Zum Hochofen der Betrübnis"}
     },
     "101329": {
       "name": "Toward the Front Lines",
@@ -13138,7 +13123,7 @@ const GW_QUESTS = {
       "givers": [262],
       "xp": 500,
       "gold": 200,
-      "wiki": "https://www.guildwiki.de/wiki/Nach_vorn_zur_Front"
+      "wiki": {"en": "Toward the Front Lines", "de": "Nach vorn zur Front"}
     },
     "101330": {
       "name": "Trouble in the Woods",
@@ -13150,8 +13135,7 @@ const GW_QUESTS = {
         [0, "Go with Devona and destroy the Grawl threatening Ashford."]
       ],
       "next": [101128, 101310],
-      "wiki": "https://www.guildwiki.de/wiki/Ärger_im_Wald",
-      "wiki_en": "https://web.archive.org/web/20260621164023/https://wiki.guildwars.com/wiki/Trouble_in_the_Woods"
+      "wiki": {"en": "Trouble in the Woods", "de": "Ärger im Wald"}
     },
     "101331": {
       "name": "Trying Times",
@@ -13161,7 +13145,7 @@ const GW_QUESTS = {
       "xp": 300,
       "skills": [7, 77],
       "next": [101084],
-      "wiki": "https://www.guildwiki.de/wiki/Schwierige_Zeiten"
+      "wiki": {"en": "Trying Times", "de": "Schwierige Zeiten"}
     },
     "101332": {
       "name": "Unnatural Creatures",
@@ -13171,7 +13155,7 @@ const GW_QUESTS = {
       "xp": 250,
       "skills": [30],
       "next": [101155],
-      "wiki": "https://www.guildwiki.de/wiki/Unnatürliche_Kreaturen"
+      "wiki": {"en": "Unnatural Creatures", "de": "Unnatürliche Kreaturen"}
     },
     "101333": {
       "name": "Unnatural Growths",
@@ -13184,8 +13168,7 @@ const GW_QUESTS = {
         [0, "Go to the falls to the west. Destroy the aloe husks until you find an aloe root."],
         [0, "Take the aloe root back to Aidan."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Abnormale_Gewächse",
-      "wiki_en": "https://web.archive.org/web/20260630184143/https://wiki.guildwars.com/wiki/Unnatural_Growths"
+      "wiki": {"en": "Unnatural Growths", "de": "Abnormale Gewächse"}
     },
     "101334": {
       "name": "Unruly Slaves",
@@ -13193,7 +13176,7 @@ const GW_QUESTS = {
       "givers": [555],
       "xp": 1500,
       "requires": [101239],
-      "wiki": "https://www.guildwiki.de/wiki/Widerspenstige_Sklaven"
+      "wiki": {"en": "Unruly Slaves", "de": "Widerspenstige Sklaven"}
     },
     "101335": {
       "name": "Unsettling Rumors",
@@ -13206,8 +13189,7 @@ const GW_QUESTS = {
       ],
       "requires": [101166],
       "next": [101098],
-      "wiki": "https://www.guildwiki.de/wiki/Beunruhigende_Gerüchte",
-      "wiki_en": "https://web.archive.org/web/20260211124228/https://wiki.guildwars.com/wiki/Unsettling_Rumors"
+      "wiki": {"en": "Unsettling Rumors", "de": "Beunruhigende Gerüchte"}
     },
     "101336": {
       "name": "Unspeakable, Unknowable",
@@ -13215,7 +13197,7 @@ const GW_QUESTS = {
       "givers": [759],
       "xp": 8000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Unsäglich,_unverständlich"
+      "wiki": {"en": "Unspeakable, Unknowable", "de": "Unsäglich, unverständlich"}
     },
     "101337": {
       "name": "Urgent Warning",
@@ -13224,7 +13206,7 @@ const GW_QUESTS = {
       "xp": 500,
       "requires": [101382],
       "missions": [12],
-      "wiki": "https://www.guildwiki.de/wiki/Dringende_Warnung"
+      "wiki": {"en": "Urgent Warning", "de": "Dringende Warnung"}
     },
     "101338": {
       "name": "Vanguard Annihilation: Bandits",
@@ -13236,8 +13218,7 @@ const GW_QUESTS = {
         [0, "Find and kill the Bandit Ringleaders inside Regent Valley. [6...0] remain."],
         [0, "See Lieutenant Langmar for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Vorhut-Vernichtung:_Banditen",
-      "wiki_en": "https://web.archive.org/web/20260606123639/https://wiki.guildwars.com/wiki/Vanguard_Annihilation:_Bandits"
+      "wiki": {"en": "Vanguard Annihilation: Bandits", "de": "Vorhut-Vernichtung: Banditen"}
     },
     "101339": {
       "name": "Vanguard Annihilation: Charr",
@@ -13249,8 +13230,7 @@ const GW_QUESTS = {
         [0, "Find and kill the Charr Champions inside the Northlands. [6...0] remain."],
         [0, "See Lieutenant Langmar for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Vorhut-Vernichtung:_Charr",
-      "wiki_en": "https://web.archive.org/web/20260803140400/https://wiki.guildwars.com/wiki/Vanguard_Annihilation:_Charr"
+      "wiki": {"en": "Vanguard Annihilation: Charr", "de": "Vorhut-Vernichtung: Charr"}
     },
     "101340": {
       "name": "Vanguard Annihilation: Undead",
@@ -13262,8 +13242,7 @@ const GW_QUESTS = {
         [0, "Find and kill the Undead Necromancers inside the Catacombs. [6...0] remain."],
         [0, "See Lieutenant Langmar for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Vorhut-Vernichtung:_Untote",
-      "wiki_en": "https://web.archive.org/web/20261001193953/https://wiki.guildwars.com/wiki/Vanguard_Annihilation:_Undead"
+      "wiki": {"en": "Vanguard Annihilation: Undead", "de": "Vorhut-Vernichtung: Untote"}
     },
     "101341": {
       "name": "Vanguard Bounty: Blazefiend Griefblade",
@@ -13275,8 +13254,7 @@ const GW_QUESTS = {
         [0, "Find and kill Blazefiend Griefblade inside the Northlands."],
         [0, "See Lieutenant Langmar for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Vorhut-Kopfgeld:_Lohteufel_Leidklinge",
-      "wiki_en": "https://web.archive.org/web/20260725185035/https://wiki.guildwars.com/wiki/Vanguard_Bounty:_Blazefiend_Griefblade"
+      "wiki": {"en": "Vanguard Bounty: Blazefiend Griefblade", "de": "Vorhut-Kopfgeld: Lohteufel Leidklinge"}
     },
     "101342": {
       "name": "Vanguard Bounty: Countess Nadya",
@@ -13288,8 +13266,7 @@ const GW_QUESTS = {
         [0, "Find and kill Countess Nadya inside the Regent Valley."],
         [0, "See Lieutenant Langmar for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Vorhut-Kopfgeld:_Gräfin_Nadya",
-      "wiki_en": "https://web.archive.org/web/20260803140411/https://wiki.guildwars.com/wiki/Vanguard_Bounty:_Countess_Nadya"
+      "wiki": {"en": "Vanguard Bounty: Countess Nadya", "de": "Vorhut-Kopfgeld: Gräfin Nadya"}
     },
     "101343": {
       "name": "Vanguard Bounty: Utini Wupwup",
@@ -13301,8 +13278,7 @@ const GW_QUESTS = {
         [0, "Find and kill Utini Wupwup inside of Green Hills County."],
         [0, "See Lieutenant Langmar for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Vorhut-Kopfgeld:_Utini_Wupwup",
-      "wiki_en": "https://web.archive.org/web/20260730152310/https://wiki.guildwars.com/wiki/Vanguard_Bounty:_Utini_Wupwup"
+      "wiki": {"en": "Vanguard Bounty: Utini Wupwup", "de": "Vorhut-Kopfgeld: Utini Wupwup"}
     },
     "101344": {
       "name": "Vanguard Equipment",
@@ -13310,7 +13286,7 @@ const GW_QUESTS = {
       "givers": [231],
       "xp": 500,
       "requires": [101141],
-      "wiki": "https://www.guildwiki.de/wiki/Vorhut-Ausrüstung"
+      "wiki": {"en": "Vanguard Equipment", "de": "Vorhut-Ausrüstung"}
     },
     "101345": {
       "name": "Vanguard Rescue: Farmer Hamnet",
@@ -13322,8 +13298,7 @@ const GW_QUESTS = {
         [0, "Find and rescue Farmer Hamnet, who is lost in Wizard's Folly."],
         [0, "See Lieutenant Langmar for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Vorhut-Rettung:_Bauer_Hamnet",
-      "wiki_en": "https://web.archive.org/web/20260730141157/https://wiki.guildwars.com/wiki/Vanguard_Rescue:_Farmer_Hamnet"
+      "wiki": {"en": "Vanguard Rescue: Farmer Hamnet", "de": "Vorhut-Rettung: Bauer Hamnet"}
     },
     "101346": {
       "name": "Vanguard Rescue: Footman Tate",
@@ -13335,8 +13310,7 @@ const GW_QUESTS = {
         [0, "Rescue Footman Tate, who is trapped behind enemy lines in the Northlands."],
         [0, "See Lieutenant Langmar for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Vorhut-Rettung:_Fußsoldat_Tate",
-      "wiki_en": "https://web.archive.org/web/20260824160208/https://wiki.guildwars.com/wiki/Vanguard_Rescue:_Footman_Tate"
+      "wiki": {"en": "Vanguard Rescue: Footman Tate", "de": "Vorhut-Rettung: Fußsoldat Tate"}
     },
     "101347": {
       "name": "Vanguard Rescue: Save the Ascalonian Noble",
@@ -13348,8 +13322,7 @@ const GW_QUESTS = {
         [0, "Find Duke Gaban and escort him out of the Catacombs."],
         [0, "See Lieutenant Langmar for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Vorhut-Rettung:_Der_ascalonische_Adlige",
-      "wiki_en": "https://web.archive.org/web/20260730152310/https://wiki.guildwars.com/wiki/Vanguard_Rescue:_Save_the_Ascalonian_Noble"
+      "wiki": {"en": "Vanguard Rescue: Save the Ascalonian Noble", "de": "Vorhut-Rettung: Der ascalonische Adlige"}
     },
     "101348": {
       "name": "Wanted: Amalek the Unmerciful",
@@ -13357,7 +13330,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 3000,
       "gold": 750,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Amalek_der_Gnadenlose"
+      "wiki": {"en": "Wanted: Amalek the Unmerciful", "de": "Gesucht: Amalek der Gnadenlose"}
     },
     "101349": {
       "name": "Wanted: Barthimus the Provident",
@@ -13365,7 +13338,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 3000,
       "gold": 750,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Barthimus_der_Fürsorgliche"
+      "wiki": {"en": "Wanted: Barthimus the Provident", "de": "Gesucht: Barthimus der Fürsorgliche"}
     },
     "101350": {
       "name": "Wanted: Calamitous",
@@ -13373,7 +13346,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 3000,
       "gold": 750,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Calamitous"
+      "wiki": {"en": "Wanted: Calamitous", "de": "Gesucht: Calamitous"}
     },
     "101351": {
       "name": "Wanted: Carnak the Hungry",
@@ -13381,7 +13354,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 2000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Carnak_der_Hungernde"
+      "wiki": {"en": "Wanted: Carnak the Hungry", "de": "Gesucht: Carnak der Hungernde"}
     },
     "101352": {
       "name": "Wanted: Cerris",
@@ -13389,7 +13362,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 3000,
       "gold": 750,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Cerris"
+      "wiki": {"en": "Wanted: Cerris", "de": "Gesucht: Cerris"}
     },
     "101353": {
       "name": "Wanted: Destor the Truth Seeker",
@@ -13397,7 +13370,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 3000,
       "gold": 750,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Destor_der_Wahrheitssuchende"
+      "wiki": {"en": "Wanted: Destor the Truth Seeker", "de": "Gesucht: Destor der Wahrheitssuchende"}
     },
     "101354": {
       "name": "Wanted: Greves the Overbearing",
@@ -13405,7 +13378,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 2000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Greves_der_Anmaßende"
+      "wiki": {"en": "Wanted: Greves the Overbearing", "de": "Gesucht: Greves der Anmaßende"}
     },
     "101355": {
       "name": "Wanted: Inquisitor Bauer",
@@ -13413,7 +13386,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Inquisitor_Bauer"
+      "wiki": {"en": "Wanted: Inquisitor Bauer", "de": "Gesucht: Inquisitor Bauer"}
     },
     "101356": {
       "name": "Wanted: Inquisitor Lashona",
@@ -13421,7 +13394,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Inquisitor_Lashona"
+      "wiki": {"en": "Wanted: Inquisitor Lashona", "de": "Gesucht: Inquisitor Lashona"}
     },
     "101357": {
       "name": "Wanted: Inquisitor Lovisa",
@@ -13429,7 +13402,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Inquisitorin_Lovisa"
+      "wiki": {"en": "Wanted: Inquisitor Lovisa", "de": "Gesucht: Inquisitorin Lovisa"}
     },
     "101358": {
       "name": "Wanted: Insatiable Vakar",
@@ -13437,7 +13410,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 2000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Vakar_der_Unersättliche"
+      "wiki": {"en": "Wanted: Insatiable Vakar", "de": "Gesucht: Vakar der Unersättliche"}
     },
     "101359": {
       "name": "Wanted: Joh the Hostile",
@@ -13445,7 +13418,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 1000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Joh_der_Feindselige"
+      "wiki": {"en": "Wanted: Joh the Hostile", "de": "Gesucht: Joh der Feindselige"}
     },
     "101360": {
       "name": "Wanted: Justiciar Amilyn",
@@ -13453,7 +13426,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 3000,
       "gold": 750,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Justiziarin_Amilyn"
+      "wiki": {"en": "Wanted: Justiciar Amilyn", "de": "Gesucht: Justiziarin Amilyn"}
     },
     "101361": {
       "name": "Wanted: Justiciar Kasandra",
@@ -13461,7 +13434,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Justiziarin_Kasandra"
+      "wiki": {"en": "Wanted: Justiciar Kasandra", "de": "Gesucht: Justiziarin Kasandra"}
     },
     "101362": {
       "name": "Wanted: Justiciar Kimii",
@@ -13469,7 +13442,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Justiziarin_Kimii"
+      "wiki": {"en": "Wanted: Justiciar Kimii", "de": "Gesucht: Justiziarin Kimii"}
     },
     "101363": {
       "name": "Wanted: Justiciar Marron",
@@ -13477,7 +13450,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 3000,
       "gold": 750,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Justiziar_Marron"
+      "wiki": {"en": "Wanted: Justiciar Marron", "de": "Gesucht: Justiziar Marron"}
     },
     "101364": {
       "name": "Wanted: Justiciar Sevaan",
@@ -13485,7 +13458,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 5000,
       "gold": 1000,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Justiziar_Sevaan"
+      "wiki": {"en": "Wanted: Justiciar Sevaan", "de": "Gesucht: Justiziar Sevaan"}
     },
     "101365": {
       "name": "Wanted: Lev the Condemned",
@@ -13493,7 +13466,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 2000,
       "gold": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Lev_die_Verdammte"
+      "wiki": {"en": "Wanted: Lev the Condemned", "de": "Gesucht: Lev die Verdammte"}
     },
     "101366": {
       "name": "Wanted: Maximilian the Meticulous",
@@ -13501,7 +13474,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 1000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Maximilian_der_Pingelige"
+      "wiki": {"en": "Wanted: Maximilian the Meticulous", "de": "Gesucht: Maximilian der Pingelige"}
     },
     "101367": {
       "name": "Wanted: Sarnia the Red-Handed",
@@ -13509,7 +13482,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 1000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Sarnia_die_Rothändige"
+      "wiki": {"en": "Wanted: Sarnia the Red-Handed", "de": "Gesucht: Sarnia die Rothändige"}
     },
     "101368": {
       "name": "Wanted: Selenas the Blunt",
@@ -13517,7 +13490,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 1000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Selenas_die_Unverblümte"
+      "wiki": {"en": "Wanted: Selenas the Blunt", "de": "Gesucht: Selenas die Unverblümte"}
     },
     "101369": {
       "name": "Wanted: Valis the Rampant",
@@ -13525,7 +13498,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 1000,
       "gold": 250,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Valis_der_Ungezügelte"
+      "wiki": {"en": "Wanted: Valis the Rampant", "de": "Gesucht: Valis der Ungezügelte"}
     },
     "101370": {
       "name": "Wanted: Vess the Disputant",
@@ -13533,7 +13506,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 3000,
       "gold": 750,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Vess_die_Streitsüchtige"
+      "wiki": {"en": "Wanted: Vess the Disputant", "de": "Gesucht: Vess die Streitsüchtige"}
     },
     "101371": {
       "name": "Wanted: Zaln the Jaded",
@@ -13541,7 +13514,7 @@ const GW_QUESTS = {
       "givers": [582],
       "xp": 3000,
       "gold": 750,
-      "wiki": "https://www.guildwiki.de/wiki/Gesucht:_Zaln_der_Erschöpfte"
+      "wiki": {"en": "Wanted: Zaln the Jaded", "de": "Gesucht: Zaln der Erschöpfte"}
     },
     "101372": {
       "name": "War Preparations",
@@ -13550,8 +13523,7 @@ const GW_QUESTS = {
       "profession": 6,
       "xp": 250,
       "objectives": [[0, "Go out the gate to Lakeside County and talk to <Trainer>."]],
-      "wiki": "https://www.guildwiki.de/wiki/Kriegsvorbereitungen_(Elementarmagier)",
-      "wiki_en": "https://web.archive.org/web/20260628091728/https://wiki.guildwars.com/wiki/War_Preparations"
+      "wiki": {"en": "War Preparations", "de": "Kriegsvorbereitungen (Elementarmagier)"}
     },
     "101373": {
       "name": "War Preparations",
@@ -13560,8 +13532,7 @@ const GW_QUESTS = {
       "profession": 1,
       "xp": 250,
       "objectives": [[0, "Go out the gate to Lakeside County and talk to <Trainer>."]],
-      "wiki": "https://www.guildwiki.de/wiki/Kriegsvorbereitungen_(Krieger)",
-      "wiki_en": "https://web.archive.org/web/20260628091728/https://wiki.guildwars.com/wiki/War_Preparations"
+      "wiki": {"en": "War Preparations", "de": "Kriegsvorbereitungen (Krieger)"}
     },
     "101374": {
       "name": "War Preparations",
@@ -13570,8 +13541,7 @@ const GW_QUESTS = {
       "profession": 5,
       "xp": 250,
       "objectives": [[0, "Go out the gate to Lakeside County and talk to <Trainer>."]],
-      "wiki": "https://www.guildwiki.de/wiki/Kriegsvorbereitungen_(Mesmer)",
-      "wiki_en": "https://web.archive.org/web/20260628091728/https://wiki.guildwars.com/wiki/War_Preparations"
+      "wiki": {"en": "War Preparations", "de": "Kriegsvorbereitungen (Mesmer)"}
     },
     "101375": {
       "name": "War Preparations",
@@ -13580,8 +13550,7 @@ const GW_QUESTS = {
       "profession": 3,
       "xp": 250,
       "objectives": [[0, "Go out the gate to Lakeside County and talk to <Trainer>."]],
-      "wiki": "https://www.guildwiki.de/wiki/Kriegsvorbereitungen_(Mönch)",
-      "wiki_en": "https://web.archive.org/web/20260628091728/https://wiki.guildwars.com/wiki/War_Preparations"
+      "wiki": {"en": "War Preparations", "de": "Kriegsvorbereitungen (Mönch)"}
     },
     "101376": {
       "name": "War Preparations",
@@ -13590,8 +13559,7 @@ const GW_QUESTS = {
       "profession": 4,
       "xp": 250,
       "objectives": [[0, "Go out the gate to Lakeside County and talk to <Trainer>."]],
-      "wiki": "https://www.guildwiki.de/wiki/Kriegsvorbereitungen_(Nekromant)",
-      "wiki_en": "https://web.archive.org/web/20260628091728/https://wiki.guildwars.com/wiki/War_Preparations"
+      "wiki": {"en": "War Preparations", "de": "Kriegsvorbereitungen (Nekromant)"}
     },
     "101377": {
       "name": "War Preparations",
@@ -13600,8 +13568,7 @@ const GW_QUESTS = {
       "profession": 2,
       "xp": 250,
       "objectives": [[0, "Go out the gate to Lakeside County and talk to <Trainer>."]],
-      "wiki": "https://www.guildwiki.de/wiki/Kriegsvorbereitungen_(Waldläufer)",
-      "wiki_en": "https://web.archive.org/web/20260628091728/https://wiki.guildwars.com/wiki/War_Preparations"
+      "wiki": {"en": "War Preparations", "de": "Kriegsvorbereitungen (Waldläufer)"}
     },
     "101378": {
       "name": "Warrior Test",
@@ -13615,8 +13582,7 @@ const GW_QUESTS = {
         [0, "Return to Van the Warrior for your reward."]
       ],
       "next": [101166],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Prüfung_des_Kriegers",
-      "wiki_en": "https://web.archive.org/web/20260507162011/https://wiki.guildwars.com/wiki/Warrior_Test"
+      "wiki": {"en": "Warrior Test", "de": "Die Prüfung des Kriegers"}
     },
     "101379": {
       "name": "Warrior's Challenge",
@@ -13628,8 +13594,7 @@ const GW_QUESTS = {
         [0, "Go to Green Hills County and defeat Agnar the Foot. (Use Hammer Bash to interrupt his Rage skill.)"],
         [0, "Return to Duke Barradin for your reward."]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Herausforderung_des_Kriegers",
-      "wiki_en": "https://web.archive.org/web/20260621193534/https://wiki.guildwars.com/wiki/Warrior%27s_Challenge"
+      "wiki": {"en": "Warrior's Challenge", "de": "Herausforderung des Kriegers"}
     },
     "101380": {
       "name": "Wayfarer's Reverie: Tyria",
@@ -13639,7 +13604,7 @@ const GW_QUESTS = {
       "xp": 2005,
       "gold": 2012,
       "rewards": ["Proof of Flames"],
-      "wiki": "https://www.guildwiki.de/wiki/Erinnerung_des_Reisenden:_Tyria"
+      "wiki": {"en": "Wayfarer's Reverie: Tyria", "de": "Erinnerung des Reisenden: Tyria"}
     },
     "101381": {
       "name": "What Lies Beneath",
@@ -13648,7 +13613,7 @@ const GW_QUESTS = {
       "travel": 4,
       "xp": 2500,
       "next": [100424],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Tiefen"
+      "wiki": {"en": "What Lies Beneath", "de": "Die Tiefen"}
     },
     "101382": {
       "name": "White Mantle Wrath: A Helping Hand",
@@ -13657,7 +13622,7 @@ const GW_QUESTS = {
       "xp": 500,
       "requires": [101383],
       "next": [101337],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Zorn_des_Weißen_Mantels:_Unterstützung"
+      "wiki": {"en": "White Mantle Wrath: A Helping Hand", "de": "Der Zorn des Weißen Mantels: Unterstützung"}
     },
     "101383": {
       "name": "White Mantle Wrath: Demagogue's Vanguard",
@@ -13666,14 +13631,17 @@ const GW_QUESTS = {
       "xp": 500,
       "requires_missions": [10],
       "next": [101382],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Zorn_des_Weißen_Mantels:_die_Vorhut_des_Demagogen"
+      "wiki": {
+        "en": "White Mantle Wrath: Demagogue's Vanguard",
+        "de": "Der Zorn des Weißen Mantels: die Vorhut des Demagogen"
+      }
     },
     "101384": {
       "name": "Wisdom of the Druids",
       "type": "secondary",
       "givers": [782],
       "xp": 500,
-      "wiki": "https://www.guildwiki.de/wiki/Weisheit_der_Druiden"
+      "wiki": {"en": "Wisdom of the Druids", "de": "Weisheit der Druiden"}
     },
     "101385": {
       "name": "Wrenches In The Gears",
@@ -13681,7 +13649,7 @@ const GW_QUESTS = {
       "givers": [555],
       "xp": 1500,
       "requires": [101239],
-      "wiki": "https://www.guildwiki.de/wiki/Sand_im_Getriebe"
+      "wiki": {"en": "Wrenches In The Gears", "de": "Sand im Getriebe"}
     },
     "101386": {
       "name": "You're a Mean One, Mr. Grenth",
@@ -13691,7 +13659,7 @@ const GW_QUESTS = {
       "repeatable": true,
       "xp": 1000,
       "rewards": ["5 Candy Cane Shards", "5 Wintersday Gifts"],
-      "wiki": "https://www.guildwiki.de/wiki/Ihr_seid_gemein,_Herr_Grenth"
+      "wiki": {"en": "You're a Mean One, Mr. Grenth", "de": "Ihr seid gemein, Herr Grenth"}
     }
   },
   "storylines_": "Each campaign's story flow: nodes ({mission} or {quest}, with the English wiki's rank; kind \"attribute\" for an attribute quest) and edges [from, to, inferred?]. Eye of the North instead has parts, one per storyline, of steps in rows.",

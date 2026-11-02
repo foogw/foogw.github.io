@@ -1,5 +1,5 @@
 const GW_TITLES = {
-  "titles_": "Keys are the game's title ids.",
+  "titles_": "Keys are the game's title ids. wiki: its page on each wiki, {en, de} (as locations).",
   "titles": {
     "5": {
       "name": "Kurzick / Luxon",
@@ -23,7 +23,7 @@ const GW_TITLES = {
         {"rank": 12, "points": 10000000, "values": [], "unlocks": []}
       ],
       "campaign": 2,
-      "wiki": "https://www.guildwiki.de/wiki/Bündnisbelohnungspunkte-Übertragung",
+      "wiki": {"en": "Allegiance rank", "de": "Bündnisbelohnungspunkte-Übertragung"},
       "also": 6
     },
     "15": {
@@ -41,7 +41,7 @@ const GW_TITLES = {
         {"rank": 6, "points": 2500000, "values": [12], "unlocks": []}
       ],
       "campaign": 0,
-      "wiki": "https://www.guildwiki.de/wiki/Titel_Glückspilz"
+      "wiki": {"en": "Lucky and Unlucky", "de": "Titel Glückspilz"}
     },
     "17": {
       "name": "Sunspear",
@@ -62,7 +62,7 @@ const GW_TITLES = {
         {"rank": 10, "points": 50000, "values": [], "unlocks": []}
       ],
       "campaign": 3,
-      "wiki": "https://www.guildwiki.de/wiki/Sonnenspeertitel"
+      "wiki": {"en": "Sunspear rank", "de": "Sonnenspeertitel"}
     },
     "20": {
       "name": "Lightbringer",
@@ -84,7 +84,7 @@ const GW_TITLES = {
       ],
       "campaign": 3,
       "giver": 830,
-      "wiki": "https://www.guildwiki.de/wiki/Lichtbringertitel"
+      "wiki": {"en": "Lightbringer rank", "de": "Lichtbringertitel"}
     },
     "38": {
       "name": "Asura",
@@ -108,7 +108,7 @@ const GW_TITLES = {
       ],
       "campaign": 4,
       "giver": 805,
-      "wiki": "https://www.guildwiki.de/wiki/Asuratitel"
+      "wiki": {"en": "Asura rank", "de": "Asuratitel"}
     },
     "39": {
       "name": "Deldrimor",
@@ -132,7 +132,7 @@ const GW_TITLES = {
       ],
       "campaign": 4,
       "giver": 803,
-      "wiki": "https://www.guildwiki.de/wiki/Deldrimortitel"
+      "wiki": {"en": "Deldrimor rank", "de": "Deldrimortitel"}
     },
     "40": {
       "name": "Ebon Vanguard",
@@ -156,7 +156,7 @@ const GW_TITLES = {
       ],
       "campaign": 4,
       "giver": 802,
-      "wiki": "https://www.guildwiki.de/wiki/Ebon-Vorhut-Titel"
+      "wiki": {"en": "Ebon Vanguard rank", "de": "Ebon-Vorhut-Titel"}
     },
     "41": {
       "name": "Norn",
@@ -180,7 +180,7 @@ const GW_TITLES = {
       ],
       "campaign": 4,
       "giver": 804,
-      "wiki": "https://www.guildwiki.de/wiki/Norntitel"
+      "wiki": {"en": "Norn rank", "de": "Norntitel"}
     },
     "45": {
       "name": "Treasure Hunter",
@@ -198,7 +198,7 @@ const GW_TITLES = {
         {"rank": 7, "points": 10000, "values": [21, 21], "unlocks": []}
       ],
       "campaign": 0,
-      "wiki": "https://www.guildwiki.de/wiki/Schatzjäger-Titel"
+      "wiki": {"en": "Treasure Hunter", "de": "Schatzjäger-Titel"}
     },
     "46": {
       "name": "Wisdom",
@@ -216,7 +216,7 @@ const GW_TITLES = {
         {"rank": 7, "points": 10000, "values": [21], "unlocks": []}
       ],
       "campaign": 0,
-      "wiki": "https://www.guildwiki.de/wiki/Weisheitstitel"
+      "wiki": {"en": "Wisdom", "de": "Weisheitstitel"}
     }
   },
   "chests_": "Lucky and Unlucky title odds per chest: [points, chance].",

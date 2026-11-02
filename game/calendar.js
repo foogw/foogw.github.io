@@ -1,5 +1,5 @@
 const GW_CALENDAR = {
-  "rotations_": "Repeating cycles: entry i is active from start + i * period (seconds). Entries point to missions, locations, creatures, quests or bonuses.",
+  "rotations_": "Repeating cycles: entry i is active from start + i * period (seconds). Entries point to missions, locations, creatures, quests or bonuses. map (Nicholas the Traveler): the picture of where he stands, a file on each wiki, {en, de}.",
   "rotations": [
     {
       "key": "zaishen-mission",
@@ -448,823 +448,1207 @@ const GW_CALENDAR = {
           "item": "Red Iris Flower",
           "count": 3,
           "location": 101,
-          "map": "https://www.guildwiki.de/gwiki/images/3/3c/Nicholas_der_Reisende_Karte_Regentental.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Regent Valley map.jpg",
+            "de": "Nicholas der Reisende Karte Regentental.jpg"
+          }
         },
         {
           "item": "Feathered Avicara Scalp",
           "count": 3,
           "location": 96,
-          "map": "https://www.guildwiki.de/gwiki/images/4/46/Nicholas_der_Reisende_Karte_Mineralquellen.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Mineral Springs map.jpg",
+            "de": "Nicholas der Reisende Karte Mineralquellen.jpg"
+          }
         },
         {
           "item": "Margonite Mask",
           "count": 2,
           "location": 443,
-          "map": "https://www.guildwiki.de/gwiki/images/6/6a/Nicholas_der_Reisende_Karte_Giftige_Ausw%C3%BCchse.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Poisoned Outcrops map.jpg",
+            "de": "Nicholas der Reisende Karte Giftige Auswüchse.jpg"
+          }
         },
         {
           "item": "Quetzal Crest",
           "count": 2,
           "location": 572,
-          "map": "https://www.guildwiki.de/gwiki/images/f/fb/Nicholas_der_Reisende_Karte_Alcazia-Dickicht.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Alcazia Tangle map.jpg",
+            "de": "Nicholas der Reisende Karte Alcazia-Dickicht.jpg"
+          }
         },
         {
           "item": "Plague Idol",
           "count": 3,
           "location": 239,
-          "map": "https://www.guildwiki.de/gwiki/images/8/88/Nicholas_der_Reisende_Karte_Wajjun-Basar.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Wajjun Bazaar map.jpg",
+            "de": "Nicholas der Reisende Karte Wajjun-Basar.jpg"
+          }
         },
         {
           "item": "Azure Remains",
           "count": 2,
           "location": 97,
-          "map": "https://www.guildwiki.de/gwiki/images/4/46/Nicholas_der_Reisende_Karte_Schreckensdrift.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Dreadnought's Drift map.jpg",
+            "de": "Nicholas der Reisende Karte Schreckensdrift.jpg"
+          }
         },
         {
           "item": "Mandragor Root Cake",
           "count": 1,
           "location": 380,
-          "map": "https://www.guildwiki.de/gwiki/images/8/8f/Nicholas_der_Reisende_Karte_Arkjok-Bastei.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Arkjok Ward map.jpg",
+            "de": "Nicholas der Reisende Karte Arkjok-Bastei.jpg"
+          }
         },
         {
           "item": "Mahgo Claw",
           "count": 1,
           "location": 121,
-          "map": "https://www.guildwiki.de/gwiki/images/e/e3/Nicholas_der_Reisende_Karte_Fels_der_Verdammnis.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Perdition Rock map.jpg",
+            "de": "Nicholas der Reisende Karte Fels der Verdammnis.jpg"
+          }
         },
         {
           "item": "Mantid Pincer",
           "count": 5,
           "location": 313,
-          "map": "https://www.guildwiki.de/gwiki/images/9/98/Nicholas_der_Reisende_Karte_Saoshangweg.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Saoshang Trail map.jpg",
+            "de": "Nicholas der Reisende Karte Saoshangweg.jpg"
+          }
         },
         {
           "item": "Sentient Seed",
           "count": 3,
           "location": 481,
-          "map": "https://www.guildwiki.de/gwiki/images/2/27/Nicholas_der_Reisende_Karte_Fahranur%2C_die_Erste_Stadt.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Fahranur, The First City map.jpg",
+            "de": "Nicholas der Reisende Karte Fahranur, die Erste Stadt.jpg"
+          }
         },
         {
           "item": "Stone Grawl Necklace",
           "count": 2,
           "location": 651,
-          "map": "https://www.guildwiki.de/gwiki/images/d/d9/Nicholas_der_Reisende_Karte_Sacnoth-Tal.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Sacnoth Valley map.jpg",
+            "de": "Nicholas der Reisende Karte Sacnoth-Tal.jpg"
+          }
         },
         {
           "item": "Herring",
           "count": 1,
           "location": 61,
-          "map": "https://www.guildwiki.de/gwiki/images/0/0b/Nicholas_der_Reisende_Karte_Zwillingsschlangenseen.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Twin Serpent Lakes map.jpg",
+            "de": "Nicholas der Reisende Karte Zwillingsschlangenseen.jpg"
+          }
         },
         {
           "item": "Naga Skin",
           "count": 3,
           "location": 200,
-          "map": "https://www.guildwiki.de/gwiki/images/5/54/Nicholas_der_Reisende_Karte_Qinkai.jpg"
+          "map": {"en": "Nicholas the Traveler Mount Qinkai map.jpg", "de": "Nicholas der Reisende Karte Qinkai.jpg"}
         },
         {
           "item": "Gloom Seed",
           "count": 1,
           "location": 46,
-          "map": "https://www.guildwiki.de/gwiki/images/d/d7/Nicholas_der_Reisende_Karte_Die_Wasserf%C3%A4lle.jpg"
+          "map": {
+            "en": "Nicholas the Traveler The Falls map.jpg",
+            "de": "Nicholas der Reisende Karte Die Wasserfälle.jpg"
+          }
         },
         {
           "item": "Charr Hide",
           "count": 1,
           "location": 102,
-          "map": "https://www.guildwiki.de/gwiki/images/a/ae/Nicholas_der_Reisende_Karte_Die_Bresche.jpg"
+          "map": {
+            "en": "Nicholas the Traveler The Breach map.jpg",
+            "de": "Nicholas der Reisende Karte Die Bresche.jpg"
+          }
         },
         {
           "item": "Ruby Djinn Essence",
           "count": 1,
           "location": 446,
-          "map": "https://www.guildwiki.de/gwiki/images/f/f7/Nicholas_der_Reisende_Karte_Das_Alkalibecken.jpg"
+          "map": {
+            "en": "Nicholas the Traveler The Alkali Pan map.jpg",
+            "de": "Nicholas der Reisende Karte Das Alkalibecken.jpg"
+          }
         },
         {
           "item": "Thorny Carapace",
           "count": 2,
           "location": 60,
-          "map": "https://www.guildwiki.de/gwiki/images/2/23/Nicholas_der_Reisende_Karte_K%C3%B6nigsruh.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Majesty's Rest map.jpg",
+            "de": "Nicholas der Reisende Karte Königsruh.jpg"
+          }
         },
         {
           "item": "Bone Charm (trophy)",
           "count": 3,
           "location": 202,
-          "map": "https://www.guildwiki.de/gwiki/images/f/f4/Nicholas_der_Reisende_Karte_Rheas_Krater.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Rhea's Crater map.jpg",
+            "de": "Nicholas der Reisende Karte Rheas Krater.jpg"
+          }
         },
         {
           "item": "Modniir Mane",
           "count": 3,
           "location": 553,
-          "map": "https://www.guildwiki.de/gwiki/images/9/96/Nicholas_der_Reisende_Karte_Varajar-Moor.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Varajar Fells map.jpg",
+            "de": "Nicholas der Reisende Karte Varajar-Moor.jpg"
+          }
         },
         {
           "item": "Superb Charr Carving",
           "count": 3,
           "location": 647,
-          "map": "https://www.guildwiki.de/gwiki/images/0/0a/Nicholas_der_Reisende_Karte_Dalada-Hochlande.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Dalada Uplands map.jpg",
+            "de": "Nicholas der Reisende Karte Dalada-Hochlande.jpg"
+          }
         },
         {
           "item": "Roll of Parchment",
           "count": 5,
           "location": 246,
-          "map": "https://www.guildwiki.de/gwiki/images/d/d2/Nicholas_der_Reisende_Karte_Zen_Daijun_%28Erforschbar%29.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Zen Daijun (explorable area) map.jpg",
+            "de": "Nicholas der Reisende Karte Zen Daijun (Erforschbar).jpg"
+          }
         },
         {
           "item": "Roaring Ether Claw",
           "count": 2,
           "location": 394,
-          "map": "https://www.guildwiki.de/gwiki/images/d/da/Nicholas_der_Reisende_Karte_Seborhin-Garten.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Garden of Seborhin map.jpg",
+            "de": "Nicholas der Reisende Karte Seborhin-Garten.jpg"
+          }
         },
         {
           "item": "Branch of Juni Berries",
           "count": 3,
           "location": 240,
-          "map": "https://www.guildwiki.de/gwiki/images/b/bc/Nicholas_der_Reisende_Karte_Bukdek-Seitenweg.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Bukdek Byway map.jpg",
+            "de": "Nicholas der Reisende Karte Bukdek-Seitenweg.jpg"
+          }
         },
         {
           "item": "Shiverpeak Mane",
           "count": 3,
           "location": 100,
-          "map": "https://www.guildwiki.de/gwiki/images/b/b7/Nicholas_der_Reisende_Karte_Deldrimor-Becken.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Deldrimor Bowl map.jpg",
+            "de": "Nicholas der Reisende Karte Deldrimor-Becken.jpg"
+          }
         },
         {
           "item": "Fetid Carapace",
           "count": 3,
           "location": 107,
-          "map": "https://www.guildwiki.de/gwiki/images/e/e4/Nicholas_der_Reisende_Karte_Ostgrenze.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Eastern Frontier map.jpg",
+            "de": "Nicholas der Reisende Karte Ostgrenze.jpg"
+          }
         },
         {
           "item": "Moon Shell",
           "count": 2,
           "location": 144,
-          "map": "https://www.guildwiki.de/gwiki/images/5/52/Nicholas_der_Reisende_Karte_Gyala-Brutst%C3%A4tte_%28Erforschbar%29.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Gyala Hatchery (explorable area) map.jpg",
+            "de": "Nicholas der Reisende Karte Gyala-Brutstätte (Erforschbar).jpg"
+          }
         },
         {
           "item": "Gargantuan Jawbone",
           "count": 1,
           "location": 112,
-          "map": "https://www.guildwiki.de/gwiki/images/e/ed/Nicholas_der_Reisende_Karte_Das_Trockene_Meer.jpg"
+          "map": {
+            "en": "Nicholas the Traveler The Arid Sea map.jpg",
+            "de": "Nicholas der Reisende Karte Das Trockene Meer.jpg"
+          }
         },
         {
           "item": "Chromatic Scale",
           "count": 1,
           "location": 499,
-          "map": "https://www.guildwiki.de/gwiki/images/7/7c/Nicholas_der_Reisende_Karte_Eisklippen-Abgr%C3%BCnde.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Ice Cliff Chasms map.jpg",
+            "de": "Nicholas der Reisende Karte Eisklippen-Abgründe.jpg"
+          }
         },
         {
           "item": "Mursaat Token",
           "count": 3,
           "location": 94,
-          "map": "https://www.guildwiki.de/gwiki/images/b/b2/Nicholas_der_Reisende_Karte_Eisscholle.jpg"
+          "map": {"en": "Nicholas the Traveler Ice Floe map.jpg", "de": "Nicholas der Reisende Karte Eisscholle.jpg"}
         },
         {
           "item": "Sentient Lodestone",
           "count": 1,
           "location": 377,
-          "map": "https://www.guildwiki.de/gwiki/images/4/40/Nicholas_der_Reisende_Karte_Bahdok-H%C3%B6hlen.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Bahdok Caverns map.jpg",
+            "de": "Nicholas der Reisende Karte Bahdok-Höhlen.jpg"
+          }
         },
         {
           "item": "Jungle Troll Tusk",
           "count": 3,
           "location": 48,
-          "map": "https://www.guildwiki.de/gwiki/images/5/55/Nicholas_der_Reisende_Karte_Wildwurzel.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Tangle Root map.jpg",
+            "de": "Nicholas der Reisende Karte Wildwurzel.jpg"
+          }
         },
         {
           "item": "Sapphire Djinn Essence",
           "count": 1,
           "location": 402,
-          "map": "https://www.guildwiki.de/gwiki/images/d/d0/Nicholas_der_Reisende_Karte_Makuun_die_Leuchtende.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Resplendent Makuun map.jpg",
+            "de": "Nicholas der Reisende Karte Makuun die Leuchtende.jpg"
+          }
         },
         {
           "item": "Stone Carving",
           "count": 1,
           "location": 244,
-          "map": "https://www.guildwiki.de/gwiki/images/5/58/Nicholas_der_Reisende_Karte_Arborstein_%28Erforschbar%29.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Arborstone (explorable area) map.jpg",
+            "de": "Nicholas der Reisende Karte Arborstein (Erforschbar).jpg"
+          }
         },
         {
           "item": "Feathered Caromi Scalp",
           "count": 3,
           "location": 58,
-          "map": "https://www.guildwiki.de/gwiki/images/a/a5/Nicholas_der_Reisende_Karte_Provinz_Nordkryta.jpg"
+          "map": {
+            "en": "Nicholas the Traveler North Kryta Province map.jpg",
+            "de": "Nicholas der Reisende Karte Provinz Nordkryta.jpg"
+          }
         },
         {
           "item": "Pillaged Goods",
           "count": 1,
           "location": 395,
-          "map": "https://www.guildwiki.de/gwiki/images/d/d2/Nicholas_der_Reisende_Karte_G%C3%BCter_von_Chokhin.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Holdings of Chokhin map.jpg",
+            "de": "Nicholas der Reisende Karte Güter von Chokhin.jpg"
+          }
         },
         {
           "item": "Gold Crimson Skull Coin",
           "count": 1,
           "location": 237,
-          "map": "https://www.guildwiki.de/gwiki/images/6/6d/Nicholas_der_Reisende_Karte_Haiju-Lagune.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Haiju Lagoon map.jpg",
+            "de": "Nicholas der Reisende Karte Haiju-Lagune.jpg"
+          }
         },
         {
           "item": "Jade Bracelet",
           "count": 3,
           "location": 269,
-          "map": "https://www.guildwiki.de/gwiki/images/6/6f/Nicholas_der_Reisende_Karte_Tahnnakai-Tempel_%28Erforschbar%29.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Tahnnakai Temple (explorable area) map.jpg",
+            "de": "Nicholas der Reisende Karte Tahnnakai-Tempel (Erforschbar).jpg"
+          }
         },
         {
           "item": "Minotaur Horn",
           "count": 2,
           "location": 113,
-          "map": "https://www.guildwiki.de/gwiki/images/5/5f/Nicholas_der_Reisende_Karte_Pfad_des_Propheten.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Prophet's Path map.jpg",
+            "de": "Nicholas der Reisende Karte Pfad des Propheten.jpg"
+          }
         },
         {
           "item": "Frosted Griffon Wing",
           "count": 2,
           "location": 91,
-          "map": "https://www.guildwiki.de/gwiki/images/c/c2/Nicholas_der_Reisende_Karte_Schlangentanz.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Snake Dance map.jpg",
+            "de": "Nicholas der Reisende Karte Schlangentanz.jpg"
+          }
         },
         {
           "item": "Silver Bullion Coin",
           "count": 2,
           "location": 488,
-          "map": "https://www.guildwiki.de/gwiki/images/d/de/Nicholas_der_Reisende_Karte_Mehtani-Archipel.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Mehtani Keys map.jpg",
+            "de": "Nicholas der Reisende Karte Mehtani-Archipel.jpg"
+          }
         },
         {
           "item": "Truffle",
           "count": 1,
           "location": 205,
-          "map": "https://www.guildwiki.de/gwiki/images/6/6a/Nicholas_der_Reisende_Karte_Morostovweg.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Morostav Trail map.jpg",
+            "de": "Nicholas der Reisende Karte Morostovweg.jpg"
+          }
         },
         {
           "item": "Skelk Claw",
           "count": 3,
           "location": 566,
-          "map": "https://www.guildwiki.de/gwiki/images/5/5c/Nicholas_der_Reisende_Karte_Gr%C3%BCne_Kaskaden.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Verdant Cascades map.jpg",
+            "de": "Nicholas der Reisende Karte Grüne Kaskaden.jpg"
+          }
         },
         {
           "item": "Dessicated Hydra Claw",
           "count": 2,
           "location": 108,
-          "map": "https://www.guildwiki.de/gwiki/images/e/eb/Nicholas_der_Reisende_Karte_Die_Narbe.jpg"
+          "map": {"en": "Nicholas the Traveler The Scar map.jpg", "de": "Nicholas der Reisende Karte Die Narbe.jpg"}
         },
         {
           "item": "Frigid Heart",
           "count": 3,
           "location": 93,
-          "map": "https://www.guildwiki.de/gwiki/images/4/4b/Nicholas_der_Reisende_Karte_Speerspitzengipfel.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Spearhead Peak map.jpg",
+            "de": "Nicholas der Reisende Karte Speerspitzengipfel.jpg"
+          }
         },
         {
           "item": "Celestial Essence",
           "count": 3,
           "location": 265,
-          "map": "https://www.guildwiki.de/gwiki/images/d/d3/Nicholas_der_Reisende_Karte_Nahpuiviertel_%28Erforschbar%29.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Nahpui Quarter (explorable area) map.jpg",
+            "de": "Nicholas der Reisende Karte Nahpuiviertel (Erforschbar).jpg"
+          }
         },
         {
           "item": "Phantom Residue",
           "count": 1,
           "location": 90,
-          "map": "https://www.guildwiki.de/gwiki/images/c/cd/Nicholas_der_Reisende_Karte_Lornarpass.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Lornar's Pass map.jpg",
+            "de": "Nicholas der Reisende Karte Lornarpass.jpg"
+          }
         },
         {
           "item": "Drake Kabob",
           "count": 1,
           "location": 486,
-          "map": "https://www.guildwiki.de/gwiki/images/f/fa/Nicholas_der_Reisende_Karte_Issnur-Inseln.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Issnur Isles map.jpg",
+            "de": "Nicholas der Reisende Karte Issnur-Inseln.jpg"
+          }
         },
         {
           "item": "Amber Chunk",
           "count": 3,
           "location": 210,
-          "map": "https://www.guildwiki.de/gwiki/images/b/ba/Nicholas_der_Reisende_Karte_Farntal.jpg"
+          "map": {"en": "Nicholas the Traveler Ferndale map.jpg", "de": "Nicholas der Reisende Karte Farntal.jpg"}
         },
         {
           "item": "Glowing Heart",
           "count": 2,
           "location": 63,
-          "map": "https://www.guildwiki.de/gwiki/images/2/28/Nicholas_der_Reisende_Karte_Stachelrochenstrand.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Stingray Strand map.jpg",
+            "de": "Nicholas der Reisende Karte Stachelrochenstrand.jpg"
+          }
         },
         {
           "item": "Saurian Bone",
           "count": 5,
           "location": 501,
-          "map": "https://www.guildwiki.de/gwiki/images/c/c1/Nicholas_der_Reisende_Karte_Zerrissene_Erde.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Riven Earth map.jpg",
+            "de": "Nicholas der Reisende Karte Zerrissene Erde.jpg"
+          }
         },
         {
           "item": "Behemoth Hide",
           "count": 2,
           "location": 404,
-          "map": "https://www.guildwiki.de/gwiki/images/e/ef/Nicholas_der_Reisende_Karte_Wildnis_von_Bahdza.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Wilderness of Bahdza map.jpg",
+            "de": "Nicholas der Reisende Karte Wildnis von Bahdza.jpg"
+          }
         },
         {
           "item": "Luminous Stone",
           "count": 1,
           "location": 448,
-          "map": "https://www.guildwiki.de/gwiki/images/2/24/Nicholas_der_Reisende_Karte_Kristallspitze.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Crystal Overlook map.jpg",
+            "de": "Nicholas der Reisende Karte Kristallspitze.jpg"
+          }
         },
         {
           "item": "Intricate Grawl Necklace",
           "count": 3,
           "location": 95,
-          "map": "https://www.guildwiki.de/gwiki/images/3/33/Nicholas_der_Reisende_Karte_Witmans_Torheit.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Witman's Folly map.jpg",
+            "de": "Nicholas der Reisende Karte Witmans Torheit.jpg"
+          }
         },
         {
           "item": "Jadeite Shard",
           "count": 3,
           "location": 232,
-          "map": "https://www.guildwiki.de/gwiki/images/1/1d/Nicholas_der_Reisende_Karte_Schattenpassage.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Shadow's Passage map.jpg",
+            "de": "Nicholas der Reisende Karte Schattenpassage.jpg"
+          }
         },
         {
           "item": "Gold Doubloon",
           "count": 1,
           "location": 375,
-          "map": "https://www.guildwiki.de/gwiki/images/2/22/Nicholas_der_Reisende_Karte_Barbarenk%C3%BCste.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Barbarous Shore map.jpg",
+            "de": "Nicholas der Reisende Karte Barbarenküste.jpg"
+          }
         },
         {
           "item": "Shriveled Eye",
           "count": 2,
           "location": 115,
-          "map": "https://www.guildwiki.de/gwiki/images/f/fe/Nicholas_der_Reisende_Karte_Himmelsspitze.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Skyward Reach map.jpg",
+            "de": "Nicholas der Reisende Karte Himmelsspitze.jpg"
+          }
         },
         {
           "item": "Icy Lodestone",
           "count": 2,
           "location": 87,
-          "map": "https://www.guildwiki.de/gwiki/images/4/44/Nicholas_der_Reisende_Karte_Eisdom.jpg"
+          "map": {"en": "Nicholas the Traveler Icedome map.jpg", "de": "Nicholas der Reisende Karte Eisdom.jpg"}
         },
         {
           "item": "Keen Oni Talon",
           "count": 1,
           "location": 203,
-          "map": "https://www.guildwiki.de/gwiki/images/e/e7/Nicholas_der_Reisende_Karte_Stumme_Brandung.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Silent Surf map.jpg",
+            "de": "Nicholas der Reisende Karte Stumme Brandung.jpg"
+          }
         },
         {
           "item": "Hardened Hump",
           "count": 2,
           "location": 59,
-          "map": "https://www.guildwiki.de/gwiki/images/7/7e/Nicholas_der_Reisende_Karte_Nebo-Terrasse.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Nebo Terrace map.jpg",
+            "de": "Nicholas der Reisende Karte Nebo-Terrasse.jpg"
+          }
         },
         {
           "item": "Pile of Elemental Dust",
           "count": 2,
           "location": 513,
-          "map": "https://www.guildwiki.de/gwiki/images/2/20/Nicholas_der_Reisende_Karte_Drakkar-See.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Drakkar Lake map.jpg",
+            "de": "Nicholas der Reisende Karte Drakkar-See.jpg"
+          }
         },
         {
           "item": "Naga Hide",
           "count": 3,
           "location": 235,
-          "map": "https://www.guildwiki.de/gwiki/images/c/c8/Nicholas_der_Reisende_Karte_Panjiang-Halbinsel.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Panjiang Peninsula map.jpg",
+            "de": "Nicholas der Reisende Karte Panjiang-Halbinsel.jpg"
+          }
         },
         {
           "item": "Spiritwood Plank",
           "count": 3,
           "location": 27,
-          "map": "https://www.guildwiki.de/gwiki/images/7/74/Nicholas_der_Reisende_Karte_Greifenmaul.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Griffon's Mouth map.jpg",
+            "de": "Nicholas der Reisende Karte Greifenmaul.jpg"
+          }
         },
         {
           "item": "Stormy Eye",
           "count": 1,
           "location": 104,
-          "map": "https://www.guildwiki.de/gwiki/images/1/14/Nicholas_der_Reisende_Karte_Pockennarbenebene.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Pockmark Flats map.jpg",
+            "de": "Nicholas der Reisende Karte Pockennarbenebene.jpg"
+          }
         },
         {
           "item": "Skree Wing",
           "count": 3,
           "location": 399,
-          "map": "https://www.guildwiki.de/gwiki/images/8/82/Nicholas_der_Reisende_Karte_Forum-Hochland.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Forum Highlands map.jpg",
+            "de": "Nicholas der Reisende Karte Forum-Hochland.jpg"
+          }
         },
         {
           "item": "Soul Stone",
           "count": 3,
           "location": 233,
-          "map": "https://www.guildwiki.de/gwiki/images/4/46/Nicholas_der_Reisende_Karte_Raisu-Palast_%28Erforschbar%29.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Raisu Palace (explorable area) map.jpg",
+            "de": "Nicholas der Reisende Karte Raisu-Palast (Erforschbar).jpg"
+          }
         },
         {
           "item": "Spiked Crest",
           "count": 1,
           "location": 53,
-          "map": "https://www.guildwiki.de/gwiki/images/a/a4/Nicholas_der_Reisende_Karte_Tr%C3%A4nen_der_Gefallenen.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Tears of the Fallen map.jpg",
+            "de": "Nicholas der Reisende Karte Tränen der Gefallenen.jpg"
+          }
         },
         {
           "item": "Dragon Root",
           "count": 1,
           "location": 195,
-          "map": "https://www.guildwiki.de/gwiki/images/4/48/Wilbur_Karte.jpg"
+          "map": {"en": "Nicholas the Traveler Drazach Thicket map.jpg", "de": "Wilbur Karte.jpg"}
         },
         {
           "item": "Berserker Horn",
           "count": 3,
           "location": 546,
-          "map": "https://www.guildwiki.de/gwiki/images/1/17/Nicholas_der_Reisende_Karte_Jaga-Mor%C3%A4ne.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Jaga Moraine map.jpg",
+            "de": "Nicholas der Reisende Karte Jaga-Moräne.jpg"
+          }
         },
         {
           "item": "Behemoth Jaw",
           "count": 1,
           "location": 42,
-          "map": "https://www.guildwiki.de/gwiki/images/2/2e/Nicholas_der_Reisende_Karte_Mamnoon-Lagune.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Mamnoon Lagoon map.jpg",
+            "de": "Nicholas der Reisende Karte Mamnoon-Lagune.jpg"
+          }
         },
         {
           "item": "Bowl of Skalefin Soup",
           "count": 1,
           "location": 483,
-          "map": "https://www.guildwiki.de/gwiki/images/a/ac/Nicholas_der_Reisende_Karte_Zehlon-Bucht.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Zehlon Reach map.jpg",
+            "de": "Nicholas der Reisende Karte Zehlon-Bucht.jpg"
+          }
         },
         {
           "item": "Forest Minotaur Horn",
           "count": 2,
           "location": 64,
-          "map": "https://www.guildwiki.de/gwiki/images/b/b2/Nicholas_der_Reisende_Karte_Kessex-Gipfel.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Kessex Peak map.jpg",
+            "de": "Nicholas der Reisende Karte Kessex-Gipfel.jpg"
+          }
         },
         {
           "item": "Putrid Cyst",
           "count": 3,
           "location": 256,
-          "map": "https://www.guildwiki.de/gwiki/images/8/8c/Nicholas_der_Reisende_Karte_Sunjiang-Bezirk_%28Erforschbar%29.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Sunjiang District (explorable area) map.jpg",
+            "de": "Nicholas der Reisende Karte Sunjiang-Bezirk (Erforschbar).jpg"
+          }
         },
         {
           "item": "Jade Mandible",
           "count": 2,
           "location": 114,
-          "map": "https://www.guildwiki.de/gwiki/images/6/68/Nicholas_der_Reisende_Karte_Salzebenen.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Salt Flats map.jpg",
+            "de": "Nicholas der Reisende Karte Salzebenen.jpg"
+          }
         },
         {
           "item": "Maguuma Mane",
           "count": 2,
           "location": 43,
-          "map": "https://www.guildwiki.de/gwiki/images/d/dc/Nicholas_der_Reisende_Karte_Silberholz.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Silverwood map.jpg",
+            "de": "Nicholas der Reisende Karte Silberholz.jpg"
+          }
         },
         {
           "item": "Skull Juju",
           "count": 1,
           "location": 128,
-          "map": "https://www.guildwiki.de/gwiki/images/8/87/Nicholas_der_Reisende_Karte_Der_Ewige_Hain_%28Erforschbar%29.jpg"
+          "map": {
+            "en": "Nicholas the Traveler The Eternal Grove (explorable area) map.jpg",
+            "de": "Nicholas der Reisende Karte Der Ewige Hain (Erforschbar).jpg"
+          }
         },
         {
           "item": "Mandragor Swamproot",
           "count": 3,
           "location": 484,
-          "map": "https://www.guildwiki.de/gwiki/images/0/06/Nicholas_der_Reisende_Karte_Lahtenda-Sumpf.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Lahtenda Bog map.jpg",
+            "de": "Nicholas der Reisende Karte Lahtenda-Sumpf.jpg"
+          }
         },
         {
           "item": "Bottle of Vabbian Wine",
           "count": 1,
           "location": 406,
-          "map": "https://www.guildwiki.de/gwiki/images/2/21/Nicholas_der_Reisende_Karte_Vehtendi-Tal.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Vehtendi Valley map.jpg",
+            "de": "Nicholas der Reisende Karte Vehtendi-Tal.jpg"
+          }
         },
         {
           "item": "Weaver Leg",
           "count": 2,
           "location": 569,
-          "map": "https://www.guildwiki.de/gwiki/images/7/72/Nicholas_der_Reisende_Karte_Magussteine.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Magus Stones map.jpg",
+            "de": "Nicholas der Reisende Karte Magussteine.jpg"
+          }
         },
         {
           "item": "Topaz Crest",
           "count": 1,
           "location": 110,
-          "map": "https://www.guildwiki.de/gwiki/images/7/75/Nicholas_der_Reisende_Karte_Wahrsagerh%C3%B6he.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Diviner's Ascent map.jpg",
+            "de": "Nicholas der Reisende Karte Wahrsagerhöhe.jpg"
+          }
         },
         {
           "item": "Rot Wallow Tusk",
           "count": 2,
           "location": 211,
-          "map": "https://www.guildwiki.de/gwiki/images/5/5c/Nicholas_der_Reisende_Karte_Pongmei-Tal.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Pongmei Valley map.jpg",
+            "de": "Nicholas der Reisende Karte Pongmei-Tal.jpg"
+          }
         },
         {
           "item": "Frostfire Fang",
           "count": 2,
           "location": 89,
-          "map": "https://www.guildwiki.de/gwiki/images/5/54/Nicholas_der_Reisende_Karte_Ambossstein.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Anvil Rock map.jpg",
+            "de": "Nicholas der Reisende Karte Ambossstein.jpg"
+          }
         },
         {
           "item": "Demonic Relic",
           "count": 1,
           "location": 439,
-          "map": "https://www.guildwiki.de/gwiki/images/4/47/Nicholas_der_Reisende_Karte_Das_Zerrissene_Herz.jpg"
+          "map": {
+            "en": "Nicholas the Traveler The Ruptured Heart map.jpg",
+            "de": "Nicholas der Reisende Karte Das Zerrissene Herz.jpg"
+          }
         },
         {
           "item": "Abnormal Seed",
           "count": 2,
           "location": 17,
-          "map": "https://www.guildwiki.de/gwiki/images/b/b9/Nicholas_der_Reisende_Karte_Talmark-Wildnis.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Talmark Wilderness map.jpg",
+            "de": "Nicholas der Reisende Karte Talmark-Wildnis.jpg"
+          }
         },
         {
           "item": "Diamond Djinn Essence",
           "count": 1,
           "location": 413,
-          "map": "https://www.guildwiki.de/gwiki/images/e/ee/Nicholas_der_Reisende_Karte_Verborgene_Stadt_von_Ahdashim.jpg"
+          "map": {
+            "en": "Nicholas the Traveler The Hidden City of Ahdashim map.jpg",
+            "de": "Nicholas der Reisende Karte Verborgene Stadt von Ahdashim.jpg"
+          }
         },
         {
           "item": "Forgotten Seal",
           "count": 2,
           "location": 111,
-          "map": "https://www.guildwiki.de/gwiki/images/2/2e/Nicholas_der_Reisende_Karte_Geierd%C3%BCnen.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Vulture Drifts map.jpg",
+            "de": "Nicholas der Reisende Karte Geierdünen.jpg"
+          }
         },
         {
           "item": "Copper Crimson Skull Coin",
           "count": 5,
           "location": 236,
-          "map": "https://www.guildwiki.de/gwiki/images/1/11/Nicholas_der_Reisende_Karte_Provinz_Kinya.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Kinya Province map.jpg",
+            "de": "Nicholas der Reisende Karte Provinz Kinya.jpg"
+          }
         },
         {
           "item": "Mossy Mandible",
           "count": 3,
           "location": 44,
-          "map": "https://www.guildwiki.de/gwiki/images/5/54/Nicholas_der_Reisende_Karte_Ettinbuckel.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Ettin's Back map.jpg",
+            "de": "Nicholas der Reisende Karte Ettinbuckel.jpg"
+          }
         },
         {
           "item": "Enslavement Stone",
           "count": 2,
           "location": 191,
-          "map": "https://www.guildwiki.de/gwiki/images/d/d7/Nicholas_der_Reisende_Karte_Grenths_Fu%C3%9Fabdruck.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Grenth's Footprint map.jpg",
+            "de": "Nicholas der Reisende Karte Grenths Fußabdruck.jpg"
+          }
         },
         {
           "item": "Elonian Leather Square",
           "count": 5,
           "location": 369,
-          "map": "https://www.guildwiki.de/gwiki/images/7/74/Nicholas_der_Reisende_Karte_Jahai-Klippen.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Jahai Bluffs map.jpg",
+            "de": "Nicholas der Reisende Karte Jahai-Klippen.jpg"
+          }
         },
         {
           "item": "Cobalt Talon",
           "count": 2,
           "location": 397,
-          "map": "https://www.guildwiki.de/gwiki/images/d/d0/Nicholas_der_Reisende_Karte_Vehjin-Minen.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Vehjin Mines map.jpg",
+            "de": "Nicholas der Reisende Karte Vehjin-Minen.jpg"
+          }
         },
         {
           "item": "Maguuma Spider Web",
           "count": 1,
           "location": 45,
-          "map": "https://www.guildwiki.de/gwiki/images/5/54/Nicholas_der_Reisende_Karte_Schilfmoor.jpg"
+          "map": {"en": "Nicholas the Traveler Reed Bog map.jpg", "de": "Nicholas der Reisende Karte Schilfmoor.jpg"}
         },
         {
           "item": "Forgotten Trinket Box",
           "count": 5,
           "location": 245,
-          "map": "https://www.guildwiki.de/gwiki/images/7/75/Nicholas_der_Reisende_Karte_Minister_Chos_Anwesen_%28Erforschbar%29.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Minister Cho's Estate (explorable area) map.jpg",
+            "de": "Nicholas der Reisende Karte Minister Chos Anwesen (Erforschbar).jpg"
+          }
         },
         {
           "item": "Icy Hump",
           "count": 3,
           "location": 88,
-          "map": "https://www.guildwiki.de/gwiki/images/b/b9/Nicholas_der_Reisende_Karte_Eisenrossmine.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Iron Horse Mine map.jpg",
+            "de": "Nicholas der Reisende Karte Eisenrossmine.jpg"
+          }
         },
         {
           "item": "Sandblasted Lodestone",
           "count": 1,
           "location": 441,
-          "map": "https://www.guildwiki.de/gwiki/images/7/74/Nicholas_der_Reisende_Karte_Die_Zerkl%C3%BCfteten_Schluchten.jpg"
+          "map": {
+            "en": "Nicholas the Traveler The Shattered Ravines map.jpg",
+            "de": "Nicholas der Reisende Karte Die Zerklüfteten Schluchten.jpg"
+          }
         },
         {
           "item": "Black Pearl",
           "count": 3,
           "location": 198,
-          "map": "https://www.guildwiki.de/gwiki/images/4/45/Nicholas_der_Reisende_Karte_Archipel.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Archipelagos map.jpg",
+            "de": "Nicholas der Reisende Karte Archipel.jpg"
+          }
         },
         {
           "item": "Insect Carapace",
           "count": 3,
           "location": 371,
-          "map": "https://www.guildwiki.de/gwiki/images/3/38/Nicholas_der_Reisende_Karte_Marga-K%C3%BCste.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Marga Coast map.jpg",
+            "de": "Nicholas der Reisende Karte Marga-Küste.jpg"
+          }
         },
         {
           "item": "Mergoyle Skull",
           "count": 3,
           "location": 62,
-          "map": "https://www.guildwiki.de/gwiki/images/1/1a/Nicholas_der_Reisende_Karte_Wachturmk%C3%BCste.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Watchtower Coast map.jpg",
+            "de": "Nicholas der Reisende Karte Wachturmküste.jpg"
+          }
         },
         {
           "item": "Decayed Orr Emblem",
           "count": 3,
           "location": 56,
-          "map": "https://www.guildwiki.de/gwiki/images/8/89/Nicholas_der_Reisende_Karte_Verfluchtes_Land.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Cursed Lands map.jpg",
+            "de": "Nicholas der Reisende Karte Verfluchtes Land.jpg"
+          }
         },
         {
           "item": "Tempered Glass Vial",
           "count": 5,
           "location": 209,
-          "map": "https://www.guildwiki.de/gwiki/images/1/14/Nicholas_der_Reisende_Karte_Trauerflorf%C3%A4lle.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Mourning Veil Falls map.jpg",
+            "de": "Nicholas der Reisende Karte Trauerflorfälle.jpg"
+          }
         },
         {
           "item": "Scorched Lodestone",
           "count": 3,
           "location": 33,
-          "map": "https://www.guildwiki.de/gwiki/images/a/a7/Nicholas_der_Reisende_Karte_Alt-Ascalon.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Old Ascalon map.jpg",
+            "de": "Nicholas der Reisende Karte Alt-Ascalon.jpg"
+          }
         },
         {
           "item": "Water Djinn Essence",
           "count": 1,
           "location": 386,
-          "map": "https://www.guildwiki.de/gwiki/images/3/33/Nicholas_der_Reisende_Karte_Turais_Weg.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Turai's Procession map.jpg",
+            "de": "Nicholas der Reisende Karte Turais Weg.jpg"
+          }
         },
         {
           "item": "Guardian Moss",
           "count": 1,
           "location": 199,
-          "map": "https://www.guildwiki.de/gwiki/images/a/a5/Nicholas_der_Reisende_Karte_Maishang-H%C3%BCgel.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Maishang Hills map.jpg",
+            "de": "Nicholas der Reisende Karte Maishang-Hügel.jpg"
+          }
         },
         {
           "item": "Dwarven Ale",
           "count": 6,
           "location": 384,
-          "map": "https://www.guildwiki.de/gwiki/images/1/1f/Nicholas_der_Reisende_Karte_Die_Schwemmebene_von_Mahnkelon.jpg"
+          "map": {
+            "en": "Nicholas the Traveler The Floodplain of Mahnkelon map.jpg",
+            "de": "Nicholas der Reisende Karte Die Schwemmebene von Mahnkelon.jpg"
+          }
         },
         {
           "item": "Amphibian Tongue",
           "count": 2,
           "location": 558,
-          "map": "https://www.guildwiki.de/gwiki/images/f/f7/Nicholas_der_Reisende_Karte_Funkenschw%C3%A4rmersumpf.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Sparkfly Swamp map.jpg",
+            "de": "Nicholas der Reisende Karte Funkenschwärmersumpf.jpg"
+          }
         },
         {
           "item": "Alpine Seed",
           "count": 2,
           "location": 98,
-          "map": "https://www.guildwiki.de/gwiki/images/7/7a/Nicholas_der_Reisende_Karte_Frostwald.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Frozen Forest map.jpg",
+            "de": "Nicholas der Reisende Karte Frostwald.jpg"
+          }
         },
         {
           "item": "Tangled Seed",
           "count": 2,
           "location": 47,
-          "map": "https://www.guildwiki.de/gwiki/images/e/ed/Nicholas_der_Reisende_Karte_Trockenkuppe.jpg"
+          "map": {"en": "Nicholas the Traveler Dry Top map.jpg", "de": "Nicholas der Reisende Karte Trockenkuppe.jpg"}
         },
         {
           "item": "Stolen Supplies",
           "count": 3,
           "location": 196,
-          "map": "https://www.guildwiki.de/gwiki/images/a/a9/Nicholas_der_Reisende_Karte_Jaya-Klippen.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Jaya Bluffs map.jpg",
+            "de": "Nicholas der Reisende Karte Jaya-Klippen.jpg"
+          }
         },
         {
           "item": "Pahnai Salad",
           "count": 1,
           "location": 430,
-          "map": "https://www.guildwiki.de/gwiki/images/b/b1/Nicholas_der_Reisende_Karte_Flachland_von_Jarin.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Plains of Jarin map.jpg",
+            "de": "Nicholas der Reisende Karte Flachland von Jarin.jpg"
+          }
         },
         {
           "item": "Vermin Hide",
           "count": 3,
           "location": 31,
-          "map": "https://www.guildwiki.de/gwiki/images/2/27/Nicholas_der_Reisende_Karte_Xaquang-Himmelsweg.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Xaquang Skyway map.jpg",
+            "de": "Nicholas der Reisende Karte Xaquang-Himmelsweg.jpg"
+          }
         },
         {
           "item": "Roaring Ether Heart",
           "count": 1,
           "location": 419,
-          "map": "https://www.guildwiki.de/gwiki/images/8/87/Nicholas_der_Reisende_Karte_Der_Spiegel_von_Lyss.jpg"
+          "map": {
+            "en": "Nicholas the Traveler The Mirror of Lyss map.jpg",
+            "de": "Nicholas der Reisende Karte Der Spiegel von Lyss.jpg"
+          }
         },
         {
           "item": "Leathery Claw",
           "count": 3,
           "location": 103,
-          "map": "https://www.guildwiki.de/gwiki/images/e/e1/Nicholas_der_Reisende_Karte_Ascalon-Vorgebirge.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Ascalon Foothills map.jpg",
+            "de": "Nicholas der Reisende Karte Ascalon-Vorgebirge.jpg"
+          }
         },
         {
           "item": "Azure Crest",
           "count": 1,
           "location": 227,
-          "map": "https://www.guildwiki.de/gwiki/images/1/1d/Nicholas_der_Reisende_Karte_Verschlafene_Gew%C3%A4sser_%28Erforschbar%29.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Unwaking Waters (explorable area) map.jpg",
+            "de": "Nicholas der Reisende Karte Verschlafene Gewässer (Erforschbar).jpg"
+          }
         },
         {
           "item": "Jotun Pelt",
           "count": 1,
           "location": 482,
-          "map": "https://www.guildwiki.de/gwiki/images/6/6e/Nicholas_der_Reisende_Karte_Bjora-S%C3%BCmpfe.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Bjora Marches map.jpg",
+            "de": "Nicholas der Reisende Karte Bjora-Sümpfe.jpg"
+          }
         },
         {
           "item": "Heket Tongue",
           "count": 2,
           "location": 379,
-          "map": "https://www.guildwiki.de/gwiki/images/e/e6/Nicholas_der_Reisende_Karte_Dejarin-Anwesen.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Dejarin Estate map.jpg",
+            "de": "Nicholas der Reisende Karte Dejarin-Anwesen.jpg"
+          }
         },
         {
           "item": "Mountain Troll Tusk",
           "count": 5,
           "location": 26,
-          "map": "https://www.guildwiki.de/gwiki/images/e/e2/Nicholas_der_Reisende_Karte_Talusschnelle.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Talus Chute map.jpg",
+            "de": "Nicholas der Reisende Karte Talusschnelle.jpg"
+          }
         },
         {
           "item": "Vial of Ink",
           "count": 3,
           "location": 197,
-          "map": "https://www.guildwiki.de/gwiki/images/d/d4/Nicholas_der_Reisende_Karte_Shenzun-Tunnel.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Shenzun Tunnels map.jpg",
+            "de": "Nicholas der Reisende Karte Shenzun-Tunnel.jpg"
+          }
         },
         {
           "item": "Kournan Pendant",
           "count": 3,
           "location": 382,
-          "map": "https://www.guildwiki.de/gwiki/images/e/ed/Nicholas_der_Reisende_Karte_Gandara%2C_die_Mondfestung.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Gandara, the Moon Fortress map.jpg",
+            "de": "Nicholas der Reisende Karte Gandara, die Mondfestung.jpg"
+          }
         },
         {
           "item": "Singed Gargoyle Skull",
           "count": 3,
           "location": 13,
-          "map": "https://www.guildwiki.de/gwiki/images/1/1f/Nicholas_der_Reisende_Karte_Tiefland_von_Diessa.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Diessa Lowlands map.jpg",
+            "de": "Nicholas der Reisende Karte Tiefland von Diessa.jpg"
+          }
         },
         {
           "item": "Dredge Incisor",
           "count": 3,
           "location": 201,
-          "map": "https://www.guildwiki.de/gwiki/images/e/e3/Nicholas_der_Reisende_Karte_Melandrus_Hoffnung.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Melandru's Hope map.jpg",
+            "de": "Nicholas der Reisende Karte Melandrus Hoffnung.jpg"
+          }
         },
         {
           "item": "Stone Summit Badge",
           "count": 3,
           "location": 92,
-          "map": "https://www.guildwiki.de/gwiki/images/9/95/Nicholas_der_Reisende_Karte_Tascas_Ableben.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Tasca's Demise map.jpg",
+            "de": "Nicholas der Reisende Karte Tascas Ableben.jpg"
+          }
         },
         {
           "item": "Krait Skin",
           "count": 3,
           "location": 485,
-          "map": "https://www.guildwiki.de/gwiki/images/2/21/Nicholas_der_Reisende_Karte_Arborbucht.jpg"
+          "map": {"en": "Nicholas the Traveler Arbor Bay map.jpg", "de": "Nicholas der Reisende Karte Arborbucht.jpg"}
         },
         {
           "item": "Inscribed Shard",
           "count": 2,
           "location": 437,
-          "map": "https://www.guildwiki.de/gwiki/images/b/b6/Nicholas_der_Reisende_Karte_Jokos_Dom%C3%A4ne.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Joko's Domain map.jpg",
+            "de": "Nicholas der Reisende Karte Jokos Domäne.jpg"
+          }
         },
         {
           "item": "Feathered Scalp",
           "count": 3,
           "location": 238,
-          "map": "https://www.guildwiki.de/gwiki/images/d/d7/Nicholas_der_Reisende_Karte_Sunqua-Tal.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Sunqua Vale map.jpg",
+            "de": "Nicholas der Reisende Karte Sunqua-Tal.jpg"
+          }
         },
         {
           "item": "Mummy Wrapping",
           "count": 3,
           "location": 444,
-          "map": "https://www.guildwiki.de/gwiki/images/9/92/Nicholas_der_Reisende_Karte_Die_Schwefel-Ein%C3%B6de.jpg"
+          "map": {
+            "en": "Nicholas the Traveler The Sulfurous Wastes map.jpg",
+            "de": "Nicholas der Reisende Karte Die Schwefel-Einöde.jpg"
+          }
         },
         {
           "item": "Shadowy Remnants",
           "count": 2,
           "location": 18,
-          "map": "https://www.guildwiki.de/gwiki/images/5/5d/Nicholas_der_Reisende_Karte_Der_Schwarze_Vorhang.jpg"
+          "map": {
+            "en": "Nicholas the Traveler The Black Curtain map.jpg",
+            "de": "Nicholas der Reisende Karte Der Schwarze Vorhang.jpg"
+          }
         },
         {
           "item": "Ancient Kappa Shell",
           "count": 3,
           "location": 241,
-          "map": "https://www.guildwiki.de/gwiki/images/1/1d/Nicholas_der_Reisende_Karte_Die_Unterstadt.jpg"
+          "map": {
+            "en": "Nicholas the Traveler The Undercity map.jpg",
+            "de": "Nicholas der Reisende Karte Die Unterstadt.jpg"
+          }
         },
         {
           "item": "Geode",
           "count": 1,
           "location": 392,
-          "map": "https://www.guildwiki.de/gwiki/images/0/01/Nicholas_der_Reisende_Karte_Yahtendi-Schluchten.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Yatendi Canyons map.jpg",
+            "de": "Nicholas der Reisende Karte Yahtendi-Schluchten.jpg"
+          }
         },
         {
           "item": "Fibrous Mandragor Root",
           "count": 2,
           "location": 649,
-          "map": "https://www.guildwiki.de/gwiki/images/7/71/Nicholas_der_Reisende_Karte_Grothmar-Kriegsh%C3%BCgel.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Grothmar Wardowns map.jpg",
+            "de": "Nicholas der Reisende Karte Grothmar-Kriegshügel.jpg"
+          }
         },
         {
           "item": "Gruesome Ribcage",
           "count": 3,
           "location": 105,
-          "map": "https://www.guildwiki.de/gwiki/images/c/cb/Nicholas_der_Reisende_Karte_Drachenschlund.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Dragon's Gullet map.jpg",
+            "de": "Nicholas der Reisende Karte Drachenschlund.jpg"
+          }
         },
         {
           "item": "Kraken Eye",
           "count": 2,
           "location": 247,
-          "map": "https://www.guildwiki.de/gwiki/images/4/4d/Nicholas_der_Reisende_Karte_Boreas-Meeresgrund_%28Erforschbar%29.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Boreas Seabed (explorable area) map.jpg",
+            "de": "Nicholas der Reisende Karte Boreas-Meeresgrund (Erforschbar).jpg"
+          }
         },
         {
           "item": "Bog Skale Fin",
           "count": 3,
           "location": 54,
-          "map": "https://www.guildwiki.de/gwiki/images/7/7e/Nicholas_der_Reisende_Karte_Schurkenh%C3%BCgel.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Scoundrel's Rise map.jpg",
+            "de": "Nicholas der Reisende Karte Schurkenhügel.jpg"
+          }
         },
         {
           "item": "Sentient Spore",
           "count": 2,
           "location": 373,
-          "map": "https://www.guildwiki.de/gwiki/images/6/6f/Nicholas_der_Reisende_Karte_Sonnenw%C3%A4rtige_S%C3%BCmpfe.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Sunward Marches map.jpg",
+            "de": "Nicholas der Reisende Karte Sonnenwärtige Sümpfe.jpg"
+          }
         },
         {
           "item": "Ancient Eye",
           "count": 2,
           "location": 41,
-          "map": "https://www.guildwiki.de/gwiki/images/0/05/Nicholas_der_Reisende_Karte_Land_der_Weisen.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Sage Lands map.jpg",
+            "de": "Nicholas der Reisende Karte Land der Weisen.jpg"
+          }
         },
         {
           "item": "Copper Shilling",
           "count": 3,
           "location": 432,
-          "map": "https://www.guildwiki.de/gwiki/images/e/e7/Nicholas_der_Reisende_Karte_Felsen_von_Dohjok.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Cliffs of Dohjok map.jpg",
+            "de": "Nicholas der Reisende Karte Felsen von Dohjok.jpg"
+          }
         },
         {
           "item": "Frigid Mandragor Husk",
           "count": 3,
           "location": 548,
-          "map": "https://www.guildwiki.de/gwiki/images/5/53/Nicholas_der_Reisende_Karte_Norrhart-Gebiete.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Norrhart Domains map.jpg",
+            "de": "Nicholas der Reisende Karte Norrhart-Gebiete.jpg"
+          }
         },
         {
           "item": "Bolt of Linen",
           "count": 3,
           "location": 99,
-          "map": "https://www.guildwiki.de/gwiki/images/9/94/Nicholas_der_Reisende_Karte_Tal_des_Reisenden.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Traveler's Vale map.jpg",
+            "de": "Nicholas der Reisende Karte Tal des Reisenden.jpg"
+          }
         },
         {
           "item": "Charr Carving",
           "count": 3,
           "location": 106,
-          "map": "https://www.guildwiki.de/gwiki/images/4/48/Nicholas_der_Reisende_Karte_Flammentempel-Gang.jpg"
+          "map": {
+            "en": "Nicholas the Traveler Flame Temple Corridor map.jpg",
+            "de": "Nicholas der Reisende Karte Flammentempel-Gang.jpg"
+          }
         }
       ]
     },
@@ -1352,7 +1736,7 @@ const GW_CALENDAR = {
       "announcement": "Strap on your snow boots! All week long, whether you're helping the Asura, Deldrimor, Ebon Vanguard, or the Norn, reputation points are doubled (excluding completed books).",
       "tips": [
         "Take the blessing in an Eye of the North area before you fight: every kill then earns that region's reputation, doubled this week.",
-        "Repeat the {page:missions#c=Eye+of+the+North|Eye of the North missions}: each gives reputation every time you finish it, and more in Hard mode.",
+        "Repeat the {page:missions?c=4|Eye of the North missions}: each gives reputation every time you finish it, and more in Hard mode.",
         "Don't turn in completed books this week: they are not doubled."
       ]
     },
@@ -1385,7 +1769,7 @@ const GW_CALENDAR = {
       "effect": "Exchanging Kurzick or Luxon faction at the faction reward NPCs gives double title points.",
       "announcement": "Your support is twice as important this week! Receive double Kurzick and Luxon title track points for exchanging faction with faction reward NPCs.",
       "tips": [
-        "Run the {page:builds#team=afk-luxon-faction|7 Hero AFK Luxon Faction Farm} all week, and turn the faction in each time you near the cap: the most title points for the least effort.",
+        "Run the {page:builds?luxafk|7 Hero AFK Luxon Faction Farm} all week, and turn the faction in each time you near the cap: the most title points for the least effort.",
         "The week to push the Kurzick and Luxon titles: save up faction in other weeks and turn it in at the faction reward NPCs now, for double the title points.",
         "Faction from vanquishes and the faction PvP maps counts too.",
         "Imperial faction from PvP can be exchanged for Kurzick or Luxon faction too, so PvP players gain from this week as well."
@@ -1403,11 +1787,11 @@ const GW_CALENDAR = {
       ]
     }
   },
-  "events_": "The yearly events, keyed by our numbers. Dates are [month, day, \"hh:mm\"] UTC.",
+  "events_": "The yearly events, keyed by our numbers. Dates are [month, day, \"hh:mm\"] UTC. wiki: its page, {en} (as locations).",
   "events": {
     "1": {
       "name": "Canthan New Year",
-      "wiki": "Canthan_New_Year",
+      "wiki": {"en": "Canthan New Year"},
       "start": [1, 31, "20:00"],
       "end": [2, 7, "20:00"],
       "stay": [2, 14, "20:00"],
@@ -1426,7 +1810,7 @@ const GW_CALENDAR = {
     },
     "2": {
       "name": "Lucky Treats Week",
-      "wiki": "Lucky_Treats_Week",
+      "wiki": {"en": "Lucky Treats Week"},
       "start": [3, 14, "19:00"],
       "end": [3, 21, "19:00"],
       "blurb": "Four-Leaf Clovers <span class=what>(party loses 5–15% death penalty)</span> and Shamrock Ale drop from foes.",
@@ -1437,14 +1821,14 @@ const GW_CALENDAR = {
     },
     "3": {
       "name": "April Fools' Day",
-      "wiki": "April_Fools%27_Day",
+      "wiki": {"en": "April Fools' Day"},
       "start": [4, 1, "07:01"],
       "end": [4, 2, "07:01"],
       "blurb": "The {quest:100011} and {quest:100012} quests on Embark Beach."
     },
     "4": {
       "name": "Sweet Treats Week",
-      "wiki": "Sweet_Treats_Week",
+      "wiki": {"en": "Sweet Treats Week"},
       "start": [4, 10, "19:00"],
       "end": [4, 17, "19:00"],
       "blurb": "Golden Eggs <span class=what>(+1 all attributes)</span> and Chocolate Bunnies drop from foes. Each Golden Egg you pick up yourself also gives a Treasure Hunter point.",
@@ -1457,7 +1841,7 @@ const GW_CALENDAR = {
     },
     "5": {
       "name": "Anniversary Celebration",
-      "wiki": "Anniversary_Celebration",
+      "wiki": {"en": "Anniversary Celebration"},
       "start": [4, 22, "19:00"],
       "end": [5, 6, "19:00"],
       "stay": [5, 13, "19:00"],
@@ -1482,7 +1866,7 @@ const GW_CALENDAR = {
     },
     "6": {
       "name": "Dragon Festival",
-      "wiki": "Dragon_Festival",
+      "wiki": {"en": "Dragon Festival"},
       "start": [6, 27, "19:00"],
       "end": [7, 4, "19:00"],
       "stay": [7, 11, "19:00"],
@@ -1499,7 +1883,7 @@ const GW_CALENDAR = {
     },
     "7": {
       "name": "Wintersday in July",
-      "wiki": "Wintersday_in_July",
+      "wiki": {"en": "Wintersday in July"},
       "start": [7, 24, "19:00"],
       "end": [7, 31, "19:00"],
       "blurb": "Snowman Summoners, Frosty and Mischievous Tonics, Eggnog and Fruitcake drop from foes for a week.",
@@ -1507,7 +1891,7 @@ const GW_CALENDAR = {
     },
     "8": {
       "name": "Wayfarer's Reverie",
-      "wiki": "Wayfarer%27s_Reverie",
+      "wiki": {"en": "Wayfarer's Reverie"},
       "start": [8, 25, "19:00"],
       "end": [9, 1, "19:00"],
       "blurb": "A Legionnaire Summoning Crystal for the four Reverie quests, every weekly PvE bonus at once, and Wayfarer's Marks from foes for drinks and fireworks.",
@@ -1522,7 +1906,7 @@ const GW_CALENDAR = {
     },
     "9": {
       "name": "Pirate Week",
-      "wiki": "Pirate_Week",
+      "wiki": {"en": "Pirate Week"},
       "start": [9, 13, "19:00"],
       "end": [9, 20, "19:00"],
       "blurb": "Bottles of Grog drop from foes, and Lion's Arch and Kamadan talk like pirates.",
@@ -1530,7 +1914,7 @@ const GW_CALENDAR = {
     },
     "10": {
       "name": "Breast Cancer Awareness Month",
-      "wiki": "Sadie_Salvitas",
+      "wiki": {"en": "Sadie Salvitas"},
       "start": [10, 1, "07:01"],
       "end": [11, 1, "07:01"],
       "blurb": "Pink dye from Sadie Salvitas in Lion's Arch, all month.",
@@ -1538,7 +1922,7 @@ const GW_CALENDAR = {
     },
     "11": {
       "name": "Halloween",
-      "wiki": "Halloween",
+      "wiki": {"en": "Halloween"},
       "start": [10, 18, "19:00"],
       "end": [11, 2, "08:01"],
       "stay": [11, 8, "20:00"],
@@ -1558,7 +1942,7 @@ const GW_CALENDAR = {
     },
     "12": {
       "name": "Special Treats Week",
-      "wiki": "Special_Treats_Week",
+      "wiki": {"en": "Special Treats Week"},
       "start": [11, 21, "20:00"],
       "end": [11, 28, "20:00"],
       "blurb": "Slices of Pumpkin Pie <span class=what>(25% faster attacks, 15% faster skills)</span> and Hard Apple Cider drop from foes.",
@@ -1569,7 +1953,7 @@ const GW_CALENDAR = {
     },
     "13": {
       "name": "Wintersday",
-      "wiki": "Wintersday",
+      "wiki": {"en": "Wintersday"},
       "start": [12, 19, "20:00"],
       "end": [1, 2, "20:00"],
       "stay": [1, 9, "20:00"],

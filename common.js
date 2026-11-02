@@ -62,6 +62,18 @@ function questsAt(id) {
 const missionCampaign = m => campaignOf(LOCATIONS[m.outpost] || LOCATIONS[m.id]);
 const missionRegion = m => regionOf(LOCATIONS[m.outpost] || LOCATIONS[m.id]);
 
+/* ---------- the wikis: a thing's page on each, {en, de}, by its title there (a picture by its file name) ---------- */
+const WIKI_LANGUAGE = "en";  // the wiki links go to; another language's wiki where this one has no page
+const WIKIS = { en: { name: "Guild Wars Wiki", url: "https://wiki.guildwars.com/wiki/" }, de: { name: "GuildWiki.de", url: "https://www.guildwiki.de/wiki/" } };
+function wikiHref(w, file = false) {
+  const lang = w?.[WIKI_LANGUAGE] ? WIKI_LANGUAGE : Object.keys(WIKIS).find(l => w?.[l]);
+  if (!lang) return null;
+  const title = encodeURIComponent(w[lang].replace(/ /g, "_")).replace(/%2F/g, "/").replace(/%3A/g, ":");
+  return { href: WIKIS[lang].url + (file ? "Special:FilePath/" : "") + title, name: WIKIS[lang].name };
+}
+// a link to the thing's wiki page, "Guild Wars Wiki ↗", or nothing
+const wikiLink = w => { const p = wikiHref(w); return p ? `<a href="${esc(p.href)}" target="_blank" rel="noopener">${p.name} ↗</a>` : ""; };
+
 /* ---------- addresses: a page's settings are after ? (missions?c=1&sort=name) ---------- */
 const query = o => "?" + new URLSearchParams(o);
 const args = () => new URLSearchParams(location.search);
@@ -249,7 +261,7 @@ function entryHTML(e) {
   if (e.location && !e.creature && !e.item) return LINK.place(e.location);
   if (e.bonus) return `<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`;
   if (e.quest) return LINK.quest(e.quest);
-  if (e.item) return `${e.count} × ${e.map ? `<a href="${esc(e.map)}" target="_blank" rel="noopener">${esc(e.item)}</a>` : esc(e.item)}`;
+  if (e.item) return `${e.count} × ${e.map ? `<a href="${esc(wikiHref(e.map, true).href)}" target="_blank" rel="noopener">${esc(e.item)}</a>` : esc(e.item)}`;
   return esc(entryName(e));
 }
 // where an entry takes you: a bounty's place, then the region and campaign

@@ -1,5 +1,5 @@
 const GW_MISSIONS = {
-  "missions_": "Keys are the map id the mission is played on (for Prophecies, its outpost's). outpost: where you start it. leads_to: locations it unlocks. hero: heroes it gives. objectives: [depth, text, bonus?]. rewards: per mode and tier, [xp, gold, skill points, extra...]; by: what sets the tier. foes, bosses, allies: {creature, level: [normal, hard]}.",
+  "missions_": "Keys are the map id the mission is played on (for Prophecies, its outpost's). outpost: where you start it. leads_to: locations it unlocks. hero: heroes it gives. objectives: [depth, text, bonus?]. rewards: per mode and tier, [xp, gold, skill points, extra...]; by: what sets the tier. foes, bosses, allies: {creature, level: [normal, hard]}. wiki: its page on each wiki, {en, de} (as locations).",
   "missions": {
     "10": {
       "name": "Bloodstone Fen",
@@ -56,8 +56,7 @@ const GW_MISSIONS = {
         {"creature": 100594, "level": [20]},
         {"creature": 100640, "level": [20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Blutsteinsumpf_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260706164951/https://wiki.guildwars.com/wiki/Bloodstone_Fen"
+      "wiki": {"en": "Bloodstone Fen", "de": "Blutsteinsumpf (Mission)"}
     },
     "11": {
       "name": "The Wilds",
@@ -116,8 +115,7 @@ const GW_MISSIONS = {
         {"creature": 100853, "level": [20, 20]},
         {"creature": 100854, "level": [15, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Wildnis_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260914143327/https://wiki.guildwars.com/wiki/The_Wilds"
+      "wiki": {"en": "The Wilds", "de": "Die Wildnis (Mission)"}
     },
     "12": {
       "name": "Aurora Glade",
@@ -170,8 +168,7 @@ const GW_MISSIONS = {
         {"creature": 100592, "level": [20, 29]}
       ],
       "allies": [{"creature": 100593, "level": [15]}, {"creature": 100594, "level": [20]}],
-      "wiki": "https://www.guildwiki.de/wiki/Auroralichtung_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260623034139/https://wiki.guildwars.com/wiki/Aurora_Glade"
+      "wiki": {"en": "Aurora Glade", "de": "Auroralichtung (Mission)"}
     },
     "14": {
       "name": "Gates of Kryta",
@@ -232,8 +229,7 @@ const GW_MISSIONS = {
         {"creature": 101367, "level": [8, 20]},
         {"creature": 100732, "level": [5]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Tore_von_Kryta_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260705142107/https://wiki.guildwars.com/wiki/Gates_of_Kryta"
+      "wiki": {"en": "Gates of Kryta", "de": "Tore von Kryta (Mission)"}
     },
     "15": {
       "name": "D'Alessio Seaboard",
@@ -291,8 +287,7 @@ const GW_MISSIONS = {
         {"creature": 100731, "level": [15, 20]},
         {"creature": 100732, "level": [5]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/D'Alessio-Küste_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260707161832/https://wiki.guildwars.com/wiki/D%27Alessio_Seaboard"
+      "wiki": {"en": "D'Alessio Seaboard", "de": "D'Alessio-Küste (Mission)"}
     },
     "16": {
       "name": "Divinity Coast",
@@ -358,8 +353,7 @@ const GW_MISSIONS = {
         {"creature": 101132, "level": [15, 20]},
         {"creature": 101133, "level": [15, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Küste_der_Göttlichkeit_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260706124910/https://wiki.guildwars.com/wiki/Divinity_Coast"
+      "wiki": {"en": "Divinity Coast", "de": "Küste der Göttlichkeit (Mission)"}
     },
     "19": {
       "name": "Sanctum Cay",
@@ -427,8 +421,7 @@ const GW_MISSIONS = {
         {"creature": 101281, "level": [10, 20]},
         {"creature": 100732, "level": [5, 5]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Riff_der_Stille_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260711135836/https://wiki.guildwars.com/wiki/Sanctum_Cay"
+      "wiki": {"en": "Sanctum Cay", "de": "Riff der Stille (Mission)"}
     },
     "21": {
       "name": "The Frost Gate",
@@ -475,8 +468,7 @@ const GW_MISSIONS = {
         {"creature": 100758, "level": [5, 20]},
         {"creature": 100694, "level": [10, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Das_Frosttor_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260625011234/https://wiki.guildwars.com/wiki/The_Frost_Gate"
+      "wiki": {"en": "The Frost Gate", "de": "Das Frosttor (Mission)"}
     },
     "22": {
       "name": "Ice Caves of Sorrow",
@@ -532,8 +524,7 @@ const GW_MISSIONS = {
         {"creature": 100693, "level": [10, 20]},
         {"creature": 100925, "level": [20, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Eishöhlen_der_Betrübnis_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260812005708/https://wiki.guildwars.com/wiki/Ice_Caves_of_Sorrow"
+      "wiki": {"en": "Ice Caves of Sorrow", "de": "Eishöhlen der Betrübnis (Mission)"}
     },
     "23": {
       "name": "Thunderhead Keep",
@@ -607,8 +598,7 @@ const GW_MISSIONS = {
         {"creature": 100692, "level": [20]},
         {"creature": 100943, "level": [17]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Feste_Donnerkopf_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260711153249/https://wiki.guildwars.com/wiki/Thunderhead_Keep"
+      "wiki": {"en": "Thunderhead Keep", "de": "Feste Donnerkopf (Mission)"}
     },
     "24": {
       "name": "Iron Mines of Moladune",
@@ -666,8 +656,7 @@ const GW_MISSIONS = {
         {"creature": 100910, "level": [28]}
       ],
       "allies": [{"creature": 100911}, {"creature": 100912}],
-      "wiki": "https://www.guildwiki.de/wiki/Eisenminen_von_Moladune_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260707161832/https://wiki.guildwars.com/wiki/Iron_Mines_of_Moladune"
+      "wiki": {"en": "Iron Mines of Moladune", "de": "Eisenminen von Moladune (Mission)"}
     },
     "25": {
       "name": "Borlis Pass",
@@ -731,8 +720,7 @@ const GW_MISSIONS = {
         {"creature": 100693, "level": [10, 20]},
         {"creature": 100694, "level": [10, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Borlispass_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260711135836/https://wiki.guildwars.com/wiki/Borlis_Pass"
+      "wiki": {"en": "Borlis Pass", "de": "Borlispass (Mission)"}
     },
     "28": {
       "name": "The Great Northern Wall",
@@ -785,8 +773,7 @@ const GW_MISSIONS = {
         {"creature": 100804, "level": [15, 20]},
         {"creature": 100805, "level": [3, 3]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Große_Nordwall_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260419100936/https://wiki.guildwars.com/wiki/The_Great_Northern_Wall"
+      "wiki": {"en": "The Great Northern Wall", "de": "Der Große Nordwall (Mission)"}
     },
     "29": {
       "name": "Fort Ranik",
@@ -838,8 +825,7 @@ const GW_MISSIONS = {
         {"creature": 101029, "level": [5, 20]},
         {"creature": 101030, "level": [5, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Fort_Ranik_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260705142107/https://wiki.guildwars.com/wiki/Fort_Ranik"
+      "wiki": {"en": "Fort Ranik", "de": "Fort Ranik (Mission)"}
     },
     "30": {
       "name": "Ruins of Surmia",
@@ -904,8 +890,7 @@ const GW_MISSIONS = {
         {"creature": 101304, "level": [7, 20]},
         {"creature": 101195, "level": [7, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ruinen_von_Surmia_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260611131126/https://wiki.guildwars.com/wiki/Ruins_of_Surmia"
+      "wiki": {"en": "Ruins of Surmia", "de": "Ruinen von Surmia (Mission)"}
     },
     "32": {
       "name": "Nolani Academy",
@@ -966,8 +951,7 @@ const GW_MISSIONS = {
         {"creature": 101195, "level": [7, 20]},
         {"creature": 101196, "level": [11, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nolani-Akademie_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260705124654/https://wiki.guildwars.com/wiki/Nolani_Academy"
+      "wiki": {"en": "Nolani Academy", "de": "Nolani-Akademie (Mission)"}
     },
     "37": {
       "name": "Glint's Challenge",
@@ -999,8 +983,7 @@ const GW_MISSIONS = {
         {"creature": 100692, "level": [24]},
         {"creature": 100693, "level": [24]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Glints_Herausforderung",
-      "wiki_en": "https://web.archive.org/web/20260830131038/https://wiki.guildwars.com/wiki/Glint%27s_Challenge"
+      "wiki": {"en": "Glint's Challenge", "de": "Glints Herausforderung"}
     },
     "38": {
       "name": "Augury Rock",
@@ -1019,14 +1002,13 @@ const GW_MISSIONS = {
         "hard": {"mission": [3000, 500, 1], "bonus": [2000, 500, 1]}
       },
       "allies": [{"creature": 100940}, {"creature": 100941}, {"creature": 100942}],
-      "wiki": "https://www.guildwiki.de/wiki/Fels_der_Weissagung_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260806124633/https://wiki.guildwars.com/wiki/Augury_Rock"
+      "wiki": {"en": "Augury Rock", "de": "Fels der Weissagung (Mission)"}
     },
     "72": {
       "name": "The Underworld",
       "kind": "pvp",
       "outpost": 72,
-      "wiki": "https://www.guildwiki.de/wiki/Die_Unterwelt_(Turnier-Karte)"
+      "wiki": {"en": "The Underworld", "de": "Die Unterwelt (Turnier-Karte)"}
     },
     "73": {
       "name": "Riverside Province",
@@ -1089,16 +1071,19 @@ const GW_MISSIONS = {
         {"creature": 101005, "level": [10, 20]},
         {"creature": 101006, "level": [10, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Flussuferprovinz_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260707160913/https://wiki.guildwars.com/wiki/Riverside_Province"
+      "wiki": {"en": "Riverside Province", "de": "Flussuferprovinz (Mission)"}
     },
-    "75": {"name": "The Hall of Heroes", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Die_Halle_der_Helden"},
-    "76": {"name": "Broken Tower", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Zerfallener_Turm"},
-    "78": {"name": "The Courtyard", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Der_Hof"},
-    "79": {"name": "Unholy Temples", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Unheilige_Tempel"},
-    "80": {"name": "Burial Mounds", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Grabhügel"},
-    "83": {"name": "The Vault", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Die_Gruft"},
-    "86": {"name": "Sacred Temples", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Geheiligte_Tempel"},
+    "75": {
+      "name": "The Hall of Heroes",
+      "kind": "pvp",
+      "wiki": {"en": "The Hall of Heroes", "de": "Die Halle der Helden"}
+    },
+    "76": {"name": "Broken Tower", "kind": "pvp", "wiki": {"en": "Broken Tower", "de": "Zerfallener Turm"}},
+    "78": {"name": "The Courtyard", "kind": "pvp", "wiki": {"en": "The Courtyard", "de": "Der Hof"}},
+    "79": {"name": "Unholy Temples", "kind": "pvp", "wiki": {"en": "Unholy Temples", "de": "Unheilige Tempel"}},
+    "80": {"name": "Burial Mounds", "kind": "pvp", "wiki": {"en": "Burial Mounds", "de": "Grabhügel"}},
+    "83": {"name": "The Vault", "kind": "pvp", "wiki": {"en": "The Vault", "de": "Die Gruft"}},
+    "86": {"name": "Sacred Temples", "kind": "pvp", "wiki": {"en": "Sacred Temples", "de": "Geheiligte Tempel"}},
     "116": {
       "name": "Dunes of Despair",
       "kind": "story",
@@ -1141,8 +1126,7 @@ const GW_MISSIONS = {
         {"creature": 100888, "level": [24]}
       ],
       "allies": [{"creature": 100881}],
-      "wiki": "https://www.guildwiki.de/wiki/Dünen_der_Verzweiflung_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260711143350/https://wiki.guildwars.com/wiki/Dunes_of_Despair"
+      "wiki": {"en": "Dunes of Despair", "de": "Dünen der Verzweiflung (Mission)"}
     },
     "117": {
       "name": "Thirsty River",
@@ -1185,8 +1169,7 @@ const GW_MISSIONS = {
         {"creature": 100873, "level": [24, 30]}
       ],
       "allies": [{"creature": 100874, "level": [20, 20]}, {"creature": 100875, "level": [24, 24]}],
-      "wiki": "https://www.guildwiki.de/wiki/Durstiger_Fluss_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260707161845/https://wiki.guildwars.com/wiki/Thirsty_River"
+      "wiki": {"en": "Thirsty River", "de": "Durstiger Fluss (Mission)"}
     },
     "118": {
       "name": "Elona Reach",
@@ -1234,8 +1217,7 @@ const GW_MISSIONS = {
         {"creature": 100938, "level": [15, 20]},
         {"creature": 100939, "level": [5]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elonaspitze_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260807165322/https://wiki.guildwars.com/wiki/Elona_Reach"
+      "wiki": {"en": "Elona Reach", "de": "Elonaspitze (Mission)"}
     },
     "120": {
       "name": "The Dragon's Lair",
@@ -1279,8 +1261,7 @@ const GW_MISSIONS = {
         {"creature": 100831, "level": [26, 30]}
       ],
       "allies": [{"creature": 100832, "level": [20, 20]}, {"creature": 100833, "level": [31, 31]}],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Drachenhöhle_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260706151326/https://wiki.guildwars.com/wiki/The_Dragon%27s_Lair"
+      "wiki": {"en": "The Dragon's Lair", "de": "Die Drachenhöhle (Mission)"}
     },
     "122": {
       "name": "Ring of Fire",
@@ -1337,8 +1318,7 @@ const GW_MISSIONS = {
         {"creature": 100521, "level": [20, 20]},
         {"creature": 100522, "level": [30, 30]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Feuerring_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260812005716/https://wiki.guildwars.com/wiki/Ring_of_Fire"
+      "wiki": {"en": "Ring of Fire", "de": "Feuerring (Mission)"}
     },
     "123": {
       "name": "Abaddon's Mouth",
@@ -1394,8 +1374,7 @@ const GW_MISSIONS = {
         {"creature": 100521, "level": [20, 20]},
         {"creature": 100522, "level": [30, 30]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Abaddons_Maul_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260822081121/https://wiki.guildwars.com/wiki/Abaddon%27s_Mouth"
+      "wiki": {"en": "Abaddon's Mouth", "de": "Abaddons Maul (Mission)"}
     },
     "124": {
       "name": "Hell's Precipice",
@@ -1433,14 +1412,13 @@ const GW_MISSIONS = {
         {"creature": 101412, "level": [28, 30]}
       ],
       "allies": [{"creature": 100522, "level": [30, 30]}],
-      "wiki": "https://www.guildwiki.de/wiki/Vorhof_der_Hölle_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20261004074822/https://wiki.guildwars.com/wiki/Hell%27s_Precipice"
+      "wiki": {"en": "Hell's Precipice", "de": "Vorhof der Hölle (Mission)"}
     },
-    "126": {"name": "Golden Gates", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Goldene_Tore"},
+    "126": {"name": "Golden Gates", "kind": "pvp", "wiki": {"en": "Golden Gates", "de": "Goldene Tore"}},
     "127": {
       "name": "Scarred Earth",
       "kind": "pvp",
-      "wiki": "https://www.guildwiki.de/wiki/Vernarbte_Erde_(Turnier-Karte)"
+      "wiki": {"en": "Scarred Earth", "de": "Vernarbte Erde (Turnier-Karte)"}
     },
     "204": {
       "name": "Unwaking Waters",
@@ -1483,8 +1461,7 @@ const GW_MISSIONS = {
         {"creature": 100769, "level": [28, 30]},
         {"creature": 100770, "level": [28, 30]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Verschlafene_Gewässer_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260820140428/https://wiki.guildwars.com/wiki/Unwaking_Waters"
+      "wiki": {"en": "Unwaking Waters", "de": "Verschlafene Gewässer (Mission)"}
     },
     "215": {
       "name": "Vizunah Square",
@@ -1536,15 +1513,13 @@ const GW_MISSIONS = {
         {"creature": 100284, "level": [24, 30]}
       ],
       "allies": [{"creature": 100548, "level": [20, 20]}, {"creature": 101146, "level": [20, 20]}],
-      "wiki": "https://www.guildwiki.de/wiki/Vizunahplatz_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260908181110/https://wiki.guildwars.com/wiki/Vizunah_Square"
+      "wiki": {"en": "Vizunah Square", "de": "Vizunahplatz (Mission)"}
     },
     "221": {
       "name": "Fort Aspenwood",
       "kind": "competitive",
       "leads_to": [294, 293],
-      "wiki": "https://www.guildwiki.de/wiki/Fort_Espenwald_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260821193202/https://wiki.guildwars.com/wiki/Fort_Aspenwood"
+      "wiki": {"en": "Fort Aspenwood", "de": "Fort Espenwald (Mission)"}
     },
     "223": {
       "name": "The Jade Quarry",
@@ -1563,16 +1538,14 @@ const GW_MISSIONS = {
         [1, "[No one controls / Kurzicks control / Luxons control] the Purple quarry.", false],
         [1, "[No one controls / Kurzicks control / Luxons control] the Yellow quarry.", false]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Jadesteinbruch_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260820140442/https://wiki.guildwars.com/wiki/The_Jade_Quarry"
+      "wiki": {"en": "The Jade Quarry", "de": "Der Jadesteinbruch (Mission)"}
     },
     "230": {
       "name": "Amatz Basin",
       "kind": "challenge",
       "outpost": 230,
       "objectives": [[0, "Save as many Kurzick refugees as possible before time elapses.", false]],
-      "wiki": "https://www.guildwiki.de/wiki/Amatzbecken_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260810165319/https://wiki.guildwars.com/wiki/Amatz_Basin"
+      "wiki": {"en": "Amatz Basin", "de": "Amatzbecken (Mission)"}
     },
     "234": {
       "name": "The Aurios Mines",
@@ -1583,10 +1556,9 @@ const GW_MISSIONS = {
         [1, "Kill the enemy guards at the quarry sites.", false]
       ],
       "allies": [{"creature": 100815, "level": [20]}],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Auriosminen_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260820140442/https://wiki.guildwars.com/wiki/The_Aurios_Mines"
+      "wiki": {"en": "The Aurios Mines", "de": "Die Auriosminen (Mission)"}
     },
-    "253": {"name": "Dwayna Vs Grenth", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Dwayna_gg._Grenth"},
+    "253": {"name": "Dwayna Vs Grenth", "kind": "pvp", "wiki": {"en": "Dwayna Vs Grenth", "de": "Dwayna gg. Grenth"}},
     "257": {
       "name": "Minister Cho's Estate",
       "kind": "story",
@@ -1627,8 +1599,7 @@ const GW_MISSIONS = {
         {"creature": 101147, "level": [10, 20]},
         {"creature": 101148, "level": [2]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Minister_Chos_Anwesen_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260725155835/https://wiki.guildwars.com/wiki/Minister_Cho%27s_Estate"
+      "wiki": {"en": "Minister Cho's Estate", "de": "Minister Chos Anwesen (Mission)"}
     },
     "258": {
       "name": "Zen Daijun",
@@ -1675,8 +1646,7 @@ const GW_MISSIONS = {
         {"creature": 101433, "level": [15, 20]},
         {"creature": 101146, "level": [20, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Zen_Daijun_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260819225352/https://wiki.guildwars.com/wiki/Zen_Daijun"
+      "wiki": {"en": "Zen Daijun", "de": "Zen Daijun (Mission)"}
     },
     "260": {
       "name": "Nahpui Quarter",
@@ -1714,8 +1684,7 @@ const GW_MISSIONS = {
         {"creature": 101175, "level": [22, 29]}
       ],
       "allies": [{"creature": 101176, "level": [10, 20]}],
-      "wiki": "https://www.guildwiki.de/wiki/Nahpuiviertel_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260908181110/https://wiki.guildwars.com/wiki/Nahpui_Quarter"
+      "wiki": {"en": "Nahpui Quarter", "de": "Nahpuiviertel (Mission)"}
     },
     "261": {
       "name": "Tahnnakai Temple",
@@ -1762,8 +1731,7 @@ const GW_MISSIONS = {
         {"creature": 101266},
         {"creature": 100548, "level": [20, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Tahnnakai-Tempel_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260624152627/https://wiki.guildwars.com/wiki/Tahnnakai_Temple"
+      "wiki": {"en": "Tahnnakai Temple", "de": "Tahnnakai-Tempel (Mission)"}
     },
     "262": {
       "name": "Arborstone",
@@ -1824,8 +1792,7 @@ const GW_MISSIONS = {
         {"creature": 100245, "level": [28, 30]},
         {"creature": 100566, "level": [28, 30]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Arborstein_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260831151020/https://wiki.guildwars.com/wiki/Arborstone"
+      "wiki": {"en": "Arborstone", "de": "Arborstein (Mission)"}
     },
     "263": {
       "name": "Boreas Seabed",
@@ -1872,8 +1839,7 @@ const GW_MISSIONS = {
         {"creature": 100661, "level": [24, 30]},
         {"creature": 100662, "level": [24, 30]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Boreas-Meeresgrund_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260904102054/https://wiki.guildwars.com/wiki/Boreas_Seabed"
+      "wiki": {"en": "Boreas Seabed", "de": "Boreas-Meeresgrund (Mission)"}
     },
     "264": {
       "name": "Sunjiang District",
@@ -1927,8 +1893,7 @@ const GW_MISSIONS = {
         {"creature": 100333, "level": [24, 30]},
         {"creature": 100236, "level": [24, 30]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Sunjiang-Bezirk_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260821193202/https://wiki.guildwars.com/wiki/Sunjiang_District"
+      "wiki": {"en": "Sunjiang District", "de": "Sunjiang-Bezirk (Mission)"}
     },
     "266": {
       "name": "Urgoz's Warren",
@@ -1962,8 +1927,7 @@ const GW_MISSIONS = {
         {"creature": 101392, "level": [28, 30]}
       ],
       "allies": [{"creature": 101393, "level": [10, 20]}],
-      "wiki": "https://www.guildwiki.de/wiki/Urgoz'_Bau_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260821193149/https://wiki.guildwars.com/wiki/Urgoz%27s_Warren"
+      "wiki": {"en": "Urgoz's Warren", "de": "Urgoz' Bau (Mission)"}
     },
     "267": {
       "name": "The Eternal Grove",
@@ -2018,8 +1982,7 @@ const GW_MISSIONS = {
         {"creature": 100778, "level": [28, 28]},
         {"creature": 100646, "level": [20, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Ewige_Hain_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260830153735/https://wiki.guildwars.com/wiki/The_Eternal_Grove"
+      "wiki": {"en": "The Eternal Grove", "de": "Der Ewige Hain (Mission)"}
     },
     "268": {
       "name": "Gyala Hatchery",
@@ -2073,8 +2036,7 @@ const GW_MISSIONS = {
         {"creature": 101057, "level": [15, 20]},
         {"creature": 100767, "level": [24, 24]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Gyala-Brutstätte_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260908181110/https://wiki.guildwars.com/wiki/Gyala_Hatchery"
+      "wiki": {"en": "Gyala Hatchery", "de": "Gyala-Brutstätte (Mission)"}
     },
     "270": {
       "name": "Raisu Palace",
@@ -2130,8 +2092,7 @@ const GW_MISSIONS = {
         {"creature": 101270},
         {"creature": 101271, "level": [20, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Raisu-Palast_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260904202215/https://wiki.guildwars.com/wiki/Raisu_Palace"
+      "wiki": {"en": "Raisu Palace", "de": "Raisu-Palast (Mission)"}
     },
     "271": {
       "name": "Imperial Sanctum",
@@ -2166,8 +2127,7 @@ const GW_MISSIONS = {
         {"creature": 100548, "level": [20]},
         {"creature": 101075, "level": [10]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Kaiserliches_Refugium_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260908181110/https://wiki.guildwars.com/wiki/Imperial_Sanctum"
+      "wiki": {"en": "Imperial Sanctum", "de": "Kaiserliches Refugium (Mission)"}
     },
     "272": {
       "name": "Altrumm Ruins",
@@ -2200,8 +2160,7 @@ const GW_MISSIONS = {
         {"creature": 100546, "level": [28, 30]},
         {"creature": 100547, "level": [28, 30]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Altrumm-Ruinen_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260820140451/https://wiki.guildwars.com/wiki/Altrumm_Ruins"
+      "wiki": {"en": "Altrumm Ruins", "de": "Altrumm-Ruinen (Mission)"}
     },
     "273": {
       "name": "Zos Shivros Channel",
@@ -2228,8 +2187,7 @@ const GW_MISSIONS = {
         {"creature": 100767, "level": [24, 26]}
       ],
       "allies": [{"creature": 101438, "level": [24]}],
-      "wiki": "https://www.guildwiki.de/wiki/Zos_Shivros-Kanal_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260624152617/https://wiki.guildwars.com/wiki/Zos_Shivros_Channel"
+      "wiki": {"en": "Zos Shivros Channel", "de": "Zos Shivros-Kanal (Mission)"}
     },
     "274": {
       "name": "Dragon's Throat",
@@ -2252,22 +2210,20 @@ const GW_MISSIONS = {
         {"creature": 100861, "level": [24, 30]},
         {"creature": 100862, "level": [24, 30]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Drachenhals_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260821193039/https://wiki.guildwars.com/wiki/Dragon%27s_Throat"
+      "wiki": {"en": "Dragon's Throat", "de": "Drachenhals (Mission)"}
     },
     "307": {
       "name": "The Deep",
       "kind": "elite",
       "outpost": 307,
       "objectives": [[1, "Find and destroy the source of the Luxon outcasts and Oni", false]],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Tiefe_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260821193025/https://wiki.guildwars.com/wiki/The_Deep"
+      "wiki": {"en": "The Deep", "de": "Die Tiefe (Mission)"}
     },
     "368": {
       "name": "Dragon Arena",
       "kind": "pvp",
       "outpost": 368,
-      "wiki": "https://www.guildwiki.de/wiki/Drachenarena_(Mission)"
+      "wiki": {"en": "Dragon Arena", "de": "Drachenarena (Mission)"}
     },
     "427": {
       "name": "Moddok Crevice",
@@ -2312,8 +2268,7 @@ const GW_MISSIONS = {
         {"creature": 101163, "level": [24]},
         {"creature": 101164, "level": [24]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Moddok-Spalte_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260814133418/https://wiki.guildwars.com/wiki/Moddok_Crevice"
+      "wiki": {"en": "Moddok Crevice", "de": "Moddok-Spalte (Mission)"}
     },
     "453": {
       "name": "Venta Cemetery",
@@ -2353,8 +2308,7 @@ const GW_MISSIONS = {
         {"creature": 101370, "level": [20, 20]},
         {"creature": 101107, "level": [20, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Totenanger_von_Venta_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260629153324/https://wiki.guildwars.com/wiki/Venta_Cemetery"
+      "wiki": {"en": "Venta Cemetery", "de": "Totenanger von Venta (Mission)"}
     },
     "458": {
       "name": "Kodonur Crossroads",
@@ -2410,8 +2364,7 @@ const GW_MISSIONS = {
         {"creature": 101095, "level": [20]},
         {"creature": 101096, "level": [20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Kodonur-Kreuzung_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260727154223/https://wiki.guildwars.com/wiki/Kodonur_Crossroads"
+      "wiki": {"en": "Kodonur Crossroads", "de": "Kodonur-Kreuzung (Mission)"}
     },
     "459": {
       "name": "Rilohn Refuge",
@@ -2454,8 +2407,7 @@ const GW_MISSIONS = {
         {"creature": 101286, "level": [20]},
         {"creature": 101287, "level": [20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Rilohn-Refugium_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20261003152406/https://wiki.guildwars.com/wiki/Rilohn_Refuge"
+      "wiki": {"en": "Rilohn Refuge", "de": "Rilohn-Refugium (Mission)"}
     },
     "460": {
       "name": "Pogahn Passage",
@@ -2521,14 +2473,13 @@ const GW_MISSIONS = {
         {"creature": 101256, "level": [20]},
         {"creature": 100527, "level": [20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Passage_von_Pogahn_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260724204837/https://wiki.guildwars.com/wiki/Pogahn_Passage"
+      "wiki": {"en": "Pogahn Passage", "de": "Passage von Pogahn (Mission)"}
     },
     "467": {
       "name": "Rollerbeetle Racing",
       "kind": "pvp",
       "outpost": 467,
-      "wiki": "https://www.guildwiki.de/wiki/Rollkäfer-Rennen_(Mission)"
+      "wiki": {"en": "Rollerbeetle Racing", "de": "Rollkäfer-Rennen (Mission)"}
     },
     "515": {
       "name": "Jokanur Diggings",
@@ -2567,8 +2518,7 @@ const GW_MISSIONS = {
         {"creature": 100603, "level": [12, 20]},
         {"creature": 100604, "level": [12, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ausgrabungsstätte_von_Jokanur_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260724204837/https://wiki.guildwars.com/wiki/Jokanur_Diggings"
+      "wiki": {"en": "Jokanur Diggings", "de": "Ausgrabungsstätte von Jokanur (Mission)"}
     },
     "516": {
       "name": "Blacktide Den",
@@ -2625,8 +2575,7 @@ const GW_MISSIONS = {
         {"creature": 101305, "level": [15, 20]},
         {"creature": 101326, "level": [15, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Schwarzwasserloch_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260814125039/https://wiki.guildwars.com/wiki/Blacktide_Den"
+      "wiki": {"en": "Blacktide Den", "de": "Schwarzwasserloch (Mission)"}
     },
     "517": {
       "name": "Consulate Docks",
@@ -2679,8 +2628,7 @@ const GW_MISSIONS = {
         {"creature": 101106, "level": [20, 20]},
         {"creature": 101107, "level": [20, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Konsulatshafen_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260814125039/https://wiki.guildwars.com/wiki/Consulate_Docks"
+      "wiki": {"en": "Consulate Docks", "de": "Konsulatshafen (Mission)"}
     },
     "518": {
       "name": "Tihark Orchard",
@@ -2752,8 +2700,7 @@ const GW_MISSIONS = {
         {"creature": 101240, "level": [10, 20]},
         {"creature": 101241, "level": [10, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Obstgarten_von_Tihark_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260708142033/https://wiki.guildwars.com/wiki/Tihark_Orchard"
+      "wiki": {"en": "Tihark Orchard", "de": "Obstgarten von Tihark (Mission)"}
     },
     "519": {
       "name": "Dzagonur Bastion",
@@ -2800,8 +2747,7 @@ const GW_MISSIONS = {
         {"creature": 100618, "level": [28, 30]}
       ],
       "allies": [{"creature": 100619, "level": [20, 20]}, {"creature": 100620, "level": [20, 20]}],
-      "wiki": "https://www.guildwiki.de/wiki/Bastion_von_Dzagonur_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260814133418/https://wiki.guildwars.com/wiki/Dzagonur_Bastion"
+      "wiki": {"en": "Dzagonur Bastion", "de": "Bastion von Dzagonur (Mission)"}
     },
     "520": {
       "name": "Dasha Vestibule",
@@ -2849,8 +2795,7 @@ const GW_MISSIONS = {
         {"creature": 100413, "level": [28, 30]},
         {"creature": 101423, "level": [28, 30]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Vorhof_von_Dasha_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260814125039/https://wiki.guildwars.com/wiki/Dasha_Vestibule"
+      "wiki": {"en": "Dasha Vestibule", "de": "Vorhof von Dasha (Mission)"}
     },
     "521": {
       "name": "Grand Court of Sebelkeh",
@@ -2888,8 +2833,7 @@ const GW_MISSIONS = {
         {"creature": 101045, "level": [20, 26]},
         {"creature": 100525, "level": [24, 26]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Großer_Hof_von_Sebelkeh_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260814133418/https://wiki.guildwars.com/wiki/Grand_Court_of_Sebelkeh"
+      "wiki": {"en": "Grand Court of Sebelkeh", "de": "Großer Hof von Sebelkeh (Mission)"}
     },
     "522": {
       "name": "Jennur's Horde",
@@ -2933,8 +2877,7 @@ const GW_MISSIONS = {
         {"creature": 100613, "level": [24, 26]}
       ],
       "allies": [{"creature": 101060}, {"creature": 101061}],
-      "wiki": "https://www.guildwiki.de/wiki/Jennurs_Horde_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260629153254/https://wiki.guildwars.com/wiki/Jennur%27s_Horde"
+      "wiki": {"en": "Jennur's Horde", "de": "Jennurs Horde (Mission)"}
     },
     "523": {
       "name": "Nundu Bay",
@@ -2990,8 +2933,7 @@ const GW_MISSIONS = {
         {"creature": 101204, "level": [20]},
         {"creature": 101205, "level": [20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nundu-Bucht_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260814134928/https://wiki.guildwars.com/wiki/Nundu_Bay"
+      "wiki": {"en": "Nundu Bay", "de": "Nundu-Bucht (Mission)"}
     },
     "524": {
       "name": "Gate of Desolation",
@@ -3048,8 +2990,7 @@ const GW_MISSIONS = {
         {"creature": 101455, "level": [28]}
       ],
       "allies": [{"creature": 101456}, {"creature": 101457}],
-      "wiki": "https://www.guildwiki.de/wiki/Ödland-Tor_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260901125326/https://wiki.guildwars.com/wiki/Gate_of_Desolation"
+      "wiki": {"en": "Gate of Desolation", "de": "Ödland-Tor (Mission)"}
     },
     "525": {
       "name": "Ruins of Morah",
@@ -3070,7 +3011,7 @@ const GW_MISSIONS = {
         {"creature": 100809, "level": [28, 30]},
         {"creature": 100812, "level": [28, 30]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ruinen_von_Morah_(Mission)"
+      "wiki": {"en": "Ruins of Morah", "de": "Ruinen von Morah (Mission)"}
     },
     "526": {
       "name": "Gate of Pain",
@@ -3117,8 +3058,7 @@ const GW_MISSIONS = {
         {"creature": 101339, "level": [20]},
         {"creature": 101340, "level": [6]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Tor_des_Schmerzes_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260811200924/https://wiki.guildwars.com/wiki/Gate_of_Pain"
+      "wiki": {"en": "Gate of Pain", "de": "Tor des Schmerzes (Mission)"}
     },
     "527": {
       "name": "Gate of Madness",
@@ -3179,8 +3119,7 @@ const GW_MISSIONS = {
         {"creature": 101341, "level": [30, 32]}
       ],
       "allies": [{"creature": 100527}],
-      "wiki": "https://www.guildwiki.de/wiki/Tor_des_Wahnsinns_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260729220637/https://wiki.guildwars.com/wiki/Gate_of_Madness"
+      "wiki": {"en": "Gate of Madness", "de": "Tor des Wahnsinns (Mission)"}
     },
     "528": {
       "name": "Abaddon's Gate",
@@ -3203,8 +3142,7 @@ const GW_MISSIONS = {
       },
       "foes": [{"creature": 100523}, {"creature": 100524, "level": [30, 32]}, {"creature": 100525, "level": [24, 26]}],
       "allies": [{"creature": 100526}, {"creature": 100527, "level": [20]}],
-      "wiki": "https://www.guildwiki.de/wiki/Abaddons_Tor_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260814125039/https://wiki.guildwars.com/wiki/Abaddon%27s_Gate"
+      "wiki": {"en": "Abaddon's Gate", "de": "Abaddons Tor (Mission)"}
     },
     "545": {
       "name": "Remains of Sahlahja",
@@ -3219,8 +3157,7 @@ const GW_MISSIONS = {
         [1, "Destroy lost souls to free their spirits and earn points.", false],
         [1, "Earn 15 points to unlock access to each section of the tombs.", false]
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Überreste_Sahlahjars_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260814133409/https://wiki.guildwars.com/wiki/Remains_of_Sahlahja"
+      "wiki": {"en": "Remains of Sahlahja", "de": "Überreste Sahlahjars (Mission)"}
     },
     "554": {
       "name": "Dajkah Inlet",
@@ -3255,8 +3192,7 @@ const GW_MISSIONS = {
         {"creature": 100748, "level": [20, 20]},
         {"creature": 100749, "level": [20, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Dajkah-Zulauf_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260814125026/https://wiki.guildwars.com/wiki/Dajkah_Inlet"
+      "wiki": {"en": "Dajkah Inlet", "de": "Dajkah-Zulauf (Mission)"}
     },
     "555": {
       "name": "The Shadow Nexus",
@@ -3290,8 +3226,7 @@ const GW_MISSIONS = {
         {"creature": 100813, "level": [28, 30]}
       ],
       "bosses": [{"creature": 100814, "level": [24, 30]}],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Nexus_der_Schatten_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260814134916/https://wiki.guildwars.com/wiki/The_Shadow_Nexus"
+      "wiki": {"en": "The Shadow Nexus", "de": "Der Nexus der Schatten (Mission)"}
     },
     "556": {
       "name": "Chahbek Village",
@@ -3327,12 +3262,15 @@ const GW_MISSIONS = {
         {"creature": 100702, "level": [2, 20]},
         {"creature": 100527, "level": [20, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Chahbek_(Mission)",
-      "wiki_en": "https://web.archive.org/web/20260814133418/https://wiki.guildwars.com/wiki/Chahbek_Village"
+      "wiki": {"en": "Chahbek Village", "de": "Chahbek (Mission)"}
     },
-    "593": {"name": "Fetid River", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Stinkender_Fluss"},
-    "596": {"name": "Forgotten Shrines", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Vergessene_Schreine"},
-    "598": {"name": "The Antechamber", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Die_Vorkammer"},
+    "593": {"name": "Fetid River", "kind": "pvp", "wiki": {"en": "Fetid River", "de": "Stinkender Fluss"}},
+    "596": {
+      "name": "Forgotten Shrines",
+      "kind": "pvp",
+      "wiki": {"en": "Forgotten Shrines", "de": "Vergessene Schreine"}
+    },
+    "598": {"name": "The Antechamber", "kind": "pvp", "wiki": {"en": "Antechamber", "de": "Die Vorkammer"}},
     "653": {
       "name": "Curse of the Nornbear",
       "kind": "story",
@@ -3372,8 +3310,7 @@ const GW_MISSIONS = {
         {"creature": 101515, "level": [20]},
         {"creature": 101516, "level": [0, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Fluch_des_Nornbären",
-      "wiki_en": "https://web.archive.org/web/20260814135329/https://wiki.guildwars.com/wiki/Curse_of_the_Nornbear"
+      "wiki": {"en": "Curse of the Nornbear", "de": "Der Fluch des Nornbären"}
     },
     "654": {
       "name": "Blood Washes Blood",
@@ -3410,8 +3347,7 @@ const GW_MISSIONS = {
         {"creature": 100045, "level": [24]}
       ],
       "allies": [{"creature": 101487, "level": [20]}, {"creature": 101488, "level": [20]}],
-      "wiki": "https://www.guildwiki.de/wiki/Blut_wäscht_Blut",
-      "wiki_en": "https://web.archive.org/web/20260918145442/https://wiki.guildwars.com/wiki/Blood_Washes_Blood"
+      "wiki": {"en": "Blood Washes Blood", "de": "Blut wäscht Blut"}
     },
     "655": {
       "name": "A Gate Too Far",
@@ -3461,8 +3397,7 @@ const GW_MISSIONS = {
         {"creature": 101546, "level": [20]},
         {"creature": 101546, "level": [20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ein_Portal_zu_weit",
-      "wiki_en": "https://web.archive.org/web/20260620132432/https://wiki.guildwars.com/wiki/A_Gate_Too_Far"
+      "wiki": {"en": "A Gate Too Far", "de": "Ein Portal zu weit"}
     },
     "658": {
       "name": "The Elusive Golemancer",
@@ -3491,8 +3426,7 @@ const GW_MISSIONS = {
         {"creature": 101541, "level": [20]}
       ],
       "allies": [{"creature": 101542, "level": [20]}],
-      "wiki": "https://www.guildwiki.de/wiki/Die_scheue_Golemantin",
-      "wiki_en": "https://web.archive.org/web/20260830131019/https://wiki.guildwars.com/wiki/The_Elusive_Golemancer"
+      "wiki": {"en": "The Elusive Golemancer", "de": "Die scheue Golemantin"}
     },
     "661": {
       "name": "Finding the Bloodstone",
@@ -3534,8 +3468,7 @@ const GW_MISSIONS = {
       ],
       "bosses": [{"creature": 101477, "level": [28, 30]}, {"creature": 101478, "level": [28, 30]}],
       "allies": [{"creature": 101479, "level": [20, 20]}, {"creature": 101480, "level": [20, 20]}],
-      "wiki": "https://www.guildwiki.de/wiki/Auf_der_Suche_nach_dem_Blutstein",
-      "wiki_en": "https://web.archive.org/web/20260830132347/https://wiki.guildwars.com/wiki/Finding_the_Bloodstone"
+      "wiki": {"en": "Finding the Bloodstone", "de": "Auf der Suche nach dem Blutstein"}
     },
     "664": {
       "name": "Genius Operated Living Enchanted Manifestation",
@@ -3575,8 +3508,10 @@ const GW_MISSIONS = {
         {"creature": 101480, "level": [20]},
         {"creature": 101549}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Geführter_Operand_Lebender_Entfesselter_Magie",
-      "wiki_en": "https://web.archive.org/web/20260830131033/https://wiki.guildwars.com/wiki/Genius_Operated_Living_Enchanted_Manifestation"
+      "wiki": {
+        "en": "Genius Operated Living Enchanted Manifestation",
+        "de": "Geführter Operand Lebender Entfesselter Magie"
+      }
     },
     "665": {
       "name": "Against the Charr",
@@ -3618,8 +3553,7 @@ const GW_MISSIONS = {
         {"creature": 100314, "level": [24, 30]},
         {"creature": 101560, "level": [24, 30]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Gegen_die_Charr",
-      "wiki_en": "https://web.archive.org/web/20260918145442/https://wiki.guildwars.com/wiki/Against_the_Charr"
+      "wiki": {"en": "Against the Charr", "de": "Gegen die Charr"}
     },
     "666": {
       "name": "Warband of Brothers",
@@ -3658,8 +3592,7 @@ const GW_MISSIONS = {
         {"creature": 101498, "level": [28, 30]}
       ],
       "allies": [{"creature": 101499, "level": [20]}, {"creature": 101500, "level": [20]}],
-      "wiki": "https://www.guildwiki.de/wiki/Brudertrupp",
-      "wiki_en": "https://web.archive.org/web/20260814135329/https://wiki.guildwars.com/wiki/Warband_of_Brothers"
+      "wiki": {"en": "Warband of Brothers", "de": "Brudertrupp"}
     },
     "669": {
       "name": "Assault on the Stronghold",
@@ -3703,8 +3636,7 @@ const GW_MISSIONS = {
         {"creature": 101500, "level": [20, 20]},
         {"creature": 101507, "level": [20, 20]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Der_Angriff_auf_die_Festung",
-      "wiki_en": "https://web.archive.org/web/20260625123547/https://wiki.guildwars.com/wiki/Assault_on_the_Stronghold"
+      "wiki": {"en": "Assault on the Stronghold", "de": "Der Angriff auf die Festung"}
     },
     "670": {
       "name": "Destruction's Depths",
@@ -3767,8 +3699,7 @@ const GW_MISSIONS = {
         {"creature": 101538},
         {"creature": 101487}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Die_Tiefen_der_Zerstörung",
-      "wiki_en": "https://web.archive.org/web/20260725190027/https://wiki.guildwars.com/wiki/Destruction%27s_Depths"
+      "wiki": {"en": "Destruction's Depths", "de": "Die Tiefen der Zerstörung"}
     },
     "673": {
       "name": "A Time for Heroes",
@@ -3782,28 +3713,27 @@ const GW_MISSIONS = {
         "normal": {"first": 5000, "repeat": 100},
         "hard": {"first": 7500, "repeat": 150}
       },
-      "wiki": "https://www.guildwiki.de/wiki/Eine_Zeit_für_Helden",
-      "wiki_en": "https://web.archive.org/web/20260812005716/https://wiki.guildwars.com/wiki/A_Time_for_Heroes"
+      "wiki": {"en": "A Time for Heroes", "de": "Eine Zeit für Helden"}
     },
     "722": {
       "name": "Whitefury Rapids",
       "kind": "pvp",
-      "wiki": "https://www.guildwiki.de/wiki/Wildwasser-Stromschnellen"
+      "wiki": {"en": "Whitefury Rapids", "de": "Wildwasser-Stromschnellen"}
     },
-    "723": {"name": "Kysten Shore", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Kysten-Küste"},
-    "724": {"name": "Deepway Ruins", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Tiefenbach-Ruinen"},
-    "725": {"name": "Plikkup Works", "kind": "pvp", "wiki": "https://www.guildwiki.de/wiki/Plikkup-Werke"},
+    "723": {"name": "Kysten Shore", "kind": "pvp", "wiki": {"en": "Kysten Shore", "de": "Kysten-Küste"}},
+    "724": {"name": "Deepway Ruins", "kind": "pvp", "wiki": {"en": "Deepway Ruins", "de": "Tiefenbach-Ruinen"}},
+    "725": {"name": "Plikkup Works", "kind": "pvp", "wiki": {"en": "Plikkup Works", "de": "Plikkup-Werke"}},
     "100004": {
       "name": "The Elite Zaishen Battle",
       "kind": "pvp",
       "outpost": 100004,
-      "wiki": "https://www.guildwiki.de/wiki/Aufstieg_der_Helden_(Turnier-Karte)"
+      "wiki": {"en": "The Elite Zaishen Battle", "de": "Aufstieg der Helden (Turnier-Karte)"}
     },
     "100005": {
       "name": "Snowball Tournament",
       "kind": "pvp",
       "outpost": 100005,
-      "wiki": "https://www.guildwiki.de/wiki/Schneeballturnier"
+      "wiki": {"en": "Dwayna Vs Grenth", "de": "Schneeballturnier"}
     }
   }
 };

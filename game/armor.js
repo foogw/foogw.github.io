@@ -34,7 +34,7 @@ const GW_ARMOR = {
     "6532": {"name": "Amber Chunk"},
     "6533": {"name": "Jadeite Shard"}
   },
-  "armor_": "Keys are our numbers. pieces: per slot, [count, material]. at: the crafters (npcs) who make that tier.",
+  "armor_": "Keys are our numbers. pieces: per slot, [count, material]. at: the crafters (npcs) who make that tier. wiki: its page on each wiki, {en, de} (as locations).",
   "armor": {
     "1": {
       "name": "Ancient armor",
@@ -56,7 +56,7 @@ const GW_ARMOR = {
           "at": [21]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Alte_Rüstung"
+      "wiki": {"en": "Ancient armor", "de": "Assassine Alte Rüstung"}
     },
     "2": {
       "name": "Asuran armor",
@@ -78,7 +78,7 @@ const GW_ARMOR = {
           "at": [130]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Asura-Rüstung"
+      "wiki": {"en": "Asuran armor", "de": "Assassine Asura-Rüstung"}
     },
     "3": {
       "name": "Canthan armor",
@@ -139,7 +139,7 @@ const GW_ARMOR = {
           "at": [93, 25]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Assassine Cantha-Rüstung"}
     },
     "4": {
       "name": "Deldrimor armor",
@@ -160,7 +160,7 @@ const GW_ARMOR = {
           "at": [36]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Deldrimor-Rüstung"
+      "wiki": {"en": "Deldrimor armor", "de": "Assassine Deldrimor-Rüstung"}
     },
     "5": {
       "name": "Elite Canthan armor",
@@ -182,7 +182,7 @@ const GW_ARMOR = {
           "at": [831]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Elite-Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Assassine Elite-Cantha-Rüstung"}
     },
     "6": {
       "name": "Elite Exotic armor",
@@ -204,7 +204,7 @@ const GW_ARMOR = {
           "at": [832]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Elite-Exoten-Rüstung"
+      "wiki": {"en": "Exotic armor", "de": "Assassine Elite-Exoten-Rüstung"}
     },
     "7": {
       "name": "Elite Imperial armor",
@@ -226,7 +226,7 @@ const GW_ARMOR = {
           "at": [833]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Elite-Kaiser-Rüstung"
+      "wiki": {"en": "Imperial armor", "de": "Assassine Elite-Kaiser-Rüstung"}
     },
     "8": {
       "name": "Elite Kurzick armor",
@@ -248,7 +248,7 @@ const GW_ARMOR = {
           "at": [170]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Elite-Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Assassine Elite-Kurzick-Rüstung"}
     },
     "9": {
       "name": "Elite Luxon armor",
@@ -270,7 +270,7 @@ const GW_ARMOR = {
           "at": [107]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Elite-Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Assassine Elite-Luxon-Rüstung"}
     },
     "10": {
       "name": "Exotic armor",
@@ -292,7 +292,7 @@ const GW_ARMOR = {
           "at": [834]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Exoten-Rüstung"
+      "wiki": {"en": "Exotic armor", "de": "Assassine Exoten-Rüstung"}
     },
     "11": {
       "name": "Imperial armor",
@@ -314,7 +314,7 @@ const GW_ARMOR = {
           "at": [835]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Kaiser-Rüstung"
+      "wiki": {"en": "Imperial armor", "de": "Assassine Kaiser-Rüstung"}
     },
     "12": {
       "name": "Kurzick armor",
@@ -336,7 +336,7 @@ const GW_ARMOR = {
           "at": [84]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Assassine Kurzick-Rüstung"}
     },
     "13": {
       "name": "Luxon armor",
@@ -358,7 +358,7 @@ const GW_ARMOR = {
           "at": [31]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Assassine Luxon-Rüstung"}
     },
     "14": {
       "name": "Monument armor",
@@ -380,7 +380,7 @@ const GW_ARMOR = {
           "at": [836]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Monument-Rüstung"
+      "wiki": {"en": "Monument armor", "de": "Assassine Monument-Rüstung"}
     },
     "15": {
       "name": "Norn armor",
@@ -402,7 +402,7 @@ const GW_ARMOR = {
           "at": [72]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Norn-Rüstung"
+      "wiki": {"en": "Norn armor", "de": "Assassine Norn-Rüstung"}
     },
     "16": {
       "name": "Obsidian armor",
@@ -424,7 +424,7 @@ const GW_ARMOR = {
           "at": [635]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Obsidian-Rüstung"
+      "wiki": {"en": "Obsidian armor", "de": "Assassine Obsidian-Rüstung"}
     },
     "17": {
       "name": "Seitung armor",
@@ -485,7 +485,7 @@ const GW_ARMOR = {
           "at": [95]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Seitung-Rüstung"
+      "wiki": {"en": "Seitung armor", "de": "Assassine Seitung-Rüstung"}
     },
     "18": {
       "name": "Shing Jea armor",
@@ -546,7 +546,7 @@ const GW_ARMOR = {
           "at": [94]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Shing_Jea-Rüstung"
+      "wiki": {"en": "Shing Jea armor", "de": "Assassine Shing Jea-Rüstung"}
     },
     "19": {
       "name": "Vabbian armor",
@@ -568,7 +568,7 @@ const GW_ARMOR = {
           "at": [163]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Assassine_Vaabi-Rüstung"
+      "wiki": {"en": "Vabbian armor", "de": "Assassine Vaabi-Rüstung"}
     },
     "20": {
       "name": "Ancient armor",
@@ -590,7 +590,7 @@ const GW_ARMOR = {
           "at": [21]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Derwisch_Alte_Rüstung"
+      "wiki": {"en": "Ancient armor", "de": "Derwisch Alte Rüstung"}
     },
     "21": {
       "name": "Primeval armor",
@@ -612,7 +612,7 @@ const GW_ARMOR = {
           "at": [837]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Derwisch_Altehrwürdige_Rüstung"
+      "wiki": {"en": "Primeval armor", "de": "Derwisch Altehrwürdige Rüstung"}
     },
     "22": {
       "name": "Asuran armor",
@@ -634,7 +634,7 @@ const GW_ARMOR = {
           "at": [130]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Derwisch_Asura-Rüstung"
+      "wiki": {"en": "Asuran armor", "de": "Derwisch Asura-Rüstung"}
     },
     "23": {
       "name": "Deldrimor armor",
@@ -650,7 +650,7 @@ const GW_ARMOR = {
           "at": [36]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Derwisch_Deldrimor-Rüstung"
+      "wiki": {"en": "Deldrimor armor", "de": "Derwisch Deldrimor-Rüstung"}
     },
     "24": {
       "name": "Elite Sunspear armor",
@@ -672,7 +672,7 @@ const GW_ARMOR = {
           "at": [838]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Derwisch_Elite-Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Derwisch Elite-Sonnenspeer-Rüstung"}
     },
     "25": {
       "name": "Elonian armor",
@@ -694,7 +694,7 @@ const GW_ARMOR = {
           "at": [40, 839, 25]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Derwisch_Elona-Rüstung"
+      "wiki": {"en": "Elonian armor", "de": "Derwisch Elona-Rüstung"}
     },
     "26": {
       "name": "Istani armor",
@@ -755,7 +755,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Derwisch_Istan-Rüstung"
+      "wiki": {"en": "Istani armor", "de": "Derwisch Istan-Rüstung"}
     },
     "27": {
       "name": "Monument armor",
@@ -777,7 +777,7 @@ const GW_ARMOR = {
           "at": [836]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Derwisch_Monument-Rüstung"
+      "wiki": {"en": "Monument armor", "de": "Derwisch Monument-Rüstung"}
     },
     "28": {
       "name": "Norn armor",
@@ -799,7 +799,7 @@ const GW_ARMOR = {
           "at": [72]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Derwisch_Norn-Rüstung"
+      "wiki": {"en": "Norn armor", "de": "Derwisch Norn-Rüstung"}
     },
     "29": {
       "name": "Obsidian armor",
@@ -821,7 +821,7 @@ const GW_ARMOR = {
           "at": [635]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Derwisch_Obsidian-Rüstung"
+      "wiki": {"en": "Obsidian armor", "de": "Derwisch Obsidian-Rüstung"}
     },
     "30": {
       "name": "Sunspear armor",
@@ -882,7 +882,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Derwisch_Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Derwisch Sonnenspeer-Rüstung"}
     },
     "31": {
       "name": "Vabbian armor",
@@ -904,7 +904,7 @@ const GW_ARMOR = {
           "at": [163]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Derwisch_Vaabi-Rüstung"
+      "wiki": {"en": "Vabbian armor", "de": "Derwisch Vaabi-Rüstung"}
     },
     "32": {
       "name": "Ancient armor",
@@ -925,7 +925,7 @@ const GW_ARMOR = {
           "at": [21]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Alte_Rüstung"
+      "wiki": {"en": "Ancient armor", "de": "Elementarmagier Alte Rüstung"}
     },
     "33": {
       "name": "Primeval armor",
@@ -946,7 +946,7 @@ const GW_ARMOR = {
           "at": [837]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Altehrwürdige_Rüstung"
+      "wiki": {"en": "Primeval armor", "de": "Elementarmagier Altehrwürdige Rüstung"}
     },
     "34": {
       "name": "Ascalon armor",
@@ -988,7 +988,7 @@ const GW_ARMOR = {
           "at": [95]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Ascalon-Rüstung"
+      "wiki": {"en": "Ascalon armor", "de": "Elementarmagier Ascalon-Rüstung"}
     },
     "35": {
       "name": "Asuran armor",
@@ -1009,7 +1009,7 @@ const GW_ARMOR = {
           "at": [130]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Asura-Rüstung"
+      "wiki": {"en": "Asuran armor", "de": "Elementarmagier Asura-Rüstung"}
     },
     "36": {
       "name": "Canthan armor",
@@ -1051,7 +1051,7 @@ const GW_ARMOR = {
           "at": [93]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Elementarmagier Cantha-Rüstung"}
     },
     "37": {
       "name": "Deldrimor armor",
@@ -1072,7 +1072,7 @@ const GW_ARMOR = {
           "at": [36]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Deldrimor-Rüstung"
+      "wiki": {"en": "Deldrimor armor", "de": "Elementarmagier Deldrimor-Rüstung"}
     },
     "38": {
       "name": "Iceforged armor",
@@ -1121,7 +1121,7 @@ const GW_ARMOR = {
           "at": [44]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Eisgeschmiedete-Rüstung"
+      "wiki": {"en": "Elementalist Iceforged armor", "de": "Elementarmagier Eisgeschmiedete-Rüstung"}
     },
     "39": {
       "name": "Elite Canthan armor",
@@ -1142,7 +1142,7 @@ const GW_ARMOR = {
           "at": [831]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Elite-Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Elementarmagier Elite-Cantha-Rüstung"}
     },
     "40": {
       "name": "Elite Iceforged armor",
@@ -1163,7 +1163,7 @@ const GW_ARMOR = {
           "at": [162]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Elite-Eisgeschmiedete-Rüstung"
+      "wiki": {"en": "Elementalist Elite Iceforged armor", "de": "Elementarmagier Elite-Eisgeschmiedete-Rüstung"}
     },
     "41": {
       "name": "Elite Flameforged armor",
@@ -1184,7 +1184,10 @@ const GW_ARMOR = {
           "at": [162]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Elite-Flammengeschmiedete-Rüstung"
+      "wiki": {
+        "en": "Elementalist Elite Flameforged armor",
+        "de": "Elementarmagier Elite-Flammengeschmiedete-Rüstung"
+      }
     },
     "42": {
       "name": "Elite Kurzick armor",
@@ -1205,7 +1208,7 @@ const GW_ARMOR = {
           "at": [170]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Elite-Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Elementarmagier Elite-Kurzick-Rüstung"}
     },
     "43": {
       "name": "Elite Luxon armor",
@@ -1226,7 +1229,7 @@ const GW_ARMOR = {
           "at": [107]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Elite-Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Elementarmagier Elite-Luxon-Rüstung"}
     },
     "44": {
       "name": "Elite Sunspear armor",
@@ -1247,7 +1250,7 @@ const GW_ARMOR = {
           "at": [838]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Elite-Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Elementarmagier Elite-Sonnenspeer-Rüstung"}
     },
     "45": {
       "name": "Elite Stoneforged armor",
@@ -1268,7 +1271,7 @@ const GW_ARMOR = {
           "at": [117]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Elite-Steingeschmiedete-Rüstung"
+      "wiki": {"en": "Elementalist Elite Stoneforged armor", "de": "Elementarmagier Elite-Steingeschmiedete-Rüstung"}
     },
     "46": {
       "name": "Elite Stormforged armor",
@@ -1289,7 +1292,7 @@ const GW_ARMOR = {
           "at": [117]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Elite-Sturmgeschmiedete-Rüstung"
+      "wiki": {"en": "Elementalist Elite Stormforged armor", "de": "Elementarmagier Elite-Sturmgeschmiedete-Rüstung"}
     },
     "47": {
       "name": "Flameforged armor",
@@ -1345,7 +1348,7 @@ const GW_ARMOR = {
           "at": [44]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Flammengeschmiedete-Rüstung"
+      "wiki": {"en": "Elementalist Flameforged armor", "de": "Elementarmagier Flammengeschmiedete-Rüstung"}
     },
     "48": {
       "name": "Istani armor",
@@ -1392,7 +1395,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Istan-Rüstung"
+      "wiki": {"en": "Istani armor", "de": "Elementarmagier Istan-Rüstung"}
     },
     "49": {
       "name": "Krytan armor",
@@ -1413,7 +1416,7 @@ const GW_ARMOR = {
           "at": [835]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Kryta-Rüstung"
+      "wiki": {"en": "Krytan armor", "de": "Elementarmagier Kryta-Rüstung"}
     },
     "50": {
       "name": "Kurzick armor",
@@ -1434,7 +1437,7 @@ const GW_ARMOR = {
           "at": [84]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Elementarmagier Kurzick-Rüstung"}
     },
     "51": {
       "name": "Luxon armor",
@@ -1455,7 +1458,7 @@ const GW_ARMOR = {
           "at": [31]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Elementarmagier Luxon-Rüstung"}
     },
     "52": {
       "name": "Monument armor",
@@ -1476,7 +1479,7 @@ const GW_ARMOR = {
           "at": [836]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Monument-Rüstung"
+      "wiki": {"en": "Monument armor", "de": "Elementarmagier Monument-Rüstung"}
     },
     "53": {
       "name": "Norn armor",
@@ -1497,7 +1500,7 @@ const GW_ARMOR = {
           "at": [72]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Norn-Rüstung"
+      "wiki": {"en": "Norn armor", "de": "Elementarmagier Norn-Rüstung"}
     },
     "54": {
       "name": "Obsidian armor",
@@ -1518,7 +1521,7 @@ const GW_ARMOR = {
           "at": [635]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Obsidian-Rüstung"
+      "wiki": {"en": "Obsidian armor", "de": "Elementarmagier Obsidian-Rüstung"}
     },
     "55": {
       "name": "Shing Jea armor",
@@ -1560,7 +1563,7 @@ const GW_ARMOR = {
           "at": [94]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Shing_Jea-Rüstung"
+      "wiki": {"en": "Shing Jea armor", "de": "Elementarmagier Shing Jea-Rüstung"}
     },
     "56": {
       "name": "Sunspear armor",
@@ -1607,7 +1610,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Elementarmagier Sonnenspeer-Rüstung"}
     },
     "57": {
       "name": "Stoneforged armor",
@@ -1649,7 +1652,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Steingeschmiedete-Rüstung"
+      "wiki": {"en": "Elementalist Stoneforged armor", "de": "Elementarmagier Steingeschmiedete-Rüstung"}
     },
     "58": {
       "name": "Stormforged armor",
@@ -1698,7 +1701,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Sturmgeschmiedete-Rüstung"
+      "wiki": {"en": "Elementalist Stormforged armor", "de": "Elementarmagier Sturmgeschmiedete-Rüstung"}
     },
     "59": {
       "name": "Tyrian armor",
@@ -1719,7 +1722,7 @@ const GW_ARMOR = {
           "at": [834, 25]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Tyria-Rüstung"
+      "wiki": {"en": "Tyrian armor", "de": "Elementarmagier Tyria-Rüstung"}
     },
     "60": {
       "name": "Vabbian armor",
@@ -1741,7 +1744,7 @@ const GW_ARMOR = {
           "at": [163]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier_Vaabi-Rüstung"
+      "wiki": {"en": "Vabbian armor", "de": "Elementarmagier Vaabi-Rüstung"}
     },
     "61": {
       "name": "Ancient armor",
@@ -1763,7 +1766,7 @@ const GW_ARMOR = {
           "at": [21]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Alte_Rüstung"
+      "wiki": {"en": "Ancient armor", "de": "Krieger Alte Rüstung"}
     },
     "62": {
       "name": "Primeval armor",
@@ -1785,7 +1788,7 @@ const GW_ARMOR = {
           "at": [837]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Altehrwürdige_Rüstung"
+      "wiki": {"en": "Primeval armor", "de": "Krieger Altehrwürdige Rüstung"}
     },
     "63": {
       "name": "Ascalon armor",
@@ -1846,7 +1849,7 @@ const GW_ARMOR = {
           "at": [95]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Ascalon-Rüstung"
+      "wiki": {"en": "Ascalon armor", "de": "Krieger Ascalon-Rüstung"}
     },
     "64": {
       "name": "Asuran armor",
@@ -1868,7 +1871,7 @@ const GW_ARMOR = {
           "at": [130]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Asura-Rüstung"
+      "wiki": {"en": "Asuran armor", "de": "Krieger Asura-Rüstung"}
     },
     "65": {
       "name": "Canthan armor",
@@ -1929,7 +1932,7 @@ const GW_ARMOR = {
           "at": [93]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Krieger Cantha-Rüstung"}
     },
     "66": {
       "name": "Prophecies Ascalon armor",
@@ -2017,7 +2020,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Charr-Fell-Rüstung"
+      "wiki": {"en": "Warrior Charr Hide armor", "de": "Krieger Charr-Fell-Rüstung"}
     },
     "67": {
       "name": "Deldrimor armor",
@@ -2038,7 +2041,7 @@ const GW_ARMOR = {
           "at": [36]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Deldrimor-Rüstung"
+      "wiki": {"en": "Deldrimor armor", "de": "Krieger Deldrimor-Rüstung"}
     },
     "68": {
       "name": "Elite Canthan armor",
@@ -2060,7 +2063,7 @@ const GW_ARMOR = {
           "at": [831]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Elite-Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Krieger Elite-Cantha-Rüstung"}
     },
     "69": {
       "name": "Elite Charr Hide armor",
@@ -2082,7 +2085,7 @@ const GW_ARMOR = {
           "at": [117]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Elite-Charr-Fell-Rüstung"
+      "wiki": {"en": "Warrior Elite Charr Hide armor", "de": "Krieger Elite-Charr-Fell-Rüstung"}
     },
     "70": {
       "name": "Elite Dragon armor",
@@ -2104,7 +2107,7 @@ const GW_ARMOR = {
           "at": [162]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Elite-Drachenrüstung"
+      "wiki": {"en": "Warrior Elite Dragon armor", "de": "Krieger Elite-Drachenrüstung"}
     },
     "71": {
       "name": "Elite Gladiator armor",
@@ -2126,7 +2129,7 @@ const GW_ARMOR = {
           "at": [117]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Elite-Gladiatoren-Rüstung"
+      "wiki": {"en": "Warrior Elite Gladiator armor", "de": "Krieger Elite-Gladiatoren-Rüstung"}
     },
     "72": {
       "name": "Elite Kurzick armor",
@@ -2148,7 +2151,7 @@ const GW_ARMOR = {
           "at": [170]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Elite-Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Krieger Elite-Kurzick-Rüstung"}
     },
     "73": {
       "name": "Elite Luxon armor",
@@ -2170,7 +2173,7 @@ const GW_ARMOR = {
           "at": [107]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Elite-Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Krieger Elite-Luxon-Rüstung"}
     },
     "74": {
       "name": "Elite Platemail armor",
@@ -2192,7 +2195,7 @@ const GW_ARMOR = {
           "at": [162]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Elite-Plattenpanzer-Rüstung"
+      "wiki": {"en": "Warrior Elite Platemail armor", "de": "Krieger Elite-Plattenpanzer-Rüstung"}
     },
     "75": {
       "name": "Elite Sunspear armor",
@@ -2214,7 +2217,7 @@ const GW_ARMOR = {
           "at": [838]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Elite-Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Krieger Elite-Sonnenspeer-Rüstung"}
     },
     "76": {
       "name": "Elite Templar armor",
@@ -2236,7 +2239,7 @@ const GW_ARMOR = {
           "at": [117]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Elite-Templer-Rüstung"
+      "wiki": {"en": "Warrior Elite Templar armor", "de": "Krieger Elite-Templer-Rüstung"}
     },
     "77": {
       "name": "Gladiator armor",
@@ -2311,7 +2314,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Gladiatoren-Rüstung"
+      "wiki": {"en": "Warrior Gladiator armor", "de": "Krieger Gladiatoren-Rüstung"}
     },
     "78": {
       "name": "Istani armor",
@@ -2372,7 +2375,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Istan-Rüstung"
+      "wiki": {"en": "Istani armor", "de": "Krieger Istan-Rüstung"}
     },
     "79": {
       "name": "Krytan armor",
@@ -2407,7 +2410,7 @@ const GW_ARMOR = {
           "at": [835]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Kryta-Rüstung"
+      "wiki": {"en": "Krytan armor", "de": "Krieger Kryta-Rüstung"}
     },
     "80": {
       "name": "Kurzick armor",
@@ -2429,7 +2432,7 @@ const GW_ARMOR = {
           "at": [84]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Krieger Kurzick-Rüstung"}
     },
     "81": {
       "name": "Luxon armor",
@@ -2451,7 +2454,7 @@ const GW_ARMOR = {
           "at": [31]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Krieger Luxon-Rüstung"}
     },
     "82": {
       "name": "Monument armor",
@@ -2473,7 +2476,7 @@ const GW_ARMOR = {
           "at": [836]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Monument-Rüstung"
+      "wiki": {"en": "Monument armor", "de": "Krieger Monument-Rüstung"}
     },
     "83": {
       "name": "Norn armor",
@@ -2495,7 +2498,7 @@ const GW_ARMOR = {
           "at": [72]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Norn-Rüstung"
+      "wiki": {"en": "Norn armor", "de": "Krieger Norn-Rüstung"}
     },
     "84": {
       "name": "Obsidian armor",
@@ -2517,7 +2520,7 @@ const GW_ARMOR = {
           "at": [635]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Obsidian-Rüstung"
+      "wiki": {"en": "Obsidian armor", "de": "Krieger Obsidian-Rüstung"}
     },
     "85": {
       "name": "Platemail armor",
@@ -2539,7 +2542,7 @@ const GW_ARMOR = {
           "at": [44]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Plattenpanzerrüstung"
+      "wiki": {"en": "Warrior Platemail armor", "de": "Krieger Plattenpanzerrüstung"}
     },
     "86": {
       "name": "Shing Jea armor",
@@ -2600,7 +2603,7 @@ const GW_ARMOR = {
           "at": [94]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Shing_Jea-Rüstung"
+      "wiki": {"en": "Shing Jea armor", "de": "Krieger Shing Jea-Rüstung"}
     },
     "87": {
       "name": "Silver Eagle armor",
@@ -2622,7 +2625,7 @@ const GW_ARMOR = {
           "at": [36]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Silberadler-Rüstung"
+      "wiki": {"en": "Warrior Silver Eagle armor", "de": "Krieger Silberadler-Rüstung"}
     },
     "88": {
       "name": "Sunspear armor",
@@ -2683,7 +2686,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Krieger Sonnenspeer-Rüstung"}
     },
     "89": {
       "name": "Templar armor",
@@ -2705,7 +2708,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Templer-Rüstung"
+      "wiki": {"en": "Warrior Templar armor", "de": "Krieger Templer-Rüstung"}
     },
     "90": {
       "name": "Tyrian armor",
@@ -2753,7 +2756,7 @@ const GW_ARMOR = {
           "at": [44, 834, 25]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Tyria-Rüstung"
+      "wiki": {"en": "Tyrian armor", "de": "Krieger Tyria-Rüstung"}
     },
     "91": {
       "name": "Vabbian armor",
@@ -2775,7 +2778,7 @@ const GW_ARMOR = {
           "at": [163]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Vaabi-Rüstung"
+      "wiki": {"en": "Vabbian armor", "de": "Krieger Vaabi-Rüstung"}
     },
     "92": {
       "name": "Wyvern armor",
@@ -2849,7 +2852,7 @@ const GW_ARMOR = {
           "at": [44]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Krieger_Wyvernrüstung"
+      "wiki": {"en": "Warrior Wyvern armor", "de": "Krieger Wyvernrüstung"}
     },
     "93": {
       "name": "Ancient armor",
@@ -2871,7 +2874,7 @@ const GW_ARMOR = {
           "at": [21]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Alte_Rüstung"
+      "wiki": {"en": "Ancient armor", "de": "Mesmer Alte Rüstung"}
     },
     "94": {
       "name": "Primeval armor",
@@ -2893,7 +2896,7 @@ const GW_ARMOR = {
           "at": [837]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Altehrwürdige_Rüstung"
+      "wiki": {"en": "Primeval armor", "de": "Mesmer Altehrwürdige Rüstung"}
     },
     "95": {
       "name": "Ascalon armor",
@@ -2935,7 +2938,7 @@ const GW_ARMOR = {
           "at": [95]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Ascalon-Rüstung"
+      "wiki": {"en": "Ascalon armor", "de": "Mesmer Ascalon-Rüstung"}
     },
     "96": {
       "name": "Asuran armor",
@@ -2957,7 +2960,7 @@ const GW_ARMOR = {
           "at": [130]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Asura-Rüstung"
+      "wiki": {"en": "Asuran armor", "de": "Mesmer Asura-Rüstung"}
     },
     "97": {
       "name": "Canthan armor",
@@ -3018,7 +3021,7 @@ const GW_ARMOR = {
           "at": [93]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Mesmer Cantha-Rüstung"}
     },
     "98": {
       "name": "Deldrimor armor",
@@ -3034,7 +3037,7 @@ const GW_ARMOR = {
           "at": [36]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Deldrimor-Rüstung"
+      "wiki": {"en": "Deldrimor armor", "de": "Mesmer Deldrimor-Rüstung"}
     },
     "99": {
       "name": "Elite Canthan armor",
@@ -3056,7 +3059,7 @@ const GW_ARMOR = {
           "at": [831]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Elite-Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Mesmer Elite-Cantha-Rüstung"}
     },
     "100": {
       "name": "Elite Elegant armor",
@@ -3077,7 +3080,7 @@ const GW_ARMOR = {
           "at": [162]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Elite-Elegant-Rüstung"
+      "wiki": {"en": "Mesmer Elite Elegant armor", "de": "Mesmer Elite-Elegant-Rüstung"}
     },
     "101": {
       "name": "Elite Kurzick armor",
@@ -3099,7 +3102,7 @@ const GW_ARMOR = {
           "at": [170]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Elite-Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Mesmer Elite-Kurzick-Rüstung"}
     },
     "102": {
       "name": "Elite Luxon armor",
@@ -3121,7 +3124,7 @@ const GW_ARMOR = {
           "at": [107]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Elite-Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Mesmer Elite-Luxon-Rüstung"}
     },
     "103": {
       "name": "Elite Rogue armor",
@@ -3142,7 +3145,7 @@ const GW_ARMOR = {
           "at": [117]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Elite-Schurken-Rüstung"
+      "wiki": {"en": "Mesmer Elite Rogue armor", "de": "Mesmer Elite-Schurken-Rüstung"}
     },
     "104": {
       "name": "Elite Sunspear armor",
@@ -3164,7 +3167,7 @@ const GW_ARMOR = {
           "at": [838]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Elite-Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Mesmer Elite-Sonnenspeer-Rüstung"}
     },
     "105": {
       "name": "Elite Noble armor",
@@ -3185,7 +3188,7 @@ const GW_ARMOR = {
           "at": [162]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Elite-Vornehme-Rüstung"
+      "wiki": {"en": "Mesmer Elite Noble armor", "de": "Mesmer Elite-Vornehme-Rüstung"}
     },
     "106": {
       "name": "Elite Enchanter armor",
@@ -3206,7 +3209,7 @@ const GW_ARMOR = {
           "at": [117]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Elite-Zauberkundigen-Rüstung"
+      "wiki": {"en": "Mesmer Elite Enchanter armor", "de": "Mesmer Elite-Zauberkundigen-Rüstung"}
     },
     "107": {
       "name": "Courtly armor",
@@ -3255,7 +3258,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Höfische_Rüstung"
+      "wiki": {"en": "Mesmer Courtly armor", "de": "Mesmer Höfische Rüstung"}
     },
     "108": {
       "name": "Istani armor",
@@ -3316,7 +3319,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Istan-Rüstung"
+      "wiki": {"en": "Istani armor", "de": "Mesmer Istan-Rüstung"}
     },
     "109": {
       "name": "Krytan armor",
@@ -3337,7 +3340,7 @@ const GW_ARMOR = {
           "at": [835]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Kryta-Rüstung"
+      "wiki": {"en": "Krytan armor", "de": "Mesmer Kryta-Rüstung"}
     },
     "110": {
       "name": "Kurzick armor",
@@ -3359,7 +3362,7 @@ const GW_ARMOR = {
           "at": [84]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Mesmer Kurzick-Rüstung"}
     },
     "111": {
       "name": "Luxon armor",
@@ -3381,7 +3384,7 @@ const GW_ARMOR = {
           "at": [31]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Mesmer Luxon-Rüstung"}
     },
     "112": {
       "name": "Monument armor",
@@ -3403,7 +3406,7 @@ const GW_ARMOR = {
           "at": [836]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Monument-Rüstung"
+      "wiki": {"en": "Monument armor", "de": "Mesmer Monument-Rüstung"}
     },
     "113": {
       "name": "Norn armor",
@@ -3425,7 +3428,7 @@ const GW_ARMOR = {
           "at": [72]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Norn-Rüstung"
+      "wiki": {"en": "Norn armor", "de": "Mesmer Norn-Rüstung"}
     },
     "114": {
       "name": "Obsidian armor",
@@ -3446,7 +3449,7 @@ const GW_ARMOR = {
           "at": [635]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Obsidian-Rüstung"
+      "wiki": {"en": "Obsidian armor", "de": "Mesmer Obsidian-Rüstung"}
     },
     "115": {
       "name": "Performer armor",
@@ -3495,7 +3498,7 @@ const GW_ARMOR = {
           "at": [44]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Schausteller-Rüstung"
+      "wiki": {"en": "Mesmer Performer armor", "de": "Mesmer Schausteller-Rüstung"}
     },
     "116": {
       "name": "Rogue armor",
@@ -3551,7 +3554,7 @@ const GW_ARMOR = {
           "at": [44]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Schurken-Rüstung"
+      "wiki": {"en": "Mesmer Rogue armor", "de": "Mesmer Schurken-Rüstung"}
     },
     "117": {
       "name": "Shing Jea armor",
@@ -3612,7 +3615,7 @@ const GW_ARMOR = {
           "at": [94]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Shing_Jea-Rüstung"
+      "wiki": {"en": "Shing Jea armor", "de": "Mesmer Shing Jea-Rüstung"}
     },
     "118": {
       "name": "Sunspear armor",
@@ -3673,7 +3676,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Mesmer Sonnenspeer-Rüstung"}
     },
     "119": {
       "name": "Tyrian armor",
@@ -3694,7 +3697,7 @@ const GW_ARMOR = {
           "at": [834, 25]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Tyria-Rüstung"
+      "wiki": {"en": "Tyrian armor", "de": "Mesmer Tyria-Rüstung"}
     },
     "120": {
       "name": "Vabbian armor",
@@ -3716,7 +3719,7 @@ const GW_ARMOR = {
           "at": [163]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Vaabi-Rüstung"
+      "wiki": {"en": "Vabbian armor", "de": "Mesmer Vaabi-Rüstung"}
     },
     "121": {
       "name": "Enchanter armor",
@@ -3758,7 +3761,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer_Zauberkundigen-Rüstung"
+      "wiki": {"en": "Mesmer Enchanter armor", "de": "Mesmer Zauberkundigen-Rüstung"}
     },
     "122": {
       "name": "Ancient armor",
@@ -3780,7 +3783,7 @@ const GW_ARMOR = {
           "at": [21]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Alte_Rüstung"
+      "wiki": {"en": "Ancient armor", "de": "Mönch Alte Rüstung"}
     },
     "123": {
       "name": "Primeval armor",
@@ -3802,7 +3805,7 @@ const GW_ARMOR = {
           "at": [837]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Altehrwürdige_Rüstung"
+      "wiki": {"en": "Primeval armor", "de": "Mönch Altehrwürdige Rüstung"}
     },
     "124": {
       "name": "Ascalon armor",
@@ -3844,7 +3847,7 @@ const GW_ARMOR = {
           "at": [95]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Ascalon-Rüstung"
+      "wiki": {"en": "Ascalon armor", "de": "Mönch Ascalon-Rüstung"}
     },
     "125": {
       "name": "Asuran armor",
@@ -3866,7 +3869,7 @@ const GW_ARMOR = {
           "at": [130]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Asura-Rüstung"
+      "wiki": {"en": "Asuran armor", "de": "Mönch Asura-Rüstung"}
     },
     "126": {
       "name": "Canthan armor",
@@ -3927,7 +3930,7 @@ const GW_ARMOR = {
           "at": [93]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Mönch Cantha-Rüstung"}
     },
     "127": {
       "name": "Deldrimor armor",
@@ -3948,7 +3951,7 @@ const GW_ARMOR = {
           "at": [36]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Deldrimor-Rüstung"
+      "wiki": {"en": "Deldrimor armor", "de": "Mönch Deldrimor-Rüstung"}
     },
     "128": {
       "name": "Dragon armor",
@@ -4023,7 +4026,7 @@ const GW_ARMOR = {
         },
         {"armor": 60, "price_per_piece": 800, "price": 800, "pieces": {"head": [[25, 951], [4, 933]]}, "at": [95]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Drachen-Rüstung"
+      "wiki": {"en": "Monk Dragon armor", "de": "Mönch Drachen-Rüstung"}
     },
     "129": {
       "name": "Elite Canthan armor",
@@ -4045,7 +4048,7 @@ const GW_ARMOR = {
           "at": [831]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Elite-Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Mönch Elite-Cantha-Rüstung"}
     },
     "130": {
       "name": "Elite Woven armor",
@@ -4066,7 +4069,7 @@ const GW_ARMOR = {
           "at": [162]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Elite-Geflochtene-Rüstung"
+      "wiki": {"en": "Monk Elite Woven armor", "de": "Mönch Elite-Geflochtene-Rüstung"}
     },
     "131": {
       "name": "Elite Saintly armor",
@@ -4087,7 +4090,7 @@ const GW_ARMOR = {
           "at": [117]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Elite-Heiligen-Rüstung"
+      "wiki": {"en": "Monk Elite Saintly armor", "de": "Mönch Elite-Heiligen-Rüstung"}
     },
     "132": {
       "name": "Elite Kurzick armor",
@@ -4109,7 +4112,7 @@ const GW_ARMOR = {
           "at": [170]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Elite-Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Mönch Elite-Kurzick-Rüstung"}
     },
     "133": {
       "name": "Elite Luxon armor",
@@ -4131,7 +4134,7 @@ const GW_ARMOR = {
           "at": [107]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Elite-Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Mönch Elite-Luxon-Rüstung"}
     },
     "134": {
       "name": "Elite Judge armor",
@@ -4152,7 +4155,7 @@ const GW_ARMOR = {
           "at": [162]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Elite-Richter-Rüstung"
+      "wiki": {"en": "Monk Elite Judge armor", "de": "Mönch Elite-Richter-Rüstung"}
     },
     "135": {
       "name": "Elite Sunspear armor",
@@ -4174,7 +4177,7 @@ const GW_ARMOR = {
           "at": [838]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Elite-Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Mönch Elite-Sonnenspeer-Rüstung"}
     },
     "136": {
       "name": "Flowing armor",
@@ -4195,7 +4198,7 @@ const GW_ARMOR = {
           "at": [162]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Fließende-Rüstung"
+      "wiki": {"en": "Monk Flowing armor", "de": "Mönch Fließende-Rüstung"}
     },
     "137": {
       "name": "Woven armor",
@@ -4251,7 +4254,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Geflochtene-Rüstung"
+      "wiki": {"en": "Monk Woven armor", "de": "Mönch Geflochtene-Rüstung"}
     },
     "138": {
       "name": "Sacred armor",
@@ -4300,7 +4303,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Geweihte-Rüstung"
+      "wiki": {"en": "Monk Sacred armor", "de": "Mönch Geweihte-Rüstung"}
     },
     "139": {
       "name": "Istani armor",
@@ -4361,7 +4364,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Istan-Rüstung"
+      "wiki": {"en": "Istani armor", "de": "Mönch Istan-Rüstung"}
     },
     "140": {
       "name": "Krytan armor",
@@ -4382,7 +4385,7 @@ const GW_ARMOR = {
           "at": [835]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Kryta-Rüstung"
+      "wiki": {"en": "Krytan armor", "de": "Mönch Kryta-Rüstung"}
     },
     "141": {
       "name": "Kurzick armor",
@@ -4404,7 +4407,7 @@ const GW_ARMOR = {
           "at": [84]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Mönch Kurzick-Rüstung"}
     },
     "142": {
       "name": "Labyrinthine armor",
@@ -4426,7 +4429,7 @@ const GW_ARMOR = {
           "at": [117]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Labyrinth-Rüstung"
+      "wiki": {"en": "Monk Labyrinthine armor", "de": "Mönch Labyrinth-Rüstung"}
     },
     "143": {
       "name": "Luxon armor",
@@ -4448,7 +4451,7 @@ const GW_ARMOR = {
           "at": [31]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Mönch Luxon-Rüstung"}
     },
     "144": {
       "name": "Monument armor",
@@ -4470,7 +4473,7 @@ const GW_ARMOR = {
           "at": [836]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Monument-Rüstung"
+      "wiki": {"en": "Monument armor", "de": "Mönch Monument-Rüstung"}
     },
     "145": {
       "name": "Norn armor",
@@ -4492,7 +4495,7 @@ const GW_ARMOR = {
           "at": [72]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Norn-Rüstung"
+      "wiki": {"en": "Norn armor", "de": "Mönch Norn-Rüstung"}
     },
     "146": {
       "name": "Obsidian armor",
@@ -4513,7 +4516,7 @@ const GW_ARMOR = {
           "at": [635]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Obsidian-Rüstung"
+      "wiki": {"en": "Obsidian armor", "de": "Mönch Obsidian-Rüstung"}
     },
     "147": {
       "name": "Shing Jea armor",
@@ -4574,7 +4577,7 @@ const GW_ARMOR = {
           "at": [94]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Shing_Jea-Rüstung"
+      "wiki": {"en": "Shing Jea armor", "de": "Mönch Shing Jea-Rüstung"}
     },
     "148": {
       "name": "Sunspear armor",
@@ -4635,7 +4638,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Mönch Sonnenspeer-Rüstung"}
     },
     "149": {
       "name": "Star armor",
@@ -4670,7 +4673,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Sternen-Rüstung"
+      "wiki": {"en": "Monk Star armor", "de": "Mönch Sternen-Rüstung"}
     },
     "150": {
       "name": "Tyrian armor",
@@ -4691,7 +4694,7 @@ const GW_ARMOR = {
           "at": [834, 25]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Tyria-Rüstung"
+      "wiki": {"en": "Tyrian armor", "de": "Mönch Tyria-Rüstung"}
     },
     "151": {
       "name": "Vabbian armor",
@@ -4713,7 +4716,7 @@ const GW_ARMOR = {
           "at": [163]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Vaabi-Rüstung"
+      "wiki": {"en": "Vabbian armor", "de": "Mönch Vaabi-Rüstung"}
     },
     "152": {
       "name": "Censor armor",
@@ -4762,7 +4765,7 @@ const GW_ARMOR = {
           "at": [44]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mönch_Zensoren-Rüstung"
+      "wiki": {"en": "Monk Censor armor", "de": "Mönch Zensoren-Rüstung"}
     },
     "153": {
       "name": "Ancient armor",
@@ -4784,7 +4787,7 @@ const GW_ARMOR = {
           "at": [21]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Alte_Rüstung"
+      "wiki": {"en": "Ancient armor", "de": "Nekromant Alte Rüstung"}
     },
     "154": {
       "name": "Primeval armor",
@@ -4806,7 +4809,7 @@ const GW_ARMOR = {
           "at": [837]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Altehrwürdige_Rüstung"
+      "wiki": {"en": "Primeval armor", "de": "Nekromant Altehrwürdige Rüstung"}
     },
     "155": {
       "name": "Ascalon armor",
@@ -4848,7 +4851,7 @@ const GW_ARMOR = {
           "at": [95]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Ascalon-Rüstung"
+      "wiki": {"en": "Ascalon armor", "de": "Nekromant Ascalon-Rüstung"}
     },
     "156": {
       "name": "Asuran armor",
@@ -4870,7 +4873,7 @@ const GW_ARMOR = {
           "at": [130]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Asura-Rüstung"
+      "wiki": {"en": "Asuran armor", "de": "Nekromant Asura-Rüstung"}
     },
     "157": {
       "name": "Canthan armor",
@@ -4931,7 +4934,7 @@ const GW_ARMOR = {
           "at": [93]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Nekromant Cantha-Rüstung"}
     },
     "158": {
       "name": "Deldrimor armor",
@@ -4952,7 +4955,7 @@ const GW_ARMOR = {
           "at": [36]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Deldrimor-Rüstung"
+      "wiki": {"en": "Deldrimor armor", "de": "Nekromant Deldrimor-Rüstung"}
     },
     "159": {
       "name": "Elite Canthan armor",
@@ -4974,7 +4977,7 @@ const GW_ARMOR = {
           "at": [831]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Elite-Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Nekromant Elite-Cantha-Rüstung"}
     },
     "160": {
       "name": "Elite Profane armor",
@@ -4995,7 +4998,7 @@ const GW_ARMOR = {
           "at": [117]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Elite-Gottlos-Rüstung"
+      "wiki": {"en": "Necromancer Elite Profane armor", "de": "Nekromant Elite-Gottlos-Rüstung"}
     },
     "161": {
       "name": "Elite Cabal armor",
@@ -5016,7 +5019,7 @@ const GW_ARMOR = {
           "at": [162]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Elite-Kabalen-Rüstung"
+      "wiki": {"en": "Necromancer Elite Cabal armor", "de": "Nekromant Elite-Kabalen-Rüstung"}
     },
     "162": {
       "name": "Elite Kurzick armor",
@@ -5038,7 +5041,7 @@ const GW_ARMOR = {
           "at": [170]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Elite-Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Nekromant Elite-Kurzick-Rüstung"}
     },
     "163": {
       "name": "Elite Luxon armor",
@@ -5060,7 +5063,7 @@ const GW_ARMOR = {
           "at": [107]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Elite-Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Nekromant Elite-Luxon-Rüstung"}
     },
     "164": {
       "name": "Elite Scar Pattern armor",
@@ -5081,7 +5084,7 @@ const GW_ARMOR = {
           "at": [117]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Elite-Narbenmuster-Rüstung"
+      "wiki": {"en": "Necromancer Elite Scar Pattern armor", "de": "Nekromant Elite-Narbenmuster-Rüstung"}
     },
     "165": {
       "name": "Elite Necrotic armor",
@@ -5102,7 +5105,7 @@ const GW_ARMOR = {
           "at": [117]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Elite-Nekrotik-Rüstung"
+      "wiki": {"en": "Necromancer Elite Necrotic armor", "de": "Nekromant Elite-Nekrotik-Rüstung"}
     },
     "166": {
       "name": "Elite Cultist armor",
@@ -5123,7 +5126,7 @@ const GW_ARMOR = {
           "at": [162]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Elite-Sektierer-Rüstung"
+      "wiki": {"en": "Necromancer Elite Cultist armor", "de": "Nekromant Elite-Sektierer-Rüstung"}
     },
     "167": {
       "name": "Elite Sunspear armor",
@@ -5145,7 +5148,7 @@ const GW_ARMOR = {
           "at": [838]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Elite-Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Nekromant Elite-Sonnenspeer-Rüstung"}
     },
     "168": {
       "name": "Fanatic armor",
@@ -5194,7 +5197,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Fanatiker-Rüstung"
+      "wiki": {"en": "Necromancer Fanatic armor", "de": "Nekromant Fanatiker-Rüstung"}
     },
     "169": {
       "name": "Profane armor",
@@ -5236,7 +5239,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Gottlos-Rüstung"
+      "wiki": {"en": "Necromancer Profane armor", "de": "Nekromant Gottlos-Rüstung"}
     },
     "170": {
       "name": "Istani armor",
@@ -5297,7 +5300,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Istan-Rüstung"
+      "wiki": {"en": "Istani armor", "de": "Nekromant Istan-Rüstung"}
     },
     "171": {
       "name": "Cabal armor",
@@ -5353,7 +5356,7 @@ const GW_ARMOR = {
           "at": [44]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Kabalen-Rüstung"
+      "wiki": {"en": "Necromancer Cabal armor", "de": "Nekromant Kabalen-Rüstung"}
     },
     "172": {
       "name": "Krytan armor",
@@ -5374,7 +5377,7 @@ const GW_ARMOR = {
           "at": [835]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Kryta-Rüstung"
+      "wiki": {"en": "Krytan armor", "de": "Nekromant Kryta-Rüstung"}
     },
     "173": {
       "name": "Kurzick armor",
@@ -5396,7 +5399,7 @@ const GW_ARMOR = {
           "at": [84]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Nekromant Kurzick-Rüstung"}
     },
     "174": {
       "name": "Luxon armor",
@@ -5418,7 +5421,7 @@ const GW_ARMOR = {
           "at": [31]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Nekromant Luxon-Rüstung"}
     },
     "175": {
       "name": "Monument armor",
@@ -5440,7 +5443,7 @@ const GW_ARMOR = {
           "at": [836]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Monument-Rüstung"
+      "wiki": {"en": "Monument armor", "de": "Nekromant Monument-Rüstung"}
     },
     "176": {
       "name": "Scar Pattern armor",
@@ -5489,7 +5492,7 @@ const GW_ARMOR = {
           "at": [44]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Narbenmuster-Rüstung"
+      "wiki": {"en": "Necromancer Scar Pattern armor", "de": "Nekromant Narbenmuster-Rüstung"}
     },
     "177": {
       "name": "Necrotic armor",
@@ -5538,7 +5541,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Nekrotik-Rüstung"
+      "wiki": {"en": "Necromancer Necrotic armor", "de": "Nekromant Nekrotik-Rüstung"}
     },
     "178": {
       "name": "Norn armor",
@@ -5560,7 +5563,7 @@ const GW_ARMOR = {
           "at": [72]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Norn-Rüstung"
+      "wiki": {"en": "Norn armor", "de": "Nekromant Norn-Rüstung"}
     },
     "179": {
       "name": "Obsidian armor",
@@ -5581,7 +5584,7 @@ const GW_ARMOR = {
           "at": [635]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Obsidian-Rüstung"
+      "wiki": {"en": "Obsidian armor", "de": "Nekromant Obsidian-Rüstung"}
     },
     "180": {
       "name": "Shing Jea armor",
@@ -5642,7 +5645,7 @@ const GW_ARMOR = {
           "at": [94]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Shing_Jea-Rüstung"
+      "wiki": {"en": "Shing Jea armor", "de": "Nekromant Shing Jea-Rüstung"}
     },
     "181": {
       "name": "Sunspear armor",
@@ -5703,7 +5706,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Nekromant Sonnenspeer-Rüstung"}
     },
     "182": {
       "name": "Tyrian armor",
@@ -5724,7 +5727,7 @@ const GW_ARMOR = {
           "at": [834, 25]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Tyria-Rüstung"
+      "wiki": {"en": "Tyrian armor", "de": "Nekromant Tyria-Rüstung"}
     },
     "183": {
       "name": "Vabbian armor",
@@ -5746,7 +5749,7 @@ const GW_ARMOR = {
           "at": [163]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant_Vaabi-Rüstung"
+      "wiki": {"en": "Vabbian armor", "de": "Nekromant Vaabi-Rüstung"}
     },
     "184": {
       "name": "Ancient armor",
@@ -5767,7 +5770,7 @@ const GW_ARMOR = {
           "at": [21]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Paragon_Alte_Rüstung"
+      "wiki": {"en": "Ancient armor", "de": "Paragon Alte Rüstung"}
     },
     "185": {
       "name": "Primeval armor",
@@ -5788,7 +5791,7 @@ const GW_ARMOR = {
           "at": [837]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Paragon_Altehrwürdige_Rüstung"
+      "wiki": {"en": "Primeval armor", "de": "Paragon Altehrwürdige Rüstung"}
     },
     "186": {
       "name": "Asuran armor",
@@ -5809,7 +5812,7 @@ const GW_ARMOR = {
           "at": [130]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Paragon_Asura-Rüstung"
+      "wiki": {"en": "Asuran armor", "de": "Paragon Asura-Rüstung"}
     },
     "187": {
       "name": "Deldrimor armor",
@@ -5825,7 +5828,7 @@ const GW_ARMOR = {
           "at": [36]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Paragon_Deldrimor-Rüstung"
+      "wiki": {"en": "Deldrimor armor", "de": "Paragon Deldrimor-Rüstung"}
     },
     "188": {
       "name": "Elite Sunspear armor",
@@ -5846,7 +5849,7 @@ const GW_ARMOR = {
           "at": [838]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Paragon_Elite-Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Paragon Elite-Sonnenspeer-Rüstung"}
     },
     "189": {
       "name": "Elonian armor",
@@ -5867,7 +5870,7 @@ const GW_ARMOR = {
           "at": [40, 839, 25]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Paragon_Elona-Rüstung"
+      "wiki": {"en": "Elonian armor", "de": "Paragon Elona-Rüstung"}
     },
     "190": {
       "name": "Istani armor",
@@ -5914,7 +5917,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Paragon_Istan-Rüstung"
+      "wiki": {"en": "Istani armor", "de": "Paragon Istan-Rüstung"}
     },
     "191": {
       "name": "Monument armor",
@@ -5935,7 +5938,7 @@ const GW_ARMOR = {
           "at": [836]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Paragon_Monument-Rüstung"
+      "wiki": {"en": "Monument armor", "de": "Paragon Monument-Rüstung"}
     },
     "192": {
       "name": "Norn armor",
@@ -5956,7 +5959,7 @@ const GW_ARMOR = {
           "at": [72]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Paragon_Norn-Rüstung"
+      "wiki": {"en": "Norn armor", "de": "Paragon Norn-Rüstung"}
     },
     "193": {
       "name": "Obsidian armor",
@@ -5978,7 +5981,7 @@ const GW_ARMOR = {
           "at": [635]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Paragon_Obsidian-Rüstung"
+      "wiki": {"en": "Obsidian armor", "de": "Paragon Obsidian-Rüstung"}
     },
     "194": {
       "name": "Sunspear armor",
@@ -6025,7 +6028,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Paragon_Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Paragon Sonnenspeer-Rüstung"}
     },
     "195": {
       "name": "Vabbian armor",
@@ -6046,7 +6049,7 @@ const GW_ARMOR = {
           "at": [163]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Paragon_Vaabi-Rüstung"
+      "wiki": {"en": "Vabbian armor", "de": "Paragon Vaabi-Rüstung"}
     },
     "196": {
       "name": "Ancient armor",
@@ -6068,7 +6071,7 @@ const GW_ARMOR = {
           "at": [21]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Alte_Rüstung"
+      "wiki": {"en": "Ancient armor", "de": "Ritualist Alte Rüstung"}
     },
     "197": {
       "name": "Asuran armor",
@@ -6090,7 +6093,7 @@ const GW_ARMOR = {
           "at": [130]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Asura-Rüstung"
+      "wiki": {"en": "Asuran armor", "de": "Ritualist Asura-Rüstung"}
     },
     "198": {
       "name": "Canthan armor",
@@ -6151,7 +6154,7 @@ const GW_ARMOR = {
           "at": [93, 25]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Ritualist Cantha-Rüstung"}
     },
     "199": {
       "name": "Deldrimor armor",
@@ -6167,7 +6170,7 @@ const GW_ARMOR = {
           "at": [36]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Deldrimor-Rüstung"
+      "wiki": {"en": "Deldrimor armor", "de": "Ritualist Deldrimor-Rüstung"}
     },
     "200": {
       "name": "Elite Canthan armor",
@@ -6189,7 +6192,7 @@ const GW_ARMOR = {
           "at": [831]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Elite-Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Ritualist Elite-Cantha-Rüstung"}
     },
     "201": {
       "name": "Elite Exotic armor",
@@ -6211,7 +6214,7 @@ const GW_ARMOR = {
           "at": [832]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Elite-Exoten-Rüstung"
+      "wiki": {"en": "Exotic armor", "de": "Ritualist Elite-Exoten-Rüstung"}
     },
     "202": {
       "name": "Elite Imperial armor",
@@ -6233,7 +6236,7 @@ const GW_ARMOR = {
           "at": [833]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Elite-Kaiser-Rüstung"
+      "wiki": {"en": "Imperial armor", "de": "Ritualist Elite-Kaiser-Rüstung"}
     },
     "203": {
       "name": "Elite Kurzick armor",
@@ -6255,7 +6258,7 @@ const GW_ARMOR = {
           "at": [170]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Elite-Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Ritualist Elite-Kurzick-Rüstung"}
     },
     "204": {
       "name": "Elite Luxon armor",
@@ -6277,7 +6280,7 @@ const GW_ARMOR = {
           "at": [107]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Elite-Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Ritualist Elite-Luxon-Rüstung"}
     },
     "205": {
       "name": "Exotic armor",
@@ -6299,7 +6302,7 @@ const GW_ARMOR = {
           "at": [834]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Exoten-Rüstung"
+      "wiki": {"en": "Exotic armor", "de": "Ritualist Exoten-Rüstung"}
     },
     "206": {
       "name": "Imperial armor",
@@ -6321,7 +6324,7 @@ const GW_ARMOR = {
           "at": [835]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Kaiser-Rüstung"
+      "wiki": {"en": "Imperial armor", "de": "Ritualist Kaiser-Rüstung"}
     },
     "207": {
       "name": "Kurzick armor",
@@ -6343,7 +6346,7 @@ const GW_ARMOR = {
           "at": [84]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Ritualist Kurzick-Rüstung"}
     },
     "208": {
       "name": "Luxon armor",
@@ -6365,7 +6368,7 @@ const GW_ARMOR = {
           "at": [31]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Ritualist Luxon-Rüstung"}
     },
     "209": {
       "name": "Monument armor",
@@ -6387,7 +6390,7 @@ const GW_ARMOR = {
           "at": [836]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Monument-Rüstung"
+      "wiki": {"en": "Monument armor", "de": "Ritualist Monument-Rüstung"}
     },
     "210": {
       "name": "Norn armor",
@@ -6409,7 +6412,7 @@ const GW_ARMOR = {
           "at": [72]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Norn-Rüstung"
+      "wiki": {"en": "Norn armor", "de": "Ritualist Norn-Rüstung"}
     },
     "211": {
       "name": "Obsidian armor",
@@ -6431,7 +6434,7 @@ const GW_ARMOR = {
           "at": [635]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Obsidian-Rüstung"
+      "wiki": {"en": "Obsidian armor", "de": "Ritualist Obsidian-Rüstung"}
     },
     "212": {
       "name": "Seitung armor",
@@ -6492,7 +6495,7 @@ const GW_ARMOR = {
           "at": [95]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Seitung-Rüstung"
+      "wiki": {"en": "Seitung armor", "de": "Ritualist Seitung-Rüstung"}
     },
     "213": {
       "name": "Shing Jea armor",
@@ -6553,7 +6556,7 @@ const GW_ARMOR = {
           "at": [94]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Shing_Jea-Rüstung"
+      "wiki": {"en": "Shing Jea armor", "de": "Ritualist Shing Jea-Rüstung"}
     },
     "214": {
       "name": "Vabbian armor",
@@ -6575,7 +6578,7 @@ const GW_ARMOR = {
           "at": [163]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Ritualist_Vaabi-Rüstung"
+      "wiki": {"en": "Vabbian armor", "de": "Ritualist Vaabi-Rüstung"}
     },
     "215": {
       "name": "Ancient armor",
@@ -6597,7 +6600,7 @@ const GW_ARMOR = {
           "at": [21]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Alte_Rüstung"
+      "wiki": {"en": "Ancient armor", "de": "Waldläufer Alte Rüstung"}
     },
     "216": {
       "name": "Primeval armor",
@@ -6619,7 +6622,7 @@ const GW_ARMOR = {
           "at": [837]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Altehrwürdige_Rüstung"
+      "wiki": {"en": "Primeval armor", "de": "Waldläufer Altehrwürdige Rüstung"}
     },
     "217": {
       "name": "Ascalon armor",
@@ -6661,7 +6664,7 @@ const GW_ARMOR = {
           "at": [95]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Ascalon-Rüstung"
+      "wiki": {"en": "Ascalon armor", "de": "Waldläufer Ascalon-Rüstung"}
     },
     "218": {
       "name": "Asuran armor",
@@ -6683,7 +6686,7 @@ const GW_ARMOR = {
           "at": [130]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Asura-Rüstung"
+      "wiki": {"en": "Asuran armor", "de": "Waldläufer Asura-Rüstung"}
     },
     "219": {
       "name": "Studded Leather armor",
@@ -6725,7 +6728,7 @@ const GW_ARMOR = {
           "at": [44]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Beschlagene_Leder-Rüstung"
+      "wiki": {"en": "Ranger Studded Leather armor", "de": "Waldläufer Beschlagene Leder-Rüstung"}
     },
     "220": {
       "name": "Canthan armor",
@@ -6786,7 +6789,7 @@ const GW_ARMOR = {
           "at": [93]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Waldläufer Cantha-Rüstung"}
     },
     "221": {
       "name": "Deldrimor armor",
@@ -6802,7 +6805,7 @@ const GW_ARMOR = {
           "at": [36]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Deldrimor-Rüstung"
+      "wiki": {"en": "Deldrimor armor", "de": "Waldläufer Deldrimor-Rüstung"}
     },
     "222": {
       "name": "Druid armor",
@@ -6851,7 +6854,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Druiden-Rüstung"
+      "wiki": {"en": "Ranger Druid armor", "de": "Waldläufer Druiden-Rüstung"}
     },
     "223": {
       "name": "Elite Studded Leather armor",
@@ -6872,7 +6875,7 @@ const GW_ARMOR = {
           "at": [162]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Elite-Beschlagene_Leder-Rüstung"
+      "wiki": {"en": "Ranger Elite Studded Leather armor", "de": "Waldläufer Elite-Beschlagene Leder-Rüstung"}
     },
     "224": {
       "name": "Elite Canthan armor",
@@ -6894,7 +6897,7 @@ const GW_ARMOR = {
           "at": [831]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Elite-Cantha-Rüstung"
+      "wiki": {"en": "Canthan armor", "de": "Waldläufer Elite-Cantha-Rüstung"}
     },
     "225": {
       "name": "Elite Druid armor",
@@ -6915,7 +6918,7 @@ const GW_ARMOR = {
           "at": [117]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Elite-Druiden-Rüstung"
+      "wiki": {"en": "Ranger Elite Druid armor", "de": "Waldläufer Elite-Druiden-Rüstung"}
     },
     "226": {
       "name": "Elite Kurzick armor",
@@ -6937,7 +6940,7 @@ const GW_ARMOR = {
           "at": [170]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Elite-Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Waldläufer Elite-Kurzick-Rüstung"}
     },
     "227": {
       "name": "Elite Drakescale armor",
@@ -6958,7 +6961,7 @@ const GW_ARMOR = {
           "at": [117]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Elite-Lindwurmschuppen-Rüstung"
+      "wiki": {"en": "Ranger Elite Drakescale armor", "de": "Waldläufer Elite-Lindwurmschuppen-Rüstung"}
     },
     "228": {
       "name": "Elite Luxon armor",
@@ -6980,7 +6983,7 @@ const GW_ARMOR = {
           "at": [107]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Elite-Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Waldläufer Elite-Luxon-Rüstung"}
     },
     "229": {
       "name": "Elite Fur-Lined armor",
@@ -7001,7 +7004,7 @@ const GW_ARMOR = {
           "at": [162]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Elite-Pelzverbrämte-Rüstung"
+      "wiki": {"en": "Ranger Elite Fur-Lined armor", "de": "Waldläufer Elite-Pelzverbrämte-Rüstung"}
     },
     "230": {
       "name": "Elite Sunspear armor",
@@ -7023,7 +7026,7 @@ const GW_ARMOR = {
           "at": [838]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Elite-Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Waldläufer Elite-Sonnenspeer-Rüstung"}
     },
     "231": {
       "name": "Istani armor",
@@ -7084,7 +7087,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Istan-Rüstung"
+      "wiki": {"en": "Istani armor", "de": "Waldläufer Istan-Rüstung"}
     },
     "232": {
       "name": "Krytan armor",
@@ -7106,7 +7109,7 @@ const GW_ARMOR = {
           "at": [835]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Kryta-Rüstung"
+      "wiki": {"en": "Krytan armor", "de": "Waldläufer Kryta-Rüstung"}
     },
     "233": {
       "name": "Kurzick armor",
@@ -7128,7 +7131,7 @@ const GW_ARMOR = {
           "at": [84]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Kurzick-Rüstung"
+      "wiki": {"en": "Kurzick armor", "de": "Waldläufer Kurzick-Rüstung"}
     },
     "234": {
       "name": "Drakescale armor",
@@ -7177,7 +7180,7 @@ const GW_ARMOR = {
           "at": [44]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Lindwurmschuppen-Rüstung"
+      "wiki": {"en": "Ranger Drakescale armor", "de": "Waldläufer Lindwurmschuppen-Rüstung"}
     },
     "235": {
       "name": "Luxon armor",
@@ -7199,7 +7202,7 @@ const GW_ARMOR = {
           "at": [31]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Luxon-Rüstung"
+      "wiki": {"en": "Luxon armor", "de": "Waldläufer Luxon-Rüstung"}
     },
     "236": {
       "name": "Monument armor",
@@ -7221,7 +7224,7 @@ const GW_ARMOR = {
           "at": [836]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Monument-Rüstung"
+      "wiki": {"en": "Monument armor", "de": "Waldläufer Monument-Rüstung"}
     },
     "237": {
       "name": "Norn armor",
@@ -7243,7 +7246,7 @@ const GW_ARMOR = {
           "at": [72]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Norn-Rüstung"
+      "wiki": {"en": "Norn armor", "de": "Waldläufer Norn-Rüstung"}
     },
     "238": {
       "name": "Obsidian armor",
@@ -7264,7 +7267,7 @@ const GW_ARMOR = {
           "at": [635]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Obsidian-Rüstung"
+      "wiki": {"en": "Obsidian armor", "de": "Waldläufer Obsidian-Rüstung"}
     },
     "239": {
       "name": "Fur-Lined armor",
@@ -7321,7 +7324,7 @@ const GW_ARMOR = {
           "at": [45]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Pelzverbrämte-Rüstung"
+      "wiki": {"en": "Ranger Fur-Lined armor", "de": "Waldläufer Pelzverbrämte-Rüstung"}
     },
     "240": {
       "name": "Shing Jea armor",
@@ -7382,7 +7385,7 @@ const GW_ARMOR = {
           "at": [94]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Shing_Jea-Rüstung"
+      "wiki": {"en": "Shing Jea armor", "de": "Waldläufer Shing Jea-Rüstung"}
     },
     "241": {
       "name": "Sunspear armor",
@@ -7443,7 +7446,7 @@ const GW_ARMOR = {
           "at": [40, 839]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Sonnenspeer-Rüstung"
+      "wiki": {"en": "Sunspear armor", "de": "Waldläufer Sonnenspeer-Rüstung"}
     },
     "242": {
       "name": "Tyrian armor",
@@ -7464,7 +7467,7 @@ const GW_ARMOR = {
           "at": [834, 25]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Tyria-Rüstung"
+      "wiki": {"en": "Tyrian armor", "de": "Waldläufer Tyria-Rüstung"}
     },
     "243": {
       "name": "Vabbian armor",
@@ -7486,7 +7489,7 @@ const GW_ARMOR = {
           "at": [163]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer_Vaabi-Rüstung"
+      "wiki": {"en": "Vabbian armor", "de": "Waldläufer Vaabi-Rüstung"}
     },
     "244": {
       "name": "Third Eye",
@@ -7500,7 +7503,7 @@ const GW_ARMOR = {
         {"armor": 45, "price_per_piece": 200, "price": 200, "pieces": {"head": [[4, 929]]}, "at": [172, 78]},
         {"armor": 51, "price_per_piece": 250, "price": 250, "pieces": {"head": [[8, 929]]}, "at": [155]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier-Kopfschmuck"
+      "wiki": {"en": "Elementalist Third Eye", "de": "Elementarmagier-Kopfschmuck"}
     },
     "245": {
       "name": "Stone Eye",
@@ -7520,7 +7523,7 @@ const GW_ARMOR = {
           "at": [44, 45, 25]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier-Kopfschmuck"
+      "wiki": {"en": "Elementalist Stone Eye", "de": "Elementarmagier-Kopfschmuck"}
     },
     "246": {
       "name": "Eyes",
@@ -7540,7 +7543,7 @@ const GW_ARMOR = {
           "at": [44, 45, 25]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier-Kopfschmuck"
+      "wiki": {"en": "Elementalist headgear", "de": "Elementarmagier-Kopfschmuck"}
     },
     "247": {
       "name": "Auras",
@@ -7559,7 +7562,7 @@ const GW_ARMOR = {
           "at": [93, 94, 95, 835, 834, 31, 84]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier-Kopfschmuck"
+      "wiki": {"en": "Elementalist headgear", "de": "Elementarmagier-Kopfschmuck"}
     },
     "248": {
       "name": "Eyes",
@@ -7578,7 +7581,7 @@ const GW_ARMOR = {
           "at": [40, 839, 21, 837]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Elementarmagier-Kopfschmuck"
+      "wiki": {"en": "Elementalist headgear", "de": "Elementarmagier-Kopfschmuck"}
     },
     "249": {
       "name": "Discreet Mask",
@@ -7593,7 +7596,7 @@ const GW_ARMOR = {
         {"armor": 51, "price_per_piece": 250, "price": 250, "pieces": {"head": [[8, 925]]}, "at": [155]},
         {"armor": 60, "price_per_piece": 1000, "price": 1000, "pieces": {"head": [[25, 925], [4, 929]]}, "at": [44]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer-Kopfschmuck"
+      "wiki": {"en": "Mesmer Discreet Mask", "de": "Mesmer-Kopfschmuck"}
     },
     "250": {
       "name": "Imposing Mask",
@@ -7607,7 +7610,7 @@ const GW_ARMOR = {
         {"armor": 51, "price_per_piece": 250, "price": 250, "pieces": {"head": [[8, 925]]}, "at": [155]},
         {"armor": 60, "price_per_piece": 1000, "price": 1000, "pieces": {"head": [[25, 925], [4, 949]]}, "at": [45]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer-Kopfschmuck"
+      "wiki": {"en": "Mesmer Imposing Mask", "de": "Mesmer-Kopfschmuck"}
     },
     "251": {
       "name": "Costume Mask",
@@ -7621,7 +7624,7 @@ const GW_ARMOR = {
         {"armor": 51, "price_per_piece": 250, "price": 250, "pieces": {"head": [[8, 925]]}, "at": [155]},
         {"armor": 60, "price_per_piece": 1000, "price": 1000, "pieces": {"head": [[25, 925], [4, 933]]}, "at": [45]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer-Kopfschmuck"
+      "wiki": {"en": "Mesmer Costume Mask", "de": "Mesmer-Kopfschmuck"}
     },
     "252": {
       "name": "Animal Mask",
@@ -7635,7 +7638,7 @@ const GW_ARMOR = {
         {"armor": 51, "price_per_piece": 250, "price": 250, "pieces": {"head": [[8, 925]]}, "at": [155]},
         {"armor": 60, "price_per_piece": 1000, "price": 1000, "pieces": {"head": [[25, 925], [4, 942]]}, "at": [45]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer-Kopfschmuck"
+      "wiki": {"en": "Mesmer Animal Mask", "de": "Mesmer-Kopfschmuck"}
     },
     "253": {
       "name": "Sleek Mask",
@@ -7649,7 +7652,7 @@ const GW_ARMOR = {
         {"armor": 51, "price_per_piece": 250, "price": 250, "pieces": {"head": [[8, 925]]}, "at": [155]},
         {"armor": 60, "price_per_piece": 1000, "price": 1000, "pieces": {"head": [[25, 925], [4, 926]]}, "at": [44]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Mesmer-Kopfschmuck"
+      "wiki": {"en": "Mesmer Sleek Mask", "de": "Mesmer-Kopfschmuck"}
     },
     "254": {
       "name": "Scar Patterns",
@@ -7664,7 +7667,7 @@ const GW_ARMOR = {
         {"armor": 51, "price_per_piece": 250, "price": 250, "pieces": {"head": [[8, 925]]}, "at": [155]},
         {"armor": 60, "price_per_piece": 800, "price": 800, "pieces": {"head": [[25, 951], [4, 933]]}, "at": [44, 45]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Nekromant-Kopfschmuck"
+      "wiki": {"en": "Necromancer scar patterns", "de": "Nekromant-Kopfschmuck"}
     },
     "255": {
       "name": "Elonian Crests",
@@ -7683,7 +7686,7 @@ const GW_ARMOR = {
           "at": [40, 839, 21, 837, 25]
         }
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Paragon-Kopfschmuck"
+      "wiki": {"en": "Paragon Elonian armor", "de": "Paragon-Kopfschmuck"}
     },
     "256": {
       "name": "Vabbian Crests",
@@ -7691,7 +7694,7 @@ const GW_ARMOR = {
       "kind": "headgear",
       "campaigns": [3],
       "tiers": [{"armor": 80, "price_per_piece": 1000, "price": 1000, "pieces": {"head": [[25, 929]]}, "at": [163]}],
-      "wiki": "https://www.guildwiki.de/wiki/Paragon-Kopfschmuck"
+      "wiki": {"en": "Paragon Vabbian armor", "de": "Paragon-Kopfschmuck"}
     },
     "257": {
       "name": "Simple Mask",
@@ -7706,7 +7709,7 @@ const GW_ARMOR = {
         {"armor": 61, "price_per_piece": 250, "price": 250, "pieces": {"head": [[8, 925]]}, "at": [155]},
         {"armor": 70, "price_per_piece": 1000, "price": 1000, "pieces": {"head": [[25, 925], [4, 928]]}, "at": [44]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer-Kopfschmuck"
+      "wiki": {"en": "Ranger Simple Mask", "de": "Waldläufer-Kopfschmuck"}
     },
     "258": {
       "name": "Hunter Mask",
@@ -7720,7 +7723,7 @@ const GW_ARMOR = {
         {"armor": 61, "price_per_piece": 250, "price": 250, "pieces": {"head": [[8, 925]]}, "at": [155]},
         {"armor": 70, "price_per_piece": 1000, "price": 1000, "pieces": {"head": [[25, 925], [4, 926]]}, "at": [45]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer-Kopfschmuck"
+      "wiki": {"en": "Ranger Hunter Mask", "de": "Waldläufer-Kopfschmuck"}
     },
     "259": {
       "name": "Traveler Mask",
@@ -7734,7 +7737,7 @@ const GW_ARMOR = {
         {"armor": 61, "price_per_piece": 250, "price": 250, "pieces": {"head": [[8, 925]]}, "at": [155]},
         {"armor": 70, "price_per_piece": 1000, "price": 1000, "pieces": {"head": [[25, 925], [4, 953]]}, "at": [44]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer-Kopfschmuck"
+      "wiki": {"en": "Ranger Traveler Mask", "de": "Waldläufer-Kopfschmuck"}
     },
     "260": {
       "name": "Tamer Mask",
@@ -7748,7 +7751,7 @@ const GW_ARMOR = {
         {"armor": 61, "price_per_piece": 250, "price": 250, "pieces": {"head": [[8, 925]]}, "at": [155]},
         {"armor": 70, "price_per_piece": 1000, "price": 1000, "pieces": {"head": [[25, 925], [4, 941]]}, "at": [45]}
       ],
-      "wiki": "https://www.guildwiki.de/wiki/Waldläufer-Kopfschmuck"
+      "wiki": {"en": "Ranger Tamer Mask", "de": "Waldläufer-Kopfschmuck"}
     }
   }
 };

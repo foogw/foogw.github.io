@@ -46,7 +46,7 @@ VIEWS.quest = (() => {
           ${mapHTML(places.flatMap(placeAreas), { self: places[0]?.id })}
         </div>
       </div>
-      <p class="llinks">${step ? `<a href="${storylineHref(step[0], { s: step[1] })}">In the storyline →</a>` : ""}${skills.length && q.type !== "primary" ? `<a href="quests?sq=1">Skill quests →</a>` : ""}${q.wiki_en ? `<a href="${esc(q.wiki_en)}" target="_blank" rel="noopener">Guild Wars Wiki (archived)</a>` : ""}${q.wiki ? `<a href="${esc(q.wiki)}" target="_blank" rel="noopener">guildwiki.de</a>` : ""}</p>`;
+      <p class="llinks">${step ? `<a href="${storylineHref(step[0], { s: step[1] })}">In the storyline →</a>` : ""}${skills.length && q.type !== "primary" ? `<a href="quests?sq=1">Skill quests →</a>` : ""}${wikiLink(q.wiki)}</p>`;
   }
   return { find: id => QUESTS[id], title: q => q.name, html };
 })();
