@@ -35138,7 +35138,7 @@ const GW_SKILLS = {
       "concise": "Spell. Deals 22...92 damage."
     },
     "2857": {
-      "name": "Aegis  (PvP)",
+      "name": "Aegis (PvP)",
       "profession": 3,
       "attribute": 15,
       "campaign": 0,
@@ -35380,7 +35380,7 @@ const GW_SKILLS = {
       "concise": "Weapon Spell. (20 seconds.) Attacks deal 5...40 damage to 3 adjacent foes. Ends after 1...5 attacks."
     },
     "2869": {
-      "name": "Assassin's Remedy  (PvP)",
+      "name": "Assassin's Remedy (PvP)",
       "profession": 7,
       "attribute": 35,
       "campaign": 3,
@@ -36611,7 +36611,7 @@ const GW_SKILLS = {
       "concise": "Shout. (5...20 seconds.) Target ally inflicts Deep Wound condition (5...20 seconds) with the next critical hit."
     },
     "3035": {
-      "name": "\"Never Give Up!\"  (PvP)",
+      "name": "\"Never Give Up!\" (PvP)",
       "profession": 9,
       "attribute": 38,
       "campaign": 3,

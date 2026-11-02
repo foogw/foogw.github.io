@@ -2121,7 +2121,7 @@ const GW_QUESTS = {
       "wiki": {"en": "Slaves of Menzies", "de": "Sklaven von Menzies"}
     },
     "100238": {
-      "name": "Snake Dance  (Zaishen vanquish)",
+      "name": "Snake Dance (Zaishen vanquish)",
       "type": "secondary",
       "givers": [191],
       "xp": 15000,
@@ -2745,7 +2745,7 @@ const GW_QUESTS = {
       "wiki": {"en": "Tower of Strength", "de": "Turm der Stärke (Quest)"}
     },
     "100304": {
-      "name": "Traveler's Vale  (Zaishen vanquish)",
+      "name": "Traveler's Vale (Zaishen vanquish)",
       "type": "secondary",
       "givers": [191],
       "xp": 10000,
@@ -5180,7 +5180,7 @@ const GW_QUESTS = {
       "wiki": {"en": "Feed the Hungry", "de": "Die Hungernden ernähren"}
     },
     "100557": {
-      "name": "Finding Jinnai (Hard mode)‎",
+      "name": "Finding Jinnai (Hard mode)",
       "type": "secondary",
       "givers": [339],
       "xp": 6000,
@@ -5191,7 +5191,7 @@ const GW_QUESTS = {
       "wiki": {"en": "Finding Jinnai (Hard mode)", "de": "Suche nach Jinnai (Schwerer Modus)"}
     },
     "100558": {
-      "name": "Finding Jinnai‎",
+      "name": "Finding Jinnai",
       "type": "secondary",
       "givers": [338],
       "xp": 3000,
@@ -7117,7 +7117,7 @@ const GW_QUESTS = {
       "wiki": {"en": "The Zenos Squad", "de": "Der Zenos-Trupp"}
     },
     "100749": {
-      "name": "There Goes the Neighborhood (Hard mode)‎",
+      "name": "There Goes the Neighborhood (Hard mode)",
       "type": "secondary",
       "givers": [220],
       "xp": 6000,
@@ -7128,7 +7128,7 @@ const GW_QUESTS = {
       "wiki": {"en": "There Goes the Neighborhood (Hard mode)", "de": "Lebe wohl, Nachbarschaft (Schwerer Modus)"}
     },
     "100750": {
-      "name": "There Goes the Neighborhood‎",
+      "name": "There Goes the Neighborhood",
       "type": "secondary",
       "givers": [220],
       "xp": 3000,
@@ -8502,7 +8502,7 @@ const GW_QUESTS = {
       "wiki": {"en": "Fish in a Barrel", "de": "Fische im Fass"}
     },
     "100887": {
-      "name": "Flamingo... gehen... gegangen",
+      "name": "Flamingo-ing... going... gone.",
       "type": "secondary",
       "givers": [560],
       "xp": 1500,
@@ -8705,7 +8705,7 @@ const GW_QUESTS = {
       "wiki": {"en": "Greed and Regret", "de": "Gier und Reue"}
     },
     "100909": {
-      "name": "Gruft-ologie",
+      "name": "Crypt-ology",
       "type": "secondary",
       "givers": [598, 599],
       "xp": 1500,
