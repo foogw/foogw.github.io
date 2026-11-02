@@ -35,9 +35,11 @@ function ringsBox(walks) {
   return x0 < x1 ? [x0, y0, x1, y1] : null;
 }
 const TILES = new Map();
-// a tile's picture once loaded (or null while loading, or missing where the map has no picture); onLoad redraws
+// a tile's picture once loaded (or null while loading, or off the map); onLoad redraws. Tiles cover the whole map:
+// level 1 a tile per 256 map pixels, level 0 a tile per 1024
 function tile(set, z, x, y, onLoad) {
-  if (MAP_SETS[set]?.tiles?.[z]?.[y]?.[x] !== "1") return null;  // no picture there
+  const m = MAP_SETS[set], span = z ? TILE : TILE * 4;
+  if (!m || x * span >= m.w || y * span >= m.h) return null;
   const key = `${set}/${z}/${x}-${y}`;
   let t = TILES.get(key);
   if (!t) {
