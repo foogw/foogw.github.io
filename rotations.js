@@ -114,7 +114,7 @@ function bonusPageHTML(b) {
   const picks = b.daily ? dailyPicks(b.daily, week) : [];
   const pickHTML = e => entryHTML(e) + (e.creature ? entryWhere(e) : "");
   const others = Object.values(BONUSES).filter(x => x !== b);
-  return `<p class="back"><a href="#">← Rotations</a></p>
+  return `<p class="back"><a href="?">← Rotations</a></p>
     <div class="sp-head" style="--pc:var(--accent)">
       <div class="sp-title"><h2>${esc(b.name)} Bonus</h2><div class="sp-sub">Weekly PvE bonus · Monday 15:00 UTC to the next Monday</div></div>
       <div class="lstats"><span class="lstat"><small>${active ? "This week" : "Next"}</small><b>${esc(active ? `ends in ${timeLeft(week[1] - now)}` : fmtDay.format(week[0]))}</b></span></div>
@@ -132,7 +132,7 @@ function bonusPageHTML(b) {
         ${picks.length ? `<section class="lbox"><h4>${{ "zaishen-mission": "Zaishen missions", "zaishen-bounty": "Zaishen bounties", "zaishen-vanquish": "Zaishen vanquishes" }[b.daily]} ${active ? "this week" : "that week"}</h4><ul class="lrows">${picks.map(([t, e]) =>
           `<li><span>${pickHTML(e)}</span><span class="dim">${fmtDay.format(t)}</span></li>`).join("")}</ul></section>` : ""}
         <section class="lbox"><h4>Other PvE bonuses</h4><div class="chips">${others.map(x =>
-          `<a class="chip" style="text-decoration:none" href="${hash({ bonus: x.id })}">${esc(x.name)}</a>`).join("")}</div></section>
+          `<a class="chip" style="text-decoration:none" href="${query({ bonus: x.id })}">${esc(x.name)}</a>`).join("")}</div></section>
       </div>
     </div>
     <p class="dim" style="font-size:12px;margin-top:10px">Effects from the <a href="https://web.archive.org/web/2025/https://wiki.guildwars.com/wiki/Weekly_bonuses" target="_blank" rel="noopener">Guild Wars Wiki</a> (archived); tips written for this site.</p>`;
@@ -140,7 +140,7 @@ function bonusPageHTML(b) {
 
 // the rotation tables, or one bonus's page when the address names one
 function show() {
-  const p = new URLSearchParams(location.hash.slice(1));
+  const p = args();
   const b = BONUSES[p.get("bonus")];
   $("browse").hidden = !!b;
   $("bonus").hidden = !b;
@@ -156,11 +156,11 @@ function show() {
 }
 
 $find.addEventListener("input", () => {
-  history.replaceState(null, "", $find.value ? "#q=" + encodeURIComponent($find.value) : location.pathname);
+  history.replaceState(null, "", $find.value ? "?q=" + encodeURIComponent($find.value) : location.pathname);
   render();
 });
 show();
-window.addEventListener("hashchange", show);
+onRoute(show);
 setInterval(() => { if (!$("browse").hidden) render(); }, 30000);  // the clocks in the column titles too
 for (const b of document.querySelectorAll("[data-more]")) {
   b.addEventListener("click", () => { expanded[b.dataset.more] = !expanded[b.dataset.more]; render(); });

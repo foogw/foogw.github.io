@@ -2,46 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
-<title>GW Skill Quests</title>
-<link rel="stylesheet" href="style.css">
+<title>GW Quests</title>
+<!-- the skill quests are the Quests page's "Skill quests" filter now: an old address goes there, with its search -->
+<script>
+const q = new URLSearchParams(location.search || (location.hash.includes("=") ? location.hash.slice(1) : "")).get("q");
+location.replace("quests?" + new URLSearchParams(q ? { sq: 1, q } : { sq: 1 }));
+</script>
 </head>
-<body class="quests">
-<div class="wrap">
-  <header class="top">
-    <nav class="pages"><a href="./">Home</a><a href="rotations">Rotations</a><a href="guides">Guides</a><a href="quests">Storylines</a><a href="missions">Missions</a><a href="locations">Locations</a><a href="maps">Maps</a><a href="skills" aria-current="page">Skills</a><a href="heroes">Heroes</a><a href="builds">Builds</a><a href="builder">Builder</a></nav>
-    <a class="hdr-link push" href="about">About</a>
-    <a class="hdr-link" href="thanks">Thanks</a>
-    <a class="hdr-link" href="contact">Contact</a>
-    <a class="hdr-link" href="license">License</a>
-  </header>
-  <div class="page-title"><h1>Skills</h1><p>Every quest that rewards a skill</p></div>
-
-  <div class="q-tabs">
-    <a href="skills">All skills</a><a href="skill-quests" aria-current="page">Skill quests</a>
-  </div>
-
-  <div class="sq-tools">
-    <input type="search" id="find" placeholder="Find a quest or skill — e.g. mantra, monastery" autocomplete="off">
-    <span class="dim" id="count"></span>
-  </div>
-  <div class="sq-tools">
-    <div class="profs" id="profs"></div>
-    <label class="chk" title="Only quests whose skills are all for the chosen profession (common skills don't count)"><input type="checkbox" id="only"> Only</label>
-    <span class="dim">Paragons and Dervishes have no skill quests.</span>
-  </div>
-  <div id="list"></div>
-
-  <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
-</div>
-
-<script src="game/quests.js"></script>
-<script src="game/ground.js"></script>
-<script src="game/skills.js"></script>
-<script src="game/creatures.js"></script>
-<script src="common.js"></script>
-<script src="skill-quests.js"></script>
-</body>
+<body><p><a href="quests?sq=1">Skill quests</a></p></body>
 </html>

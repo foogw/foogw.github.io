@@ -285,7 +285,7 @@ function update() {
     b.classList.toggle("desc", b.dataset.sort === state.sort && state.desc);
   }
   $("head").style.top = headerHeight() + $("filters").offsetHeight + "px";
-  writeHash();
+  writeArgs();
 }
 
 function toggleOpen(id) {
@@ -315,7 +315,7 @@ function openTier(id) {
 }
 
 /* ---------- URL state ---------- */
-function writeHash() {
+function writeArgs() {
   const p = new URLSearchParams();
   if (els.name.value) p.set("q", els.name.value);
   if (state.profs.size) p.set("p", [...state.profs].join(","));
@@ -329,11 +329,11 @@ function writeHash() {
   if (state.sort !== "default") p.set("sort", (state.desc ? "-" : "") + state.sort);
   if (state.open) p.set("open", state.open);
   const h = p.toString();
-  history.replaceState(null, "", h ? "#" + h : location.pathname);
+  history.replaceState(null, "", h ? "?" + h : location.pathname);
 }
 
-function readHash() {
-  const p = new URLSearchParams(location.hash.slice(1));
+function readArgs() {
+  const p = args();
   const list = k => (p.get(k) || "").split(",").filter(Boolean);
   els.name.value = p.get("q") || "";
   state.profs.clear(); list("p").forEach(v => state.profs.add(v));  // the chip handlers hold these sets
@@ -349,7 +349,7 @@ function readHash() {
 }
 
 buildFilterUI();
-readHash();
+readArgs();
 update();
 window.addEventListener("resize", () => { $("head").style.top = headerHeight() + $("filters").offsetHeight + "px"; });
 if (state.open) els.list.querySelector(".row.open")?.scrollIntoView({ block: "center" });

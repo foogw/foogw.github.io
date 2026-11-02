@@ -62,13 +62,42 @@ function questsAt(id) {
 const missionCampaign = m => campaignOf(LOCATIONS[m.outpost] || LOCATIONS[m.id]);
 const missionRegion = m => regionOf(LOCATIONS[m.outpost] || LOCATIONS[m.id]);
 
-/* ---------- links ---------- */
-const hash = o => "#" + new URLSearchParams(o);
-const HREF = {
-  place: id => `locations${hash({ place: id })}`, mission: id => `missions${hash({ mission: id })}`,
-  quest: id => `quests${hash({ quest: id })}`, skill: id => `skills${hash({ skill: id })}`,
-  hero: id => `heroes${hash({ hero: id })}`, boss: id => `bosses${hash({ boss: id })}`,
-};
+/* ---------- addresses: a page's settings are after ? (missions?c=1&sort=name) ---------- */
+const query = o => "?" + new URLSearchParams(o);
+const args = () => new URLSearchParams(location.search);
+// a page that redraws from its address calls onRoute(draw): links to its own address then change it in place, and go()
+// moves to one (replace: without a step back)
+let routed = false;
+function onRoute(f) { routed = true; addEventListener("route", f); addEventListener("popstate", f); }
+function go(q, replace = false) {
+  history[replace ? "replaceState" : "pushState"](null, "", q && q !== "?" ? q : location.pathname);
+  dispatchEvent(new Event("route"));
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest("a[href]");
+  if (!routed || !a || a.target || e.button || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+  const u = new URL(a.href), path = p => p.replace(/(\.html)?$/, "").replace(/\/index$/, "/");
+  if (u.origin !== location.origin || path(u.pathname) !== path(location.pathname) || u.hash) return;
+  e.preventDefault();
+  go(u.search || "?");
+});
+// an old address kept its settings after # (locations#place=146): they move to ?, and the things that now open on the
+// front page (a place, a mission, a quest, a skill, a hero, a boss) go there
+{
+  if (/^#[\w-]+=/.test(location.hash) && !location.search) history.replaceState(null, "", location.pathname + "?" + location.hash.slice(1));
+  const page = location.pathname.match(/([\w-]*?)(\.html)?$/)[1];
+  const key = { locations: "place", missions: "mission", "all-quests": "quest", quests: "quest", skills: "skill", heroes: "hero", bosses: "boss" }[page];
+  const id = key && args().get(key);
+  if (id) location.replace("./" + query({ [key]: id }));
+}
+// the pages of the game's own things are on the front page: ./?place=146
+const HREF = Object.fromEntries(["place", "mission", "quest", "skill", "hero", "boss", "title"].map(k => [k, id => "./" + query({ [k]: id })]));
+// our own pages name what they show: builds?meta, storylines?prophecies&m=28
+const buildHref = id => "builds?" + encodeURIComponent(id);
+const STORYLINE = { 1: "prophecies", 2: "factions", 3: "nightfall", 4: "eotn" };  // campaign -> its storyline's name
+const storylineHref = (c, more) => `storylines?${STORYLINE[c]}${more ? "&" + new URLSearchParams(more) : ""}`;
+// a thing's page there: VIEWS[key] = { find(id), title(x), html(x), after(el, x) }, from place.js, mission.js and the rest
+const VIEWS = {};
 const skillIcon = (id, cls = "sk-ic") => `<img class="${cls}" src="img/skills/${id}.jpg" alt="" loading="lazy" onerror="this.remove()">`;
 const LINK = {
   place: (id, label) => (LOCATIONS[id] ? `<a href="${HREF.place(id)}">${esc(label ?? LOCATIONS[id].name)}</a>` : esc(label ?? "")),
@@ -173,6 +202,35 @@ document.addEventListener("click", e => {
   });
 });
 
+/* Every boss: a creature a mission or a place names as a boss, or one an elite is captured from, with where it is;
+   made the first time it's asked for */
+let BOSS;
+function bossTable() {
+  if (BOSS) return BOSS;
+  BOSS = new Map();
+  const bossOf = id => BOSS.get(id) || BOSS.set(id, Object.assign(CREATURES[id], { where: new Set(), levels: new Set(), elites: new Set(CREATURES[id].elites || []) })).get(id);
+  for (const s of Object.values(SKILLS)) for (const a of s.acquisition || []) if (a.capture && CREATURES[a.capture]) {
+    const b = bossOf(a.capture);
+    if (s.elite) b.elites.add(s.id);
+    if (a.location != null) b.where.add(a.location);
+  }
+  for (const l of Object.values(LOCATIONS)) for (const id of l.bosses || []) if (CREATURES[id]) bossOf(id).where.add(l.id);
+  for (const m of Object.values(MISSIONS)) for (const x of m.bosses || []) if (CREATURES[x.creature]) {
+    const b = bossOf(x.creature);
+    b.where.add(m.id);
+    if (x.level) b.levels.add(x.level[1] ? `${x.level[0]} (${x.level[1]})` : String(x.level[0]));
+  }
+  for (const b of BOSS.values()) {
+    // without a profession of its own, a boss is taken to be of its elite's
+    b.prof = b.profession || [...b.elites].map(id => SKILLS[id]?.profession).find(Boolean) || 0;
+    b._elites = [...b.elites].map(id => SKILLS[id]).filter(s => s?.elite).sort((x, y) => cmpStr(x.name, y.name));
+    b._where = [...b.where].filter(i => LOCATIONS[i] || MISSIONS[i]).sort((x, y) => cmpStr(locName(x), locName(y)));
+    b.camps = new Set(b._where.map(i => campaignOf(LOCATIONS[i]) ?? missionCampaign(MISSIONS[i])).filter(c => c != null));
+    b._k = fold([b.name, ...b._elites.map(s => s.name), ...b._where.map(locName)].join(" | "));
+  }
+  return BOSS;
+}
+
 /* ---------- rotations: entry k of a cycle is active from start + k * period (unix seconds) ---------- */
 const ROTATIONS = Object.fromEntries((CALENDAR?.rotations || []).map(r => [r.key, r]));
 const BONUSES = CALENDAR?.bonuses || {}, EVENTS = CALENDAR?.events || {};
@@ -189,7 +247,7 @@ const entryName = e => (e.item || (e.creature && CREATURES[e.creature]?.name) ||
 function entryHTML(e) {
   if (e.mission) return LINK.mission(e.mission);
   if (e.location && !e.creature && !e.item) return LINK.place(e.location);
-  if (e.bonus) return `<a href="rotations${hash({ bonus: e.bonus })}">${esc(entryName(e))}</a>`;
+  if (e.bonus) return `<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`;
   if (e.quest) return LINK.quest(e.quest);
   if (e.item) return `${e.count} × ${e.map ? `<a href="${esc(e.map)}" target="_blank" rel="noopener">${esc(e.item)}</a>` : esc(e.item)}`;
   return esc(entryName(e));
@@ -251,9 +309,29 @@ const typeMatches = (s, type) => !type || (type.startsWith("~") ? TYPE_GROUPS.fi
 const runeBonus = r => String(r || "").split("+").reduce((s, x) => s + (+x || 0), 0);
 const byRank = (attrs, runes = {}) => [...attrs].sort((a, b) =>
   (b.rank + runeBonus(runes[b.id])) - (a.rank + runeBonus(runes[a.id])) || b.rank - a.rank);
-/* A build's link into the builder, with its runes and headgear as attribute bonuses (#code=…&bonus=13:4,15:1) */
+/* A build's link into the builder, with its runes and headgear as attribute bonuses (?code=…&bonus=13:4,15:1) */
 function builderHref(b) {
   const bonus = Object.entries(b.runes || {}).map(([id, r]) => [id, runeBonus(r)]).filter(([, v]) => v).map(([id, v]) => `${id}:${v}`).join(",");
-  return "builder#" + new URLSearchParams(bonus ? { code: b.code, bonus } : { code: b.code }).toString().replace(/%3A/g, ":").replace(/%2C/g, ",");
+  return "builder?" + new URLSearchParams(bonus ? { code: b.code, bonus } : { code: b.code }).toString().replace(/%3A/g, ":").replace(/%2C/g, ",");
 }
 const BUILDS = new Map((BUILDDATA?.builds || []).map(b => [b.id, b]));
+// the builds suggested for each hero (the "heroes" of each build on the Builds page)
+const HERO_BUILDS = new Map();
+for (const b of BUILDS.values()) for (const id of b.heroes || []) (HERO_BUILDS.get(id) || HERO_BUILDS.set(id, []).get(id)).push(b);
+// a bar's skill icons: the whole bar opens in the builder; the code can also be copied straight away
+function barIcons(code) {
+  let skills = [];
+  try { skills = TemplateCode.decode(code).skills; } catch { /* an unreadable code shows no icons */ }
+  return skills.map(id => (id ? `<img src="img/skills/${id}.jpg" alt="" loading="lazy">` : '<i class="hb-none">?</i>')).join("");
+}
+const COPY_ICON = '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>';
+const profName = h => (h.profession ? PROFS[h.profession] : "Any");
+// how to recruit a hero, each step linked to its quest's or mission's page
+function recruitHTML(h) {
+  let t = esc(h.recruit);
+  for (const st of h.recruit_steps || []) {
+    const name = st.quest ? QUESTS[st.quest]?.name : locName(st.mission);
+    if (name) t = t.replace(esc(name), st.quest ? LINK.quest(st.quest) : whereLink(st.mission));
+  }
+  return t;
+}

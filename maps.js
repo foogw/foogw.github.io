@@ -3,8 +3,9 @@
 /* The Maps page: the regions of the old Maps page, by group (Pre-Searing, Tyria, ...), each a view on its map (a
    continent's whole painting, or a picture of its own) with every area's walkable ground. A continent's regions are
    zooms on one map: drag to move on to the next, wheel or pinch to zoom, click an area for its pages.
-   #g=<group> opens a tab (its map whole, or the part that is the tab's), #view=<n> one view, #place=<map id> picks out that area. */
-const VIEWS = data("GW_MAPS").views.map((v, i) => ({ ...v, i }));
+   maps?<tab> opens a tab (its map whole, or the part that is the tab's), maps?<tab>&<subtab> one view (maps?realm_of_torment&gates),
+   maps?place=<map id> picks out that area. */
+const MAP_VIEWS = data("GW_MAPS").views.map((v, i) => ({ ...v, i }));
 // a tab's own view: what the tab shows before a region is chosen
 const GROUPS = data("GW_MAPS").groups.map(g => ({ ...g, group: g.name, main: true }));
 const MAX_ZOOM = 3, VIEW_ZOOM = 1.5;  // a view opens at most at VIEW_ZOOM (a small map, like the Shadow Nexus, isn't blown up)
@@ -29,20 +30,21 @@ const inSet = s => Object.values(LOCATIONS).filter(l => (WALK_SET.get(l.id) ?? l
 $("groups").innerHTML = GROUPS.map(g => `<button class="prof-chip" data-g="${esc(g.name)}">${esc(g.name)}</button>`).join("");
 $("groups").addEventListener("click", e => {
   const b = e.target.closest("[data-g]");
-  if (b) go({ g: b.dataset.g });
+  if (b) go("?" + slug(b.dataset.g));
 });
 $("regions").addEventListener("click", e => {
   const b = e.target.closest("[data-view]");
-  if (b) go({ view: b.dataset.view });
+  if (b) { const v = MAP_VIEWS[b.dataset.view]; go(`?${slug(v.group)}&${slug(v.name)}`); }
 });
 function chips() {
   for (const b of $("groups").children) b.setAttribute("aria-pressed", b.dataset.g === view0.group);
-  $("regions").innerHTML = VIEWS.filter(v => v.group === view0.group)
+  $("regions").innerHTML = MAP_VIEWS.filter(v => v.group === view0.group)
     .map(v => `<button data-view="${v.i}" aria-pressed="${v === view0 || (view0.main && v.set === view0.set && String(v.box) === String(view0.box))}">${esc(v.name)}</button>`).join("");
 }
-// the address of what is shown: a tab or one view
-const here = () => (view0.main ? { g: view0.group } : { view: view0.i });
-const go = h => { location.hash = new URLSearchParams(h); };
+// a tab's or a view's name in the address: "Realm of Torment" is realm_of_torment
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+// the address of what is shown: a tab, or one view in it
+const here = () => "?" + slug(view0.group) + (view0.main ? "" : "&" + slug(view0.name));
 
 // one piece of ground on the map, and the places it is ({ id, town: an outpost's own town, mission: a mission's ground })
 // box: where to look first, set before the first frame is drawn (the last map's view never shows on this one)
@@ -85,21 +87,25 @@ const whoNames = who => {
   return [...new Set(names.map((n, i) => (base.filter(b => b && b === base[i]).length > 1 && n === base[i] ? `${n} (${(TYPE_LABEL[who[i].l.type] || "area").toLowerCase()})` : n)))].join(" · ");
 };
 
-async function fromHash() {
-  const h = new URLSearchParams(location.hash.slice(1));
+async function fromArgs() {
+  const h = args();
   const place = LOCATIONS[h.get("place")];
   // a place opens in the view that holds it, else the first view on its map
   const inBox = (v, p) => v.set === p.set && p.at && p.at[0] >= v.box[0] && p.at[0] <= v.box[2] && p.at[1] >= v.box[1] && p.at[1] <= v.box[3];
   const ps = place && (WALK_SET.get(place.id) ?? place.set);  // the map its ground is on, else its marker's
-  const g = GROUPS.find(x => x.name === (h.get("g") || (!VIEWS[h.get("view")] && !place && GROUPS[0].name)));
-  view0 = g || VIEWS[h.get("view")] || (place && (VIEWS.find(v => v.set === ps && inBox(v, place)) || VIEWS.find(v => v.set === ps))) || VIEWS[0];
+  // a tab and a view by name; older links named the tab (g=Tyria) or numbered the view (view=3)
+  const [tab, sub] = h.keys();
+  const g = GROUPS.find(x => x.name === h.get("g") || slug(x.name) === tab);
+  const v = MAP_VIEWS[h.get("view")] || (g && sub && MAP_VIEWS.find(v => v.group === g.name && slug(v.name) === sub));
+  if (h.has("g") || h.has("view")) history.replaceState(null, "", "?" + slug((v || g)?.group || "") + (v ? "&" + slug(v.name) : ""));
+  view0 = v || g || (place ? MAP_VIEWS.find(v => v.set === ps && inBox(v, place)) || MAP_VIEWS.find(v => v.set === ps) : GROUPS[0]) || MAP_VIEWS[0];
   chips();
   await openSet(ps ?? view0.set, place ? null : view0.box);
   pick = place ? areas.find(a => a.who.some(x => x.l?.id === place.id && !x.mission)) || areas.find(a => a.who.some(x => x.l?.id === place.id)) || null : null;
   showPanel();
   zoomTo([pick ? pick.box : view0.box], pick ? MAX_ZOOM : VIEW_ZOOM);
 }
-window.addEventListener("hashchange", fromHash);
+onRoute(fromArgs);
 
 /* ---------- the panel for the picked area ---------- */
 function showPanel() {
@@ -111,7 +117,7 @@ function showPanel() {
   panel.innerHTML = `<button class="wm-close" title="Close" aria-label="Close">×</button><ul>${pick.who.filter(x => !seen.has(whoName(x)) && seen.add(whoName(x))).map(row).join("")}</ul>`;
 }
 panel.addEventListener("click", e => {
-  if (e.target.closest(".wm-close")) { pick = null; showPanel(); history.replaceState(null, "", hash(here())); schedule(); }
+  if (e.target.closest(".wm-close")) { pick = null; showPanel(); history.replaceState(null, "", here()); schedule(); }
 });
 
 /* ---------- view ---------- */
@@ -292,7 +298,7 @@ function up(e) {
     if (mk) { endDrag(); location.href = HREF.place(mk.id); return; }
     pick = areaAt(onMap(local(e)));
     const first = pick?.who.find(x => x.l);
-    history.replaceState(null, "", first ? hash({ place: first.l.id }) : hash(here()));
+    history.replaceState(null, "", first ? query({ place: first.l.id }) : here());
     showPanel(); schedule();
   }
   if (!pointers.size) endDrag();
@@ -320,4 +326,4 @@ $("zout").addEventListener("click", () => zoomAt(0.8, cssW / 2, cssH / 2));
 $("zfit").addEventListener("click", () => fit());
 dark.addEventListener("input", schedule);
 new ResizeObserver(resize).observe(stage);
-fromHash();
+fromArgs();

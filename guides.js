@@ -200,7 +200,7 @@ function statsOf(g) {
 const slug = t => t.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 function guidePageHTML(g) {
   const titled = g.sections.filter(s => s.title);
-  return `<p class="back"><a href="#">← All guides</a></p>
+  return `<p class="back"><a href="?">← All guides</a></p>
     <div class="sp-head" style="--pc:var(--accent)">
       <div class="sp-title"><h2>${esc(g.name)}</h2><div class="sp-sub">${[g.mission && LINK.mission(g.mission), g.source && `By ${esc(g.source.author)}`, g.sub && esc(g.sub)].filter(Boolean).join(" · ")}</div></div>
       <div class="lstats">${statsOf(g).map(([k, v]) => `<span class="lstat"><small>${esc(k)}</small><b>${esc(v)}</b></span>`).join("")}</div>
@@ -215,7 +215,7 @@ function guidePageHTML(g) {
 /* ---------- the list ---------- */
 // the list, under the group titles in their order
 const GROUPS = [["afk", "AFK guides"], ["solo", "Solo guides"], ["quests", "Quest guides"]];
-const guideEntryHTML = g => `<a class="bd-entry" href="#${new URLSearchParams({ guide: g.id })}">
+const guideEntryHTML = g => `<a class="bd-entry" href="guides?${esc(g.id)}">
     <h3>${esc(g.name)}</h3><p>${esc(g.summary)}</p>
     <div class="bd-tags">${(g.tags || []).map(x => `<span class="tag">${esc(x)}</span>`).join("")}</div>
   </a>`;
@@ -226,10 +226,20 @@ function indexHTML() {
   }).join("");
 }
 
+// the guides' ids before they were short names, as older links (guides#guide=gom-afk-xp) and this browser's saved
+// ticks have them
+const OLD_IDS = {"gom-afk-xp": "gom", "pre-searing-quests": "pre", "wayfarers-reverie": "reverie", "fow-quests": "fow", "uw-quests": "uw", "chaos-axe-farm": "drakes", "fow-spider-cave": "spidercave", "zos-afk-luxon": "zos"};
+for (const [old, id] of Object.entries(OLD_IDS)) for (const key of [STORE, capKey]) try {
+  if (localStorage.getItem(key(old)) != null && localStorage.getItem(key(id)) == null) localStorage.setItem(key(id), localStorage.getItem(key(old)));
+} catch {}
+// the guide the address names: guides?gom
+const guideId = () => [...args().keys()][0];
+
 // the list, or one guide when the address names one
 function render() {
-  const h = new URLSearchParams(location.hash.slice(1));
-  const g = GUIDES.find(x => x.id === h.get("guide"));
+  const old = OLD_IDS[args().get("guide")];
+  if (old) { go("?" + old, true); return; }
+  const g = GUIDES.find(x => x.id === guideId());
   $("index").hidden = !!g;
   $("guide").hidden = !g;
   document.querySelector(".page-title").hidden = !!g;
@@ -246,7 +256,7 @@ function render() {
 
 // the calculator's choices are remembered in this browser only
 function capChanged(el) {
-  const id = new URLSearchParams(location.hash.slice(1)).get("guide");
+  const id = guideId();
   const state = capUpdate(el);
   try { localStorage.setItem(capKey(id), JSON.stringify(state)); } catch {}
 }
@@ -259,7 +269,7 @@ document.addEventListener("input", e => {
 document.addEventListener("change", e => {
   const box = e.target.closest("[data-step]");
   if (!box) return;
-  const id = new URLSearchParams(location.hash.slice(1)).get("guide");
+  const id = guideId();
   const done = ticked(id);
   box.checked ? done.add(+box.dataset.step) : done.delete(+box.dataset.step);
   box.closest(".gd-step").classList.toggle("ticked", box.checked);
@@ -280,6 +290,6 @@ document.addEventListener("click", e => {
     $(to.dataset.to)?.scrollIntoView({ behavior: "smooth" });
   }
 });
-render();
 // a new guide starts at the top; a reload keeps the browser's scroll position
-window.addEventListener("hashchange", () => { render(); window.scrollTo(0, 0); });
+onRoute(() => { render(); window.scrollTo(0, 0); });
+render();

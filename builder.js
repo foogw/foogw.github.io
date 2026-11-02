@@ -185,7 +185,7 @@ function skillCard(s) {
 function renderDetail() {
   const s = SKILL.get(state.selected);
   if (!s) { els.detail.innerHTML = '<p class="dim">Select a skill on the bar or in the list to see its description at your attribute ranks.</p>'; return; }
-  els.detail.innerHTML = skillCard(s) + `<a href="skills#skill=${s.id}">Open in skills list →</a>`;
+  els.detail.innerHTML = skillCard(s) + `<a href="${HREF.skill(s.id)}">Open skill →</a>`;
 }
 
 function fuzzyScore(name, tokens) {
@@ -282,7 +282,7 @@ function renderSaved() {
   }).join("") || '<span class="dim">None yet</span>';
 }
 
-// the bonus is not part of a template code, so links carry it separately: #code=…&bonus=13:3,15:1
+// the bonus is not part of a template code, so links carry it separately: ?code=…&bonus=13:3,15:1
 function hashFor(code) {
   const bonus = Object.entries(state.bonus).filter(([, v]) => v > 0).map(([id, v]) => `${id}:${v}`).join(",");
   return new URLSearchParams(bonus ? { code, bonus } : { code }).toString().replace(/%3A/g, ":").replace(/%2C/g, ",");
@@ -298,7 +298,7 @@ function render({ code = true } = {}) {
   renderPool();
   const c = currentCode();
   if (code) els.code.value = c;
-  history.replaceState(null, "", "#" + hashFor(c));
+  history.replaceState(null, "", "?" + hashFor(c));
   store(STORE_KEY, { code: c, pool: state.pool, bonus: state.bonus, maxTitles: $("max-titles").checked });
 }
 
@@ -384,7 +384,7 @@ function copy(text, button) {
   navigator.clipboard?.writeText(text).then(done, () => { els.code.select(); document.execCommand("copy"); done(); });
 }
 $("copy-code").addEventListener("click", e => copy(currentCode(), e.target));
-$("copy-link").addEventListener("click", e => copy(location.href.split("#")[0] + "#" + hashFor(currentCode()), e.target));
+$("copy-link").addEventListener("click", e => copy(location.origin + location.pathname + "?" + hashFor(currentCode()), e.target));
 $("clear").addEventListener("click", () => {
   state.bar = Array(8).fill(0);
   state.ranks = {};
@@ -604,12 +604,12 @@ els.saved.addEventListener("click", e => {
 
 /* ---------- start ---------- */
 (function init() {
-  const fromHash = new URLSearchParams(location.hash.slice(1)).get("code");
+  const fromHash = args().get("code");
   const saved = load(STORE_KEY, {});
   state.pool = Array.isArray(saved.pool) ? saved.pool.filter(id => SKILL.has(id)) : [];
-  const hashBonus = new URLSearchParams(location.hash.slice(1)).get("bonus");
+  const hashBonus = args().get("bonus");
   state.bonus = fromHash ? parseBonus(hashBonus) : parseBonus(Object.entries(saved.bonus || {}).map(([k, v]) => `${k}:${v}`).join(","));
-  const add = +new URLSearchParams(location.hash.slice(1)).get("add");
+  const add = +args().get("add");
   try { if (fromHash || saved.code) applyCode(fromHash || saved.code); } catch { /* keep defaults */ }
   if (SKILL.has(add)) { renderProfs(); addToBar(add); }
   renderProfs();

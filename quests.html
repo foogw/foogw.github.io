@@ -5,55 +5,60 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
-<title>GW Storylines</title>
+<title>GW Quests</title>
 <link rel="stylesheet" href="style.css">
 </head>
-<body class="quests">
+<body class="allquests">
 <div class="wrap">
   <header class="top">
-    <nav class="pages"><a href="./">Home</a><a href="rotations">Rotations</a><a href="guides">Guides</a><a href="quests" aria-current="page">Storylines</a><a href="missions">Missions</a><a href="locations">Locations</a><a href="maps">Maps</a><a href="skills">Skills</a><a href="heroes">Heroes</a><a href="builds">Builds</a><a href="builder">Builder</a></nav>
+    <nav class="pages"><a href="./">Home</a><a href="rotations">Rotations</a><a href="guides">Guides</a><a href="storylines">Storylines</a><a href="missions">Missions</a><a href="locations">Locations</a><a href="maps">Maps</a><a href="skills">Skills</a><a href="heroes">Heroes</a><a href="builds">Builds</a><a href="builder">Builder</a></nav>
     <a class="hdr-link push" href="about">About</a>
     <a class="hdr-link" href="thanks">Thanks</a>
     <a class="hdr-link" href="contact">Contact</a>
     <a class="hdr-link" href="license">License</a>
   </header>
-  <div class="page-title"><h1>Storylines</h1><p>The story of each campaign, step by step</p></div>
-  <div class="q-tabs">
-    <a href="quests" aria-current="page">Story</a><a href="all-quests">All quests</a>
+  <div class="page-title"><h1>Quests</h1><p>Every quest: primary, secondary, event and more</p></div>
+
+  <div class="filters" id="filters">
+    <div class="frow">
+      <input type="search" id="f-name" placeholder="Quest, giver, place or reward — e.g. charr, mhenlo, ascalon" autocomplete="off" autofocus>
+      <span class="search-hint"><kbd>/</kbd> search · <kbd>Esc</kbd> clear</span>
+    </div>
+    <div class="frow">
+      <div class="profs" id="f-camp"></div>
+    </div>
+    <div class="frow">
+      <select id="f-type"><option value="">Any type</option></select>
+      <select id="f-region"><option value="">Any region</option></select>
+      <label class="chk"><input type="checkbox" id="f-skill"> Rewards a skill</label>
+      <label class="chk" title="Quests other than primary that reward a skill, as on the Skill quests page"><input type="checkbox" id="f-sq"> Skill quests</label>
+      <label class="chk"><input type="checkbox" id="f-rep"> Repeatable</label>
+      <label class="chk"><input type="checkbox" id="f-mis"> Leads to a mission</label>
+      <button class="reset" id="reset">Reset</button>
+      <span class="count" id="count"></span>
+    </div>
   </div>
 
-  <div id="story">
-  <div class="q-controls">
-    <div class="profs" id="camps"></div>
+  <div class="head" id="head">
+    <span>Quest</span>
+    <span class="col-type">Type</span>
+    <span title="Campaign">Camp</span>
+    <span class="col-region">Region</span>
+    <span class="col-giver">Giver</span>
+    <span>Rewards</span>
   </div>
-  <div class="q-legend">
-    <span><i class="lg mission"></i>Mission</span>
-    <span id="legend-primary"><i class="lg primary"></i>Primary quest</span>
-    <span id="legend-attr"><i class="lg attribute"></i>Attribute points</span>
-    <span id="legend-hero"><span class="qn-hero lg-hero"><img src="img/prof/Any.png" alt=""></span>Required hero</span>
-    <span id="legend-inferred"><i class="lg-line"></i>Placed by region</span>
-  </div>
-
-  <div class="q-layout">
-    <div class="q-canvas-wrap"><div class="q-canvas" id="canvas"></div></div>
-    <aside class="q-detail" id="detail"><p class="dim">Click a step to see its details.</p></aside>
-  </div>
-  </div>
-  <div id="quest" class="ent" hidden></div>
+  <div class="list" id="list"></div>
+  <div class="empty" id="empty" hidden>No quests match.</div>
 
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
 
 <script src="game/quests.js"></script>
 <script src="game/ground.js"></script>
-<script src="game/maps.js"></script>
-<script src="game/missions.js"></script>
 <script src="game/skills.js"></script>
 <script src="game/creatures.js"></script>
-<script src="game/heroes.js"></script>
 <script src="game/calendar.js"></script>
 <script src="common.js"></script>
-<script src="mapwidget.js"></script>
 <script src="quests.js"></script>
 </body>
 </html>

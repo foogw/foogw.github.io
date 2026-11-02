@@ -54,7 +54,7 @@
 <body>
 <div class="wrap topbar">
   <header class="top">
-    <nav class="pages"><a href="./" aria-current="page">Home</a><a href="rotations">Rotations</a><a href="guides">Guides</a><a href="quests">Storylines</a><a href="missions">Missions</a><a href="locations">Locations</a><a href="maps">Maps</a><a href="skills">Skills</a><a href="heroes">Heroes</a><a href="builds">Builds</a><a href="builder">Builder</a></nav>
+    <nav class="pages"><a href="./" aria-current="page">Home</a><a href="rotations">Rotations</a><a href="guides">Guides</a><a href="storylines">Storylines</a><a href="missions">Missions</a><a href="locations">Locations</a><a href="maps">Maps</a><a href="skills">Skills</a><a href="heroes">Heroes</a><a href="builds">Builds</a><a href="builder">Builder</a></nav>
     <a class="hdr-link push" href="about">About</a>
     <a class="hdr-link" href="thanks">Thanks</a>
     <a class="hdr-link" href="contact">Contact</a>
@@ -86,10 +86,13 @@
       <span class="tpl-msg" id="tpl-msg"></span>
     </form>
   </div>
+  <div id="view" class="ent" hidden></div>
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
 
 <script src="game/skills.js"></script>
+<script src="game/heroes.js"></script>
+<script src="game/titles.js"></script>
 <script src="game/missions.js"></script>
 <script src="game/ground.js"></script>
 <script src="game/maps.js"></script>
@@ -101,6 +104,13 @@
 <script src="common.js"></script>
 <script src="mapwidget.js"></script>
 <script src="template-code.js"></script>
+<script src="place.js"></script>
+<script src="mission.js"></script>
+<script src="quest.js"></script>
+<script src="skill.js"></script>
+<script src="hero.js"></script>
+<script src="boss.js"></script>
+<script src="title.js"></script>
 <script>
 "use strict";
 const SKILL_LIST = Object.values(SKILLS).filter(s => !s.pvp_only);
@@ -123,7 +133,7 @@ function buildCardHTML(title, b) {
   let bar = null;
   try { bar = TemplateCode.decode(b.code); } catch { /* an unreadable code shows no bar */ }
   const profs = bar ? bar.professions.filter(Boolean) : [];
-  return `<div class="rnd-card" style="--pc:${profVar(profs[0] || 0)}"><a href="builds${hash({ build: b.id })}">
+  return `<div class="rnd-card" style="--pc:${profVar(profs[0] || 0)}"><a href="${buildHref(b.id)}">
     <small>${title}</small><span class="rnd-bar">${(bar?.skills || []).filter(Boolean).map(id => skillIcon(id, "rnd-ic")).join("")}</span>
     <b>${esc(b.name)}</b><span class="dim">${esc(profs.map(p => PROFS[p]).join(" / ") || "Any profession")}</span></a>
     <button class="link rnd-copy" type="button" data-copy="${esc(b.code)}">Copy template</button></div>`;
@@ -166,9 +176,9 @@ renderRandom();
 const PAGES = [
   ["Skills", "skills", "All skills with filters, capture bosses and trainers", "skill list elite capture trainer"],
   ["Missions", "missions", "Missions with rewards, bosses and foes", "mission boss reward foe pvp"],
-  ["Storylines", "quests", "The story per campaign: primary quests and missions", "quest quests mission missions story flow primary campaign"],
-  ["All quests", "all-quests", "Every quest: primary, secondary, event and more", "quest quests secondary event all"],
-  ["Skill quests", "skill-quests", "Every quest that rewards a skill", "skill quest quests reward"],
+  ["Storylines", "storylines", "The story per campaign: primary quests and missions", "quest quests mission missions story flow primary campaign"],
+  ["Quests", "quests", "Every quest: primary, secondary, event and more", "quest quests secondary event all"],
+  ["Skill quests", "quests?sq=1", "Every quest that rewards a skill", "skill quest quests reward"],
   ["Bosses", "bosses", "Every boss: its elite to capture and where it is", "boss bosses elite capture signet"],
   ["Heroes", "heroes", "Which campaigns each hero needs, and how to recruit them", "hero heroes recruit campaign"],
   ["Armor", "armor", "Craftable armor sets: gold, materials and where", "armor armour set crafter material gold prestige elite"],
@@ -187,7 +197,7 @@ function openTemplate() {
   if (!code) return;
   try {
     TemplateCode.decode(code);
-    location.href = "builder#code=" + encodeURIComponent(code);
+    location.href = "builder?code=" + encodeURIComponent(code);
   } catch (e) {
     $("tpl-msg").textContent = "That isn't a skill template code.";
   }
@@ -245,31 +255,54 @@ function render() {
   $("results").innerHTML =
     section("Pages", r.pages, p => hit("var(--accent)", p.href, `<span class="t">${esc(p.name)}</span>`, esc(p.about), "→")) +
     section("Skills", r.skills, s => hit(profVar(s.profession), HREF.skill(s.id), `${skillIcon(s.id, "sk-ic sm")}<span class="t">${highlight(s.name, r.ts)}</span>`,
-      `${s.profession ? PROFS[s.profession] : "Common"} · ${esc(ATTRIBUTES[s.attribute] || "")}`, esc(s.label || "")), `skills#q=${qs}`) +
+      `${s.profession ? PROFS[s.profession] : "Common"} · ${esc(ATTRIBUTES[s.attribute] || "")}`, esc(s.label || "")), `skills?q=${qs}`) +
     section("Missions", r.missions, m => hit(profVar(0), HREF.mission(m.id), `<span class="t">${highlight(m.name, r.ts)}</span>`,
-      `${m.kind === "pvp" ? "PvP" : CAMPAIGNS[missionCampaign(m)]} · ${esc(missionRegion(m)?.name || "")}`, esc(m.kind === "story" ? "Mission" : m.kind)), `missions#q=${qs}`) +
+      `${m.kind === "pvp" ? "PvP" : CAMPAIGNS[missionCampaign(m)]} · ${esc(missionRegion(m)?.name || "")}`, esc(m.kind === "story" ? "Mission" : m.kind)), `missions?q=${qs}`) +
     section("Places", r.places, l => hit(`var(${isOutpost(l) ? "--loc-out" : "--loc-exp"})`, HREF.place(l.id), `<span class="t">${highlight(l.name, r.ts)}</span>`,
       `${CAMPAIGNS[campaignOf(l)] || ""} · ${esc(regionOf(l)?.name || "")}`, esc(TYPE_LABEL[l.type] || "")), "locations") +
     section("Quests", r.quests, x => hit(STORY.has(x.id) ? profVar(0) : "var(--q-skill)", HREF.quest(x.id), `<span class="t">${highlight(x.name, r.ts)}</span>`,
-      `${CAMPAIGNS[questCampaign(x)]} · ${esc(questRegion(x)?.name || "")}`, STORY.has(x.id) ? "Story quest" : x.skills?.length ? "Skill quest" : `${esc(x.type)} quest`), `all-quests#q=${qs}`) +
+      `${CAMPAIGNS[questCampaign(x)]} · ${esc(questRegion(x)?.name || "")}`, STORY.has(x.id) ? "Story quest" : x.skills?.length ? "Skill quest" : `${esc(x.type)} quest`), `quests?q=${qs}`) +
     section("Bosses", r.bosses, ({ c, m }) => hit(profVar(c.profession), HREF.boss(c.id), `<span class="t">${highlight(c.name, r.ts)}</span>`,
-      esc(m.name), esc((c.elites || []).map(e => SKILLS[e]?.name).filter(Boolean).join(", "))), `bosses#q=${qs}`) +
-    section("Rotations", r.rotations, ({ r: rot, e, i, at }) => hit("var(--accent)", `rotations#${new URLSearchParams({ q: entryName(e) })}`,
+      esc(m.name), esc((c.elites || []).map(e => SKILLS[e]?.name).filter(Boolean).join(", "))), `bosses?q=${qs}`) +
+    section("Rotations", r.rotations, ({ r: rot, e, i, at }) => hit("var(--accent)", `rotations${query({ q: entryName(e) })}`,
       `<span class="t">${e.count ? `${e.count} × ` : ""}${highlight(entryName(e), r.ts)}</span>`, `${esc(rot.title)}${e.creature && e.location ? ` · ${esc(locName(e.location))}` : ""}`,
       i ? `next ${fmtNext.format(at)}` : "now")) ||
     `<p class="dim" style="padding:12px 0">Nothing found.</p>`;
 }
 
-$("q").value = new URLSearchParams(location.hash.slice(1)).get("q") || "";
 $("q").addEventListener("input", () => {
-  history.replaceState(null, "", $("q").value ? "#q=" + encodeURIComponent($("q").value) : location.pathname);
+  history.replaceState(null, "", $("q").value ? "?q=" + encodeURIComponent($("q").value) : location.pathname);
   render();
 });
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") { $("q").value = ""; render(); $("q").focus(); }
   if (e.key === "/" && document.activeElement !== $("q")) { e.preventDefault(); $("q").focus(); }
 });
-render();
+
+// a game thing's own page (./?place=146, ./?skill=1234, …): the home page gives way to it
+function route() {
+  const p = args(), k = Object.keys(VIEWS).find(k => p.has(k)), v = VIEWS[k], x = v?.find(p.get(k));
+  for (const sel of [".hero", ".gsearch", "#results", "#sections"]) document.querySelector(sel).style.display = k ? "none" : "";
+  $("view").hidden = !k;
+  // the menu marks the list the thing is in
+  const menu = { place: "locations", mission: "missions", skill: "skills", hero: "heroes" }[k] || "./";
+  for (const a of document.querySelectorAll("nav.pages a")) if (a.getAttribute("href") === menu) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  if (!k) {
+    $("view").innerHTML = "";
+    document.title = TITLE;
+    $("q").value = p.get("q") || "";
+    render();
+    return;
+  }
+  $("view").dataset.at = `${k}=${p.get(k)}`;
+  $("view").innerHTML = x ? v.html(x) : `<p class="back"><a href="./">← Home</a></p><p class="dim">There's no ${esc(k)} ${esc(p.get(k))}.</p>`;
+  if (x) { initMaps($("view")); v.after?.($("view"), x); }
+  document.title = x ? `${v.title(x)} · GW` : TITLE;
+  window.scrollTo(0, 0);
+}
+const TITLE = document.title;
+route();
+onRoute(route);
 </script>
 </body>
 </html>

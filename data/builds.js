@@ -1,8 +1,8 @@
 const GW_BUILDS = {
-  "builds_": "Curated builds, written by hand. code: the bar's template code (professions, attributes and skills come from it). runes: rune bonuses by attribute id, as players write them (\"3+1\": a superior rune and headgear). mode: a hero's behaviour (Fight, Guard, Avoid). heroes: hero ids who suit it.",
+  "builds_": "Curated builds, written by hand. id: the build's short name, its address (builds?100b); a team's likewise (builds?meta). code: the bar's template code (professions, attributes and skills come from it). runes: rune bonuses by attribute id, as players write them (\"3+1\": a superior rune and headgear). mode: a hero's behaviour (Fight, Guard, Avoid). heroes: hero ids who suit it.",
   "builds": [
     {
-      "id": "pl-hundred",
+      "id": "100b",
       "name": "Hundred Blades",
       "code": "OQkSEZKTmYXFGW9F7gTN8V0kA",
       "runes": {"20": "3+1", "17": "1"},
@@ -19,7 +19,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-dragon",
+      "id": "dragon",
       "name": "Dragon Slash",
       "code": "OQASEZKTLO7gniTNGW8VXFxg",
       "runes": {"20": "3+1", "17": "1"},
@@ -34,7 +34,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-tao",
+      "id": "tao",
       "name": "Together as One Daggers",
       "code": "OgcTYt72Zyhhh5ghmE3hHcsm2A",
       "runes": {"23": "3+1", "22": "1"},
@@ -51,7 +51,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-expertise",
+      "id": "expertise",
       "name": "Expert's Dexterity Bow",
       "code": "OgASc5MT8a5ivlghnSOGzkrl",
       "runes": {"25": "3+1", "23": "1"},
@@ -67,7 +67,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-prot",
+      "id": "prot",
       "name": "Aura of Faith Prot",
       "code": "OwAS8YIPEEt4MZlcXbJbabC",
       "runes": {"15": "2+1", "16": "1"},
@@ -83,7 +83,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-ua",
+      "id": "ua",
       "name": "Unyielding Aura Healer",
       "code": "OwAS0YITMEbENg5gfPXEdRvg",
       "runes": {"16": "1+1", "13": "1"},
@@ -99,7 +99,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-echo-ss",
+      "id": "echoss",
       "name": "Echo Spiteful Spirit",
       "code": "OAVCY8x0SQewNodglgcZMZVF",
       "runes": {"7": "3+1", "6": "1"},
@@ -116,7 +116,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-esurge",
+      "id": "playeresurge",
       "name": "ESurge",
       "code": "OQBDAqwDSLBnATPmO5A4U5Uwl",
       "runes": {"2": "3+1", "0": "1", "3": "1"},
@@ -131,7 +131,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-panic",
+      "id": "panic",
       "name": "Panic",
       "code": "OQZCAswEyANw0jNopzuYOAcJ",
       "runes": {"2": "3+1", "0": "1"},
@@ -150,7 +150,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-ap",
+      "id": "ap",
       "name": "Assassin's Promise",
       "code": "OgdTwGPjYaX0mcBKm0b4bAZIcA",
       "runes": {"12": "1"},
@@ -167,7 +167,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-invoke",
+      "id": "invoke",
       "name": "Invoke Lightning",
       "code": "OgBCgMzEOIg2CoSj3wuY4gLI",
       "insignia": "Survivor or Radiant",
@@ -183,7 +183,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-daggers",
+      "id": "daggers",
       "name": "Dagger Spammer",
       "code": "OwBi0xjM5wwwcwQT+Wi7o/EnB",
       "runes": {"29": "3+1", "35": "1"},
@@ -199,7 +199,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-sos",
+      "id": "sos",
       "name": "Spirit Spammer",
       "code": "OACiIykMdNVO5DWNRDyMhxIXC",
       "insignia": "Shaman's",
@@ -218,7 +218,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-hr",
+      "id": "hr",
       "name": "Heroic Refrain Daggers",
       "code": "OQej0xmDKTAh9YWYOMMMHMn1nYA",
       "runes": {"40": "3+1"},
@@ -238,7 +238,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-imbagon",
+      "id": "imbagon",
       "name": "Imbagon",
       "code": "OQGjUimKKTBZWYxgAh5iXFpbYF",
       "runes": {"37": "1", "38": "1", "40": "1+1"},
@@ -255,7 +255,7 @@ const GW_BUILDS = {
       "source": {"name": "PvXwiki: P/W Imbagon (Great)", "url": "https://gwpvx.fandom.com/wiki/Build:P/W_Imbagon"}
     },
     {
-      "id": "pl-vos",
+      "id": "vos",
       "name": "Vow of Strength",
       "code": "OgCjkirMrSmXfb5iaXNX0lib0k",
       "insignia": "Windwalker",
@@ -275,7 +275,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-sws",
+      "id": "sws",
       "name": "\"Save Yourselves!\" Hammer",
       "code": "OQASE55QxghFJOCFGFi1vl0k",
       "runes": {"17": "3+1", "19": "1"},
@@ -292,7 +292,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "pl-barrage",
+      "id": "barrage",
       "name": "Splinter Barrage",
       "code": "OgEScxMTLGxgaFVgPG5iXFvl",
       "runes": {"25": "1+1", "23": "1"},
@@ -305,7 +305,7 @@ const GW_BUILDS = {
       "source": {"name": "PvXwiki: R/W Barrage (Good)", "url": "https://gwpvx.fandom.com/wiki/Build:R/W_Barrage"}
     },
     {
-      "id": "run-w",
+      "id": "wrun",
       "name": "Shadow Form Runner (running)",
       "code": "OQcTEnK/ZamkSUnBVkmE3hC6AC",
       "runes": {"21": "1+1"},
@@ -324,7 +324,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "run-d",
+      "id": "drun",
       "name": "Outpost Runner (running)",
       "code": "Ogej4NfMLTIQ0k6MHYjb3l4OUQ",
       "runes": {"44": "1+1"},
@@ -343,7 +343,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "run-a",
+      "id": "arun",
       "name": "Shadow Form Runner (running)",
       "code": "OwJSg5PTTQ/a6M0k3lIQ4O8I",
       "runes": {"31": "3+1"},
@@ -359,7 +359,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "run-r",
+      "id": "rrun",
       "name": "Escape Runner (running)",
       "code": "OgARcZK1A4gVimEn8X74AVE",
       "runes": {"23": "1+1"},
@@ -375,7 +375,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-air",
+      "id": "hero-e-air",
       "name": "Air Magic (Thunderclap)",
       "mode": "Fight",
       "heroes": [8],
@@ -393,7 +393,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-orders",
+      "id": "hero-e-orders",
       "name": "Ether Renewal Orders",
       "mode": "Guard",
       "heroes": [26],
@@ -411,7 +411,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-fire",
+      "id": "hero-e-fire",
       "name": "Elemental Attunement Fire",
       "mode": "Fight",
       "heroes": [10],
@@ -429,7 +429,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-bm",
+      "id": "hero-r-bm",
       "name": "Beast Master",
       "mode": "Fight",
       "heroes": [19],
@@ -448,7 +448,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-spear",
+      "id": "hero-p-spear",
       "name": "Singer of flames",
       "mode": "Guard",
       "heroes": [11],
@@ -466,7 +466,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-motivation",
+      "id": "hero-p-motivation",
       "name": "Singer of life",
       "mode": "Guard",
       "heroes": [22],
@@ -485,7 +485,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-prot",
+      "id": "hero-mo-prot",
       "name": "Aura of Faith Prot",
       "mode": "Guard",
       "heroes": [3],
@@ -503,7 +503,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-heal",
+      "id": "hero-mo-heal",
       "name": "Healing Burst",
       "mode": "Guard",
       "heroes": [7],
@@ -521,7 +521,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-runner",
+      "id": "hero-p-runner",
       "name": "Speed boost runner",
       "mode": "Avoid",
       "heroes": [17],
@@ -540,7 +540,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-illusion",
+      "id": "hero-me-illusion",
       "name": "Illusion Magic",
       "mode": "Fight",
       "heroes": [39],
@@ -558,7 +558,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-ss",
+      "id": "hero-n-ss",
       "name": "Spiteful Spirit Restoration",
       "mode": "Guard",
       "heroes": [4],
@@ -577,7 +577,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-devona",
+      "id": "hero-w-devona",
       "name": "Pre-Searing Devona",
       "mode": "Guard",
       "heroes": [38],
@@ -586,7 +586,7 @@ const GW_BUILDS = {
       "summary": "Warrior/Ritualist spirit spammer: Signet of Spirits, Bloodsong, Pain and Shadowsong, with Painful Bond, Essence Strike and Armor of Unfeeling."
     },
     {
-      "id": "hero-daggers",
+      "id": "hero-a-daggers",
       "name": "Dagger Spammer",
       "mode": "Fight",
       "heroes": [20],
@@ -604,7 +604,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-wounding",
+      "id": "hero-d-wounding",
       "name": "Wounding Strike",
       "mode": "Fight",
       "heroes": [9],
@@ -622,7 +622,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-vow",
+      "id": "hero-d-vow",
       "name": "Vow of Strength",
       "mode": "Fight",
       "heroes": [23],
@@ -640,7 +640,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-volley",
+      "id": "hero-r-volley",
       "name": "Volley Pet",
       "mode": "Fight",
       "heroes": [5],
@@ -658,7 +658,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-daggerpet",
+      "id": "hero-r-daggerpet",
       "name": "Dagger Spam Pet",
       "mode": "Fight",
       "heroes": [12],
@@ -676,7 +676,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-hundred",
+      "id": "hero-w-hundred",
       "name": "Hundred Blades",
       "mode": "Fight",
       "heroes": [6],
@@ -694,7 +694,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-endurance",
+      "id": "hero-w-endurance",
       "name": "Warrior's Endurance Daggers",
       "mode": "Fight",
       "heroes": [18],
@@ -712,7 +712,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "hero-stance",
+      "id": "hero-w-stance",
       "name": "Soldier's Stance",
       "mode": "Fight",
       "heroes": [2],
@@ -734,7 +734,7 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "zos-sogm",
+      "id": "luxsogm",
       "name": "Signet of Ghostly Might",
       "mode": "Guard",
       "code": "OAOj0MgMJPO7o938st5ecOz3JA",
@@ -743,7 +743,7 @@ const GW_BUILDS = {
       "gear": {"insignias": "Blessed", "weapons": ["20/40 focus and wand of the Necromancer"]}
     },
     {
-      "id": "zos-sos",
+      "id": "luxsos",
       "heroes": [15],
       "name": "Signet of Spirits",
       "mode": "Guard",
@@ -753,7 +753,7 @@ const GW_BUILDS = {
       "gear": {"insignias": "Shaman's", "weapons": ["20/40 focus and wand of the Necromancer"]}
     },
     {
-      "id": "zos-bip",
+      "id": "luxbip",
       "name": "BiP",
       "mode": "Guard",
       "code": "OAhjQkGZIP3hq6QT4JNncVvhJA",
@@ -762,7 +762,7 @@ const GW_BUILDS = {
       "gear": {"insignias": "Tormentor's", "weapons": ["20/40 focus and wand of the Elementalist"]}
     },
     {
-      "id": "zos-mm",
+      "id": "luxmm",
       "name": "MM",
       "mode": "Guard",
       "code": "OABDQTxGTIVVVlMUBKg4BbhKCA",
@@ -771,7 +771,7 @@ const GW_BUILDS = {
       "gear": {"insignias": "Tormentor's", "weapons": ["20/40 focus and wand of the Ritualist"]}
     },
     {
-      "id": "zos-esurge",
+      "id": "luxesurge",
       "name": "ESurge",
       "mode": "Fight",
       "code": "OQNEArwj1ycCyBTPT3QAnmBaCA",
@@ -780,7 +780,7 @@ const GW_BUILDS = {
       "gear": {"insignias": "Prodigy's", "weapons": ["20/40 focus and wand of the Necromancer"]}
     },
     {
-      "id": "zos-esurge-rez",
+      "id": "luxrez",
       "name": "ESurge (resurrect)",
       "mode": "Fight",
       "code": "OQNEArwj1ycCyBTPT3QAnmBQjA",
@@ -789,14 +789,14 @@ const GW_BUILDS = {
       "gear": {"insignias": "Prodigy's", "weapons": ["20/40 focus and wand of the Necromancer"]}
     },
     {
-      "id": "gom-player",
+      "id": "gomplayer",
       "name": "Heroic Refrain",
       "role": "You",
       "code": "OAlAQAAAAAAAAAAAAAAn1",
       "summary": "Your bar holds only Heroic Refrain."
     },
     {
-      "id": "gom-signets",
+      "id": "gomkeystone",
       "name": "Keystone",
       "mode": "Fight",
       "code": "OQNDA8w+M80HwPIPb6qnWfUC",
@@ -805,7 +805,7 @@ const GW_BUILDS = {
       "summary": "Signet damage through Keystone Signet: Symbolic Celerity and Mantra of Inscriptions, with Signet of Clumsiness, Unnatural Signet, Signet of Rage, Castigation Signet and Bane Signet."
     },
     {
-      "id": "gom-bonder",
+      "id": "gombonder1",
       "name": "Prot Bonder",
       "mode": "Avoid",
       "code": "OwUTMyHDz5gc91H0kUCAAAAAAA",
@@ -813,7 +813,7 @@ const GW_BUILDS = {
       "summary": "Protective Bond, Essence Bond, Purifying Veil and Succor, with Blessed Signet for energy."
     },
     {
-      "id": "gom-healer",
+      "id": "gombonder2",
       "name": "Heal Bonder",
       "mode": "Avoid",
       "code": "OwAT04HCz4giUf/LlAAAAAA",
@@ -821,7 +821,7 @@ const GW_BUILDS = {
       "summary": "Protective Bond, Essence Bond, Mending and Watchful Spirit, with Blessed Signet for energy."
     },
     {
-      "id": "meta-st",
+      "id": "st",
       "heroes": [25],
       "name": "ST",
       "mode": "Avoid",
@@ -831,7 +831,7 @@ const GW_BUILDS = {
       "summary": "Soul Twisting protective spirits (Shelter, Union, Displacement) with Armor of Unfeeling, Boon of Creation, Spirit's Gift and Explosive Growth."
     },
     {
-      "id": "meta-bip",
+      "id": "bip",
       "heroes": [21],
       "name": "BiP",
       "mode": "Guard",
@@ -841,7 +841,7 @@ const GW_BUILDS = {
       "summary": "Energy support with Blood is Power, healing with Spirit Transfer, Spirit Light, Mend Body and Soul, Protective Was Kaolai and Life."
     },
     {
-      "id": "meta-mm",
+      "id": "mm",
       "heroes": [14],
       "name": "MM Command",
       "mode": "Guard",
@@ -851,7 +851,7 @@ const GW_BUILDS = {
       "summary": "Minion master with Putrid Bile, and the Paragon shouts \"Incoming!\", \"Fall Back!\" and \"Stand Your Ground!\"."
     },
     {
-      "id": "meta-esurge",
+      "id": "esurge",
       "heroes": [24, 1],
       "name": "ESurge",
       "mode": "Fight",
@@ -868,10 +868,10 @@ const GW_BUILDS = {
       "name": "Meta hero team",
       "summary": "A general-purpose 7-hero team: Soul Twisting, Blood is Power, a minion master and four Energy Surge Mesmers.",
       "tags": ["General PvE", "7 heroes"],
-      "builds": ["meta-st", "meta-bip", "meta-mm", "meta-esurge", "meta-esurge", "meta-esurge", "meta-esurge"]
+      "builds": ["st", "bip", "mm", "esurge", "esurge", "esurge", "esurge"]
     },
     {
-      "id": "afk-luxon-faction",
+      "id": "luxafk",
       "name": "7 Hero AFK Luxon Faction Farm",
       "summary": "An all-day AFK farm of Luxon faction in Zos Shivros Channel: start it, stand in place, then go AFK.",
       "tags": ["Farm", "Luxon faction", "AFK", "7 heroes"],
@@ -879,13 +879,13 @@ const GW_BUILDS = {
       "mission": 273,
       "mode": "Normal mode",
       "yields": "About 300 faction for the 7 waves, 600 for the 6 Luxon Adepts, then 50 a minute for as long as you stay, plus a bonus when you resign.",
-      "builds": ["zos-sogm", "zos-sos", "zos-bip", "zos-mm", "zos-esurge", "zos-esurge", "zos-esurge-rez"],
+      "builds": ["luxsogm", "luxsos", "luxbip", "luxmm", "luxesurge", "luxesurge", "luxrez"],
       "usage": [
         "Start the Zos Shivros Channel challenge mission in Normal mode.",
         "Walk to the spot just behind Battle Priest Calibos and stand there.",
         "Go AFK. If you worry, check once at 31 minutes that the team is alive: wave 7 is over by then, and nothing comes after it."
       ],
-      "guide": "zos-afk-luxon",
+      "guide": "zos",
       "source": {
         "name": "PvXwiki: Team - 7 Hero AFK Luxon Faction Farm",
         "url": "https://gwpvx.fandom.com/wiki/Build:Team_-_7_Hero_AFK_Luxon_Faction_Farm",
@@ -893,59 +893,59 @@ const GW_BUILDS = {
       }
     },
     {
-      "id": "gom-afk",
+      "id": "gomafk",
       "name": "GoM AFK experience farm",
       "summary": "You and three heroes: your bar holds only Heroic Refrain, a signet Mesmer deals the damage and two Monks keep you alive.",
       "tags": ["AFK", "3 heroes"],
-      "builds": ["gom-player", "gom-signets", "gom-bonder", "gom-healer"]
+      "builds": ["gomplayer", "gomkeystone", "gombonder1", "gombonder2"]
     }
   ],
   "singles_": "Single hero builds listed on their own.",
   "singles": [
-    "hero-air",
-    "hero-orders",
-    "hero-fire",
-    "hero-bm",
-    "hero-spear",
-    "hero-prot",
-    "hero-heal",
-    "hero-runner",
-    "hero-motivation",
-    "hero-illusion",
-    "hero-ss",
-    "hero-devona",
-    "hero-daggers",
-    "hero-wounding",
-    "hero-vow",
-    "hero-volley",
-    "hero-daggerpet",
-    "hero-hundred",
-    "hero-endurance",
-    "hero-stance"
+    "hero-e-air",
+    "hero-e-orders",
+    "hero-e-fire",
+    "hero-r-bm",
+    "hero-p-spear",
+    "hero-mo-prot",
+    "hero-mo-heal",
+    "hero-p-runner",
+    "hero-p-motivation",
+    "hero-me-illusion",
+    "hero-n-ss",
+    "hero-w-devona",
+    "hero-a-daggers",
+    "hero-d-wounding",
+    "hero-d-vow",
+    "hero-r-volley",
+    "hero-r-daggerpet",
+    "hero-w-hundred",
+    "hero-w-endurance",
+    "hero-w-stance"
   ],
   "players_": "Single player builds listed on their own.",
   "players": [
-    "pl-hundred",
-    "pl-dragon",
-    "pl-tao",
-    "pl-expertise",
-    "pl-prot",
-    "pl-ua",
-    "pl-echo-ss",
-    "pl-esurge",
-    "pl-panic",
-    "pl-ap",
-    "pl-invoke",
-    "pl-daggers",
-    "pl-sos",
-    "pl-hr",
-    "pl-imbagon",
-    "pl-vos",
-    "pl-sws",
-    "pl-barrage",
-    "run-w",
-    "run-d",
-    "run-a",
-    "run-r"
+    "100b",
+    "dragon",
+    "tao",
+    "expertise",
+    "prot",
+    "ua",
+    "echoss",
+    "playeresurge",
+    "panic",
+    "ap",
+    "invoke",
+    "daggers",
+    "sos",
+    "hr",
+    "imbagon",
+    "vos",
+    "sws",
+    "barrage",
+    "wrun",
+    "drun",
+    "arun",
+    "rrun"
   ]
 };

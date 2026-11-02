@@ -1,8 +1,8 @@
 const GW_GUIDES = {
-  "guides_": "Guides, written by hand, each in a group of the list (group: \"afk\", \"solo\" or \"quests\"). Each guide is a list of sections, each a list of blocks: {h}, {p}, {note} (a paragraph set apart), {box: {title, blocks}}, {ul}, {ol}, {table: {head, rows, notes}}, {builds}, {qa: [[q, a]]}, {img: {src, caption, side}}, {imgs: {srcs, caption}}, {areas: [map ids], side, height} (those areas lit on their map), {capCalc}, {route: [{start | map | step | area: map id, steps: [{t, take, go, done: [quest ids]}]}]}, {routeTotal}, {questIndex: {places: [map ids], skip: {quest id: reason}}} (the quests given there). A build has a template code, or skill ids (null for a free slot); runes by attribute id; or a Builds page build's id. In text, {skill:id} links a skill with its icon, {skillname:id} without, {place:id} a location, {mission:id}, {quest:id}, {hero:id}, {page:href|text} another page, {ext:href|text} another site.",
+  "guides_": "Guides, written by hand. id: the guide's short name, its address (guides?gom). Each is in a group of the list (group: \"afk\", \"solo\" or \"quests\"). Each guide is a list of sections, each a list of blocks: {h}, {p}, {note} (a paragraph set apart), {box: {title, blocks}}, {ul}, {ol}, {table: {head, rows, notes}}, {builds}, {qa: [[q, a]]}, {img: {src, caption, side}}, {imgs: {srcs, caption}}, {areas: [map ids], side, height} (those areas lit on their map), {capCalc}, {route: [{start | map | step | area: map id, steps: [{t, take, go, done: [quest ids]}]}]}, {routeTotal}, {questIndex: {places: [map ids], skip: {quest id: reason}}} (the quests given there). A build has a template code, or skill ids (null for a free slot); runes by attribute id; or a Builds page build's id. In text, {skill:id} links a skill with its icon, {skillname:id} without, {place:id} a location, {mission:id}, {quest:id}, {hero:id}, {page:href|text} another page, {ext:href|text} another site.",
   "guides": [
     {
-      "id": "gom-afk-xp",
+      "id": "gom",
       "group": "afk",
       "name": "GoM AFK XP Farm",
       "summary": "An AFK XP farm in Gate of Madness: the Legendary Survivor title in about 4 hours, and 534 skill points a day.",
@@ -193,7 +193,7 @@ const GW_GUIDES = {
       ]
     },
     {
-      "id": "pre-searing-quests",
+      "id": "pre",
       "group": "quests",
       "name": "Pre-Searing Quests",
       "summary": "An efficient route through the pre-Searing quests, with as little fighting and backtracking as possible.",
@@ -468,7 +468,7 @@ const GW_GUIDES = {
       ]
     },
     {
-      "id": "wayfarers-reverie",
+      "id": "reverie",
       "group": "quests",
       "name": "Wayfarer's Reverie",
       "summary": "The four Wayfarer's Reverie quests: every place to visit, the nearest outpost and the way there.",
@@ -601,7 +601,7 @@ const GW_GUIDES = {
       ]
     },
     {
-      "id": "fow-quests",
+      "id": "fow",
       "group": "quests",
       "name": "Fissure of Woe Quests",
       "summary": "An efficient route through all eleven Fissure of Woe quests, with as little backtracking as possible.",
@@ -617,7 +617,7 @@ const GW_GUIDES = {
             {
               "p": "This guide is for doing all eleven in one run, in an order with as little backtracking as possible. The Hunt sets the order: its seven Shard Wolves only count once you have the quest, and its giver stands south of the Temple of War. So the route opens the temple first, picks up the hunt, and then sweeps the rest of the map once, killing each wolf on the way."
             },
-            {"p": "The {page:builds#team=meta|meta hero team} can do it."},
+            {"p": "The {page:builds?meta|meta hero team} can do it."},
             {"note": "Note: this guide hasn't been fact-checked yet, so it may have mistakes."}
           ]
         },
@@ -798,7 +798,7 @@ const GW_GUIDES = {
       ]
     },
     {
-      "id": "uw-quests",
+      "id": "uw",
       "group": "quests",
       "name": "Underworld Quests",
       "summary": "All eleven Underworld quests in one run, the dangerous ones first, ending with Dhuum.",
@@ -814,7 +814,7 @@ const GW_GUIDES = {
             {
               "p": "This guide is for doing all eleven in one run. Most of the quests send you out of the Underworld if an NPC dies, so the order puts the dangerous ones first: a failure early costs little, and the easy ones are left for when the team has the most to lose."
             },
-            {"p": "With practice, it can be done with the {page:builds#team=meta|meta hero team}."},
+            {"p": "With practice, it can be done with the {page:builds?meta|meta hero team}."},
             {"note": "Note: this guide hasn't been fact-checked yet, so it may have mistakes."}
           ]
         },
@@ -1008,7 +1008,7 @@ const GW_GUIDES = {
       ]
     },
     {
-      "id": "chaos-axe-farm",
+      "id": "drakes",
       "group": "solo",
       "name": "Purp Insc Chaos Axe Farm",
       "summary": "Purple and blue inscribable Chaos Axes and Shadow Shields, Blades, Bows and Staves from two Obsidian Furnace Drakes in Kourna, solo.",
@@ -1100,13 +1100,13 @@ const GW_GUIDES = {
             {
               "note": "Masochist? This is a safe way to get Legendary Survivor: just 50 hours for 4,000 runs, or a third of that with scrolls!"
             },
-            {"p": "Not a masochist? Take the {page:guides#guide=gom-afk-xp|4-hour route} ;)"}
+            {"p": "Not a masochist? Take the {page:guides?gom|4-hour route} ;)"}
           ]
         }
       ]
     },
     {
-      "id": "fow-spider-cave",
+      "id": "spidercave",
       "group": "solo",
       "name": "Solo W/R FoW Spider Cave Farm",
       "summary": "Farm the Fissure of Woe spider cave for Obsidian Shards and other goodies with a high-armor warrior and Melandru's Resilience.",
@@ -1171,7 +1171,7 @@ const GW_GUIDES = {
       ]
     },
     {
-      "id": "zos-afk-luxon",
+      "id": "zos",
       "group": "afk",
       "name": "Zos Shivros AFK Luxon Farm",
       "summary": "Luxon faction all day in Zos Shivros Channel with 7 heroes: one click to start, a couple to stand in place, then go AFK.",
@@ -1187,8 +1187,8 @@ const GW_GUIDES = {
         {
           "title": "Build",
           "blocks": [
-            {"builds": ["zos-sogm", "zos-sos", "zos-bip", "zos-mm", "zos-esurge", "zos-esurge", "zos-esurge-rez"]},
-            {"p": "The same team is on the {page:builds#team=afk-luxon-faction|Builds page}."}
+            {"builds": ["luxsogm", "luxsos", "luxbip", "luxmm", "luxesurge", "luxesurge", "luxrez"]},
+            {"p": "The same team is on the {page:builds?luxafk|Builds page}."}
           ]
         },
         {

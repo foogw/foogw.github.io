@@ -101,7 +101,7 @@ function placeLink(t) {
 function teamHTML(t) {
   const builds = t.builds.map(id => BUILD.get(id)).filter(Boolean);
   const groups = grouped(t);
-  return `<p class="back"><a href="#">← All builds</a></p>
+  return `<p class="back"><a href="?">← All builds</a></p>
     <div class="bd-head">
       <h2>${esc(t.name)}</h2>
       <p>${esc(t.summary)}</p>
@@ -116,7 +116,7 @@ function teamHTML(t) {
     ${overviewHTML(builds, groups)}
     <div class="bd-grid">${groups.map(buildHTML).join("")}</div>
     ${t.usage ? `<section class="lbox bd-usage"><h4>How to run it</h4><ol>${t.usage.map(u => `<li>${esc(u)}</li>`).join("")}</ol>
-      ${t.guide ? `<p><a href="guides#guide=${esc(t.guide)}">The full guide →</a></p>` : ""}</section>` : ""}
+      ${t.guide ? `<p><a href="guides?${esc(t.guide)}">The full guide →</a></p>` : ""}</section>` : ""}
     ${t.source ? `<p class="dim bd-src">${esc(t.source.note || "From")} <a href="${esc(t.source.url)}" target="_blank" rel="noopener">${esc(t.source.name)}</a>, CC BY-NC-SA 2.5; shortened and reworded.</p>` : ""}`;
 }
 
@@ -136,7 +136,7 @@ function singlesHTML(key, title, ids) {
   const shown = all.filter(b => !listProf[key] || b._profs[0] === listProf[key])
     .sort((x, y) => rank(x) - rank(y) || cmpStr(x.name, y.name));
   return `<h2 class="bd-section">${title}</h2>${chips}<div class="bd-singles">${shown.map(b =>
-    `<a class="bd-single" href="#${new URLSearchParams({ build: b.id })}" style="--pc:${profVar(b._profs[0])}">
+    `<a class="bd-single" href="${buildHref(b.id)}" style="--pc:${profVar(b._profs[0])}">
       <span class="bd-sname">${profIcons(b)}<b>${esc(b.name)}</b></span>
       ${modeHTML(b) || "<span></span>"}
       <span class="bd-ebar">${miniBar(b)}</span>
@@ -144,14 +144,14 @@ function singlesHTML(key, title, ids) {
 }
 
 function singleHTML(b) {
-  return `<p class="back"><a href="#">← All builds</a></p>
+  return `<p class="back"><a href="?">← All builds</a></p>
     <div class="bd-one">${buildHTML({ b, n: 1 }, null)}</div>
     ${b.source ? `<p class="dim bd-src">From <a href="${esc(b.source.url)}" target="_blank" rel="noopener">${esc(b.source.name)}</a>, CC BY-NC-SA 2.5; shortened and reworded.</p>` : ""}`;
 }
 
 function indexHTML() {
   return `<h2 class="bd-section">Team builds</h2><div class="bd-index">${TEAMS.map(t => {
-    return `<a class="bd-entry" href="#${new URLSearchParams({ team: t.id })}">
+    return `<a class="bd-entry" href="${buildHref(t.id)}">
       <h3>${esc(t.name)}</h3><p>${esc(t.summary)}</p>
       <div class="bd-ebars">${t.builds.map(id => BUILD.get(id)).filter(Boolean).map(b => `<div class="bd-ebar" title="${esc(b.name)}"><span class="bd-eprofs">${profIcons(b)}</span>${miniBar(b)}</div>`).join("")}</div>
       <div class="bd-tags">${(t.tags || []).map(x => `<span class="tag">${esc(x)}</span>`).join("")}</div>
@@ -159,11 +159,15 @@ function indexHTML() {
   }).join("")}</div>${singlesHTML("players", "Player builds", PLAYERS)}${singlesHTML("singles", "Hero builds", SINGLES)}`;
 }
 
-// the list, a team, or one build, as the address says
+// the builds' ids before they were short names, as older links have them (builds#team=gom-afk)
+const OLD_IDS = {"pl-hundred": "100b", "pl-dragon": "dragon", "pl-tao": "tao", "pl-expertise": "expertise", "pl-prot": "prot", "pl-ua": "ua", "pl-echo-ss": "echoss", "pl-esurge": "playeresurge", "pl-panic": "panic", "pl-ap": "ap", "pl-invoke": "invoke", "pl-daggers": "daggers", "pl-sos": "sos", "pl-hr": "hr", "pl-imbagon": "imbagon", "pl-vos": "vos", "pl-sws": "sws", "pl-barrage": "barrage", "run-w": "wrun", "run-d": "drun", "run-a": "arun", "run-r": "rrun", "hero-air": "hero-e-air", "hero-orders": "hero-e-orders", "hero-fire": "hero-e-fire", "hero-bm": "hero-r-bm", "hero-spear": "hero-p-spear", "hero-motivation": "hero-p-motivation", "hero-prot": "hero-mo-prot", "hero-heal": "hero-mo-heal", "hero-runner": "hero-p-runner", "hero-illusion": "hero-me-illusion", "hero-ss": "hero-n-ss", "hero-devona": "hero-w-devona", "hero-daggers": "hero-a-daggers", "hero-wounding": "hero-d-wounding", "hero-vow": "hero-d-vow", "hero-volley": "hero-r-volley", "hero-daggerpet": "hero-r-daggerpet", "hero-hundred": "hero-w-hundred", "hero-endurance": "hero-w-endurance", "hero-stance": "hero-w-stance", "zos-sogm": "luxsogm", "zos-sos": "luxsos", "zos-bip": "luxbip", "zos-mm": "luxmm", "zos-esurge": "luxesurge", "zos-esurge-rez": "luxrez", "gom-player": "gomplayer", "gom-signets": "gomkeystone", "gom-bonder": "gombonder1", "gom-healer": "gombonder2", "meta-st": "st", "meta-bip": "bip", "meta-mm": "mm", "meta-esurge": "esurge", "afk-luxon-faction": "luxafk", "gom-afk": "gomafk"};
+// the list, a team (builds?meta), or one build (builds?100b), as the address says
 function render() {
-  const h = new URLSearchParams(location.hash.slice(1));
-  const t = TEAMS.find(x => x.id === h.get("team"));
-  const b = !t && [...SINGLES, ...PLAYERS].includes(h.get("build")) ? BUILD.get(h.get("build")) : null;
+  const h = args(), old = OLD_IDS[h.get("team") || h.get("build")];
+  if (old) { go(buildHref(old), true); return; }
+  const id = [...h.keys()][0];
+  const t = TEAMS.find(x => x.id === id);
+  const b = !t && [...SINGLES, ...PLAYERS].includes(id) ? BUILD.get(id) : null;
   $("index").hidden = !!(t || b);
   $("team").hidden = !(t || b);
   if (t || b) {
@@ -188,5 +192,5 @@ document.addEventListener("click", e => {
   const card = e.target.closest("[data-card]");
   if (card) { e.preventDefault(); $(card.dataset.card)?.scrollIntoView({ behavior: "smooth", block: "start" }); }
 });
-window.addEventListener("hashchange", render);
+onRoute(render);
 render();

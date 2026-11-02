@@ -1,27 +1,11 @@
 "use strict";
 
 const ALL = Object.values(SKILLS);
-const PVE_OF = new Map(ALL.filter(s => s.pvp_version).map(s => [s.pvp_version, s.id]));
 // the title whose rank a PvE skill scales with (the Kurzick and Luxon titles share one entry)
 const titleOf = s => TITLES[s.title] || Object.values(TITLES).find(t => t.also === s.title);
 const attrName = s => (s.title ? `${titleOf(s)?.name || "Title"} rank` : ATTRIBUTES[s.attribute] || "No attribute");
 const attrKey = s => (s.title ? `t${s.title}` : `a${s.attribute ?? ""}`);
-const SOURCES = { capture: "Signet of Capture", "skill trainer": "Skill trainer", "hero skill trainer": "Hero skill trainer", quest: "Quest", "profession changer": "Profession Changer" };
 const sourceOf = a => (a.capture ? "capture" : a.quest || a.quest_name ? "quest" : a.as || "other");
-
-// the teams and single builds whose bars use each skill
-const USED_IN = new Map();
-for (const t of [...(BUILDDATA?.teams || []), ...(BUILDDATA?.players || []).map(id => ({ single: "player build", builds: [id] })),
-  ...(BUILDDATA?.singles || []).map(id => ({ single: "hero build", builds: [id] }))]) {
-  const counts = new Map();
-  for (const id of t.builds) counts.set(id, (counts.get(id) || 0) + 1);
-  for (const [id, n] of counts) {
-    const b = BUILDS.get(id);
-    let skills = [];
-    try { skills = TemplateCode.decode(b.code).skills; } catch { /* an unreadable code lists nothing */ }
-    for (const sid of new Set(skills)) if (sid) (USED_IN.get(sid) || USED_IN.set(sid, []).get(sid)).push({ team: t, build: b, n });
-  }
-}
 
 for (const s of ALL) {
   s._name = fold(`${s.name} ${aliasText("skills", s.id)}`);
@@ -31,7 +15,7 @@ for (const s of ALL) {
 
 const els = { name: $("f-name"), text: $("f-text"), prof: $("f-prof"), attr: $("f-attr"), type: $("f-type"), camp: $("f-camp"),
   elite: $("f-elite"), src: $("f-src"), pvp: $("f-pvp"), list: $("list"), head: $("head"), count: $("count"), empty: $("empty") };
-const state = { profs: new Set(), sort: "", desc: false, skill: null, listHash: "" };
+const state = { profs: new Set(), sort: "", desc: false };
 
 function costHTML(s) {
   return [s.energy && `<span class="c-e" title="Energy">${s.energy}</span>`, s.adrenaline && `<span class="c-a" title="Adrenaline (strikes)">${s.adrenaline}</span>`,
@@ -99,7 +83,7 @@ const SORTS = {
 
 function rowHTML(s, f) {
   const desc = f.text.length ? highlight(s.concise.replace(/<\/?gray>/g, ""), f.text) : richText(s.concise);
-  return `<a class="row${s.elite ? " elite" : ""}" href="${hash({ skill: s.id })}" style="--pc:${profVar(s.profession)}">
+  return `<a class="row${s.elite ? " elite" : ""}" href="${HREF.skill(s.id)}" style="--pc:${profVar(s.profession)}">
     <div class="name" title="${esc(s.name)}">${skillIcon(s.id)}<span class="nm">${highlight(s.name, f.name)}</span>${s.pvp_only ? '<span class="tag">PvP</span>' : ""}${s.touch ? '<span class="tag">Touch</span>' : ""}</div>
     <div class="prof col-prof">${s.profession ? PROFS[s.profession] : "Common"}</div>
     <div class="cell dim col-attr">${esc(attrName(s))}</div>
@@ -129,65 +113,12 @@ function update() {
   const p = new URLSearchParams();
   for (const [k, v] of [["q", els.name.value], ["t", els.text.value], ["p", [...state.profs].join(",")], ["a", f.attr], ["ty", f.type],
     ["c", f.camp], ["e", f.elite ? "1" : ""], ["s", f.src], ["pvp", f.pvp ? "1" : ""], ["sort", state.sort && (state.desc ? "-" : "") + state.sort]]) if (v) p.set(k, v);
-  state.listHash = p.toString();  // where "All skills" returns to from a skill's page
-  history.replaceState(null, "", state.listHash ? "#" + state.listHash : location.pathname);
+  history.replaceState(null, "", p.size ? "?" + p : location.pathname);
 }
 
-/* ---------- one skill's page ---------- */
-// how to get it: grouped by way, then by campaign
-function acquisitionHTML(s) {
-  if (!s.acquisition?.length) return '<p class="dim">No acquisition data.</p>';
-  const groups = new Map();
-  for (const a of s.acquisition) {
-    const n = NPCS[a.npc], q = QUESTS[a.quest], where = a.location ?? n?.location ?? questPlaces(q || {})[0]?.id;
-    const line = (a.capture ? LINK.boss(a.capture) : q ? LINK.quest(q.id) : esc(n?.name || a.quest_name || ""))
-      + (where ? ` <span class="m">— ${whereLink(where)}</span>` : "");
-    const camp = CAMPAIGNS[campaignOf(LOCATIONS[where]) ?? (q && questCampaign(q))] || "";
-    const g = groups.get(sourceOf(a)) || groups.set(sourceOf(a), new Map()).get(sourceOf(a));
-    const lines = g.get(camp) || g.set(camp, []).get(camp);
-    if (!lines.includes(line)) lines.push(line);
-  }
-  const order = Object.keys(SOURCES);
-  return [...groups].sort((a, b) => order.indexOf(a[0]) - order.indexOf(b[0])).map(([m, byCamp]) =>
-    `<div class="acq-group"><div>${SOURCES[m] || "Other"}</div>` + [...byCamp].map(([c, lines]) =>
-      (c ? `<div class="camp">${esc(c)}</div>` : "") + `<ul class="acq">${lines.map(l => `<li>${l}</li>`).join("")}</ul>`).join("") + "</div>").join("");
-}
-
-function skillPageHTML(s) {
-  const chip = (id, label) => SKILLS[id] ? `<a class="chip" href="${hash({ skill: id })}" style="border-left:3px solid ${profVar(SKILLS[id].profession)}">${esc(label || SKILLS[id].name)}</a>` : "";
-  const versions = [s.pvp_version ? chip(s.pvp_version, "PvP version") : "", PVE_OF.has(s.id) ? chip(PVE_OF.get(s.id), "PvE version") : ""].join("");
-  const related = (s.related_ids || []).map(id => chip(id)).join("");
-  const sub = [s.profession ? PROFS[s.profession] : "Common", attrName(s), s.label + (s.touch ? " (touch)" : ""), CAMPAIGNS[s.campaign]].map(esc).join(" · ");
-  const tags = [s.elite && "Elite", s.pvp_only && "PvP only", s.title && "PvE only"].filter(Boolean).map(t => `<span class="tag">${t}</span>`).join("");
-  const stats = [s.energy && ["Energy", s.energy, "c-e"], s.adrenaline && ["Adrenaline", s.adrenaline, "c-a"], s.sacrifice && ["Sacrifice", `${s.sacrifice}%`, "c-s"],
-    s.upkeep && ["Upkeep", s.upkeep, "c-u"], s.overcast && ["Overcast", s.overcast, "c-o"], s.activation && ["Activation", `${secs(s.activation)}s`],
-    s.recharge && ["Recharge", `${s.recharge}s`]].filter(Boolean);
-  const title = s.title && titleOf(s);
-  const used = USED_IN.get(s.id) || [];
-  return `<p class="back"><a href="#${state.listHash}">← All skills</a></p>
-    <div class="sp-head${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}">
-      <img class="sp-icon" src="img/skills/${s.id}.jpg" alt="" onerror="this.remove()">
-      <div class="sp-title"><h2>${esc(s.name)}${tags}</h2><div class="sp-sub">${sub}</div></div>
-      <div class="lstats">${stats.map(([k, v, c]) => `<span class="lstat"><small>${k}</small><b class="${c || ""}">${esc(v)}</b></span>`).join("")}</div>
-    </div>
-    <div class="lgrid">
-      <div class="lside">
-        <section class="lbox"><h4>Description</h4><p class="sp-desc">${richText(s.description)}</p>
-          ${s.concise && s.concise !== s.description ? `<p class="dim sp-concise">${richText(s.concise)}</p>` : ""}</section>
-        ${title ? `<section class="lbox"><h4>Title</h4><p>Gets stronger with your <a href="titles${hash({ t: title.id })}">${esc(title.name)} title</a> rank.</p></section>` : ""}
-        ${used.length ? `<section class="lbox"><h4>Used in builds</h4><ul class="lrows">${used.map(u => u.team.single
-          ? `<li><a href="builds${hash({ build: u.build.id })}">${esc(u.build.name)}</a><span class="dim">${u.team.single}</span></li>`
-          : `<li><a href="builds${hash({ team: u.team.id })}">${esc(u.team.name)}</a><span class="dim">${esc(u.build.name)}${u.n > 1 ? ` ×${u.n}` : ""}</span></li>`).join("")}</ul></section>` : ""}
-        ${versions || related ? `<section class="lbox">${versions ? `<h4>Versions</h4><div class="chips">${versions}</div>` : ""}${related ? `<h4>Related skills</h4><div class="chips">${related}</div>` : ""}</section>` : ""}
-      </div>
-      <div class="lside"><section class="lbox"><h4>How to get it</h4>${acquisitionHTML(s)}</section></div>
-    </div>
-    <p class="llinks"><a href="builder#add=${s.id}">Add to builder →</a><span class="dim">Skill ID ${s.id}</span></p>`;
-}
-
-// the list, or one skill's page when the address names one
+// the list, as the address says
 function render() {
-  const p = new URLSearchParams(location.hash.slice(1));
+  const p = args();
   els.name.value = p.get("q") || ""; els.text.value = p.get("t") || "";
   state.profs.clear(); for (const v of (p.get("p") || "").split(",").filter(Boolean)) state.profs.add(v);
   syncChips(els.prof, state.profs); fillAttributes();
@@ -195,19 +126,8 @@ function render() {
   els.type.value = p.get("ty") || ""; els.camp.value = p.get("c") || ""; els.src.value = p.get("s") || "";
   els.elite.checked = p.get("e") === "1"; els.pvp.checked = p.get("pvp") === "1";
   state.sort = (p.get("sort") || "").replace(/^-/, ""); state.desc = (p.get("sort") || "").startsWith("-");
-  const s = SKILLS[p.get("skill")];
-  $("browse").hidden = !!s;
-  $("skill").hidden = !s;
-  if (s) {
-    $("skill").innerHTML = skillPageHTML(s);
-    document.title = `${s.name} · GW Skills`;
-    window.scrollTo(0, 0);
-  } else {
-    document.title = "GW Skills";
-    update();
-    window.dispatchEvent(new Event("resize"));  // the sticky bars measure the filters, hidden until now
-  }
+  update();
 }
 render();
 stickHeadBelowFilters();
-window.addEventListener("hashchange", render);
+onRoute(render);
