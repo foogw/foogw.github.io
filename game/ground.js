@@ -69,7 +69,7 @@ const GW_GROUND = {
     "100": {"name": "Domain of Anguish", "campaign": 3, "continent": 5, "within": 16},
     "101": {"name": "Northern Shiverpeaks", "campaign": 1, "continent": 0, "within": 3}
   },
-  "locations_": "Keys are game map ids; 100000 and up are ours, for areas the game gives no id. type: a type above. party: outposts only, the game's maximum. set: the map (maps.js) it is drawn on; at: its marker there (on a continent's map, the game's world-map icon). terrain: the game's terrain file id. exits: {to: map id, at: the portal on its map} or {to, dir} when the portal isn't placed. bosses: creatures. foes: the foe count to vanquish, low and high. from, gateway: locations reached by other means. wiki: its page on each wiki by language, {en: the Guild Wars Wiki's title, de: GuildWiki.de's} (also the source credit).",
+  "locations_": "Keys are game map ids; 100000 and up are ours, for areas the game gives no id. type: a type above. party: outposts only, the game's maximum. set: the map (maps.js) it is drawn on; at: its marker there (on a continent's map, the game's world-map icon). terrain: the game's terrain file id. exits: {to: map id, at: the portal on its map} or {to, dir} when the portal isn't placed; own: the portal on the area's own map, where it has one (maps.js walks). bosses: creatures. foes: the foe count to vanquish, low and high. from, gateway: locations reached by other means. wiki: its page on each wiki by language, {en: the Guild Wars Wiki's title, de: GuildWiki.de's} (also the source credit).",
   "locations": {
     "10": {
       "name": "Bloodstone Fen",
@@ -2404,7 +2404,11 @@ const GW_GROUND = {
       "set": 2,
       "at": [3171, 1499],
       "terrain": 157172,
-      "exits": [{"to": 239, "at": [2969, 1542]}, {"to": 240, "at": [3050, 1297]}, {"to": 291, "dir": "NE"}],
+      "exits": [
+        {"to": 239, "at": [2969, 1542], "own": [53, 297]},
+        {"to": 240, "at": [3050, 1297], "own": [238, 22]},
+        {"to": 291, "dir": "NE", "own": [428, 51]}
+      ],
       "order": 21.5,
       "bosses": [100436, 100437, 100438, 100439, 100440, 100441, 100058, 100442],
       "wiki": {"en": "The Undercity", "de": "Die Unterstadt"}

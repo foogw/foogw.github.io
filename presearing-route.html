@@ -61,8 +61,8 @@ const pct = ([x, y]) => [100 * (x - view.box[0]) / (view.box[2] - view.box[0]), 
 function draw(pts) {
   for (const e of win.querySelectorAll(".end, .gmap-path")) e.remove();
   ends.forEach((p, k) => { const [x, y] = pct(p); win.insertAdjacentHTML("beforeend", `<span class="end ${k ? "b" : "a"}" style="left:${x}%;top:${y}%"></span>`); });
-  for (const [k, line] of [["", pts], [" ridge", ridge.length > 1 && ridge]]) if (line)
-    win.insertAdjacentHTML("beforeend", `<svg class="gmap-path${k}" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="${line.map(p => pct(p).join(",")).join(" ")}"/></svg>`);
+  for (const [k, lines] of [["", pts && walkLines(pts)], [" ridge", ridge.length > 1 && [ridge]]]) if (lines)
+    win.insertAdjacentHTML("beforeend", `<svg class="gmap-path${k}" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${lines.map(l => `<polyline points="${l.map(p => pct(p).join(",")).join(" ")}"/>`).join("")}</svg>`);
 }
 function onClick(e) {
   e.preventDefault();  // a marker is a link: here a click on it picks that spot
@@ -81,11 +81,10 @@ function onClick(e) {
   if (ends.length === 1) { draw(null); status.textContent = "Now click where you want to go."; return; }
   const t = performance.now(), pts = walkRoute(grid, ...ends), ms = Math.round(performance.now() - t);
   if (!pts) { draw(null); status.textContent = "There's no way between those two spots. Click to start again."; return; }
-  let len = 0;
-  for (let i = 1; i < pts.length; i++) len += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+  const len = walkLength(pts);
   draw(lastPts = pts);
   // the way, for checking: its length, how long the search took, and its points in map pixels
-  console.log(`route ${Math.round(len * UNITS)} units, ${ms} ms, ${pts.length} points: ${pts.map(p => p.map(Math.round).join(",")).join(" ")}`);
+  console.log(`route ${Math.round(len * UNITS)} units, ${ms} ms, ${pts.length} points: ${pts.map(p => (p ? p.map(Math.round).join(",") : "|")).join(" ")}`);
   status.textContent = `About ${Math.round(len * UNITS).toLocaleString()} game units (found in ${ms} ms). Click to start again.`;
 }
 clear.onclick = () => { ends = []; ridge = []; lastPts = null; draw(null); clear.hidden = true; status.textContent = "Click where you are."; };
