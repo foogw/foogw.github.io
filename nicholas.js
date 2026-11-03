@@ -24,7 +24,11 @@ async function nickWays(e, makeGrid = walkGrid) {
   const from = e.from || [], here = from.filter(id => WALK_SET.get(id) === WALK_SET.get(e.location));
   const ids = [...new Set([e.location, ...nickAround(e.location).filter(walkable), ...here])];
   const grid = await makeGrid(ids.filter(id => id === e.location || walkable(id)));
-  const ways = from.map((id, n) => ({ id, color: NICK_COLORS[n % NICK_COLORS.length], pts: walkWay(grid, id, [...ids, id], e.at) }));
+  // from an area next to his (an explorable): its portal into his area; else an outpost's (walkFrom)
+  const portals = id => (walkable(id) && WALK_SET.get(id) === WALK_SET.get(e.location) ? LOCATIONS[e.location]?.exits || [] : []).filter(x => x.to === id && x.at).map(x => ({ at: x.at, area: e.location }));
+  const shortest = ss => ss.map(s => walkRoute(grid, s, e.at)).filter(Boolean).sort((a, b) => walkLength(a) - walkLength(b))[0] || null;
+  const ways = from.map((id, n) => ({ id, color: NICK_COLORS[n % NICK_COLORS.length],
+    pts: portals(id).length ? shortest(portals(id)) : walkWay(grid, id, [...ids, id], e.at) }));
   // light his area, the outposts and the areas the ways cross
   const walks = await Promise.all(ids.map(loadWalk)), cv = document.createElement("canvas").getContext("2d");
   const lit = new Set([e.location, ...here]);
@@ -38,7 +42,7 @@ async function nickWays(e, makeGrid = walkGrid) {
 // the ways as a legend: each outpost's color and length
 const nickLegend = ways => ways.map(w => `<span style="--c:${w.color}">${esc(LOCATIONS[w.id].name)}: ${w.pts
   ? `about ${Math.round(walkLength(w.pts) * NICK_UNITS).toLocaleString()} game units` : "no way found"}</span>`).join("")
-  || '<span class="dim">No way from an outpost: his area has a map of its own.</span>';
+  || '<span class="dim">No outpost to walk to him from yet.</span>';
 
 async function nickMap(el, i) {
   const e = NICK.entries[i];
