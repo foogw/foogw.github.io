@@ -9,6 +9,12 @@
 <link rel="stylesheet" href="style.css">
 <style>
   .ex { max-width: 900px; padding-top: 8px; }
+  /* ?embed: the map and its ways alone, to sit in another page */
+  body.embed .topbar, body.embed .page-title, body.embed .gsearch, body.embed #dhits, body.embed .nick-step,
+  body.embed .draw-tools, body.embed #dhelp, body.embed #drawn, body.embed .site-footer { display: none; }
+  body.embed .ex { padding: 0 2px; max-width: none; }
+  html:has(body.embed), body.embed { background: transparent; }
+  body.embed, body.embed .ex { display: flow-root; }  /* (the last line's margin inside: the height told is all of it) */
 
   .ex p { margin: 6px 0; }
   .ex h3 { font-size: 15px; margin: 26px 0 6px; }
@@ -44,13 +50,13 @@
   </header>
 </div>
 <div class="wrap ex">
-  <div class="page-title"><h1>Map Editor</h1><p>Our fixes to the walkable ground (walls, crossings), on any place's map or checked on Nicholas the Traveler's ways</p></div>
+  <div class="page-title"><h1>Map Editor</h1><p>Our fixes to the walkable ground (walls, paths, crossings, teleporters), on any place's map or checked on Nicholas the Traveler's ways</p></div>
 
   <div class="gsearch"><input type="search" id="dq" placeholder="Find a Nicholas week by item or place, or any place — e.g. black pearl, tangle root" autocomplete="off"></div>
   <div id="dhits"></div>
   <div class="nick-step"><button id="dprev" type="button">← Prev</button><h3 id="dtitle"></h3><button id="dnext" type="button">Next →</button></div>
   <p class="draw-tools">
-    <select id="dmode"><option value="view">Nicholas's ways</option><option value="route">Route</option><option value="crossing">Crossing</option><option value="wall">Wall</option><option value="line">Line</option><option value="point">Point</option><option value="drop">Drop a fix</option></select>
+    <select id="dmode"><option value="view">Nicholas's ways</option><option value="route">Route</option><option value="crossing">Crossing</option><option value="wall">Wall</option><option value="teleporter">Teleporter</option><option value="path">Walkable path</option><option value="line">Line</option><option value="point">Point</option><option value="drop">Drop a fix</option></select>
     <button id="ddone">Done</button> <button id="dundo">Undo</button> <span id="dstatus" class="dim"></span></p>
   <p id="dhelp" class="dim"></p>
   <div id="dbox"></div><div id="dways" class="nways"></div>
@@ -62,8 +68,10 @@
 <script src="game/ground.js"></script>
 <script src="game/maps.js"></script>
 <script src="game/calendar.js"></script>
+<script src="data/nicholas.js"></script>
 <script src="common.js"></script>
 <script src="mapwidget.js"></script>
+<script src="data/routing.js"></script>
 <script src="walkroute.js"></script>
 <script src="nicholas.js"></script>
 <script>
@@ -71,8 +79,18 @@
 // fixes to the walkable ground, drawn on an area's map (with its neighbours) or on a Nicholas week's: crossings and walls
 // (used when routing), lines and points (to say what's wrong), and the data's own fixes to drop; in map pixels
 {
-  const COLORS = { crossing: "#4fd1ff", wall: "#ff6b8b", line: "#ffb347", point: "#7ee08a" }, GREY = "#9aa0a6";
+  const COLORS = { crossing: "#4fd1ff", wall: "#ff6b8b", teleporter: "#c58bff", path: "#7ee0d0", line: "#ffb347", point: "#7ee08a" }, GREY = "#9aa0a6";
   const N = NICK.entries.length, now = Rotation.period(NICK) % N;
+  // the address: ?nick=N (a week) or ?place=id (an area); points=x,y;x,y... marks points on the map (red dots); embed
+  // shows the map alone
+  const ARGS = new URLSearchParams(location.search);
+  const marks = (ARGS.get("points") || "").split(";").map(p => p.split(",").map(Number)).filter(p => p.length === 2 && p.every(Number.isFinite));
+  if (ARGS.has("embed")) {
+    document.body.classList.add("embed");
+    document.documentElement.style.overflow = "hidden";  // (the site's pages keep a scroll bar for the page)
+    // the page holding it is told its height, to fit it with no scroll bar
+    new ResizeObserver(() => parent.postMessage({ editorMapsHeight: Math.ceil(document.body.getBoundingClientRect().bottom + parseFloat(getComputedStyle(document.body).marginBottom)) }, "*")).observe(document.body);
+  }
   const shapes = [];  // what's drawn: {kind, map, pts}, or {kind: "drop", map, what, data} for a fix of the data's taken off
   let ni = null, mapId = null;  // the Nicholas week shown (its entry), or null for an area; the area
   let shown = [], walks = [];   // the areas on the map, and their ground
@@ -84,15 +102,19 @@
     { lines: [Array.from({ length: 41 }, (_, k) => [cx + r * Math.cos(k * Math.PI / 20), cy + r * Math.sin(k * Math.PI / 20)])], color },
     // each way through it: a line across the circle, between where its ends are taken out to
     ...[0, 4].map(k => ({ lines: [[[e[k], e[k + 1]], [e[k + 2], e[k + 3]]].map(([x, y]) => { const d = Math.hypot(x - cx, y - cy) || 1; return [cx + (x - cx) / d * r, cy + (y - cy) / d * r]; })], color }))];
+  // a teleporter: its two ends, and a thin line between them
+  const telLines = (pts, color) => [...pts.map(p => dot(p, color)), ...(pts.length > 1 ? [{ lines: [pts], color: color + "80" }] : [])];
   // a drawn crossing as data: [cx, cy, r, the four ends]
   const crossData = d => [...d.pts[0], Math.round(Math.hypot(d.pts[1][0] - d.pts[0][0], d.pts[1][1] - d.pts[0][1])), ...d.pts.slice(2).flat()];
-  const NEED = { crossing: 6, wall: 2, line: 2, point: 1 };
+  const NEED = { crossing: 6, wall: 2, path: 2, teleporter: 2, line: 2, point: 1 };
 
   // the data's fixes on the areas shown, less those dropped: [{map, what, data}]
   const same = (a, b) => a.length === b.length && a.every((v, k) => v === b[k]);
   const dropped = f => shapes.some(d => d.kind === "drop" && d.map === f.map && d.what === f.what && same(d.data, f.data));
-  const theirs = () => shown.flatMap((id, k) => [...(walks[k]?.cross || []).map(data => ({ map: id, what: "crossing", data })),
-    ...(walks[k]?.walls || []).map(data => ({ map: id, what: "wall", data }))]).filter(f => !dropped(f));
+  const theirs = () => shown.flatMap(id => [...(ROUTING.cross[id] || []).map(data => ({ map: id, what: "crossing", data })),
+    ...(ROUTING.walls[id] || []).map(data => ({ map: id, what: "wall", data })),
+    ...(ROUTING.paths?.[id] || []).map(data => ({ map: id, what: "path", data })),
+    ...(ROUTING.teleports?.[id] || []).map(data => ({ map: id, what: "teleporter", data }))]).filter(f => !dropped(f));
   // the area under a point: the first shown whose ground has it; else the one picked
   const cv = document.createElement("canvas").getContext("2d");
   const areaAt = ([x, y]) => shown.find((id, k) => walks[k] && cv.isPointInPath(walkPath([{ rings: [...walks[k].rings, ...(walks[k].town || [])] }]), x, y));
@@ -102,12 +124,13 @@
   const show = () => {
     if (view) {
       view.ways = [
-        ...theirs().flatMap(f => (f.what === "crossing" ? crossLines(f.data, GREY) : [{ lines: [pairs(f.data)], color: GREY }])),
+        ...theirs().flatMap(f => (f.what === "crossing" ? crossLines(f.data, GREY) : f.what === "teleporter" ? telLines(pairs(f.data), GREY) : [{ lines: [pairs(f.data)], color: GREY }])),
         ...(mode() === "view" && nick?.ways || []).filter(w => w.pts).map(w => ({ lines: walkLines(w.pts), color: w.color })),
-        ...(way ? [{ lines: walkLines(way), color: "#fff" }] : []), ...ends.map(p => dot(p, "#4be06b")),
+        ...(way ? [{ lines: walkLines(way), color: "#fff" }] : []), ...marks.map(p => dot(p, "#ff2020")), ...ends.map(p => dot(p, "#4be06b")),
         ...[...shapes, ...(cur ? [cur] : [])].filter(d => d.kind !== "drop").flatMap(d => {
           if (d.kind === "crossing") return d.pts.length >= 6 ? crossLines(crossData(d), COLORS.crossing)
             : [...(d.pts.length >= 2 ? [crossLines(crossData(d), COLORS.crossing)[0]] : []), ...d.pts.map(p => dot(p, COLORS.crossing))];
+          if (d.kind === "teleporter") return telLines(d.pts, COLORS.teleporter);
           return d.pts.length > 1 && d.kind !== "point" ? [{ lines: [d.pts], color: COLORS[d.kind] }] : d.pts.map(p => dot(p, COLORS[d.kind]));
         })];
       view.draw();
@@ -124,14 +147,16 @@
 
   // the areas' grid with the fixes: the data's (less those dropped) and those drawn
   const routeGrid = async ids => {
-    const ws = await Promise.all(ids.map(loadWalk)), keep = ws.map(w => w && [w.cross, w.walls]);
-    ws.forEach((w, k) => {
-      if (!w) return;
-      const mine = kind => shapes.filter(d => d.map === ids[k] && d.kind === kind);
-      w.cross = [...(w.cross || []).filter(data => !dropped({ map: ids[k], what: "crossing", data })), ...mine("crossing").map(crossData)];
-      w.walls = [...(w.walls || []).filter(data => !dropped({ map: ids[k], what: "wall", data })), ...mine("wall").map(d => d.pts.flat())];
-    });
-    try { return await walkGrid(ids); } finally { ws.forEach((w, k) => { if (w) [w.cross, w.walls] = keep[k]; }); }
+    const keep = { cross: ROUTING.cross, walls: ROUTING.walls, paths: ROUTING.paths || {}, teleports: ROUTING.teleports || {} };
+    ROUTING.cross = { ...keep.cross }; ROUTING.walls = { ...keep.walls }; ROUTING.paths = { ...keep.paths }; ROUTING.teleports = { ...keep.teleports };
+    for (const id of ids) {
+      const mine = kind => shapes.filter(d => d.map === id && d.kind === kind);
+      ROUTING.cross[id] = [...(keep.cross[id] || []).filter(data => !dropped({ map: id, what: "crossing", data })), ...mine("crossing").map(crossData)];
+      ROUTING.walls[id] = [...(keep.walls[id] || []).filter(data => !dropped({ map: id, what: "wall", data })), ...mine("wall").map(d => d.pts.flat())];
+      ROUTING.paths[id] = [...(keep.paths[id] || []).filter(data => !dropped({ map: id, what: "path", data })), ...mine("path").map(d => d.pts.flat())];
+      ROUTING.teleports[id] = [...(keep.teleports[id] || []).filter(data => !dropped({ map: id, what: "teleporter", data })), ...mine("teleporter").map(d => d.pts.flat())];
+    }
+    try { return await walkGrid(ids); } finally { Object.assign(ROUTING, keep); }
   };
   const routeIds = () => (nick ? nick.ids : shown).filter(id => id === mapId || walkable(id));
   const route = async at => {
@@ -147,6 +172,7 @@
     const near = (p, q, [px, py]) => { const dx = q[0] - p[0], dy = q[1] - p[1], t = Math.max(0, Math.min(1, ((px - p[0]) * dx + (py - p[1]) * dy) / (dx * dx + dy * dy || 1)));
       return Math.hypot(p[0] + t * dx - px, p[1] + t * dy - py); };
     const f = theirs().find(f => f.what === "crossing" ? Math.hypot(f.data[0] - x, f.data[1] - y) <= f.data[2] + 4
+      : f.what === "teleporter" ? pairs(f.data).some(([a, b]) => Math.hypot(a - x, b - y) <= 6)
       : pairs(f.data).some((p, k, ps) => k && near(ps[k - 1], p, [x, y]) <= 6));
     if (!f) return;
     shapes.push({ kind: "drop", ...f });
@@ -164,7 +190,7 @@
     const d = cur && cur.pts.length >= NEED[cur.kind] ? cur : null;
     if (d) { d.map = areaOf(d.kind === "crossing" ? d.pts.slice(0, 1) : d.pts); shapes.push(d); }
     cur = null;
-    if (d && (d.kind === "crossing" || d.kind === "wall")) rewalk(); else show();  // (lines and points don't change a way)
+    if (d && ["crossing", "wall", "path", "teleporter"].includes(d.kind)) rewalk(); else show();  // (lines and points don't change a way)
   };
   let loads = 0;  // a newer pick meanwhile: this one stops
   const load = async () => {
@@ -196,7 +222,7 @@
       if (mode() === "drop") return drop(at);
       if (!cur) cur = { kind: mode(), pts: [] };
       cur.pts.push(at);
-      if (cur.pts.length === { crossing: 6, point: 1 }[cur.kind]) finish(); else show();
+      if (cur.pts.length === { crossing: 6, teleporter: 2, point: 1 }[cur.kind]) finish(); else show();
     }, true);
     show();
   };
@@ -215,7 +241,8 @@
     if (!e && mode() === "view") $("dmode").value = "route";
     if (e && !shapes.length && !cur) $("dmode").value = "view";
     help();
-    history.replaceState(null, "", e ? "?nick=" + ni : "?place=" + mapId);
+    const keep = ["points", "embed"].filter(k => ARGS.has(k)).map(k => `&${k}${ARGS.get(k) ? "=" + ARGS.get(k) : ""}`).join("");
+    history.replaceState(null, "", (e ? "?nick=" + ni : "?place=" + mapId) + keep);
     load();
   };
   $("dprev").onclick = () => pick(ni - 1);
@@ -256,7 +283,9 @@
     wall: "Click along a line the ground can't be walked across, then press Done.",
     line: "Click along a line, then press Done, and say what it's about (ground to add or take off, say).",
     point: "Click to place a point; they're numbered in the box below, to say what they're about.",
-    drop: "Click one of the data's crossings or walls (in grey) to take it off.",
+    path: "Click along a narrow way the ground misses, then press Done: it becomes walkable.",
+    teleporter: "Click one end, then the other: stand at either and you're at the other, both ways, at no distance.",
+    drop: "Click one of the data's crossings, walls, paths or teleporters (in grey) to take it off.",
   };
   // all the modes' texts in one cell, the picked one shown: the box keeps the longest's height, so the map stays put
   $("dhelp").innerHTML = Object.entries(HELP).map(([k, t]) => `<span data-k="${k}">${esc(t + (k === "view" || k === "route" ? "" : " The box below collects it to paste back."))}</span>`).join("");
@@ -273,7 +302,7 @@
     if (d.kind !== "drop") { cur = d; cur.pts.pop(); }
     rewalk();
   };
-  const q = new URLSearchParams(location.search);
+  const q = ARGS;
   q.has("place") && LOCATIONS[+q.get("place")] ? pick(null, +q.get("place")) : pick(+(q.get("nick") ?? now) % N || 0);
 }
 </script>
