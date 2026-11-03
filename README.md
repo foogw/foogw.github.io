@@ -1,4 +1,4 @@
-# GW info site
+# Guild Wars Today
 
 A static Guild Wars reference site: skills, quests and missions, the skillbar builder, and the daily and
 weekly rotations. No server and no build step; open `index.html` directly or serve the folder with
