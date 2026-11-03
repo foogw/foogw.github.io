@@ -5,13 +5,16 @@
    walk that keeps off the edges. walkGrid(ids) builds the grid, and walkRoute(grid, from, to) gives the way as a
    short polyline in the map's pixels, or null; a null in it is a portal crossed to an area that doesn't touch this
    one on the map (walkLines splits the way there). */
+// our own fixes to the ground (data/routing.js): walls, paths, crossings, teleporters, and portals on an area's own map, by map id
+const ROUTING = data("GW_ROUTING");
+if (!ROUTING) console.warn("walkroute.js: data/routing.js isn't loaded, so the ways ignore our walls and crossings");
 const WALK_S = 1;        // map pixels per grid cell: a ridge a few pixels wide stays a wall
 const WALK_BRIDGE = 12;  // map pixels: the disc joining two areas at their portal
 const WALK_WALL = 8;     // grid cells from an edge within which a step costs more
 
 async function walkGrid(ids) {
   // all the ground there is: an outpost's town too
-  const walks = (await Promise.all(ids.map(loadWalk))).map((w, i) => w && { id: ids[i], rings: [...w.rings, ...(w.town || [])], walls: w.walls, cross: w.cross }).filter(Boolean);
+  const walks = (await Promise.all(ids.map(loadWalk))).map((w, i) => w && { id: ids[i], rings: [...w.rings, ...(w.town || [])], walls: ROUTING?.walls[ids[i]], paths: ROUTING?.paths?.[ids[i]], cross: ROUTING?.cross[ids[i]], teleports: ROUTING?.teleports?.[ids[i]] }).filter(Boolean);
   const [x0, y0, x1, y1] = ringsBox(walks);
   const W = Math.ceil((x1 - x0) / WALK_S) + 2, H = Math.ceil((y1 - y0) / WALK_S) + 2;
   const c = document.createElement("canvas"); c.width = W; c.height = H;
@@ -21,18 +24,16 @@ async function walkGrid(ids) {
   // on the map) goes only through a portal, where both are set
   const area = new Uint32Array(W * H), bit = new Map(walks.map((w, k) => [w.id, 1 << (k % 32)]));
   const portal = new Uint8Array(W * H);  // a portal's disc: never walled off below
-  const paint = (id, draw, isPortal = false) => {
-    g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, W, H);
-    g.setTransform(...T); g.fillStyle = "#fff"; draw();
-    const px = g.getImageData(0, 0, W, H).data;
-    for (let i = 0; i < W * H; i++) if (px[4 * i + 3] >= 128) { area[i] |= id; if (isPortal) portal[i] = 1; }  // half covered: the edges' smoothing doesn't close a thin gap
-  };
-  for (const w of walks) paint(bit.get(w.id), () => g.fill(walkPath([w]), "nonzero"));
+  const gx = x => (x - x0) / WALK_S + 1, gy = y => (y - y0) / WALK_S + 1;  // map pixels -> grid cells
+  for (const w of walks) walkFill(W, H, w.rings.map(r => r.map((v, k) => (k % 2 ? gy(v) : gx(v)))), i => { area[i] |= bit.get(w.id); });
   // a portal between two of the areas, where each lists it: one listed by one side only is a way in with no way back
   // (into an outpost that leads only into its mission)
   const both = (a, b) => (LOCATIONS[b]?.exits || []).some(x => x.to === a);
   for (const id of ids) for (const e of LOCATIONS[id]?.exits || []) if (e.at && bit.has(id) && bit.has(e.to) && both(id, e.to))
-    paint(bit.get(id) | bit.get(e.to), () => { g.beginPath(); g.arc(e.at[0], e.at[1], WALK_BRIDGE, 0, 2 * Math.PI); g.fill(); }, true);
+    walkNear(W, H, [gx(e.at[0]), gy(e.at[1])], WALK_BRIDGE / WALK_S, i => { area[i] |= bit.get(id) | bit.get(e.to); portal[i] = 1; });
+  // paths (our data): lines the area's ground misses, walkable, 4 map pixels wide
+  for (const w of walks) for (const l of w.paths || []) for (let k = 2; k < l.length; k += 2)
+    walkNear(W, H, [gx(l[k - 2]), gy(l[k - 1])], 2 / WALK_S, i => { area[i] |= bit.get(w.id); }, [gx(l[k]), gy(l[k + 1])]);
   // where two areas with no portal between them overlap on the map (their pictures' edges), the ground is neither's:
   // a wall, so a way doesn't step from one into the other there
   const linked = new Set(walks.map(w => bit.get(w.id)));
@@ -72,32 +73,46 @@ async function walkGrid(ids) {
   for (const [k, pts] of ends) {
     const [a, b] = k.split("-").map(Number), all = [...pts.values()];
     for (const [x, y] of [[a, b], [b, a]]) for (const p of all) if (near(x, p) && !near(y, p)) {
-      const far = all.filter(q => near(y, q) && !near(x, q));
+      // (an end by both areas, the other end's area too, when none is by that one alone: two portals 100 pixels apart,
+      // one by both areas' ground, as Crystal Overlook's to the Ruptured Heart)
+      let far = all.filter(q => near(y, q) && !near(x, q));
+      if (!far.length) far = all.filter(q => q !== p && near(y, q));
       // the other end; where the data has none, the other area's ground nearest this end
       if (far.length) for (const q of far) jump(walkSnap(grid, ...p, x), walkSnap(grid, ...q, y));
       else jump(walkSnap(grid, ...p, x), walkSnap(grid, ...p, y, true));  // its own ground, not the portal's disc
     }
   }
   // walls (our data, over the walkable ground): lines that can't be walked across
-  g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, W, H); g.setTransform(...T);
-  g.lineWidth = 3; g.lineCap = g.lineJoin = "round"; g.strokeStyle = "#fff";
-  for (const w of walks) for (const l of w.walls || []) {
-    g.beginPath(); for (let k = 0; k < l.length; k += 2) (k ? g.lineTo(l[k], l[k + 1]) : g.moveTo(l[k], l[k + 1]));
-    g.stroke();
-  }
-  { const px = g.getImageData(0, 0, W, H).data; for (let i = 0; i < W * H; i++) if (px[4 * i + 3] >= 128) walk[i] = 0; }
+  for (const w of walks) for (const l of w.walls || []) for (let k = 2; k < l.length; k += 2)
+    walkNear(W, H, [gx(l[k - 2]), gy(l[k - 1])], 1.5 / WALK_S, i => { walk[i] = 0; }, [gx(l[k]), gy(l[k + 1])]);  // 3 map pixels wide
   // a crossing (a bridge over a path): its circle is walled off, and each way's two ends (out at the circle's edge) are
-  // joined, so a way goes on along the one it came in on and can't turn onto the other
-  const cross = new Set();
+  // joined, so a way goes on along the one it came in on and can't turn onto the other. Crossings close together (an
+  // end inside another's circle) chain: the way goes on along the other's way that starts nearest that end
+  const cross = new Set(), cs = [];
   for (const w of walks) for (const [cx, cy, r, ...e] of w.cross || []) {
     for (let y = Math.floor((cy - r - oyMap) / WALK_S); y <= (cy + r - oyMap) / WALK_S; y++)
       for (let x = Math.floor((cx - r - oxMap) / WALK_S); x <= (cx + r - oxMap) / WALK_S; x++)
         if (x >= 0 && y >= 0 && x < W && y < H && Math.hypot(oxMap + x * WALK_S - cx, oyMap + y * WALK_S - cy) < r) walk[y * W + x] = 0;
-    const out = k => { const dx = e[k] - cx, dy = e[k + 1] - cy, d = Math.hypot(dx, dy) || 1; return walkSnap(grid, cx + dx / d * (r + 2), cy + dy / d * (r + 2), w.id); };
-    for (const k of [0, 4]) {
-      const i = out(k), j = out(k + 2);
-      if (i >= 0 && j >= 0) { jump(i, j); cross.add(i + "," + j).add(j + "," + i); }
-    }
+    const end = k => { const dx = e[k] - cx, dy = e[k + 1] - cy, d = Math.hypot(dx, dy) || 1; return [cx + dx / d * (r + 2), cy + dy / d * (r + 2)]; };
+    cs.push({ id: w.id, cx, cy, r, ways: [[end(0), end(2)], [end(4), end(6)]] });
+  }
+  const follow = (p, c, n = 0) => {
+    const d = cs.find(o => o !== c && Math.hypot(p[0] - o.cx, p[1] - o.cy) < o.r + 2);
+    if (!d || n > 8) return p;
+    // the other's way end nearest p: on along that way, to its other end
+    const [way, k] = d.ways.flatMap(wy => [[wy, 0], [wy, 1]]).sort(([u, i], [v, j]) => Math.hypot(u[i][0] - p[0], u[i][1] - p[1]) - Math.hypot(v[j][0] - p[0], v[j][1] - p[1]))[0];
+    return follow(way[1 - k], d, n + 1);
+  };
+  for (const c of cs) for (const [a, b] of c.ways) {
+    const i = walkSnap(grid, ...follow(a, c), c.id), j = walkSnap(grid, ...follow(b, c), c.id);
+    if (i >= 0 && j >= 0) { jump(i, j); cross.add(i + "," + j).add(j + "," + i); }
+  }
+
+  // a teleporter: its two ends joined, at no cost
+  const teleport = new Set();
+  for (const w of walks) for (const [ax, ay, bx, by] of w.teleports || []) {
+    const i = walkSnap(grid, ax, ay), j = walkSnap(grid, bx, by);
+    if (i >= 0 && j >= 0) { jump(i, j); teleport.add(i + "," + j).add(j + "," + i); }
   }
   // a step costs more near an edge, so the way keeps to the middle of a path
   let cur = walk.slice(); const d = new Uint8Array(W * H);
@@ -113,7 +128,41 @@ async function walkGrid(ids) {
   const cost = new Float32Array(W * H);
   for (let i = 0; i < W * H; i++) cost[i] = 1 + 3 * (WALK_WALL - d[i]) / WALK_WALL;
   // the grid's corner in map pixels
-  return { ...grid, cost, jumps, cross };
+  return { ...grid, cost, jumps, cross, teleport };
+}
+
+// The cells a shape covers, worked out by arithmetic rather than drawn on a canvas and read back (a browser that
+// resists fingerprinting gives a blank picture back): rings ([x0, y0, x1, y1, ...] in grid cells) filled non-zero,
+// sampled at 4 x 4 points a cell; WALK_FILL of them make it covered, as a canvas's smoothed edge at half its alpha
+// (a thin diagonal path stays open, a gap of a pixel or two stays shut)
+const WALK_FILL = 6;
+function walkFill(W, H, rings, set) {
+  const S = 4, lines = Array.from({ length: S * H }, () => []), count = new Uint8Array(W * H);
+  for (const r of rings) for (let k = 0, n = r.length; k < n; k += 2) {
+    const ax = r[k], ay = r[k + 1], bx = r[(k + 2) % n], by = r[(k + 3) % n];
+    if (ay === by) continue;
+    // the sample lines the edge crosses, and where, with the way it goes
+    for (let j = Math.max(0, Math.ceil(S * Math.min(ay, by) - 0.5)); j < S * H && (j + 0.5) / S < Math.max(ay, by); j++)
+      lines[j].push([ax + ((j + 0.5) / S - ay) * (bx - ax) / (by - ay), by > ay ? 1 : -1]);
+  }
+  lines.forEach((xs, j) => {
+    xs.sort((a, b) => a[0] - b[0]);
+    const row = Math.floor(j / S) * W;
+    for (let k = 0, wind = 0; k < xs.length - 1; k++) {
+      wind += xs[k][1];
+      if (wind) for (let x = Math.max(0, Math.ceil(S * xs[k][0] - 0.5)); x < S * W && (x + 0.5) / S < xs[k + 1][0]; x++) count[row + Math.floor(x / S)]++;
+    }
+  });
+  for (let i = 0; i < W * H; i++) if (count[i] >= WALK_FILL) set(i);
+}
+// the cells whose middles are within d of a point, or of the line from it to another (grid cells)
+function walkNear(W, H, [ax, ay], d, set, [bx, by] = [ax, ay]) {
+  const dx = bx - ax, dy = by - ay, L = dx * dx + dy * dy;
+  for (let y = Math.max(0, Math.floor(Math.min(ay, by) - d)); y <= Math.min(H - 1, Math.max(ay, by) + d); y++)
+    for (let x = Math.max(0, Math.floor(Math.min(ax, bx) - d)); x <= Math.min(W - 1, Math.max(ax, bx) + d); x++) {
+      const t = L ? Math.max(0, Math.min(1, ((x + 0.5 - ax) * dx + (y + 0.5 - ay) * dy) / L)) : 0;
+      if (Math.hypot(ax + t * dx - x - 0.5, ay + t * dy - y - 0.5) <= d) set(y * W + x);
+    }
 }
 
 // the walkable cell nearest a map point, or -1; with an area's id, the nearest of that area's ground
@@ -129,7 +178,7 @@ function walkSnap({ W, H, walk, ox, oy, area, bit, portal }, x, y, id = null, of
 }
 
 // A* over 8 neighbours with a binary heap: the cells from a to b, or null
-function walkSearch({ W, H, walk, cost, ox, oy, jumps, area, cross }, a, b) {
+function walkSearch({ W, H, walk, cost, ox, oy, jumps, area, cross, teleport }, a, b) {
   const g = new Float64Array(W * H).fill(Infinity), from = new Int32Array(W * H).fill(-1);
   const heap = [], bx = b % W, by = (b / W) | 0;
   const h = i => Math.hypot(i % W - bx, ((i / W) | 0) - by);
@@ -167,7 +216,7 @@ function walkSearch({ W, H, walk, cost, ox, oy, jumps, area, cross }, a, b) {
       if (ng < g[j]) { g[j] = ng; from[j] = i; push(ng + h(j), j); }
     }
     for (const j of jumps?.get(i) || []) {  // through a portal to its other end
-      const ng = g[i] + (cross?.has(i + "," + j) ? Math.hypot(i % W - j % W, ((i / W) | 0) - ((j / W) | 0)) : 1);  // a crossing: its length
+      const k = i + "," + j, ng = g[i] + (cross?.has(k) ? Math.hypot(i % W - j % W, ((i / W) | 0) - ((j / W) | 0)) : teleport?.has(k) ? 0 : 1);  // a crossing: its length; a teleporter: none
       if (ng < g[j]) { g[j] = ng; from[j] = i; push(ng + h(j), j); }
     }
   }
@@ -204,14 +253,15 @@ function walkRoute(grid, from, [tx, ty]) {
 const walkLines = pts => pts.reduce((ls, p) => (p ? ls.at(-1).push(p) : ls.push([]), ls), [[]]).filter(l => l.length);
 // a way's length in map pixels, not counting the jumps
 const walkLength = pts => walkLines(pts).reduce((s, l) => s + l.slice(1).reduce((t, p, i) => t + Math.hypot(p[0] - l[i][0], p[1] - l[i][1]), 0), 0);
-// where a walk from a place can start: an outpost's portals out to the areas (portals both sides list: the ways you
-// leave it), each on its area's ground; else its marker
+// where a walk from a place can start: an outpost's portals out to the areas, or any place's whose ground isn't walked
+// over (portals both sides list: the ways you leave it), each on its area's ground; else its marker
 function walkFrom(grid, id, ids) {
-  const l = LOCATIONS[id], out = e => e.at && ids.includes(e.to) && grid.bit?.has(e.to) && (LOCATIONS[e.to]?.exits || []).some(x => x.to === id);
+  const l = LOCATIONS[id], out = e => e.at && ids.includes(e.to) && grid.bit?.has(e.to) && (LOCATIONS[e.to]?.exits || []).some(x => x.to === id)
+    && !ROUTING?.closed?.[id]?.includes(e.to);  // (a portal it can't be left by: ours, data/routing.js)
   // a place off this map: the portals into it on the own maps of the areas here
-  const own = grid.bit?.has(id) ? [] : ids.flatMap(a => grid.bit?.has(a) ? (LOCATIONS[a]?.exits || []).filter(e => e.to === id && e.own).map(e => ({ at: e.own, area: a })) : []);
+  const own = grid.bit?.has(id) ? [] : ids.flatMap(a => grid.bit?.has(a) ? Object.entries(ROUTING?.portals[a] || {}).filter(([to]) => +to === id).map(([, at]) => ({ at, area: a })) : []);
   if (own.length) return own;
-  const es = isOutpost(l) ? (l.exits || []).filter(out) : [];
+  const es = isOutpost(l) || !grid.bit?.has(id) ? (l.exits || []).filter(out) : [];  // (a place not walked over, too: a mission)
   return es.length ? es.map(e => ({ at: e.at, area: e.to })) : l?.at ? [l.at] : [];
 }
 // the shortest way from a place (by any of its portals) to a point, or null

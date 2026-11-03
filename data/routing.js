@@ -1,0 +1,44 @@
+const GW_ROUTING = {
+  "walls_": "Ours: lines on an area's ground that can't be walked across, by map id: [[x0, y0, x1, y1, ...], ...] in its map's pixels (maps.js walks). Drawn in the map editor.",
+  "walls": {
+    "48": [[1592, 5496, 1592, 5511]],
+    "198": [[4485, 2421, 4482, 2415, 4478, 2416, 4483, 2425]],
+    "205": [[4316, 3699, 4311, 3704]]
+  },
+  "paths_": "Ours: lines on an area's map that can be walked, where its walkable ground misses them (a narrow pass), by map id: [[x0, y0, x1, y1, ...], ...] in its map's pixels, 4 pixels wide. Drawn in the map editor.",
+  "paths": {
+    "17": [[2508, 4440, 2518, 4434, 2523, 4438, 2526, 4444, 2531, 4451, 2544, 4448, 2550, 4444, 2559, 4445, 2565, 4450]],
+    "99": [[5796, 3655, 5810, 3667]],
+    "448": [[2028, 653, 2040, 637], [2159, 553, 2166, 540]]
+  },
+  "cross_": "Ours: where a way crosses over another (a bridge over a path), by map id: [[cx, cy, r, x0, y0, x1, y1, x2, y2, x3, y3], ...]: a circle walled off, and the two ways through it by their ends (taken out to the circle's edge); a way that comes in along one goes out along the same one. Drawn in the map editor.",
+  "cross": {
+    "48": [[1797, 5461, 15, 1792, 5445, 1804, 5481, 1816, 5455, 1777, 5464], [1757, 5562, 17, 1757, 5543, 1761, 5584, 1776, 5560, 1735, 5561], [1805, 5560, 15, 1802, 5540, 1802, 5576, 1782, 5562, 1822, 5558]],
+    "108": [[7296, 7989, 9, 7299, 7981, 7294, 7998, 7287, 7988, 7304, 7990]],
+    "112": [[7039, 8585, 7, 7040, 8578, 7040, 8592, 7032, 8585, 7046, 8585]],
+    "198": [[4423, 2490, 17, 4427, 2474, 4423, 2504, 4409, 2487, 4435, 2495]],
+    "238": [[1164, 2473, 7, 1166, 2467, 1161, 2479, 1158, 2470, 1171, 2475]],
+    "269": [[3764, 1218, 6, 3765, 1212, 3765, 1223, 3758, 1217, 3769, 1217], [3731, 1086, 3, 3731, 1083, 3732, 1089, 3728, 1086, 3734, 1086], [3732, 1080, 3, 3732, 1077, 3732, 1082, 3735, 1080, 3729, 1080]],
+    "437": [[3036, 1009, 8, 3030, 1005, 3043, 1012, 3040, 1003, 3034, 1016], [3065, 1013, 4, 3063, 1009, 3067, 1015, 3069, 1011, 3062, 1013], [3051, 1039, 7, 3051, 1031, 3050, 1046, 3058, 1038, 3045, 1038]],
+    "446": [[2601, 886, 10, 2602, 875, 2600, 897, 2588, 886, 2612, 887], [2619, 858, 5, 2623, 858, 2614, 858, 2619, 854, 2620, 863], [2587, 923, 8, 2584, 916, 2592, 929, 2595, 921, 2580, 926]]
+  },
+  "teleports_": "Ours: teleporters, by the map id of the first end: [[x0, y0, x1, y1], ...] in its map's pixels: stand at one end and you're at the other, both ways, at no distance. Placed in the map editor.",
+  "teleports": {
+    "113": [[6529, 8103, 6489, 8112], [6416, 8175, 6394, 8209], [6381, 8001, 6412, 8033], [6566, 7942, 6528, 7961]],
+    "111": [[6409, 8487, 6442, 8505], [6688, 8484, 6659, 8509], [6543, 8615, 6584, 8609]],
+    "108": [[7327, 8224, 7298, 8176], [7212, 8193, 7164, 8177], [7191, 8008, 7146, 8019]],
+    "115": [[6953, 8213, 6983, 8248], [6781, 8214, 6818, 8178], [6926, 7910, 6894, 7940], [7007, 8061, 7018, 8112]]
+  },
+  "closed_": "Ours: portals the game's data lists that can't be taken from a place, by its map id: the map ids they'd lead to. A mission outpost doesn't open onto the explorable twin of its mission's map.",
+  "closed": {
+    "213": [246],
+    "214": [245],
+    "218": [244]
+  },
+  "portals_": "Ours: portals the game's data doesn't place, on the area's walkable map (maps.js walks; for an area with a map of its own, on that map), by its map id, then the map id each leads to: [x, y].",
+  "portals": {
+    "413": {"434": [242, 631]},
+    "649": {"650": [6785, 1601]},
+    "241": {"239": [53, 297], "240": [238, 22], "291": [428, 51]}
+  }
+};

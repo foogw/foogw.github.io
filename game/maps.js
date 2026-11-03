@@ -155,7 +155,7 @@ const GW_MAPS = {
     "27": {"name": "", "set": 134},
     "28": {"name": "", "set": 137}
   },
-  "walks_": "The locations with walkable ground, and the set it is on: game/walk/<map id>.json, {set, rings: [[x0, y0, x1, y1, ...], ...], town: rings, walls, cross} in the set's pixels (fill non-zero: outlines run one way, holes the other); town: an outpost's own ground where its mission is played on the same map id (rings: the mission's); walls: lines [x0, y0, x1, y1, ...] that can't be walked across; cross: crossings, [cx, cy, r, x0, y0, x1, y1, x2, y2, x3, y3] a circle walled off and two ways through it by their ends, a way keeping to the one it came in on (a bridge over a path); here: map id -> its set.",
+  "walks_": "The locations with walkable ground, and the set it is on: game/walk/<map id>.json, {set, rings: [[x0, y0, x1, y1, ...], ...], town: rings} in the set's pixels (fill non-zero: outlines run one way, holes the other); town: an outpost's own ground where its mission is played on the same map id (rings: the mission's); here: map id -> its set.",
   "walks": {
     "10": 0,
     "11": 0,

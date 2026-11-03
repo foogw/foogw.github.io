@@ -217,8 +217,14 @@ async function initMap(fig) {
   const path = lit.length ? walkPath(lit) : null;
   const marks = nearMarks(set, ids, self, box);
   const spots = JSON.parse(fig.dataset.spots || "[]").map(p => ({ ...p, kind: "spot" }));
-  const portals = [];
-  for (const i of ids) for (const e of LOCATIONS[i]?.exits || []) if (e.at && !portals.some(p => p[0] === e.at[0] && p[1] === e.at[1])) portals.push(e.at);
+  const portals = [], joins = new Map();  // joins: each portal's places, by "x,y", for its name on hover
+  // the game's portals, and those we placed where it has none (data/routing.js, on pages that load it)
+  const placed = i => Object.entries(data("GW_ROUTING")?.portals?.[i] || {}).map(([to, at]) => ({ to: +to, at }));
+  for (const i of ids) for (const e of [...(LOCATIONS[i]?.exits || []), ...placed(i)]) if (e.at) {
+    const k = String(e.at);
+    if (!joins.has(k)) { joins.set(k, new Set()); portals.push(e.at); }
+    for (const n of [LOCATIONS[i]?.name, LOCATIONS[e.to]?.name]) if (n) joins.get(k).add(n);
+  }
   // each marker is also a link, for the keyboard and for clicks
   win.insertAdjacentHTML("beforeend", marks.map(m => `<a class="gmap-mark" href="${HREF.place(m.id)}" title="${esc(m.name)} · ${MARK_STYLE[m.kind][2]}" aria-label="${esc(m.name)}"></a>`).join(""));
   const links = [...win.querySelectorAll(".gmap-mark")];
@@ -272,6 +278,14 @@ async function initMap(fig) {
     show([x0 - dx * k, y0 - dy * k, x1 - dx * k, y1 - dy * k]);
   });
   window.addEventListener("pointerup", () => { grab = null; });
+  // a portal's name on hover: the places it joins
+  win.addEventListener("mousemove", e => {
+    const r = win.getBoundingClientRect(), k = (cur[2] - cur[0]) / r.width;
+    const x = cur[0] + (e.clientX - r.left) * k, y = cur[1] + (e.clientY - r.top) * k;
+    const p = portals.find(([px, py]) => Math.hypot(px - x, py - y) <= 9 * k);
+    const t = p ? `Portal: ${[...joins.get(String(p))].join(" ↔ ")}` : "";
+    if (win.title !== t) win.title = t;
+  });
 }
 function initMaps(root = document) {
   return Promise.all([...root.querySelectorAll(".gmap:not([data-ready])")].map(fig => { fig.dataset.ready = ""; return initMap(fig); }));
