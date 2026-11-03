@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>Map Editor</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .ex { max-width: 900px; padding-top: 8px; }
+
+  .ex p { margin: 6px 0; }
+  .ex h3 { font-size: 15px; margin: 26px 0 6px; }
+  .gsearch input {
+    width: 100%; background: var(--panel); color: var(--text); border: 1px solid var(--line);
+    border-radius: 8px; padding: 12px 14px; font: inherit; font-size: 16px;
+  }
+  .gsearch input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .hit {
+    display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 7px 10px 7px 12px; position: relative;
+    border-bottom: 1px solid var(--line); text-decoration: none; color: var(--text); cursor: pointer;
+  }
+  .hit::before { content: ""; position: absolute; left: 0; top: 5px; bottom: 5px; width: 3px; border-radius: 2px; background: var(--accent); }
+  .hit:hover, .hit.sel { background: var(--panel); }
+  .hit .t { font-weight: 600; }
+  .hit .s { color: var(--muted); font-size: 13px; }
+  .nick-step { display: flex; align-items: center; gap: 10px; margin: 14px 0 8px; }
+  .nick-step h3 { margin: 0; flex: 1; }
+  #dhits h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 12px 0 4px; }
+  #dmode { min-width: 220px; padding: 4px 6px; }
+  #dhelp { display: grid; }
+  #dhelp > span { grid-area: 1 / 1; }
+</style>
+</head>
+<body>
+<div class="wrap topbar">
+  <header class="top">
+    <nav class="pages"><a href="./">Home</a><a href="rotations">Rotations</a><a href="guides">Guides</a><a href="storylines">Storylines</a><a href="missions">Missions</a><a href="locations">Locations</a><a href="maps">Maps</a><a href="skills">Skills</a><a href="heroes">Heroes</a><a href="builds">Builds</a><a href="builder">Builder</a></nav>
+    <a class="hdr-link push" href="about">About</a>
+    <a class="hdr-link" href="thanks">Thanks</a>
+    <a class="hdr-link" href="contact">Contact</a>
+    <a class="hdr-link" href="license">License</a>
+  </header>
+</div>
+<div class="wrap ex">
+  <div class="page-title"><h1>Map Editor</h1><p>Our fixes to the walkable ground (walls, crossings), on any place's map or checked on Nicholas the Traveler's ways</p></div>
+
+  <div class="gsearch"><input type="search" id="dq" placeholder="Find a Nicholas week by item or place, or any place — e.g. black pearl, tangle root" autocomplete="off"></div>
+  <div id="dhits"></div>
+  <div class="nick-step"><button id="dprev" type="button">← Prev</button><h3 id="dtitle"></h3><button id="dnext" type="button">Next →</button></div>
+  <p class="draw-tools">
+    <select id="dmode"><option value="view">Nicholas's ways</option><option value="route">Route</option><option value="crossing">Crossing</option><option value="wall">Wall</option><option value="line">Line</option><option value="point">Point</option><option value="drop">Drop a fix</option></select>
+    <button id="ddone">Done</button> <button id="dundo">Undo</button> <span id="dstatus" class="dim"></span></p>
+  <p id="dhelp" class="dim"></p>
+  <div id="dbox"></div><div id="dways" class="nways"></div>
+  <textarea id="drawn" rows="4" readonly style="width:100%;font:13px ui-monospace,monospace" placeholder="What you draw shows here"></textarea>
+
+  <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="game/ground.js"></script>
+<script src="game/maps.js"></script>
+<script src="game/calendar.js"></script>
+<script src="common.js"></script>
+<script src="mapwidget.js"></script>
+<script src="walkroute.js"></script>
+<script src="nicholas.js"></script>
+<script>
+"use strict";
+// fixes to the walkable ground, drawn on an area's map (with its neighbours) or on a Nicholas week's: crossings and walls
+// (used when routing), lines and points (to say what's wrong), and the data's own fixes to drop; in map pixels
+{
+  const COLORS = { crossing: "#4fd1ff", wall: "#ff6b8b", line: "#ffb347", point: "#7ee08a" }, GREY = "#9aa0a6";
+  const N = NICK.entries.length, now = Rotation.period(NICK) % N;
+  const shapes = [];  // what's drawn: {kind, map, pts}, or {kind: "drop", map, what, data} for a fix of the data's taken off
+  let ni = null, mapId = null;  // the Nicholas week shown (its entry), or null for an area; the area
+  let shown = [], walks = [];   // the areas on the map, and their ground
+  let cur = null, view = null, ends = [], way = null, nick = null;  // nick: his ways there, from nickWays
+  const mode = () => $("dmode").value;
+  const dot = ([x, y], color) => ({ lines: [[[x - 0.5, y], [x + 0.5, y]]], color });
+  const pairs = l => l.reduce((ps, v, k) => (k % 2 ? ps : [...ps, [v, l[k + 1]]]), []);
+  const crossLines = ([cx, cy, r, ...e], color) => [
+    { lines: [Array.from({ length: 41 }, (_, k) => [cx + r * Math.cos(k * Math.PI / 20), cy + r * Math.sin(k * Math.PI / 20)])], color },
+    // each way through it: a line across the circle, between where its ends are taken out to
+    ...[0, 4].map(k => ({ lines: [[[e[k], e[k + 1]], [e[k + 2], e[k + 3]]].map(([x, y]) => { const d = Math.hypot(x - cx, y - cy) || 1; return [cx + (x - cx) / d * r, cy + (y - cy) / d * r]; })], color }))];
+  // a drawn crossing as data: [cx, cy, r, the four ends]
+  const crossData = d => [...d.pts[0], Math.round(Math.hypot(d.pts[1][0] - d.pts[0][0], d.pts[1][1] - d.pts[0][1])), ...d.pts.slice(2).flat()];
+  const NEED = { crossing: 6, wall: 2, line: 2, point: 1 };
+
+  // the data's fixes on the areas shown, less those dropped: [{map, what, data}]
+  const same = (a, b) => a.length === b.length && a.every((v, k) => v === b[k]);
+  const dropped = f => shapes.some(d => d.kind === "drop" && d.map === f.map && d.what === f.what && same(d.data, f.data));
+  const theirs = () => shown.flatMap((id, k) => [...(walks[k]?.cross || []).map(data => ({ map: id, what: "crossing", data })),
+    ...(walks[k]?.walls || []).map(data => ({ map: id, what: "wall", data }))]).filter(f => !dropped(f));
+  // the area under a point: the first shown whose ground has it; else the one picked
+  const cv = document.createElement("canvas").getContext("2d");
+  const areaAt = ([x, y]) => shown.find((id, k) => walks[k] && cv.isPointInPath(walkPath([{ rings: [...walks[k].rings, ...(walks[k].town || [])] }]), x, y));
+  const areaOf = pts => { const n = new Map(); for (const p of pts) { const a = areaAt(p); if (a != null) n.set(a, (n.get(a) || 0) + 1); }
+    return [...n].sort((a, b) => b[1] - a[1])[0]?.[0] ?? mapId; };
+
+  const show = () => {
+    if (view) {
+      view.ways = [
+        ...theirs().flatMap(f => (f.what === "crossing" ? crossLines(f.data, GREY) : [{ lines: [pairs(f.data)], color: GREY }])),
+        ...(mode() === "view" && nick?.ways || []).filter(w => w.pts).map(w => ({ lines: walkLines(w.pts), color: w.color })),
+        ...(way ? [{ lines: walkLines(way), color: "#fff" }] : []), ...ends.map(p => dot(p, "#4be06b")),
+        ...[...shapes, ...(cur ? [cur] : [])].filter(d => d.kind !== "drop").flatMap(d => {
+          if (d.kind === "crossing") return d.pts.length >= 6 ? crossLines(crossData(d), COLORS.crossing)
+            : [...(d.pts.length >= 2 ? [crossLines(crossData(d), COLORS.crossing)[0]] : []), ...d.pts.map(p => dot(p, COLORS.crossing))];
+          return d.pts.length > 1 && d.kind !== "point" ? [{ lines: [d.pts], color: COLORS[d.kind] }] : d.pts.map(p => dot(p, COLORS[d.kind]));
+        })];
+      view.draw();
+    }
+    let np = 0;
+    $("drawn").value = shapes.map(d => {
+      const at = `${LOCATIONS[d.map].name} (${d.map})`;
+      if (d.kind === "drop") return `drop ${d.what} ${at}: ${d.what === "crossing" ? `middle ${d.data[0]},${d.data[1]} radius ${d.data[2]}` : pairs(d.data).map(p => p.join(",")).join(" ")}`;
+      if (d.kind === "crossing") return (c => `crossing ${at}: middle ${c[0]},${c[1]} radius ${c[2]} ends ${d.pts.slice(2).map(p => p.join(",")).join(" ")}`)(crossData(d));
+      if (d.kind === "point") return `point ${++np} ${at}: ${d.pts[0].join(",")}`;
+      return `${d.kind} ${at}: ${d.pts.map(p => p.join(",")).join(" ")}`;
+    }).join("\n");
+  };
+
+  // the areas' grid with the fixes: the data's (less those dropped) and those drawn
+  const routeGrid = async ids => {
+    const ws = await Promise.all(ids.map(loadWalk)), keep = ws.map(w => w && [w.cross, w.walls]);
+    ws.forEach((w, k) => {
+      if (!w) return;
+      const mine = kind => shapes.filter(d => d.map === ids[k] && d.kind === kind);
+      w.cross = [...(w.cross || []).filter(data => !dropped({ map: ids[k], what: "crossing", data })), ...mine("crossing").map(crossData)];
+      w.walls = [...(w.walls || []).filter(data => !dropped({ map: ids[k], what: "wall", data })), ...mine("wall").map(d => d.pts.flat())];
+    });
+    try { return await walkGrid(ids); } finally { ws.forEach((w, k) => { if (w) [w.cross, w.walls] = keep[k]; }); }
+  };
+  const routeIds = () => (nick ? nick.ids : shown).filter(id => id === mapId || walkable(id));
+  const route = async at => {
+    if (ends.length === 2) ends = [];
+    ends.push(at); way = null;
+    if (ends.length === 1) { $("dstatus").textContent = "Now click where to go."; return show(); }
+    way = walkRoute(await routeGrid(routeIds()), ...ends);
+    $("dstatus").textContent = way ? `About ${Math.round(walkLength(way) * NICK_UNITS).toLocaleString()} game units.` : "No way between those two spots.";
+    show();
+  };
+  // a click near one of the data's fixes, in the drop mode: it's taken off
+  const drop = ([x, y]) => {
+    const near = (p, q, [px, py]) => { const dx = q[0] - p[0], dy = q[1] - p[1], t = Math.max(0, Math.min(1, ((px - p[0]) * dx + (py - p[1]) * dy) / (dx * dx + dy * dy || 1)));
+      return Math.hypot(p[0] + t * dx - px, p[1] + t * dy - py); };
+    const f = theirs().find(f => f.what === "crossing" ? Math.hypot(f.data[0] - x, f.data[1] - y) <= f.data[2] + 4
+      : pairs(f.data).some((p, k, ps) => k && near(ps[k - 1], p, [x, y]) <= 6));
+    if (!f) return;
+    shapes.push({ kind: "drop", ...f });
+    rewalk();
+  };
+
+  // his ways there again, with the fixes
+  const entry = () => (ni != null && NICK.entries[ni].at ? NICK.entries[ni] : null);
+  const rewalk = async () => {
+    const e = entry();
+    if (e) { nick = await nickWays(e, routeGrid); $("dways").innerHTML = nickLegend(nick.ways); }
+    show();
+  };
+  const finish = () => {
+    const d = cur && cur.pts.length >= NEED[cur.kind] ? cur : null;
+    if (d) { d.map = areaOf(d.kind === "crossing" ? d.pts.slice(0, 1) : d.pts); shapes.push(d); }
+    cur = null;
+    if (d && (d.kind === "crossing" || d.kind === "wall")) rewalk(); else show();  // (lines and points don't change a way)
+  };
+  let loads = 0;  // a newer pick meanwhile: this one stops
+  const load = async () => {
+    finish();
+    const e = entry(), k = ++loads;
+    nick = null; view = null;
+    const ways = e ? await nickWays(e, routeGrid) : null;
+    if (k !== loads) return;
+    nick = ways;
+    // an area: it and its neighbours on its map
+    shown = nick ? [...nick.lit] : [mapId, ...(LOCATIONS[mapId]?.exits || []).map(x => x.to).filter(i => WALK_SET.get(i) === WALK_SET.get(mapId))];
+    shown = [...new Set(shown)];
+    walks = await Promise.all(shown.map(loadWalk));
+    if (k !== loads) return;
+    $("dbox").innerHTML = mapHTML(shown, { height: 560, town: nick?.here, spots: e && [{ x: e.at[0], y: e.at[1], name: "Nicholas the Traveler" }] });
+    $("dways").innerHTML = nick ? nickLegend(nick.ways) : "";
+    await initMaps($("dbox"));
+    if (k !== loads) return;
+    view = $("dbox").querySelector(".gmap").mapView;
+    const win = view.win;
+    win.style.cursor = "crosshair";
+    win.addEventListener("click", ev => {
+      ev.preventDefault();
+      if (view.dragged) return;
+      const r = win.getBoundingClientRect(), [x0, y0, x1, y1] = view.box;
+      const at = [Math.round(x0 + (ev.clientX - r.left) / r.width * (x1 - x0)), Math.round(y0 + (ev.clientY - r.top) / r.height * (y1 - y0))];
+      if (mode() === "view") return;
+      if (mode() === "route") return route(at);
+      if (mode() === "drop") return drop(at);
+      if (!cur) cur = { kind: mode(), pts: [] };
+      cur.pts.push(at);
+      if (cur.pts.length === { crossing: 6, point: 1 }[cur.kind]) finish(); else show();
+    }, true);
+    show();
+  };
+
+  // what's shown: a Nicholas week (with Prev and Next) or an area; its title and address
+  const fmtWeek = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" });
+  const when = i => Rotation.startsAt(NICK, Rotation.period(NICK) + ((i - now + N) % N));
+  const pick = (week, place) => {
+    ni = week == null ? null : (week + N) % N;
+    mapId = ni == null ? place : NICK.entries[ni].location;
+    ends = []; way = null; $("dstatus").textContent = "";
+    const e = ni == null ? null : NICK.entries[ni];
+    $("dtitle").innerHTML = e ? `${fmtWeek.format(when(ni))}: ${e.count} × ${esc(e.item)} <span class="dim">· ${LINK.place(e.location)}</span>` : LINK.place(mapId);
+    for (const b of [$("dprev"), $("dnext")]) b.style.visibility = e ? "" : "hidden";
+    $("dmode").querySelector('[value="view"]').hidden = !e;
+    if (!e && mode() === "view") $("dmode").value = "route";
+    if (e && !shapes.length && !cur) $("dmode").value = "view";
+    help();
+    history.replaceState(null, "", e ? "?nick=" + ni : "?place=" + mapId);
+    load();
+  };
+  $("dprev").onclick = () => pick(ni - 1);
+  $("dnext").onclick = () => pick(ni + 1);
+
+  // the search: his weeks by item or area (from this week on), and every area with walkable ground
+  const PLACES = [...WALK_SET.keys()].filter(id => LOCATIONS[id]).sort((a, b) => cmpStr(LOCATIONS[a].name, LOCATIONS[b].name));
+  let hits = [], sel = 0;
+  const showHits = () => {
+    const ts = fold($("dq").value).split(/\s+/).filter(Boolean), has = k => ts.every(t => fold(k).includes(t));
+    const weeks = !ts.length ? [] : Array.from({ length: N }, (_, d) => (now + d) % N)
+      .filter(i => { const e = NICK.entries[i]; return has(`${e.item} ${LOCATIONS[e.location]?.name}`); }).slice(0, 8);
+    // places starting with the first word first, then those with a word starting with it (as the home page's search)
+    const rank = id => { const k = fold(LOCATIONS[id].name); return k.startsWith(ts[0]) ? 0 : k.includes(" " + ts[0]) ? 1 : 2; };
+    const places = !ts.length ? [] : PLACES.filter(id => has(LOCATIONS[id].name)).sort((a, b) => rank(a) - rank(b)).slice(0, 8);
+    hits = [...weeks.map(i => ["nick", i]), ...places.map(id => ["place", id])];
+    sel = Math.min(sel, Math.max(0, hits.length - 1));
+    const hit = (k, html) => `<a class="hit${k === sel ? " sel" : ""}" data-k="${k}">${html}</a>`;
+    $("dhits").innerHTML = (weeks.length ? `<h4>Nicholas's weeks</h4>` : "") + weeks.map((i, k) => { const e = NICK.entries[i];
+      return hit(k, `<span><span class="t">${e.count} × ${highlight(e.item, ts)}</span> <span class="s">${highlight(LOCATIONS[e.location].name, ts)}</span></span><span class="s">${fmtWeek.format(when(i))}</span>`); }).join("")
+      + (places.length ? `<h4>Places</h4>` : "") + places.map((id, k) => hit(weeks.length + k, `<span class="t">${highlight(LOCATIONS[id].name, ts)}</span><span class="s">${esc(TYPE_LABEL[LOCATIONS[id].type] || "")}</span>`)).join("")
+      || (ts.length ? '<p class="dim">Nothing found.</p>' : "");
+  };
+  const choose = k => { const [kind, v] = hits[k]; $("dq").value = ""; showHits(); kind === "nick" ? pick(v) : pick(null, v); };
+  $("dq").addEventListener("input", () => { sel = 0; showHits(); });
+  $("dq").addEventListener("keydown", e => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); sel = Math.max(0, Math.min(hits.length - 1, sel + (e.key === "ArrowDown" ? 1 : -1))); showHits(); }
+    else if (e.key === "Enter" && hits.length) choose(sel);
+  });
+  $("dhits").addEventListener("click", e => { const a = e.target.closest(".hit"); if (a) choose(+a.dataset.k); });
+  searchKeys($("dq"), showHits);
+
+  // what to do in the picked mode
+  const HELP = {
+    view: "His ways there from the outposts, worked out again with the fixes. Shift+wheel zooms; drag to move about.",
+    route: "Click where you are, then where to go: the way there, with the fixes so far.",
+    crossing: "A bridge over a path. Click its middle, then out to where the circle around it should end, with the whole junction inside. Then click toward the two ends of one way through it, and the two ends of the other: a way that comes in along one goes out along the same one.",
+    wall: "Click along a line the ground can't be walked across, then press Done.",
+    line: "Click along a line, then press Done, and say what it's about (ground to add or take off, say).",
+    point: "Click to place a point; they're numbered in the box below, to say what they're about.",
+    drop: "Click one of the data's crossings or walls (in grey) to take it off.",
+  };
+  // all the modes' texts in one cell, the picked one shown: the box keeps the longest's height, so the map stays put
+  $("dhelp").innerHTML = Object.entries(HELP).map(([k, t]) => `<span data-k="${k}">${esc(t + (k === "view" || k === "route" ? "" : " The box below collects it to paste back."))}</span>`).join("");
+  function help() {
+    $("dways").style.display = mode() === "view" ? "" : "none";
+    for (const x of $("dhelp").children) x.style.visibility = x.dataset.k === mode() ? "" : "hidden";
+  }
+  $("dmode").onchange = () => { finish(); help(); };  // (finish draws again: his ways only in their own mode)
+  $("ddone").onclick = finish;
+  $("dundo").onclick = () => {
+    if (cur?.pts.length) { cur.pts.pop(); return show(); }
+    const d = shapes.pop();
+    if (!d) return;
+    if (d.kind !== "drop") { cur = d; cur.pts.pop(); }
+    rewalk();
+  };
+  const q = new URLSearchParams(location.search);
+  q.has("place") && LOCATIONS[+q.get("place")] ? pick(null, +q.get("place")) : pick(+(q.get("nick") ?? now) % N || 0);
+}
+</script>
+</body>
+</html>
