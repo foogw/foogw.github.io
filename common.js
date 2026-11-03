@@ -261,7 +261,8 @@ function entryHTML(e) {
   if (e.location && !e.creature && !e.item) return LINK.place(e.location);
   if (e.bonus) return `<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`;
   if (e.quest) return LINK.quest(e.quest);
-  if (e.item) return `${e.count} × ${e.map ? `<a href="${esc(wikiHref(e.map, true).href)}" target="_blank" rel="noopener">${esc(e.item)}</a>` : esc(e.item)}`;
+  // Nicholas the Traveler's item: his map that week, at the foot of the Rotations page
+  if (e.item) return `${e.count} × ${e.at ? `<a href="rotations${query({ nick: ROTATIONS["nicholas-traveler"].entries.indexOf(e) })}">${esc(e.item)}</a>` : esc(e.item)}`;
   return esc(entryName(e));
 }
 // where an entry takes you: a bounty's place, then the region and campaign

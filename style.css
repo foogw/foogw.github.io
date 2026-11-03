@@ -1062,3 +1062,7 @@ a.hchip { text-decoration: none; }
 .dev-pts { display: flex; gap: 8px; align-items: flex-start; margin: 8px 0; }
 .dev-pts textarea { flex: 1; font: 12px ui-monospace, monospace; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 6px; }
 .dev-pts button { font: inherit; font-size: 12px; padding: 4px 8px; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; }
+
+/* Nicholas the Traveler's map (nicholas.js): each way's colour and length under it */
+.nways { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; margin: 8px 0; }
+.nways span::before { content: ""; display: inline-block; width: 18px; height: 4px; border-radius: 2px; background: var(--c); margin-right: 6px; vertical-align: middle; }

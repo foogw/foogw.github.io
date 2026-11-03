@@ -153,7 +153,21 @@ function show() {
   document.title = "GW Rotations";
   $find.value = p.get("q") || "";
   render();
+  // his map: this week's, or the week of an item clicked (?nick=<entry>), scrolled to
+  const i = p.has("nick") && NICK.entries[p.get("nick")] ? +p.get("nick") : Rotation.period(NICK) % NICK.entries.length;
+  if (+$("nick").dataset.nick !== i || !$("nick").firstChild) {
+    const e = NICK.entries[i];
+    $("nick-what").textContent = `· ${e.count} × ${e.item}, ${locName(e.location)}`;
+    nickMap($("nick"), i);
+  }
+  // (on arriving, after the search box's autofocus has had its say)
+  if (p.has("nick") && scrollNick) $("nickbox").scrollIntoView({ behavior: "smooth" });
+  if (p.has("nick") && first) setTimeout(() => $("nickbox").scrollIntoView(), 100);
+  scrollNick = first = false;
 }
+// the map is scrolled to for an item clicked in the Now list (or on arriving from another page's), not in the tables
+let scrollNick = false, first = true;
+document.addEventListener("click", e => { scrollNick = !!e.target.closest('#now a[href*="nick="]'); }, true);
 
 $find.addEventListener("input", () => {
   history.replaceState(null, "", $find.value ? "?q=" + encodeURIComponent($find.value) : location.pathname);

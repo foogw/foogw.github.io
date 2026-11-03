@@ -1,5 +1,5 @@
 const GW_CALENDAR = {
-  "rotations_": "Repeating cycles: entry i is active from start + i * period (seconds). Entries point to missions, locations, creatures, quests or bonuses. map (Nicholas the Traveler): the picture of where he stands, a file on each wiki, {en, de}.",
+  "rotations_": "Repeating cycles: entry i is active from start + i * period (seconds). Entries point to missions, locations, creatures, quests or bonuses. Nicholas the Traveler's: at: where he stands, on his location's map; from: the outposts to walk to him from, nearest first.",
   "rotations": [
     {
       "key": "zaishen-mission",
@@ -444,1212 +444,143 @@ const GW_CALENDAR = {
       "start": 1240239600,
       "period": 604800,
       "entries": [
-        {
-          "item": "Red Iris Flower",
-          "count": 3,
-          "location": 101,
-          "map": {
-            "en": "Nicholas the Traveler Regent Valley map.jpg",
-            "de": "Nicholas der Reisende Karte Regentental.jpg"
-          }
-        },
-        {
-          "item": "Feathered Avicara Scalp",
-          "count": 3,
-          "location": 96,
-          "map": {
-            "en": "Nicholas the Traveler Mineral Springs map.jpg",
-            "de": "Nicholas der Reisende Karte Mineralquellen.jpg"
-          }
-        },
-        {
-          "item": "Margonite Mask",
-          "count": 2,
-          "location": 443,
-          "map": {
-            "en": "Nicholas the Traveler Poisoned Outcrops map.jpg",
-            "de": "Nicholas der Reisende Karte Giftige Auswüchse.jpg"
-          }
-        },
-        {
-          "item": "Quetzal Crest",
-          "count": 2,
-          "location": 572,
-          "map": {
-            "en": "Nicholas the Traveler Alcazia Tangle map.jpg",
-            "de": "Nicholas der Reisende Karte Alcazia-Dickicht.jpg"
-          }
-        },
-        {
-          "item": "Plague Idol",
-          "count": 3,
-          "location": 239,
-          "map": {
-            "en": "Nicholas the Traveler Wajjun Bazaar map.jpg",
-            "de": "Nicholas der Reisende Karte Wajjun-Basar.jpg"
-          }
-        },
-        {
-          "item": "Azure Remains",
-          "count": 2,
-          "location": 97,
-          "map": {
-            "en": "Nicholas the Traveler Dreadnought's Drift map.jpg",
-            "de": "Nicholas der Reisende Karte Schreckensdrift.jpg"
-          }
-        },
-        {
-          "item": "Mandragor Root Cake",
-          "count": 1,
-          "location": 380,
-          "map": {
-            "en": "Nicholas the Traveler Arkjok Ward map.jpg",
-            "de": "Nicholas der Reisende Karte Arkjok-Bastei.jpg"
-          }
-        },
-        {
-          "item": "Mahgo Claw",
-          "count": 1,
-          "location": 121,
-          "map": {
-            "en": "Nicholas the Traveler Perdition Rock map.jpg",
-            "de": "Nicholas der Reisende Karte Fels der Verdammnis.jpg"
-          }
-        },
-        {
-          "item": "Mantid Pincer",
-          "count": 5,
-          "location": 313,
-          "map": {
-            "en": "Nicholas the Traveler Saoshang Trail map.jpg",
-            "de": "Nicholas der Reisende Karte Saoshangweg.jpg"
-          }
-        },
-        {
-          "item": "Sentient Seed",
-          "count": 3,
-          "location": 481,
-          "map": {
-            "en": "Nicholas the Traveler Fahranur, The First City map.jpg",
-            "de": "Nicholas der Reisende Karte Fahranur, die Erste Stadt.jpg"
-          }
-        },
-        {
-          "item": "Stone Grawl Necklace",
-          "count": 2,
-          "location": 651,
-          "map": {
-            "en": "Nicholas the Traveler Sacnoth Valley map.jpg",
-            "de": "Nicholas der Reisende Karte Sacnoth-Tal.jpg"
-          }
-        },
-        {
-          "item": "Herring",
-          "count": 1,
-          "location": 61,
-          "map": {
-            "en": "Nicholas the Traveler Twin Serpent Lakes map.jpg",
-            "de": "Nicholas der Reisende Karte Zwillingsschlangenseen.jpg"
-          }
-        },
-        {
-          "item": "Naga Skin",
-          "count": 3,
-          "location": 200,
-          "map": {"en": "Nicholas the Traveler Mount Qinkai map.jpg", "de": "Nicholas der Reisende Karte Qinkai.jpg"}
-        },
-        {
-          "item": "Gloom Seed",
-          "count": 1,
-          "location": 46,
-          "map": {
-            "en": "Nicholas the Traveler The Falls map.jpg",
-            "de": "Nicholas der Reisende Karte Die Wasserfälle.jpg"
-          }
-        },
-        {
-          "item": "Charr Hide",
-          "count": 1,
-          "location": 102,
-          "map": {
-            "en": "Nicholas the Traveler The Breach map.jpg",
-            "de": "Nicholas der Reisende Karte Die Bresche.jpg"
-          }
-        },
-        {
-          "item": "Ruby Djinn Essence",
-          "count": 1,
-          "location": 446,
-          "map": {
-            "en": "Nicholas the Traveler The Alkali Pan map.jpg",
-            "de": "Nicholas der Reisende Karte Das Alkalibecken.jpg"
-          }
-        },
-        {
-          "item": "Thorny Carapace",
-          "count": 2,
-          "location": 60,
-          "map": {
-            "en": "Nicholas the Traveler Majesty's Rest map.jpg",
-            "de": "Nicholas der Reisende Karte Königsruh.jpg"
-          }
-        },
-        {
-          "item": "Bone Charm (trophy)",
-          "count": 3,
-          "location": 202,
-          "map": {
-            "en": "Nicholas the Traveler Rhea's Crater map.jpg",
-            "de": "Nicholas der Reisende Karte Rheas Krater.jpg"
-          }
-        },
-        {
-          "item": "Modniir Mane",
-          "count": 3,
-          "location": 553,
-          "map": {
-            "en": "Nicholas the Traveler Varajar Fells map.jpg",
-            "de": "Nicholas der Reisende Karte Varajar-Moor.jpg"
-          }
-        },
-        {
-          "item": "Superb Charr Carving",
-          "count": 3,
-          "location": 647,
-          "map": {
-            "en": "Nicholas the Traveler Dalada Uplands map.jpg",
-            "de": "Nicholas der Reisende Karte Dalada-Hochlande.jpg"
-          }
-        },
-        {
-          "item": "Roll of Parchment",
-          "count": 5,
-          "location": 246,
-          "map": {
-            "en": "Nicholas the Traveler Zen Daijun (explorable area) map.jpg",
-            "de": "Nicholas der Reisende Karte Zen Daijun (Erforschbar).jpg"
-          }
-        },
-        {
-          "item": "Roaring Ether Claw",
-          "count": 2,
-          "location": 394,
-          "map": {
-            "en": "Nicholas the Traveler Garden of Seborhin map.jpg",
-            "de": "Nicholas der Reisende Karte Seborhin-Garten.jpg"
-          }
-        },
-        {
-          "item": "Branch of Juni Berries",
-          "count": 3,
-          "location": 240,
-          "map": {
-            "en": "Nicholas the Traveler Bukdek Byway map.jpg",
-            "de": "Nicholas der Reisende Karte Bukdek-Seitenweg.jpg"
-          }
-        },
-        {
-          "item": "Shiverpeak Mane",
-          "count": 3,
-          "location": 100,
-          "map": {
-            "en": "Nicholas the Traveler Deldrimor Bowl map.jpg",
-            "de": "Nicholas der Reisende Karte Deldrimor-Becken.jpg"
-          }
-        },
-        {
-          "item": "Fetid Carapace",
-          "count": 3,
-          "location": 107,
-          "map": {
-            "en": "Nicholas the Traveler Eastern Frontier map.jpg",
-            "de": "Nicholas der Reisende Karte Ostgrenze.jpg"
-          }
-        },
-        {
-          "item": "Moon Shell",
-          "count": 2,
-          "location": 144,
-          "map": {
-            "en": "Nicholas the Traveler Gyala Hatchery (explorable area) map.jpg",
-            "de": "Nicholas der Reisende Karte Gyala-Brutstätte (Erforschbar).jpg"
-          }
-        },
-        {
-          "item": "Gargantuan Jawbone",
-          "count": 1,
-          "location": 112,
-          "map": {
-            "en": "Nicholas the Traveler The Arid Sea map.jpg",
-            "de": "Nicholas der Reisende Karte Das Trockene Meer.jpg"
-          }
-        },
-        {
-          "item": "Chromatic Scale",
-          "count": 1,
-          "location": 499,
-          "map": {
-            "en": "Nicholas the Traveler Ice Cliff Chasms map.jpg",
-            "de": "Nicholas der Reisende Karte Eisklippen-Abgründe.jpg"
-          }
-        },
-        {
-          "item": "Mursaat Token",
-          "count": 3,
-          "location": 94,
-          "map": {"en": "Nicholas the Traveler Ice Floe map.jpg", "de": "Nicholas der Reisende Karte Eisscholle.jpg"}
-        },
-        {
-          "item": "Sentient Lodestone",
-          "count": 1,
-          "location": 377,
-          "map": {
-            "en": "Nicholas the Traveler Bahdok Caverns map.jpg",
-            "de": "Nicholas der Reisende Karte Bahdok-Höhlen.jpg"
-          }
-        },
-        {
-          "item": "Jungle Troll Tusk",
-          "count": 3,
-          "location": 48,
-          "map": {
-            "en": "Nicholas the Traveler Tangle Root map.jpg",
-            "de": "Nicholas der Reisende Karte Wildwurzel.jpg"
-          }
-        },
-        {
-          "item": "Sapphire Djinn Essence",
-          "count": 1,
-          "location": 402,
-          "map": {
-            "en": "Nicholas the Traveler Resplendent Makuun map.jpg",
-            "de": "Nicholas der Reisende Karte Makuun die Leuchtende.jpg"
-          }
-        },
-        {
-          "item": "Stone Carving",
-          "count": 1,
-          "location": 244,
-          "map": {
-            "en": "Nicholas the Traveler Arborstone (explorable area) map.jpg",
-            "de": "Nicholas der Reisende Karte Arborstein (Erforschbar).jpg"
-          }
-        },
-        {
-          "item": "Feathered Caromi Scalp",
-          "count": 3,
-          "location": 58,
-          "map": {
-            "en": "Nicholas the Traveler North Kryta Province map.jpg",
-            "de": "Nicholas der Reisende Karte Provinz Nordkryta.jpg"
-          }
-        },
-        {
-          "item": "Pillaged Goods",
-          "count": 1,
-          "location": 395,
-          "map": {
-            "en": "Nicholas the Traveler Holdings of Chokhin map.jpg",
-            "de": "Nicholas der Reisende Karte Güter von Chokhin.jpg"
-          }
-        },
-        {
-          "item": "Gold Crimson Skull Coin",
-          "count": 1,
-          "location": 237,
-          "map": {
-            "en": "Nicholas the Traveler Haiju Lagoon map.jpg",
-            "de": "Nicholas der Reisende Karte Haiju-Lagune.jpg"
-          }
-        },
-        {
-          "item": "Jade Bracelet",
-          "count": 3,
-          "location": 269,
-          "map": {
-            "en": "Nicholas the Traveler Tahnnakai Temple (explorable area) map.jpg",
-            "de": "Nicholas der Reisende Karte Tahnnakai-Tempel (Erforschbar).jpg"
-          }
-        },
-        {
-          "item": "Minotaur Horn",
-          "count": 2,
-          "location": 113,
-          "map": {
-            "en": "Nicholas the Traveler Prophet's Path map.jpg",
-            "de": "Nicholas der Reisende Karte Pfad des Propheten.jpg"
-          }
-        },
-        {
-          "item": "Frosted Griffon Wing",
-          "count": 2,
-          "location": 91,
-          "map": {
-            "en": "Nicholas the Traveler Snake Dance map.jpg",
-            "de": "Nicholas der Reisende Karte Schlangentanz.jpg"
-          }
-        },
-        {
-          "item": "Silver Bullion Coin",
-          "count": 2,
-          "location": 488,
-          "map": {
-            "en": "Nicholas the Traveler Mehtani Keys map.jpg",
-            "de": "Nicholas der Reisende Karte Mehtani-Archipel.jpg"
-          }
-        },
-        {
-          "item": "Truffle",
-          "count": 1,
-          "location": 205,
-          "map": {
-            "en": "Nicholas the Traveler Morostav Trail map.jpg",
-            "de": "Nicholas der Reisende Karte Morostovweg.jpg"
-          }
-        },
-        {
-          "item": "Skelk Claw",
-          "count": 3,
-          "location": 566,
-          "map": {
-            "en": "Nicholas the Traveler Verdant Cascades map.jpg",
-            "de": "Nicholas der Reisende Karte Grüne Kaskaden.jpg"
-          }
-        },
-        {
-          "item": "Dessicated Hydra Claw",
-          "count": 2,
-          "location": 108,
-          "map": {"en": "Nicholas the Traveler The Scar map.jpg", "de": "Nicholas der Reisende Karte Die Narbe.jpg"}
-        },
-        {
-          "item": "Frigid Heart",
-          "count": 3,
-          "location": 93,
-          "map": {
-            "en": "Nicholas the Traveler Spearhead Peak map.jpg",
-            "de": "Nicholas der Reisende Karte Speerspitzengipfel.jpg"
-          }
-        },
-        {
-          "item": "Celestial Essence",
-          "count": 3,
-          "location": 265,
-          "map": {
-            "en": "Nicholas the Traveler Nahpui Quarter (explorable area) map.jpg",
-            "de": "Nicholas der Reisende Karte Nahpuiviertel (Erforschbar).jpg"
-          }
-        },
-        {
-          "item": "Phantom Residue",
-          "count": 1,
-          "location": 90,
-          "map": {
-            "en": "Nicholas the Traveler Lornar's Pass map.jpg",
-            "de": "Nicholas der Reisende Karte Lornarpass.jpg"
-          }
-        },
-        {
-          "item": "Drake Kabob",
-          "count": 1,
-          "location": 486,
-          "map": {
-            "en": "Nicholas the Traveler Issnur Isles map.jpg",
-            "de": "Nicholas der Reisende Karte Issnur-Inseln.jpg"
-          }
-        },
-        {
-          "item": "Amber Chunk",
-          "count": 3,
-          "location": 210,
-          "map": {"en": "Nicholas the Traveler Ferndale map.jpg", "de": "Nicholas der Reisende Karte Farntal.jpg"}
-        },
-        {
-          "item": "Glowing Heart",
-          "count": 2,
-          "location": 63,
-          "map": {
-            "en": "Nicholas the Traveler Stingray Strand map.jpg",
-            "de": "Nicholas der Reisende Karte Stachelrochenstrand.jpg"
-          }
-        },
-        {
-          "item": "Saurian Bone",
-          "count": 5,
-          "location": 501,
-          "map": {
-            "en": "Nicholas the Traveler Riven Earth map.jpg",
-            "de": "Nicholas der Reisende Karte Zerrissene Erde.jpg"
-          }
-        },
-        {
-          "item": "Behemoth Hide",
-          "count": 2,
-          "location": 404,
-          "map": {
-            "en": "Nicholas the Traveler Wilderness of Bahdza map.jpg",
-            "de": "Nicholas der Reisende Karte Wildnis von Bahdza.jpg"
-          }
-        },
-        {
-          "item": "Luminous Stone",
-          "count": 1,
-          "location": 448,
-          "map": {
-            "en": "Nicholas the Traveler Crystal Overlook map.jpg",
-            "de": "Nicholas der Reisende Karte Kristallspitze.jpg"
-          }
-        },
-        {
-          "item": "Intricate Grawl Necklace",
-          "count": 3,
-          "location": 95,
-          "map": {
-            "en": "Nicholas the Traveler Witman's Folly map.jpg",
-            "de": "Nicholas der Reisende Karte Witmans Torheit.jpg"
-          }
-        },
-        {
-          "item": "Jadeite Shard",
-          "count": 3,
-          "location": 232,
-          "map": {
-            "en": "Nicholas the Traveler Shadow's Passage map.jpg",
-            "de": "Nicholas der Reisende Karte Schattenpassage.jpg"
-          }
-        },
-        {
-          "item": "Gold Doubloon",
-          "count": 1,
-          "location": 375,
-          "map": {
-            "en": "Nicholas the Traveler Barbarous Shore map.jpg",
-            "de": "Nicholas der Reisende Karte Barbarenküste.jpg"
-          }
-        },
-        {
-          "item": "Shriveled Eye",
-          "count": 2,
-          "location": 115,
-          "map": {
-            "en": "Nicholas the Traveler Skyward Reach map.jpg",
-            "de": "Nicholas der Reisende Karte Himmelsspitze.jpg"
-          }
-        },
-        {
-          "item": "Icy Lodestone",
-          "count": 2,
-          "location": 87,
-          "map": {"en": "Nicholas the Traveler Icedome map.jpg", "de": "Nicholas der Reisende Karte Eisdom.jpg"}
-        },
-        {
-          "item": "Keen Oni Talon",
-          "count": 1,
-          "location": 203,
-          "map": {
-            "en": "Nicholas the Traveler Silent Surf map.jpg",
-            "de": "Nicholas der Reisende Karte Stumme Brandung.jpg"
-          }
-        },
-        {
-          "item": "Hardened Hump",
-          "count": 2,
-          "location": 59,
-          "map": {
-            "en": "Nicholas the Traveler Nebo Terrace map.jpg",
-            "de": "Nicholas der Reisende Karte Nebo-Terrasse.jpg"
-          }
-        },
-        {
-          "item": "Pile of Elemental Dust",
-          "count": 2,
-          "location": 513,
-          "map": {
-            "en": "Nicholas the Traveler Drakkar Lake map.jpg",
-            "de": "Nicholas der Reisende Karte Drakkar-See.jpg"
-          }
-        },
-        {
-          "item": "Naga Hide",
-          "count": 3,
-          "location": 235,
-          "map": {
-            "en": "Nicholas the Traveler Panjiang Peninsula map.jpg",
-            "de": "Nicholas der Reisende Karte Panjiang-Halbinsel.jpg"
-          }
-        },
-        {
-          "item": "Spiritwood Plank",
-          "count": 3,
-          "location": 27,
-          "map": {
-            "en": "Nicholas the Traveler Griffon's Mouth map.jpg",
-            "de": "Nicholas der Reisende Karte Greifenmaul.jpg"
-          }
-        },
-        {
-          "item": "Stormy Eye",
-          "count": 1,
-          "location": 104,
-          "map": {
-            "en": "Nicholas the Traveler Pockmark Flats map.jpg",
-            "de": "Nicholas der Reisende Karte Pockennarbenebene.jpg"
-          }
-        },
-        {
-          "item": "Skree Wing",
-          "count": 3,
-          "location": 399,
-          "map": {
-            "en": "Nicholas the Traveler Forum Highlands map.jpg",
-            "de": "Nicholas der Reisende Karte Forum-Hochland.jpg"
-          }
-        },
-        {
-          "item": "Soul Stone",
-          "count": 3,
-          "location": 233,
-          "map": {
-            "en": "Nicholas the Traveler Raisu Palace (explorable area) map.jpg",
-            "de": "Nicholas der Reisende Karte Raisu-Palast (Erforschbar).jpg"
-          }
-        },
-        {
-          "item": "Spiked Crest",
-          "count": 1,
-          "location": 53,
-          "map": {
-            "en": "Nicholas the Traveler Tears of the Fallen map.jpg",
-            "de": "Nicholas der Reisende Karte Tränen der Gefallenen.jpg"
-          }
-        },
-        {
-          "item": "Dragon Root",
-          "count": 1,
-          "location": 195,
-          "map": {"en": "Nicholas the Traveler Drazach Thicket map.jpg", "de": "Wilbur Karte.jpg"}
-        },
-        {
-          "item": "Berserker Horn",
-          "count": 3,
-          "location": 546,
-          "map": {
-            "en": "Nicholas the Traveler Jaga Moraine map.jpg",
-            "de": "Nicholas der Reisende Karte Jaga-Moräne.jpg"
-          }
-        },
-        {
-          "item": "Behemoth Jaw",
-          "count": 1,
-          "location": 42,
-          "map": {
-            "en": "Nicholas the Traveler Mamnoon Lagoon map.jpg",
-            "de": "Nicholas der Reisende Karte Mamnoon-Lagune.jpg"
-          }
-        },
-        {
-          "item": "Bowl of Skalefin Soup",
-          "count": 1,
-          "location": 483,
-          "map": {
-            "en": "Nicholas the Traveler Zehlon Reach map.jpg",
-            "de": "Nicholas der Reisende Karte Zehlon-Bucht.jpg"
-          }
-        },
-        {
-          "item": "Forest Minotaur Horn",
-          "count": 2,
-          "location": 64,
-          "map": {
-            "en": "Nicholas the Traveler Kessex Peak map.jpg",
-            "de": "Nicholas der Reisende Karte Kessex-Gipfel.jpg"
-          }
-        },
-        {
-          "item": "Putrid Cyst",
-          "count": 3,
-          "location": 256,
-          "map": {
-            "en": "Nicholas the Traveler Sunjiang District (explorable area) map.jpg",
-            "de": "Nicholas der Reisende Karte Sunjiang-Bezirk (Erforschbar).jpg"
-          }
-        },
-        {
-          "item": "Jade Mandible",
-          "count": 2,
-          "location": 114,
-          "map": {
-            "en": "Nicholas the Traveler Salt Flats map.jpg",
-            "de": "Nicholas der Reisende Karte Salzebenen.jpg"
-          }
-        },
-        {
-          "item": "Maguuma Mane",
-          "count": 2,
-          "location": 43,
-          "map": {
-            "en": "Nicholas the Traveler Silverwood map.jpg",
-            "de": "Nicholas der Reisende Karte Silberholz.jpg"
-          }
-        },
-        {
-          "item": "Skull Juju",
-          "count": 1,
-          "location": 128,
-          "map": {
-            "en": "Nicholas the Traveler The Eternal Grove (explorable area) map.jpg",
-            "de": "Nicholas der Reisende Karte Der Ewige Hain (Erforschbar).jpg"
-          }
-        },
-        {
-          "item": "Mandragor Swamproot",
-          "count": 3,
-          "location": 484,
-          "map": {
-            "en": "Nicholas the Traveler Lahtenda Bog map.jpg",
-            "de": "Nicholas der Reisende Karte Lahtenda-Sumpf.jpg"
-          }
-        },
-        {
-          "item": "Bottle of Vabbian Wine",
-          "count": 1,
-          "location": 406,
-          "map": {
-            "en": "Nicholas the Traveler Vehtendi Valley map.jpg",
-            "de": "Nicholas der Reisende Karte Vehtendi-Tal.jpg"
-          }
-        },
-        {
-          "item": "Weaver Leg",
-          "count": 2,
-          "location": 569,
-          "map": {
-            "en": "Nicholas the Traveler Magus Stones map.jpg",
-            "de": "Nicholas der Reisende Karte Magussteine.jpg"
-          }
-        },
-        {
-          "item": "Topaz Crest",
-          "count": 1,
-          "location": 110,
-          "map": {
-            "en": "Nicholas the Traveler Diviner's Ascent map.jpg",
-            "de": "Nicholas der Reisende Karte Wahrsagerhöhe.jpg"
-          }
-        },
-        {
-          "item": "Rot Wallow Tusk",
-          "count": 2,
-          "location": 211,
-          "map": {
-            "en": "Nicholas the Traveler Pongmei Valley map.jpg",
-            "de": "Nicholas der Reisende Karte Pongmei-Tal.jpg"
-          }
-        },
-        {
-          "item": "Frostfire Fang",
-          "count": 2,
-          "location": 89,
-          "map": {
-            "en": "Nicholas the Traveler Anvil Rock map.jpg",
-            "de": "Nicholas der Reisende Karte Ambossstein.jpg"
-          }
-        },
-        {
-          "item": "Demonic Relic",
-          "count": 1,
-          "location": 439,
-          "map": {
-            "en": "Nicholas the Traveler The Ruptured Heart map.jpg",
-            "de": "Nicholas der Reisende Karte Das Zerrissene Herz.jpg"
-          }
-        },
-        {
-          "item": "Abnormal Seed",
-          "count": 2,
-          "location": 17,
-          "map": {
-            "en": "Nicholas the Traveler Talmark Wilderness map.jpg",
-            "de": "Nicholas der Reisende Karte Talmark-Wildnis.jpg"
-          }
-        },
-        {
-          "item": "Diamond Djinn Essence",
-          "count": 1,
-          "location": 413,
-          "map": {
-            "en": "Nicholas the Traveler The Hidden City of Ahdashim map.jpg",
-            "de": "Nicholas der Reisende Karte Verborgene Stadt von Ahdashim.jpg"
-          }
-        },
-        {
-          "item": "Forgotten Seal",
-          "count": 2,
-          "location": 111,
-          "map": {
-            "en": "Nicholas the Traveler Vulture Drifts map.jpg",
-            "de": "Nicholas der Reisende Karte Geierdünen.jpg"
-          }
-        },
-        {
-          "item": "Copper Crimson Skull Coin",
-          "count": 5,
-          "location": 236,
-          "map": {
-            "en": "Nicholas the Traveler Kinya Province map.jpg",
-            "de": "Nicholas der Reisende Karte Provinz Kinya.jpg"
-          }
-        },
-        {
-          "item": "Mossy Mandible",
-          "count": 3,
-          "location": 44,
-          "map": {
-            "en": "Nicholas the Traveler Ettin's Back map.jpg",
-            "de": "Nicholas der Reisende Karte Ettinbuckel.jpg"
-          }
-        },
-        {
-          "item": "Enslavement Stone",
-          "count": 2,
-          "location": 191,
-          "map": {
-            "en": "Nicholas the Traveler Grenth's Footprint map.jpg",
-            "de": "Nicholas der Reisende Karte Grenths Fußabdruck.jpg"
-          }
-        },
-        {
-          "item": "Elonian Leather Square",
-          "count": 5,
-          "location": 369,
-          "map": {
-            "en": "Nicholas the Traveler Jahai Bluffs map.jpg",
-            "de": "Nicholas der Reisende Karte Jahai-Klippen.jpg"
-          }
-        },
-        {
-          "item": "Cobalt Talon",
-          "count": 2,
-          "location": 397,
-          "map": {
-            "en": "Nicholas the Traveler Vehjin Mines map.jpg",
-            "de": "Nicholas der Reisende Karte Vehjin-Minen.jpg"
-          }
-        },
-        {
-          "item": "Maguuma Spider Web",
-          "count": 1,
-          "location": 45,
-          "map": {"en": "Nicholas the Traveler Reed Bog map.jpg", "de": "Nicholas der Reisende Karte Schilfmoor.jpg"}
-        },
-        {
-          "item": "Forgotten Trinket Box",
-          "count": 5,
-          "location": 245,
-          "map": {
-            "en": "Nicholas the Traveler Minister Cho's Estate (explorable area) map.jpg",
-            "de": "Nicholas der Reisende Karte Minister Chos Anwesen (Erforschbar).jpg"
-          }
-        },
-        {
-          "item": "Icy Hump",
-          "count": 3,
-          "location": 88,
-          "map": {
-            "en": "Nicholas the Traveler Iron Horse Mine map.jpg",
-            "de": "Nicholas der Reisende Karte Eisenrossmine.jpg"
-          }
-        },
-        {
-          "item": "Sandblasted Lodestone",
-          "count": 1,
-          "location": 441,
-          "map": {
-            "en": "Nicholas the Traveler The Shattered Ravines map.jpg",
-            "de": "Nicholas der Reisende Karte Die Zerklüfteten Schluchten.jpg"
-          }
-        },
-        {
-          "item": "Black Pearl",
-          "count": 3,
-          "location": 198,
-          "map": {
-            "en": "Nicholas the Traveler Archipelagos map.jpg",
-            "de": "Nicholas der Reisende Karte Archipel.jpg"
-          }
-        },
-        {
-          "item": "Insect Carapace",
-          "count": 3,
-          "location": 371,
-          "map": {
-            "en": "Nicholas the Traveler Marga Coast map.jpg",
-            "de": "Nicholas der Reisende Karte Marga-Küste.jpg"
-          }
-        },
-        {
-          "item": "Mergoyle Skull",
-          "count": 3,
-          "location": 62,
-          "map": {
-            "en": "Nicholas the Traveler Watchtower Coast map.jpg",
-            "de": "Nicholas der Reisende Karte Wachturmküste.jpg"
-          }
-        },
-        {
-          "item": "Decayed Orr Emblem",
-          "count": 3,
-          "location": 56,
-          "map": {
-            "en": "Nicholas the Traveler Cursed Lands map.jpg",
-            "de": "Nicholas der Reisende Karte Verfluchtes Land.jpg"
-          }
-        },
-        {
-          "item": "Tempered Glass Vial",
-          "count": 5,
-          "location": 209,
-          "map": {
-            "en": "Nicholas the Traveler Mourning Veil Falls map.jpg",
-            "de": "Nicholas der Reisende Karte Trauerflorfälle.jpg"
-          }
-        },
-        {
-          "item": "Scorched Lodestone",
-          "count": 3,
-          "location": 33,
-          "map": {
-            "en": "Nicholas the Traveler Old Ascalon map.jpg",
-            "de": "Nicholas der Reisende Karte Alt-Ascalon.jpg"
-          }
-        },
-        {
-          "item": "Water Djinn Essence",
-          "count": 1,
-          "location": 386,
-          "map": {
-            "en": "Nicholas the Traveler Turai's Procession map.jpg",
-            "de": "Nicholas der Reisende Karte Turais Weg.jpg"
-          }
-        },
-        {
-          "item": "Guardian Moss",
-          "count": 1,
-          "location": 199,
-          "map": {
-            "en": "Nicholas the Traveler Maishang Hills map.jpg",
-            "de": "Nicholas der Reisende Karte Maishang-Hügel.jpg"
-          }
-        },
-        {
-          "item": "Dwarven Ale",
-          "count": 6,
-          "location": 384,
-          "map": {
-            "en": "Nicholas the Traveler The Floodplain of Mahnkelon map.jpg",
-            "de": "Nicholas der Reisende Karte Die Schwemmebene von Mahnkelon.jpg"
-          }
-        },
-        {
-          "item": "Amphibian Tongue",
-          "count": 2,
-          "location": 558,
-          "map": {
-            "en": "Nicholas the Traveler Sparkfly Swamp map.jpg",
-            "de": "Nicholas der Reisende Karte Funkenschwärmersumpf.jpg"
-          }
-        },
-        {
-          "item": "Alpine Seed",
-          "count": 2,
-          "location": 98,
-          "map": {
-            "en": "Nicholas the Traveler Frozen Forest map.jpg",
-            "de": "Nicholas der Reisende Karte Frostwald.jpg"
-          }
-        },
-        {
-          "item": "Tangled Seed",
-          "count": 2,
-          "location": 47,
-          "map": {"en": "Nicholas the Traveler Dry Top map.jpg", "de": "Nicholas der Reisende Karte Trockenkuppe.jpg"}
-        },
-        {
-          "item": "Stolen Supplies",
-          "count": 3,
-          "location": 196,
-          "map": {
-            "en": "Nicholas the Traveler Jaya Bluffs map.jpg",
-            "de": "Nicholas der Reisende Karte Jaya-Klippen.jpg"
-          }
-        },
-        {
-          "item": "Pahnai Salad",
-          "count": 1,
-          "location": 430,
-          "map": {
-            "en": "Nicholas the Traveler Plains of Jarin map.jpg",
-            "de": "Nicholas der Reisende Karte Flachland von Jarin.jpg"
-          }
-        },
-        {
-          "item": "Vermin Hide",
-          "count": 3,
-          "location": 31,
-          "map": {
-            "en": "Nicholas the Traveler Xaquang Skyway map.jpg",
-            "de": "Nicholas der Reisende Karte Xaquang-Himmelsweg.jpg"
-          }
-        },
-        {
-          "item": "Roaring Ether Heart",
-          "count": 1,
-          "location": 419,
-          "map": {
-            "en": "Nicholas the Traveler The Mirror of Lyss map.jpg",
-            "de": "Nicholas der Reisende Karte Der Spiegel von Lyss.jpg"
-          }
-        },
-        {
-          "item": "Leathery Claw",
-          "count": 3,
-          "location": 103,
-          "map": {
-            "en": "Nicholas the Traveler Ascalon Foothills map.jpg",
-            "de": "Nicholas der Reisende Karte Ascalon-Vorgebirge.jpg"
-          }
-        },
-        {
-          "item": "Azure Crest",
-          "count": 1,
-          "location": 227,
-          "map": {
-            "en": "Nicholas the Traveler Unwaking Waters (explorable area) map.jpg",
-            "de": "Nicholas der Reisende Karte Verschlafene Gewässer (Erforschbar).jpg"
-          }
-        },
-        {
-          "item": "Jotun Pelt",
-          "count": 1,
-          "location": 482,
-          "map": {
-            "en": "Nicholas the Traveler Bjora Marches map.jpg",
-            "de": "Nicholas der Reisende Karte Bjora-Sümpfe.jpg"
-          }
-        },
-        {
-          "item": "Heket Tongue",
-          "count": 2,
-          "location": 379,
-          "map": {
-            "en": "Nicholas the Traveler Dejarin Estate map.jpg",
-            "de": "Nicholas der Reisende Karte Dejarin-Anwesen.jpg"
-          }
-        },
-        {
-          "item": "Mountain Troll Tusk",
-          "count": 5,
-          "location": 26,
-          "map": {
-            "en": "Nicholas the Traveler Talus Chute map.jpg",
-            "de": "Nicholas der Reisende Karte Talusschnelle.jpg"
-          }
-        },
-        {
-          "item": "Vial of Ink",
-          "count": 3,
-          "location": 197,
-          "map": {
-            "en": "Nicholas the Traveler Shenzun Tunnels map.jpg",
-            "de": "Nicholas der Reisende Karte Shenzun-Tunnel.jpg"
-          }
-        },
-        {
-          "item": "Kournan Pendant",
-          "count": 3,
-          "location": 382,
-          "map": {
-            "en": "Nicholas the Traveler Gandara, the Moon Fortress map.jpg",
-            "de": "Nicholas der Reisende Karte Gandara, die Mondfestung.jpg"
-          }
-        },
-        {
-          "item": "Singed Gargoyle Skull",
-          "count": 3,
-          "location": 13,
-          "map": {
-            "en": "Nicholas the Traveler Diessa Lowlands map.jpg",
-            "de": "Nicholas der Reisende Karte Tiefland von Diessa.jpg"
-          }
-        },
-        {
-          "item": "Dredge Incisor",
-          "count": 3,
-          "location": 201,
-          "map": {
-            "en": "Nicholas the Traveler Melandru's Hope map.jpg",
-            "de": "Nicholas der Reisende Karte Melandrus Hoffnung.jpg"
-          }
-        },
-        {
-          "item": "Stone Summit Badge",
-          "count": 3,
-          "location": 92,
-          "map": {
-            "en": "Nicholas the Traveler Tasca's Demise map.jpg",
-            "de": "Nicholas der Reisende Karte Tascas Ableben.jpg"
-          }
-        },
-        {
-          "item": "Krait Skin",
-          "count": 3,
-          "location": 485,
-          "map": {"en": "Nicholas the Traveler Arbor Bay map.jpg", "de": "Nicholas der Reisende Karte Arborbucht.jpg"}
-        },
-        {
-          "item": "Inscribed Shard",
-          "count": 2,
-          "location": 437,
-          "map": {
-            "en": "Nicholas the Traveler Joko's Domain map.jpg",
-            "de": "Nicholas der Reisende Karte Jokos Domäne.jpg"
-          }
-        },
-        {
-          "item": "Feathered Scalp",
-          "count": 3,
-          "location": 238,
-          "map": {
-            "en": "Nicholas the Traveler Sunqua Vale map.jpg",
-            "de": "Nicholas der Reisende Karte Sunqua-Tal.jpg"
-          }
-        },
-        {
-          "item": "Mummy Wrapping",
-          "count": 3,
-          "location": 444,
-          "map": {
-            "en": "Nicholas the Traveler The Sulfurous Wastes map.jpg",
-            "de": "Nicholas der Reisende Karte Die Schwefel-Einöde.jpg"
-          }
-        },
-        {
-          "item": "Shadowy Remnants",
-          "count": 2,
-          "location": 18,
-          "map": {
-            "en": "Nicholas the Traveler The Black Curtain map.jpg",
-            "de": "Nicholas der Reisende Karte Der Schwarze Vorhang.jpg"
-          }
-        },
-        {
-          "item": "Ancient Kappa Shell",
-          "count": 3,
-          "location": 241,
-          "map": {
-            "en": "Nicholas the Traveler The Undercity map.jpg",
-            "de": "Nicholas der Reisende Karte Die Unterstadt.jpg"
-          }
-        },
-        {
-          "item": "Geode",
-          "count": 1,
-          "location": 392,
-          "map": {
-            "en": "Nicholas the Traveler Yatendi Canyons map.jpg",
-            "de": "Nicholas der Reisende Karte Yahtendi-Schluchten.jpg"
-          }
-        },
-        {
-          "item": "Fibrous Mandragor Root",
-          "count": 2,
-          "location": 649,
-          "map": {
-            "en": "Nicholas the Traveler Grothmar Wardowns map.jpg",
-            "de": "Nicholas der Reisende Karte Grothmar-Kriegshügel.jpg"
-          }
-        },
-        {
-          "item": "Gruesome Ribcage",
-          "count": 3,
-          "location": 105,
-          "map": {
-            "en": "Nicholas the Traveler Dragon's Gullet map.jpg",
-            "de": "Nicholas der Reisende Karte Drachenschlund.jpg"
-          }
-        },
-        {
-          "item": "Kraken Eye",
-          "count": 2,
-          "location": 247,
-          "map": {
-            "en": "Nicholas the Traveler Boreas Seabed (explorable area) map.jpg",
-            "de": "Nicholas der Reisende Karte Boreas-Meeresgrund (Erforschbar).jpg"
-          }
-        },
-        {
-          "item": "Bog Skale Fin",
-          "count": 3,
-          "location": 54,
-          "map": {
-            "en": "Nicholas the Traveler Scoundrel's Rise map.jpg",
-            "de": "Nicholas der Reisende Karte Schurkenhügel.jpg"
-          }
-        },
-        {
-          "item": "Sentient Spore",
-          "count": 2,
-          "location": 373,
-          "map": {
-            "en": "Nicholas the Traveler Sunward Marches map.jpg",
-            "de": "Nicholas der Reisende Karte Sonnenwärtige Sümpfe.jpg"
-          }
-        },
-        {
-          "item": "Ancient Eye",
-          "count": 2,
-          "location": 41,
-          "map": {
-            "en": "Nicholas the Traveler Sage Lands map.jpg",
-            "de": "Nicholas der Reisende Karte Land der Weisen.jpg"
-          }
-        },
-        {
-          "item": "Copper Shilling",
-          "count": 3,
-          "location": 432,
-          "map": {
-            "en": "Nicholas the Traveler Cliffs of Dohjok map.jpg",
-            "de": "Nicholas der Reisende Karte Felsen von Dohjok.jpg"
-          }
-        },
-        {
-          "item": "Frigid Mandragor Husk",
-          "count": 3,
-          "location": 548,
-          "map": {
-            "en": "Nicholas the Traveler Norrhart Domains map.jpg",
-            "de": "Nicholas der Reisende Karte Norrhart-Gebiete.jpg"
-          }
-        },
-        {
-          "item": "Bolt of Linen",
-          "count": 3,
-          "location": 99,
-          "map": {
-            "en": "Nicholas the Traveler Traveler's Vale map.jpg",
-            "de": "Nicholas der Reisende Karte Tal des Reisenden.jpg"
-          }
-        },
-        {
-          "item": "Charr Carving",
-          "count": 3,
-          "location": 106,
-          "map": {
-            "en": "Nicholas the Traveler Flame Temple Corridor map.jpg",
-            "de": "Nicholas der Reisende Karte Flammentempel-Gang.jpg"
-          }
-        }
+        {"item": "Red Iris Flower", "count": 3, "location": 101, "at": [7396, 5074], "from": [29]},
+        {"item": "Feathered Avicara Scalp", "count": 3, "location": 96, "at": [5903, 5222], "from": [156]},
+        {"item": "Margonite Mask", "count": 2, "location": 443, "at": [2816, 166], "from": [442, 440]},
+        {"item": "Quetzal Crest", "count": 2, "location": 572, "at": [2179, 6411], "from": [641]},
+        {"item": "Plague Idol", "count": 3, "location": 239, "at": [2631, 1201], "from": [303]},
+        {"item": "Azure Remains", "count": 2, "location": 97, "at": [4755, 5191], "from": [133, 155]},
+        {"item": "Mandragor Root Cake", "count": 1, "location": 380, "at": [3786, 3046], "from": [381, 426]},
+        {"item": "Mahgo Claw", "count": 1, "location": 121, "at": [1926, 7691], "from": [35]},
+        {"item": "Mantid Pincer", "count": 5, "location": 313, "at": [1699, 2602], "from": [242, 250]},
+        {"item": "Sentient Seed", "count": 3, "location": 481, "at": [907, 3280], "from": [491, 492]},
+        {"item": "Stone Grawl Necklace", "count": 2, "location": 651, "at": [7661, 2022], "from": [648]},
+        {"item": "Herring", "count": 1, "location": 61, "at": [2472, 5066], "from": [73]},
+        {"item": "Naga Skin", "count": 3, "location": 200, "at": [3994, 2344], "from": [389]},
+        {"item": "Gloom Seed", "count": 1, "location": 46, "at": [712, 5483], "from": [139]},
+        {"item": "Charr Hide", "count": 1, "location": 102, "at": [6885, 4460], "from": [40]},
+        {"item": "Ruby Djinn Essence", "count": 1, "location": 446, "at": [2601, 857], "from": [438, 480]},
+        {"item": "Thorny Carapace", "count": 2, "location": 60, "at": [2226, 4368], "from": [11, 140]},
+        {"item": "Bone Charm (trophy)", "count": 3, "location": 202, "at": [5096, 2872], "from": [289, 279]},
+        {"item": "Modniir Mane", "count": 3, "location": 553, "at": [5326, 2110], "from": [645]},
+        {"item": "Superb Charr Carving", "count": 3, "location": 647, "at": [7485, 1724], "from": [648]},
+        {"item": "Roll of Parchment", "count": 5, "location": 246, "at": [1967, 2734], "from": [250]},
+        {"item": "Roaring Ether Claw", "count": 2, "location": 394, "at": [4115, 871], "from": [428, 476]},
+        {"item": "Branch of Juni Berries", "count": 3, "location": 240, "at": [3012, 1101], "from": [303]},
+        {"item": "Shiverpeak Mane", "count": 3, "location": 100, "at": [4409, 4088], "from": [133]},
+        {"item": "Fetid Carapace", "count": 3, "location": 107, "at": [7425, 4494], "from": [135]},
+        {"item": "Moon Shell", "count": 2, "location": 144, "at": [4945, 2498], "from": [279]},
+        {"item": "Gargantuan Jawbone", "count": 1, "location": 112, "at": [7058, 8592], "from": [38, 116, 154]},
+        {"item": "Chromatic Scale", "count": 1, "location": 499, "at": [6235, 2405], "from": [642]},
+        {"item": "Mursaat Token", "count": 3, "location": 94, "at": [5940, 6416], "from": [157, 23]},
+        {"item": "Sentient Lodestone", "count": 1, "location": 377, "at": [4753, 2091], "from": [378, 427]},
+        {"item": "Jungle Troll Tusk", "count": 3, "location": 48, "at": [1853, 5393], "from": [49, 141]},
+        {"item": "Sapphire Djinn Essence", "count": 1, "location": 402, "at": [5011, 1441], "from": [403]},
+        {"item": "Stone Carving", "count": 1, "location": 244, "at": [3290, 2586]},
+        {"item": "Feathered Caromi Scalp", "count": 3, "location": 58, "at": [3757, 4368], "from": [57, 15, 55, 136]},
+        {"item": "Pillaged Goods", "count": 1, "location": 395, "at": [4172, 512], "from": [396]},
+        {"item": "Gold Crimson Skull Coin", "count": 1, "location": 237, "at": [1984, 2265], "from": [250, 213]},
+        {"item": "Jade Bracelet", "count": 3, "location": 269, "at": [3760, 1282], "from": [284]},
+        {"item": "Minotaur Horn", "count": 2, "location": 113, "at": [6412, 8021], "from": [152, 38]},
+        {"item": "Frosted Griffon Wing", "count": 2, "location": 91, "at": [4659, 5695], "from": [206, 155]},
+        {"item": "Silver Bullion Coin", "count": 2, "location": 488, "at": [2534, 3870], "from": [489]},
+        {"item": "Truffle", "count": 1, "location": 205, "at": [4219, 3635], "from": [287]},
+        {"item": "Skelk Claw", "count": 3, "location": 566, "at": [4744, 2675], "from": [639]},
+        {"item": "Dessicated Hydra Claw", "count": 2, "location": 108, "at": [7213, 8190], "from": [154, 38]},
+        {"item": "Frigid Heart", "count": 3, "location": 93, "at": [5332, 5529], "from": [156]},
+        {"item": "Celestial Essence", "count": 3, "location": 265, "at": [3302, 1757], "from": [51]},
+        {"item": "Phantom Residue", "count": 1, "location": 90, "at": [4835, 4969], "from": [133]},
+        {"item": "Drake Kabob", "count": 1, "location": 486, "at": [2104, 3820], "from": [489]},
+        {"item": "Amber Chunk", "count": 3, "location": 210, "at": [3635, 2864], "from": [77, 349, 388, 129]},
+        {"item": "Glowing Heart", "count": 2, "location": 63, "at": [2700, 5031], "from": [137, 19]},
+        {"item": "Saurian Bone", "count": 5, "location": 501, "at": [2271, 6085], "from": [640, 624]},
+        {"item": "Behemoth Hide", "count": 2, "location": 404, "at": [5095, 784], "from": [433]},
+        {"item": "Luminous Stone", "count": 1, "location": 448, "at": [2311, 531], "from": [440]},
+        {"item": "Intricate Grawl Necklace", "count": 3, "location": 95, "at": [5369, 6721], "from": [158]},
+        {"item": "Jadeite Shard", "count": 3, "location": 232, "at": [3303, 938], "from": [194]},
+        {"item": "Gold Doubloon", "count": 1, "location": 375, "at": [4643, 3379], "from": [376]},
+        {"item": "Shriveled Eye", "count": 2, "location": 115, "at": [7010, 8253], "from": [154, 38]},
+        {"item": "Icy Lodestone", "count": 2, "location": 87, "at": [5399, 6081], "from": [159, 20, 22, 24, 155]},
+        {"item": "Keen Oni Talon", "count": 1, "location": 203, "at": [5007, 3009], "from": [279, 289]},
+        {"item": "Hardened Hump", "count": 2, "location": 59, "at": [3556, 4485], "from": [57]},
+        {"item": "Pile of Elemental Dust", "count": 2, "location": 513, "at": [5503, 1696], "from": [643]},
+        {"item": "Naga Hide", "count": 3, "location": 235, "at": [1039, 2964], "from": [249]},
+        {"item": "Spiritwood Plank", "count": 3, "location": 27, "at": [4241, 4338], "from": [14]},
+        {"item": "Stormy Eye", "count": 1, "location": 104, "at": [7538, 4871], "from": [131]},
+        {"item": "Skree Wing", "count": 3, "location": 399, "at": [4138, 1524], "from": [428, 476]},
+        {"item": "Soul Stone", "count": 3, "location": 233, "at": [3382, 773], "from": [226]},
+        {"item": "Spiked Crest", "count": 1, "location": 53, "at": [2410, 4841], "from": [137]},
+        {"item": "Dragon Root", "count": 1, "location": 195, "at": [3739, 3267], "from": [286, 349]},
+        {"item": "Berserker Horn", "count": 3, "location": 546, "at": [6034, 1096], "from": [643]},
+        {"item": "Behemoth Jaw", "count": 1, "location": 42, "at": [1225, 4741], "from": [142, 11, 140]},
+        {"item": "Bowl of Skalefin Soup", "count": 1, "location": 483, "at": [1442, 2818], "from": [502, 491]},
+        {"item": "Forest Minotaur Horn", "count": 2, "location": 64, "at": [2786, 4850], "from": [138]},
+        {"item": "Putrid Cyst", "count": 3, "location": 256, "at": [3868, 1675], "from": [284]},
+        {"item": "Jade Mandible", "count": 2, "location": 114, "at": [6705, 7484], "from": [153]},
+        {"item": "Maguuma Mane", "count": 2, "location": 43, "at": [1080, 5027], "from": [142]},
+        {"item": "Skull Juju", "count": 1, "location": 128, "at": [3815, 3467], "from": [130]},
+        {"item": "Mandragor Swamproot", "count": 3, "location": 484, "at": [1191, 3798], "from": [492]},
+        {"item": "Bottle of Vabbian Wine", "count": 1, "location": 406, "at": [4552, 1333], "from": [414]},
+        {"item": "Weaver Leg", "count": 2, "location": 569, "at": [1528, 6077], "from": [640]},
+        {"item": "Topaz Crest", "count": 1, "location": 110, "at": [7018, 7643], "from": [118]},
+        {"item": "Rot Wallow Tusk", "count": 2, "location": 211, "at": [3933, 1935], "from": [219]},
+        {"item": "Frostfire Fang", "count": 2, "location": 89, "at": [4770, 3771], "from": [132, 21]},
+        {"item": "Demonic Relic", "count": 1, "location": 439, "at": [2303, 436], "from": [440]},
+        {"item": "Abnormal Seed", "count": 2, "location": 17, "at": [2450, 4412], "from": [138]},
+        {"item": "Diamond Djinn Essence", "count": 1, "location": 413, "at": [100, 469]},
+        {"item": "Forgotten Seal", "count": 2, "location": 111, "at": [6581, 8624], "from": [116]},
+        {"item": "Copper Crimson Skull Coin", "count": 5, "location": 236, "at": [922, 2492], "from": [251]},
+        {"item": "Mossy Mandible", "count": 3, "location": 44, "at": [929, 5160], "from": [139]},
+        {"item": "Enslavement Stone", "count": 2, "location": 191, "at": [5185, 5507], "from": [206, 156]},
+        {"item": "Elonian Leather Square", "count": 5, "location": 369, "at": [3945, 2520], "from": [424]},
+        {"item": "Cobalt Talon", "count": 2, "location": 397, "at": [3579, 1115], "from": [476]},
+        {"item": "Maguuma Spider Web", "count": 1, "location": 45, "at": [692, 5347], "from": [139]},
+        {"item": "Forgotten Trinket Box", "count": 5, "location": 245, "at": [1467, 2168], "from": [214]},
+        {"item": "Icy Hump", "count": 3, "location": 88, "at": [5303, 3342], "from": [132, 134, 21, 25]},
+        {"item": "Sandblasted Lodestone", "count": 1, "location": 441, "at": [2851, 688], "from": [438, 480, 442]},
+        {"item": "Black Pearl", "count": 3, "location": 198, "at": [4485, 2424], "from": [193, 391]},
+        {"item": "Insect Carapace", "count": 3, "location": 371, "at": [3149, 2800], "from": [477]},
+        {"item": "Mergoyle Skull", "count": 3, "location": 62, "at": [3207, 4070], "from": [136]},
+        {"item": "Decayed Orr Emblem", "count": 3, "location": 56, "at": [3308, 4553], "from": [57]},
+        {"item": "Tempered Glass Vial", "count": 5, "location": 209, "at": [4062, 3853], "from": [287]},
+        {"item": "Scorched Lodestone", "count": 3, "location": 33, "at": [6667, 4637], "from": [39]},
+        {"item": "Water Djinn Essence", "count": 1, "location": 386, "at": [3397, 2015], "from": [421]},
+        {"item": "Guardian Moss", "count": 1, "location": 199, "at": [4894, 2147], "from": [350]},
+        {"item": "Dwarven Ale", "count": 6, "location": 384, "at": [4358, 2522], "from": [424, 425]},
+        {"item": "Amphibian Tongue", "count": 2, "location": 558, "at": [4384, 6213], "from": [638]},
+        {"item": "Alpine Seed", "count": 2, "location": 98, "at": [5874, 5961], "from": [24]},
+        {"item": "Tangled Seed", "count": 2, "location": 47, "at": [1369, 5405], "from": [141, 12, 139]},
+        {"item": "Stolen Supplies", "count": 3, "location": 196, "at": [1686, 2546], "from": [250]},
+        {"item": "Pahnai Salad", "count": 1, "location": 430, "at": [1934, 3040], "from": [502, 431]},
+        {"item": "Vermin Hide", "count": 3, "location": 31, "at": [3228, 1431], "from": [51]},
+        {"item": "Roaring Ether Heart", "count": 1, "location": 419, "at": [4611, 1009], "from": [435]},
+        {"item": "Leathery Claw", "count": 3, "location": 103, "at": [5856, 3921], "from": [25, 134]},
+        {"item": "Azure Crest", "count": 1, "location": 227, "at": [4673, 3322], "from": [277]},
+        {"item": "Jotun Pelt", "count": 1, "location": 482, "at": [6465, 1281], "from": [650]},
+        {"item": "Heket Tongue", "count": 2, "location": 379, "at": [4137, 2796], "from": [424]},
+        {"item": "Mountain Troll Tusk", "count": 5, "location": 26, "at": [5114, 6152], "from": [20, 22, 155]},
+        {"item": "Vial of Ink", "count": 3, "location": 197, "at": [3633, 1605], "from": [217, 220, 283]},
+        {"item": "Kournan Pendant", "count": 3, "location": 382, "at": [4167, 3363], "from": [426]},
+        {"item": "Singed Gargoyle Skull", "count": 3, "location": 13, "at": [6312, 4189], "from": [36]},
+        {"item": "Dredge Incisor", "count": 3, "location": 201, "at": [4187, 3113], "from": [390, 286]},
+        {"item": "Stone Summit Badge", "count": 3, "location": 92, "at": [5435, 5291], "from": [156]},
+        {"item": "Krait Skin", "count": 3, "location": 485, "at": [2563, 6166], "from": [624]},
+        {"item": "Inscribed Shard", "count": 2, "location": 437, "at": [3076, 1048], "from": [438, 398]},
+        {"item": "Feathered Scalp", "count": 3, "location": 238, "at": [1176, 2448], "from": [249, 214]},
+        {"item": "Mummy Wrapping", "count": 3, "location": 444, "at": [2919, 1393], "from": [478]},
+        {"item": "Shadowy Remnants", "count": 2, "location": 18, "at": [2955, 4556], "from": [138]},
+        {"item": "Ancient Kappa Shell", "count": 3, "location": 241, "at": [209, 203], "from": [239, 240, 291]},
+        {"item": "Geode", "count": 1, "location": 392, "at": [4303, 1965], "from": [393]},
+        {"item": "Fibrous Mandragor Root", "count": 2, "location": 649, "at": [7044, 1738], "from": [648]},
+        {"item": "Gruesome Ribcage", "count": 3, "location": 105, "at": [6660, 3983], "from": [36, 32]},
+        {"item": "Kraken Eye", "count": 2, "location": 247, "at": [4553, 2097], "from": [193]},
+        {"item": "Bog Skale Fin", "count": 3, "location": 54, "at": [4076, 4509], "from": [14]},
+        {"item": "Sentient Spore", "count": 2, "location": 373, "at": [3162, 2463], "from": [421]},
+        {"item": "Ancient Eye", "count": 2, "location": 41, "at": [1711, 4472], "from": [11]},
+        {"item": "Copper Shilling", "count": 3, "location": 432, "at": [1571, 3349], "from": [479, 487, 491]},
+        {"item": "Frigid Mandragor Husk", "count": 3, "location": 548, "at": [6057, 1767], "from": [644]},
+        {"item": "Bolt of Linen", "count": 3, "location": 99, "at": [5608, 3547], "from": [134, 25]},
+        {"item": "Charr Carving", "count": 3, "location": 106, "at": [6555, 3955], "from": [36]}
       ]
     },
     {
