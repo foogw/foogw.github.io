@@ -14,7 +14,7 @@ for (const s of ALL) {
 }
 
 const els = { name: $("f-name"), text: $("f-text"), prof: $("f-prof"), attr: $("f-attr"), type: $("f-type"), camp: $("f-camp"),
-  elite: $("f-elite"), src: $("f-src"), pvp: $("f-pvp"), list: $("list"), head: $("head"), count: $("count"), empty: $("empty") };
+  elite: $("f-elite"), cap: $("f-cap"), src: $("f-src"), pvp: $("f-pvp"), list: $("list"), head: $("head"), count: $("count"), empty: $("empty") };
 const state = { profs: new Set(), sort: "", desc: false };
 
 function costHTML(s) {
@@ -49,11 +49,11 @@ els.prof.innerHTML = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0].map(p =>
 chipToggle(els.prof, state.profs, () => { fillAttributes(); fillTypes(); update(); });
 els.camp.innerHTML += CAMPAIGNS.map((c, i) => `<option value="${i}">${c}</option>`).join("");
 for (const el of [els.name, els.text]) el.addEventListener("input", update);
-for (const el of [els.type, els.camp, els.elite, els.src, els.pvp]) el.addEventListener("change", update);
+for (const el of [els.type, els.camp, els.elite, els.cap, els.src, els.pvp]) el.addEventListener("change", update);
 els.attr.addEventListener("change", () => { fillTypes(); update(); });
 $("reset").addEventListener("click", () => {
   els.name.value = els.text.value = els.attr.value = els.type.value = els.camp.value = els.src.value = "";
-  els.elite.checked = els.pvp.checked = false;
+  els.elite.checked = els.cap.checked = els.pvp.checked = false;
   state.profs.clear(); fillAttributes(); fillTypes(); update(); els.name.focus();
 });
 els.head.addEventListener("click", e => {
@@ -68,7 +68,7 @@ searchKeys(els.text, update);
 function matches(s, f) {
   return (f.pvp || !s.pvp_only) && f.name.every(t => s._name.includes(t)) && f.text.every(t => s._text.includes(t))
     && inProfs(s) && (!f.attr || attrKey(s) === f.attr) && typeMatches(s, f.type) && (f.camp === "" || s.campaign === +f.camp)
-    && (!f.elite || s.elite) && (!f.src || (f.src === "title" ? s.title : s._sources.has(f.src)));
+    && (!f.elite || s.elite) && (!f.cap || s.elite && !s.pvp_only && !f.got.has(s.id)) && (!f.src || (f.src === "title" ? s.title : s._sources.has(f.src)));
 }
 const byProf = (a, b) => (a.profession || 99) - (b.profession || 99) || cmpStr(attrName(a), attrName(b)) || cmpStr(a.name, b.name);
 const SORTS = {
@@ -93,12 +93,13 @@ function rowHTML(s, f) {
     <div class="num col-rech">${s.recharge || ""}</div>
     <div class="dim col-camp">${CAMP_SHORT[s.campaign]}</div>
     <div class="desc">${desc}</div>
+    <div class="col-tick">${s.elite && !s.pvp_only ? eliteTick(s.id, f.got.has(s.id)) : ""}</div>
   </a>`;
 }
 
 function update() {
   const f = { name: terms(els.name), text: terms(els.text), attr: els.attr.value, type: els.type.value, camp: els.camp.value,
-    elite: els.elite.checked, src: els.src.value, pvp: els.pvp.checked };
+    elite: els.elite.checked, cap: els.cap.checked, got: new Set(User.char().elites), src: els.src.value, pvp: els.pvp.checked };
   const first = f.name[0];
   const cmp = SORTS[state.sort] || (first ? (a, b) => (!fold(a.name).startsWith(first)) - (!fold(b.name).startsWith(first)) || byProf(a, b) : byProf);
   const visible = ALL.filter(s => matches(s, f)).sort(cmp);
@@ -112,7 +113,7 @@ function update() {
   }
   const p = new URLSearchParams();
   for (const [k, v] of [["q", els.name.value], ["t", els.text.value], ["p", [...state.profs].join(",")], ["a", f.attr], ["ty", f.type],
-    ["c", f.camp], ["e", f.elite ? "1" : ""], ["s", f.src], ["pvp", f.pvp ? "1" : ""], ["sort", state.sort && (state.desc ? "-" : "") + state.sort]]) if (v) p.set(k, v);
+    ["c", f.camp], ["e", f.elite ? "1" : ""], ["cap", f.cap ? "1" : ""], ["s", f.src], ["pvp", f.pvp ? "1" : ""], ["sort", state.sort && (state.desc ? "-" : "") + state.sort]]) if (v) p.set(k, v);
   history.replaceState(null, "", p.size ? "?" + p : location.pathname);
 }
 
@@ -124,10 +125,11 @@ function render() {
   syncChips(els.prof, state.profs); fillAttributes();
   els.attr.value = p.get("a") || ""; fillTypes();
   els.type.value = p.get("ty") || ""; els.camp.value = p.get("c") || ""; els.src.value = p.get("s") || "";
-  els.elite.checked = p.get("e") === "1"; els.pvp.checked = p.get("pvp") === "1";
+  els.elite.checked = p.get("e") === "1"; els.cap.checked = p.get("cap") === "1"; els.pvp.checked = p.get("pvp") === "1";
   state.sort = (p.get("sort") || "").replace(/^-/, ""); state.desc = (p.get("sort") || "").startsWith("-");
   update();
 }
 render();
 stickHeadBelowFilters();
 onRoute(render);
+addEventListener("userchange", render);

@@ -12,12 +12,14 @@
 <div class="wrap">
   <header class="top">
     <nav class="pages"><a href="./">Home</a><a href="rotations">Rotations</a><a href="guides">Guides</a><a href="storylines">Storylines</a><a href="missions">Missions</a><a href="locations">Locations</a><a href="maps">Maps</a><a href="skills">Skills</a><a href="heroes">Heroes</a><a href="builds">Builds</a><a href="builder">Builder</a></nav>
-    <a class="hdr-link push" href="about">About</a>
+    <a class="hdr-link push" href="user">User</a>
+    <a class="hdr-link" href="about">About</a>
     <a class="hdr-link" href="thanks">Thanks</a>
     <a class="hdr-link" href="contact">Contact</a>
     <a class="hdr-link" href="license">License</a>
   </header>
   <div class="page-title"><h1>Dungeons</h1><p>Every dungeon: its levels, its boss, where it's entered and its next Zaishen Bounty</p></div>
+  <div class="u-row"><select id="done" title="As ticked for the character picked on the User page"><option value="">Done or not</option><option value="1">Not done in NM</option><option value="2">Not done in HM</option></select></div>
   <table class="dgtable"><thead id="head"></thead><tbody id="list"></tbody></table>
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
@@ -50,13 +52,19 @@ const COLS = [
   ["boss", "Boss", r => r.boss || "~", r => (r.boss ? bossLink(r.boss) : "")],
   ["from", "Entered from", r => locName(r.from[0]) || "~", r => r.from.map(i => LINK.place(i)).join(", ")],
   ["bounty", "Bounty", r => last(r.bounty), r => (r.bounty == null ? "" : r.bounty === 0 ? "<b>Today</b>" : inDays(r.bounty))],
+  // done in normal and hard mode, as ticked for the character picked on the User page
+  ["done", "Done", r => prog[r.l.id] || 0, r => doneTicks("dungeons", r.l.id, prog[r.l.id] || 0)],
 ];
 const NUM = new Set(["book", "levels", "bounty"]);
 const state = { sort: args().get("sort")?.replace(/^-/, "") || "book", desc: args().get("sort")?.startsWith("-") || false };
+const done = document.getElementById("done");
+done.value = args().get("d") || "";
+let prog;
 function render() {
+  prog = User.char().dungeons;
   const [, , key] = COLS.find(c => c[0] === state.sort) || COLS[0];
   const cmp = (a, b) => { const x = key(a), y = key(b); return (typeof x === "number" ? x - y : x.localeCompare(y)) || a.l.name.localeCompare(b.l.name); };
-  const sorted = [...rows].sort((a, b) => (state.desc ? -cmp(a, b) : cmp(a, b)));
+  const sorted = [...rows].filter(r => !done.value || !((prog[r.l.id] || 0) & +done.value)).sort((a, b) => (state.desc ? -cmp(a, b) : cmp(a, b)));
   document.getElementById("head").innerHTML = `<tr>${COLS.map(([k, label]) => `<th class="${NUM.has(k) ? "num" : ""}"><button type="button" data-sort="${k}" class="${k === state.sort ? `sorted${state.desc ? " desc" : ""}` : ""}">${label}</button></th>`).join("")}</tr>`;
   document.getElementById("list").innerHTML = sorted.map(r => `<tr>${COLS.map(([k, , , cell]) => `<td class="${NUM.has(k) ? "num" : ""}">${cell(r)}</td>`).join("")}</tr>`).join("");
 }
@@ -64,10 +72,19 @@ document.getElementById("head").addEventListener("click", e => {
   const b = e.target.closest("button[data-sort]");
   if (!b) return;
   if (state.sort === b.dataset.sort) state.desc = !state.desc; else { state.sort = b.dataset.sort; state.desc = false; }
-  history.replaceState(null, "", state.sort === "book" && !state.desc ? location.pathname : "?sort=" + (state.desc ? "-" : "") + state.sort);
+  address();
   render();
 });
+done.addEventListener("change", () => { address(); render(); });
+// the sort (but the book's) and the filter, in the address
+function address() {
+  const p = new URLSearchParams();
+  if (state.sort !== "book" || state.desc) p.set("sort", (state.desc ? "-" : "") + state.sort);
+  if (done.value) p.set("d", done.value);
+  history.replaceState(null, "", p.size ? "?" + p : location.pathname);
+}
 render();
+addEventListener("userchange", render);
 </script>
 </body>
 </html>

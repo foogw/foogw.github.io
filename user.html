@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>GW User</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <nav class="pages"><a href="./">Home</a><a href="rotations">Rotations</a><a href="guides">Guides</a><a href="storylines">Storylines</a><a href="missions">Missions</a><a href="locations">Locations</a><a href="maps">Maps</a><a href="skills">Skills</a><a href="heroes">Heroes</a><a href="builds">Builds</a><a href="builder">Builder</a></nav>
+    <a class="hdr-link push" href="user" aria-current="page">User</a>
+    <a class="hdr-link" href="about">About</a>
+    <a class="hdr-link" href="thanks">Thanks</a>
+    <a class="hdr-link" href="contact">Contact</a>
+    <a class="hdr-link" href="license">License</a>
+  </header>
+  <div class="page-title"><h1>User</h1><p>Your progress: elites captured, missions and dungeons done, per character</p></div>
+  <div class="u-box">
+    <p class="u-warn"><b>Experimental:</b> this hasn't gone through any testing yet. Use it with care, and keep a copy of your progress.</p>
+    <p class="dim">Your progress is kept in this browser only, and clearing the site's data loses it. Download it, or copy it somewhere safe, to keep it or move it to another browser.</p>
+    <div class="u-broken" id="u-broken" hidden>
+      <b>Your saved progress is broken: the site can't read it.</b> The pages go without it until it's fixed, and nothing
+      here writes over it. Copy or download the text below to keep it, and please <a href="contact">tell me</a> about it,
+      with the text. Then you can paste a fixed version and use it, or reset everything and start afresh.
+    </div>
+    <div id="u-char">
+    <h2 class="r-h">Characters</h2>
+    <p class="dim">Pick the character you're playing: its ticks are the ones the whole site shows and changes, on Skills, Missions, Dungeons and their pages. Click a name to rename it.</p>
+    <table class="u-chars">
+      <thead><tr><th>Shown</th><th>Name</th><th class="num">Elites</th><th class="num">Missions NM</th><th class="num">HM</th><th class="num">Dungeons NM</th><th class="num">HM</th><th></th></tr></thead>
+      <tbody id="u-list"></tbody>
+    </table>
+    <div class="u-row"><button type="button" class="u-btn" id="u-new">New character</button></div>
+    </div>
+    <h2 class="r-h">Back up or restore</h2>
+    <textarea class="u-text" id="u-text" spellcheck="false" aria-label="Your progress"></textarea>
+    <p class="u-status" id="u-status"></p>
+    <div class="u-row">
+      <button type="button" class="u-btn" id="u-copy">Copy</button>
+      <button type="button" class="u-btn" id="u-download">Download</button>
+      <button type="button" class="u-btn" id="u-load">Load from file</button>
+      <input type="file" id="u-file" accept=".json,.txt,application/json,text/plain" hidden>
+      <button type="button" class="u-btn" id="u-submit" disabled>Use this progress</button>
+      <button type="button" class="u-btn reset-all" id="u-reset" hidden disabled title="Copy or download your saved progress first">Reset all</button>
+    </div>
+  </div>
+  <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="common.js"></script>
+<script src="user.js"></script>
+</body>
+</html>

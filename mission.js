@@ -31,7 +31,7 @@ VIEWS.mission = (() => {
       if (!boss && c.group !== group) { group = c.group; if (group) html += `<tr><td colspan="3" class="grp">${esc(group)}</td></tr>`; }
       const level = x.level ? `${x.level[0]}${x.level[1] ? ` (${x.level[1]})` : ""}` : "";
       html += `<tr style="--pc:${profVar(c.profession)}"><td class="pdot" title="${PROFS[c.profession] || ""}">${c.profession ? PROF_ABBR[c.profession] : ""}</td><td class="num dim">${level}</td>
-        <td>${boss ? LINK.boss(x.creature) : esc(c.name)}</td>${boss ? `<td>${(c.elites || []).filter(e => SKILLS[e]).map(e => LINK.skill(e)).join(" ")}</td>` : ""}</tr>`;
+        <td>${boss ? LINK.boss(x.creature) : esc(c.name)}</td>${boss ? `<td>${(c.elites || []).filter(e => SKILLS[e]).map(e => (SKILLS[e].elite ? eliteTick(e) : "") + LINK.skill(e)).join(" ")}</td>` : ""}</tr>`;
     }
     return `<table class="npcs">${html}</table>`;
   }
@@ -62,7 +62,7 @@ VIEWS.mission = (() => {
     const steps = QUESTDATA?.storylines?.find(s => (s.nodes || []).some(n => n.mission === m.id) || (s.parts || []).some(p => p.steps.some(n => n.mission === m.id)));
     return `<p class="back"><a href="missions">← All missions</a></p>
       <div class="sp-head" style="--pc:var(${CAMP_COLOR[camp(m)]})">
-        <div class="sp-title"><h2>${esc(m.name)}</h2><div class="sp-sub">${sub}</div></div>
+        <div class="sp-title"><h2>${esc(m.name)}${["story", "challenge", "elite"].includes(m.kind) ? doneTicks("missions", m.id, undefined, "Done in") : ""}</h2><div class="sp-sub">${sub}</div></div>
         ${party(m) ? `<div class="lstats"><span class="lstat"><small>Party</small><b>${party(m)}</b></span></div>` : ""}
       </div>
       ${notes.length ? `<ul class="lnotes">${notes.map(n => `<li>${n}</li>`).join("")}</ul>` : ""}

@@ -12,7 +12,8 @@
 <div class="wrap">
   <header class="top">
     <nav class="pages"><a href="./">Home</a><a href="rotations">Rotations</a><a href="guides">Guides</a><a href="storylines">Storylines</a><a href="missions" aria-current="page">Missions</a><a href="locations">Locations</a><a href="maps">Maps</a><a href="skills">Skills</a><a href="heroes">Heroes</a><a href="builds">Builds</a><a href="builder">Builder</a></nav>
-    <a class="hdr-link push" href="about">About</a>
+    <a class="hdr-link push" href="user">User</a>
+    <a class="hdr-link" href="about">About</a>
     <a class="hdr-link" href="thanks">Thanks</a>
     <a class="hdr-link" href="contact">Contact</a>
     <a class="hdr-link" href="license">License</a>
@@ -34,6 +35,8 @@
       <select id="f-region"><option value="">Any region</option></select>
       <select id="f-party"><option value="">Any party size</option></select>
       <select id="f-elite"><option value="">Elites of any profession</option></select>
+      <label class="chk" title="Elites the character picked on the User page hasn't captured"><input type="checkbox" id="f-cap"> Elites to capture</label>
+      <select id="f-done" title="As ticked for the character picked on the User page"><option value="">Done or not</option><option value="1">Not done in NM</option><option value="2">Not done in HM</option></select>
       <label class="chk"><input type="checkbox" id="f-pvp"> PvP maps</label>
       <button class="reset" id="reset">Reset</button>
       <span class="count" id="count"></span>
@@ -48,6 +51,7 @@
     <button data-sort="type" class="col-type">Type</button>
     <button data-sort="party" class="num col-party" title="Party size">Party</button>
     <span>Elite captures</span>
+    <span class="col-tick" title="For the character picked on the User page">Done</span>
   </div>
   <div class="list" id="list"></div>
   <div class="empty" id="empty" hidden>No missions match.</div>

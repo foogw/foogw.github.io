@@ -359,3 +359,97 @@ function recruitHTML(h) {
   }
   return t;
 }
+
+/* ---------- the visitor's progress, per character, kept in this browser only (the User page backs it up) ----------
+   {v: 1, chars: [{id, name, elites: [skill ids captured], missions: {<id>: done}, dungeons: {<id>: done}}]}, done 1 normal
+   mode, 2 hard mode, 3 both; what isn't done isn't listed. Everything is by the game's own ids, so it outlasts the site's
+   updates, and ids the site doesn't know are kept. Which character is shown (its id) is kept apart, as it's no progress. */
+const USER_KEY = "gw-user", USER_CHAR_KEY = "gw-user-char";
+const USER_KEYS = ["id", "name", "elites", "missions", "dungeons"];
+const newUserChar = id => ({ id, name: `Char${id}`, elites: [], missions: {}, dungeons: {} });
+// what's wrong with an object as progress, or "" when it's fine
+function userCheck(o) {
+  const isObj = x => x && typeof x === "object" && !Array.isArray(x), isId = x => Number.isInteger(x) && x > 0;
+  if (!isObj(o)) return "It isn't an object: it should start with {.";
+  if (o.v !== 1) return 'It needs "v": 1.';
+  const extra = Object.keys(o).find(k => !["v", "chars"].includes(k));
+  if (extra) return `Unknown key "${extra}".`;
+  if (!Array.isArray(o.chars) || !o.chars.length) return 'It needs "chars": a list of at least one character.';
+  for (const [i, c] of o.chars.entries()) {
+    const at = `Character ${i + 1}`;
+    if (!isObj(c)) return `${at} isn't an object.`;
+    const k = Object.keys(c).find(k => !USER_KEYS.includes(k));
+    if (k) return `${at}: unknown key "${k}".`;
+    if (!isId(c.id)) return `${at}: "id" should be a whole number above 0.`;
+    if (o.chars.findIndex(x => x?.id === c.id) !== i) return `${at}: id ${c.id} is used twice.`;
+    if (typeof c.name !== "string" || !c.name.trim() || c.name.length > 40) return `${at}: "name" should be 1 to 40 characters.`;
+    if (!Array.isArray(c.elites) || !c.elites.every(isId) || new Set(c.elites).size !== c.elites.length) return `${at}: "elites" should be a list of skill ids, each once.`;
+    for (const part of ["missions", "dungeons"])
+      if (!isObj(c[part]) || !Object.entries(c[part]).every(([id, v]) => /^[1-9]\d*$/.test(id) && [1, 2, 3].includes(v))) return `${at}: "${part}" should map ids to 1 (NM), 2 (HM) or 3 (both).`;
+  }
+  return "";
+}
+const userRaw = () => { try { return `${localStorage.getItem(USER_KEY)}|${localStorage.getItem(USER_CHAR_KEY)}`; } catch { return ""; } };
+let userSeen = userRaw();  // what this page last drew from
+const User = {
+  // what's kept, as text: null when nothing is
+  stored() { try { return localStorage.getItem(USER_KEY); } catch { return null; } },
+  // kept progress that can't be read (broken, or by a newer site): the pages go without it, and nothing writes over it
+  // but the User page's reset, once it's been copied
+  broken() { const t = User.stored(); if (t == null) return false; try { return !!userCheck(JSON.parse(t)); } catch { return true; } },
+  data() {
+    if (!User.broken()) try { const o = JSON.parse(User.stored()); if (o) return o; } catch { /* none yet */ }
+    return { v: 1, chars: [newUserChar(1)] };
+  },
+  save(o) {
+    if (User.broken()) return false;
+    try { localStorage.setItem(USER_KEY, JSON.stringify(o)); } catch { /* storage blocked */ }
+    userSeen = userRaw();
+    return true;
+  },
+  // the User page's way out of broken progress: all of it gone, a fresh start
+  reset() { try { localStorage.removeItem(USER_KEY); localStorage.removeItem(USER_CHAR_KEY); } catch { /* storage blocked */ } userSeen = userRaw(); },
+  // the character shown: the one picked on the User page, else the first
+  char(o = User.data()) {
+    let id = null; try { id = +localStorage.getItem(USER_CHAR_KEY); } catch { /* storage blocked */ }
+    return o.chars.find(c => c.id === id) || o.chars[0];
+  },
+  pick(id) { try { localStorage.setItem(USER_CHAR_KEY, id); } catch { /* storage blocked */ } userSeen = userRaw(); },
+  captured(id) { return User.char().elites.includes(+id); },
+  done(part, id) { return User.char()[part][id] || 0; },
+  // change the shown character's progress
+  change(f) { const o = User.data(); f(User.char(o)); User.save(o); },
+  setCaptured(id, on) { User.change(c => { c.elites = c.elites.filter(x => x !== +id); if (on) c.elites.push(+id); c.elites.sort((a, b) => a - b); }); },
+  setDone(part, id, v) { User.change(c => { if (v) c[part][id] = v; else delete c[part][id]; }); },
+};
+// back on a tab after the progress or the character changed in another: its ticks show the new state, and a page that
+// lists by progress draws again (on "userchange")
+addEventListener("focus", () => {
+  if (userRaw() === userSeen) return;
+  userSeen = userRaw();
+  const c = User.char();
+  for (const b of document.querySelectorAll(".utick[data-elite]")) b.setAttribute("aria-pressed", c.elites.includes(+b.dataset.elite));
+  for (const g of document.querySelectorAll(".uticks")) for (const b of g.querySelectorAll(".utick")) b.setAttribute("aria-pressed", !!((c[g.dataset.part][g.dataset.id] || 0) & +b.dataset.mode));
+  dispatchEvent(new Event("userchange"));
+});
+// the ticks: an elite captured, a mission or dungeon done in normal and hard mode
+// (a list passes what it knows already: reading the progress for each row is slow)
+const eliteTick = (id, on = User.captured(id), label = "") => `<button type="button" class="utick${label ? "" : " ck"}" data-elite="${id}" aria-pressed="${on}" title="Captured">${label ? `<span class="ubox"></span>${label}` : "✓"}</button>`;
+const doneTicks = (part, id, v = User.done(part, id), label = "") => { return `<span class="uticks" data-part="${part}" data-id="${id}">${label ? `<span class="ulabel">${label}</span>` : ""}${[[1, "NM", "Normal mode"], [2, "HM", "Hard mode"]].map(([b, l, t]) =>
+  `<button type="button" class="utick" data-mode="${b}" aria-pressed="${!!(v & b)}" title="Done in ${t}">${l}</button>`).join("")}</span>`; };
+// a tick is clicked: before the row it may sit in (a link, or a row that opens) sees the click
+document.addEventListener("click", e => {
+  const b = e.target.closest(".utick");
+  if (!b) return;
+  e.preventDefault(); e.stopPropagation();
+  if (User.broken()) { if (confirm("Your saved progress can't be read, so it can't be changed here. Open the User page to see it?")) location.href = "user"; return; }
+  const on = b.getAttribute("aria-pressed") !== "true";
+  if (b.dataset.elite) {
+    User.setCaptured(b.dataset.elite, on);
+    for (const x of document.querySelectorAll(`.utick[data-elite="${b.dataset.elite}"]`)) x.setAttribute("aria-pressed", on);
+  } else {
+    const g = b.parentElement, v = User.done(g.dataset.part, g.dataset.id) ^ +b.dataset.mode;
+    User.setDone(g.dataset.part, g.dataset.id, v);
+    b.setAttribute("aria-pressed", on);
+  }
+}, true);

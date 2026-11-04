@@ -14,6 +14,8 @@ const regionTint = r => (r != null ? REGION_TINT[REGION_IDS.indexOf(r) % REGION_
 const camp = m => missionCampaign(m) ?? 0;
 // the elites to capture in a mission: [boss, skill]
 const elites = m => (m.bosses || []).map(b => CREATURES[b.creature]).filter(Boolean).flatMap(c => (c.elites || []).filter(e => SKILLS[e]?.elite).map(e => [c, SKILLS[e]]));
+// the missions done in normal and hard mode are kept (User): not PvP ones, nor the competitive ones
+const tracked = m => ["story", "challenge", "elite"].includes(m.kind);
 const crName = x => CREATURES[x.creature]?.name || "";
 
 for (const m of ALL) {
@@ -23,7 +25,7 @@ for (const m of ALL) {
 }
 
 const els = { name: $("f-name"), who: $("f-who"), camp: $("f-camp"), type: $("f-type"), region: $("f-region"), party: $("f-party"),
-  elite: $("f-elite"), pvp: $("f-pvp"), list: $("list"), head: $("head"), count: $("count"), empty: $("empty") };
+  elite: $("f-elite"), cap: $("f-cap"), done: $("f-done"), pvp: $("f-pvp"), list: $("list"), head: $("head"), count: $("count"), empty: $("empty") };
 const state = { camps: new Set(), sort: "", desc: false };
 
 /* ---------- filters ---------- */
@@ -35,10 +37,10 @@ els.region.innerHTML += REGION_IDS.filter(r => r != null).map(r => [r, REGIONS[r
 els.party.innerHTML += [...new Set(ALL.map(party).filter(Boolean))].sort((a, b) => a - b).map(n => `<option>${n}</option>`).join("");
 els.elite.innerHTML += PROFS.slice(1).map((p, i) => `<option value="${i + 1}">${p} elites</option>`).join("");
 for (const el of [els.name, els.who]) el.addEventListener("input", update);
-for (const el of [els.type, els.region, els.party, els.elite, els.pvp]) el.addEventListener("change", update);
+for (const el of [els.type, els.region, els.party, els.elite, els.cap, els.done, els.pvp]) el.addEventListener("change", update);
 $("reset").addEventListener("click", () => {
-  els.name.value = els.who.value = els.type.value = els.region.value = els.party.value = els.elite.value = "";
-  els.pvp.checked = false; state.camps.clear(); syncChips(els.camp, state.camps); update(); els.name.focus();
+  els.name.value = els.who.value = els.type.value = els.region.value = els.party.value = els.elite.value = els.done.value = "";
+  els.pvp.checked = els.cap.checked = false; state.camps.clear(); syncChips(els.camp, state.camps); update(); els.name.focus();
 });
 els.head.addEventListener("click", e => {
   const b = e.target.closest("button[data-sort]");
@@ -51,7 +53,8 @@ searchKeys(els.who, update);
 
 const matches = (m, f) => (m.kind !== "pvp" || f.pvp || f.type === "pvp") && f.name.every(t => m._name.includes(t)) && f.who.every(t => m._who.includes(t))
   && (!state.camps.size || state.camps.has(String(camp(m)))) && (!f.type || m.kind === f.type) && (!f.region || regionId(m) === +f.region)
-  && (!f.party || party(m) === +f.party) && (!f.elite || elites(m).some(([, s]) => s.profession === +f.elite));
+  && (!f.party || party(m) === +f.party) && (!f.elite || elites(m).some(([, s]) => s.profession === +f.elite))
+  && (!f.done || tracked(m) && !((f.prog[m.id] || 0) & +f.done)) && (!f.cap || elites(m).some(([, s]) => !f.got.has(s.id) && (!f.elite || s.profession === +f.elite)));
 const campIdx = m => (m.kind === "pvp" ? 99 : camp(m));
 const storyIdx = m => m.order ?? 100 + KIND_ORDER.indexOf(m.kind);
 const story = (a, b) => campIdx(a) - campIdx(b) || storyIdx(a) - storyIdx(b) || cmpStr(a.name, b.name);
@@ -67,8 +70,8 @@ const heroTag = m => (m.hero || []).map(i => HEROES[i]).filter(Boolean).map(h =>
   `<a class="m-hero" href="${HREF.hero(h.id)}" title="Required hero"><img src="${profImg(h.profession)}" alt=""> ${esc(h.name)}</a>`).join("");
 function eliteChips(m, f) {
   const seen = new Set();
-  return elites(m).filter(([, s]) => (!f.elite || s.profession === +f.elite) && !seen.has(s.id) && seen.add(s.id)).map(([c, s]) => {
-    return `<a class="echip" href="${HREF.skill(s.id)}" style="--pc:${profVar(s.profession)}" title="${esc(c.name)}">${skillIcon(s.id, "sk-ic sm")}${highlight(s.name, f.who)}</a>`;
+  return elites(m).filter(([, s]) => (!f.elite || s.profession === +f.elite) && (!f.cap || !f.got.has(s.id)) && !seen.has(s.id) && seen.add(s.id)).map(([c, s]) => {
+    return `<a class="echip${f.got.has(s.id) ? " got" : ""}" href="${HREF.skill(s.id)}" style="--pc:${profVar(s.profession)}" title="${esc(c.name)}">${skillIcon(s.id, "sk-ic sm")}${highlight(s.name, f.who)}</a>`;
   }).join("");
 }
 function rowHTML(m, f) {
@@ -81,10 +84,12 @@ function rowHTML(m, f) {
     <div class="cell dim col-type">${m.kind === "story" ? "" : KINDS[m.kind]}</div>
     <div class="num col-party">${party(m) || ""}</div>
     <div class="echips">${eliteChips(m, f)}</div>
+    <div class="col-tick">${tracked(m) ? doneTicks("missions", m.id, f.prog[m.id] || 0) : ""}</div>
   </div>`;
 }
 function update() {
-  const f = { name: terms(els.name), who: terms(els.who), type: els.type.value, region: els.region.value, party: els.party.value, elite: els.elite.value, pvp: els.pvp.checked };
+  const f = { name: terms(els.name), who: terms(els.who), type: els.type.value, region: els.region.value, party: els.party.value, elite: els.elite.value, pvp: els.pvp.checked,
+    cap: els.cap.checked, done: els.done.value, got: new Set(User.char().elites), prog: User.char().missions };
   const first = f.name[0];
   const cmp = SORTS[state.sort] || (first ? (a, b) => (!fold(a.name).startsWith(first)) - (!fold(b.name).startsWith(first)) || story(a, b) : story);
   const visible = ALL.filter(m => matches(m, f)).sort(cmp);
@@ -98,7 +103,7 @@ function update() {
   }
   const p = new URLSearchParams();
   for (const [k, v] of [["q", els.name.value], ["w", els.who.value], ["c", [...state.camps].join(",")], ["ty", f.type], ["r", f.region], ["n", f.party],
-    ["e", f.elite], ["pvp", f.pvp ? "1" : ""], ["sort", state.sort && (state.desc ? "-" : "") + state.sort]]) if (v) p.set(k, v);
+    ["e", f.elite], ["cap", f.cap ? "1" : ""], ["d", f.done], ["pvp", f.pvp ? "1" : ""], ["sort", state.sort && (state.desc ? "-" : "") + state.sort]]) if (v) p.set(k, v);
   history.replaceState(null, "", p.size ? "?" + p : location.pathname);
 }
 // a click anywhere on a row opens the mission, except on the row's own links
@@ -114,6 +119,7 @@ function render() {
   state.camps.clear(); for (const v of (p.get("c") || "").split(",").filter(Boolean)) state.camps.add(v);
   syncChips(els.camp, state.camps);
   els.type.value = p.get("ty") || ""; els.region.value = p.get("r") || ""; els.party.value = p.get("n") || ""; els.elite.value = p.get("e") || "";
+  els.cap.checked = p.get("cap") === "1"; els.done.value = p.get("d") || "";
   els.pvp.checked = p.get("pvp") === "1";
   state.sort = (p.get("sort") || "").replace(/^-/, ""); state.desc = (p.get("sort") || "").startsWith("-");
   update();
@@ -121,3 +127,4 @@ function render() {
 render();
 stickHeadBelowFilters();
 onRoute(render);
+addEventListener("userchange", render);

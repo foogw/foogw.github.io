@@ -79,7 +79,7 @@ VIEWS.dungeon = (() => {
     return `
       <p class="back"><a href="dungeons">← All dungeons</a></p>
       <div class="lhead exp">
-        <div><h2>${esc(l.name)}</h2><div class="lsub"><span class="ltype t${l.type}">Dungeon</span> <span>${esc(regionOf(l)?.name)}</span></div></div>
+        <div><h2>${esc(l.name)}${doneTicks("dungeons", d.id, undefined, "Done in")}</h2><div class="lsub"><span class="ltype t${l.type}">Dungeon</span> <span>${esc(regionOf(l)?.name)}</span></div></div>
         <div class="lstats"><span class="lstat"><small>Levels</small><b>${d.levels.length || l.levels || "?"}</b></span>${l.party ? `<span class="lstat"><small>Party</small><b>${l.party}</b></span>` : ""}<span class="lstat dgtotal" hidden><small>Walk</small><b></b></span></div>
       </div>
       ${notes.length ? `<ul class="lnotes">${notes.map(n => `<li>${n}</li>`).join("")}</ul>` : ""}
