@@ -1064,7 +1064,12 @@ const GW_GROUND = {
       "type": 2,
       "region": 2,
       "terrain": 51061,
-      "exits": [{"to": 40, "at": [6865, 4270]}, {"to": 13, "at": [6449, 4314]}, {"to": 33, "at": [6678, 4465]}],
+      "exits": [
+        {"to": 40, "at": [6865, 4270]},
+        {"to": 13, "at": [6449, 4314]},
+        {"to": 33, "at": [6678, 4465]},
+        {"to": 879}
+      ],
       "order": 7.5,
       "foes": [108, 136],
       "wiki": {"en": "The Breach", "de": "Die Bresche"},
@@ -5394,6 +5399,15 @@ const GW_GROUND = {
       "region": 18,
       "set": 100,
       "exits": [{"to": 877, "at": [550, 102]}, {"to": 877, "at": [971, 232]}]
+    },
+    "879": {
+      "name": "Tunnels of the Forsaken",
+      "type": 18,
+      "region": 2,
+      "set": 0,
+      "at": [6850, 4370],
+      "exits": [{"to": 102}],
+      "wiki": {"en": "Tunnels of the Forsaken"}
     },
     "100000": {
       "name": "City of Torc'qua",
