@@ -54,7 +54,7 @@ searchKeys(els.who, update);
 const matches = (m, f) => (m.kind !== "pvp" || f.pvp || f.type === "pvp") && f.name.every(t => m._name.includes(t)) && f.who.every(t => m._who.includes(t))
   && (!state.camps.size || state.camps.has(String(camp(m)))) && (!f.type || m.kind === f.type) && (!f.region || regionId(m) === +f.region)
   && (!f.party || party(m) === +f.party) && (!f.elite || elites(m).some(([, s]) => s.profession === +f.elite))
-  && (!f.done || tracked(m) && !((f.prog[m.id] || 0) & +f.done)) && (!f.cap || elites(m).some(([, s]) => !f.got.has(s.id) && (!f.elite || s.profession === +f.elite)));
+  && (!f.done || tracked(m) && missing(f.prog[m.id], f.done)) && (!f.cap || elites(m).some(([, s]) => !f.got.has(s.id) && (!f.elite || s.profession === +f.elite)));
 const campIdx = m => (m.kind === "pvp" ? 99 : camp(m));
 const storyIdx = m => m.order ?? 100 + KIND_ORDER.indexOf(m.kind);
 const story = (a, b) => campIdx(a) - campIdx(b) || storyIdx(a) - storyIdx(b) || cmpStr(a.name, b.name);

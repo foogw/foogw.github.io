@@ -12,7 +12,7 @@
 <div class="wrap">
   <header class="top"></header><script src="header.js"></script>
   <div class="page-title"><h1>Dungeons</h1><p>Every dungeon: its levels, its boss, where it's entered and its next Zaishen Bounty</p></div>
-  <div class="u-row"><select id="done" title="As ticked for the character picked on the User page"><option value="">Done or not</option><option value="1">Not done in NM</option><option value="2">Not done in HM</option></select></div>
+  <div class="u-row"><select id="done" title="As ticked for the character picked on the User page"><option value="">Done or not</option><option value="1">Missing NM</option><option value="2">Missing HM</option><option value="a">Missing either</option></select></div>
   <table class="dgtable"><thead id="head"></thead><tbody id="list"></tbody></table>
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
@@ -58,9 +58,9 @@ function render() {
   prog = User.char().dungeons;
   const [, , key] = COLS.find(c => c[0] === state.sort) || COLS[0];
   const cmp = (a, b) => { const x = key(a), y = key(b); return (typeof x === "number" ? x - y : x.localeCompare(y)) || a.l.name.localeCompare(b.l.name); };
-  const sorted = [...rows].filter(r => !done.value || !((prog[r.l.id] || 0) & +done.value)).sort((a, b) => (state.desc ? -cmp(a, b) : cmp(a, b)));
-  document.getElementById("head").innerHTML = `<tr>${COLS.map(([k, label]) => `<th class="${NUM.has(k) ? "num" : ""}"><button type="button" data-sort="${k}" class="${k === state.sort ? `sorted${state.desc ? " desc" : ""}` : ""}">${label}</button></th>`).join("")}</tr>`;
-  document.getElementById("list").innerHTML = sorted.map(r => `<tr>${COLS.map(([k, , , cell]) => `<td class="${NUM.has(k) ? "num" : ""}">${cell(r)}</td>`).join("")}</tr>`).join("");
+  const sorted = [...rows].filter(r => !done.value || missing(prog[r.l.id], done.value)).sort((a, b) => (state.desc ? -cmp(a, b) : cmp(a, b)));
+  document.getElementById("head").innerHTML = `<tr>${COLS.map(([k, label]) => `<th class="c-${k}${NUM.has(k) ? " num" : ""}"><button type="button" data-sort="${k}" class="${k === state.sort ? `sorted${state.desc ? " desc" : ""}` : ""}">${label}</button></th>`).join("")}</tr>`;
+  document.getElementById("list").innerHTML = sorted.map(r => `<tr>${COLS.map(([k, , , cell]) => `<td class="c-${k}${NUM.has(k) ? " num" : ""}">${cell(r)}</td>`).join("")}</tr>`).join("");
 }
 document.getElementById("head").addEventListener("click", e => {
   const b = e.target.closest("button[data-sort]");
