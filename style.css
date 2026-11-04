@@ -42,7 +42,7 @@ a { color: var(--accent); }
 .wrap { max-width: 1500px; margin: 0 auto; padding: 0 16px 48px; }
 /* the top bar sits on a lighter strip across the full width */
 header.top {
-  display: flex; align-items: baseline; gap: 16px; padding: 12px 0 10px; margin-bottom: 14px;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; padding: 12px 0 10px; margin-bottom: 14px;
   position: sticky; top: 0; z-index: 10; background: var(--hdr-bg);
   box-shadow: 0 0 0 100vmax var(--hdr-bg), 0 1px 0 100vmax var(--line);
   clip-path: inset(0 -100vmax -1px);
@@ -173,7 +173,7 @@ kbd { border: 1px solid var(--line); border-radius: 3px; padding: 0 4px; font-si
 }
 
 /* page nav */
-nav.pages { display: flex; gap: 18px; align-items: baseline; }
+nav.pages { display: flex; gap: 18px; align-items: baseline; max-width: 100%; overflow-x: auto; scrollbar-width: none; }  /* (too wide: it scrolls) */
 nav.pages a { font-size: 20px; font-weight: 700; color: var(--muted); text-decoration: none; letter-spacing: .02em; }
 nav.pages a[aria-current=page] { color: var(--text); }
 nav.pages a:hover { color: var(--text); }
