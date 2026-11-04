@@ -1,5 +1,6 @@
 "use strict";
 
+// the list (data/guides.js); a guide's own content comes from its file when it's opened (loadGuide)
 const GUIDES = data("GW_GUIDES").guides;
 const MODE_HINT = { Fight: "Fight: attacks what you target and what attacks the party",
   Guard: "Guard: fights only to defend the party", Avoid: "Avoid: stays out of combat" };
@@ -11,7 +12,8 @@ const fromSite = id => {
   const b = BUILDS.get(id);
   return { name: b.name, code: b.code, mode: b.mode, runes: b.runes, insignia: b.gear?.insignias, gear: b.gear?.weapons };
 };
-for (const g of GUIDES) for (const s of g.sections) for (const x of allBlocks(s.blocks)) if (x.builds) {
+function prepareBuilds(g) {
+  for (const s of g.sections) for (const x of allBlocks(s.blocks)) if (x.builds) {
   const seen = new Map();
   x.builds = x.builds.map(b => (typeof b === "string" ? fromSite(b) : b)).filter(b => {
     const first = b.code && seen.get(b.code);
@@ -23,6 +25,17 @@ for (const g of GUIDES) for (const s of g.sections) for (const x of allBlocks(s.
     b._skills = b._bar ? b._bar.skills : b.skills;
     b._profs = b._bar ? b._bar.professions.filter(Boolean) : (b.profs || []).map(p => PROFS.indexOf(p));
   }
+  }
+}
+// a guide with its content, from data/guides/<id>.json (once)
+const LOADED = new Map();
+function loadGuide(g) {
+  if (!LOADED.has(g.id)) LOADED.set(g.id, fetch(`data/guides/${g.id}.json`).then(r => r.json()).then(c => {
+    Object.assign(g, c);
+    prepareBuilds(g);
+    return g;
+  }));
+  return LOADED.get(g.id);
 }
 
 /* ---------- builds ---------- */
@@ -236,10 +249,12 @@ for (const [old, id] of Object.entries(OLD_IDS)) for (const key of [STORE, capKe
 const guideId = () => [...args().keys()][0];
 
 // the list, or one guide when the address names one
-function render() {
+async function render() {
   const old = OLD_IDS[args().get("guide")];
   if (old) { go("?" + old, true); return; }
-  const g = GUIDES.find(x => x.id === guideId());
+  const want = GUIDES.find(x => x.id === guideId());
+  const g = want && await loadGuide(want);
+  if (g && g.id !== guideId()) return;  // another guide asked for meanwhile
   $("index").hidden = !!g;
   $("guide").hidden = !g;
   document.querySelector(".page-title").hidden = !!g;
@@ -291,5 +306,5 @@ document.addEventListener("click", e => {
   }
 });
 // a new guide starts at the top; a reload keeps the browser's scroll position
-onRoute(() => { render(); window.scrollTo(0, 0); });
+onRoute(() => render().then(() => window.scrollTo(0, 0)));
 render();

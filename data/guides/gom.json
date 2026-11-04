@@ -1,0 +1,179 @@
+{
+  "source": {
+    "href": "https://wiki.guildwars.com/wiki/User:Foo/GoM",
+    "archive": "https://web.archive.org/web/2026/https://wiki.guildwars.com/wiki/User:Foo/GoM",
+    "author": "Foo"
+  },
+  "stats": [["Per kill", "348 XP"], ["Per hour", "334,080 XP"], ["Setup", "~8 min"]],
+  "sections": [
+    {
+      "blocks": [
+        {
+          "p": "A shortened version of the {ext:https://wiki.guildwars.com/wiki/User:Foo/GoM|full guide on the Guild Wars Wiki} ({ext:https://web.archive.org/web/2026/https://wiki.guildwars.com/wiki/User:Foo/GoM|archived copy})."
+        },
+        {
+          "img": {
+            "src": "img/guides/gom-afk-xp-1.jpg",
+            "caption": "The farm running: bonders at the end of the long shadow (flag 3), the player just south of the Portal Wraiths, the Keystone on the far edge of the aggro bubble (flag 1)."
+          }
+        },
+        {
+          "p": "Legendary Survivor in about 4 hours, or 534 skill points a day. Normal mode, {mission:527}; about 8 minutes to set up, then it runs indefinitely."
+        }
+      ]
+    },
+    {
+      "title": "How it works",
+      "blocks": [
+        {
+          "ul": [
+            "A Chaos Rift spawns 8 Titans every 30 seconds, and you tank them.",
+            "Your health is set so each hit does only 1 damage, under {skill:263} and the Lightbringer title.",
+            "Two Monk heroes keep the bond up and heal the conditions; that 1 damage pays their energy back through {skill:250}.",
+            "A {skill:63} Mesmer hero kills. The rest of the party stays away, so the XP is split only two ways."
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Build",
+      "blocks": [
+        {
+          "builds": [
+            {
+              "name": "Player",
+              "role": "You",
+              "skills": [null, null, null, null, null, null, null, 3431],
+              "note": "Any profession. 5 Leadership from an \"of the Paragon\" mod; health by LB rank (table below)."
+            },
+            {
+              "name": "Prot Bonder",
+              "code": "OwAS8Y4NHkrPNRfkSAAAAAA",
+              "mode": "Avoid",
+              "runes": {"15": "3+1"},
+              "insignia": "Radiant",
+              "note": "Bonds first. 16 Protection (18 after Heroic Refrain), 7 Divine Favor."
+            },
+            {
+              "name": "Heal Bonder",
+              "code": "OwAT043Ct4gi8f6LlAAAAAA",
+              "mode": "Avoid",
+              "runes": {"13": "3+1", "16": "1"},
+              "insignia": "Radiant",
+              "note": "Bonds second. 16 Healing (18 after Heroic Refrain), 11 Protection (13 after Heroic Refrain), 7 Divine Favor."
+            },
+            {
+              "name": "Keystone",
+              "code": "OQNCA8wDP9B8DyzmOUi1veC",
+              "mode": "Fight",
+              "runes": {"0": "3+1", "3": "3"},
+              "note": "16 Fast Casting, 15 Inspiration with runes. No weapon."
+            }
+          ]
+        },
+        {
+          "box": {
+            "title": "Optional: without Heroic Refrain",
+            "blocks": [
+              {
+                "p": "As an alternative at LB4 and up, you can be the third bonder instead of using Heroic Refrain. Two bonders need 18 and 13 Protection, but three can do with 13, 8 and 3: the Prot Bonder at 13, the Heal Bonder at 8 and you at 3, bonding in that order."
+              },
+              {
+                "builds": [
+                  {
+                    "name": "Player",
+                    "role": "You",
+                    "skills": [263, 242, null, null, null, null, null, null],
+                    "note": "Monk secondary with 3 Protection. Balthazar's Spirit fully pays for your share of the bond."
+                  }
+                ]
+              },
+              {
+                "p": "The cost: without Heroic Refrain's +2, Purifying Veil and Mending are weaker, so conditions last longer and Mending gives less health regeneration. That's a little less safe at high LB, and still fine at LB4."
+              }
+            ]
+          }
+        },
+        {
+          "ul": [
+            "Put these 3 heroes first in the party, so each can be flagged.",
+            "Bonders: all bonds disabled, about 50 energy."
+          ]
+        },
+        {"p": "Wear a low-armor set (from Banoit, Kambei, Moon Ahn, Nu Leng or Mehinu), with health by LB rank:"},
+        {
+          "table": {
+            "head": ["LB¹", "Target HP²", "With morale³", "How", "Correction for Dervishes⁴"],
+            "rows": [
+              ["8", "180", "190", "4 superior runes", "No chest piece"],
+              ["7", "160", "170", "4 superior runes, −20 \"Life is Pain\" focus", "No chest piece"],
+              ["6", "145", "155", "5 superior runes, full Survivor", "Survivor only on chest"],
+              ["5", "125", "135", "5 superior runes, Survivor chest and head", "Survivor only on chest, −20 focus"],
+              ["4", "105", "115", "5 superior runes", "−20 focus"]
+            ],
+            "notes": [
+              "¹ For LB2 or LB3, see the full guide linked at the end of the page.",
+              "² Up to 20 HP over the target is fine: hits then do 2 damage.",
+              "³ After closing the Torment rift (+2% morale).",
+              "⁴ Dervishes get +25 health from their chest piece."
+            ]
+          }
+        },
+        {
+          "box": {
+            "title": "Optional: extra safety",
+            "blocks": [
+              {
+                "ul": [
+                  "Energy: \"of the Necromancer\" weapons on both bonders.",
+                  "Health: a +1/20% Protection item on the Prot Bonder, recasting Purifying Veil until it lands at 62%, which cuts Burning to 2 seconds."
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Walkthrough",
+      "blocks": [
+        {
+          "img": {
+            "src": "img/guides/gom-afk-xp-2.jpg",
+            "caption": "The path, and the compass once everyone is in place.",
+            "side": true
+          }
+        },
+        {"p": "Fight your way to the Chaos Rifts."},
+        {"h": "Clear"},
+        {
+          "ul": [
+            "The 3 Portal Wraiths at the Torment rift (left, south): +2% morale.",
+            "The 3 Torment creatures and 2 Margonites patrolling."
+          ]
+        },
+        {"h": "Leave alone"},
+        {
+          "ul": [
+            "The 2 Titan Abominations: killed ones respawn.",
+            "The 3 Portal Wraiths at the Titan rift (right, north): if all die, the Titans stop.",
+            "Everything further west: closing another rift adds morale and throws off your health."
+          ]
+        },
+        {"h": "Set up"},
+        {
+          "ol": [
+            "Flag the bonders and the Keystone at the tip of the long shadow; flag everyone else out of compass range.",
+            "Wield the \"of the Paragon\" weapon. Heroic Refrain each bonder in turn, and let it put its 4 enchantments on you.",
+            "Switch to the low-health set, check your health, then reactivate the Lightbringer title.",
+            "Aggro the Titans and stand just south of the Portal Wraiths, without aggroing them.",
+            "Flag the Keystone to the edge of your aggro bubble, away from the Wraiths, and use the scroll."
+          ]
+        },
+        {
+          "p": "Watch a couple of Madness Titan cycles: they bleed and burn you, and their holy damage gives no Essence Bond energy. If your health and the bonders' energy hold, go AFK."
+        }
+      ]
+    }
+  ]
+}

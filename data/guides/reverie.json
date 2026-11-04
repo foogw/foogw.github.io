@@ -1,0 +1,126 @@
+{
+  "sections": [
+    {
+      "blocks": [
+        {
+          "p": "During {page:events|Wayfarer's Reverie} (August 25 to September 1), a Festival Coordinator on each continent gives a quest to visit eight famous places. Bring the four proofs to Fylinn, Sworn to Winds for a Legionnaire Summoning Crystal (or an Everlasting Legionnaire Tonic, a Miniature Legionnaire, a Legion Loot Bag, or once per account a Reverie Gift)."
+        },
+        {
+          "p": "Only one character or hero in the party has to reach each place, and the runner doesn't need the quest, so these are runs, not fights. Each map below shows the area to reach, the outpost to start from, and the areas between them."
+        },
+        {"p": "Take all four quests first, so every place counts on the way:"},
+        {
+          "ul": [
+            "{quest:101380} from Festival Coordinator Teron in {place:55}. Reward: Proof of Flames.",
+            "{quest:100779} from Festival Coordinator Tsuru in {place:194}. Reward: Proof of Waves.",
+            "{quest:101072} from Festival Coordinator Khuri in {place:449}. Reward: Proof of Winds.",
+            "{quest:100457} from Festival Enthusiast Styr Wolf-Handed in {place:642}. Reward: Proof of Mountains."
+          ]
+        },
+        {
+          "p": "The runs below go by the party size of the outpost they start from: a full party of 8 first, then 6, then 4. The Shiverpeak bloodstone comes last, as the only one that needs a fight."
+        }
+      ]
+    },
+    {
+      "blocks": [
+        {"h": "Party of 8"},
+        {"p": "Visit the Wizard's Tower (Tyria): from {place:138} through {place:18} into {place:64}."},
+        {"areas": [138, 18, 64], "height": 380},
+        {
+          "p": "Visit the Mausoleum in Majesty's Rest (Tyria): from {place:138} through {place:18}, {place:17} into {place:60}."
+        },
+        {"areas": [138, 18, 17, 60], "height": 380},
+        {
+          "p": "Visit the ancient temple of Lyssa in Mineral Springs (Tyria): from {place:156} through {place:92} into {place:96}."
+        },
+        {"areas": [156, 92, 96], "height": 380},
+        {"p": "Visit Gwen's Garden (Far North): from {place:642} into {place:499}."},
+        {"areas": [642, 499], "height": 380},
+        {"p": "Visit Drakkar Lake (Far North): from {place:643} into {place:513}."},
+        {"areas": [643, 513], "height": 380},
+        {"p": "Visit the Shrine of the Bear Spirit (Far North): from {place:650} into {place:482}."},
+        {"areas": [482], "height": 380},
+        {
+          "p": "Visit the strange ridge in Dalada Uplands (Far North): from {place:648} into {place:647}. Next to Xunlai Investigator Jian Fo. Don't leave from here: go on into {place:651} for the next one."
+        },
+        {"areas": [648, 647], "height": 380},
+        {"p": "Visit the burning forest in Sacnoth Valley (Far North): go on from {place:647} into {place:651}."},
+        {"areas": [648, 647, 651], "height": 380},
+        {"p": "Visit the G.O.L.E.M. site (Far North): from {place:640} into {place:501}."},
+        {"areas": [640, 501], "height": 380},
+        {"p": "Visit Ventari's sanctuary (Far North): from {place:624} into {place:485}."},
+        {"areas": [624, 485], "height": 380},
+        {"p": "Visit Tahnnakai Temple (Cantha): from {place:284} into {place:269}."},
+        {"areas": [284, 269], "height": 380},
+        {"p": "Visit Nahpui Quarter (Cantha): from {place:51} into {place:265}."},
+        {"areas": [51, 265], "height": 380},
+        {"p": "Visit Arborstone's central chamber (Cantha): from {place:218} into {place:244}."},
+        {"areas": [218, 244], "height": 380},
+        {"p": "Visit the entombed leviathan in Rhea's Crater (Cantha): from {place:289} into {place:202}."},
+        {"areas": [289, 202], "height": 380},
+        {"p": "Visit the whirlpool's edge (Cantha): from {place:277} into {place:227}."},
+        {"areas": [277, 227], "height": 380},
+        {"p": "Visit Raisu Palace (Cantha): from {place:225} into {place:233}."},
+        {"areas": [225, 233], "height": 380},
+        {
+          "p": "Visit Fahranur, the First City (Elona): from {place:492} into {place:481}. {place:492} lets you bring a party of 8."
+        },
+        {"areas": [492, 481], "height": 380},
+        {"p": "Visit the Cyclone Palace in Mehtani Keys (Elona): from {place:489} into {place:488}."},
+        {"areas": [489, 488], "height": 380},
+        {"p": "Visit the secret corsair docks on the Barbarous Shore (Elona): from {place:376} into {place:375}."},
+        {"areas": [376, 375], "height": 380},
+        {"p": "Visit the Fortress of Jahai (Elona): from {place:424} into {place:369}."},
+        {"areas": [424, 369], "height": 380},
+        {"p": "Visit the libraries of the Halls of Chokhin (Elona): from {place:396} into {place:395}."},
+        {"areas": [396, 395], "height": 380},
+        {"p": "Visit the inner sanctum of the Hidden City of Ahdashim (Elona): from {place:434} into {place:413}."},
+        {"areas": [413], "height": 380},
+        {"p": "Visit the Hallowed Point in the Poisoned Outcrops (Elona): from {place:442} into {place:443}."},
+        {"areas": [442, 443], "height": 380},
+        {
+          "p": "Visit the Crystal Overlook teleporter (Elona): from {place:442} through {place:443}, {place:439} into {place:448}. Don't leave from here: take the teleporter on into {place:112} for the next one."
+        },
+        {"areas": [442, 443, 439, 448], "height": 380},
+        {
+          "p": "Visit the ruined statues of the Arid Sea (Tyria): take the teleporter from {place:448} into {place:112}."
+        },
+        {"areas": [112], "height": 380}
+      ]
+    },
+    {
+      "blocks": [
+        {"h": "Party of 6"},
+        {"p": "Visit Anvil Rock (Tyria): from {place:132} into {place:89}."},
+        {"areas": [132, 89], "height": 380},
+        {
+          "p": "Visit the Falls in the Maguuma Jungle (Tyria): from {place:139} through {place:44}, {place:45} into {place:46}."
+        },
+        {"areas": [139, 44, 45, 46], "height": 380},
+        {"p": "Visit Haiju Lagoon (Cantha): from {place:213} into {place:237}."},
+        {"areas": [213, 237], "height": 380}
+      ]
+    },
+    {
+      "blocks": [
+        {"h": "Party of 4"},
+        {"p": "Visit the Searing crystal near Serenity Temple (Tyria): from {place:131} into {place:104}."},
+        {"areas": [131, 104], "height": 380},
+        {"p": "Visit the Flame Temple (Tyria): from {place:36} through {place:13} into {place:106}."},
+        {"areas": [36, 13, 106], "height": 380},
+        {"p": "Visit the Shrine of Maat (Cantha): from {place:242} into {place:238}."},
+        {"areas": [242, 238], "height": 380}
+      ]
+    },
+    {
+      "blocks": [
+        {"h": "The Shiverpeak bloodstone"},
+        {
+          "p": "Visit the Shiverpeak bloodstone (Far North): from {place:638} through {place:558} into {place:612}. Take {quest:100351} from Saerin in {place:638} and enter the dungeon through its portal (not the Inscription Stone). The door at the end of the first level needs the dungeon key the Paranoia Ettin drops, so this one can't simply be run. The bloodstone is at the end of the dungeon's third level (sorry, we don't have the dungeon's maps yet)."
+        },
+        {"height": 380, "areas": [612]}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data check</title>
+<style>
+  body { font: 13px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; margin: 1em; }
+  pre { font: inherit; margin: 0; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<pre id="out"></pre>
+<script>
+"use strict";
+/* The site's data check, on its own: it shares nothing with the site's pages (no style, no scripts). It fetches every
+   data file as text, checks that each is in the agreed shape (`const GW_X = {strict JSON};`), then that every pointer
+   in it leads to a record: an id to its table, a {skill:id} in text to a skill, a guide's build to a build, and so on.
+   Open it as /check on the local server or the published site. */
+
+const GAME = ["ground", "maps", "missions", "creatures", "quests", "skills", "heroes", "titles", "armor", "calendar"];
+const DATA = ["calendar", "guides", "builds", "aliases", "depths", "routing", "nicholas"];
+
+const out = document.getElementById("out");
+const say = (t = "") => { out.textContent += t + "\n"; };
+const n = v => v.toLocaleString("en");
+const kb = len => `${(len / 1024).toFixed(1).padStart(7)} KB`;
+const pad = (s, w) => String(s).padEnd(w);
+const t0 = performance.now();
+
+// a file in the agreed shape: its constant's name and value, or why not
+function shaped(src) {
+  const m = src.match(/^const (\w+) = ([\s\S]*);\s*$/);
+  if (!m) return { err: "not `const GW_X = {...};`" };
+  try { return { name: m[1], value: JSON.parse(m[2]) }; } catch (e) { return { err: `not strict JSON: ${e.message}` }; }
+}
+const sections = v => Object.keys(v).filter(k => !k.endsWith("_"));
+const noteless = v => sections(v).filter(k => !(`${k}_` in v));
+
+async function main() {
+  say("Guild Wars Today: data check");
+  say(`${new Date().toString()}`);
+  say(`${location.origin}${location.pathname.replace(/[^/]*$/, "")}`);
+  say();
+
+  /* ---------- 1. the files ---------- */
+  say("1. Loading the data files");
+  say("   Each is fetched as text and must be `const GW_X = {...};` with strict JSON inside, and a `<section>_` note");
+  say("   before each section.");
+  say();
+  const F = {}, bad = [];
+  for (const [dir, list] of [["game", GAME], ["data", DATA]]) {
+    for (const f of list) {
+      const path = `${dir}/${f}.js`;
+      const r = await fetch(path, { cache: "no-store" });
+      if (!r.ok) { say(`   ${pad(path, 22)} MISSING (${r.status})`); bad.push(path); continue; }
+      const src = await r.text(), s = shaped(src);
+      if (s.err) { say(`   ${pad(path, 22)}${kb(src.length)}   BAD: ${s.err}`); bad.push(path); continue; }
+      F[`${dir}/${f}`] = s.value;
+      const nl = noteless(s.value);
+      say(`   ${pad(path, 22)}${kb(src.length)}   ${pad(s.name, 18)} ok: ${sections(s.value).map(k => `${k} ${n(Object.keys(s.value[k]).length)}`).join(", ")}`
+        + (nl.length ? `   (no note for: ${nl.join(", ")})` : ""));
+    }
+  }
+  // the server may list a folder (the local one does; GitHub Pages doesn't): then any file this page doesn't know is said
+  for (const [dir, list] of [["game", GAME], ["data", DATA]]) {
+    try {
+      const r = await fetch(`${dir}/`, { cache: "no-store" });
+      const names = r.ok ? [...(await r.text()).matchAll(/href="([\w-]+)\.js"/g)].map(m => m[1]) : [];
+      if (!names.length) { say(`   (${dir}/: the server doesn't list it, so only the files above are checked)`); continue; }
+      const unknown = names.filter(x => !list.includes(x));
+      say(unknown.length ? `   ${dir}/ also has ${unknown.map(x => x + ".js").join(", ")}: NOT CHECKED (add it to this page's list)` : `   ${dir}/: all ${names.length} .js files are in the list above`);
+    } catch { say(`   (${dir}/: couldn't be listed)`); }
+  }
+  // the files the data names: each guide's own, each area's ground
+  const guides = F["data/guides"]?.guides || [], GUIDE = {};
+  say();
+  for (const g of guides) {
+    const path = `data/guides/${g.id}.json`, r = await fetch(path, { cache: "no-store" });
+    if (!r.ok) { say(`   ${pad(path, 30)} MISSING (${r.status})`); bad.push(path); continue; }
+    const src = await r.text();
+    try { GUIDE[g.id] = JSON.parse(src); say(`   ${pad(path, 30)}${kb(src.length)}   ok: ${GUIDE[g.id].sections?.length ?? 0} sections`); }
+    catch (e) { say(`   ${pad(path, 30)}${kb(src.length)}   BAD: not strict JSON: ${e.message}`); bad.push(path); }
+  }
+  const M = F["game/maps"] || {}, WALK = {}, walkIds = [...Object.keys(M.walks || {}), ...Object.keys(M.extras || {}).map(k => `extra/${k}`)];
+  let walkBytes = 0;
+  await Promise.all(walkIds.map(async id => {
+    const r = await fetch(`game/walk/${id}.json`, { cache: "no-store" });
+    if (!r.ok) { bad.push(`game/walk/${id}.json (${r.status})`); return; }
+    const src = await r.text(); walkBytes += src.length;
+    try { WALK[id] = JSON.parse(src); } catch (e) { bad.push(`game/walk/${id}.json: ${e.message}`); }
+  }));
+  say(`   ${pad(`game/walk/*.json`, 30)}${kb(walkBytes)}   ${n(Object.keys(WALK).length)} of ${n(walkIds.length)} read (maps.js lists them: walks, extras)`);
+  say();
+  if (bad.length) say(`   ${bad.length} file problem${bad.length > 1 ? "s" : ""}: ${bad.join("; ")}`), say();
+
+  /* ---------- 2. the pointers ---------- */
+  say("2. Checking that every pointer leads to a record");
+  say();
+  const G = F["game/ground"] || {}, MI = F["game/missions"] || {}, CR = F["game/creatures"] || {}, QU = F["game/quests"] || {},
+    SK = F["game/skills"] || {}, HE = F["game/heroes"] || {}, TI = F["game/titles"] || {}, AR = F["game/armor"] || {},
+    CA = F["game/calendar"] || {}, NO = F["data/calendar"] || {}, BU = F["data/builds"] || {}, AL = F["data/aliases"] || {},
+    DE = F["data/depths"] || {}, RO = F["data/routing"] || {}, NI = F["data/nicholas"] || {};
+  const T = {
+    campaign: G.campaigns, continent: G.continents, type: G.types, region: G.regions, location: G.locations,
+    set: M.sets, mission: MI.missions, creature: CR.creatures, npc: CR.npcs, quest: QU.quests, skill: SK.skills,
+    profession: SK.professions, attribute: SK.attributes, "skill type": SK.types, hero: HE.heroes,
+    title: { ...TI.titles, ...Object.fromEntries(Object.values(TI.titles || {}).filter(t => t.also).map(t => [t.also, t])) },  // (one entry for Kurzick and Luxon: also)
+    material: AR.materials, bonus: CA.bonuses, event: CA.events,
+    rotation: Object.fromEntries((CA.rotations || []).map(r => [r.key, r])),
+    build: Object.fromEntries((BU.builds || []).map(b => [b.id, b])), guide: Object.fromEntries(guides.map(g => [g.id, g])),
+    walk: Object.fromEntries(walkIds.map(id => [id, 1])), "depths cell": DE.cells,
+    "nicholas week": Object.fromEntries((CA.rotations || []).find(r => r.key === "nicholas-traveler")?.entries.map((e, i) => [i, e]) || []),
+    "creature name": Object.fromEntries(Object.values(CR.creatures || {}).map(c => [c.name, c])),
+  };
+  const all = o => Object.entries(o || {});
+  const flat = v => (v == null ? [] : Array.isArray(v) ? v.flat(Infinity) : [v]);
+  let checks = 0, pointers = 0, broken = 0, notes = 0;
+  // one rule: [where, value(s)] pairs, each value a key of the target table; a known gap (why) is a note, not a failure
+  function rule(name, target, pairs, why) {
+    const fails = [];
+    let count = 0;
+    for (const [where, v] of pairs) for (const x of flat(v)) { if (x == null) continue; count++; if (!T[target] || !(String(x) in T[target])) fails.push(`${where} -> ${x}`); }
+    checks++; pointers += count;
+    if (why) notes += fails.length; else broken += fails.length;
+    say(`   ${!fails.length ? "ok  " : why ? "note" : "FAIL"}  ${pad(name, 44)} -> ${pad(target, 14)} ${n(count).padStart(7)}${fails.length ? `   ${n(fails.length)} ${why ? `not found, known: ${why}` : "broken"}:` : ""}`);
+    for (const f of fails.slice(0, 12)) say(`           ${f}`);
+    if (fails.length > 12) say(`           ... and ${n(fails.length - 12)} more`);
+  }
+  const head = t => { say(`   ${t}`); };
+
+  head("game/ground.js");
+  rule("region campaign, continent", "campaign", all(G.regions).map(([k, r]) => [`region ${k}`, r.campaign]));
+  rule("region continent", "continent", all(G.regions).map(([k, r]) => [`region ${k}`, r.continent]));
+  rule("location type", "type", all(G.locations).map(([k, l]) => [`location ${k}`, l.type]));
+  rule("location region", "region", all(G.locations).map(([k, l]) => [`location ${k}`, l.region]));
+  rule("location bosses", "creature", all(G.locations).map(([k, l]) => [`location ${k}`, l.bosses]));
+  rule("location from, gateway, after", "location", all(G.locations).map(([k, l]) => [`location ${k}`, [l.from, l.gateway, l.after]]));
+  rule("location exits", "location", all(G.locations).map(([k, l]) => [`location ${k}`, (l.exits || []).map(e => e.to)]));
+  rule("location set (the map it's drawn on)", "set", all(G.locations).map(([k, l]) => [`location ${k}`, l.set]));
+  say();
+  head("game/maps.js and game/walk/");
+  rule("walks: each a location", "location", Object.keys(M.walks || {}).map(k => [`walks ${k}`, k]));
+  rule("walks: set", "set", all(M.walks).map(([k, s]) => [`walks ${k}`, s]));
+  rule("walk file's own set", "set", all(WALK).map(([k, w]) => [`walk/${k}.json`, w.set]));
+  rule("groups, views: set", "set", [...(M.groups || []), ...(M.views || [])].map(v => [v.name, v.set]));
+  say();
+  head("game/missions.js");
+  rule("mission (its map)", "location", Object.keys(MI.missions || {}).map(k => [`mission ${k}`, k]));
+  rule("mission outpost, leads_to, requires", "location", all(MI.missions).map(([k, m]) => [`mission ${k}`, [m.outpost, m.leads_to, m.requires]]));
+  rule("mission hero", "hero", all(MI.missions).map(([k, m]) => [`mission ${k}`, m.hero]));
+  rule("mission foes, bosses, allies", "creature", all(MI.missions).map(([k, m]) => [`mission ${k}`, ["foes", "bosses", "allies"].map(f => (m[f] || []).map(x => x.creature))]));
+  say();
+  head("game/creatures.js");
+  rule("creature profession", "profession", all(CR.creatures).map(([k, c]) => [`creature ${k}`, c.profession]));
+  rule("creature elites", "skill", all(CR.creatures).map(([k, c]) => [`creature ${k}`, c.elites]));
+  rule("npc location", "location", all(CR.npcs).map(([k, x]) => [`npc ${k}`, x.location]));
+  rule("npc region", "region", all(CR.npcs).map(([k, x]) => [`npc ${k}`, x.region]));
+  say();
+  head("game/quests.js");
+  rule("quest givers", "npc", all(QU.quests).map(([k, q]) => [`quest ${k}`, q.givers]));
+  rule("quest requires, next", "quest", all(QU.quests).map(([k, q]) => [`quest ${k}`, [q.requires, q.next]]));
+  rule("quest requires_missions, next_missions", "location", all(QU.quests).map(([k, q]) => [`quest ${k}`, [q.requires_missions, q.next_missions]]));
+  rule("quest missions", "mission", all(QU.quests).map(([k, q]) => [`quest ${k}`, q.missions]));
+  rule("quest skills", "skill", all(QU.quests).map(([k, q]) => [`quest ${k}`, q.skills]));
+  rule("quest hero", "hero", all(QU.quests).map(([k, q]) => [`quest ${k}`, q.hero]));
+  rule("quest profession", "profession", all(QU.quests).map(([k, q]) => [`quest ${k}`, q.profession]));
+  rule("quest campaign", "campaign", all(QU.quests).map(([k, q]) => [`quest ${k}`, q.campaign]));
+  rule("quest region", "region", all(QU.quests).map(([k, q]) => [`quest ${k}`, q.region]));
+  rule("quest event", "event", all(QU.quests).map(([k, q]) => [`quest ${k}`, q.event]));
+  const steps = (QU.storylines || []).flatMap(s => [...(s.nodes || []), ...(s.parts || []).flatMap(p => p.steps)]);
+  rule("storyline missions", "mission", steps.map(x => ["storyline", x.mission]));
+  rule("storyline quests", "quest", [...steps.map(x => ["storyline", x.quest]), ...(QU.storylines || []).map(s => ["storyline", s.skill_quests])]);
+  say();
+  head("game/skills.js");
+  rule("skill profession", "profession", all(SK.skills).map(([k, s]) => [`skill ${k}`, s.profession]));
+  rule("skill attribute", "attribute", all(SK.skills).map(([k, s]) => [`skill ${k}`, s.attribute]));
+  rule("skill type", "skill type", all(SK.skills).map(([k, s]) => [`skill ${k}`, s.type]));
+  rule("skill campaign", "campaign", all(SK.skills).map(([k, s]) => [`skill ${k}`, s.campaign]));
+  rule("skill title", "title", all(SK.skills).map(([k, s]) => [`skill ${k}`, s.title]));
+  rule("skill pvp_version", "skill", all(SK.skills).map(([k, s]) => [`skill ${k}`, s.pvp_version]));
+  const acq = all(SK.skills).flatMap(([k, s]) => (s.acquisition || []).map(a => [`skill ${k}`, a]));
+  rule("skill acquisition quest", "quest", acq.map(([w, a]) => [w, a.quest]));
+  rule("skill acquisition npc", "npc", acq.map(([w, a]) => [w, a.npc]));
+  rule("skill acquisition capture", "creature", acq.map(([w, a]) => [w, a.capture]));
+  rule("skill acquisition location", "location", acq.map(([w, a]) => [w, a.location]));
+  rule("attribute profession", "profession", all(SK.attributes).map(([k, a]) => [`attribute ${k}`, a.profession]));
+  say();
+  head("game/heroes.js, titles.js, armor.js");
+  rule("hero profession", "profession", all(HE.heroes).map(([k, h]) => [`hero ${k}`, h.profession]));
+  rule("hero campaigns", "campaign", all(HE.heroes).map(([k, h]) => [`hero ${k}`, h.campaigns]));
+  rule("hero region", "region", all(HE.heroes).map(([k, h]) => [`hero ${k}`, h.region]));
+  rule("hero alternative_to", "hero", all(HE.heroes).map(([k, h]) => [`hero ${k}`, h.alternative_to]));
+  rule("hero recruit_steps quests", "quest", all(HE.heroes).map(([k, h]) => [`hero ${k}`, (h.recruit_steps || []).map(s => s.quest)]));
+  rule("hero recruit_steps missions", "location", all(HE.heroes).map(([k, h]) => [`hero ${k}`, (h.recruit_steps || []).map(s => s.mission)]));
+  rule("title giver", "npc", all(TI.titles).map(([k, t]) => [`title ${k}`, t.giver]));
+  rule("armor profession", "profession", all(AR.armor).map(([k, a]) => [`armor ${k}`, a.profession]));
+  rule("armor campaigns", "campaign", all(AR.armor).map(([k, a]) => [`armor ${k}`, a.campaigns]));
+  rule("armor crafters", "npc", all(AR.armor).map(([k, a]) => [`armor ${k}`, (a.tiers || []).map(t => t.at)]));
+  rule("armor materials", "material", all(AR.armor).map(([k, a]) => [`armor ${k}`, (a.tiers || []).map(t => Object.values(t.pieces || {}).map(cs => cs.map(c => c[1])))]));
+  say();
+  head("game/calendar.js");
+  const days = (CA.rotations || []).flatMap(r => r.entries.map((e, i) => [`${r.key} day ${i}`, e]));
+  rule("rotation missions", "mission", days.map(([w, e]) => [w, e.mission]));
+  rule("rotation locations", "location", days.map(([w, e]) => [w, e.location]));
+  rule("rotation creatures", "creature", days.map(([w, e]) => [w, e.creature]));
+  rule("rotation quests", "quest", days.map(([w, e]) => [w, e.quest]));
+  rule("rotation bonuses", "bonus", days.map(([w, e]) => [w, e.bonus]));
+  rule("bonus daily", "rotation", all(CA.bonuses).map(([k, b]) => [`bonus ${k}`, b.daily]));
+  const empty = days.filter(([, e]) => !Object.values(e).some(v => v != null && v !== ""));
+  checks++; broken += empty.length;
+  say(`   ${empty.length ? "FAIL" : "ok  "}  ${pad("rotation days that name something", 44)}    ${pad("", 14)} ${n(days.length).padStart(7)}${empty.length ? `   ${empty.length} empty: ${empty.map(d => d[0]).join(", ")}` : ""}`);
+  say();
+  head("data/calendar.js, nicholas.js");
+  rule("bonus notes", "bonus", Object.keys(NO.bonuses || {}).map(k => [`notes bonus ${k}`, k]));
+  rule("event notes", "event", Object.keys(NO.events || {}).map(k => [`notes event ${k}`, k]));
+  rule("Nicholas spots: the week", "nicholas week", Object.keys(NI.spots || {}).map(k => [`spot ${k}`, k]));
+  rule("Nicholas spots: from", "location", all(NI.spots).map(([k, s]) => [`spot ${k}`, s.from]));
+  say();
+  head("data/builds.js, aliases.js");
+  rule("build runes (attribute)", "attribute", (BU.builds || []).map(b => [`build ${b.id}`, Object.keys(b.runes || {})]));
+  rule("build heroes", "hero", (BU.builds || []).map(b => [`build ${b.id}`, b.heroes]));
+  rule("team builds", "build", (BU.teams || []).map(t => [`team ${t.id}`, t.builds]));
+  rule("team place", "location", (BU.teams || []).map(t => [`team ${t.id}`, t.place]));
+  rule("team mission", "mission", (BU.teams || []).map(t => [`team ${t.id}`, t.mission]));
+  rule("team guide", "guide", (BU.teams || []).map(t => [`team ${t.id}`, t.guide]));
+  rule("singles, players", "build", [...(BU.singles || []), ...(BU.players || [])].map(id => ["list", id]));
+  for (const [part, target] of [["skills", "skill"], ["locations", "location"], ["regions", "region"], ["professions", "profession"], ["campaigns", "campaign"]])
+    rule(`aliases ${part}`, target, Object.keys(AL.aliases?.[part] || {}).map(k => [`aliases ${part}`, k]));
+  say();
+  head("data/depths.js, routing.js");
+  rule("dungeon (its map)", "location", Object.keys(DE.dungeons || {}).map(k => [`dungeon ${k}`, k]));
+  const lv = all(DE.dungeons).flatMap(([k, d]) => d.levels.map((v, i) => [`dungeon ${k} level ${i + 1}`, v]));
+  rule("level map", "location", lv.map(([w, v]) => [w, v.map]), "a level's own map has no record in ground.js");
+  rule("level cell", "depths cell", lv.map(([w, v]) => [w, v.cell]));
+  rule("cells: ground", "walk", all(DE.cells).map(([k, v]) => [`cell ${k}`, v]));
+  rule("level walk: ground", "walk", lv.map(([w, v]) => [w, v.walk]));
+  rule("level portals", "location", lv.map(([w, v]) => [w, v.marks.filter(m => m[0] === "portal").map(m => m[3])]));
+  rule("level boss (by name)", "creature name", lv.map(([w, v]) => [w, v.marks.filter(m => m[0] === "boss").map(m => m[3])]));
+  for (const part of ["walls", "paths", "cross", "teleports", "closed", "portals"])
+    rule(`routing ${part}: map`, "location", Object.keys(RO[part] || {}).map(k => [`routing ${part}`, k]));
+  rule("routing closed: to", "location", all(RO.closed).map(([k, v]) => [`routing closed ${k}`, v]));
+  rule("routing portals: to", "location", all(RO.portals).map(([k, v]) => [`routing portals ${k}`, Object.keys(v)]));
+  say();
+  head("data/guides.js and data/guides/");
+  rule("guide mission", "mission", guides.map(g => [`guide ${g.id}`, g.mission]));
+  const blocks = Object.entries(GUIDE).flatMap(([id, g]) => {
+    const out = [], walk = x => { if (Array.isArray(x)) x.forEach(walk); else if (x && typeof x === "object") { out.push([`guide ${id}`, x]); Object.values(x).forEach(walk); } };
+    walk(g); return out;
+  });
+  rule("guide builds by id", "build", blocks.filter(([, x]) => x.builds).map(([w, x]) => [w, x.builds.filter(b => typeof b === "string")]));
+  rule("guide build skills", "skill", blocks.filter(([, x]) => x.builds).map(([w, x]) => [w, x.builds.map(b => b.skills)]));
+  rule("guide build runes (attribute)", "attribute", blocks.filter(([, x]) => x.builds).map(([w, x]) => [w, x.builds.map(b => Object.keys(b.runes || {}))]));
+  rule("guide areas", "location", blocks.map(([w, x]) => [w, x.areas]));
+  rule("guide route places", "location", blocks.map(([w, x]) => [w, [x.start, x.map, x.step, x.area].filter(v => typeof v === "number")]));
+  rule("guide route quests", "quest", blocks.map(([w, x]) => [w, [x.take, x.done, x.go]]));
+  rule("guide quest index places", "location", blocks.map(([w, x]) => [w, x.questIndex?.places]));
+  rule("guide quest index skips", "quest", blocks.map(([w, x]) => [w, Object.keys(x.questIndex?.skip || x.skip || {})]));
+  say();
+  // every string in every file, guides too: its {skill:id}, {place:id}... links
+  head("links in text, in every file");
+  const texts = [];
+  const strings = (where, x) => { if (typeof x === "string") texts.push([where, x]); else if (x && typeof x === "object") for (const [k, v] of Object.entries(x)) strings(where, v); };
+  for (const [f, v] of Object.entries(F)) strings(f, v);
+  for (const [id, g] of Object.entries(GUIDE)) strings(`guide ${id}`, g);
+  const links = kind => texts.map(([w, t]) => [w, [...t.matchAll(new RegExp(`\\{${kind}:(\\d+)\\}`, "g"))].map(m => m[1])]);
+  rule("{skill:id}, {skillname:id}", "skill", [...links("skill"), ...links("skillname")]);
+  rule("{place:id}", "location", links("place"));
+  rule("{mission:id}", "mission", links("mission"));
+  rule("{quest:id}", "quest", links("quest"));
+  rule("{hero:id}", "hero", links("hero"));
+  say();
+  // names are never keys: every game table's keys are numbers
+  head("keys");
+  const named = [];
+  for (const t of ["campaign", "continent", "type", "region", "location", "set", "mission", "creature", "npc", "quest", "skill", "profession", "attribute", "skill type", "hero", "title", "material", "bonus", "event"])
+    for (const k of Object.keys(T[t] || {})) if (!/^-?\d+$/.test(k)) named.push(`${t} ${JSON.stringify(k)}`);
+  checks++; broken += named.length;
+  say(`   ${named.length ? "FAIL" : "ok  "}  ${pad("every game table is keyed by numbers", 44)}    ${pad("", 14)} ${n(Object.values(T).reduce((s, t) => s + Object.keys(t || {}).length, 0)).padStart(7)}${named.length ? `   ${named.length}: ${named.slice(0, 12).join(", ")}` : ""}`);
+  say();
+
+  /* ---------- 3. the result ---------- */
+  say("3. Result");
+  say();
+  const problems = broken + bad.length;
+  say(problems ? `   BROKEN: ${n(broken)} broken pointer${broken === 1 ? "" : "s"}${bad.length ? ` and ${bad.length} file problem${bad.length > 1 ? "s" : ""}` : ""} (see FAIL and BAD above).`
+    : "   ALL GOOD: every file is in shape and every pointer leads to a record.");
+  if (notes) say(`   ${n(notes)} known gap${notes === 1 ? "" : "s"} (see note above): not counted as broken.`);
+  say(`   ${Object.keys(F).length} data files, ${Object.keys(GUIDE).length} guide files, ${n(Object.keys(WALK).length)} ground files; ${checks} checks over ${n(pointers)} pointers; ${Math.round(performance.now() - t0)} ms.`);
+  say("   Not checked: template codes (that a build's code decodes), and that {page:...} and {ext:...} links work.");
+  document.title = problems ? `Data check: ${n(problems)} problems` : "Data check: all good";
+}
+main().catch(e => { say(); say(`THE CHECK ITSELF FAILED: ${e.stack || e}`); document.title = "Data check: failed"; });
+</script>
+</body>
+</html>

@@ -248,6 +248,9 @@ function bossTable() {
 /* ---------- rotations: entry k of a cycle is active from start + k * period (unix seconds) ---------- */
 const ROTATIONS = Object.fromEntries((CALENDAR?.rotations || []).map(r => [r.key, r]));
 const BONUSES = CALENDAR?.bonuses || {}, EVENTS = CALENDAR?.events || {};
+// our own write-up of the bonuses and events (what they do, tips, what not to miss) from data/calendar.js, where loaded
+for (const [part, all] of [["bonuses", BONUSES], ["events", EVENTS]])
+  for (const [i, n] of Object.entries(data("GW_CALENDAR_NOTES")?.[part] || {})) Object.assign(all[i] || {}, n);
 // Nicholas the Traveler's weeks get their spot and starting outposts (at, from) from our own data/nicholas.js, where loaded
 for (const [i, s] of Object.entries(data("GW_NICHOLAS")?.spots || {})) Object.assign(ROTATIONS["nicholas-traveler"]?.entries[i] || {}, s);
 const Rotation = {

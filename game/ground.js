@@ -1,5 +1,5 @@
 const GW_GROUND = {
-  "campaigns_": "Keys are the game's campaign numbers.",
+  "campaigns_": "Kept by hand. Keys are the game's campaign numbers.",
   "campaigns": {
     "0": {"name": "Core"},
     "1": {"name": "Prophecies"},

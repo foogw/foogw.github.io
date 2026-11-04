@@ -1,5 +1,5 @@
 const GW_CREATURES = {
-  "creatures_": "Keys will be the game's model ids; 100000 and up are ours until we know them. profession: game number. elites: the skill ids captured from this boss.",
+  "creatures_": "Kept by hand. Keys will be the game's model ids; 100000 and up are ours until we know them. profession: game number. elites: the skill ids captured from this boss.",
   "creatures": {
     "100000": {"name": "Facet of Creation", "elites": [451]},
     "100001": {"name": "Kemil the Inept", "elites": [47]},

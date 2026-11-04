@@ -1,5 +1,5 @@
 const GW_HEROES = {
-  "heroes_": "Keys are the game's hero ids. recruit_steps: the quests or missions on the way.",
+  "heroes_": "Kept by hand. Keys are the game's hero ids. recruit_steps: the quests or missions on the way.",
   "heroes": {
     "1": {
       "name": "Norgu",

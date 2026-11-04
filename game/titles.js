@@ -1,5 +1,5 @@
 const GW_TITLES = {
-  "titles_": "Keys are the game's title ids. wiki: its page on each wiki, {en, de} (as locations).",
+  "titles_": "Kept by hand. Keys are the game's title ids. wiki: its page on each wiki, {en, de} (as locations).",
   "titles": {
     "5": {
       "name": "Kurzick / Luxon",

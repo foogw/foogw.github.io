@@ -1,5 +1,5 @@
 const GW_MAPS = {
-  "sets_": "Keys are our numbers: 0, 1, 2 and 4 are the continents' maps (the game's continent numbers; positions on them are the game's world-map pixels), 100 and up pictures of their own. w, h: size in pixels. Tiles: img/tiles/<set>/1/<x>-<y>.webp, 256 pixels each, and img/tiles/<set>/0/ at a quarter size, covering w × h.",
+  "sets_": "Kept by hand. Keys are our numbers: 0, 1, 2 and 4 are the continents' maps (the game's continent numbers; positions on them are the game's world-map pixels), 100 and up pictures of their own. w, h: size in pixels. Tiles: img/tiles/<set>/1/<x>-<y>.webp, 256 pixels each, and img/tiles/<set>/0/ at a quarter size, covering w × h.",
   "sets": {
     "0": {"name": "Tyria", "continent": 0, "w": 8192, "h": 9216},
     "1": {"name": "Pre-Searing", "continent": 1, "w": 1536, "h": 1536},

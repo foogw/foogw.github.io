@@ -1,5 +1,5 @@
 const GW_MISSIONS = {
-  "missions_": "Keys are the map id the mission is played on (for Prophecies, its outpost's). outpost: where you start it. leads_to: locations it unlocks. hero: heroes it gives. objectives: [depth, text, bonus?]. rewards: per mode and tier, [xp, gold, skill points, extra...]; by: what sets the tier. foes, bosses, allies: {creature, level: [normal, hard]}. wiki: its page on each wiki, {en, de} (as locations).",
+  "missions_": "Kept by hand. Keys are the map id the mission is played on (for Prophecies, its outpost's). outpost: where you start it. leads_to: locations it unlocks. hero: heroes it gives. objectives: [depth, text, bonus?]. rewards: per mode and tier, [xp, gold, skill points, extra...]; by: what sets the tier. foes, bosses, allies: {creature, level: [normal, hard]}. wiki: its page on each wiki, {en, de} (as locations).",
   "missions": {
     "10": {
       "name": "Bloodstone Fen",

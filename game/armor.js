@@ -1,5 +1,5 @@
 const GW_ARMOR = {
-  "materials_": "Keys are the game's item model ids; 100000 and up are ours.",
+  "materials_": "Kept by hand. Keys are the game's item model ids; 100000 and up are ours.",
   "materials": {
     "921": {"name": "Bone"},
     "923": {"name": "Monstrous Claw"},

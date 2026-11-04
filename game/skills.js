@@ -1,5 +1,5 @@
 const GW_SKILLS = {
-  "professions_": "Keys are the game's profession numbers.",
+  "professions_": "Kept by hand. Keys are the game's profession numbers.",
   "professions": {
     "0": {"name": "None", "abbr": "X"},
     "1": {"name": "Warrior", "abbr": "W"},
