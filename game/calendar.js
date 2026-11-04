@@ -369,7 +369,7 @@ const GW_CALENDAR = {
       "entries": [
         {"quest": 101338},
         {"quest": 101343},
-        {"quest": null},
+        {"quest": 101347},
         {"quest": 101340},
         {"quest": 101341},
         {"quest": 101345},
