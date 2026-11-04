@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>GW Dungeons</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="dungeons">
+<div class="wrap">
+  <header class="top">
+    <nav class="pages"><a href="./">Home</a><a href="rotations">Rotations</a><a href="guides">Guides</a><a href="storylines">Storylines</a><a href="missions">Missions</a><a href="locations">Locations</a><a href="maps">Maps</a><a href="skills">Skills</a><a href="heroes">Heroes</a><a href="builds">Builds</a><a href="builder">Builder</a></nav>
+    <a class="hdr-link push" href="about">About</a>
+    <a class="hdr-link" href="thanks">Thanks</a>
+    <a class="hdr-link" href="contact">Contact</a>
+    <a class="hdr-link" href="license">License</a>
+  </header>
+  <div class="page-title"><h1>Dungeons</h1><p>Every dungeon: its levels, its boss, where it's entered and its next Zaishen Bounty</p></div>
+  <table class="dgtable"><thead id="head"></thead><tbody id="list"></tbody></table>
+  <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="game/ground.js"></script>
+<script src="game/quests.js"></script>
+<script src="game/creatures.js"></script>
+<script src="game/calendar.js"></script>
+<script src="data/depths.js"></script>
+<script src="common.js"></script>
+<script>
+"use strict";
+// every dungeon (not the quest areas the game also counts as dungeons, nor a level listed on its own), by region
+const DEPTHS = data("GW_DEPTHS")?.dungeons || {};
+const dungeons = Object.values(LOCATIONS).filter(l => l.type === 18 && (DEPTHS[l.id] || l.exits?.length && !/: Level \d+$/.test(l.name)))
+  .sort((a, b) => (regionOf(a)?.name || "").localeCompare(regionOf(b)?.name || "") || a.name.localeCompare(b.name));
+// the boss: the last level's, from our data, else the Zaishen Bounty's
+const bossOf = l => DEPTHS[l.id]?.levels.at(-1)?.marks.find(m => m[0] === "boss")?.[3] || entryName(ROTATIONS["zaishen-bounty"]?.entries.find(e => e.location === l.id) || {});
+const bossLink = name => { const id = Object.keys(CREATURES).find(k => CREATURES[k].name === name); return id ? LINK.boss(id) : esc(name); };
+const outside = l => [...new Set((l.exits || []).map(e => e.to))].filter(i => LOCATIONS[i] && LOCATIONS[i].type !== 18);
+const rows = dungeons.map(l => ({ l, book: DEPTHS[l.id]?.book, levels: DEPTHS[l.id]?.levels.length || l.levels || 0, boss: bossOf(l),
+  region: regionOf(l)?.name || "", from: outside(l), bounty: bountyAt(l.id)?.days }));
+// the columns: [key, label, sort value (missing ones last), cell]
+const last = v => (v == null || v === "" ? Infinity : v);
+const COLS = [
+  ["book", "#", r => last(r.book), r => r.book ?? ""],
+  ["name", "Dungeon", r => r.l.name, r => `<a href="${HREF.dungeon(r.l.id)}">${esc(r.l.name)}</a>`],
+  ["region", "Region", r => r.region, r => `<span class="dim">${esc(r.region)}</span>`],
+  ["levels", "Levels", r => last(r.levels || null), r => r.levels || ""],
+  ["boss", "Boss", r => r.boss || "~", r => (r.boss ? bossLink(r.boss) : "")],
+  ["from", "Entered from", r => locName(r.from[0]) || "~", r => r.from.map(i => LINK.place(i)).join(", ")],
+  ["bounty", "Bounty", r => last(r.bounty), r => (r.bounty == null ? "" : r.bounty === 0 ? "<b>Today</b>" : inDays(r.bounty))],
+];
+const NUM = new Set(["book", "levels", "bounty"]);
+const state = { sort: args().get("sort")?.replace(/^-/, "") || "book", desc: args().get("sort")?.startsWith("-") || false };
+function render() {
+  const [, , key] = COLS.find(c => c[0] === state.sort) || COLS[0];
+  const cmp = (a, b) => { const x = key(a), y = key(b); return (typeof x === "number" ? x - y : x.localeCompare(y)) || a.l.name.localeCompare(b.l.name); };
+  const sorted = [...rows].sort((a, b) => (state.desc ? -cmp(a, b) : cmp(a, b)));
+  document.getElementById("head").innerHTML = `<tr>${COLS.map(([k, label]) => `<th class="${NUM.has(k) ? "num" : ""}"><button type="button" data-sort="${k}" class="${k === state.sort ? `sorted${state.desc ? " desc" : ""}` : ""}">${label}</button></th>`).join("")}</tr>`;
+  document.getElementById("list").innerHTML = sorted.map(r => `<tr>${COLS.map(([k, , , cell]) => `<td class="${NUM.has(k) ? "num" : ""}">${cell(r)}</td>`).join("")}</tr>`).join("");
+}
+document.getElementById("head").addEventListener("click", e => {
+  const b = e.target.closest("button[data-sort]");
+  if (!b) return;
+  if (state.sort === b.dataset.sort) state.desc = !state.desc; else { state.sort = b.dataset.sort; state.desc = false; }
+  history.replaceState(null, "", state.sort === "book" && !state.desc ? location.pathname : "?sort=" + (state.desc ? "-" : "") + state.sort);
+  render();
+});
+render();
+</script>
+</body>
+</html>

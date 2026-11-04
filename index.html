@@ -100,13 +100,17 @@
 <script src="game/creatures.js"></script>
 <script src="game/calendar.js"></script>
 <script src="data/nicholas.js"></script>
+<script src="data/depths.js"></script>
+<script src="data/routing.js"></script>
 <script src="data/builds.js"></script>
 <script src="data/aliases.js"></script>
 <script src="common.js"></script>
 <script src="mapwidget.js"></script>
+<script src="walkroute.js"></script>
 <script src="template-code.js"></script>
 <script src="place.js"></script>
 <script src="mission.js"></script>
+<script src="dungeon.js"></script>
 <script src="quest.js"></script>
 <script src="skill.js"></script>
 <script src="hero.js"></script>
@@ -282,6 +286,8 @@ document.addEventListener("keydown", e => {
 
 // a game thing's own page (./?place=146, ./?skill=1234, …): the home page gives way to it
 function route() {
+  // a dungeon's old place link: its own page now
+  if (LOCATIONS[args().get("place")]?.type === 18) history.replaceState(null, "", HREF.dungeon(args().get("place")));
   const p = args(), k = Object.keys(VIEWS).find(k => p.has(k)), v = VIEWS[k], x = v?.find(p.get(k));
   for (const sel of [".hero", ".gsearch", "#results", "#sections"]) document.querySelector(sel).style.display = k ? "none" : "";
   $("view").hidden = !k;

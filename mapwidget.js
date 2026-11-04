@@ -112,7 +112,8 @@ function drawMark(g, kind, x, y, scale = 1, name = "", self = false) {
 
 const veil = document.createElement("canvas");
 /* One view of a map set onto a canvas. v: { set, zoom (CSS px per map pixel), x, y (CSS px of the map's corner),
-   dpr, ground(ctx, z): draws over the tiles, lit: Path2D of the ground to keep bright (or null: all bright), dark (0-1), outlines: [[Path2D, color, width]],
+   dpr, ground(ctx, z): draws over the tiles, lit: Path2D of the ground to keep bright (or null: all bright), clip: Path2D
+   the lit ground and its outlines are kept within (or none), dark (0-1), outlines: [[Path2D, color, width]],
    marks: [{ x, y, kind, name, self }], portals: [[x, y]], ways: [{ lines: [[[x, y], ...]], color }] (drawn under the
    portals and marks), redraw }. */
 function paintMap(ctx, v) {
@@ -135,15 +136,17 @@ function paintMap(ctx, v) {
     const g = veil.getContext("2d");
     g.setTransform(1, 0, 0, 1, 0, 0); g.globalCompositeOperation = "source-over";
     g.fillStyle = MAP_TINT; g.fillRect(0, 0, W, H);
-    g.setTransform(...T); g.globalCompositeOperation = "destination-out"; g.fill(v.lit, "nonzero");
+    g.setTransform(...T); g.globalCompositeOperation = "destination-out";
+    g.save(); if (v.clip) g.clip(v.clip); g.fill(v.lit, "nonzero"); g.restore();
     ctx.globalAlpha = v.dark; ctx.drawImage(veil, 0, 0); ctx.globalAlpha = 1;
   }
   if (v.ground) v.ground(ctx, z);  // the caller's own darkening and outlines (the Maps page caches them)
   ctx.setTransform(...T); ctx.lineJoin = "round";
+  ctx.save(); if (v.clip) ctx.clip(v.clip);
   for (const [p, color, width, alpha = 1] of v.outlines || []) {
     ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.lineWidth = width * d / z; ctx.stroke(p);
   }
-  ctx.globalAlpha = 1;
+  ctx.restore(); ctx.globalAlpha = 1;
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.lineCap = "round";
   for (const w of v.ways || []) for (const [k, width, color] of [[0, 6, "rgb(0 0 0 / .7)"], [1, 3, w.color]]) {
@@ -166,10 +169,12 @@ function paintMap(ctx, v) {
 // town: an outpost (or a list) whose own town to light (where its mission's ground shares its map id), not the mission's ground
 // spots: points of the map to mark, [{x, y, name}] in its pixels (where an NPC stands), shown even with markers hidden
 // note: HTML under the map, between its controls
-function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null, spots = null, note = "" } = {}) {
+// level: a dungeon level instead of areas, {name, walk (its cell's game/walk file), area: [x0, y0, ...] the part of the
+// ground lit (or none: all of it), spots, portals: [{at, name}] (named on hover)} (data/depths.js)
+function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null, spots = null, note = "", level = null } = {}) {
   ids = [...new Set(ids.map(Number))];
-  if (!ids.length && !self) return "";
-  return `<figure class="gmap" data-ids="${ids.join(",")}"${self ? ` data-self="${self}"` : ""}${town ? ` data-town="${[town].flat().join(",")}"` : ""}${spots ? ` data-spots="${esc(JSON.stringify(spots))}"` : ""} data-h="${height}">
+  if (!ids.length && !self && !level) return "";
+  return `<figure class="gmap" data-ids="${ids.join(",")}"${self ? ` data-self="${self}"` : ""}${town ? ` data-town="${[town].flat().join(",")}"` : ""}${spots ? ` data-spots="${esc(JSON.stringify(spots))}"` : ""}${level ? ` data-level="${esc(JSON.stringify(level))}"` : ""} data-h="${height}">
     <div class="gmap-win" tabindex="0" role="img"><canvas></canvas></div>
     <figcaption><label>Darkness <input type="range" min="0" max="100" value="66"></label>${note && `
       <span class="gmap-note">${note}</span>`}
@@ -194,14 +199,17 @@ async function initMap(fig) {
   const ids = (fig.dataset.ids || "").split(",").filter(Boolean).map(Number), self = +fig.dataset.self || null;
   // only places on a map have ground to load
   const towns = (fig.dataset.town || "").split(",").filter(Boolean).map(Number);
-  const walks = (await Promise.all(ids.map(loadWalk))).map((w, i) => w && { set: w.set, rings: towns.includes(ids[i]) && w.town ? w.town : w.rings, id: ids[i] }).filter(Boolean);
+  const level = fig.dataset.level ? JSON.parse(fig.dataset.level) : null;
+  const walks = level ? [await fetch(`game/walk/${level.walk}.json`).then(r => r.json()).catch(() => null)].filter(Boolean)
+    : (await Promise.all(ids.map(loadWalk))).map((w, i) => w && { set: w.set, rings: towns.includes(ids[i]) && w.town ? w.town : w.rings, id: ids[i] }).filter(Boolean);
   const place = LOCATIONS[self] || LOCATIONS[ids[0]];
   const set = walks[0]?.set ?? place?.set;
   if (set == null || !MAP_SETS[set]) { fig.remove(); return; }
   const lit = walks.filter(w => w.set === set);
   // the box: the areas' ground and the place marked out, with a margin, kept within the map
-  let box = ringsBox(lit);
-  for (const l of [LOCATIONS[self], ...ids.map(i => LOCATIONS[i])]) if (l?.set === set && l.at) {
+  const area = level?.area && [{ rings: [level.area] }];
+  let box = ringsBox(area || lit);
+  if (!level) for (const l of [LOCATIONS[self], ...ids.map(i => LOCATIONS[i])]) if (l?.set === set && l.at) {
     const [x, y] = l.at;
     box = box ? [Math.min(box[0], x), Math.min(box[1], y), Math.max(box[2], x), Math.max(box[3], y)] : [x - 250, y - 180, x + 250, y + 180];
   }
@@ -212,10 +220,10 @@ async function initMap(fig) {
   const win = fig.querySelector(".gmap-win"), cv = win.querySelector("canvas"), ctx = cv.getContext("2d");
   win.style.aspectRatio = `${bw} / ${bh}`;
   win.style.width = `min(100%, ${Math.round(maxH * bw / bh)}px)`;
-  win.setAttribute("aria-label", `${ids.map(locName).join(", ") || locName(self)}: where you can walk`);
+  win.setAttribute("aria-label", `${level?.name || ids.map(locName).join(", ") || locName(self)}: where you can walk`);
   const slider = fig.querySelector("input[type=range]"), nomarks = fig.querySelector(".gmap-nomarks");
-  const path = lit.length ? walkPath(lit) : null;
-  const marks = nearMarks(set, ids, self, box);
+  const path = lit.length ? walkPath(lit) : null, clip = area && walkPath(area);
+  const marks = level ? [] : nearMarks(set, ids, self, box);
   const spots = JSON.parse(fig.dataset.spots || "[]").map(p => ({ ...p, kind: "spot" }));
   const portals = [], joins = new Map();  // joins: each portal's places, by "x,y", for its name on hover
   // the game's portals, and those we placed where it has none (data/routing.js, on pages that load it)
@@ -225,6 +233,7 @@ async function initMap(fig) {
     if (!joins.has(k)) { joins.set(k, new Set()); portals.push(e.at); }
     for (const n of [LOCATIONS[i]?.name, LOCATIONS[e.to]?.name]) if (n) joins.get(k).add(n);
   }
+  for (const p of level?.portals || []) { portals.push(p.at); joins.set(String(p.at), new Set([level.name, p.name])); }
   // each marker is also a link, for the keyboard and for clicks
   win.insertAdjacentHTML("beforeend", marks.map(m => `<a class="gmap-mark" href="${HREF.place(m.id)}" title="${esc(m.name)} · ${MARK_STYLE[m.kind][2]}" aria-label="${esc(m.name)}"></a>`).join(""));
   const links = [...win.querySelectorAll(".gmap-mark")];
@@ -239,7 +248,7 @@ async function initMap(fig) {
     const cw = cur[2] - cur[0], ch = cur[3] - cur[1], zoom = win.clientWidth / cw;
     links.forEach((a, i) => { a.style.left = `${(100 * (marks[i].x - cur[0]) / cw).toFixed(2)}%`; a.style.top = `${(100 * (marks[i].y - cur[1]) / ch).toFixed(2)}%`; });
     win.classList.toggle("nomarks", nomarks.checked);
-    paintMap(ctx, { set, zoom, x: -cur[0] * zoom, y: -cur[1] * zoom, dpr: d, lit: path, dark: slider.value / 100,
+    paintMap(ctx, { set, zoom, x: -cur[0] * zoom, y: -cur[1] * zoom, dpr: d, lit: path, clip, dark: slider.value / 100,
       outlines: path ? [[path, MAP_RING, 1.2, 0.8 * slider.value / 100]] : [], portals, marks: [...(nomarks.checked ? [] : marks), ...spots], ways: mv.ways,
       redraw: () => { raf ||= requestAnimationFrame(draw); } });
   };

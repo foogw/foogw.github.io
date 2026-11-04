@@ -103,7 +103,9 @@ document.addEventListener("click", e => {
   if (id) location.replace("./" + query({ [key]: id }));
 }
 // the pages of the game's own things are on the front page: ./?place=146
-const HREF = Object.fromEntries(["place", "mission", "quest", "skill", "hero", "boss", "title"].map(k => [k, id => "./" + query({ [k]: id })]));
+const HREF = Object.fromEntries(["place", "mission", "dungeon", "quest", "skill", "hero", "boss", "title"].map(k => [k, id => "./" + query({ [k]: id })]));
+// a dungeon is a page of its own, not a place
+{ const place = HREF.place; HREF.place = id => (LOCATIONS[id]?.type === 18 ? HREF.dungeon(id) : place(id)); }
 // our own pages name what they show: builds?meta, storylines?prophecies&m=28
 const buildHref = id => "builds?" + encodeURIComponent(id);
 const STORYLINE = { 1: "prophecies", 2: "factions", 3: "nightfall", 4: "eotn" };  // campaign -> its storyline's name
@@ -274,6 +276,13 @@ function entryWhere(e) {
   const parts = [(e.creature || e.item) && l.name !== entryName(e) && l.name, regionOf(l)?.name, CAMPAIGNS[campaignOf(l)]].filter(Boolean);
   return ` <span class="dim">· ${parts.map(esc).join(" · ")}</span>`;
 }
+// the next Zaishen Bounty at a place: {days} from today (0: today), or null
+function bountyAt(id, now = Date.now()) {
+  const r = ROTATIONS["zaishen-bounty"], n = r?.entries.length, k0 = n && Rotation.period(r, now);
+  for (let k = k0; n && k < k0 + n; k++) if (Rotation.entry(r, k).location === id) return { days: k - k0, entry: Rotation.entry(r, k), every: n };
+  return null;
+}
+const inDays = d => (d === 0 ? "today" : d === 1 ? "tomorrow" : `in ${d} days`);
 function timeLeft(ms) {
   const m = Math.max(0, Math.floor(ms / 60000)), d = Math.floor(m / 1440), h = Math.floor((m % 1440) / 60), mm = m % 60;
   return d ? `${d}d ${h}h` : h ? `${h}h ${mm}m` : `${mm}m`;

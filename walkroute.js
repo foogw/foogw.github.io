@@ -12,9 +12,10 @@ const WALK_S = 1;        // map pixels per grid cell: a ridge a few pixels wide 
 const WALK_BRIDGE = 12;  // map pixels: the disc joining two areas at their portal
 const WALK_WALL = 8;     // grid cells from an edge within which a step costs more
 
-async function walkGrid(ids) {
+// given: ground to use instead of an id's own, by id ({rings, walls}: a dungeon level, its cell's ground walled in to its area)
+async function walkGrid(ids, given = {}) {
   // all the ground there is: an outpost's town too
-  const walks = (await Promise.all(ids.map(loadWalk))).map((w, i) => w && { id: ids[i], rings: [...w.rings, ...(w.town || [])], walls: ROUTING?.walls[ids[i]], paths: ROUTING?.paths?.[ids[i]], cross: ROUTING?.cross[ids[i]], teleports: ROUTING?.teleports?.[ids[i]] }).filter(Boolean);
+  const walks = (await Promise.all(ids.map(id => given[id] || loadWalk(id)))).map((w, i) => w && { id: ids[i], rings: [...w.rings, ...(w.town || [])], walls: [...(ROUTING?.walls[ids[i]] || []), ...(w.walls || [])], paths: ROUTING?.paths?.[ids[i]], cross: ROUTING?.cross[ids[i]], teleports: ROUTING?.teleports?.[ids[i]] }).filter(Boolean);
   const [x0, y0, x1, y1] = ringsBox(walks);
   const W = Math.ceil((x1 - x0) / WALK_S) + 2, H = Math.ceil((y1 - y0) / WALK_S) + 2;
   const c = document.createElement("canvas"); c.width = W; c.height = H;
