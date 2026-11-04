@@ -71,7 +71,7 @@ function table(el, rotations, count, label, ahead = Infinity) {
 
 function render() {
   renderNow();
-  table($("daily"), DAILY, expanded.daily ? SHOW_DAYS : SHOW_FIRST, (t, i) => (i === 0 ? "Today" : fmtDay.format(Date.now() + i * 86400000)), DAILY_AHEAD);
+  table($("daily"), DAILY, expanded.daily ? SHOW_DAYS : SHOW_FIRST, (t, i) => (i === 0 ? "Now" : ""), DAILY_AHEAD);
   table($("weekly"), WEEKLY, expanded.weekly ? SHOW_WEEKS : SHOW_FIRST, (t, i) => (i === 0 ? "This week" : `Week of ${fmtDay.format(t)}`));
   const searching = terms($find).length > 0;
   $("nowbox").hidden = searching;  // a search shows only its matches
