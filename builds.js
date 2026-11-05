@@ -91,9 +91,9 @@ function overviewHTML(builds, groups) {
   </div>`).join("")}</section>`;
 }
 
-function placeLink(t) {
+function areaLink(t) {
   const parts = [];
-  if (t.place) parts.push(LINK.place(t.place));
+  if (t.area) parts.push(LINK.area(t.area));
   if (t.mission && MISSIONS[t.mission]) parts.push(LINK.mission(t.mission, "mission details"));
   return parts.join(" · ");
 }
@@ -106,7 +106,7 @@ function teamHTML(t) {
       <h2>${esc(t.name)}</h2>
       <p>${esc(t.summary)}</p>
       <div class="bd-facts">
-        ${t.place ? `<span><span class="dim">Where</span> ${placeLink(t)}</span>` : ""}
+        ${t.area ? `<span><span class="dim">Where</span> ${areaLink(t)}</span>` : ""}
         ${t.mode ? `<span><span class="dim">Mode</span> ${esc(t.mode)}</span>` : ""}
         <span><span class="dim">Party</span> ${builds.length}</span>
       </div>

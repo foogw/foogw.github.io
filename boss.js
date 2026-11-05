@@ -18,8 +18,8 @@ VIEWS.boss = (() => {
         </div>
         <div class="lside">
           <section class="lbox"><h4>Where</h4><ul class="lrows">${b._where.map(i =>
-            `<li>${whereLink(i)}<span class="dim">${MISSIONS[i] ? "Mission" : esc(TYPE_LABEL[LOCATIONS[i]?.type] || "")}</span></li>`).join("")}</ul></section>
-          ${mapHTML(b._where.filter(i => LOCATIONS[i]))}
+            `<li>${whereLink(i)}<span class="dim">${MISSIONS[i] ? "Mission" : esc(TYPE_LABEL[AREAS[i]?.type] || "")}</span></li>`).join("")}</ul></section>
+          ${mapHTML(b._where.filter(i => AREAS[i]))}
         </div>
       </div>`;
   }

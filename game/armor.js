@@ -34,7 +34,7 @@ const GW_ARMOR = {
     "6532": {"name": "Amber Chunk"},
     "6533": {"name": "Jadeite Shard"}
   },
-  "armor_": "Keys are our numbers. pieces: per slot, [count, material]. at: the crafters (npcs) who make that tier. wiki: its page on each wiki, {en, de} (as locations).",
+  "armor_": "Keys are our numbers. pieces: per slot, [count, material]. at: the crafters (npcs) who make that tier. wiki: its page on each wiki, {en, de} (as areas).",
   "armor": {
     "1": {
       "name": "Ancient armor",

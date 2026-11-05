@@ -325,7 +325,7 @@ function addToBar(id, slot) {
   const at = state.bar.indexOf(id);
   if (slot === undefined) {
     if (at >= 0) { state.selected = id; return render(); }
-    // added without a target slot: take the place of the skill it would push out, else the first free slot
+    // added without a target slot: take the area of the skill it would push out, else the first free slot
     const s = SKILL.get(id), slots = test => state.bar.map((x, i) => i).filter(i => test(SKILL.get(state.bar[i])));
     const elite = s.elite ? slots(x => x?.elite) : [], pve = s.pve_only ? slots(x => x?.pve_only) : [];
     slot = elite.length ? elite[0] : pve.length >= 3 ? pve[pve.length - 1] : state.bar.indexOf(0);

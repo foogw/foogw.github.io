@@ -4,7 +4,7 @@
    continent's whole painting, or a picture of its own) with every area's walkable ground. A continent's regions are
    zooms on one map: drag to move on to the next, wheel or pinch to zoom, click an area for its pages.
    maps?<tab> opens a tab (its map whole, or the part that is the tab's), maps?<tab>&<subtab> one view (maps?realm_of_torment&gates),
-   maps?place=<map id> picks out that area. */
+   maps?area=<map id> picks out that area. */
 const MAP_VIEWS = data("GW_MAPS").views.map((v, i) => ({ ...v, i }));
 // a tab's own view: what the tab shows before a region is chosen
 const GROUPS = data("GW_MAPS").groups.map(g => ({ ...g, group: g.name, main: true }));
@@ -23,8 +23,8 @@ $("unknown").closest("label").remove();  // the old map points by number are gon
 let set = null, view0 = null, areas = [], hover = null, pick = null;
 const view = { zoom: 1, x: 0, y: 0 };
 let cssW = 0, cssH = 0, dpr = 1, raf = 0, token = 0;
-// the places on a map: their ground is there, or (without ground) their marker
-const inSet = s => Object.values(LOCATIONS).filter(l => (WALK_SET.get(l.id) ?? l.set) === s);
+// the areas on a map: their ground is there, or (without ground) their marker
+const inSet = s => Object.values(AREAS).filter(l => (WALK_SET.get(l.id) ?? l.set) === s);
 
 /* ---------- choosing a view ---------- */
 $("groups").innerHTML = GROUPS.map(g => `<button class="prof-chip" data-g="${esc(g.name)}">${esc(g.name)}</button>`).join("");
@@ -46,7 +46,7 @@ const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, 
 // the address of what is shown: a tab, or one view in it
 const here = () => "?" + slug(view0.group) + (view0.main ? "" : "&" + slug(view0.name));
 
-// one piece of ground on the map, and the places it is ({ id, town: an outpost's own town, mission: a mission's ground })
+// one piece of ground on the map, and the areas it is ({ id, town: an outpost's own town, mission: a mission's ground })
 // box: where to look first, set before the first frame is drawn (the last map's view never shows on this one)
 async function openSet(s, box) {
   if (s === set) { if (box) zoomTo([box], VIEW_ZOOM); return; }
@@ -56,13 +56,13 @@ async function openSet(s, box) {
   if (box) zoomTo([box], VIEW_ZOOM); else fit();
   const ls = inSet(s);
   const walks = await Promise.all(ls.map(l => loadWalk(l.id)));
-  // ground no place claims yet, dimmer
+  // ground no area claims yet, dimmer
   const extras = Object.entries(data("GW_MAPS").extras || {}).filter(([, x]) => x.set === s);
   const ex = await Promise.all(extras.map(([n]) => fetch(`game/walk/extra/${n}.json`).then(r => r.json()).catch(() => null)));
   if (t !== token) return;
   const byGround = new Map();
   const add = (rings, who) => {
-    const k = JSON.stringify(rings[0]);  // the same ground under several places (the Domain of Anguish's areas)
+    const k = JSON.stringify(rings[0]);  // the same ground under several areas (the Domain of Anguish's areas)
     if (!byGround.has(k)) byGround.set(k, { rings, who: [] });
     byGround.get(k).who.push(who);
   };
@@ -71,7 +71,7 @@ async function openSet(s, box) {
     if (!w) return;
     if (w.town) { add(w.rings, { l, mission: true }); add(w.town, { l, town: true }); } else add(w.rings, { l, mission: !!MISSIONS[l.id] && l.type === 14 });
   });
-  extras.forEach(([, x], i) => { if (ex[i]) add(ex[i].rings, { extra: true, name: x.name || "Unknown ground: no place known here yet" }); });
+  extras.forEach(([, x], i) => { if (ex[i]) add(ex[i].rings, { extra: true, name: x.name || "Unknown ground: no area known here yet" }); });
   areas = [...byGround.values()].map(g => {
     const w = { rings: g.rings };
     return { who: g.who, path: walkPath([w]), box: ringsBox([w]), name: whoNames(g.who) };
@@ -79,9 +79,9 @@ async function openSet(s, box) {
   groundAt = performance.now();
   schedule();
 }
-// what a piece of ground is called: each place once, an outpost's town and a mission's ground said so
+// what a piece of ground is called: each area once, an outpost's town and a mission's ground said so
 const whoName = x => (x.extra ? x.name : x.town ? `${x.l.name} (outpost)` : x.mission && (x.l.type !== 14) ? `${x.l.name} (mission)` : x.l.name);
-// a name two places share on one ground (a mission and the explorable copy of its map) says which is which
+// a name two areas share on one ground (a mission and the explorable copy of its map) says which is which
 const whoNames = who => {
   const names = who.map(whoName), base = who.map(x => x.l?.name);
   return [...new Set(names.map((n, i) => (base.filter(b => b && b === base[i]).length > 1 && n === base[i] ? `${n} (${(TYPE_LABEL[who[i].l.type] || "area").toLowerCase()})` : n)))].join(" · ");
@@ -89,19 +89,19 @@ const whoNames = who => {
 
 async function fromArgs() {
   const h = args();
-  const place = LOCATIONS[h.get("place")];
-  // a place opens in the view that holds it, else the first view on its map
+  const area = AREAS[h.get("area")];
+  // an area opens in the view that holds it, else the first view on its map
   const inBox = (v, p) => v.set === p.set && p.at && p.at[0] >= v.box[0] && p.at[0] <= v.box[2] && p.at[1] >= v.box[1] && p.at[1] <= v.box[3];
-  const ps = place && (WALK_SET.get(place.id) ?? place.set);  // the map its ground is on, else its marker's
+  const ps = area && (WALK_SET.get(area.id) ?? area.set);  // the map its ground is on, else its marker's
   // a tab and a view by name; older links named the tab (g=Tyria) or numbered the view (view=3)
   const [tab, sub] = h.keys();
   const g = GROUPS.find(x => x.name === h.get("g") || slug(x.name) === tab);
   const v = MAP_VIEWS[h.get("view")] || (g && sub && MAP_VIEWS.find(v => v.group === g.name && slug(v.name) === sub));
   if (h.has("g") || h.has("view")) history.replaceState(null, "", "?" + slug((v || g)?.group || "") + (v ? "&" + slug(v.name) : ""));
-  view0 = v || g || (place ? MAP_VIEWS.find(v => v.set === ps && inBox(v, place)) || MAP_VIEWS.find(v => v.set === ps) : GROUPS[0]) || MAP_VIEWS[0];
+  view0 = v || g || (area ? MAP_VIEWS.find(v => v.set === ps && inBox(v, area)) || MAP_VIEWS.find(v => v.set === ps) : GROUPS[0]) || MAP_VIEWS[0];
   chips();
-  await openSet(ps ?? view0.set, place ? null : view0.box);
-  pick = place ? areas.find(a => a.who.some(x => x.l?.id === place.id && !x.mission)) || areas.find(a => a.who.some(x => x.l?.id === place.id)) || null : null;
+  await openSet(ps ?? view0.set, area ? null : view0.box);
+  pick = area ? areas.find(a => a.who.some(x => x.l?.id === area.id && !x.mission)) || areas.find(a => a.who.some(x => x.l?.id === area.id)) || null : null;
   showPanel();
   zoomTo([pick ? pick.box : view0.box], pick ? MAX_ZOOM : VIEW_ZOOM);
 }
@@ -111,8 +111,8 @@ onRoute(fromArgs);
 function showPanel() {
   if (!pick) { panel.hidden = true; return; }
   panel.hidden = false;
-  const row = x => `<li><b>${esc(whoName(x))}</b>${x.extra ? '<span class="dim">Walkable, not tied to a place yet</span>'
-    : `${!x.mission || x.town ? (x.l.type !== 14 && x.l.type !== 17 ? `<a href="${HREF.place(x.l.id)}">Location →</a>` : "") : ""}${x.mission && MISSIONS[x.l.id] ? `<a href="${HREF.mission(x.l.id)}">Mission →</a>` : ""}`}</li>`;
+  const row = x => `<li><b>${esc(whoName(x))}</b>${x.extra ? '<span class="dim">Walkable, not tied to an area yet</span>'
+    : `${!x.mission || x.town ? (x.l.type !== 14 && x.l.type !== 17 ? `<a href="${HREF.area(x.l.id)}">Area →</a>` : "") : ""}${x.mission && MISSIONS[x.l.id] ? `<a href="${HREF.mission(x.l.id)}">Mission →</a>` : ""}`}</li>`;
   const seen = new Set();
   panel.innerHTML = `<button class="wm-close" title="Close" aria-label="Close">×</button><ul>${pick.who.filter(x => !seen.has(whoName(x)) && seen.add(whoName(x))).map(row).join("")}</ul>`;
 }
@@ -157,14 +157,14 @@ function zoomAt(k, x, y) {
 /* ---------- drawing ---------- */
 function schedule() { raf ||= requestAnimationFrame(draw); }
 // the outposts on the map, and the portals between areas
-const marks = () => (nomarks.checked ? [] : Object.values(LOCATIONS).filter(l => l.set === set && l.at && isOutpost(l)).map(l => ({ id: l.id, x: l.at[0], y: l.at[1], kind: markKind(l), name: l.name })));
-// each portal once, with the two places it joins (named on hover)
+const marks = () => (nomarks.checked ? [] : Object.values(AREAS).filter(l => l.set === set && l.at && isOutpost(l)).map(l => ({ id: l.id, x: l.at[0], y: l.at[1], kind: markKind(l), name: l.name })));
+// each portal once, with the two areas it joins (named on hover)
 function portals() {
   if (noportals.checked) return [];
   const seen = new Set(), out = [];
   for (const l of inSet(set)) for (const e of l.exits || []) if (e.at && !seen.has(e.at.join())) {
     seen.add(e.at.join());
-    out.push(Object.assign([...e.at], { name: `${l.name} ↔ ${LOCATIONS[e.to]?.name}` }));
+    out.push(Object.assign([...e.at], { name: `${l.name} ↔ ${AREAS[e.to]?.name}` }));
   }
   return out;
 }
@@ -172,7 +172,7 @@ function portals() {
    every frame, so they are drawn once into a picture a margin larger than the screen, which is moved about while
    dragging and redrawn when the drag runs past its edge or the zoom settles. */
 let ground = null, groundTimer = 0;
-// unknown ground (no place claims it yet) stays under the fog, outlined in dashes
+// unknown ground (no area claims it yet) stays under the fog, outlined in dashes
 const isUnknown = a => a.who.every(x => x.extra);
 function paintGround(g, T, list, zoom) {
   const fade = Math.min(1, Math.max(0.2, zoom * 1.5));  // outlines fade out when zoomed far out, where they pile up
@@ -295,10 +295,10 @@ function up(e) {
   if (pointers.size < 2) pinch = null;
   if (was === 1 && !moved && e.type === "pointerup") {
     const mk = markAt(local(e));
-    if (mk) { endDrag(); location.href = HREF.place(mk.id); return; }
+    if (mk) { endDrag(); location.href = HREF.area(mk.id); return; }
     pick = areaAt(onMap(local(e)));
     const first = pick?.who.find(x => x.l);
-    history.replaceState(null, "", first ? query({ place: first.l.id }) : here());
+    history.replaceState(null, "", first ? query({ area: first.l.id }) : here());
     showPanel(); schedule();
   }
   if (!pointers.size) endDrag();

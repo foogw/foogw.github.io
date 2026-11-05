@@ -63,7 +63,7 @@
   </div>
 
   <div class="gsearch">
-    <input type="search" id="q" placeholder="Search Nick items, skills, missions, places or quests — e.g. mursaat token, energy surge, thirsty, fow…" autocomplete="off" autofocus>
+    <input type="search" id="q" placeholder="Search Nick items, skills, missions, areas or quests — e.g. mursaat token, energy surge, thirsty, fow…" autocomplete="off" autofocus>
   </div>
   <div class="results" id="results"></div>
 
@@ -103,7 +103,7 @@
 <script src="mapwidget.js"></script>
 <script src="walkroute.js"></script>
 <script src="template-code.js"></script>
-<script src="place.js"></script>
+<script src="area.js"></script>
 <script src="mission.js"></script>
 <script src="dungeon.js"></script>
 <script src="quest.js"></script>
@@ -115,13 +115,13 @@
 "use strict";
 const SKILL_LIST = Object.values(SKILLS).filter(s => !s.pvp_only);
 const MISSION_LIST = Object.values(MISSIONS);
-const PLACE_LIST = Object.values(LOCATIONS).filter(l => !isPvP(l) && l.type !== 14 && l.type !== 17);
+const AREA_LIST = Object.values(AREAS).filter(l => !isPvP(l) && l.type !== 14 && l.type !== 17);
 const QUEST_LIST = Object.values(QUESTS);
 // every boss a mission names, with the mission
 const BOSS_LIST = MISSION_LIST.flatMap(m => (m.bosses || []).map(b => ({ c: CREATURES[b.creature], m }))).filter(x => x.c);
 for (const s of SKILL_LIST) s._k = fold(`${s.name} ${aliasText("skills", s.id)}`);
-for (const m of MISSION_LIST) m._k = fold(`${m.name} ${aliasText("locations", m.id)} ${aliasText("locations", m.outpost)}`);
-for (const l of PLACE_LIST) l._k = fold(`${l.name} ${aliasText("locations", l.id)}`);
+for (const m of MISSION_LIST) m._k = fold(`${m.name} ${aliasText("areas", m.id)} ${aliasText("areas", m.outpost)}`);
+for (const l of AREA_LIST) l._k = fold(`${l.name} ${aliasText("areas", l.id)}`);
 for (const q of QUEST_LIST) q._k = fold(q.name);
 for (const x of BOSS_LIST) x.k = fold(x.c.name);
 const STORY = new Set((QUESTDATA.storylines || []).flatMap(s => [...(s.nodes || []), ...(s.parts || []).flatMap(p => p.steps)]).map(n => n.quest).filter(Boolean));
@@ -139,10 +139,10 @@ function buildCardHTML(title, b) {
     <button class="link rnd-copy" type="button" data-copy="${esc(b.code)}">Copy template</button></div>`;
 }
 function renderRandom() {
-  const vq = Rotation.current(ROTATIONS["zaishen-vanquish"])?.location;
+  const vq = Rotation.current(ROTATIONS["zaishen-vanquish"])?.area;
   $("rnd").innerHTML = `<div class="rnd-builds">${buildCardHTML("Player build", pick(BUILDDATA.players))}
     ${buildCardHTML("Hero build", pick(BUILDDATA.singles))}</div>`
-    + (LOCATIONS[vq]?.set != null ? `<div class="rnd-map"><small>Today's Zaishen Vanquish: ${LINK.place(vq)}</small>${mapHTML([vq])}</div>` : "");
+    + (AREAS[vq]?.set != null ? `<div class="rnd-map"><small>Today's Zaishen Vanquish: ${LINK.area(vq)}</small>${mapHTML([vq])}</div>` : "");
   initMaps($("rnd"));
 }
 $("rnd-again").addEventListener("click", renderRandom);
@@ -161,7 +161,7 @@ function renderEvents() {
     + `<span class="ev-when">${state === "on" ? `ends ${eventAway(b - now)}` : `${state === "soon" ? "coming" : "starts"} ${eventAway(a - now)}`}</span>`
     + `<p>${text(e.blurb, true)}</p></div>`;
   const on = evs.filter(x => x.w[0] <= now), later = evs.filter(x => x.w[0] > now);
-  // with nothing on, an event starting within three days moves up above Today, and the one after it takes its place
+  // with nothing on, an event starting within three days moves up above Today, and the one after it takes its area
   const soon = !on.length && later[0] && later[0].w[0] - now < 3 * 86400000 ? later.shift() : null;
   const more = `<a class="h-more" href="events">All events →</a>`;
   $("ev-now").innerHTML = on.length ? `<h2>On now ${more}</h2>` + on.map(x => card(x, "on")).join("")
@@ -237,7 +237,7 @@ function search(q) {
   }
   rotations.sort((a, b) => a.at - b.at);
   return { ts, pages: PAGES.filter(p => ts.every(t => p._k.split(" ").some(w => word(w, t)))), skills: best(SKILL_LIST),
-    missions: best(MISSION_LIST), places: best(PLACE_LIST), quests: best(QUEST_LIST), bosses: best(BOSS_LIST, x => x.k), rotations };
+    missions: best(MISSION_LIST), areas: best(AREA_LIST), quests: best(QUEST_LIST), bosses: best(BOSS_LIST, x => x.k), rotations };
 }
 
 function section(title, items, render, moreHref) {
@@ -258,14 +258,14 @@ function render() {
       `${s.profession ? PROFS[s.profession] : "Common"} · ${esc(ATTRIBUTES[s.attribute] || "")}`, esc(s.label || "")), `skills?q=${qs}`) +
     section("Missions", r.missions, m => hit(profVar(0), HREF.mission(m.id), `<span class="t">${highlight(m.name, r.ts)}</span>`,
       `${m.kind === "pvp" ? "PvP" : CAMPAIGNS[missionCampaign(m)]} · ${esc(missionRegion(m)?.name || "")}`, esc(m.kind === "story" ? "Mission" : m.kind)), `missions?q=${qs}`) +
-    section("Places", r.places, l => hit(`var(${isOutpost(l) ? "--loc-out" : "--loc-exp"})`, HREF.place(l.id), `<span class="t">${highlight(l.name, r.ts)}</span>`,
-      `${CAMPAIGNS[campaignOf(l)] || ""} · ${esc(regionOf(l)?.name || "")}`, esc(TYPE_LABEL[l.type] || "")), "locations") +
+    section("Areas", r.areas, l => hit(`var(${isOutpost(l) ? "--loc-out" : "--loc-exp"})`, HREF.area(l.id), `<span class="t">${highlight(l.name, r.ts)}</span>`,
+      `${CAMPAIGNS[campaignOf(l)] || ""} · ${esc(regionOf(l)?.name || "")}`, esc(TYPE_LABEL[l.type] || "")), "areas") +
     section("Quests", r.quests, x => hit(STORY.has(x.id) ? profVar(0) : "var(--q-skill)", HREF.quest(x.id), `<span class="t">${highlight(x.name, r.ts)}</span>`,
       `${CAMPAIGNS[questCampaign(x)]} · ${esc(questRegion(x)?.name || "")}`, STORY.has(x.id) ? "Story quest" : x.skills?.length ? "Skill quest" : `${esc(x.type)} quest`), `quests?q=${qs}`) +
     section("Bosses", r.bosses, ({ c, m }) => hit(profVar(c.profession), HREF.boss(c.id), `<span class="t">${highlight(c.name, r.ts)}</span>`,
       esc(m.name), esc((c.elites || []).map(e => SKILLS[e]?.name).filter(Boolean).join(", "))), `bosses?q=${qs}`) +
     section("Rotations", r.rotations, ({ r: rot, e, i, at }) => hit("var(--accent)", `rotations${query({ q: entryName(e) })}`,
-      `<span class="t">${e.count ? `${e.count} × ` : ""}${highlight(entryName(e), r.ts)}</span>`, `${esc(rot.title)}${e.creature && e.location ? ` · ${esc(locName(e.location))}` : ""}`,
+      `<span class="t">${e.count ? `${e.count} × ` : ""}${highlight(entryName(e), r.ts)}</span>`, `${esc(rot.title)}${e.creature && e.area ? ` · ${esc(areaName(e.area))}` : ""}`,
       i ? `next ${fmtNext.format(at)}` : "now")) ||
     `<p class="dim" style="padding:12px 0">Nothing found.</p>`;
 }
@@ -279,15 +279,15 @@ document.addEventListener("keydown", e => {
   if (e.key === "/" && document.activeElement !== $("q")) { e.preventDefault(); $("q").focus(); }
 });
 
-// a game thing's own page (./?place=146, ./?skill=1234, …): the home page gives way to it
+// a game thing's own page (./?area=146, ./?skill=1234, …): the home page gives way to it
 function route() {
-  // a dungeon's old place link: its own page now
-  if (LOCATIONS[args().get("place")]?.type === 18) history.replaceState(null, "", HREF.dungeon(args().get("place")));
+  // a dungeon's old area link: its own page now
+  if (AREAS[args().get("area")]?.type === 18) history.replaceState(null, "", HREF.dungeon(args().get("area")));
   const p = args(), k = Object.keys(VIEWS).find(k => p.has(k)), v = VIEWS[k], x = v?.find(p.get(k));
   for (const sel of [".hero", ".gsearch", "#results", "#sections"]) document.querySelector(sel).style.display = k ? "none" : "";
   $("view").hidden = !k;
   // the menu marks the list the thing is in
-  const menu = { place: "locations", mission: "missions", skill: "skills", hero: "heroes" }[k] || "./";
+  const menu = { area: "areas", mission: "missions", skill: "skills", hero: "heroes" }[k] || "./";
   for (const a of document.querySelectorAll("nav.pages a")) if (a.getAttribute("href") === menu) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
   if (!k) {
     $("view").innerHTML = "";

@@ -1,5 +1,5 @@
 const GW_QUESTS = {
-  "quests_": "Kept by hand. Keys are game quest ids; 100000 and up are ours until the game's is known. givers: npcs, one per place it is given (their location and region come from there); campaign and region only when there is no giver. travel: the campaign it takes you to. event: the yearly event (calendar.js) it belongs to. requires, next: quests; requires_missions, next_missions: missions; requires_other: requirements that aren't quests. missions: missions it belongs to. skills: skill ids. wiki: its page on each wiki, {en, de} (as locations).",
+  "quests_": "Kept by hand. Keys are game quest ids; 100000 and up are ours until the game's is known. givers: npcs, one per area it is given (their area and region come from there); campaign and region only when there is no giver. travel: the campaign it takes you to. event: the yearly event (calendar.js) it belongs to. requires, next: quests; requires_missions, next_missions: missions; requires_other: requirements that aren't quests. missions: missions it belongs to. skills: skill ids. wiki: its page on each wiki, {en, de} (as areas).",
   "quests": {
     "917": {
       "name": "The Last Hierophant",

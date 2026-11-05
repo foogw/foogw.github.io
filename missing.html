@@ -43,7 +43,7 @@
 <script>
 // explorable areas and PvE missions with no walkable ground on a map, worked out from the data so the list stays current
 const pages = [
-  ...Object.values(LOCATIONS).filter(l => [2, 18].includes(l.type) && !HAS_WALK.has(l.id)).map(l => [l.name, HREF.place(l.id)]),
+  ...Object.values(AREAS).filter(l => [2, 18].includes(l.type) && !HAS_WALK.has(l.id)).map(l => [l.name, HREF.area(l.id)]),
   ...Object.values(MISSIONS).filter(m => m.kind !== "pvp" && !HAS_WALK.has(m.id)).map(m => [m.name, HREF.mission(m.id)]),
 ];
 const seen = new Set();

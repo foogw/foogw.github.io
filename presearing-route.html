@@ -38,7 +38,7 @@
 <script src="walkroute.js"></script>
 <script>
 // every pre-Searing area on the surface map, lit; two clicks give the way between them
-const IDS = Object.values(LOCATIONS).filter(l => l.region === 7 && l.set === 1 && HAS_WALK.has(l.id)).map(l => l.id);
+const IDS = Object.values(AREAS).filter(l => l.region === 7 && l.set === 1 && HAS_WALK.has(l.id)).map(l => l.id);
 const UNITS = 96;  // game units per map pixel (32 pixels per 3072-unit cell)
 const status = document.getElementById("status"), clear = document.getElementById("clear");
 document.getElementById("map").innerHTML = mapHTML(IDS, { height: 760 });

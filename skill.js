@@ -29,10 +29,10 @@ VIEWS.skill = (() => {
     if (!s.acquisition?.length) return '<p class="dim">No acquisition data.</p>';
     const groups = new Map();
     for (const a of s.acquisition) {
-      const n = NPCS[a.npc], q = QUESTS[a.quest], where = a.location ?? n?.location ?? questPlaces(q || {})[0]?.id;
+      const n = NPCS[a.npc], q = QUESTS[a.quest], where = a.area ?? n?.area ?? questAreas(q || {})[0]?.id;
       const line = (a.capture ? LINK.boss(a.capture) : q ? LINK.quest(q.id) : esc(n?.name || a.quest_name || ""))
         + (where ? ` <span class="m">— ${whereLink(where)}</span>` : "");
-      const camp = CAMPAIGNS[campaignOf(LOCATIONS[where]) ?? (q && questCampaign(q))] || "";
+      const camp = CAMPAIGNS[campaignOf(AREAS[where]) ?? (q && questCampaign(q))] || "";
       const g = groups.get(sourceOf(a)) || groups.set(sourceOf(a), new Map()).get(sourceOf(a));
       const lines = g.get(camp) || g.set(camp, []).get(camp);
       if (!lines.includes(line)) lines.push(line);

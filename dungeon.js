@@ -21,12 +21,12 @@ VIEWS.dungeon = (() => {
 
   // the outside areas a dungeon is entered from, each with the portal into it there and the outposts next to it
   function entrances(l) {
-    const areas = [...new Set((l.exits || []).map(e => e.to))].filter(i => LOCATIONS[i] && !isOutpost(LOCATIONS[i]) && LOCATIONS[i].type !== 18);
+    const areas = [...new Set((l.exits || []).map(e => e.to))].filter(i => AREAS[i] && !isOutpost(AREAS[i]) && AREAS[i].type !== 18);
     return areas.map(area => {
       // the portal on the area's own map: its exit to the dungeon, else the dungeon's where both are on one map
-      const a = LOCATIONS[area], at = (a.exits || []).find(x => x.to === l.id && x.at)?.at
+      const a = AREAS[area], at = (a.exits || []).find(x => x.to === l.id && x.at)?.at
         || (l.set === a.set ? (l.exits || []).find(x => x.to === area && x.at)?.at : null);
-      return { area, at, outposts: Object.values(LOCATIONS).filter(o => isOutpost(o) && (o.exits || []).some(x => x.to === area)).map(o => o.id) };
+      return { area, at, outposts: Object.values(AREAS).filter(o => isOutpost(o) && (o.exits || []).some(x => x.to === area)).map(o => o.id) };
     }).filter(e => e.at);
   }
 
@@ -42,13 +42,13 @@ VIEWS.dungeon = (() => {
 
   function levelRow(d, v, i) {
     const a = arrive(v, i), g = goal(v);
-    const from = !a ? "" : a[0] === "portal" ? `From ${LINK.place(a[3])}` : v.name || !i ? "From the start" : `From ${esc(levelName(d, i - 1))}`;
+    const from = !a ? "" : a[0] === "portal" ? `From ${LINK.area(a[3])}` : v.name || !i ? "From the start" : `From ${esc(levelName(d, i - 1))}`;
     const to = !g ? "" : g[0] === "down" ? `down to ${esc(levelName(d, i + 1))}` : `to the boss, ${bossLink(g[3])}`;
     const ways = v.marks.filter(m => m[0] === "portal" || m[0] === "down");
     const steps = stops(v).map(m => m[3]), sights = v.marks.filter(m => ["npc", "spot", "wall"].includes(m[0])).map(m => m[3]);
-    const others = ways.filter(m => m[0] === "portal" && m !== a).map(m => LINK.place(m[3]));
+    const others = ways.filter(m => m[0] === "portal" && m !== a).map(m => LINK.area(m[3]));
     const level = { name: levelName(d, i), walk: (v.walk ?? DEPTHS.cells[v.cell]), area: v.area,
-      portals: ways.map(m => ({ at: [m[1], m[2]], name: m[0] === "down" ? levelName(d, i + 1) : LOCATIONS[m[3]]?.name || "" })) };
+      portals: ways.map(m => ({ at: [m[1], m[2]], name: m[0] === "down" ? levelName(d, i + 1) : AREAS[m[3]]?.name || "" })) };
     // on the map, the steps by their number in the list
     const spots = v.marks.filter(m => !ways.includes(m)).map(m => ({ x: m[1], y: m[2],
       name: m[0] === "start" ? "Arrive" : STOP.includes(m[0]) ? `${stops(v).indexOf(m) + 1}. ${m[3]}` : m[3] }));
@@ -62,24 +62,24 @@ VIEWS.dungeon = (() => {
   }
 
   function html(d) {
-    const l = LOCATIONS[d.id], ins = entrances(l);
-    const outposts = [...new Set((l.exits || []).map(e => e.to))].filter(i => isOutpost(LOCATIONS[i]));  // its portal is in the outpost
+    const l = AREAS[d.id], ins = entrances(l);
+    const outposts = [...new Set((l.exits || []).map(e => e.to))].filter(i => isOutpost(AREAS[i]));  // its portal is in the outpost
     const quests = [...new Set([d.id, ...d.levels.map(v => v.map)])].flatMap(questsAt);
     const notes = [
       bounty(d.id),
       ...quests.map(q => {
-        const gs = questGivers(q), k = d.levels.findIndex(v => v.map === gs[0]?.location && v.map !== d.id);
+        const gs = questGivers(q), k = d.levels.findIndex(v => v.map === gs[0]?.area && v.map !== d.id);
         return `Quest: ${LINK.quest(q.id)}${gs.length ? `, from ${esc([...new Set(gs.map(n => n.name))].join(", "))}${k > 0 ? ` on ${esc(levelName(d, k))}` : ""}` : ""}.`;
       }),
-      ...outposts.map(o => `Entered straight from ${LINK.place(o)}.`),
+      ...outposts.map(o => `Entered straight from ${LINK.area(o)}.`),
     ].filter(Boolean);
-    const there = ins.map(e => row("", `Getting there: ${LINK.place(e.area)}`, `
-      <p class="dgroute">${e.outposts.length ? `From ${listText(e.outposts.map(o => LINK.place(o)))} to the entrance` : "The entrance"}</p>
+    const there = ins.map(e => row("", `Getting there: ${LINK.area(e.area)}`, `
+      <p class="dgroute">${e.outposts.length ? `From ${listText(e.outposts.map(o => LINK.area(o)))} to the entrance` : "The entrance"}</p>
       <p class="dgway" data-in="${e.area}"></p>`, mapHTML([e.area], { height: 340, town: e.outposts, spots: [{ x: e.at[0], y: e.at[1], name: "Entrance" }] }))).join("");
     return `
       <p class="back"><a href="dungeons">← All dungeons</a></p>
       <div class="lhead exp">
-        <div><h2>${esc(l.name)}${doneTicks("dungeons", d.id, undefined, "Done in")}</h2><div class="lsub"><span class="ltype t${l.type}">Dungeon</span> <span>${esc(regionOf(l)?.name)}</span></div></div>
+        <div><h2>${esc(l.name)}${doneTicks("dungeons", d.id, undefined, "Done in")}</h2><div class="lsub"><span class="ltype t${l.type} dgn">Dungeon</span> <span>${esc(regionOf(l)?.name)}</span></div></div>
         <div class="lstats"><span class="lstat"><small>Levels</small><b>${d.levels.length || l.levels || "?"}</b></span>${l.party ? `<span class="lstat"><small>Party</small><b>${l.party}</b></span>` : ""}<span class="lstat dgtotal" hidden><small>Walk</small><b></b></span></div>
       </div>
       ${notes.length ? `<ul class="lnotes">${notes.map(n => `<li>${n}</li>`).join("")}</ul>` : ""}
@@ -104,7 +104,7 @@ VIEWS.dungeon = (() => {
     const at = `dungeon=${d.id}`, live = () => el.dataset.at === at;
     let total = 0;
     // the walk from the nearest outpost to the entrance
-    for (const e of entrances(LOCATIONS[d.id])) {
+    for (const e of entrances(AREAS[d.id])) {
       const p = el.querySelector(`[data-in="${e.area}"]`);
       if (!p || !e.outposts.length) continue;
       const grid = await walkGrid([e.area]);
@@ -139,5 +139,5 @@ VIEWS.dungeon = (() => {
       { t.hidden = false; t.querySelector("b").textContent = `${units(total)}`; t.title = "Game units, from the outpost to the boss"; }
   }
   // any dungeon has a page; its levels where data/depths.js has them
-  return { find: id => (LOCATIONS[id]?.type === 18 ? { id: +id, levels: DEPTHS?.dungeons?.[id]?.levels || [] } : null), title: d => LOCATIONS[d.id].name, html, after };
+  return { find: id => (AREAS[id]?.type === 18 ? { id: +id, levels: DEPTHS?.dungeons?.[id]?.levels || [] } : null), title: d => AREAS[d.id].name, html, after };
 })();

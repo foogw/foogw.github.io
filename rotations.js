@@ -32,9 +32,9 @@ function renderNow() {
 
 function matches(e, ts) {
   if (!ts.length) return true;
-  // the entry's name and place (a bounty's area too; no region, no aliases), each search word the start of one of
+  // the entry's name and area (a bounty's area too; no region, no aliases), each search word the start of one of
   // their words, so a search marks just what it names ("rn" is not inside "Southern")
-  const words = fold([entryName(e), e.creature && locName(e.location)].filter(Boolean).join(" ")).split(/[\s'-]+/);
+  const words = fold([entryName(e), e.creature && areaName(e.area)].filter(Boolean).join(" ")).split(/[\s'-]+/);
   return ts.every(t => words.some(w => w.startsWith(t)));
 }
 
@@ -157,7 +157,7 @@ function show() {
   const i = p.has("nick") && NICK.entries[p.get("nick")] ? +p.get("nick") : Rotation.period(NICK) % NICK.entries.length;
   if (+$("nick").dataset.nick !== i || !$("nick").firstChild) {
     const e = NICK.entries[i];
-    $("nick-what").textContent = `· ${e.count} × ${e.item}, ${locName(e.location)}`;
+    $("nick-what").textContent = `· ${e.count} × ${e.item}, ${areaName(e.area)}`;
     nickMap($("nick"), i);
   }
   // (on arriving, after the search box's autofocus has had its say)

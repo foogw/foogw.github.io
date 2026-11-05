@@ -5,7 +5,7 @@
       "blocks": [
         {"side": true, "height": 760, "areas": [72]},
         {
-          "p": "{place:72} is Grenth's realm in the Mists: an elite area for a full party, heroes allowed. Its eleven repeatable quests pay 110,000 XP in all, and the last one, against Dhuum, earns the Underworld Chest. It's also the main place Globs of Ectoplasm drop."
+          "p": "{area:72} is Grenth's realm in the Mists: an elite area for a full party, heroes allowed. Its eleven repeatable quests pay 110,000 XP in all, and the last one, against Dhuum, earns the Underworld Chest. It's also the main place Globs of Ectoplasm drop."
         },
         {
           "p": "This guide is for doing all eleven in one run. Most of the quests send you out of the Underworld if an NPC dies, so the order puts the dangerous ones first: a failure early costs little, and the easy ones are left for when the team has the most to lose."
@@ -198,6 +198,6 @@
         {"routeTotal": {"plus": "the Underworld Chest"}}
       ]
     },
-    {"title": "All quests", "blocks": [{"questIndex": {"skip": {}, "rest": "", "places": [72]}}]}
+    {"title": "All quests", "blocks": [{"questIndex": {"skip": {}, "rest": "", "areas": [72]}}]}
   ]
 }

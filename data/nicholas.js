@@ -1,5 +1,5 @@
 const GW_NICHOLAS = {
-  "spots_": "Ours: Nicholas the Traveler's weeks (calendar.js, the nicholas-traveler rotation), by entry: at: where he stands, on his location's map (maps.js); from: the outposts to walk to him from, nearest first (an area next to his: from its portal into his; an area on another map: from its portal on his area's own map, routing.js portals). First read off the Guild Wars Wiki's pictures of him, then corrected by hand.",
+  "spots_": "Ours: Nicholas the Traveler's weeks (calendar.js, the nicholas-traveler rotation), by entry: at: where he stands, on his area's map (maps.js); from: the outposts to walk to him from, nearest first (an area next to his: from its portal into his; an area on another map: from its portal on his area's own map, routing.js portals). First read off the Guild Wars Wiki's pictures of him, then corrected by hand.",
   "spots": {
     "0": {"at": [7396, 5074], "from": [29]},
     "1": {"at": [5903, 5222], "from": [156]},

@@ -861,7 +861,7 @@ const GW_BUILDS = {
       "summary": "Energy denial and damage with Energy Surge, Mistrust and Spiritual Pain, plus Shatter Hex, Guilt and Flesh of My Flesh."
     }
   ],
-  "teams_": "Team builds: their builds in party order (a build may appear more than once); place and mission: map ids; guide: the guide that explains it.",
+  "teams_": "Team builds: their builds in party order (a build may appear more than once); area and mission: map ids; guide: the guide that explains it.",
   "teams": [
     {
       "id": "meta",
@@ -875,7 +875,7 @@ const GW_BUILDS = {
       "name": "7 Hero AFK Luxon Faction Farm",
       "summary": "An all-day AFK farm of Luxon faction in Zos Shivros Channel: start it, stand in place, then go AFK.",
       "tags": ["Farm", "Luxon faction", "AFK", "7 heroes"],
-      "place": 273,
+      "area": 273,
       "mission": 273,
       "mode": "Normal mode",
       "yields": "About 300 faction for the 7 waves, 600 for the 6 Luxon Adepts, then 50 a minute for as long as you stay, plus a bonus when you resign.",

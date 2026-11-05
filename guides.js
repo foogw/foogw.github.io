@@ -129,12 +129,12 @@ function chipsHTML(st) {
 }
 // a leg's header; a leg with no steps of its own runs into the next one's ("Map to X and step to Y"):
 // stepping into an outpost, out of one into an area, or across from one area into the next
-const legPlace = leg => leg.start ?? leg.map ?? leg.step ?? leg.area;
-const legName = leg => (typeof legPlace(leg) === "number" ? LINK.place(legPlace(leg)) : esc(legPlace(leg)));  // an area may be a named part of a zone
-const outpostAt = id => isOutpost(LOCATIONS[id]);
+const legArea = leg => leg.start ?? leg.map ?? leg.step ?? leg.area;
+const legName = leg => (typeof legArea(leg) === "number" ? LINK.area(legArea(leg)) : esc(legArea(leg)));  // an area may be a named part of a zone
+const outpostAt = id => isOutpost(AREAS[id]);
 const UNDERGROUND = new Set([145]);  // you go down into these (the Catacombs), not out to them
 const legVerb = (leg, prev) => (leg.start ? "Start in" : leg.map ? "Map to" : leg.area ? "Head to" : UNDERGROUND.has(leg.step) ? "Go down into" : outpostAt(leg.step) ? "Step into"
-  : prev && outpostAt(legPlace(prev)) ? "Step out to" : "Cross into");
+  : prev && outpostAt(legArea(prev)) ? "Step out to" : "Cross into");
 const legHead = (leg, prev) => `<span class="dim">${legVerb(leg, prev)}</span> ${legName(leg)}`;
 function routeHTML(g, route) {
   const done = ticked(g.id);
@@ -153,7 +153,7 @@ function routeHTML(g, route) {
 // repeatable ones and the dailies are left out of both
 function questIndexHTML(g, x) {
   const at = routeOf(g)?.at || new Map();
-  const qs = [...new Set(x.places.flatMap(questsAt))];
+  const qs = [...new Set(x.areas.flatMap(questsAt))];
   const first = q => at.get(q.id).take ?? at.get(q.id).done;
   const why = q => x.skip[q.id] || x.rest;
   const repeats = q => q.repeatable || (x.daily && q.name.startsWith(x.daily));

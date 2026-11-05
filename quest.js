@@ -4,7 +4,7 @@
 VIEWS.quest = (() => {
   const key = n => (n.mission != null ? `m${n.mission}` : `q${n.quest}`);
   const allSteps = s => [...(s.nodes || []), ...(s.parts || []).flatMap(p => p.steps)];
-  // each quest's place in a story: quest id -> [campaign, step key]
+  // each quest's area in a story: quest id -> [campaign, step key]
   const IN_STORY = new Map((QUESTDATA?.storylines || []).flatMap(s => allSteps(s).filter(n => n.quest).map(n => [n.quest, [s.campaign, key(n)]])));
   const questProfs = q => [...new Set((q.skills || []).map(id => SKILLS[id]?.profession))].filter(p => p);
 
@@ -14,10 +14,10 @@ VIEWS.quest = (() => {
     const stats = [q.xp && ["XP", q.xp.toLocaleString("en")], q.gold && ["Gold", q.gold.toLocaleString("en")]].filter(Boolean);
     const skills = (q.skills || []).filter(id => SKILLS[id]);
     const heroes = (q.hero || []).map(i => HEROES[i]).filter(Boolean);
-    const givers = questGivers(q), places = questPlaces(q), profs = questProfs(q);
+    const givers = questGivers(q), areas = questAreas(q), profs = questProfs(q);
     const facts = [
       givers.length && ["Giver", [...new Set(givers.map(n => n.name))].map(esc).join(", ")],
-      places.length && ["Where", places.map(l => LINK.place(l.id)).join(", ")],
+      areas.length && ["Where", areas.map(l => LINK.area(l.id)).join(", ")],
       (profs.length || q.profession) && ["Profession", profs.map(p => `${profIcon(p)} ${PROFS[p]}`).join(" ") || PROFS[q.profession]],
       heroes.length && ["Required hero", heroes.map(heroChip).join(" and ")],
       (q.requires?.length || q.requires_missions?.length || q.requires_other?.length) && ["After", [...(q.requires || []).map(i => LINK.quest(i)),
@@ -43,7 +43,7 @@ VIEWS.quest = (() => {
             ${skills.length ? `<div class="qp-skills">${skills.map(id => LINK.skill(id)).join("")}</div>` : ""}
             ${q.rewards?.length ? `<ul class="qp-rewards">${q.rewards.map(r => `<li>${esc(r)}</li>`).join("")}</ul>` : ""}
             ${!skills.length && !q.rewards?.length ? `<p class="dim">${q.xp && q.gold ? "Experience and gold only." : q.xp ? "Experience only." : q.gold ? "Gold only." : "—"}</p>` : ""}</section>
-          ${mapHTML(places.flatMap(placeAreas), { self: places[0]?.id })}
+          ${mapHTML(areas.flatMap(shownAreas), { self: areas[0]?.id })}
         </div>
       </div>
       <p class="llinks">${step ? `<a href="${storylineHref(step[0], { s: step[1] })}">In the storyline →</a>` : ""}${skills.length && q.type !== "primary" ? `<a href="quests?sq=1">Skill quests →</a>` : ""}${wikiLink(q.wiki)}</p>`;

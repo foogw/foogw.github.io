@@ -5,7 +5,7 @@
       "blocks": [
         {"side": true, "areas": [34]},
         {
-          "p": "{place:34} is Balthazar's realm in the Mists: an elite area for a full party, heroes allowed. Its eleven repeatable quests pay 100,000 XP in all, plus a reward chest by the Forgemaster once they're all done. It's the only place Obsidian Shards drop, and once Restore the Temple of War is done, the Forgemaster offers Obsidian armor."
+          "p": "{area:34} is Balthazar's realm in the Mists: an elite area for a full party, heroes allowed. Its eleven repeatable quests pay 100,000 XP in all, plus a reward chest by the Forgemaster once they're all done. It's the only place Obsidian Shards drop, and once Restore the Temple of War is done, the Forgemaster offers Obsidian armor."
         },
         {
           "p": "This guide is for doing all eleven in one run, in an order with as little backtracking as possible. The Hunt sets the order: its seven Shard Wolves only count once you have the quest, and its giver stands south of the Temple of War. So the route opens the temple first, picks up the hunt, and then sweeps the rest of the map once, killing each wolf on the way."
@@ -187,6 +187,6 @@
         {"routeTotal": {"plus": "the Chest of Woe"}}
       ]
     },
-    {"title": "All quests", "blocks": [{"questIndex": {"skip": {}, "rest": "", "places": [34]}}]}
+    {"title": "All quests", "blocks": [{"questIndex": {"skip": {}, "rest": "", "areas": [34]}}]}
   ]
 }

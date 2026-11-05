@@ -5,10 +5,10 @@
 VIEWS.mission = (() => {
   const ALL = Object.values(MISSIONS);
   const KINDS = { story: "Mission", challenge: "Challenge", competitive: "Competitive", elite: "Elite mission", pvp: "PvP" };
-  const place = m => LOCATIONS[m.id];
-  const outpost = m => LOCATIONS[m.outpost];
-  const party = m => outpost(m)?.party || place(m)?.party || 0;
-  const regionId = m => (outpost(m) || place(m))?.region;
+  const area = m => AREAS[m.id];
+  const outpost = m => AREAS[m.outpost];
+  const party = m => outpost(m)?.party || area(m)?.party || 0;
+  const regionId = m => (outpost(m) || area(m))?.region;
   const camp = m => missionCampaign(m) ?? 0;
 
   const num = n => (n ? n.toLocaleString("en") : "—");
@@ -55,14 +55,16 @@ VIEWS.mission = (() => {
     const story = [
       before.length && ["After", before.map(x => LINK.mission(x.id)).join(", ")],
       m.leads_to?.length && ["Leads to", m.leads_to.map(whereLink).join(", ")],
-      m.outpost && m.outpost !== m.id && ["Outpost", LINK.place(m.outpost)],
+      // where it starts, and where it's played when that's an area of its own (Factions, Nightfall)
+      outpost(m) && ["Outpost", LINK.area(m.outpost)],
+      m.outpost !== m.id && [14, 17].includes(area(m)?.type) && ["Mission area", LINK.area(m.id)],
       heroes.length && ["Required hero", heroes.map(heroChip).join(" and ")],
     ].filter(Boolean);
     const notes = [zaishenNote(m)].filter(Boolean);
     const steps = QUESTDATA?.storylines?.find(s => (s.nodes || []).some(n => n.mission === m.id) || (s.parts || []).some(p => p.steps.some(n => n.mission === m.id)));
     return `<p class="back"><a href="missions">← All missions</a></p>
       <div class="sp-head" style="--pc:var(${CAMP_COLOR[camp(m)]})">
-        <div class="sp-title"><h2>${esc(m.name)}${["story", "challenge", "elite"].includes(m.kind) ? doneTicks("missions", m.id, undefined, "Done in") : ""}</h2><div class="sp-sub">${sub}</div></div>
+        <div class="sp-title"><h2>${esc(m.name)}${hasModes(m) ? doneTicks("missions", m.id, undefined, "Done in") : ""}</h2><div class="sp-sub">${sub}</div></div>
         ${party(m) ? `<div class="lstats"><span class="lstat"><small>Party</small><b>${party(m)}</b></span></div>` : ""}
       </div>
       ${notes.length ? `<ul class="lnotes">${notes.map(n => `<li>${n}</li>`).join("")}</ul>` : ""}

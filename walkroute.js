@@ -29,8 +29,8 @@ async function walkGrid(ids, given = {}) {
   for (const w of walks) walkFill(W, H, w.rings.map(r => r.map((v, k) => (k % 2 ? gy(v) : gx(v)))), i => { area[i] |= bit.get(w.id); });
   // a portal between two of the areas, where each lists it: one listed by one side only is a way in with no way back
   // (into an outpost that leads only into its mission)
-  const both = (a, b) => (LOCATIONS[b]?.exits || []).some(x => x.to === a);
-  for (const id of ids) for (const e of LOCATIONS[id]?.exits || []) if (e.at && bit.has(id) && bit.has(e.to) && both(id, e.to))
+  const both = (a, b) => (AREAS[b]?.exits || []).some(x => x.to === a);
+  for (const id of ids) for (const e of AREAS[id]?.exits || []) if (e.at && bit.has(id) && bit.has(e.to) && both(id, e.to))
     walkNear(W, H, [gx(e.at[0]), gy(e.at[1])], WALK_BRIDGE / WALK_S, i => { area[i] |= bit.get(id) | bit.get(e.to); portal[i] = 1; });
   // paths (our data): lines the area's ground misses, walkable, 4 map pixels wide
   for (const w of walks) for (const l of w.paths || []) for (let k = 2; k < l.length; k += 2)
@@ -38,8 +38,8 @@ async function walkGrid(ids, given = {}) {
   // where two areas with no portal between them overlap on the map (their pictures' edges), the ground is neither's:
   // a wall, so a way doesn't step from one into the other there
   const linked = new Set(walks.map(w => bit.get(w.id)));
-  for (const id of ids) for (const e of LOCATIONS[id]?.exits || []) if (bit.has(id) && bit.has(e.to) && both(id, e.to)) linked.add(bit.get(id) | bit.get(e.to));
-  // two places on the same ground (an area and a copy of it under another id) overlap all over: those count as linked
+  for (const id of ids) for (const e of AREAS[id]?.exits || []) if (bit.has(id) && bit.has(e.to) && both(id, e.to)) linked.add(bit.get(id) | bit.get(e.to));
+  // two areas on the same ground (an area and a copy of it under another id) overlap all over: those count as linked
   const size = new Map(), shared = new Map(), one = m => { const bs = []; for (let b = m; b; b &= b - 1) bs.push(b & -b); return bs; };
   for (let i = 0; i < W * H; i++) if (area[i]) {
     const bs = one(area[i]);
@@ -65,7 +65,7 @@ async function walkGrid(ids, given = {}) {
   const near = (id, [x, y]) => paths.has(id) && (g.isPointInPath(paths.get(id), (x - x0) / WALK_S + 1, (y - y0) / WALK_S + 1)
     || g.isPointInStroke(paths.get(id), (x - x0) / WALK_S + 1, (y - y0) / WALK_S + 1));
   const ends = new Map();  // two areas -> their portals' ends
-  for (const id of ids) for (const e of LOCATIONS[id]?.exits || []) if (e.at && ids.includes(e.to) && both(id, e.to)) {
+  for (const id of ids) for (const e of AREAS[id]?.exits || []) if (e.at && ids.includes(e.to) && both(id, e.to)) {
     const k = [id, e.to].sort((a, b) => a - b).join("-");
     if (!ends.has(k)) ends.set(k, new Map());
     ends.get(k).set(String(e.at), e.at);
@@ -254,18 +254,18 @@ function walkRoute(grid, from, [tx, ty]) {
 const walkLines = pts => pts.reduce((ls, p) => (p ? ls.at(-1).push(p) : ls.push([]), ls), [[]]).filter(l => l.length);
 // a way's length in map pixels, not counting the jumps
 const walkLength = pts => walkLines(pts).reduce((s, l) => s + l.slice(1).reduce((t, p, i) => t + Math.hypot(p[0] - l[i][0], p[1] - l[i][1]), 0), 0);
-// where a walk from a place can start: an outpost's portals out to the areas, or any place's whose ground isn't walked
+// where a walk from an area can start: an outpost's portals out to the areas, or any area's whose ground isn't walked
 // over (portals both sides list: the ways you leave it), each on its area's ground; else its marker
 function walkFrom(grid, id, ids) {
-  const l = LOCATIONS[id], out = e => e.at && ids.includes(e.to) && grid.bit?.has(e.to) && (LOCATIONS[e.to]?.exits || []).some(x => x.to === id)
+  const l = AREAS[id], out = e => e.at && ids.includes(e.to) && grid.bit?.has(e.to) && (AREAS[e.to]?.exits || []).some(x => x.to === id)
     && !ROUTING?.closed?.[id]?.includes(e.to);  // (a portal it can't be left by: ours, data/routing.js)
-  // a place off this map: the portals into it on the own maps of the areas here
+  // an area off this map: the portals into it on the own maps of the areas here
   const own = grid.bit?.has(id) ? [] : ids.flatMap(a => grid.bit?.has(a) ? Object.entries(ROUTING?.portals[a] || {}).filter(([to]) => +to === id).map(([, at]) => ({ at, area: a })) : []);
   if (own.length) return own;
-  const es = isOutpost(l) || !grid.bit?.has(id) ? (l.exits || []).filter(out) : [];  // (a place not walked over, too: a mission)
+  const es = isOutpost(l) || !grid.bit?.has(id) ? (l.exits || []).filter(out) : [];  // (an area not walked over, too: a mission)
   return es.length ? es.map(e => ({ at: e.at, area: e.to })) : l?.at ? [l.at] : [];
 }
-// the shortest way from a place (by any of its portals) to a point, or null
+// the shortest way from an area (by any of its portals) to a point, or null
 function walkWay(grid, id, ids, to) {
   let best = null;
   for (const s of walkFrom(grid, id, ids)) {
@@ -274,5 +274,5 @@ function walkWay(grid, id, ids, to) {
   }
   return best;
 }
-// the places a walk goes over: areas you walk in, not outposts or missions (a way leaves an outpost by its portal)
-const walkable = id => [2, 18].includes(LOCATIONS[id]?.type);
+// the areas a walk goes over: areas you walk in, not outposts or missions (a way leaves an outpost by its portal)
+const walkable = id => [2, 18].includes(AREAS[id]?.type);

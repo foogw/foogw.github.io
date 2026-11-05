@@ -1,5 +1,5 @@
 const GW_ALIASES = {
-  "aliases_": "The short names players search with, by what they name: skills, locations, regions, professions and campaigns by id; other: by the words they stand for.",
+  "aliases_": "The short names players search with, by what they name: skills, areas, regions, professions and campaigns by id; other: by the words they stand for.",
   "aliases": {
     "skills": {
       "2356": ["iau"],
@@ -35,7 +35,7 @@ const GW_ALIASES = {
       "8": ["rit", "rt"],
       "1": ["war", "warr"]
     },
-    "locations": {
+    "areas": {
       "560": ["cof"],
       "221": ["fa"],
       "495": ["gom"],

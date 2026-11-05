@@ -56,7 +56,7 @@
         },
         {
           "ul": [
-            "The drakes spawn on a cliff above the portal out of {place:427}. From below the cliff they can't reach you and can't see you, so they can't hurt you.",
+            "The drakes spawn on a cliff above the portal out of {area:427}. From below the cliff they can't reach you and can't see you, so they can't hurt you.",
             "You can't hit them with attacks either, so the damage comes from hexes, which spread between the two drakes when they stand next to each other.",
             "They put up Obsidian Flesh, which blocks spells; signets aren't spells, so the signets keep working through it.",
             "{hero:6} must be in the party for the quest, so he is flagged out of the way.",
@@ -70,12 +70,12 @@
       "blocks": [
         {
           "ol": [
-            "Take {quest:100872}, which needs {hero:6}, and leave {place:427} with him.",
+            "Take {quest:100872}, which needs {hero:6}, and leave {area:427} with him.",
             "Flag Koss far into the pool to your south-west.",
             "Walk back towards the portal to aggro the drakes above the cliff.",
             "Wait a minute for the initial drop-rate reduction to pass (a good time to set up another account for the farm).",
             "Kill both drakes.",
-            "If anything worthwhile dropped, run through {place:384} to pick it up.",
+            "If anything worthwhile dropped, run through {area:384} to pick it up.",
             "Rezone and repeat."
           ]
         }

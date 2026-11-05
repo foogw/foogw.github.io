@@ -18,7 +18,7 @@ const rowHTML = (b, ts, got) => `<a class="row brow" href="${HREF.boss(b.id)}" s
     <div class="name">${highlight(b.name, ts)}</div>
     <div class="prof col-prof">${b.prof ? PROFS[b.prof] : ""}</div>
     <div class="echips">${b._elites.map(s => `<span class="echip${got.has(s.id) ? " got" : ""}" style="--pc:${profVar(s.profession)}">${skillIcon(s.id, "sk-ic sm")}${highlight(s.name, ts)}</span>`).join("")}</div>
-    <div class="cell dim col-where" title="${esc(b._where.map(locName).join(", "))}">${highlight(b._where.map(locName).join(", "), ts)}</div>
+    <div class="cell dim col-where" title="${esc(b._where.map(areaName).join(", "))}">${highlight(b._where.map(areaName).join(", "), ts)}</div>
     <div class="dim col-camp">${[...b.camps].sort().map(c => CAMP_SHORT[c]).join(", ")}</div>
   </a>`;
 

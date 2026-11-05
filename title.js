@@ -40,7 +40,7 @@ VIEWS.title = (() => {
     return `<section class="t-panel" style="--c:var(${CAMP_COLOR[t.campaign]})">
       <div class="t-meta">${metaHTML(t)}</div>
       <p><span class="dim">Earned by</span> ${esc(t.earn)}</p>
-      ${t.effect ? `<p><span class="dim">When displayed</span> ${esc(t.effect)}${giver ? ` <span class="dim">From ${esc(giver.name)} in ${LINK.place(giver.location)}.</span>` : ""}</p>` : ""}
+      ${t.effect ? `<p><span class="dim">When displayed</span> ${esc(t.effect)}${giver ? ` <span class="dim">From ${esc(giver.name)} in ${LINK.area(giver.area)}.</span>` : ""}</p>` : ""}
       ${t.columns?.length ? `<div class="t-range">${rangeHTML(t)}</div>` : ""}
       ${t.note ? `<p class="dim">${esc(t.note)}</p>` : ""}
       ${unlocksHTML(t)}

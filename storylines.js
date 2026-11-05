@@ -4,7 +4,7 @@ const STORYLINES = QUESTDATA.storylines;
 const CAMPS = STORYLINES.map(s => s.campaign);
 // a step of a story: a mission ("m28") or a quest ("q100023")
 const key = n => (n.mission != null ? `m${n.mission}` : `q${n.quest}`);
-const stepOf = k => (k[0] === "m" ? { mission: MISSIONS[k.slice(1)] || LOCATIONS[k.slice(1)] } : { quest: QUESTS[k.slice(1)] });
+const stepOf = k => (k[0] === "m" ? { mission: MISSIONS[k.slice(1)] || AREAS[k.slice(1)] } : { quest: QUESTS[k.slice(1)] });
 const stepName = k => { const s = stepOf(k); return (s.mission || s.quest)?.name || ""; };
 const allSteps = s => [...(s.nodes || []), ...(s.parts || []).flatMap(p => p.steps)];
 const MIN_W = 104, MAX_W = 230, NODE_H = 44, GAP_X = 10, GAP_Y = 30;
@@ -160,7 +160,7 @@ function renderDetail() {
   const s = stepOf(k), nb = neighbours(k), hs = stepHeroes(k);
   const heroes = row("Hero", hs.length && `${hs.map(heroChip).join(" and ")} (required)`);
   if (s.mission) {
-    const m = MISSIONS[s.mission.id], l = LOCATIONS[m?.outpost] || LOCATIONS[s.mission.id];
+    const m = MISSIONS[s.mission.id], l = AREAS[m?.outpost] || AREAS[s.mission.id];
     $("detail").innerHTML = `<div class="q-dk">Mission ${m?.label ?? ""}</div><h3>${esc(stepName(k))}</h3>
       <p class="dim">${esc(regionOf(l)?.name || "")}${l?.party ? ` · party of ${l.party}` : ""}</p>
       ${row("After", nb.prev.map(stepLink).join(", "))}${row("Leads to", nb.next.map(stepLink).join(", "))}${heroes}
@@ -172,7 +172,7 @@ function renderDetail() {
   const givers = questGivers(q);
   $("detail").innerHTML = `<div class="q-dk">${esc(q.type)} quest${q.repeatable ? " · repeatable" : ""}</div><h3>${esc(q.name)}</h3>
     ${row("Region", esc(questRegion(q)?.name || ""))}
-    ${row("Giver", givers.map(n => `${esc(n.name)}${n.location ? ` — ${LINK.place(n.location)}` : ""}`).join("<br>"))}
+    ${row("Giver", givers.map(n => `${esc(n.name)}${n.area ? ` — ${LINK.area(n.area)}` : ""}`).join("<br>"))}
     ${row("After", nb.prev.map(stepLink).join(", "))}
     ${row("Leads to", nb.next.filter(n => n[0] !== "m" || !(q.next_missions || []).includes(+n.slice(1))).map(stepLink).join(", "))}
     ${row("Opens mission", [...(q.missions || []), ...(q.next_missions || [])].map(whereLink).join(", "))}

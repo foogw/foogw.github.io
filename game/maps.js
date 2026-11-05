@@ -124,7 +124,7 @@ const GW_MAPS = {
     {"name": "Unknown 1", "group": "Others", "set": 138, "box": [0, 0, 511, 511]},
     {"name": "Vizunah Square", "group": "Others", "set": 125, "box": [0, 0, 383, 511]}
   ],
-  "extras_": "Walkable ground in the pictures that no location claims yet: game/walk/extra/<n>.json, as a location's. name: what the picture called it, if anything.",
+  "extras_": "Walkable ground in the pictures that no area claims yet: game/walk/extra/<n>.json, as an area's. name: what the picture called it, if anything.",
   "extras": {
     "1": {"name": "End of Prophecies", "set": 0},
     "2": {"name": "The Undercity", "set": 2},
@@ -155,7 +155,7 @@ const GW_MAPS = {
     "27": {"name": "", "set": 134},
     "28": {"name": "", "set": 137}
   },
-  "walks_": "The locations with walkable ground, and the set it is on: game/walk/<map id>.json, {set, rings: [[x0, y0, x1, y1, ...], ...], town: rings} in the set's pixels (fill non-zero: outlines run one way, holes the other); town: an outpost's own ground where its mission is played on the same map id (rings: the mission's); here: map id -> its set.",
+  "walks_": "The areas with walkable ground, and the set it is on: game/walk/<map id>.json, {set, rings: [[x0, y0, x1, y1, ...], ...], town: rings} in the set's pixels (fill non-zero: outlines run one way, holes the other); town: an outpost's own ground where its mission is played on the same map id (rings: the mission's); here: map id -> its set.",
   "walks": {
     "10": 0,
     "11": 0,

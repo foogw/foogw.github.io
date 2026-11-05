@@ -1,6 +1,6 @@
 "use strict";
 /* Nicholas the Traveler's spot one week, on its map, with the way to him from the outposts nearby (the entry's at and
-   from in calendar.js): nickHTML() gives the place for it, nickMap(el, i) draws entry i of his rotation there. The ways
+   from in calendar.js): nickHTML() gives the area for it, nickMap(el, i) draws entry i of his rotation there. The ways
    are worked out in the browser (walkroute.js); his area, the outposts and the areas the ways cross are lit. */
 const NICK = ROTATIONS["nicholas-traveler"];
 const NICK_COLORS = ["#4fd1ff", "#ffb347", "#c58bff", "#ff6b8b", "#7ee08a"];
@@ -12,7 +12,7 @@ const nickHTML = () => '<div class="nmap"></div><div class="nways"></div>';
 function nickAround(loc) {
   const set = WALK_SET.get(loc);
   let edge = [loc]; const seen = new Set(edge);
-  for (let d = 0; d < 3; d++) edge = edge.flatMap(i => (LOCATIONS[i]?.exits || []).map(x => x.to)).filter(i => !seen.has(i) && seen.add(i));
+  for (let d = 0; d < 3; d++) edge = edge.flatMap(i => (AREAS[i]?.exits || []).map(x => x.to)).filter(i => !seen.has(i) && seen.add(i));
   return [...seen].filter(i => WALK_SET.get(i) === set);
 }
 
@@ -21,17 +21,17 @@ function nickAround(loc) {
 async function nickWays(e, makeGrid = walkGrid) {
   // the ways go over the areas' ground, not the outposts' (a way leaves an outpost by its portal)
   // (a from off his map, as from his area's own map: a way starts at his area's portal to it)
-  const from = e.from || [], here = from.filter(id => WALK_SET.get(id) === WALK_SET.get(e.location));
-  const ids = [...new Set([e.location, ...nickAround(e.location).filter(walkable), ...here])];
-  const grid = await makeGrid(ids.filter(id => id === e.location || walkable(id)));
+  const from = e.from || [], here = from.filter(id => WALK_SET.get(id) === WALK_SET.get(e.area));
+  const ids = [...new Set([e.area, ...nickAround(e.area).filter(walkable), ...here])];
+  const grid = await makeGrid(ids.filter(id => id === e.area || walkable(id)));
   // from an area next to his (an explorable): its portal into his area; else an outpost's (walkFrom)
-  const portals = id => (walkable(id) && WALK_SET.get(id) === WALK_SET.get(e.location) ? LOCATIONS[e.location]?.exits || [] : []).filter(x => x.to === id && x.at).map(x => ({ at: x.at, area: e.location }));
+  const portals = id => (walkable(id) && WALK_SET.get(id) === WALK_SET.get(e.area) ? AREAS[e.area]?.exits || [] : []).filter(x => x.to === id && x.at).map(x => ({ at: x.at, area: e.area }));
   const shortest = ss => ss.map(s => walkRoute(grid, s, e.at)).filter(Boolean).sort((a, b) => walkLength(a) - walkLength(b))[0] || null;
   const ways = from.map((id, n) => ({ id, color: NICK_COLORS[n % NICK_COLORS.length],
     pts: portals(id).length ? shortest(portals(id)) : walkWay(grid, id, [...ids, id], e.at) }));
   // light his area, the outposts and the areas the ways cross
   const walks = await Promise.all(ids.map(loadWalk)), cv = document.createElement("canvas").getContext("2d");
-  const lit = new Set([e.location, ...here]);
+  const lit = new Set([e.area, ...here]);
   for (const w of ways) if (w.pts) for (const l of walkLines(w.pts)) for (let k = 1; k < l.length; k++)
     for (let t = 0; t < 1; t += 0.1) {
       const x = l[k - 1][0] + t * (l[k][0] - l[k - 1][0]), y = l[k - 1][1] + t * (l[k][1] - l[k - 1][1]);
@@ -40,7 +40,7 @@ async function nickWays(e, makeGrid = walkGrid) {
   return { ids, here, ways, lit };
 }
 // the ways as a legend: each outpost's color and length
-const nickLegend = ways => ways.map(w => `<span style="--c:${w.color}">${esc(LOCATIONS[w.id].name)}: ${w.pts
+const nickLegend = ways => ways.map(w => `<span style="--c:${w.color}">${esc(AREAS[w.id].name)}: ${w.pts
   ? `about ${Math.round(walkLength(w.pts) * NICK_UNITS).toLocaleString()} game units` : "no way found"}</span>`).join("")
   || '<span class="dim">No outpost to walk to him from yet.</span>';
 

@@ -29,13 +29,13 @@ const GW_ROUTING = {
     "108": [[7327, 8224, 7298, 8176], [7212, 8193, 7164, 8177], [7191, 8008, 7146, 8019]],
     "115": [[6953, 8213, 6983, 8248], [6781, 8214, 6818, 8178], [6926, 7910, 6894, 7940], [7007, 8061, 7018, 8112]]
   },
-  "closed_": "Ours: portals the game's data lists that can't be taken from a place, by its map id: the map ids they'd lead to. A mission outpost doesn't open onto the explorable twin of its mission's map.",
+  "closed_": "Ours: portals the game's data lists that can't be taken from an area, by its map id: the map ids they'd lead to. A mission outpost doesn't open onto the explorable twin of its mission's map.",
   "closed": {
     "213": [246],
     "214": [245],
     "218": [244]
   },
-  "portals_": "Ours: portals the game's data doesn't place, on the area's walkable map (maps.js walks; for an area with a map of its own, on that map), by its map id, then the map id each leads to: [x, y].",
+  "portals_": "Ours: portals the game's data doesn't area, on the area's walkable map (maps.js walks; for an area with a map of its own, on that map), by its map id, then the map id each leads to: [x, y].",
   "portals": {
     "413": {"434": [242, 631]},
     "649": {"650": [6785, 1601]},

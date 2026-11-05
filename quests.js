@@ -10,8 +10,8 @@ for (const q of ALL) {
   q._camp = questCampaign(q);
   q._region = questRegion(q);
   q._giver = [...new Set(questGivers(q).map(n => n.name))].join(", ");
-  q._k = fold([q.name, EVENTS[q.event]?.name, q._giver, ...questPlaces(q).map(l => l.name), q._region?.name,
-    ...(q.skills || []).map(id => SKILLS[id]?.name), ...(q.rewards || []), ...(q.missions || []).map(locName)].join(" | "));
+  q._k = fold([q.name, EVENTS[q.event]?.name, q._giver, ...questAreas(q).map(l => l.name), q._region?.name,
+    ...(q.skills || []).map(id => SKILLS[id]?.name), ...(q.rewards || []), ...(q.missions || []).map(areaName)].join(" | "));
 }
 
 const els = { name: $("f-name"), camp: $("f-camp"), type: $("f-type"), region: $("f-region"), skill: $("f-skill"), sq: $("f-sq"),

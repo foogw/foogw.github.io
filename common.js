@@ -13,14 +13,16 @@ const listText = items => (items.length < 2 ? items.join("") : `${items.slice(0,
 const data = name => { try { return eval(name); } catch { return null; } };  // a data file's constant, if the page loaded it
 const GROUND = data("GW_GROUND"), SKILLDATA = data("GW_SKILLS"), QUESTDATA = data("GW_QUESTS"), CREATUREDATA = data("GW_CREATURES");
 const MISSIONS = data("GW_MISSIONS")?.missions || {}, HEROES = data("GW_HEROES")?.heroes || {}, TITLES = data("GW_TITLES")?.titles || {};
-const LOCATIONS = GROUND?.locations || {}, REGIONS = GROUND?.regions || {}, SKILLS = SKILLDATA?.skills || {};
+const AREAS = GROUND?.areas || {}, REGIONS = GROUND?.regions || {}, SKILLS = SKILLDATA?.skills || {};
 const QUESTS = QUESTDATA?.quests || {}, CREATURES = CREATUREDATA?.creatures || {}, NPCS = CREATUREDATA?.npcs || {};
 const CALENDAR = data("GW_CALENDAR"), BUILDDATA = data("GW_BUILDS"), ALIASES = data("GW_ALIASES")?.aliases || {};
 // each table's records with their id, as a list
 const list = table => Object.entries(table).map(([id, r]) => Object.assign(r, { id: +id }));
-for (const t of [LOCATIONS, REGIONS, SKILLS, QUESTS, CREATURES, NPCS, MISSIONS, HEROES, TITLES, data("GW_CALENDAR")?.bonuses || {}]) list(t);
+for (const t of [AREAS, REGIONS, SKILLS, QUESTS, CREATURES, NPCS, MISSIONS, HEROES, TITLES, data("GW_CALENDAR")?.bonuses || {}]) list(t);
 
 const CAMPAIGNS = ["Core", "Prophecies", "Factions", "Nightfall", "Eye of the North"];
+// any campaign's name, the game's others too (the Bonus Mission Pack, the unknown one of the dev areas)
+const campaignName = c => CAMPAIGNS[c] ?? GROUND?.campaigns?.[c]?.name ?? "";
 const CAMP_SHORT = ["Core", "Prof", "Fa", "NF", "EotN"];
 const CAMP_COLOR = ["--accent", "--p-paragon", "--p-ritualist", "--p-elementalist", "--p-monk"];
 // professions by the game's number; 0 is no profession ("Common" for skills)
@@ -31,36 +33,44 @@ const profImg = p => `img/prof/${p ? PROFS[p] : "Any"}.png`;  // a hero of any p
 const profIcon = (p, cls = "qp") => (p ? `<img class="${cls}" src="img/prof/${PROFS[p]}.png" alt="${PROFS[p]}" title="${PROFS[p]}">` : "");
 const ATTRIBUTES = Object.fromEntries(Object.entries(SKILLDATA?.attributes || {}).map(([k, a]) => [k, a.name]));
 
-/* ---------- places ---------- */
-// a location's kind, from the game's area type: outposts (towns too), explorables, missions, PvP
-const TYPE_LABEL = { 0: "PvP", 1: "PvP", 2: "Explorable", 3: "PvP", 4: "Guild hall", 5: "Mission outpost", 6: "Mission outpost",
-  7: "PvP", 8: "Elite mission", 9: "Challenge", 10: "Outpost", 11: "PvP", 12: "PvP", 13: "Outpost", 14: "Mission",
-  15: "PvP", 16: "PvP", 17: "Mission", 18: "Dungeon", 19: "Outpost" };
-const OUTPOST_TYPES = new Set([0, 1, 3, 4, 5, 6, 7, 10, 11, 12, 13, 15, 16, 19]);
+/* ---------- areas ---------- */
+// an area's kind: the game's own name for its area type (Outpost, City, Mission outpost, Challenge, ...)
+const TYPE_LABEL = Object.fromEntries(Object.entries(GROUND?.types || {}).map(([t, x]) => [t, x.name[0].toUpperCase() + x.name.slice(1)]));
+// the areas you stand in between fights: towns, and the areas a mission starts from, which in the game are the same
+// area as the mission (mission outposts 5, elite missions 8, challenges 9)
+const OUTPOST_TYPES = new Set([0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 19]);
 const PVP_TYPES = new Set([0, 1, 3, 7, 11, 12, 15, 16]);
 const isOutpost = l => OUTPOST_TYPES.has(l?.type);
-const isPvP = l => PVP_TYPES.has(l?.type);
+// (a PvP event with no game area of its own, e.g. the Snowball Tournament, counts as PvP too)
+const isPvP = l => PVP_TYPES.has(l?.type) || (!!l && l.type == null && MISSIONS[l.id]?.kind === "pvp");
+// an area's colour group: towns and mission outposts (out), mission areas and explorables (exp), dungeons, PvP
+const areaGroup = l => (isPvP(l) ? "pvp" : l?.type === 18 ? "dgn" : isOutpost(l) ? "out" : "exp");
+// a dungeon (not one of its later levels, nor a quest area the game also counts as a dungeon); with data/depths.js
+// loaded, the ones it lists count too
+const isDungeon = l => l?.type === 18 && !!(data("GW_DEPTHS")?.dungeons?.[l.id] || l.exits?.length && !/: Level \d+$/.test(l.name));
 const regionOf = l => REGIONS[l?.region];
-const campaignOf = l => regionOf(l)?.campaign;
-const locName = id => LOCATIONS[id]?.name ?? MISSIONS[id]?.name ?? "";
+// an area's campaign: the game's own for it (ours, 100000 and up, have their region's)
+const campaignOf = l => l?.campaign ?? regionOf(l)?.campaign;
+const areaName = id => AREAS[id]?.name ?? MISSIONS[id]?.name ?? "";
 
 /* ---------- where things are: npcs, quests ---------- */
-const npcPlace = n => LOCATIONS[n?.location];
-const npcRegion = n => REGIONS[n?.region ?? npcPlace(n)?.region];
+const npcArea = n => AREAS[n?.area];
+const npcRegion = n => REGIONS[n?.region ?? npcArea(n)?.region];
 const questGivers = q => (q.givers || []).map(i => NPCS[i]).filter(Boolean);
-const questPlaces = q => [...new Set(questGivers(q).map(n => n.location).filter(Boolean))].map(i => LOCATIONS[i]);
+const questAreas = q => [...new Set(questGivers(q).map(n => n.area).filter(Boolean))].map(i => AREAS[i]);
 const questRegion = q => REGIONS[q.region] || questGivers(q).map(npcRegion).find(Boolean);
-const questCampaign = q => q.campaign ?? questRegion(q)?.campaign ?? 0;
-let QUESTS_AT;  // location id -> the quests given there
+// a quest's campaign: its own, else its giver's area's, else its giver's region's (an NPC known only by region)
+const questCampaign = q => q.campaign ?? questAreas(q)[0]?.campaign ?? questRegion(q)?.campaign ?? 0;
+let QUESTS_AT;  // area id -> the quests given there
 function questsAt(id) {
   if (!QUESTS_AT) {
     QUESTS_AT = new Map();
-    for (const q of Object.values(QUESTS)) for (const p of questPlaces(q)) (QUESTS_AT.get(p.id) || QUESTS_AT.set(p.id, []).get(p.id)).push(q);
+    for (const q of Object.values(QUESTS)) for (const p of questAreas(q)) (QUESTS_AT.get(p.id) || QUESTS_AT.set(p.id, []).get(p.id)).push(q);
   }
   return QUESTS_AT.get(+id) || [];
 }
-const missionCampaign = m => campaignOf(LOCATIONS[m.outpost] || LOCATIONS[m.id]);
-const missionRegion = m => regionOf(LOCATIONS[m.outpost] || LOCATIONS[m.id]);
+const missionCampaign = m => campaignOf(AREAS[m.outpost] || AREAS[m.id]);
+const missionRegion = m => regionOf(AREAS[m.outpost] || AREAS[m.id]);
 
 /* ---------- the wikis: a thing's page on each, {en, de}, by its title there (a picture by its file name) ---------- */
 const WIKI_LANGUAGE = "en";  // the wiki links go to; another language's wiki where this one has no page
@@ -93,29 +103,29 @@ document.addEventListener("click", e => {
   e.preventDefault();
   go(u.search || "?");
 });
-// an old address kept its settings after # (locations#place=146): they move to ?, and the things that now open on the
-// front page (a place, a mission, a quest, a skill, a hero, a boss) go there
+// an old address kept its settings after # (missions#mission=28): they move to ?, and the things that now open on the
+// front page (a mission, a quest, a skill, a hero, a boss) go there
 {
   if (/^#[\w-]+=/.test(location.hash) && !location.search) history.replaceState(null, "", location.pathname + "?" + location.hash.slice(1));
   const page = location.pathname.match(/([\w-]*?)(\.html)?$/)[1];
-  const key = { locations: "place", missions: "mission", "all-quests": "quest", quests: "quest", skills: "skill", heroes: "hero", bosses: "boss" }[page];
+  const key = { missions: "mission", "all-quests": "quest", quests: "quest", skills: "skill", heroes: "hero", bosses: "boss" }[page];
   const id = key && args().get(key);
   if (id) location.replace("./" + query({ [key]: id }));
 }
-// the pages of the game's own things are on the front page: ./?place=146
-const HREF = Object.fromEntries(["place", "mission", "dungeon", "quest", "skill", "hero", "boss", "title"].map(k => [k, id => "./" + query({ [k]: id })]));
-// a dungeon is a page of its own, not a place
-{ const place = HREF.place; HREF.place = id => (LOCATIONS[id]?.type === 18 ? HREF.dungeon(id) : place(id)); }
+// the pages of the game's own things are on the front page: ./?area=146
+const HREF = Object.fromEntries(["area", "mission", "dungeon", "quest", "skill", "hero", "boss", "title"].map(k => [k, id => "./" + query({ [k]: id })]));
+// a dungeon is a page of its own, not an area
+{ const area = HREF.area; HREF.area = id => (AREAS[id]?.type === 18 ? HREF.dungeon(id) : area(id)); }
 // our own pages name what they show: builds?meta, storylines?prophecies&m=28
 const buildHref = id => "builds?" + encodeURIComponent(id);
 const STORYLINE = { 1: "prophecies", 2: "factions", 3: "nightfall", 4: "eotn" };  // campaign -> its storyline's name
 const storylineHref = (c, more) => `storylines?${STORYLINE[c]}${more ? "&" + new URLSearchParams(more) : ""}`;
-// a thing's page there: VIEWS[key] = { find(id), title(x), html(x), after(el, x) }, from place.js, mission.js and the rest
+// a thing's page there: VIEWS[key] = { find(id), title(x), html(x), after(el, x) }, from area.js, mission.js and the rest
 const VIEWS = {};
 const skillIcon = (id, cls = "sk-ic") => `<img class="${cls}" src="img/skills/${id}.jpg" alt="" loading="lazy" onerror="this.remove()">`;
 const LINK = {
-  place: (id, label) => (LOCATIONS[id] ? `<a href="${HREF.place(id)}">${esc(label ?? LOCATIONS[id].name)}</a>` : esc(label ?? "")),
-  mission: (id, label) => (MISSIONS[id] ? `<a href="${HREF.mission(id)}">${esc(label ?? MISSIONS[id].name)}</a>` : LINK.place(id, label)),
+  area: (id, label) => (AREAS[id] ? `<a href="${HREF.area(id)}">${esc(label ?? AREAS[id].name)}</a>` : esc(label ?? "")),
+  mission: (id, label) => (MISSIONS[id] ? `<a href="${HREF.mission(id)}">${esc(label ?? MISSIONS[id].name)}</a>` : LINK.area(id, label)),
   quest: (id, label) => (QUESTS[id] ? `<a href="${HREF.quest(id)}">${esc(label ?? QUESTS[id].name)}</a>` : esc(label ?? "")),
   hero: (id, label) => (HEROES[id] ? `<a href="${HREF.hero(id)}">${esc(label ?? HEROES[id].name)}</a>` : esc(label ?? "")),
   boss: (id, label) => `<a href="${HREF.boss(id)}">${esc(label ?? CREATURES[id]?.name)}</a>`,
@@ -124,16 +134,16 @@ const LINK = {
     return s ? `<a class="skill-link${s.elite ? " elite" : ""}" href="${HREF.skill(id)}" style="--pc:${profVar(s.profession)}">${icon ? skillIcon(id, "sk-ic sm") : ""}${esc(label ?? s.name)}</a>` : esc(label ?? "");
   },
 };
-// a place or mission, linked to whichever page it has
-const whereLink = id => (MISSIONS[id] ? LINK.mission(id) : LINK.place(id));
+// an area or mission, linked to whichever page it has
+const whereLink = id => (MISSIONS[id] ? LINK.mission(id) : LINK.area(id));
 const heroChip = h => `<a href="${HREF.hero(h.id)}"><img class="ip" src="${profImg(h.profession)}" alt=""> ${esc(h.name)}</a>`;
 
-/* Hand-written text: {skill:id} (with icon), {skillname:id}, {place:id}, {mission:id}, {quest:id}, {hero:id},
+/* Hand-written text: {skill:id} (with icon), {skillname:id}, {area:id}, {mission:id}, {quest:id}, {hero:id},
    {page:href|text} and {ext:href|text}. html: the text is HTML already (the events'), not plain. */
 const text = (t, html = false) => (html ? String(t ?? "") : esc(t))
   .replace(/\{skill:(\d+)\}/g, (_, i) => LINK.skill(i))
   .replace(/\{skillname:(\d+)\}/g, (_, i) => LINK.skill(i, false))
-  .replace(/\{place:(\d+)\}/g, (_, i) => LINK.place(i))
+  .replace(/\{area:(\d+)\}/g, (_, i) => LINK.area(i))
   .replace(/\{mission:(\d+)\}/g, (_, i) => LINK.mission(i))
   .replace(/\{quest:(\d+)\}/g, (_, i) => LINK.quest(i))
   .replace(/\{hero:(\d+)\}/g, (_, i) => LINK.hero(i))
@@ -143,7 +153,7 @@ const text = (t, html = false) => (html ? String(t ?? "") : esc(t))
 /* A skill description, its <gray> parts (values at other ranks) dimmed. */
 const richText = s => esc(s).replace(/&lt;gray&gt;(.*?)&lt;\/gray&gt;/g, '<span class="gray">$1</span>');
 
-/* The abbreviations players search with ("fow", "sos"), for a thing of a kind: skills, locations, regions, ... */
+/* The abbreviations players search with ("fow", "sos"), for a thing of a kind: skills, areas, regions, ... */
 const aliasText = (kind, id) => (ALIASES[kind]?.[id] || []).join(" ");
 
 /* ---------- search boxes and highlighting ---------- */
@@ -188,9 +198,9 @@ const syncChips = (el, set) => { for (const b of el.children) b.setAttribute("ar
 function headerHeight() { return document.querySelector("header.top")?.offsetHeight || 0; }
 /* Keeps a sticky column header right below the sticky filter bar. */
 function stickHeadBelowFilters() {
-  const place = () => { $("head").style.top = headerHeight() + $("filters").offsetHeight + "px"; };
-  place();
-  window.addEventListener("resize", place);
+  const area = () => { $("head").style.top = headerHeight() + $("filters").offsetHeight + "px"; };
+  area();
+  window.addEventListener("resize", area);
 }
 function onReady(f) { if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", f); else f(); }
 onReady(() => {
@@ -216,7 +226,7 @@ document.addEventListener("click", e => {
   });
 });
 
-/* Every boss: a creature a mission or a place names as a boss, or one an elite is captured from, with where it is;
+/* Every boss: a creature a mission or an area names as a boss, or one an elite is captured from, with where it is;
    made the first time it's asked for */
 let BOSS;
 function bossTable() {
@@ -226,9 +236,9 @@ function bossTable() {
   for (const s of Object.values(SKILLS)) for (const a of s.acquisition || []) if (a.capture && CREATURES[a.capture]) {
     const b = bossOf(a.capture);
     if (s.elite) b.elites.add(s.id);
-    if (a.location != null) b.where.add(a.location);
+    if (a.area != null) b.where.add(a.area);
   }
-  for (const l of Object.values(LOCATIONS)) for (const id of l.bosses || []) if (CREATURES[id]) bossOf(id).where.add(l.id);
+  for (const l of Object.values(AREAS)) for (const id of l.bosses || []) if (CREATURES[id]) bossOf(id).where.add(l.id);
   for (const m of Object.values(MISSIONS)) for (const x of m.bosses || []) if (CREATURES[x.creature]) {
     const b = bossOf(x.creature);
     b.where.add(m.id);
@@ -238,9 +248,9 @@ function bossTable() {
     // without a profession of its own, a boss is taken to be of its elite's
     b.prof = b.profession || [...b.elites].map(id => SKILLS[id]?.profession).find(Boolean) || 0;
     b._elites = [...b.elites].map(id => SKILLS[id]).filter(s => s?.elite).sort((x, y) => cmpStr(x.name, y.name));
-    b._where = [...b.where].filter(i => LOCATIONS[i] || MISSIONS[i]).sort((x, y) => cmpStr(locName(x), locName(y)));
-    b.camps = new Set(b._where.map(i => campaignOf(LOCATIONS[i]) ?? missionCampaign(MISSIONS[i])).filter(c => c != null));
-    b._k = fold([b.name, ...b._elites.map(s => s.name), ...b._where.map(locName)].join(" | "));
+    b._where = [...b.where].filter(i => AREAS[i] || MISSIONS[i]).sort((x, y) => cmpStr(areaName(x), areaName(y)));
+    b.camps = new Set(b._where.map(i => campaignOf(AREAS[i]) ?? missionCampaign(MISSIONS[i])).filter(c => c != null));
+    b._k = fold([b.name, ...b._elites.map(s => s.name), ...b._where.map(areaName)].join(" | "));
   }
   return BOSS;
 }
@@ -262,27 +272,27 @@ const Rotation = {
 };
 // what a rotation entry names, as text and as a link
 const entryName = e => (e.item || (e.creature && CREATURES[e.creature]?.name) || (e.quest && QUESTS[e.quest]?.name)
-  || (e.bonus && BONUSES[e.bonus]?.name) || (e.mission && (MISSIONS[e.mission]?.name || locName(e.mission))) || (e.location && locName(e.location)) || e.name || "");
+  || (e.bonus && BONUSES[e.bonus]?.name) || (e.mission && (MISSIONS[e.mission]?.name || areaName(e.mission))) || (e.area && areaName(e.area)) || e.name || "");
 function entryHTML(e) {
   if (e.mission) return LINK.mission(e.mission);
-  if (e.location && !e.creature && !e.item) return LINK.place(e.location);
+  if (e.area && !e.creature && !e.item) return LINK.area(e.area);
   if (e.bonus) return `<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`;
   if (e.quest) return LINK.quest(e.quest);
   // Nicholas the Traveler's item: his map that week, at the foot of the Rotations page
   if (e.item) return `${e.count} × ${e.at ? `<a href="rotations${query({ nick: ROTATIONS["nicholas-traveler"].entries.indexOf(e) })}">${esc(e.item)}</a>` : esc(e.item)}`;
   return esc(entryName(e));
 }
-// where an entry takes you: a bounty's place, then the region and campaign
+// where an entry takes you: a bounty's area, then the region and campaign
 function entryWhere(e) {
-  const l = LOCATIONS[e.location || e.mission];
+  const l = AREAS[e.area || e.mission];
   if (!l) return "";
   const parts = [(e.creature || e.item) && l.name !== entryName(e) && l.name, regionOf(l)?.name, CAMPAIGNS[campaignOf(l)]].filter(Boolean);
   return ` <span class="dim">· ${parts.map(esc).join(" · ")}</span>`;
 }
-// the next Zaishen Bounty at a place: {days} from today (0: today), or null
+// the next Zaishen Bounty at an area: {days} from today (0: today), or null
 function bountyAt(id, now = Date.now()) {
   const r = ROTATIONS["zaishen-bounty"], n = r?.entries.length, k0 = n && Rotation.period(r, now);
-  for (let k = k0; n && k < k0 + n; k++) if (Rotation.entry(r, k).location === id) return { days: k - k0, entry: Rotation.entry(r, k), every: n };
+  for (let k = k0; n && k < k0 + n; k++) if (Rotation.entry(r, k).area === id) return { days: k - k0, entry: Rotation.entry(r, k), every: n };
   return null;
 }
 const inDays = d => (d === 0 ? "today" : d === 1 ? "tomorrow" : `in ${d} days`);
@@ -357,7 +367,7 @@ const profName = h => (h.profession ? PROFS[h.profession] : "Any");
 function recruitHTML(h) {
   let t = esc(h.recruit);
   for (const st of h.recruit_steps || []) {
-    const name = st.quest ? QUESTS[st.quest]?.name : locName(st.mission);
+    const name = st.quest ? QUESTS[st.quest]?.name : areaName(st.mission);
     if (name) t = t.replace(esc(name), st.quest ? LINK.quest(st.quest) : whereLink(st.mission));
   }
   return t;
@@ -438,6 +448,10 @@ addEventListener("focus", () => {
 // the ticks: an elite captured, a mission or dungeon done in normal and hard mode
 // (a list passes what it knows already: reading the progress for each row is slow)
 const eliteTick = (id, on = User.captured(id), label = "") => `<button type="button" class="utick${label ? "" : " ck"}" data-elite="${id}" aria-pressed="${on}" title="Captured">${label ? `<span class="ubox"></span>${label}` : "✓"}</button>`;
+// the missions with normal and hard mode to tick (not challenge, competitive or PvP ones)
+const hasModes = m => m?.kind === "story" || m?.kind === "elite";
+// the progress kept for them (a tick from before a kind lost its modes is kept, not counted)
+const modeProgress = (c, part) => Object.entries(c[part]).filter(([id]) => part !== "missions" || hasModes(MISSIONS[id])).map(([, v]) => v);
 // the done filter: "1" not done in NM, "2" not done in HM, "a" not done in one of them or both
 const missing = (v = 0, mode) => (mode === "a" ? (v & 3) !== 3 : !(v & +mode));
 const doneTicks = (part, id, v = User.done(part, id), label = "") => { return `<span class="uticks" data-part="${part}" data-id="${id}">${label ? `<span class="ulabel">${label}</span>` : ""}${[[1, "NM", "Normal mode"], [2, "HM", "Hard mode"]].map(([b, l, t]) =>

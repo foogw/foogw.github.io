@@ -28,12 +28,12 @@
 "use strict";
 // every dungeon (not the quest areas the game also counts as dungeons, nor a level listed on its own), by region
 const DEPTHS = data("GW_DEPTHS")?.dungeons || {};
-const dungeons = Object.values(LOCATIONS).filter(l => l.type === 18 && (DEPTHS[l.id] || l.exits?.length && !/: Level \d+$/.test(l.name)))
+const dungeons = Object.values(AREAS).filter(isDungeon)
   .sort((a, b) => (regionOf(a)?.name || "").localeCompare(regionOf(b)?.name || "") || a.name.localeCompare(b.name));
 // the boss: the last level's, from our data, else the Zaishen Bounty's
-const bossOf = l => DEPTHS[l.id]?.levels.at(-1)?.marks.find(m => m[0] === "boss")?.[3] || entryName(ROTATIONS["zaishen-bounty"]?.entries.find(e => e.location === l.id) || {});
+const bossOf = l => DEPTHS[l.id]?.levels.at(-1)?.marks.find(m => m[0] === "boss")?.[3] || entryName(ROTATIONS["zaishen-bounty"]?.entries.find(e => e.area === l.id) || {});
 const bossLink = name => { const id = Object.keys(CREATURES).find(k => CREATURES[k].name === name); return id ? LINK.boss(id) : esc(name); };
-const outside = l => [...new Set((l.exits || []).map(e => e.to))].filter(i => LOCATIONS[i] && LOCATIONS[i].type !== 18);
+const outside = l => [...new Set((l.exits || []).map(e => e.to))].filter(i => AREAS[i] && AREAS[i].type !== 18);
 const rows = dungeons.map(l => ({ l, book: DEPTHS[l.id]?.book, levels: DEPTHS[l.id]?.levels.length || l.levels || 0, boss: bossOf(l),
   region: regionOf(l)?.name || "", from: outside(l), bounty: bountyAt(l.id)?.days }));
 // the columns: [key, label, sort value (missing ones last), cell]
@@ -44,7 +44,7 @@ const COLS = [
   ["region", "Region", r => r.region, r => `<span class="dim">${esc(r.region)}</span>`],
   ["levels", "Levels", r => last(r.levels || null), r => r.levels || ""],
   ["boss", "Boss", r => r.boss || "~", r => (r.boss ? bossLink(r.boss) : "")],
-  ["from", "Entered from", r => locName(r.from[0]) || "~", r => r.from.map(i => LINK.place(i)).join(", ")],
+  ["from", "Entered from", r => areaName(r.from[0]) || "~", r => r.from.map(i => LINK.area(i)).join(", ")],
   ["bounty", "Bounty", r => last(r.bounty), r => (r.bounty == null ? "" : r.bounty === 0 ? "<b>Today</b>" : inDays(r.bounty))],
   // done in normal and hard mode, as ticked for the character picked on the User page
   ["done", "Done", r => prog[r.l.id] || 0, r => doneTicks("dungeons", r.l.id, prog[r.l.id] || 0)],

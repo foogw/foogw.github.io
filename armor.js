@@ -10,7 +10,7 @@ const SETS = Object.values(ARMORDATA.armor).map(a => ({
     const total = new Map();
     for (const cs of Object.values(pieces)) for (const c of cs) total.set(c.material, (total.get(c.material) || 0) + c.count);
     return { ...t, pieces, total: [...total].map(([material, count]) => ({ count, material })),
-      at: (t.at || []).map(i => [locName(NPCS[i]?.location), NPCS[i]?.name || ""]) };
+      at: (t.at || []).map(i => [areaName(NPCS[i]?.area), NPCS[i]?.name || ""]) };
   }),
 }));
 const CAMP_FILTERS = ["Core", "Prophecies", "Factions", "Nightfall", "Eye of the North"];
@@ -211,7 +211,7 @@ function piecesTable(t) {
 
 function detailHTML(r, q) {
   const { set: s, tier: t } = r;
-  const where = t.at.map(([place, crafter]) => `<li>${highlight(place, q)} <span class="dim">— ${highlight(crafter, q)}</span></li>`).join("");
+  const where = t.at.map(([area, crafter]) => `<li>${highlight(area, q)} <span class="dim">— ${highlight(crafter, q)}</span></li>`).join("");
   const others = s.tiers.length > 1 ? `<h4>All versions</h4><table class="rewards"><tr><th class="num">Armor</th><th class="num">Pieces</th><th class="num">Gold</th><th>Where</th><th>Materials</th></tr>${
     s.tiers.map((x, i) => `<tr class="${x === t ? "cur" : ""}"><td class="num"><button class="link" data-tier="${esc(`${s._key}|${i}`)}">${x.armor}</button></td><td class="num">${piecesLabel(x._pieces)}</td><td class="num">${gold(x.price)}</td><td>${x.at.map(a => esc(a[0])).join(", ")}</td><td class="mqs">${matList(x.total, true)}</td></tr>`).join("")
   }</table>` : "";

@@ -41,16 +41,16 @@
   <table>
     <tr><th>Setting</th><th>What it does</th></tr>
     <tr><td><code>q</code></td><td>Search text for the site-wide search</td></tr>
-    <tr><td><code>place</code></td><td>A location's page, by map id: exits, services, bosses, quests, map</td></tr>
+    <tr><td><code>area</code></td><td>An area's page, by map id: exits, services, bosses, quests, map</td></tr>
     <tr><td><code>mission</code></td><td>A mission's page, by map id: objectives, rewards, bosses, foes, map</td></tr>
-    <tr><td><code>dungeon</code></td><td>A dungeon's page, by map id: each level on its map (a dungeon's <code>place</code> link comes here)</td></tr>
+    <tr><td><code>dungeon</code></td><td>A dungeon's page, by map id: each level on its map (a dungeon's <code>area</code> link comes here)</td></tr>
     <tr><td><code>quest</code></td><td>A quest's page, by quest id</td></tr>
     <tr><td><code>skill</code></td><td>A skill's page, by skill id</td></tr>
     <tr><td><code>hero</code></td><td>A hero's page, by hero id</td></tr>
     <tr><td><code>boss</code></td><td>A boss's page, by creature id</td></tr>
     <tr><td><code>title</code></td><td>A title's page, by title id</td></tr>
   </table>
-  <p class="ex">e.g. <a href="./?q=energy%20surge">./?q=energy surge</a> · <a href="./?place=146">./?place=146</a> (Lakeside County) ·
+  <p class="ex">e.g. <a href="./?q=energy%20surge">./?q=energy surge</a> · <a href="./?area=146">./?area=146</a> (Lakeside County) ·
     <a href="./?mission=28">./?mission=28</a> (The Great Northern Wall) · <a href="./?quest=101114">./?quest=101114</a> (Ascalon Academy) ·
     <a href="./?skill=1">./?skill=1</a> (Healing Signet) · <a href="./?hero=18">./?hero=18</a> (Jora) ·
     <a href="./?boss=100056">./?boss=100056</a> · <a href="./?title=5">./?title=5</a> (Kurzick / Luxon)</p>
@@ -94,20 +94,23 @@
   <p class="ex">e.g. <a href="missions?q=wall">missions?q=wall</a> · <a href="missions?c=3&amp;sort=-party">missions?c=3&amp;sort=-party</a> ·
     <a href="missions?w=energy%20surge">missions?w=energy surge</a></p>
 
-  <h3><code>locations</code> <span class="dim">Outposts and explorable areas by region</span></h3>
+  <h3><code>areas</code> <span class="dim">Every area in the game, by kind and region</span></h3>
   <table>
-    <tr><td><code>c</code></td><td>Campaign tab: 0 Core, 1 Prophecies, 2 Factions, 3 Nightfall, 4 Eye of the North</td></tr>
+    <tr><td><code>c</code></td><td>Campaign tab (none: all): 0 Core, 1 Prophecies, 2 Factions, 3 Nightfall, 4 Eye of the North, 5 Bonus Mission Pack, 6 the game's unknown one</td></tr>
+    <tr><td><code>k</code></td><td>Type filter: outposts (cities, outposts, mission outposts, marketplaces and cooperative missions), missionareas (mission areas and Eye of the North missions), pvp (every PvP type), else a game area type's number (e.g. 6, cooperative mission); none for all</td></tr>
+    <tr><td><code>all</code></td><td>1: Show all, also the areas data/areas.js lists (festival copies of cities, guild halls and their copies, cinematics, arena, alliance battle and other copies, dev, test, unused and unnamed maps)</td></tr>
+    <tr><td><code>sort</code></td><td>Column to sort by (name, type, region, party), with <code>-</code> for the other way</td></tr>
   </table>
-  <p class="ex">e.g. <a href="locations?c=2">locations?c=2</a></p>
+  <p class="ex">e.g. <a href="areas?c=2&amp;k=6">areas?c=2&amp;k=6</a></p>
 
   <h3><code>maps</code> <span class="dim">The world maps with every area's walkable ground</span></h3>
   <table>
     <tr><td><code>&lt;tab&gt;</code></td><td>A main tab, by its name in lower case with <code>_</code> for spaces: <code>tyria</code>, <code>realm_of_torment</code>…</td></tr>
     <tr><td><code>&lt;subtab&gt;</code></td><td>After the tab, one of its subtabs, named the same way</td></tr>
-    <tr><td><code>place</code></td><td>Picks out one area, by map id, on the map that holds it</td></tr>
+    <tr><td><code>area</code></td><td>Picks out one area, by map id, on the map that holds it</td></tr>
   </table>
   <p class="ex">e.g. <a href="maps?cantha">maps?cantha</a> · <a href="maps?realm_of_torment&amp;gates">maps?realm_of_torment&amp;gates</a> ·
-    <a href="maps?place=146">maps?place=146</a> (Lakeside County)</p>
+    <a href="maps?area=146">maps?area=146</a> (Lakeside County)</p>
 
   <h3><code>skills</code> <span class="dim">The skill list</span></h3>
   <table>
@@ -160,7 +163,7 @@
 
   <h3><code>bosses</code> <span class="dim">Every boss, with its elite and where it is</span></h3>
   <table>
-    <tr><td><code>q</code></td><td>Boss, elite or place</td></tr>
+    <tr><td><code>q</code></td><td>Boss, elite or area</td></tr>
     <tr><td><code>p</code></td><td>Professions, by number</td></tr>
     <tr><td><code>c</code></td><td>Campaign, by number</td></tr>
     <tr><td><code>e</code></td><td><code>1</code>: only bosses with an elite</td></tr>
@@ -209,12 +212,12 @@
   <h3><code>reverie-pins</code> <span class="dim">Placing the Wayfarer's Reverie spots on their maps</span></h3>
   <p>No settings.</p>
 
-  <h3><code>dungeons</code> <span class="dim">Every dungeon, with its levels (not in the menu)</span></h3>
+  <h3><code>dungeons</code> <span class="dim">Every dungeon, with its levels</span></h3>
   <p>No settings.</p>
 
   <h3><code>editor-maps</code> <span class="dim">Our fixes to the walkable ground, checked on Nicholas the Traveler's ways</span></h3>
   <p><code>nick</code>: the week shown, by its entry in his rotation (<code>editor-maps?nick=94</code>); without it, this week.
-    <code>place</code>: an area instead, by map id (<code>editor-maps?place=48</code>). <code>points</code>: points to mark on the
+    <code>area</code>: an area instead, by map id (<code>editor-maps?area=48</code>). <code>points</code>: points to mark on the
     map, in its pixels (<code>points=1853,5393;1700,5300</code>). <code>embed</code>: the map and its ways alone, to put in another page.</p>
 
   <h3><code>check</code> <span class="dim">The data check: every file in shape, every pointer leading to a record</span></h3>
@@ -225,11 +228,11 @@
   <p>No settings.</p>
 
   <h2>Old addresses</h2>
-  <p>Settings after <code>#</code> are read as if after <code>?</code>. An old link to a place, mission, quest, skill, hero
-    or boss on its list page (<code>locations#place=146</code>) opens it on the front page; old build and guide ids
+  <p>Settings after <code>#</code> are read as if after <code>?</code>. An old link to a mission, quest, skill, hero
+    or boss on its list page (<code>missions#mission=28</code>) opens it on the front page; old build and guide ids
     (<code>builds#team=gom-afk</code>) open under their short names; old maps links (<code>maps#g=Tyria</code>,
     <code>maps#view=3</code>) open the same tab. <code>all-quests</code> is now <code>quests</code>, and <code>skill-quests</code> is <code>quests?sq=1</code>.</p>
-  <p class="ex">e.g. <a href="locations#place=146">locations#place=146</a> · <a href="builds#build=pl-hundred">builds#build=pl-hundred</a> ·
+  <p class="ex">e.g. <a href="missions#mission=28">missions#mission=28</a> · <a href="builds#build=pl-hundred">builds#build=pl-hundred</a> ·
     <a href="all-quests#q=mursaat">all-quests#q=mursaat</a></p>
 
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>

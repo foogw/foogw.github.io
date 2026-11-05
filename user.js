@@ -5,7 +5,7 @@
 const els = { list: $("u-list"), text: $("u-text"), status: $("u-status"), submit: $("u-submit"), reset: $("u-reset") };
 const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
 const modes = vs => `${vs.filter(v => v & 1).length} NM, ${vs.filter(v => v & 2).length} HM`;
-const charCounts = c => `${plural(c.elites.length, "elite")} captured · missions ${modes(Object.values(c.missions))} · dungeons ${modes(Object.values(c.dungeons))}`;
+const charCounts = c => `${plural(c.elites.length, "elite")} captured · missions ${modes(modeProgress(c, "missions"))} · dungeons ${modes(modeProgress(c, "dungeons"))}`;
 // one line for the characters, then one for each
 const summary = o => [plural(o.chars.length, "character"), ...o.chars.map(c => `${c.name}: ${charCounts(c)}`)].join("\n");
 // the saved progress as text: as it's kept, when it can't be read
@@ -15,7 +15,7 @@ const status = (t, cls = "") => { els.status.textContent = t; els.status.classNa
 
 function render() {
   const broken = User.broken(), o = User.data(), cur = User.char(o), one = o.chars.length < 2;
-  const n = (c, part, b) => Object.values(c[part]).filter(v => v & b).length;
+  const n = (c, part, b) => modeProgress(c, part).filter(v => v & b).length;
   $("u-broken").hidden = !broken;
   $("u-char").hidden = broken;
   els.reset.hidden = !broken;
@@ -29,7 +29,7 @@ function render() {
   check();
 }
 // the box's text, checked: the button takes it only when it's valid progress that differs from the saved one (and, in
-// place of broken progress, only once that's been copied)
+// area of broken progress, only once that's been copied)
 function check() {
   const t = els.text.value.trim(), broken = User.broken();
   els.submit.disabled = true;
@@ -39,7 +39,7 @@ function check() {
   try { o = JSON.parse(t); err = userCheck(o); } catch { err = "it doesn't read as JSON text."; }
   if (t === keptText().trim()) return broken ? status(`This is your saved progress, as it's kept. It isn't valid: ${err}`, "bad") : status("");
   if (err) return status(`This isn't valid: ${err}`, "bad");
-  if (broken && !kept) return status(`Valid: ${summary(o)}\nCopy or download your saved progress first, to use this in its place.`, "ok");
+  if (broken && !kept) return status(`Valid: ${summary(o)}\nCopy or download your saved progress first, to use this in its area.`, "ok");
   els.submit.disabled = false;
   status(`Valid: ${summary(o)}`, "ok");
 }

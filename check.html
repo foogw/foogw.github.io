@@ -19,7 +19,7 @@
    Open it as /check on the local server or the published site. */
 
 const GAME = ["ground", "maps", "missions", "creatures", "quests", "skills", "heroes", "titles", "armor", "calendar"];
-const DATA = ["calendar", "guides", "builds", "aliases", "depths", "routing", "nicholas"];
+const DATA = ["calendar", "guides", "builds", "aliases", "depths", "routing", "nicholas", "areas"];
 
 const out = document.getElementById("out");
 const say = (t = "") => { out.textContent += t + "\n"; };
@@ -102,7 +102,7 @@ async function main() {
     CA = F["game/calendar"] || {}, NO = F["data/calendar"] || {}, BU = F["data/builds"] || {}, AL = F["data/aliases"] || {},
     DE = F["data/depths"] || {}, RO = F["data/routing"] || {}, NI = F["data/nicholas"] || {};
   const T = {
-    campaign: G.campaigns, continent: G.continents, type: G.types, region: G.regions, location: G.locations,
+    campaign: G.campaigns, continent: G.continents, type: G.types, region: G.regions, area: G.areas,
     set: M.sets, mission: MI.missions, creature: CR.creatures, npc: CR.npcs, quest: QU.quests, skill: SK.skills,
     profession: SK.professions, attribute: SK.attributes, "skill type": SK.types, hero: HE.heroes,
     title: { ...TI.titles, ...Object.fromEntries(Object.values(TI.titles || {}).filter(t => t.also).map(t => [t.also, t])) },  // (one entry for Kurzick and Luxon: also)
@@ -132,35 +132,35 @@ async function main() {
   head("game/ground.js");
   rule("region campaign, continent", "campaign", all(G.regions).map(([k, r]) => [`region ${k}`, r.campaign]));
   rule("region continent", "continent", all(G.regions).map(([k, r]) => [`region ${k}`, r.continent]));
-  rule("location type", "type", all(G.locations).map(([k, l]) => [`location ${k}`, l.type]));
-  rule("location region", "region", all(G.locations).map(([k, l]) => [`location ${k}`, l.region]));
-  rule("location bosses", "creature", all(G.locations).map(([k, l]) => [`location ${k}`, l.bosses]));
-  rule("location from, gateway, after", "location", all(G.locations).map(([k, l]) => [`location ${k}`, [l.from, l.gateway, l.after]]));
-  rule("location exits", "location", all(G.locations).map(([k, l]) => [`location ${k}`, (l.exits || []).map(e => e.to)]));
-  rule("location set (the map it's drawn on)", "set", all(G.locations).map(([k, l]) => [`location ${k}`, l.set]));
+  rule("area type", "type", all(G.areas).map(([k, l]) => [`area ${k}`, l.type]));
+  rule("area region", "region", all(G.areas).map(([k, l]) => [`area ${k}`, l.region]));
+  rule("area bosses", "creature", all(G.areas).map(([k, l]) => [`area ${k}`, l.bosses]));
+  rule("area from, gateway, after", "area", all(G.areas).map(([k, l]) => [`area ${k}`, [l.from, l.gateway, l.after]]));
+  rule("area exits", "area", all(G.areas).map(([k, l]) => [`area ${k}`, (l.exits || []).map(e => e.to)]));
+  rule("area set (the map it's drawn on)", "set", all(G.areas).map(([k, l]) => [`area ${k}`, l.set]));
   say();
   head("game/maps.js and game/walk/");
-  rule("walks: each a location", "location", Object.keys(M.walks || {}).map(k => [`walks ${k}`, k]));
+  rule("walks: each an area", "area", Object.keys(M.walks || {}).map(k => [`walks ${k}`, k]));
   rule("walks: set", "set", all(M.walks).map(([k, s]) => [`walks ${k}`, s]));
   rule("walk file's own set", "set", all(WALK).map(([k, w]) => [`walk/${k}.json`, w.set]));
   rule("groups, views: set", "set", [...(M.groups || []), ...(M.views || [])].map(v => [v.name, v.set]));
   say();
   head("game/missions.js");
-  rule("mission (its map)", "location", Object.keys(MI.missions || {}).map(k => [`mission ${k}`, k]));
-  rule("mission outpost, leads_to, requires", "location", all(MI.missions).map(([k, m]) => [`mission ${k}`, [m.outpost, m.leads_to, m.requires]]));
+  rule("mission (its map)", "area", Object.keys(MI.missions || {}).map(k => [`mission ${k}`, k]));
+  rule("mission outpost, leads_to, requires", "area", all(MI.missions).map(([k, m]) => [`mission ${k}`, [m.outpost, m.leads_to, m.requires]]));
   rule("mission hero", "hero", all(MI.missions).map(([k, m]) => [`mission ${k}`, m.hero]));
   rule("mission foes, bosses, allies", "creature", all(MI.missions).map(([k, m]) => [`mission ${k}`, ["foes", "bosses", "allies"].map(f => (m[f] || []).map(x => x.creature))]));
   say();
   head("game/creatures.js");
   rule("creature profession", "profession", all(CR.creatures).map(([k, c]) => [`creature ${k}`, c.profession]));
   rule("creature elites", "skill", all(CR.creatures).map(([k, c]) => [`creature ${k}`, c.elites]));
-  rule("npc location", "location", all(CR.npcs).map(([k, x]) => [`npc ${k}`, x.location]));
+  rule("npc area", "area", all(CR.npcs).map(([k, x]) => [`npc ${k}`, x.area]));
   rule("npc region", "region", all(CR.npcs).map(([k, x]) => [`npc ${k}`, x.region]));
   say();
   head("game/quests.js");
   rule("quest givers", "npc", all(QU.quests).map(([k, q]) => [`quest ${k}`, q.givers]));
   rule("quest requires, next", "quest", all(QU.quests).map(([k, q]) => [`quest ${k}`, [q.requires, q.next]]));
-  rule("quest requires_missions, next_missions", "location", all(QU.quests).map(([k, q]) => [`quest ${k}`, [q.requires_missions, q.next_missions]]));
+  rule("quest requires_missions, next_missions", "area", all(QU.quests).map(([k, q]) => [`quest ${k}`, [q.requires_missions, q.next_missions]]));
   rule("quest missions", "mission", all(QU.quests).map(([k, q]) => [`quest ${k}`, q.missions]));
   rule("quest skills", "skill", all(QU.quests).map(([k, q]) => [`quest ${k}`, q.skills]));
   rule("quest hero", "hero", all(QU.quests).map(([k, q]) => [`quest ${k}`, q.hero]));
@@ -183,7 +183,7 @@ async function main() {
   rule("skill acquisition quest", "quest", acq.map(([w, a]) => [w, a.quest]));
   rule("skill acquisition npc", "npc", acq.map(([w, a]) => [w, a.npc]));
   rule("skill acquisition capture", "creature", acq.map(([w, a]) => [w, a.capture]));
-  rule("skill acquisition location", "location", acq.map(([w, a]) => [w, a.location]));
+  rule("skill acquisition area", "area", acq.map(([w, a]) => [w, a.area]));
   rule("attribute profession", "profession", all(SK.attributes).map(([k, a]) => [`attribute ${k}`, a.profession]));
   say();
   head("game/heroes.js, titles.js, armor.js");
@@ -192,7 +192,7 @@ async function main() {
   rule("hero region", "region", all(HE.heroes).map(([k, h]) => [`hero ${k}`, h.region]));
   rule("hero alternative_to", "hero", all(HE.heroes).map(([k, h]) => [`hero ${k}`, h.alternative_to]));
   rule("hero recruit_steps quests", "quest", all(HE.heroes).map(([k, h]) => [`hero ${k}`, (h.recruit_steps || []).map(s => s.quest)]));
-  rule("hero recruit_steps missions", "location", all(HE.heroes).map(([k, h]) => [`hero ${k}`, (h.recruit_steps || []).map(s => s.mission)]));
+  rule("hero recruit_steps missions", "area", all(HE.heroes).map(([k, h]) => [`hero ${k}`, (h.recruit_steps || []).map(s => s.mission)]));
   rule("title giver", "npc", all(TI.titles).map(([k, t]) => [`title ${k}`, t.giver]));
   rule("armor profession", "profession", all(AR.armor).map(([k, a]) => [`armor ${k}`, a.profession]));
   rule("armor campaigns", "campaign", all(AR.armor).map(([k, a]) => [`armor ${k}`, a.campaigns]));
@@ -202,7 +202,7 @@ async function main() {
   head("game/calendar.js");
   const days = (CA.rotations || []).flatMap(r => r.entries.map((e, i) => [`${r.key} day ${i}`, e]));
   rule("rotation missions", "mission", days.map(([w, e]) => [w, e.mission]));
-  rule("rotation locations", "location", days.map(([w, e]) => [w, e.location]));
+  rule("rotation areas", "area", days.map(([w, e]) => [w, e.area]));
   rule("rotation creatures", "creature", days.map(([w, e]) => [w, e.creature]));
   rule("rotation quests", "quest", days.map(([w, e]) => [w, e.quest]));
   rule("rotation bonuses", "bonus", days.map(([w, e]) => [w, e.bonus]));
@@ -215,32 +215,35 @@ async function main() {
   rule("bonus notes", "bonus", Object.keys(NO.bonuses || {}).map(k => [`notes bonus ${k}`, k]));
   rule("event notes", "event", Object.keys(NO.events || {}).map(k => [`notes event ${k}`, k]));
   rule("Nicholas spots: the week", "nicholas week", Object.keys(NI.spots || {}).map(k => [`spot ${k}`, k]));
-  rule("Nicholas spots: from", "location", all(NI.spots).map(([k, s]) => [`spot ${k}`, s.from]));
+  rule("Nicholas spots: from", "area", all(NI.spots).map(([k, s]) => [`spot ${k}`, s.from]));
   say();
   head("data/builds.js, aliases.js");
   rule("build runes (attribute)", "attribute", (BU.builds || []).map(b => [`build ${b.id}`, Object.keys(b.runes || {})]));
   rule("build heroes", "hero", (BU.builds || []).map(b => [`build ${b.id}`, b.heroes]));
   rule("team builds", "build", (BU.teams || []).map(t => [`team ${t.id}`, t.builds]));
-  rule("team place", "location", (BU.teams || []).map(t => [`team ${t.id}`, t.place]));
+  rule("team area", "area", (BU.teams || []).map(t => [`team ${t.id}`, t.area]));
   rule("team mission", "mission", (BU.teams || []).map(t => [`team ${t.id}`, t.mission]));
   rule("team guide", "guide", (BU.teams || []).map(t => [`team ${t.id}`, t.guide]));
   rule("singles, players", "build", [...(BU.singles || []), ...(BU.players || [])].map(id => ["list", id]));
-  for (const [part, target] of [["skills", "skill"], ["locations", "location"], ["regions", "region"], ["professions", "profession"], ["campaigns", "campaign"]])
+  for (const [part, target] of [["skills", "skill"], ["areas", "area"], ["regions", "region"], ["professions", "profession"], ["campaigns", "campaign"]])
     rule(`aliases ${part}`, target, Object.keys(AL.aliases?.[part] || {}).map(k => [`aliases ${part}`, k]));
   say();
+  head("data/areas.js");
+  rule("areas shown only with Show all", "area", all(F["data/areas"]?.hidden || {}).map(([k, ids]) => [`hidden ${k}`, ids]));
+  say();
   head("data/depths.js, routing.js");
-  rule("dungeon (its map)", "location", Object.keys(DE.dungeons || {}).map(k => [`dungeon ${k}`, k]));
+  rule("dungeon (its map)", "area", Object.keys(DE.dungeons || {}).map(k => [`dungeon ${k}`, k]));
   const lv = all(DE.dungeons).flatMap(([k, d]) => d.levels.map((v, i) => [`dungeon ${k} level ${i + 1}`, v]));
-  rule("level map", "location", lv.map(([w, v]) => [w, v.map]), "a level's own map has no record in ground.js");
+  rule("level map", "area", lv.map(([w, v]) => [w, v.map]), "a level's own map has no record in ground.js");
   rule("level cell", "depths cell", lv.map(([w, v]) => [w, v.cell]));
   rule("cells: ground", "walk", all(DE.cells).map(([k, v]) => [`cell ${k}`, v]));
   rule("level walk: ground", "walk", lv.map(([w, v]) => [w, v.walk]));
-  rule("level portals", "location", lv.map(([w, v]) => [w, v.marks.filter(m => m[0] === "portal").map(m => m[3])]));
+  rule("level portals", "area", lv.map(([w, v]) => [w, v.marks.filter(m => m[0] === "portal").map(m => m[3])]));
   rule("level boss (by name)", "creature name", lv.map(([w, v]) => [w, v.marks.filter(m => m[0] === "boss").map(m => m[3])]));
   for (const part of ["walls", "paths", "cross", "teleports", "closed", "portals"])
-    rule(`routing ${part}: map`, "location", Object.keys(RO[part] || {}).map(k => [`routing ${part}`, k]));
-  rule("routing closed: to", "location", all(RO.closed).map(([k, v]) => [`routing closed ${k}`, v]));
-  rule("routing portals: to", "location", all(RO.portals).map(([k, v]) => [`routing portals ${k}`, Object.keys(v)]));
+    rule(`routing ${part}: map`, "area", Object.keys(RO[part] || {}).map(k => [`routing ${part}`, k]));
+  rule("routing closed: to", "area", all(RO.closed).map(([k, v]) => [`routing closed ${k}`, v]));
+  rule("routing portals: to", "area", all(RO.portals).map(([k, v]) => [`routing portals ${k}`, Object.keys(v)]));
   say();
   head("data/guides.js and data/guides/");
   rule("guide mission", "mission", guides.map(g => [`guide ${g.id}`, g.mission]));
@@ -251,13 +254,13 @@ async function main() {
   rule("guide builds by id", "build", blocks.filter(([, x]) => x.builds).map(([w, x]) => [w, x.builds.filter(b => typeof b === "string")]));
   rule("guide build skills", "skill", blocks.filter(([, x]) => x.builds).map(([w, x]) => [w, x.builds.map(b => b.skills)]));
   rule("guide build runes (attribute)", "attribute", blocks.filter(([, x]) => x.builds).map(([w, x]) => [w, x.builds.map(b => Object.keys(b.runes || {}))]));
-  rule("guide areas", "location", blocks.map(([w, x]) => [w, x.areas]));
-  rule("guide route places", "location", blocks.map(([w, x]) => [w, [x.start, x.map, x.step, x.area].filter(v => typeof v === "number")]));
+  rule("guide areas", "area", blocks.map(([w, x]) => [w, x.areas]));
+  rule("guide route areas", "area", blocks.map(([w, x]) => [w, [x.start, x.map, x.step, x.area].filter(v => typeof v === "number")]));
   rule("guide route quests", "quest", blocks.map(([w, x]) => [w, [x.take, x.done, x.go]]));
-  rule("guide quest index places", "location", blocks.map(([w, x]) => [w, x.questIndex?.places]));
+  rule("guide quest index areas", "area", blocks.map(([w, x]) => [w, x.questIndex?.areas]));
   rule("guide quest index skips", "quest", blocks.map(([w, x]) => [w, Object.keys(x.questIndex?.skip || x.skip || {})]));
   say();
-  // every string in every file, guides too: its {skill:id}, {place:id}... links
+  // every string in every file, guides too: its {skill:id}, {area:id}... links
   head("links in text, in every file");
   const texts = [];
   const strings = (where, x) => { if (typeof x === "string") texts.push([where, x]); else if (x && typeof x === "object") for (const [k, v] of Object.entries(x)) strings(where, v); };
@@ -265,7 +268,7 @@ async function main() {
   for (const [id, g] of Object.entries(GUIDE)) strings(`guide ${id}`, g);
   const links = kind => texts.map(([w, t]) => [w, [...t.matchAll(new RegExp(`\\{${kind}:(\\d+)\\}`, "g"))].map(m => m[1])]);
   rule("{skill:id}, {skillname:id}", "skill", [...links("skill"), ...links("skillname")]);
-  rule("{place:id}", "location", links("place"));
+  rule("{area:id}", "area", links("area"));
   rule("{mission:id}", "mission", links("mission"));
   rule("{quest:id}", "quest", links("quest"));
   rule("{hero:id}", "hero", links("hero"));
@@ -273,7 +276,7 @@ async function main() {
   // names are never keys: every game table's keys are numbers
   head("keys");
   const named = [];
-  for (const t of ["campaign", "continent", "type", "region", "location", "set", "mission", "creature", "npc", "quest", "skill", "profession", "attribute", "skill type", "hero", "title", "material", "bonus", "event"])
+  for (const t of ["campaign", "continent", "type", "region", "area", "set", "mission", "creature", "npc", "quest", "skill", "profession", "attribute", "skill type", "hero", "title", "material", "bonus", "event"])
     for (const k of Object.keys(T[t] || {})) if (!/^-?\d+$/.test(k)) named.push(`${t} ${JSON.stringify(k)}`);
   checks++; broken += named.length;
   say(`   ${named.length ? "FAIL" : "ok  "}  ${pad("every game table is keyed by numbers", 44)}    ${pad("", 14)} ${n(Object.values(T).reduce((s, t) => s + Object.keys(t || {}).length, 0)).padStart(7)}${named.length ? `   ${named.length}: ${named.slice(0, 12).join(", ")}` : ""}`);

@@ -44,9 +44,9 @@
   <header class="top"></header><script src="header.js"></script>
 </div>
 <div class="wrap ex">
-  <div class="page-title"><h1>Map Editor</h1><p>Our fixes to the walkable ground (walls, paths, crossings, teleporters), on any place's map or checked on Nicholas the Traveler's ways</p></div>
+  <div class="page-title"><h1>Map Editor</h1><p>Our fixes to the walkable ground (walls, paths, crossings, teleporters), on any area's map or checked on Nicholas the Traveler's ways</p></div>
 
-  <div class="gsearch"><input type="search" id="dq" placeholder="Find a Nicholas week by item or place, or any place — e.g. black pearl, tangle root" autocomplete="off"></div>
+  <div class="gsearch"><input type="search" id="dq" placeholder="Find a Nicholas week by item or area, or any area — e.g. black pearl, tangle root" autocomplete="off"></div>
   <div id="dhits"></div>
   <div class="nick-step"><button id="dprev" type="button">← Prev</button><h3 id="dtitle"></h3><button id="dnext" type="button">Next →</button></div>
   <p class="draw-tools">
@@ -76,7 +76,7 @@
 {
   const COLORS = { crossing: "#4fd1ff", wall: "#ff6b8b", teleporter: "#c58bff", path: "#7ee0d0", line: "#ffb347", point: "#7ee08a" }, GREY = "#9aa0a6";
   const N = NICK.entries.length, now = Rotation.period(NICK) % N;
-  // the address: ?nick=N (a week) or ?place=id (an area); points=x,y;x,y... marks points on the map (red dots); embed
+  // the address: ?nick=N (a week) or ?area=id (an area); points=x,y;x,y... marks points on the map (red dots); embed
   // shows the map alone
   const ARGS = new URLSearchParams(location.search);
   const marks = (ARGS.get("points") || "").split(";").map(p => p.split(",").map(Number)).filter(p => p.length === 2 && p.every(Number.isFinite));
@@ -132,7 +132,7 @@
     }
     let np = 0;
     $("drawn").value = shapes.map(d => {
-      const at = `${LOCATIONS[d.map].name} (${d.map})`;
+      const at = `${AREAS[d.map].name} (${d.map})`;
       if (d.kind === "drop") return `drop ${d.what} ${at}: ${d.what === "crossing" ? `middle ${d.data[0]},${d.data[1]} radius ${d.data[2]}` : pairs(d.data).map(p => p.join(",")).join(" ")}`;
       if (d.kind === "crossing") return (c => `crossing ${at}: middle ${c[0]},${c[1]} radius ${c[2]} ends ${d.pts.slice(2).map(p => p.join(",")).join(" ")}`)(crossData(d));
       if (d.kind === "point") return `point ${++np} ${at}: ${d.pts[0].join(",")}`;
@@ -196,7 +196,7 @@
     if (k !== loads) return;
     nick = ways;
     // an area: it and its neighbours on its map
-    shown = nick ? [...nick.lit] : [mapId, ...(LOCATIONS[mapId]?.exits || []).map(x => x.to).filter(i => WALK_SET.get(i) === WALK_SET.get(mapId))];
+    shown = nick ? [...nick.lit] : [mapId, ...(AREAS[mapId]?.exits || []).map(x => x.to).filter(i => WALK_SET.get(i) === WALK_SET.get(mapId))];
     shown = [...new Set(shown)];
     walks = await Promise.all(shown.map(loadWalk));
     if (k !== loads) return;
@@ -225,40 +225,40 @@
   // what's shown: a Nicholas week (with Prev and Next) or an area; its title and address
   const fmtWeek = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" });
   const when = i => Rotation.startsAt(NICK, Rotation.period(NICK) + ((i - now + N) % N));
-  const pick = (week, place) => {
+  const pick = (week, area) => {
     ni = week == null ? null : (week + N) % N;
-    mapId = ni == null ? place : NICK.entries[ni].location;
+    mapId = ni == null ? area : NICK.entries[ni].area;
     ends = []; way = null; $("dstatus").textContent = "";
     const e = ni == null ? null : NICK.entries[ni];
-    $("dtitle").innerHTML = e ? `${fmtWeek.format(when(ni))}: ${e.count} × ${esc(e.item)} <span class="dim">· ${LINK.place(e.location)}</span>` : LINK.place(mapId);
+    $("dtitle").innerHTML = e ? `${fmtWeek.format(when(ni))}: ${e.count} × ${esc(e.item)} <span class="dim">· ${LINK.area(e.area)}</span>` : LINK.area(mapId);
     for (const b of [$("dprev"), $("dnext")]) b.style.visibility = e ? "" : "hidden";
     $("dmode").querySelector('[value="view"]').hidden = !e;
     if (!e && mode() === "view") $("dmode").value = "route";
     if (e && !shapes.length && !cur) $("dmode").value = "view";
     help();
     const keep = ["points", "embed"].filter(k => ARGS.has(k)).map(k => `&${k}${ARGS.get(k) ? "=" + ARGS.get(k) : ""}`).join("");
-    history.replaceState(null, "", (e ? "?nick=" + ni : "?place=" + mapId) + keep);
+    history.replaceState(null, "", (e ? "?nick=" + ni : "?area=" + mapId) + keep);
     load();
   };
   $("dprev").onclick = () => pick(ni - 1);
   $("dnext").onclick = () => pick(ni + 1);
 
   // the search: his weeks by item or area (from this week on), and every area with walkable ground
-  const PLACES = [...WALK_SET.keys()].filter(id => LOCATIONS[id]).sort((a, b) => cmpStr(LOCATIONS[a].name, LOCATIONS[b].name));
+  const ALL_AREAS = [...WALK_SET.keys()].filter(id => AREAS[id]).sort((a, b) => cmpStr(AREAS[a].name, AREAS[b].name));
   let hits = [], sel = 0;
   const showHits = () => {
     const ts = fold($("dq").value).split(/\s+/).filter(Boolean), has = k => ts.every(t => fold(k).includes(t));
     const weeks = !ts.length ? [] : Array.from({ length: N }, (_, d) => (now + d) % N)
-      .filter(i => { const e = NICK.entries[i]; return has(`${e.item} ${LOCATIONS[e.location]?.name}`); }).slice(0, 8);
-    // places starting with the first word first, then those with a word starting with it (as the home page's search)
-    const rank = id => { const k = fold(LOCATIONS[id].name); return k.startsWith(ts[0]) ? 0 : k.includes(" " + ts[0]) ? 1 : 2; };
-    const places = !ts.length ? [] : PLACES.filter(id => has(LOCATIONS[id].name)).sort((a, b) => rank(a) - rank(b)).slice(0, 8);
-    hits = [...weeks.map(i => ["nick", i]), ...places.map(id => ["place", id])];
+      .filter(i => { const e = NICK.entries[i]; return has(`${e.item} ${AREAS[e.area]?.name}`); }).slice(0, 8);
+    // areas starting with the first word first, then those with a word starting with it (as the home page's search)
+    const rank = id => { const k = fold(AREAS[id].name); return k.startsWith(ts[0]) ? 0 : k.includes(" " + ts[0]) ? 1 : 2; };
+    const areas = !ts.length ? [] : ALL_AREAS.filter(id => has(AREAS[id].name)).sort((a, b) => rank(a) - rank(b)).slice(0, 8);
+    hits = [...weeks.map(i => ["nick", i]), ...areas.map(id => ["area", id])];
     sel = Math.min(sel, Math.max(0, hits.length - 1));
     const hit = (k, html) => `<a class="hit${k === sel ? " sel" : ""}" data-k="${k}">${html}</a>`;
     $("dhits").innerHTML = (weeks.length ? `<h4>Nicholas's weeks</h4>` : "") + weeks.map((i, k) => { const e = NICK.entries[i];
-      return hit(k, `<span><span class="t">${e.count} × ${highlight(e.item, ts)}</span> <span class="s">${highlight(LOCATIONS[e.location].name, ts)}</span></span><span class="s">${fmtWeek.format(when(i))}</span>`); }).join("")
-      + (places.length ? `<h4>Places</h4>` : "") + places.map((id, k) => hit(weeks.length + k, `<span class="t">${highlight(LOCATIONS[id].name, ts)}</span><span class="s">${esc(TYPE_LABEL[LOCATIONS[id].type] || "")}</span>`)).join("")
+      return hit(k, `<span><span class="t">${e.count} × ${highlight(e.item, ts)}</span> <span class="s">${highlight(AREAS[e.area].name, ts)}</span></span><span class="s">${fmtWeek.format(when(i))}</span>`); }).join("")
+      + (areas.length ? `<h4>Areas</h4>` : "") + areas.map((id, k) => hit(weeks.length + k, `<span class="t">${highlight(AREAS[id].name, ts)}</span><span class="s">${esc(TYPE_LABEL[AREAS[id].type] || "")}</span>`)).join("")
       || (ts.length ? '<p class="dim">Nothing found.</p>' : "");
   };
   const choose = k => { const [kind, v] = hits[k]; $("dq").value = ""; showHits(); kind === "nick" ? pick(v) : pick(null, v); };
@@ -298,7 +298,7 @@
     rewalk();
   };
   const q = ARGS;
-  q.has("place") && LOCATIONS[+q.get("place")] ? pick(null, +q.get("place")) : pick(+(q.get("nick") ?? now) % N || 0);
+  q.has("area") && AREAS[+q.get("area")] ? pick(null, +q.get("area")) : pick(+(q.get("nick") ?? now) % N || 0);
 }
 </script>
 </body>

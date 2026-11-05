@@ -5,21 +5,21 @@ const KINDS = { story: "Mission", challenge: "Challenge", competitive: "Competit
 const KIND_ORDER = Object.keys(KINDS);
 // a faint tint per region, so neighbouring regions (Istan, Kourna, Vabbi…) are easy to tell apart
 const REGION_TINT = ["#e0563f", "#d8b25a", "#6fb4e6", "#7cbf8a", "#a874d8", "#d466a4", "#47c1bf", "#e3a33a"];
-const place = m => LOCATIONS[m.id];
-const outpost = m => LOCATIONS[m.outpost];
-const party = m => outpost(m)?.party || place(m)?.party || 0;
-const regionId = m => (outpost(m) || place(m))?.region;
+const area = m => AREAS[m.id];
+const outpost = m => AREAS[m.outpost];
+const party = m => outpost(m)?.party || area(m)?.party || 0;
+const regionId = m => (outpost(m) || area(m))?.region;
 const REGION_IDS = [...new Set(ALL.filter(m => m.kind !== "pvp").sort((a, b) => (a.order ?? 999) - (b.order ?? 999)).map(regionId))];
 const regionTint = r => (r != null ? REGION_TINT[REGION_IDS.indexOf(r) % REGION_TINT.length] : "transparent");
 const camp = m => missionCampaign(m) ?? 0;
 // the elites to capture in a mission: [boss, skill]
 const elites = m => (m.bosses || []).map(b => CREATURES[b.creature]).filter(Boolean).flatMap(c => (c.elites || []).filter(e => SKILLS[e]?.elite).map(e => [c, SKILLS[e]]));
 // the missions done in normal and hard mode are kept (User): not PvP ones, nor the competitive ones
-const tracked = m => ["story", "challenge", "elite"].includes(m.kind);
+const tracked = hasModes;
 const crName = x => CREATURES[x.creature]?.name || "";
 
 for (const m of ALL) {
-  m._name = fold(`${m.name} ${aliasText("locations", m.id)} ${aliasText("locations", m.outpost)}`);
+  m._name = fold(`${m.name} ${aliasText("areas", m.id)} ${aliasText("areas", m.outpost)}`);
   m._who = fold([...(m.bosses || []).map(b => `${crName(b)} ${(CREATURES[b.creature]?.elites || []).map(e => SKILLS[e]?.name).join(" ")}`),
     ...(m.foes || []).map(f => `${crName(f)} ${CREATURES[f.creature]?.group || ""}`), ...(m.allies || []).map(crName)].join(" | "));
 }

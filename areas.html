@@ -5,27 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
-<title>GW Locations</title>
+<title>GW Areas</title>
 <link rel="stylesheet" href="style.css">
 </head>
-<body class="locations">
+<body class="areas">
 <div class="wrap">
   <header class="top"></header><script src="header.js"></script>
-  <div class="page-title"><h1>Locations</h1><p>Outposts and explorable areas, and how they connect</p></div>
+  <div class="page-title"><h1>Areas</h1><p>Every area in the game, by its type: cities, outposts, mission outposts, explorable areas, dungeons... <label class="chk" title="Also festival copies of cities, guild halls and their copies, cinematics, arena, alliance battle and other copies, dev, test, unused and unnamed maps"><input type="checkbox" id="f-all"> Show all</label></p></div>
 
   <div class="q-controls"><div class="profs" id="camps"></div></div>
+  <div class="q-controls"><div class="profs" id="kinds"></div></div>
 
   <div class="filters" id="filters">
     <div class="frow">
-      <input type="search" id="f-name" placeholder="Place or region — e.g. lion's arch, shiverpeaks" autocomplete="off" autofocus>
-      <label class="chk" title="Show PvP arenas such as Ascalon Arena"><input type="checkbox" id="f-pvp"> Include PvP</label>
+      <input type="search" id="f-name" placeholder="Area or region — e.g. lion's arch, shiverpeaks" autocomplete="off" autofocus>
       <span class="search-hint"><kbd>/</kbd> search · <kbd>Enter</kbd> open first · <kbd>Esc</kbd> clear</span>
       <span class="count" id="count"></span>
     </div>
   </div>
 
   <div id="index"></div>
-  <div class="empty" id="empty" hidden>No place matches.</div>
+  <div class="empty" id="empty" hidden>No area matches.</div>
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
 
@@ -35,12 +35,13 @@
 <script src="game/quests.js"></script>
 <script src="game/creatures.js"></script>
 <script src="game/missions.js"></script>
+<script src="data/areas.js"></script>
 <script src="game/calendar.js"></script>
 <script src="data/calendar.js"></script>
 <script src="data/nicholas.js"></script>
 <script src="data/aliases.js"></script>
 <script src="common.js"></script>
 <script src="mapwidget.js"></script>
-<script src="locations.js"></script>
+<script src="areas.js"></script>
 </body>
 </html>

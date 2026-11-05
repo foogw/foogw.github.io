@@ -1,5 +1,5 @@
 const GW_CALENDAR_NOTES = {
-  "_": "Our own write-up of the game's weekly bonuses and yearly events (game/calendar.js), by the same numbers. Text may link things as {skill:id}, {quest:id}, {place:id} and so on.",
+  "_": "Our own write-up of the game's weekly bonuses and yearly events (game/calendar.js), by the same numbers. Text may link things as {skill:id}, {quest:id}, {area:id} and so on.",
   "bonuses_": "words: more words a search finds it by; effect: what it does, in short; tips: how to make the most of it.",
   "bonuses": {
     "1": {
@@ -15,7 +15,7 @@ const GW_CALENDAR_NOTES = {
       "words": "sunspear lightbringer title",
       "effect": "Sunspear and Lightbringer title points are doubled, except those from turning in completed books.",
       "tips": [
-        "Lightbringer: fight demons and Torment creatures in the Realm of Torment, for example by vanquishing its areas or running the Domain of Anguish from the {place:393}.",
+        "Lightbringer: fight demons and Torment creatures in the Realm of Torment, for example by vanquishing its areas or running the Domain of Anguish from the {area:393}.",
         "Sunspear: kill foes anywhere in Elona; vanquishing an Elonian area gives a steady stream of points.",
         "Don't turn in completed books this week: they are not doubled."
       ]
@@ -24,7 +24,7 @@ const GW_CALENDAR_NOTES = {
       "words": "zaishen coins",
       "effect": "Zaishen bounties give double copper Zaishen Coins.",
       "tips": [
-        "Pick up each day's bounty at {place:857} and finish it before the week ends.",
+        "Pick up each day's bounty at {area:857} and finish it before the week ends.",
         "Each character can hold up to 3 Zaishen bounties at a time and turn them in whenever they like, so bounties done in earlier weeks can be saved and turned in this week."
       ]
     },
@@ -32,7 +32,7 @@ const GW_CALENDAR_NOTES = {
       "words": "deep urgoz kanaxai elite",
       "effect": "Anyone can enter The Deep and Urgoz's Warren from Kaineng Center all week.",
       "tips": [
-        "Talk to Vash or Eurayle in {place:194} to enter. Other weeks, The Deep opens from Cavalon and Urgoz's Warren from House zu Heltzer, and only for the alliance that holds that town.",
+        "Talk to Vash or Eurayle in {area:194} to enter. Other weeks, The Deep opens from Cavalon and Urgoz's Warren from House zu Heltzer, and only for the alliance that holds that town.",
         "Both are elite areas for a party of 12: plan the team ahead."
       ]
     },
@@ -49,7 +49,7 @@ const GW_CALENDAR_NOTES = {
       "words": "zaishen coins",
       "effect": "Zaishen missions give double copper Zaishen Coins.",
       "tips": [
-        "Pick up each day's mission at {place:857} and finish it before the week ends.",
+        "Pick up each day's mission at {area:857} and finish it before the week ends.",
         "Each character can hold up to 3 Zaishen missions at a time and turn them in whenever they like, so missions done in earlier weeks can be saved and turned in this week."
       ]
     },
@@ -57,7 +57,7 @@ const GW_CALENDAR_NOTES = {
       "words": "underworld fissure uw fow statue",
       "effect": "Entering the Underworld and the Fissure of Woe through the gods' statues is free all week.",
       "tips": [
-        "Enter from a god's statue in the {place:138}, the {place:393} or the {place:284}: Grenth sends you to the Underworld, Balthazar to the Fissure of Woe. Other weeks it costs 1 platinum.",
+        "Enter from a god's statue in the {area:138}, the {area:393} or the {area:284}: Grenth sends you to the Underworld, Balthazar to the Fissure of Woe. Other weeks it costs 1 platinum.",
         "The Temple of Grenth in Lornar's Pass still charges, so use one of the outposts above.",
         "A good week for Underworld and Fissure of Woe runs: Globs of Ectoplasm, Obsidian Shards and their quests.",
         "With no entry fee, it's also the week to solo farm there, and to try out and tune a solo build without paying for every failed attempt."
@@ -77,7 +77,7 @@ const GW_CALENDAR_NOTES = {
       "words": "zaishen coins vanquish",
       "effect": "Zaishen vanquishes give double copper Zaishen Coins.",
       "tips": [
-        "Pick up each day's vanquish at {place:857}; vanquishing is done in Hard mode.",
+        "Pick up each day's vanquish at {area:857}; vanquishing is done in Hard mode.",
         "Each character can hold up to 3 Zaishen vanquishes at a time and turn them in whenever they like, so vanquishes done in earlier weeks can be saved and turned in this week."
       ]
     }

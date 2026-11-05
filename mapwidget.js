@@ -1,9 +1,9 @@
 "use strict";
 
 /* Maps: a map set's picture (game/maps.js) drawn from its tiles, darkened except where the chosen areas can be
-   walked (game/walk/<map id>.json), with markers for places and portals. mapHTML(ids) gives a window on some areas,
+   walked (game/walk/<map id>.json), with markers for areas and portals. mapHTML(ids) gives a window on some areas,
    initMaps(root) brings the windows in it to life; paintMap draws any view, for the Maps page and the route finder. */
-// the maps, and the places with walkable ground: map id -> the map it is on
+// the maps, and the areas with walkable ground: map id -> the map it is on
 const MAP_SETS = data("GW_MAPS")?.sets || {}, WALK_SET = new Map(Object.entries(data("GW_MAPS")?.walks || {}).map(([k, s]) => [+k, s]));
 const HAS_WALK = { has: id => WALK_SET.has(+id) };
 const TILE = 256;
@@ -11,7 +11,7 @@ const MAP_TINT = "#06080a", MAP_RING = "#ffd98a", MAP_MAX_H = 520;
 
 /* ---------- loading ---------- */
 const WALKS = new Map();
-// a location's walkable ground, {set, rings: [[x0, y0, x1, y1, ...]]}, or null where the site has none
+// an area's walkable ground, {set, rings: [[x0, y0, x1, y1, ...]]}, or null where the site has none
 function loadWalk(id) {
   if (!HAS_WALK.has(+id)) return Promise.resolve(null);
   if (!WALKS.has(+id)) WALKS.set(+id, fetch(`game/walk/${id}.json`).then(r => (r.ok ? r.json() : null)).catch(() => null));
@@ -57,7 +57,7 @@ function tile(set, z, x, y, onLoad) {
 // towns, outposts, mission outposts and dungeons: [fill, radius in CSS px, label]
 const MARK_STYLE = { outpost: ["#f2eee4", 6.5, "Outpost"], mission: ["#e8664a", 7, "Mission outpost"], dungeon: ["#a99bff", 7, "Dungeon"],
   explorable: ["#7cbf8a", 5.5, "Area"], spot: ["#4be06b", 6, "Spot"] };
-const markKind = l => (l.type === 5 || l.type === 6 ? "mission" : l.type === 18 ? "dungeon" : isOutpost(l) ? "outpost" : "explorable");
+const markKind = l => ([5, 6, 8, 9].includes(l.type) ? "mission" : l.type === 18 ? "dungeon" : isOutpost(l) ? "outpost" : "explorable");
 // a portal: a small swirl of four spiral arms, like the game's own map icon (scale = device pixels per CSS px)
 function drawSwirl(g, x, y, scale = 1, color = "#d8f6ff") {
   const r = 5.5 * scale;
@@ -87,10 +87,10 @@ function sprite(key, size, paint) {
   }
   return SPRITES.get(key);
 }
-// a dot, and the place's name beside it (in device pixels; scale = device pixels per CSS px)
+// a dot, and the area's name beside it (in device pixels; scale = device pixels per CSS px)
 function drawMark(g, kind, x, y, scale = 1, name = "", self = false) {
   const [fill, r] = MARK_STYLE[kind] || MARK_STYLE.outpost;
-  if (self) {  // the place the page is about: a ring around a larger dot
+  if (self) {  // the area the page is about: a ring around a larger dot
     scale *= 1.3;
     g.beginPath(); g.arc(x, y, (r + 5) * scale, 0, 2 * Math.PI); g.lineWidth = 3 * scale; g.strokeStyle = MAP_RING; g.stroke();
   }
@@ -165,7 +165,7 @@ function paintMap(ctx, v) {
 }
 
 /* ---------- a window on some areas ---------- */
-// ids: the areas lit; self: a place the page is about, marked out (an outpost shows the areas around it)
+// ids: the areas lit; self: an area the page is about, marked out (an outpost shows the areas around it)
 // town: an outpost (or a list) whose own town to light (where its mission's ground shares its map id), not the mission's ground
 // spots: points of the map to mark, [{x, y, name}] in its pixels (where an NPC stands), shown even with markers hidden
 // note: HTML under the map, between its controls
@@ -184,32 +184,32 @@ function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null, spots = nu
 // hiding the markers is one choice for every map, remembered in this browser only
 const hideMarks = () => { try { return localStorage.getItem("maps.nomarks") === "1"; } catch { return false; } };
 
-// the places to mark in a box of a set: the areas themselves and places a portal joins to one of them
+// the areas to mark in a box of a set: the areas themselves and areas a portal joins to one of them
 function nearMarks(set, ids, self, box) {
   const near = new Set([...ids, self].filter(Boolean));
-  for (const i of [...near]) for (const e of LOCATIONS[i]?.exits || []) near.add(e.to);
-  for (const l of Object.values(LOCATIONS)) if ((l.exits || []).some(e => ids.includes(e.to))) near.add(l.id);
+  for (const i of [...near]) for (const e of AREAS[i]?.exits || []) near.add(e.to);
+  for (const l of Object.values(AREAS)) if ((l.exits || []).some(e => ids.includes(e.to))) near.add(l.id);
   const [x0, y0, x1, y1] = box;
-  return [...near].map(i => LOCATIONS[i]).filter(l => l && l.set === set && l.at && isOutpost(l)
+  return [...near].map(i => AREAS[i]).filter(l => l && l.set === set && l.at && isOutpost(l)
     && l.at[0] >= x0 && l.at[0] <= x1 && l.at[1] >= y0 && l.at[1] <= y1)
     .map(l => ({ id: l.id, x: l.at[0], y: l.at[1], kind: markKind(l), name: l.name, self: l.id === self }));
 }
 
 async function initMap(fig) {
   const ids = (fig.dataset.ids || "").split(",").filter(Boolean).map(Number), self = +fig.dataset.self || null;
-  // only places on a map have ground to load
+  // only areas on a map have ground to load
   const towns = (fig.dataset.town || "").split(",").filter(Boolean).map(Number);
   const level = fig.dataset.level ? JSON.parse(fig.dataset.level) : null;
   const walks = level ? [await fetch(`game/walk/${level.walk}.json`).then(r => r.json()).catch(() => null)].filter(Boolean)
     : (await Promise.all(ids.map(loadWalk))).map((w, i) => w && { set: w.set, rings: towns.includes(ids[i]) && w.town ? w.town : w.rings, id: ids[i] }).filter(Boolean);
-  const place = LOCATIONS[self] || LOCATIONS[ids[0]];
-  const set = walks[0]?.set ?? place?.set;
+  const here = AREAS[self] || AREAS[ids[0]];
+  const set = walks[0]?.set ?? here?.set;
   if (set == null || !MAP_SETS[set]) { fig.remove(); return; }
   const lit = walks.filter(w => w.set === set);
-  // the box: the areas' ground and the place marked out, with a margin, kept within the map
+  // the box: the areas' ground and the area marked out, with a margin, kept within the map
   const area = level?.area && [{ rings: [level.area] }];
   let box = ringsBox(area || lit);
-  if (!level) for (const l of [LOCATIONS[self], ...ids.map(i => LOCATIONS[i])]) if (l?.set === set && l.at) {
+  if (!level) for (const l of [AREAS[self], ...ids.map(i => AREAS[i])]) if (l?.set === set && l.at) {
     const [x, y] = l.at;
     box = box ? [Math.min(box[0], x), Math.min(box[1], y), Math.max(box[2], x), Math.max(box[3], y)] : [x - 250, y - 180, x + 250, y + 180];
   }
@@ -220,22 +220,22 @@ async function initMap(fig) {
   const win = fig.querySelector(".gmap-win"), cv = win.querySelector("canvas"), ctx = cv.getContext("2d");
   win.style.aspectRatio = `${bw} / ${bh}`;
   win.style.width = `min(100%, ${Math.round(maxH * bw / bh)}px)`;
-  win.setAttribute("aria-label", `${level?.name || ids.map(locName).join(", ") || locName(self)}: where you can walk`);
+  win.setAttribute("aria-label", `${level?.name || ids.map(areaName).join(", ") || areaName(self)}: where you can walk`);
   const slider = fig.querySelector("input[type=range]"), nomarks = fig.querySelector(".gmap-nomarks");
   const path = lit.length ? walkPath(lit) : null, clip = area && walkPath(area);
   const marks = level ? [] : nearMarks(set, ids, self, box);
   const spots = JSON.parse(fig.dataset.spots || "[]").map(p => ({ ...p, kind: "spot" }));
-  const portals = [], joins = new Map();  // joins: each portal's places, by "x,y", for its name on hover
+  const portals = [], joins = new Map();  // joins: each portal's areas, by "x,y", for its name on hover
   // the game's portals, and those we placed where it has none (data/routing.js, on pages that load it)
   const placed = i => Object.entries(data("GW_ROUTING")?.portals?.[i] || {}).map(([to, at]) => ({ to: +to, at }));
-  for (const i of ids) for (const e of [...(LOCATIONS[i]?.exits || []), ...placed(i)]) if (e.at) {
+  for (const i of ids) for (const e of [...(AREAS[i]?.exits || []), ...placed(i)]) if (e.at) {
     const k = String(e.at);
     if (!joins.has(k)) { joins.set(k, new Set()); portals.push(e.at); }
-    for (const n of [LOCATIONS[i]?.name, LOCATIONS[e.to]?.name]) if (n) joins.get(k).add(n);
+    for (const n of [AREAS[i]?.name, AREAS[e.to]?.name]) if (n) joins.get(k).add(n);
   }
   for (const p of level?.portals || []) { portals.push(p.at); joins.set(String(p.at), new Set([level.name, p.name])); }
   // each marker is also a link, for the keyboard and for clicks
-  win.insertAdjacentHTML("beforeend", marks.map(m => `<a class="gmap-mark" href="${HREF.place(m.id)}" title="${esc(m.name)} · ${MARK_STYLE[m.kind][2]}" aria-label="${esc(m.name)}"></a>`).join(""));
+  win.insertAdjacentHTML("beforeend", marks.map(m => `<a class="gmap-mark" href="${HREF.area(m.id)}" title="${esc(m.name)} · ${MARK_STYLE[m.kind][2]}" aria-label="${esc(m.name)}"></a>`).join(""));
   const links = [...win.querySelectorAll(".gmap-mark")];
   // what is shown: the box, or a part of it (Shift+wheel zooms in, a drag then moves about)
   let cur = [...box];
@@ -287,7 +287,7 @@ async function initMap(fig) {
     show([x0 - dx * k, y0 - dy * k, x1 - dx * k, y1 - dy * k]);
   });
   window.addEventListener("pointerup", () => { grab = null; });
-  // a portal's name on hover: the places it joins
+  // a portal's name on hover: the areas it joins
   win.addEventListener("mousemove", e => {
     const r = win.getBoundingClientRect(), k = (cur[2] - cur[0]) / r.width;
     const x = cur[0] + (e.clientX - r.left) * k, y = cur[1] + (e.clientY - r.top) * k;
@@ -299,9 +299,9 @@ async function initMap(fig) {
 function initMaps(root = document) {
   return Promise.all([...root.querySelectorAll(".gmap:not([data-ready])")].map(fig => { fig.dataset.ready = ""; return initMap(fig); }));
 }
-// the areas to show for a place: its own ground, or an outpost's surroundings (the areas its exits lead to)
-function placeAreas(l) {
+// the areas to show for an area: its own ground, or an outpost's surroundings (the areas its exits lead to)
+function shownAreas(l) {
   if (!l) return [];
-  // an outpost, or a place with no ground of its own (a dungeon's entrance): it and the areas its exits lead to
-  return isOutpost(l) || !HAS_WALK.has(l.id) ? [l.id, ...(l.exits || []).map(e => e.to).filter(i => !isOutpost(LOCATIONS[i]))] : [l.id];
+  // an outpost, or an area with no ground of its own (a dungeon's entrance): it and the areas its exits lead to
+  return isOutpost(l) || !HAS_WALK.has(l.id) ? [l.id, ...(l.exits || []).map(e => e.to).filter(i => !isOutpost(AREAS[i]))] : [l.id];
 }

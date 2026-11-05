@@ -90,7 +90,7 @@ const GW_SKILLS = {
     "28": {"name": "Echo/Refrain"},
     "29": {"name": "Disguise"}
   },
-  "skills_": "Keys are the game's skill ids. profession, attribute, campaign, type: the game's numbers (from its skill table); title: the title whose rank the skill scales with (PvE skills). label: the wiki's finer type. pvp_version: the PvP version's skill id. Costs and times are as the wiki shows them. acquisition: {quest}, {npc, as: skill trainer | hero skill trainer | profession changer}, or {capture: creature, location}.",
+  "skills_": "Keys are the game's skill ids. profession, attribute, campaign, type: the game's numbers (from its skill table); title: the title whose rank the skill scales with (PvE skills). label: the wiki's finer type. pvp_version: the PvP version's skill id. Costs and times are as the wiki shows them. acquisition: {quest}, {npc, as: skill trainer | hero skill trainer | profession changer}, or {capture: creature, area}.",
   "skills": {
     "1": {
       "name": "Healing Signet",
@@ -189,10 +189,10 @@ const GW_SKILLS = {
       "description": "Elite Spell. If target foe is casting a spell or chant, that skill and all skills of the same attribute are disabled for 1...12 seconds and that skill is interrupted.",
       "concise": "Elite Spell. If target foe is casting a spell or chant, that skill and all skills of the same attribute are disabled (1...12 seconds) and that skill is interrupted.",
       "acquisition": [
-        {"capture": 101561, "location": 839},
-        {"capture": 100276, "location": 121},
-        {"capture": 100314, "location": 651},
-        {"capture": 101562, "location": 560}
+        {"capture": 101561, "area": 839},
+        {"capture": 100276, "area": 121},
+        {"capture": 100314, "area": 651},
+        {"capture": 101562, "area": 560}
       ]
     },
     "6": {
@@ -227,7 +227,7 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 100848, "location": 11}
+        {"capture": 100848, "area": 11}
       ]
     },
     "7": {
@@ -411,11 +411,11 @@ const GW_SKILLS = {
       "description": "Elite Stance. For 5...20 seconds, spells you cast recharge 33% faster.",
       "concise": "Elite Stance. (5...20 seconds.) Your spells recharge 33% faster.",
       "acquisition": [
-        {"capture": 100933, "location": 118},
-        {"capture": 100872, "location": 117},
-        {"capture": 100887, "location": 116},
-        {"capture": 100129, "location": 210},
-        {"capture": 100446, "location": 386}
+        {"capture": 100933, "area": 118},
+        {"capture": 100872, "area": 117},
+        {"capture": 100887, "area": 116},
+        {"capture": 100129, "area": 210},
+        {"capture": 100446, "area": 386}
       ]
     },
     "14": {
@@ -481,8 +481,8 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 101002, "location": 73},
-        {"capture": 101278, "location": 19}
+        {"capture": 101002, "area": 73},
+        {"capture": 101278, "area": 19}
       ]
     },
     "16": {
@@ -911,7 +911,7 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 812, "as": "hero skill trainer"},
-        {"capture": 100276, "location": 121}
+        {"capture": 100276, "area": 121}
       ]
     },
     "31": {
@@ -952,16 +952,16 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 100149, "location": 98},
-        {"capture": 100194, "location": 90},
-        {"capture": 100958, "location": 23},
-        {"capture": 100161, "location": 191},
-        {"capture": 101563, "location": 190},
-        {"capture": 101564, "location": 190},
-        {"capture": 100921, "location": 22},
-        {"capture": 101565, "location": 190},
-        {"capture": 101566, "location": 114},
-        {"capture": 100517, "location": 123},
+        {"capture": 100149, "area": 98},
+        {"capture": 100194, "area": 90},
+        {"capture": 100958, "area": 23},
+        {"capture": 100161, "area": 191},
+        {"capture": 101563, "area": 190},
+        {"capture": 101564, "area": 190},
+        {"capture": 100921, "area": 22},
+        {"capture": 101565, "area": 190},
+        {"capture": 101566, "area": 114},
+        {"capture": 100517, "area": 123},
         {"npc": 796, "as": "profession changer"},
         {"npc": 797, "as": "profession changer"},
         {"npc": 798, "as": "profession changer"}
@@ -1017,9 +1017,9 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 30 seconds, your melee attacks neither hit nor fail to hit. Instead, Illusionary Weaponry deals 20...60 damage to your targets for each melee attack. You have +5 armor for each equipped Illusion Magic skill.",
       "concise": "Elite Enchantment Spell. (30 seconds.) Deals 20...60 damage to foes in place of other damage or effects from melee attacks. You have +5 armor for each equipped Illusion Magic skill. Your melee attacks neither hit nor fail to hit.",
       "acquisition": [
-        {"capture": 100344, "location": 91},
-        {"capture": 100907, "location": 24},
-        {"capture": 100384, "location": 26}
+        {"capture": 100344, "area": 91},
+        {"capture": 100907, "area": 24},
+        {"capture": 100384, "area": 26}
       ]
     },
     "34": {
@@ -1079,7 +1079,7 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 807, "as": "hero skill trainer"},
-        {"capture": 100409, "location": 82}
+        {"capture": 100409, "area": 82}
       ]
     },
     "36": {
@@ -1187,20 +1187,20 @@ const GW_SKILLS = {
       "concise": "Elite Spell. Causes 1...10 Energy loss. Deals 7 damage to target for each point of Energy lost and 75% of that damage to nearby foes.",
       "acquisition": [
         {"capture": 101567},
-        {"capture": 101568, "location": 843},
-        {"capture": 100254, "location": 59},
-        {"capture": 100908, "location": 24},
-        {"capture": 100959, "location": 23},
-        {"capture": 100978, "location": 122},
-        {"capture": 100516, "location": 123},
-        {"capture": 101569, "location": 94},
-        {"capture": 100409, "location": 82},
-        {"capture": 101570, "location": 62},
-        {"capture": 100245, "location": 209},
+        {"capture": 101568, "area": 843},
+        {"capture": 100254, "area": 59},
+        {"capture": 100908, "area": 24},
+        {"capture": 100959, "area": 23},
+        {"capture": 100978, "area": 122},
+        {"capture": 100516, "area": 123},
+        {"capture": 101569, "area": 94},
+        {"capture": 100409, "area": 82},
+        {"capture": 101570, "area": 62},
+        {"capture": 100245, "area": 209},
         {"capture": 101571},
-        {"capture": 101572, "location": 205},
-        {"capture": 100417, "location": 419},
-        {"capture": 100411, "location": 413}
+        {"capture": 101572, "area": 205},
+        {"capture": 100417, "area": 419},
+        {"capture": 100411, "area": 413}
       ]
     },
     "40": {
@@ -1328,9 +1328,9 @@ const GW_SKILLS = {
         {"npc": 803, "as": "hero skill trainer"},
         {"npc": 804, "as": "hero skill trainer"},
         {"npc": 805, "as": "hero skill trainer"},
-        {"capture": 101573, "location": 113},
-        {"capture": 101574, "location": 114},
-        {"capture": 100384, "location": 26}
+        {"capture": 101573, "area": 113},
+        {"capture": 101574, "area": 114},
+        {"capture": 100384, "area": 26}
       ]
     },
     "44": {
@@ -1401,10 +1401,10 @@ const GW_SKILLS = {
         {"quest": 101282},
         {"npc": 49, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 100633, "location": 10},
-        {"capture": 100590, "location": 12},
-        {"capture": 101001, "location": 73},
-        {"capture": 101575, "location": 61}
+        {"capture": 100633, "area": 10},
+        {"capture": 100590, "area": 12},
+        {"capture": 101001, "area": 73},
+        {"capture": 101575, "area": 61}
       ]
     },
     "47": {
@@ -1427,7 +1427,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Hex Spell. For 4 seconds, the next time the target foe or any adjacent foe attacks, they take 30...135 damage and are Blinded for 10 seconds.",
       "concise": "Elite Hex Spell. (4 seconds.) Also hexes foes adjacent to target. Deals 30...135 damage. Inflicts Blindness condition (10 seconds). No effect unless hexed foe attacks.",
-      "acquisition": [{"capture": 100226, "location": 96}, {"capture": 100001, "location": 572}]
+      "acquisition": [{"capture": 100226, "area": 96}, {"capture": 100001, "area": 572}]
     },
     "48": {
       "name": "Spirit of Failure",
@@ -1485,8 +1485,8 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 800, "as": "hero skill trainer"},
-        {"capture": 101576, "location": 58},
-        {"capture": 101577, "location": 62}
+        {"capture": 101576, "area": 58},
+        {"capture": 101577, "area": 62}
       ]
     },
     "50": {
@@ -1515,7 +1515,7 @@ const GW_SKILLS = {
         {"npc": 125, "as": "skill trainer"},
         {"npc": 82, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 100276, "location": 121}
+        {"capture": 100276, "area": 121}
       ]
     },
     "51": {
@@ -1539,9 +1539,9 @@ const GW_SKILLS = {
       "description": "Hex Spell. For 6 seconds, the next time target foe casts a spell that targets an ally, the spell fails and you steal up to 5...14 Energy from that foe.",
       "concise": "Hex Spell. (6 seconds.) Target foe's next spell fails and you steal 5...14 Energy. No effect unless this foe's spell targeted one of its allies.",
       "acquisition": [
-        {"capture": 101578, "location": 58},
-        {"capture": 101579, "location": 49},
-        {"capture": 101580, "location": 35}
+        {"capture": 101578, "area": 58},
+        {"capture": 101579, "area": 49},
+        {"capture": 101580, "area": 35}
       ]
     },
     "52": {
@@ -1564,7 +1564,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Hex Spell. For 1...10 seconds, target foe and all nearby foes are hexed with Panic. When a foe hexed with Panic successfully uses a skill, all other nearby foes are interrupted.",
       "concise": "Elite Hex Spell. Also hexes foes near your target (1...10 seconds). Interrupts all other nearby foes whenever a hexed foe successfully activates a skill.",
-      "acquisition": [{"capture": 101411, "location": 124}, {"capture": 100112, "location": 105}]
+      "acquisition": [{"capture": 101411, "area": 124}, {"capture": 100112, "area": 105}]
     },
     "53": {
       "name": "Migraine",
@@ -1588,12 +1588,12 @@ const GW_SKILLS = {
       "description": "Elite Hex Spell. For 5...20 seconds, target foe suffers -1...8 Health degeneration and takes 100% longer to activate skills.",
       "concise": "Elite Hex Spell. (5...20 seconds.) Causes -1...8 Health degeneration and doubles skill activation time.",
       "acquisition": [
-        {"capture": 100979, "location": 122},
+        {"capture": 100979, "area": 122},
         {"capture": 101581},
-        {"capture": 101582, "location": 59},
-        {"capture": 101583, "location": 843},
-        {"capture": 100351, "location": 558},
-        {"capture": 100466, "location": 566}
+        {"capture": 101582, "area": 59},
+        {"capture": 101583, "area": 843},
+        {"capture": 100351, "area": 558},
+        {"capture": 100466, "area": 566}
       ]
     },
     "54": {
@@ -1619,24 +1619,24 @@ const GW_SKILLS = {
       "concise": "Elite Hex Spell. (5...20 seconds.) Target foe moves and attacks 50% slower and has -1...8 Health degeneration.",
       "acquisition": [
         {"capture": 101584},
-        {"capture": 101566, "location": 114},
-        {"capture": 100194, "location": 90},
-        {"capture": 100921, "location": 22},
-        {"capture": 100149, "location": 98},
-        {"capture": 100161, "location": 191},
-        {"capture": 101563, "location": 190},
-        {"capture": 101564, "location": 190},
-        {"capture": 101565, "location": 190},
-        {"capture": 101585, "location": 190},
-        {"capture": 100958, "location": 24},
-        {"capture": 100122, "location": 195},
-        {"capture": 100156, "location": 394},
-        {"capture": 100376, "location": 373},
-        {"capture": 100461, "location": 406},
-        {"capture": 100005, "location": 485},
-        {"capture": 100201, "location": 569},
-        {"capture": 101586, "location": 604},
-        {"capture": 101587, "location": 625}
+        {"capture": 101566, "area": 114},
+        {"capture": 100194, "area": 90},
+        {"capture": 100921, "area": 22},
+        {"capture": 100149, "area": 98},
+        {"capture": 100161, "area": 191},
+        {"capture": 101563, "area": 190},
+        {"capture": 101564, "area": 190},
+        {"capture": 101565, "area": 190},
+        {"capture": 101585, "area": 190},
+        {"capture": 100958, "area": 24},
+        {"capture": 100122, "area": 195},
+        {"capture": 100156, "area": 394},
+        {"capture": 100376, "area": 373},
+        {"capture": 100461, "area": 406},
+        {"capture": 100005, "area": 485},
+        {"capture": 100201, "area": 569},
+        {"capture": 101586, "area": 604},
+        {"capture": 101587, "area": 625}
       ]
     },
     "55": {
@@ -1660,7 +1660,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Hex Spell. For 10...25 seconds, whenever target foe suffers from a new condition, all foes in the area suffer from that condition as well. If target foe has two or more conditions, that foe is Dazed for 1...3 seconds.",
       "concise": "Elite Hex Spell. (10...25 seconds.) Foes in the area also have any new conditions that target foe acquires. Inflicts Dazed on target foe (1...3 seconds) if that foe has two or more conditions.",
-      "acquisition": [{"capture": 100517, "location": 123}]
+      "acquisition": [{"capture": 100517, "area": 123}]
     },
     "56": {
       "name": "Soothing Images",
@@ -1748,7 +1748,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Signet. You and target touched foe become Blinded for 15 seconds.",
       "concise": "Elite Touch Signet. (15 seconds.) Inflicts Blindness condition. You suffer from Blindness (15 seconds).",
-      "acquisition": [{"capture": 100277, "location": 121}]
+      "acquisition": [{"capture": 100277, "area": 121}]
     },
     "59": {
       "name": "Signet of Weariness",
@@ -1773,9 +1773,9 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 30, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101002, "location": 73},
-        {"capture": 101278, "location": 19},
-        {"capture": 100358, "location": 93}
+        {"capture": 101002, "area": 73},
+        {"capture": 101278, "area": 19},
+        {"capture": 100358, "area": 93}
       ]
     },
     "61": {
@@ -1811,7 +1811,7 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 806, "as": "hero skill trainer"},
-        {"capture": 100848, "location": 11}
+        {"capture": 100848, "area": 11}
       ]
     },
     "62": {
@@ -1870,9 +1870,9 @@ const GW_SKILLS = {
       "description": "Elite Signet. All of your signets except Keystone Signet are recharged. For 20 seconds, the next 0...6 times you use a signet that targets a foe, all other foes adjacent to your target take 15...60 damage and are interrupted.",
       "concise": "Elite Signet. (20 seconds.) Your next 0...6 signets interrupt and deal 15...60 damage to other foes adjacent to your target. Initial Effect: recharges all of your other signets.",
       "acquisition": [
-        {"capture": 100358, "location": 93},
-        {"capture": 101588, "location": 256},
-        {"capture": 101589, "location": 406}
+        {"capture": 100358, "area": 93},
+        {"capture": 101588, "area": 256},
+        {"capture": 101589, "area": 406}
       ]
     },
     "65": {
@@ -1942,10 +1942,10 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 101576, "location": 58},
-        {"capture": 101590, "location": 59},
-        {"capture": 101577, "location": 62},
-        {"capture": 101124, "location": 16},
+        {"capture": 101576, "area": 58},
+        {"capture": 101590, "area": 59},
+        {"capture": 101577, "area": 62},
+        {"capture": 101124, "area": 16},
         {"npc": 812, "as": "hero skill trainer"}
       ]
     },
@@ -2106,9 +2106,9 @@ const GW_SKILLS = {
       "description": "Stance. For 30...90 seconds, You gain +40 armor against physical damage, but you lose 24...12 armor against elemental damage.",
       "concise": "Stance. (30...90 seconds.) You have +40 armor against physical damage. You have -24...12 armor against elemental damage.",
       "acquisition": [
-        {"capture": 101591, "location": 36},
-        {"capture": 101592, "location": 134},
-        {"capture": 101580, "location": 35}
+        {"capture": 101591, "area": 36},
+        {"capture": 101592, "area": 134},
+        {"capture": 101580, "area": 35}
       ]
     },
     "74": {
@@ -2131,10 +2131,10 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 30 seconds, Echo is replaced with the next skill you use. Echo acts as this skill for 30 seconds.",
       "concise": "Elite Enchantment Spell. (30 seconds.) Echo becomes the next skill you use (30 seconds).",
       "acquisition": [
-        {"capture": 100278, "location": 121},
-        {"capture": 100165, "location": 268},
-        {"capture": 100395, "location": 267},
-        {"capture": 100185, "location": 437}
+        {"capture": 100278, "area": 121},
+        {"capture": 100165, "area": 268},
+        {"capture": 100395, "area": 267},
+        {"capture": 100185, "area": 437}
       ]
     },
     "75": {
@@ -2286,11 +2286,11 @@ const GW_SKILLS = {
       "description": "Elite Spell. Target foe loses 2...9 Energy. You gain 3 Energy for each point of Energy lost.",
       "concise": "Elite Spell. Causes 2...9 Energy loss. You gain 3 Energy for each point of Energy lost.",
       "acquisition": [
-        {"capture": 100359, "location": 95},
-        {"capture": 101593, "location": 94},
-        {"capture": 100111, "location": 106},
-        {"capture": 100019, "location": 198},
-        {"capture": 100423, "location": 439}
+        {"capture": 100359, "area": 95},
+        {"capture": 101593, "area": 94},
+        {"capture": 100111, "area": 106},
+        {"capture": 100019, "area": 198},
+        {"capture": 100423, "area": 439}
       ]
     },
     "80": {
@@ -2380,10 +2380,10 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 20 seconds, you gain no benefit from it. You gain 10...25 Energy when Mantra of Recall ends.",
       "concise": "Elite Enchantment Spell. (20 seconds.) End effect: you gain 10...25 Energy.",
       "acquisition": [
-        {"capture": 100830, "location": 120},
-        {"capture": 100345, "location": 91},
-        {"capture": 100200, "location": 553},
-        {"capture": 100200, "location": 569}
+        {"capture": 100830, "area": 120},
+        {"capture": 100345, "area": 91},
+        {"capture": 100200, "area": 553},
+        {"capture": 100200, "area": 569}
       ]
     },
     "83": {
@@ -2453,10 +2453,10 @@ const GW_SKILLS = {
         {"npc": 803, "as": "hero skill trainer"},
         {"npc": 804, "as": "hero skill trainer"},
         {"npc": 805, "as": "hero skill trainer"},
-        {"capture": 101594, "location": 54},
-        {"capture": 101279, "location": 19},
-        {"capture": 101000, "location": 73},
-        {"capture": 101595, "location": 108},
+        {"capture": 101594, "area": 54},
+        {"capture": 101279, "area": 19},
+        {"capture": 101000, "area": 73},
+        {"capture": 101595, "area": 108},
         {"npc": 796, "as": "profession changer"},
         {"npc": 797, "as": "profession changer"},
         {"npc": 798, "as": "profession changer"},
@@ -2500,12 +2500,12 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 101353, "location": 14},
-        {"capture": 100720, "location": 15},
-        {"capture": 101122, "location": 16},
-        {"capture": 101596, "location": 59},
-        {"capture": 100274, "location": 121},
-        {"capture": 100121, "location": 195}
+        {"capture": 101353, "area": 14},
+        {"capture": 100720, "area": 15},
+        {"capture": 101122, "area": 16},
+        {"capture": 101596, "area": 59},
+        {"capture": 100274, "area": 121},
+        {"capture": 100121, "area": 195}
       ]
     },
     "86": {
@@ -2528,13 +2528,13 @@ const GW_SKILLS = {
       "description": "Elite Spell. If target foe has more Health than you, you gain half the difference (up to your maximum Health), and that foe loses an equal amount. If this foe has less Health than you, you lose half the difference, and that foe gains an equal amount.",
       "concise": "Elite Spell. You gain Health equal to half the difference between you and target, and this foe loses an equal amount. If this foe has less Health than you, you lose half the difference and that foe gains an equal amount.",
       "acquisition": [
-        {"capture": 100829, "location": 120},
-        {"capture": 101597, "location": 98},
-        {"capture": 101598, "location": 59},
-        {"capture": 101173, "location": 216},
-        {"capture": 100032, "location": 377},
-        {"capture": 100350, "location": 558},
-        {"capture": 100350, "location": 553}
+        {"capture": 100829, "area": 120},
+        {"capture": 101597, "area": 98},
+        {"capture": 101598, "area": 59},
+        {"capture": 101173, "area": 216},
+        {"capture": 100032, "area": 377},
+        {"capture": 100350, "area": 558},
+        {"capture": 100350, "area": 553}
       ]
     },
     "87": {
@@ -2560,8 +2560,8 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 41, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101599, "location": 64},
-        {"capture": 101600, "location": 59}
+        {"capture": 101599, "area": 64},
+        {"capture": 101600, "area": 59}
       ]
     },
     "88": {
@@ -2587,8 +2587,8 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 41, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101599, "location": 64},
-        {"capture": 100179, "location": 546}
+        {"capture": 101599, "area": 64},
+        {"capture": 100179, "area": 546}
       ]
     },
     "89": {
@@ -2615,8 +2615,8 @@ const GW_SKILLS = {
         {"npc": 116, "as": "skill trainer"},
         {"npc": 159, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101601, "location": 41},
-        {"capture": 100630, "location": 10}
+        {"capture": 101601, "area": 41},
+        {"capture": 100630, "area": 10}
       ]
     },
     "90": {
@@ -2642,7 +2642,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 41, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101599, "location": 64}
+        {"capture": 101599, "area": 64}
       ]
     },
     "91": {
@@ -2665,7 +2665,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Well Spell. Exploit nearest corpse or sacrifice 66% health to create a Well of Power at that location. For 10...30 seconds, allies within the area of Well of Power gain +1...6 Health regeneration and +2 Energy regeneration.",
       "concise": "Elite Well Spell. (10...30 seconds.) Allies in this well have +1...6 Health regeneration and +2 Energy regeneration. Exploits a fresh corpse or sacrifices 66% health.",
-      "acquisition": [{"capture": 100225, "location": 96}]
+      "acquisition": [{"capture": 100225, "area": 96}]
     },
     "92": {
       "name": "Well of Blood",
@@ -2756,9 +2756,9 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 101602, "location": 61},
-        {"capture": 100588, "location": 12},
-        {"capture": 100999, "location": 73}
+        {"capture": 101602, "area": 61},
+        {"capture": 100588, "area": 12},
+        {"capture": 100999, "area": 73}
       ]
     },
     "95": {
@@ -2968,9 +2968,9 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 753, "as": "hero skill trainer"},
-        {"capture": 101594, "location": 54},
-        {"capture": 101000, "location": 73},
-        {"capture": 101279, "location": 19}
+        {"capture": 101594, "area": 54},
+        {"capture": 101000, "area": 73},
+        {"capture": 101279, "area": 19}
       ]
     },
     "102": {
@@ -3019,10 +3019,10 @@ const GW_SKILLS = {
         {"quest": 101279},
         {"npc": 49, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101603, "location": 58},
-        {"capture": 100719, "location": 15},
-        {"capture": 101604, "location": 59},
-        {"capture": 101605, "location": 62}
+        {"capture": 101603, "area": 58},
+        {"capture": 100719, "area": 15},
+        {"capture": 101604, "area": 59},
+        {"capture": 101605, "area": 62}
       ]
     },
     "104": {
@@ -3059,12 +3059,12 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 806, "as": "hero skill trainer"},
-        {"capture": 101353, "location": 14},
-        {"capture": 100720, "location": 15},
-        {"capture": 101122, "location": 16},
-        {"capture": 101596, "location": 59},
-        {"capture": 100121, "location": 195},
-        {"capture": 101600, "location": 59}
+        {"capture": 101353, "area": 14},
+        {"capture": 100720, "area": 15},
+        {"capture": 101122, "area": 16},
+        {"capture": 101596, "area": 59},
+        {"capture": 100121, "area": 195},
+        {"capture": 101600, "area": 59}
       ]
     },
     "105": {
@@ -3155,7 +3155,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Spell. If target foe was already suffering from a condition, that foe suffers from Disease, Poison, and Weakness for 3...15 seconds.",
       "concise": "Elite Spell. Inflicts Disease, Poison, and Weakness conditions (3...15 seconds). No effect unless this foe already had a condition.",
-      "acquisition": [{"capture": 100147, "location": 98}, {"capture": 101606, "location": 607}]
+      "acquisition": [{"capture": 100147, "area": 98}, {"capture": 101606, "area": 607}]
     },
     "108": {
       "name": "Suffering",
@@ -3318,9 +3318,9 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 118, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101594, "location": 54},
-        {"capture": 101000, "location": 73},
-        {"capture": 101279, "location": 19}
+        {"capture": 101594, "area": 54},
+        {"capture": 101000, "area": 73},
+        {"capture": 101279, "area": 19}
       ]
     },
     "113": {
@@ -3344,10 +3344,10 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 20...44 seconds, allies in the area are immune to disease, and anyone striking those allies in melee becomes Diseased for 3...15 seconds.",
       "concise": "Elite Enchantment Spell. (20...44 seconds.) Foes who hit allies in the area with melee become Diseased (3...15 seconds); this ally is immune to Disease.",
       "acquisition": [
-        {"capture": 100273, "location": 121},
-        {"capture": 101607, "location": 205},
-        {"capture": 100164, "location": 268},
-        {"capture": 100404, "location": 384}
+        {"capture": 100273, "area": 121},
+        {"capture": 101607, "area": 205},
+        {"capture": 100164, "area": 268},
+        {"capture": 100404, "area": 384}
       ]
     },
     "114": {
@@ -3370,7 +3370,7 @@ const GW_SKILLS = {
       "recharge": 45,
       "description": "Elite Enchantment Spell. All corpses within earshot are exploited and you animate a level 1...17 bone horror plus one for each corpse exploited in this way. For 5...45 seconds, your Death Magic attribute is increased by +1.",
       "concise": "Elite Enchantment Spell. Exploit all corpses in earshot. Animates a level 1...17 bone horror, plus one for each exploited corpse. You have +1 Death Magic (5...45 seconds).",
-      "acquisition": [{"capture": 101410, "location": 124}, {"capture": 101600, "location": 59}]
+      "acquisition": [{"capture": 101410, "area": 124}, {"capture": 101600, "area": 59}]
     },
     "115": {
       "name": "Blood Renewal",
@@ -3425,7 +3425,7 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 100343, "location": 91}
+        {"capture": 100343, "area": 91}
       ]
     },
     "117": {
@@ -3491,7 +3491,7 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 100439, "location": 241}
+        {"capture": 100439, "area": 241}
       ]
     },
     "119": {
@@ -3515,11 +3515,11 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 10 seconds, target other ally gains +3...6 Energy regeneration.",
       "concise": "Elite Enchantment Spell. (10 seconds.) +3...6 Energy regeneration. Cannot self-target.",
       "acquisition": [
-        {"capture": 100343, "location": 91},
-        {"capture": 100439, "location": 241},
-        {"capture": 101091, "location": 424},
-        {"capture": 101092, "location": 424},
-        {"capture": 100488, "location": 392}
+        {"capture": 100343, "area": 91},
+        {"capture": 100439, "area": 241},
+        {"capture": 101091, "area": 424},
+        {"capture": 101092, "area": 424},
+        {"capture": 100488, "area": 392}
       ]
     },
     "120": {
@@ -3590,7 +3590,7 @@ const GW_SKILLS = {
         {"capture": 101614},
         {"capture": 100342},
         {"capture": 101615},
-        {"capture": 101616, "location": 665},
+        {"capture": 101616, "area": 665},
         {"capture": 101559}
       ]
     },
@@ -3685,11 +3685,11 @@ const GW_SKILLS = {
       "description": "Elite Hex Spell. For 5...35 seconds, target foe suffers -2...4 Health degeneration and -1 Energy degeneration. If target foe's Energy reaches 0, that foe takes 15...75 damage and Wither ends.",
       "concise": "Elite Hex Spell. (5...35 seconds.) Causes -2...4 Health degeneration and -1 Energy degeneration. Deals 15...75 damage if target foe's Energy drops to 0. Ends if this foe's Energy drops to 0.",
       "acquisition": [
-        {"capture": 101617, "location": 48},
-        {"capture": 101618, "location": 96},
-        {"capture": 100275, "location": 121},
-        {"capture": 100109, "location": 105},
-        {"capture": 101619, "location": 58}
+        {"capture": 101617, "area": 48},
+        {"capture": 101618, "area": 96},
+        {"capture": 100275, "area": 121},
+        {"capture": 100109, "area": 105},
+        {"capture": 101619, "area": 58}
       ]
     },
     "126": {
@@ -3713,16 +3713,16 @@ const GW_SKILLS = {
       "description": "Elite Hex Spell. For 6...12 seconds, target foe and adjacent foes suffer -3...8 Health degeneration, which you gain as Health regeneration.",
       "concise": "Elite Hex Spell. Also hexes foes adjacent to target (6...12 seconds). Causes -3...8 Health degeneration. You have +3...8 Health regeneration.",
       "acquisition": [
-        {"capture": 100957, "location": 23},
-        {"capture": 100906, "location": 24},
-        {"capture": 101620, "location": 841},
-        {"capture": 101621, "location": 94},
-        {"capture": 100977, "location": 122},
-        {"capture": 100514, "location": 122},
-        {"capture": 100110, "location": 105},
-        {"capture": 101622, "location": 560},
-        {"capture": 100453, "location": 553},
-        {"capture": 100313, "location": 651},
+        {"capture": 100957, "area": 23},
+        {"capture": 100906, "area": 24},
+        {"capture": 101620, "area": 841},
+        {"capture": 101621, "area": 94},
+        {"capture": 100977, "area": 122},
+        {"capture": 100514, "area": 122},
+        {"capture": 100110, "area": 105},
+        {"capture": 101622, "area": 560},
+        {"capture": 100453, "area": 553},
+        {"capture": 100313, "area": 651},
         {"capture": 101623},
         {"capture": 101624}
       ]
@@ -3773,7 +3773,7 @@ const GW_SKILLS = {
       "recharge": 7,
       "description": "Elite Hex Spell. For 10 seconds, whenever target foe casts a spell, you steal up to 16...80 Health from that foe.",
       "concise": "Elite Hex Spell. (10 seconds.) Steal 16...80 Health whenever target foe casts a spell.",
-      "acquisition": [{"capture": 100515, "location": 123}, {"capture": 101041}]
+      "acquisition": [{"capture": 100515, "area": 123}, {"capture": 101041}]
     },
     "129": {
       "name": "Defile Flesh",
@@ -3843,10 +3843,10 @@ const GW_SKILLS = {
         {"npc": 803, "as": "hero skill trainer"},
         {"npc": 804, "as": "hero skill trainer"},
         {"npc": 805, "as": "hero skill trainer"},
-        {"capture": 100719, "location": 15},
-        {"capture": 101604, "location": 59},
-        {"capture": 101603, "location": 59},
-        {"capture": 101625, "location": 238}
+        {"capture": 100719, "area": 15},
+        {"capture": 101604, "area": 59},
+        {"capture": 101603, "area": 59},
+        {"capture": 101625, "area": 238}
       ]
     },
     "131": {
@@ -3906,11 +3906,11 @@ const GW_SKILLS = {
       "description": "Elite Signet. Transfer all negative conditions with 100...200% of their remaining durations from yourself to target foe. (50% failure chance with Curses 4 or less.)",
       "concise": "Elite Signet. Transfers all conditions with 100...200% of their remaining durations from yourself to target foe. 50% failure chance unless Curses 5 or more.",
       "acquisition": [
-        {"capture": 100357, "location": 26},
-        {"capture": 100482, "location": 95},
-        {"capture": 100128, "location": 210},
-        {"capture": 100066, "location": 448},
-        {"capture": 100199, "location": 569}
+        {"capture": 100357, "area": 26},
+        {"capture": 100482, "area": 95},
+        {"capture": 100128, "area": 210},
+        {"capture": 100066, "area": 448},
+        {"capture": 100199, "area": 569}
       ]
     },
     "133": {
@@ -3983,13 +3983,13 @@ const GW_SKILLS = {
         {"npc": 803, "as": "hero skill trainer"},
         {"npc": 804, "as": "hero skill trainer"},
         {"npc": 805, "as": "hero skill trainer"},
-        {"capture": 101602, "location": 61},
-        {"capture": 101626, "location": 11},
-        {"capture": 100631, "location": 10},
-        {"capture": 100588, "location": 12},
-        {"capture": 100999, "location": 73},
-        {"capture": 101627, "location": 43},
-        {"capture": 100405, "location": 384}
+        {"capture": 101602, "area": 61},
+        {"capture": 101626, "area": 11},
+        {"capture": 100631, "area": 10},
+        {"capture": 100588, "area": 12},
+        {"capture": 100999, "area": 73},
+        {"capture": 101627, "area": 43},
+        {"capture": 100405, "area": 384}
       ]
     },
     "135": {
@@ -4126,11 +4126,11 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 800, "as": "hero skill trainer"},
-        {"capture": 101353, "location": 14},
-        {"capture": 100720, "location": 15},
-        {"capture": 101596, "location": 59},
-        {"capture": 101122, "location": 16},
-        {"capture": 101600, "location": 59}
+        {"capture": 101353, "area": 14},
+        {"capture": 100720, "area": 15},
+        {"capture": 101596, "area": 59},
+        {"capture": 101122, "area": 16},
+        {"capture": 101600, "area": 59}
       ]
     },
     "139": {
@@ -4231,10 +4231,10 @@ const GW_SKILLS = {
       "description": "Elite Hex Spell. For 6...30 seconds, target foe and all nearby foes suffer -1...4 Health degeneration, and receive 25% less benefit from healing.",
       "concise": "Elite Hex Spell. (6...30 seconds.) Target and nearby foes have -1...4 Health degeneration and receive 25% less benefit from healing.",
       "acquisition": [
-        {"capture": 100274, "location": 121},
-        {"capture": 100012, "location": 262},
-        {"capture": 101628, "location": 205},
-        {"capture": 100099, "location": 472}
+        {"capture": 100274, "area": 121},
+        {"capture": 100012, "area": 262},
+        {"capture": 101628, "area": 205},
+        {"capture": 100099, "area": 472}
       ]
     },
     "143": {
@@ -4307,8 +4307,8 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 100012, "location": 244},
-        {"capture": 101629, "location": 369}
+        {"capture": 100012, "area": 244},
+        {"capture": 101629, "area": 369}
       ]
     },
     "145": {
@@ -4333,21 +4333,21 @@ const GW_SKILLS = {
       "description": "Signet. You suffer from Bleeding for 25 seconds. All nearby foes take 10...70 damage.",
       "concise": "Signet. Deals 10...70 damage to foes near you. You begin Bleeding (25 seconds).",
       "acquisition": [
-        {"capture": 101630, "location": 153},
-        {"capture": 101631, "location": 20},
-        {"capture": 101580, "location": 35},
-        {"capture": 101632, "location": 194},
-        {"capture": 101633, "location": 277},
-        {"capture": 101634, "location": 440},
-        {"capture": 101635, "location": 450},
-        {"capture": 101636, "location": 642},
-        {"capture": 101637, "location": 644},
-        {"capture": 101638, "location": 640},
-        {"capture": 101627, "location": 43},
-        {"capture": 100357, "location": 26},
-        {"capture": 100482, "location": 95},
-        {"capture": 100330, "location": 203},
-        {"capture": 100128, "location": 210}
+        {"capture": 101630, "area": 153},
+        {"capture": 101631, "area": 20},
+        {"capture": 101580, "area": 35},
+        {"capture": 101632, "area": 194},
+        {"capture": 101633, "area": 277},
+        {"capture": 101634, "area": 440},
+        {"capture": 101635, "area": 450},
+        {"capture": 101636, "area": 642},
+        {"capture": 101637, "area": 644},
+        {"capture": 101638, "area": 640},
+        {"capture": 101627, "area": 43},
+        {"capture": 100357, "area": 26},
+        {"capture": 100482, "area": 95},
+        {"capture": 100330, "area": 203},
+        {"capture": 100128, "area": 210}
       ]
     },
     "146": {
@@ -4373,11 +4373,11 @@ const GW_SKILLS = {
       "acquisition": [
         {"capture": 101639},
         {"capture": 101640},
-        {"capture": 100193, "location": 90},
-        {"capture": 100922, "location": 22},
-        {"capture": 100682, "location": 23},
-        {"capture": 100148, "location": 98},
-        {"capture": 100160, "location": 191}
+        {"capture": 100193, "area": 90},
+        {"capture": 100922, "area": 22},
+        {"capture": 100682, "area": 23},
+        {"capture": 100148, "area": 98},
+        {"capture": 100160, "area": 191}
       ]
     },
     "147": {
@@ -4423,9 +4423,9 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 5 seconds, whenever a party member who is not under the effects of another Necromancer enchantment hits a foe with physical damage, that party member steals up to 3...16 Health.",
       "concise": "Elite Enchantment Spell. Enchants all party members (5 seconds.) These party members steal 3...16 Health with each physical damage attack. Party members under another Necromancer enchantment are not affected.",
       "acquisition": [
-        {"capture": 100871, "location": 117},
-        {"capture": 100886, "location": 116},
-        {"capture": 100932, "location": 118}
+        {"capture": 100871, "area": 117},
+        {"capture": 100886, "area": 116},
+        {"capture": 100932, "area": 118}
       ]
     },
     "149": {
@@ -4508,7 +4508,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Spell. Target foe and all adjacent foes are struck for 16...80 shadow damage. You steal up to 8...40 Health from each struck foe who is suffering from a hex.",
       "concise": "Elite Spell. Deals 16...80 damage to target and adjacent foes. Steal 8...40 Health from each hexed foe.",
-      "acquisition": [{"capture": 100125}, {"capture": 101641, "location": 400}]
+      "acquisition": [{"capture": 100125}, {"capture": 101641, "area": 400}]
     },
     "152": {
       "name": "Taste of Death",
@@ -4654,7 +4654,7 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 753, "as": "hero skill trainer"},
-        {"capture": 101317, "location": 492}
+        {"capture": 101317, "area": 492}
       ]
     },
     "156": {
@@ -4731,7 +4731,7 @@ const GW_SKILLS = {
         {"npc": 14, "as": "skill trainer"},
         {"npc": 82, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101642, "location": 64}
+        {"capture": 101642, "area": 64}
       ]
     },
     "159": {
@@ -4871,13 +4871,13 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 25...60 seconds, you are attuned to Air, Fire, Water, and Earth and gain +1...2 to these attributes. You gain 1 Energy plus 50% of the base Energy cost of the skill each time you use magic associated with any of these elements.",
       "concise": "Elite Enchantment Spell. (25...60 seconds.) Your elemental attributes are increased by +1...2. You gain 1 plus 50% of the base Energy cost of any Air, Fire, Water, and Earth Magic skills you use.",
       "acquisition": [
-        {"capture": 100279, "location": 121},
-        {"capture": 101643, "location": 839},
-        {"capture": 100058, "location": 241},
-        {"capture": 100058, "location": 240},
-        {"capture": 100212, "location": 371},
+        {"capture": 100279, "area": 121},
+        {"capture": 101643, "area": 839},
+        {"capture": 100058, "area": 241},
+        {"capture": 100058, "area": 240},
+        {"capture": 100212, "area": 371},
         {"capture": 100745},
-        {"capture": 101644, "location": 578}
+        {"capture": 101644, "area": 578}
       ]
     },
     "165": {
@@ -5136,9 +5136,9 @@ const GW_SKILLS = {
         {"npc": 125, "as": "skill trainer"},
         {"npc": 82, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101645, "location": 104},
-        {"capture": 100723, "location": 15},
-        {"capture": 100309, "location": 501}
+        {"capture": 101645, "area": 104},
+        {"capture": 100723, "area": 15},
+        {"capture": 100309, "area": 501}
       ]
     },
     "174": {
@@ -5174,14 +5174,14 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 810, "as": "hero skill trainer"},
-        {"capture": 101646, "location": 41},
-        {"capture": 100634, "location": 10},
-        {"capture": 101647, "location": 44},
-        {"capture": 101648, "location": 113},
-        {"capture": 101649, "location": 113},
-        {"capture": 101650, "location": 110},
-        {"capture": 101651, "location": 111},
-        {"capture": 100831, "location": 120}
+        {"capture": 101646, "area": 41},
+        {"capture": 100634, "area": 10},
+        {"capture": 101647, "area": 44},
+        {"capture": 101648, "area": 113},
+        {"capture": 101649, "area": 113},
+        {"capture": 101650, "area": 110},
+        {"capture": 101651, "area": 111},
+        {"capture": 100831, "area": 120}
       ]
     },
     "175": {
@@ -5304,10 +5304,10 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. Lose all enchantments. For 8...20 seconds, you gain +6 Energy regeneration. When Ether Prodigy ends, you lose 2 Health for each point of Energy you have.",
       "concise": "Elite Enchantment Spell. (8...20 seconds.) You have +6 Energy regeneration. End effect: lose 2 Health for each point of Energy you have. Lose all enchantments.",
       "acquisition": [
-        {"capture": 100980, "location": 122},
-        {"capture": 101502, "location": 651},
-        {"capture": 101652, "location": 651},
-        {"capture": 101653, "location": 560}
+        {"capture": 100980, "area": 122},
+        {"capture": 101502, "area": 651},
+        {"capture": 101652, "area": 651},
+        {"capture": 101653, "area": 560}
       ]
     },
     "179": {
@@ -5334,9 +5334,9 @@ const GW_SKILLS = {
         {"quest": 101266},
         {"npc": 49, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101654, "location": 58},
-        {"capture": 101655, "location": 59},
-        {"capture": 101656, "location": 63}
+        {"capture": 101654, "area": 58},
+        {"capture": 101655, "area": 59},
+        {"capture": 101656, "area": 63}
       ]
     },
     "180": {
@@ -5384,9 +5384,9 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 5...20 seconds, each time you cast a spell, you gain 1...4 Energy and 5...20 Health for each enchantment on you.",
       "concise": "Elite Enchantment Spell. (5...20 seconds.) Each time you cast a spell, you gain 1...4 Energy and 5...20 Health for each enchantment on you.",
       "acquisition": [
-        {"capture": 100873, "location": 117},
-        {"capture": 100934, "location": 118},
-        {"capture": 100888, "location": 116}
+        {"capture": 100873, "area": 117},
+        {"capture": 100934, "area": 118},
+        {"capture": 100888, "area": 116}
       ]
     },
     "182": {
@@ -5410,19 +5410,19 @@ const GW_SKILLS = {
       "description": "Enchantment Spell. For 60 seconds, if you're wielding a fire weapon, your attacks strike for an additional 5...20 fire damage.",
       "concise": "Enchantment Spell. (60 seconds.) Your attacks hit for +5...20 fire damage. No effect unless your weapon deals fire damage.",
       "acquisition": [
-        {"capture": 101657, "location": 55},
-        {"capture": 101580, "location": 35},
-        {"capture": 101632, "location": 194},
-        {"capture": 101658, "location": 51},
-        {"capture": 101659, "location": 77},
-        {"capture": 101660, "location": 193},
-        {"capture": 101661, "location": 130},
-        {"capture": 101633, "location": 277},
-        {"capture": 101634, "location": 440},
-        {"capture": 101635, "location": 450},
-        {"capture": 101636, "location": 642},
-        {"capture": 101637, "location": 644},
-        {"capture": 101638, "location": 640},
+        {"capture": 101657, "area": 55},
+        {"capture": 101580, "area": 35},
+        {"capture": 101632, "area": 194},
+        {"capture": 101658, "area": 51},
+        {"capture": 101659, "area": 77},
+        {"capture": 101660, "area": 193},
+        {"capture": 101661, "area": 130},
+        {"capture": 101633, "area": 277},
+        {"capture": 101634, "area": 440},
+        {"capture": 101635, "area": 450},
+        {"capture": 101636, "area": 642},
+        {"capture": 101637, "area": 644},
+        {"capture": 101638, "area": 640},
         {"npc": 800, "as": "hero skill trainer"}
       ]
     },
@@ -5459,7 +5459,7 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 101662, "location": 105}
+        {"capture": 101662, "area": 105}
       ]
     },
     "184": {
@@ -5519,15 +5519,15 @@ const GW_SKILLS = {
       "description": "Elite Spell. Target foe and all adjacent foes take 15...60 fire damage. If you have more Energy than target foe, that foe and all adjacent foes take an additional 15...60 fire damage and are set on fire for 1...10 seconds.",
       "concise": "Elite Spell. Deals 15...60 fire damage. If you have more Energy than target foe, deals 15...60 more fire damage and inflicts Burning (1...10 seconds). Also hits adjacent foes.",
       "acquisition": [
-        {"capture": 101412, "location": 124},
-        {"capture": 100662, "location": 219},
-        {"capture": 100323, "location": 197},
-        {"capture": 100323, "location": 215},
-        {"capture": 100860, "location": 274},
-        {"capture": 101398, "location": 204},
-        {"capture": 100412, "location": 413},
-        {"capture": 100102, "location": 472},
-        {"capture": 100296, "location": 402}
+        {"capture": 101412, "area": 124},
+        {"capture": 100662, "area": 219},
+        {"capture": 100323, "area": 197},
+        {"capture": 100323, "area": 215},
+        {"capture": 100860, "area": 274},
+        {"capture": 101398, "area": 204},
+        {"capture": 100412, "area": 413},
+        {"capture": 100102, "area": 472},
+        {"capture": 100296, "area": 402}
       ]
     },
     "186": {
@@ -5562,8 +5562,8 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 101663, "location": 369},
-        {"capture": 101101, "location": 493},
+        {"capture": 101663, "area": 369},
+        {"capture": 101101, "area": 493},
         {"npc": 812, "as": "hero skill trainer"},
         {"npc": 802, "as": "hero skill trainer"},
         {"npc": 803, "as": "hero skill trainer"},
@@ -5673,8 +5673,8 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 41, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101664, "location": 17},
-        {"capture": 100315, "location": 651}
+        {"capture": 101664, "area": 17},
+        {"capture": 100315, "area": 651}
       ]
     },
     "191": {
@@ -5815,8 +5815,8 @@ const GW_SKILLS = {
       "concise": "Spell. Deals 5...50 fire damage each second (5 seconds). Hits foes adjacent to your initial location. If Overcast, range increased to nearby.",
       "acquisition": [
         {"capture": 101665},
-        {"capture": 101592, "location": 134},
-        {"capture": 101580, "location": 35},
+        {"capture": 101592, "area": 134},
+        {"capture": 101580, "area": 35},
         {"capture": 101666},
         {"capture": 101667}
       ]
@@ -5844,9 +5844,9 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 41, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 100635, "location": 10},
-        {"capture": 100592, "location": 12},
-        {"capture": 101003, "location": 73}
+        {"capture": 100635, "area": 10},
+        {"capture": 100592, "area": 12},
+        {"capture": 101003, "area": 73}
       ]
     },
     "197": {
@@ -5921,9 +5921,9 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 100635, "location": 10},
-        {"capture": 100592, "location": 12},
-        {"capture": 101003, "location": 73}
+        {"capture": 100635, "area": 10},
+        {"capture": 100592, "area": 12},
+        {"capture": 101003, "area": 73}
       ]
     },
     "199": {
@@ -5946,7 +5946,7 @@ const GW_SKILLS = {
       "recharge": 25,
       "description": "Elite Glyph. Your next 1...3 spells do not cause Overcast and cost 10...25 less Energy to cast. Your elemental attributes are increased by 1...2.",
       "concise": "Elite Glyph. Your next 1...3 spells do not cause Overcast and cost 10...25 less Energy. Gain 1...2 to all elemental attributes.",
-      "acquisition": [{"capture": 100227, "location": 96}]
+      "acquisition": [{"capture": 100227, "area": 96}]
     },
     "200": {
       "name": "Glyph of Lesser Energy",
@@ -6010,7 +6010,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 30, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 100686, "location": 25}
+        {"capture": 100686, "area": 25}
       ]
     },
     "202": {
@@ -6053,7 +6053,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Glyph. For 15 seconds, your next spell instantly recharges.",
       "concise": "Elite Glyph. (15 seconds.) Your next spell recharges instantly.",
-      "acquisition": [{"capture": 100281, "location": 121}]
+      "acquisition": [{"capture": 100281, "area": 121}]
     },
     "204": {
       "name": "Rust",
@@ -6084,12 +6084,12 @@ const GW_SKILLS = {
         {"npc": 68, "as": "skill trainer"},
         {"npc": 818, "as": "hero skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 101668, "location": 58},
-        {"capture": 101669, "location": 62},
-        {"capture": 100851, "location": 11},
-        {"capture": 101670, "location": 43},
-        {"capture": 100923, "location": 22},
-        {"capture": 101671, "location": 190}
+        {"capture": 101668, "area": 58},
+        {"capture": 101669, "area": 62},
+        {"capture": 100851, "area": 11},
+        {"capture": 101670, "area": 43},
+        {"capture": 100923, "area": 22},
+        {"capture": 101671, "area": 190}
       ]
     },
     "205": {
@@ -6114,12 +6114,12 @@ const GW_SKILLS = {
       "concise": "Elite Hex Spell. (3 seconds.) End effect: deals 14...100 lightning damage, causes knock-down, and inflicts Cracked Armor (5...20 seconds). 25% armor penetration.",
       "acquisition": [
         {"capture": 101672},
-        {"capture": 100831, "location": 120},
-        {"capture": 101175, "location": 216},
-        {"capture": 100205, "location": 199},
-        {"capture": 100027, "location": 380},
-        {"capture": 100377, "location": 373},
-        {"capture": 100172, "location": 395}
+        {"capture": 100831, "area": 120},
+        {"capture": 101175, "area": 216},
+        {"capture": 100205, "area": 199},
+        {"capture": 100027, "area": 380},
+        {"capture": 100377, "area": 373},
+        {"capture": 100172, "area": 395}
       ]
     },
     "206": {
@@ -6397,8 +6397,8 @@ const GW_SKILLS = {
       "description": "Spell. Create a Maelstrom at target foe's location. For 10 seconds, foes adjacent to that area are struck for 10...25 cold damage each second. Maelstrom interrupts spell-casting when it hits.",
       "concise": "Spell. Deals 10...25 cold damage and interrupts spells each second (10 seconds). Hits foes adjacent to target's initial location.",
       "acquisition": [
-        {"capture": 100591, "location": 11},
-        {"capture": 101673, "location": 46},
+        {"capture": 100591, "area": 11},
+        {"capture": 101673, "area": 46},
         {"npc": 814, "as": "hero skill trainer"},
         {"npc": 116, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
@@ -6482,10 +6482,10 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 8...20 seconds, you gain +20 armor and cannot be the target of enemy spells, but cannot attack and have -2 energy degeneration.",
       "concise": "Elite Enchantment Spell. (8...20 seconds.) You have +20 armor and enemy spells cannot target you. You cannot attack and have -2 energy degeneration.",
       "acquisition": [
-        {"capture": 100280, "location": 121},
-        {"capture": 100248, "location": 209},
-        {"capture": 100167, "location": 144},
-        {"capture": 100186, "location": 437}
+        {"capture": 100280, "area": 121},
+        {"capture": 100248, "area": 209},
+        {"capture": 100167, "area": 144},
+        {"capture": 100186, "area": 437}
       ]
     },
     "219": {
@@ -6591,10 +6591,10 @@ const GW_SKILLS = {
         {"npc": 77, "as": "skill trainer"},
         {"npc": 168, "as": "skill trainer"},
         {"npc": 68, "as": "skill trainer"},
-        {"capture": 101280, "location": 19},
-        {"capture": 101004, "location": 73},
-        {"capture": 101675, "location": 236},
-        {"capture": 100377, "location": 373}
+        {"capture": 101280, "area": 19},
+        {"capture": 101004, "area": 73},
+        {"capture": 101675, "area": 236},
+        {"capture": 100377, "area": 373}
       ]
     },
     "222": {
@@ -6751,7 +6751,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Elite Spell. Target foe suffers 10...50 lightning damage. If you have more Energy than target foe, that foe suffers 10...50 more lightning damage and is knocked down. This spell has 25% armor penetration.",
       "concise": "Elite Spell. Deals 10...50 lightning damage. If you have more Energy than target foe, deals +10...50 lightning damage and causes knockdown. 25% armor penetration.",
-      "acquisition": [{"capture": 100346, "location": 91}, {"capture": 100182, "location": 546}]
+      "acquisition": [{"capture": 100346, "area": 91}, {"capture": 100182, "area": 546}]
     },
     "227": {
       "name": "Glimmering Mark",
@@ -6773,7 +6773,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Hex Spell. For 10 seconds, target foe and all foes adjacent to your target take 5...25 damage each second. Foes using attack skills are Blinded for 3 seconds. This hex ends if you use a skill that targets this foe.",
       "concise": "Elite Hex Spell. (10 seconds.) Deals 5...25 damage each second to target and adjacent foes. Inflicts Blindness on foes using attack skills. Ends if you use a skill that targets this foe.",
-      "acquisition": [{"capture": 100483, "location": 95}, {"capture": 100360, "location": 93}]
+      "acquisition": [{"capture": 100483, "area": 95}, {"capture": 100360, "area": 93}]
     },
     "228": {
       "name": "Thunderclap",
@@ -6796,12 +6796,12 @@ const GW_SKILLS = {
       "description": "Elite Spell. Create a massive shockwave at target foe's location. Deals 10...50 lightning damage to target and all nearby foes. Struck foes are interrupted and suffer from Cracked Armor and Weakness for 5...20 seconds. This spell has 25% armor penetration.",
       "concise": "Elite Spell. Deals 10...50 lightning damage. Also strikes nearby foes. Inflicts Cracked Armor and Weakness (5...20 seconds). Causes interrupt. 25% armor penetration.",
       "acquisition": [
-        {"capture": 100519, "location": 123},
-        {"capture": 100909, "location": 24},
-        {"capture": 100910, "location": 24},
-        {"capture": 100960, "location": 23},
-        {"capture": 100981, "location": 122},
-        {"capture": 101676, "location": 94},
+        {"capture": 100519, "area": 123},
+        {"capture": 100909, "area": 24},
+        {"capture": 100910, "area": 24},
+        {"capture": 100960, "area": 23},
+        {"capture": 100981, "area": 122},
+        {"capture": 101676, "area": 94},
         {"capture": 101677}
       ]
     },
@@ -6866,7 +6866,7 @@ const GW_SKILLS = {
       "concise": "Spell. Projectile: deals 15...50 lightning damage. Interrupts if your target is attacking. 25% armor penetration. Strikes all foes between you and your target.",
       "acquisition": [
         {"capture": 101666},
-        {"capture": 101674, "location": 161},
+        {"capture": 101674, "area": 161},
         {"npc": 8, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"}
       ]
@@ -6930,9 +6930,9 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 753, "as": "hero skill trainer"},
-        {"capture": 101355, "location": 14},
-        {"capture": 100724, "location": 15},
-        {"capture": 101126, "location": 16}
+        {"capture": 101355, "area": 14},
+        {"capture": 100724, "area": 15},
+        {"capture": 101126, "area": 16}
       ]
     },
     "233": {
@@ -7053,11 +7053,11 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 10...45 seconds, you take 33% less damage from foes under the effect of Water Magic hexes. Whenever you cast an elemental spell, all non-spirit allies in earshot are healed for 50...250% of the Energy cost of the spell.",
       "concise": "Elite Enchantment Spell. (10...45 seconds.) Take 33% less damage from foes hexed with Water Magic. Heals non-spirit allies in earshot for 50...250% of the Energy cost of your elemental spells.",
       "acquisition": [
-        {"capture": 100228, "location": 96},
-        {"capture": 100347, "location": 91},
-        {"capture": 100518, "location": 122},
-        {"capture": 100386, "location": 26},
-        {"capture": 100073, "location": 647}
+        {"capture": 100228, "area": 96},
+        {"capture": 100347, "area": 91},
+        {"capture": 100518, "area": 122},
+        {"capture": 100386, "area": 26},
+        {"capture": 100073, "area": 647}
       ]
     },
     "237": {
@@ -7081,13 +7081,13 @@ const GW_SKILLS = {
       "description": "Elite Spell. Send out a fast-moving Water Trident, striking target foe and up to 2 adjacent foes for 10...90 cold damage if it hits. If it hits a moving foe, that foe is knocked down.",
       "concise": "Elite Spell. Fast projectile: deals 10...90 cold damage and knocks down moving foes. Shoots 2 additional projectiles at adjacent foes.",
       "acquisition": [
-        {"capture": 100923, "location": 22},
-        {"capture": 100151, "location": 98},
-        {"capture": 100195, "location": 90},
-        {"capture": 100162, "location": 191},
-        {"capture": 100962, "location": 23},
-        {"capture": 100175, "location": 499},
-        {"capture": 101678, "location": 576}
+        {"capture": 100923, "area": 22},
+        {"capture": 100151, "area": 98},
+        {"capture": 100195, "area": 90},
+        {"capture": 100162, "area": 191},
+        {"capture": 100962, "area": 23},
+        {"capture": 100175, "area": 499},
+        {"capture": 101678, "area": 576}
       ]
     },
     "238": {
@@ -7114,8 +7114,8 @@ const GW_SKILLS = {
         {"npc": 293, "as": "skill trainer"},
         {"npc": 82, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101668, "location": 58},
-        {"capture": 100073, "location": 647}
+        {"capture": 101668, "area": 58},
+        {"capture": 100073, "area": 647}
       ]
     },
     "239": {
@@ -7140,10 +7140,10 @@ const GW_SKILLS = {
       "description": "Elite Ward Spell. Create a Ward Against Harm at this location. For 5...15 seconds, non-spirit allies in this area have +1...3 Health regeneration, +12...24 armor, and an additional +12...24 armor against elemental damage. This spell is disabled for 20 seconds.",
       "concise": "Elite Ward Spell. (5...15 seconds.) Allies in this ward have +1...3 Health regeneration, +12...24 armor, and +12...24 additional armor against elemental damage. Spirits are unaffected. This spell is disabled for 20 seconds.",
       "acquisition": [
-        {"capture": 100150, "location": 98},
+        {"capture": 100150, "area": 98},
         {"capture": 101679},
-        {"capture": 101560, "location": 649},
-        {"capture": 100316, "location": 651}
+        {"capture": 101560, "area": 649},
+        {"capture": 100316, "area": 651}
       ]
     },
     "240": {
@@ -7318,8 +7318,8 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 101680, "location": 59},
-        {"capture": 100718, "location": 15}
+        {"capture": 101680, "area": 59},
+        {"capture": 100718, "area": 15}
       ]
     },
     "246": {
@@ -7413,7 +7413,7 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 810, "as": "hero skill trainer"},
-        {"capture": 100339, "location": 91}
+        {"capture": 100339, "area": 91}
       ]
     },
     "249": {
@@ -7464,11 +7464,11 @@ const GW_SKILLS = {
       "related_ids": [299, 1375, 1399],
       "acquisition": [
         {"capture": 101665},
-        {"capture": 101681, "location": 136},
-        {"capture": 101579, "location": 49},
-        {"capture": 101580, "location": 35},
+        {"capture": 101681, "area": 136},
+        {"capture": 101579, "area": 49},
+        {"capture": 101580, "area": 35},
         {"capture": 101639},
-        {"capture": 101682, "location": 64}
+        {"capture": 101682, "area": 64}
       ]
     },
     "251": {
@@ -7561,7 +7561,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Hex Spell. For 8...20 seconds, every time target foe and adjacent foes sacrifice life, they sacrifice twice the normal amount.",
       "concise": "Hex Spell. Also hexes foes adjacent to target (8...20 seconds). Doubles Health sacrifice.",
-      "acquisition": [{"capture": 101665}, {"capture": 101683, "location": 159}, {"capture": 101580, "location": 35}]
+      "acquisition": [{"capture": 101665}, {"capture": 101683, "area": 159}, {"capture": 101580, "area": 35}]
     },
     "254": {
       "name": "Vigorous Spirit",
@@ -7635,7 +7635,7 @@ const GW_SKILLS = {
         {"quest": 101171},
         {"npc": 49, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 100340, "location": 91}
+        {"capture": 100340, "area": 91}
       ]
     },
     "257": {
@@ -7737,7 +7737,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Enchantment Spell. For 3...10 seconds, target ally has a 75% chance to block attacks and gains 15...30 armor.",
       "concise": "Elite Enchantment Spell. (3...10 seconds.) 75% chance to block. +15...30 armor.",
-      "acquisition": [{"capture": 100976, "location": 122}]
+      "acquisition": [{"capture": 100976, "area": 122}]
     },
     "260": {
       "name": "Aura of Faith",
@@ -7760,11 +7760,11 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 3 seconds, target ally gains 50...100% more Health when healed and takes 5...50% less damage.",
       "concise": "Elite Enchantment Spell. (3 seconds.) Target ally gains 50...100% more Health when healed and takes 5...50% less damage.",
       "acquisition": [
-        {"capture": 100513, "location": 123},
-        {"capture": 101684, "location": 94},
-        {"capture": 100975, "location": 122},
-        {"capture": 100956, "location": 23},
-        {"capture": 100085, "location": 839}
+        {"capture": 100513, "area": 123},
+        {"capture": 101684, "area": 94},
+        {"capture": 100975, "area": 122},
+        {"capture": 100956, "area": 23},
+        {"capture": 100085, "area": 839}
       ]
     },
     "261": {
@@ -7788,13 +7788,13 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 5...13 seconds, target ally gains +3...10 Health regeneration and 20...45 armor.",
       "concise": "Elite Enchantment Spell. (5...13 seconds.) +3...10 Health regeneration and +20...45 armor.",
       "acquisition": [
-        {"capture": 100828, "location": 120},
-        {"capture": 100071, "location": 647},
-        {"capture": 100308, "location": 553},
-        {"capture": 100308, "location": 501},
-        {"capture": 100545, "location": 272},
-        {"capture": 100011, "location": 244},
-        {"capture": 100171, "location": 395}
+        {"capture": 100828, "area": 120},
+        {"capture": 100071, "area": 647},
+        {"capture": 100308, "area": 553},
+        {"capture": 100308, "area": 501},
+        {"capture": 100545, "area": 272},
+        {"capture": 100011, "area": 244},
+        {"capture": 100171, "area": 395}
       ]
     },
     "262": {
@@ -7817,7 +7817,7 @@ const GW_SKILLS = {
       "recharge": 45,
       "description": "Elite Enchantment Spell. For 8...20 seconds, anyone striking target ally with an attack is knocked down and suffers 5...50 holy damage.",
       "concise": "Elite Enchantment Spell. (8...20 seconds.) Deals 5...50 holy damage to foes attacking target ally. Causes knock-down.",
-      "acquisition": [{"capture": 100224, "location": 96}]
+      "acquisition": [{"capture": 100224, "area": 96}]
     },
     "263": {
       "name": "Protective Bond",
@@ -7843,11 +7843,11 @@ const GW_SKILLS = {
         {"npc": 116, "as": "skill trainer"},
         {"npc": 159, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101685, "location": 58},
-        {"capture": 101686, "location": 62},
-        {"capture": 101119, "location": 16},
-        {"capture": 100586, "location": 11},
-        {"capture": 101687, "location": 44}
+        {"capture": 101685, "area": 58},
+        {"capture": 101686, "area": 62},
+        {"capture": 101119, "area": 16},
+        {"capture": 100586, "area": 11},
+        {"capture": 101687, "area": 44}
       ]
     },
     "264": {
@@ -7892,7 +7892,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Hex Spell. For 4...12 seconds, adjacent foes cannot attack. For each foe, Amity ends if that foe takes damage.",
       "concise": "Elite Hex Spell. (4...12 seconds.) Foes adjacent to you cannot attack. Ends on any foes that take damage.",
-      "acquisition": [{"capture": 100271, "location": 121}]
+      "acquisition": [{"capture": 100271, "area": 121}]
     },
     "266": {
       "name": "Peace and Harmony",
@@ -7915,7 +7915,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Enchantment Spell. Target ally loses 0...9 conditions and hexes. For 1...3 seconds, conditions and hexes expire 90% faster on that ally. All of your Smiting Prayers are disabled for 20 seconds.",
       "concise": "Elite Enchantment Spell. Target ally loses 0...9 conditions and hexes. Conditions and hexes expire 90% faster on that ally (1...3 seconds). Disables your Smiting Prayers (20 seconds).",
-      "acquisition": [{"capture": 100340, "location": 91}]
+      "acquisition": [{"capture": 100340, "area": 91}]
     },
     "267": {
       "name": "Judge's Insight",
@@ -7975,7 +7975,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Enchantment Spell. While you maintain this enchantment, your Monk spells heal for +15...60% more Health. When this enchantment ends one random other party member is resurrected with full Health and Energy and teleported to your location.",
       "concise": "Elite Enchantment Spell. Your Monk spells heal for +15...60% more Health. End effect: a random other party member is resurrected with full Health and Energy and teleported to your location.",
-      "acquisition": [{"capture": 100481, "location": 95}, {"capture": 100356, "location": 93}]
+      "acquisition": [{"capture": 100481, "area": 95}, {"capture": 100356, "area": 93}]
     },
     "269": {
       "name": "Mark of Protection",
@@ -7998,16 +7998,16 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 10 seconds, whenever target ally would take damage, that ally is healed for that amount instead, maximum 6...60. All your Protection Prayers are disabled for 5 seconds.",
       "concise": "Elite Enchantment Spell. (10 seconds.) Converts incoming damage to healing (maximum 6...60). All your Protection Prayers are disabled (5 seconds).",
       "acquisition": [
-        {"capture": 100145, "location": 98},
-        {"capture": 100955, "location": 23},
-        {"capture": 101688, "location": 190},
-        {"capture": 100920, "location": 22},
+        {"capture": 100145, "area": 98},
+        {"capture": 100955, "area": 23},
+        {"capture": 101688, "area": 190},
+        {"capture": 100920, "area": 22},
         {"capture": 101689},
         {"capture": 101690},
         {"capture": 101691},
-        {"capture": 100285, "location": 113},
-        {"capture": 100903, "location": 24},
-        {"capture": 100159, "location": 191}
+        {"capture": 100285, "area": 113},
+        {"capture": 100903, "area": 24},
+        {"capture": 100159, "area": 191}
       ]
     },
     "270": {
@@ -8030,7 +8030,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Enchantment Spell. While you maintain this enchantment, damage dealt to target other ally is reduced by 20...50%. If your Health is below 50% when that ally takes damage, Life Barrier ends.",
       "concise": "Elite Enchantment Spell. Reduces damage by 20...50%. Cannot self-target. If your Health is below 50% when target takes damage, Life Barrier ends.",
-      "acquisition": [{"capture": 100146, "location": 98}, {"capture": 100192, "location": 90}]
+      "acquisition": [{"capture": 100146, "area": 98}, {"capture": 100192, "area": 90}]
     },
     "271": {
       "name": "Zealot's Fire",
@@ -8097,8 +8097,8 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 807, "as": "hero skill trainer"},
-        {"capture": 100340, "location": 91},
-        {"capture": 101692, "location": 18}
+        {"capture": 100340, "area": 91},
+        {"capture": 101692, "area": 18}
       ]
     },
     "273": {
@@ -8122,14 +8122,14 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 5...17 seconds, target ally cannot be the target of enemy spells.",
       "concise": "Elite Enchantment Spell. (5...17 seconds.) Target ally cannot be the target of enemy spells.",
       "acquisition": [
-        {"capture": 100341, "location": 91},
-        {"capture": 101331, "location": 217},
-        {"capture": 100288, "location": 225},
-        {"capture": 100456, "location": 397},
-        {"capture": 101199, "location": 477},
-        {"capture": 100616, "location": 433},
-        {"capture": 100184, "location": 437},
-        {"capture": 100081, "location": 466}
+        {"capture": 100341, "area": 91},
+        {"capture": 101331, "area": 217},
+        {"capture": 100288, "area": 225},
+        {"capture": 100456, "area": 397},
+        {"capture": 101199, "area": 477},
+        {"capture": 100616, "area": 433},
+        {"capture": 100184, "area": 437},
+        {"capture": 100081, "area": 466}
       ]
     },
     "274": {
@@ -8208,7 +8208,7 @@ const GW_SKILLS = {
       "recharge": 2,
       "description": "Elite Spell. Remove all conditions (Poison, Disease, Blindness, Dazed, Bleeding, Crippled, Burning, Weakness, Cracked Armor, and Deep Wound) from target other ally. For each condition removed, that ally is healed for 10...70 Health.",
       "concise": "Elite Spell. Removes all conditions. Removal effect: heals for 10...70 for each condition removed. Cannot self-target.",
-      "acquisition": [{"capture": 100512, "location": 123}]
+      "acquisition": [{"capture": 100512, "area": 123}]
     },
     "277": {
       "name": "Mend Ailment",
@@ -8302,8 +8302,8 @@ const GW_SKILLS = {
       "concise": "Spell. Heals you and party members within earshot for 15...60.",
       "acquisition": [
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101682, "location": 64},
-        {"capture": 100341, "location": 91}
+        {"capture": 101682, "area": 64},
+        {"capture": 100341, "area": 91}
       ]
     },
     "280": {
@@ -8394,13 +8394,13 @@ const GW_SKILLS = {
       "description": "Elite Spell. Heal target ally for 5...100 Health. Heal for an additional 30...115 Health if that ally is below 50% Health.",
       "concise": "Elite Spell. Heals for 5...100. Heals for 30...115 more if target ally is below 50% Health.",
       "acquisition": [
-        {"capture": 101694, "location": 34},
-        {"capture": 100885, "location": 116},
-        {"capture": 100870, "location": 117},
-        {"capture": 100931, "location": 118},
-        {"capture": 100484, "location": 31},
-        {"capture": 100152, "location": 394},
-        {"capture": 100007, "location": 485}
+        {"capture": 101694, "area": 34},
+        {"capture": 100885, "area": 116},
+        {"capture": 100870, "area": 117},
+        {"capture": 100931, "area": 118},
+        {"capture": 100484, "area": 31},
+        {"capture": 100152, "area": 394},
+        {"capture": 100007, "area": 485}
       ]
     },
     "283": {
@@ -8462,7 +8462,7 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 806, "as": "hero skill trainer"},
-        {"capture": 100061, "location": 432}
+        {"capture": 100061, "area": 432}
       ]
     },
     "285": {
@@ -8485,7 +8485,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Enchantment Spell. For 10 seconds, whenever target ally takes damage, that ally is healed for 5...35 Health.",
       "concise": "Elite Enchantment Spell. (10 seconds.) Heals for 5...35 whenever target takes damage.",
-      "acquisition": [{"capture": 100272, "location": 121}]
+      "acquisition": [{"capture": 100272, "area": 121}]
     },
     "286": {
       "name": "Heal Other",
@@ -8770,13 +8770,13 @@ const GW_SKILLS = {
       "description": "Elite Signet. Target foe is knocked down. That foe and all adjacent foes take 15...75 holy damage.",
       "concise": "Elite Signet. Knocks down target. Deals 15...75 holy damage to target and adjacent foes.",
       "acquisition": [
-        {"capture": 100904, "location": 24},
-        {"capture": 100339, "location": 91},
-        {"capture": 100176, "location": 94},
-        {"capture": 101172, "location": 260},
-        {"capture": 100328, "location": 203},
-        {"capture": 101695, "location": 465},
-        {"capture": 100421, "location": 439}
+        {"capture": 100904, "area": 24},
+        {"capture": 100339, "area": 91},
+        {"capture": 100176, "area": 94},
+        {"capture": 101172, "area": 260},
+        {"capture": 100328, "area": 203},
+        {"capture": 101695, "area": 465},
+        {"capture": 100421, "area": 439}
       ]
     },
     "295": {
@@ -8810,8 +8810,8 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 101682, "location": 64},
-        {"capture": 100017, "location": 198},
+        {"capture": 101682, "area": 64},
+        {"capture": 100017, "area": 198},
         {"npc": 801, "as": "hero skill trainer"}
       ]
     },
@@ -8908,10 +8908,10 @@ const GW_SKILLS = {
       "description": "Elite Spell. Transfer all conditions and their remaining durations from your allies to you.",
       "concise": "Elite Spell. Transfer all conditions from all allies to you.",
       "acquisition": [
-        {"capture": 100270, "location": 121},
-        {"capture": 100437, "location": 241},
-        {"capture": 100321, "location": 197},
-        {"capture": 100428, "location": 441}
+        {"capture": 100270, "area": 121},
+        {"capture": 100437, "area": 241},
+        {"capture": 100321, "area": 197},
+        {"capture": 100428, "area": 441}
       ]
     },
     "299": {
@@ -9038,8 +9038,8 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 101352, "location": 14},
-        {"capture": 100341, "location": 91}
+        {"capture": 101352, "area": 14},
+        {"capture": 100341, "area": 91}
       ]
     },
     "303": {
@@ -9076,11 +9076,11 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 100629, "location": 10},
-        {"capture": 100587, "location": 12},
-        {"capture": 100998, "location": 73},
-        {"capture": 101276, "location": 19},
-        {"capture": 101696, "location": 18}
+        {"capture": 100629, "area": 10},
+        {"capture": 100587, "area": 12},
+        {"capture": 100998, "area": 73},
+        {"capture": 101276, "area": 19},
+        {"capture": 101696, "area": 18}
       ]
     },
     "304": {
@@ -9105,8 +9105,8 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 118, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101682, "location": 64},
-        {"capture": 100660, "location": 219}
+        {"capture": 101682, "area": 64},
+        {"capture": 100660, "area": 219}
       ]
     },
     "305": {
@@ -9324,10 +9324,10 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 753, "as": "hero skill trainer"},
-        {"capture": 101697, "location": 13},
-        {"capture": 100997, "location": 73},
-        {"capture": 101275, "location": 19},
-        {"capture": 101276, "location": 19}
+        {"capture": 101697, "area": 13},
+        {"capture": 100997, "area": 73},
+        {"capture": 101275, "area": 19},
+        {"capture": 101276, "area": 19}
       ]
     },
     "312": {
@@ -9392,8 +9392,8 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 100224, "location": 96},
-        {"capture": 100428, "location": 441}
+        {"capture": 100224, "area": 96},
+        {"capture": 100428, "area": 441}
       ]
     },
     "314": {
@@ -9445,10 +9445,10 @@ const GW_SKILLS = {
         {"quest": 101266},
         {"npc": 49, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101352, "location": 14},
-        {"capture": 100717, "location": 15},
-        {"capture": 101120, "location": 16},
-        {"capture": 101698, "location": 60}
+        {"capture": 101352, "area": 14},
+        {"capture": 100717, "area": 15},
+        {"capture": 101120, "area": 16},
+        {"capture": 101698, "area": 60}
       ]
     },
     "316": {
@@ -9494,13 +9494,13 @@ const GW_SKILLS = {
       "description": "Elite Stance. For 5...20 seconds, you move 33% faster and gain double adrenaline from attacks. Battle Rage ends if you use any non-adrenal skills.",
       "concise": "Elite Stance. (5...20 seconds.) You move 33% faster and gain double adrenaline from your attacks. Ends if you use any non-adrenal skills.",
       "acquisition": [
-        {"capture": 100336, "location": 91},
-        {"capture": 100381, "location": 26},
-        {"capture": 100238, "location": 211},
-        {"capture": 100238, "location": 200},
-        {"capture": 100094, "location": 470},
-        {"capture": 101529, "location": 670},
-        {"capture": 100311, "location": 651}
+        {"capture": 100336, "area": 91},
+        {"capture": 100381, "area": 26},
+        {"capture": 100238, "area": 211},
+        {"capture": 100238, "area": 200},
+        {"capture": 100094, "area": 470},
+        {"capture": 101529, "area": 670},
+        {"capture": 100311, "area": 651}
       ]
     },
     "318": {
@@ -9524,7 +9524,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Elite Skill. For 20 seconds, you have an additional 90...300 Health, an additional 20 armor, and you take -1...10 less damage.",
       "concise": "Elite Skill. (20 seconds.) You have +90...300 maximum Health, +20 armor, and take -1...10 less damage.",
-      "acquisition": [{"capture": 100142, "location": 98}, {"capture": 100191, "location": 90}]
+      "acquisition": [{"capture": 100142, "area": 98}, {"capture": 100191, "area": 90}]
     },
     "319": {
       "name": "Rush",
@@ -9549,10 +9549,10 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 41, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101699, "location": 21},
-        {"capture": 101700, "location": 44},
-        {"capture": 101701, "location": 41},
-        {"capture": 100336, "location": 91}
+        {"capture": 101699, "area": 21},
+        {"capture": 101700, "area": 44},
+        {"capture": 101701, "area": 41},
+        {"capture": 100336, "area": 91}
       ]
     },
     "320": {
@@ -9620,7 +9620,7 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 100022, "location": 380}
+        {"capture": 100022, "area": 380}
       ]
     },
     "322": {
@@ -9849,14 +9849,14 @@ const GW_SKILLS = {
       "description": "Elite Melee Attack. If it hits, this attack interrupts the target's current action. If that foe was casting a spell, that foe is Dazed for 15 seconds.",
       "concise": "Elite Melee Attack. Interrupts an action. Inflicts Dazed condition (15 seconds) if target is casting a spell.",
       "acquisition": [
-        {"capture": 100353, "location": 93},
-        {"capture": 100264, "location": 548},
-        {"capture": 100114, "location": 513},
-        {"capture": 100115, "location": 513},
-        {"capture": 101702, "location": 635},
-        {"capture": 101703, "location": 635},
-        {"capture": 101040, "location": 37},
-        {"capture": 101548, "location": 664}
+        {"capture": 100353, "area": 93},
+        {"capture": 100264, "area": 548},
+        {"capture": 100114, "area": 513},
+        {"capture": 100115, "area": 513},
+        {"capture": 101702, "area": 635},
+        {"capture": 101703, "area": 635},
+        {"capture": 101040, "area": 37},
+        {"capture": 101548, "area": 664}
       ]
     },
     "330": {
@@ -9969,11 +9969,11 @@ const GW_SKILLS = {
         {"npc": 803, "as": "hero skill trainer"},
         {"npc": 805, "as": "hero skill trainer"},
         {"npc": 804, "as": "hero skill trainer"},
-        {"capture": 100677, "location": 99},
-        {"capture": 101704, "location": 88},
-        {"capture": 101705, "location": 88},
-        {"capture": 101699, "location": 89},
-        {"capture": 101706, "location": 484}
+        {"capture": 100677, "area": 99},
+        {"capture": 101704, "area": 88},
+        {"capture": 101705, "area": 88},
+        {"capture": 101699, "area": 89},
+        {"capture": 101706, "area": 484}
       ]
     },
     "333": {
@@ -9998,9 +9998,9 @@ const GW_SKILLS = {
       "concise": "Shout. You have +3...7 Health regeneration and attack 25% faster (10 seconds for each dead ally).",
       "acquisition": [
         {"capture": 101665},
-        {"capture": 101578, "location": 58},
-        {"capture": 101579, "location": 49},
-        {"capture": 101580, "location": 35}
+        {"capture": 101578, "area": 58},
+        {"capture": 101579, "area": 49},
+        {"capture": 101580, "area": 35}
       ]
     },
     "334": {
@@ -10059,15 +10059,15 @@ const GW_SKILLS = {
       "description": "Elite Axe Attack. If this attack hits, you strike for +10...40 damage and hit 1...2 adjacent foes for 10...40 slashing damage.",
       "concise": "Elite Axe Attack. Deals +10...40 damage and hits 1...2 adjacent foes for 10...40 slashing damage.",
       "acquisition": [
-        {"capture": 100143, "location": 98},
-        {"capture": 100899, "location": 24},
-        {"capture": 100918, "location": 22},
-        {"capture": 100952, "location": 23},
-        {"capture": 100298, "location": 202},
-        {"capture": 100243, "location": 209},
-        {"capture": 101164, "location": 427},
-        {"capture": 100208, "location": 371},
-        {"capture": 100113, "location": 513}
+        {"capture": 100143, "area": 98},
+        {"capture": 100899, "area": 24},
+        {"capture": 100918, "area": 22},
+        {"capture": 100952, "area": 23},
+        {"capture": 100298, "area": 202},
+        {"capture": 100243, "area": 209},
+        {"capture": 101164, "area": 427},
+        {"capture": 100208, "area": 371},
+        {"capture": 100113, "area": 513}
       ]
     },
     "336": {
@@ -10104,7 +10104,7 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 806, "as": "hero skill trainer"},
-        {"capture": 101707, "location": 227}
+        {"capture": 101707, "area": 227}
       ]
     },
     "337": {
@@ -10163,16 +10163,16 @@ const GW_SKILLS = {
       "description": "Elite Axe Attack. If Eviscerate hits, you strike for +10...45 damage and inflict a Deep Wound, lowering your target's maximum Health by 20% for 5...20 seconds.",
       "concise": "Elite Axe Attack. Deals +10...45 damage. Inflicts Deep Wound condition (5...20 seconds).",
       "acquisition": [
-        {"capture": 100106, "location": 105},
-        {"capture": 101708, "location": 190},
-        {"capture": 101408, "location": 124},
-        {"capture": 101496, "location": 560},
-        {"capture": 101709, "location": 573},
-        {"capture": 101710, "location": 651},
-        {"capture": 101557, "location": 651},
-        {"capture": 100042, "location": 482},
-        {"capture": 100312, "location": 651},
-        {"capture": 100043, "location": 482}
+        {"capture": 100106, "area": 105},
+        {"capture": 101708, "area": 190},
+        {"capture": 101408, "area": 124},
+        {"capture": 101496, "area": 560},
+        {"capture": 101709, "area": 573},
+        {"capture": 101710, "area": 651},
+        {"capture": 101557, "area": 651},
+        {"capture": 100042, "area": 482},
+        {"capture": 100312, "area": 651},
+        {"capture": 100043, "area": 482}
       ]
     },
     "339": {
@@ -10393,8 +10393,8 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 800, "as": "hero skill trainer"},
-        {"capture": 101711, "location": 58},
-        {"capture": 101115, "location": 16}
+        {"capture": 101711, "area": 58},
+        {"capture": 101115, "area": 16}
       ]
     },
     "346": {
@@ -10507,7 +10507,7 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 101712, "location": 397}
+        {"capture": 101712, "area": 397}
       ]
     },
     "349": {
@@ -10547,7 +10547,7 @@ const GW_SKILLS = {
         {"npc": 796, "as": "profession changer"},
         {"npc": 797, "as": "profession changer"},
         {"npc": 798, "as": "profession changer"},
-        {"capture": 100074, "location": 379}
+        {"capture": 100074, "area": 379}
       ]
     },
     "350": {
@@ -10676,12 +10676,12 @@ const GW_SKILLS = {
       "description": "Elite Hammer Attack. Target foe and all adjacent foes are knocked down. (50% failure chance with Hammer Mastery 4 or less.)",
       "concise": "Elite Hammer Attack. Knocks down target and adjacent foes. 50% failure chance unless Hammer Mastery 5 or more.",
       "acquisition": [
-        {"capture": 101713, "location": 18},
-        {"capture": 100335, "location": 91},
-        {"capture": 101714, "location": 211},
-        {"capture": 101714, "location": 205},
-        {"capture": 100004, "location": 572},
-        {"capture": 100046, "location": 513}
+        {"capture": 101713, "area": 18},
+        {"capture": 100335, "area": 91},
+        {"capture": 101714, "area": 211},
+        {"capture": 101714, "area": 205},
+        {"capture": 100004, "area": 572},
+        {"capture": 100046, "area": 513}
       ]
     },
     "355": {
@@ -10705,18 +10705,18 @@ const GW_SKILLS = {
       "description": "Elite Hammer Attack. If Devastating Hammer hits, your target is knocked down and suffers from Weakness for 5...20 seconds.",
       "concise": "Elite Hammer Attack. Causes knock-down. Inflicts Weakness condition (5...20 seconds).",
       "acquisition": [
-        {"capture": 100971, "location": 122},
-        {"capture": 100509, "location": 123},
-        {"capture": 101715, "location": 94},
-        {"capture": 100901, "location": 24},
-        {"capture": 100953, "location": 23},
-        {"capture": 100326, "location": 203},
-        {"capture": 100392, "location": 128},
-        {"capture": 101716, "location": 369},
+        {"capture": 100971, "area": 122},
+        {"capture": 100509, "area": 123},
+        {"capture": 101715, "area": 94},
+        {"capture": 100901, "area": 24},
+        {"capture": 100953, "area": 23},
+        {"capture": 100326, "area": 203},
+        {"capture": 100392, "area": 128},
+        {"capture": 101716, "area": 369},
         {"capture": 101039},
-        {"capture": 100348, "location": 558},
-        {"capture": 101477, "location": 612},
-        {"capture": 101717, "location": 546}
+        {"capture": 100348, "area": 558},
+        {"capture": 101477, "area": 612},
+        {"capture": 101717, "area": 546}
       ]
     },
     "356": {
@@ -10814,13 +10814,13 @@ const GW_SKILLS = {
       "description": "Elite Hammer Attack. If Backbreaker hits, you strike for +1...20 damage and your target is knocked down. If you have 8 Strength or higher, this knockdown lasts 4 seconds.",
       "concise": "Elite Hammer Attack. Deals +1...20 damage. Causes knockdown. Knockdown lasts 4 seconds with Strength 8 or higher.",
       "acquisition": [
-        {"capture": 101718, "location": 841},
-        {"capture": 100970, "location": 122},
-        {"capture": 101719, "location": 612},
-        {"capture": 101720, "location": 612},
-        {"capture": 100070, "location": 647},
-        {"capture": 101721, "location": 612},
-        {"capture": 101722, "location": 612}
+        {"capture": 101718, "area": 841},
+        {"capture": 100970, "area": 122},
+        {"capture": 101719, "area": 612},
+        {"capture": 101720, "area": 612},
+        {"capture": 100070, "area": 647},
+        {"capture": 101721, "area": 612},
+        {"capture": 101722, "area": 612}
       ]
     },
     "359": {
@@ -10856,7 +10856,7 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 753, "as": "hero skill trainer"},
-        {"capture": 100994, "location": 73}
+        {"capture": 100994, "area": 73}
       ]
     },
     "360": {
@@ -10917,9 +10917,9 @@ const GW_SKILLS = {
       "concise": "Signet. (8...20 seconds.) You have +10...40 armor and cannot be knocked-down. You move 75% slower.",
       "acquisition": [
         {"capture": 101665},
-        {"capture": 101723, "location": 132},
-        {"capture": 101657, "location": 55},
-        {"capture": 101580, "location": 35}
+        {"capture": 101723, "area": 132},
+        {"capture": 101657, "area": 55},
+        {"capture": 101580, "area": 35}
       ]
     },
     "362": {
@@ -10954,7 +10954,7 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 806, "as": "hero skill trainer"},
-        {"capture": 100994, "location": 73}
+        {"capture": 100994, "area": 73}
       ]
     },
     "363": {
@@ -11012,11 +11012,11 @@ const GW_SKILLS = {
       "description": "Elite Shout. All allies within earshot lose the Crippled condition. For 5...13 seconds, these allies move 33% faster.",
       "concise": "Elite Shout. (5...13 seconds.) Allies in earshot move 33% faster. Initial effect: these allies lose the Crippled condition.",
       "acquisition": [
-        {"capture": 100266, "location": 121},
-        {"capture": 101724, "location": 205},
-        {"capture": 101725, "location": 144},
-        {"capture": 101707, "location": 227},
-        {"capture": 101712, "location": 397}
+        {"capture": 100266, "area": 121},
+        {"capture": 101724, "area": 205},
+        {"capture": 101725, "area": 144},
+        {"capture": 101707, "area": 227},
+        {"capture": 101712, "area": 397}
       ]
     },
     "365": {
@@ -11039,7 +11039,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Shout. You gain 10...68 Health and 3...7 Energy for each condition suffered by target foe.",
       "concise": "Elite Shout. You gain 10...68 Health and 3...7 Energy for each condition on target foe.",
-      "acquisition": [{"capture": 100382, "location": 93}, {"capture": 100479, "location": 95}]
+      "acquisition": [{"capture": 100382, "area": 93}, {"capture": 100479, "area": 95}]
     },
     "366": {
       "name": "\"Fear Me!\"",
@@ -11094,7 +11094,7 @@ const GW_SKILLS = {
         {"npc": 799, "as": "skill trainer"},
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
-        {"capture": 101704, "location": 88}
+        {"capture": 101704, "area": 88}
       ]
     },
     "368": {
@@ -11121,11 +11121,11 @@ const GW_SKILLS = {
         {"quest": 101123},
         {"npc": 159, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 100713, "location": 15},
-        {"capture": 101116, "location": 16},
-        {"capture": 101701, "location": 41},
-        {"capture": 101726, "location": 59},
-        {"capture": 101727, "location": 105}
+        {"capture": 100713, "area": 15},
+        {"capture": 101116, "area": 16},
+        {"capture": 101701, "area": 41},
+        {"capture": 101726, "area": 59},
+        {"capture": 101727, "area": 105}
       ]
     },
     "370": {
@@ -11160,8 +11160,8 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 806, "as": "hero skill trainer"},
-        {"capture": 101728, "location": 111},
-        {"capture": 101729, "location": 113}
+        {"capture": 101728, "area": 111},
+        {"capture": 101729, "area": 113}
       ]
     },
     "371": {
@@ -11198,9 +11198,9 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 812, "as": "hero skill trainer"},
-        {"capture": 101730, "location": 58},
-        {"capture": 100714, "location": 15},
-        {"capture": 101731, "location": 59}
+        {"capture": 101730, "area": 58},
+        {"capture": 100714, "area": 15},
+        {"capture": 101731, "area": 59}
       ]
     },
     "372": {
@@ -11223,7 +11223,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Stance. For 5...11 seconds, you have a 75% chance to block incoming attacks. Whenever you block a melee attack this way, the attacker suffers 5...35 damage.",
       "concise": "Elite Stance. (5...11 seconds.) You have 75% chance to block. Your attacker takes 5...35 damage whenever you block a melee attack this way.",
-      "acquisition": [{"capture": 100826, "location": 120}, {"capture": 100452, "location": 553}]
+      "acquisition": [{"capture": 100826, "area": 120}, {"capture": 100452, "area": 553}]
     },
     "373": {
       "name": "Deflect Arrows",
@@ -11245,7 +11245,7 @@ const GW_SKILLS = {
       "recharge": 12,
       "description": "Stance. For 1...6 seconds, you have a 75% chance to block attacks. If you block a projectile attack, adjacent foes suffer from Bleeding for 5...15 seconds.",
       "concise": "Stance. (1...6 seconds.) You have 75% chance to block attacks. Adjacent foes suffer Bleeding (5...15 seconds) when you block a projectile attack.",
-      "acquisition": [{"capture": 101665}, {"capture": 101732, "location": 158}, {"capture": 101580, "location": 35}]
+      "acquisition": [{"capture": 101665}, {"capture": 101732, "area": 158}, {"capture": 101580, "area": 35}]
     },
     "374": {
       "name": "Warrior's Endurance",
@@ -11269,9 +11269,9 @@ const GW_SKILLS = {
       "description": "Elite Skill. For 5...35 seconds, you gain 3 Energy each time you hit with a melee attack. Warrior's Endurance cannot raise your Energy above 10...25.",
       "concise": "Elite Skill. (5...35 seconds.) You gain 3 Energy each time you hit with a melee attack. No Energy gain if you have more than 10...25 Energy.",
       "acquisition": [
-        {"capture": 100868, "location": 117},
-        {"capture": 100929, "location": 118},
-        {"capture": 100883, "location": 116}
+        {"capture": 100868, "area": 117},
+        {"capture": 100929, "area": 118},
+        {"capture": 100883, "area": 116}
       ]
     },
     "375": {
@@ -11295,11 +11295,11 @@ const GW_SKILLS = {
       "description": "Elite Stance. For 5...11 seconds, if you are wielding a hammer, you attack 33% faster, you gain +40 armor, and your attack skills interrupt foes when they hit.",
       "concise": "Elite Stance. (5...11 seconds.) You attack 33% faster, you gain +40 armor, and your attack skills interrupt actions. No effect unless you have a hammer equipped.",
       "acquisition": [
-        {"capture": 100900, "location": 24},
-        {"capture": 101733, "location": 190},
-        {"capture": 100157, "location": 191},
-        {"capture": 101734, "location": 625},
-        {"capture": 101735, "location": 604}
+        {"capture": 100900, "area": 24},
+        {"capture": 101733, "area": 190},
+        {"capture": 100157, "area": 191},
+        {"capture": 101734, "area": 625},
+        {"capture": 101735, "area": 604}
       ]
     },
     "376": {
@@ -11324,9 +11324,9 @@ const GW_SKILLS = {
       "concise": "Stance. (1...4 seconds.) You have 75% chance to block and +10 armor. Ends if you use an adrenal skill.",
       "acquisition": [
         {"capture": 101665},
-        {"capture": 101736, "location": 141},
-        {"capture": 101737, "location": 109},
-        {"capture": 101580, "location": 35}
+        {"capture": 101736, "area": 141},
+        {"capture": 101737, "area": 109},
+        {"capture": 101580, "area": 35}
       ]
     },
     "377": {
@@ -11351,9 +11351,9 @@ const GW_SKILLS = {
       "concise": "Stance. (1...6 seconds). You block attack skills. Gain adrenaline and 5 Energy for each block. Ends if you use a skill.",
       "acquisition": [
         {"capture": 101665},
-        {"capture": 101591, "location": 36},
-        {"capture": 101592, "location": 134},
-        {"capture": 101580, "location": 35}
+        {"capture": 101591, "area": 36},
+        {"capture": 101592, "area": 134},
+        {"capture": 101580, "area": 35}
       ]
     },
     "378": {
@@ -11398,7 +11398,7 @@ const GW_SKILLS = {
       "recharge": 12,
       "description": "Elite Stance. For 1...7 seconds, you move 50% faster and if you strike a moving foe in melee, that foe is knocked down. Bull's Charge ends if you use a skill.",
       "concise": "Elite Stance. (1...7 seconds.) You move 50% faster. Causes knock-down if you hit a moving foe in melee. Ends if you use a skill.",
-      "acquisition": [{"capture": 100267, "location": 121}, {"capture": 101738, "location": 190}]
+      "acquisition": [{"capture": 100267, "area": 121}, {"capture": 101738, "area": 190}]
     },
     "380": {
       "name": "Bonetti's Defense",
@@ -11444,11 +11444,11 @@ const GW_SKILLS = {
       "description": "Elite Skill. For 15 seconds, whenever you attack with a sword, all adjacent foes take 10...35 slashing damage.",
       "concise": "Elite Skill. (15 seconds.) Deals 10...35 slashing damage to all adjacent foes whenever you attack with a sword.",
       "acquisition": [
-        {"capture": 101739, "location": 64},
-        {"capture": 100362, "location": 220},
-        {"capture": 100362, "location": 256},
-        {"capture": 100255, "location": 465},
-        {"capture": 100080, "location": 466}
+        {"capture": 101739, "area": 64},
+        {"capture": 100362, "area": 220},
+        {"capture": 100362, "area": 256},
+        {"capture": 100255, "area": 465},
+        {"capture": 100080, "area": 466}
       ]
     },
     "382": {
@@ -11514,9 +11514,9 @@ const GW_SKILLS = {
       "concise": "Sword Attack. Deals +1...40 damage.",
       "acquisition": [
         {"capture": 101665},
-        {"capture": 101681, "location": 136},
-        {"capture": 101580, "location": 35},
-        {"capture": 101579, "location": 49}
+        {"capture": 101681, "area": 136},
+        {"capture": 101580, "area": 35},
+        {"capture": 101579, "area": 49}
       ]
     },
     "384": {
@@ -11593,7 +11593,7 @@ const GW_SKILLS = {
         {"npc": 803, "as": "hero skill trainer"},
         {"npc": 804, "as": "hero skill trainer"},
         {"npc": 805, "as": "hero skill trainer"},
-        {"capture": 101712, "location": 397}
+        {"capture": 101712, "area": 397}
       ]
     },
     "386": {
@@ -11650,7 +11650,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Skill. For 8 seconds, while you have a sword equipped, you block the next melee attack against you and your attacker is struck for 20...80 damage.",
       "concise": "Skill. (8 seconds.) You block the next melee attack and your attacker takes 20...80 damage. No effect unless you have a sword equipped.",
-      "acquisition": [{"capture": 101665}, {"capture": 101683, "location": 159}, {"capture": 101580, "location": 35}]
+      "acquisition": [{"capture": 101665}, {"capture": 101683, "area": 159}, {"capture": 101580, "area": 35}]
     },
     "388": {
       "name": "Deadly Riposte",
@@ -11674,9 +11674,9 @@ const GW_SKILLS = {
       "concise": "Skill. (8 seconds.) You block the next melee attack and your attacker takes 15...90 damage. Inflicts Bleeding condition (3...25 seconds). No effect unless you have a sword equipped.",
       "acquisition": [
         {"capture": 101665},
-        {"capture": 101740, "location": 137},
-        {"capture": 101737, "location": 109},
-        {"capture": 101580, "location": 35}
+        {"capture": 101740, "area": 137},
+        {"capture": 101737, "area": 109},
+        {"capture": 101580, "area": 35}
       ]
     },
     "389": {
@@ -11699,7 +11699,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Elite Skill. All of your attack skills become recharged. You gain 2...7 Energy for each skill recharged by Flourish.",
       "concise": "Elite Skill. Recharges your attack skills. You gain 2...7 Energy for each skill recharged.",
-      "acquisition": [{"capture": 100222, "location": 96}, {"capture": 101040}, {"capture": 101741, "location": 570}]
+      "acquisition": [{"capture": 100222, "area": 96}, {"capture": 101040}, {"capture": 101741, "area": 570}]
     },
     "390": {
       "name": "Savage Slash",
@@ -11827,11 +11827,11 @@ const GW_SKILLS = {
       "description": "Elite Bow Attack. If Crippling Shot hits, your target becomes Crippled for 4...14 seconds. This attack cannot be blocked.",
       "concise": "Elite Bow Attack. Unblockable. Inflicts Crippled condition (4...14 seconds).",
       "acquisition": [
-        {"capture": 100269, "location": 121},
-        {"capture": 100116, "location": 513},
-        {"capture": 100306, "location": 501},
-        {"capture": 101742, "location": 584},
-        {"capture": 101743, "location": 499}
+        {"capture": 100269, "area": 121},
+        {"capture": 100116, "area": 513},
+        {"capture": 100306, "area": 501},
+        {"capture": 101742, "area": 584},
+        {"capture": 101743, "area": 499}
       ]
     },
     "394": {
@@ -11891,17 +11891,17 @@ const GW_SKILLS = {
       "description": "Elite Bow Attack. All your preparations are removed. Shoot arrows at target foe and up to 5 foes adjacent to your target. These arrows strike for +5...20 damage if they hit.",
       "concise": "Elite Bow Attack. Deals +5...20 damage. Hits 5 foes adjacent to your target. All your preparations are removed.",
       "acquisition": [
-        {"capture": 100853, "location": 24},
-        {"capture": 100511, "location": 123},
-        {"capture": 101744, "location": 843},
-        {"capture": 100658, "location": 219},
-        {"capture": 100120, "location": 195},
-        {"capture": 100024, "location": 380},
-        {"capture": 100095, "location": 470},
-        {"capture": 101558, "location": 649},
-        {"capture": 100044, "location": 482},
-        {"capture": 100307, "location": 501},
-        {"capture": 101745, "location": 630}
+        {"capture": 100853, "area": 24},
+        {"capture": 100511, "area": 123},
+        {"capture": 101744, "area": 843},
+        {"capture": 100658, "area": 219},
+        {"capture": 100120, "area": 195},
+        {"capture": 100024, "area": 380},
+        {"capture": 100095, "area": 470},
+        {"capture": 101558, "area": 649},
+        {"capture": 100044, "area": 482},
+        {"capture": 100307, "area": 501},
+        {"capture": 101745, "area": 630}
       ]
     },
     "396": {
@@ -11959,10 +11959,10 @@ const GW_SKILLS = {
       "description": "Elite Bow Attack. Shoot an arrow that moves twice as fast.",
       "concise": "Elite Bow Attack. You shoot an arrow that moves twice as fast.",
       "acquisition": [
-        {"capture": 100268, "location": 121},
-        {"capture": 100230, "location": 205},
-        {"capture": 100327, "location": 203},
-        {"capture": 100402, "location": 384}
+        {"capture": 100268, "area": 121},
+        {"capture": 100230, "area": 205},
+        {"capture": 100327, "area": 203},
+        {"capture": 100402, "area": 384}
       ]
     },
     "398": {
@@ -12056,8 +12056,8 @@ const GW_SKILLS = {
         {"npc": 168, "as": "skill trainer"},
         {"npc": 68, "as": "skill trainer"},
         {"npc": 807, "as": "hero skill trainer"},
-        {"capture": 100679, "location": 99},
-        {"capture": 100753, "location": 21}
+        {"capture": 100679, "area": 99},
+        {"capture": 100753, "area": 21}
       ]
     },
     "402": {
@@ -12149,9 +12149,9 @@ const GW_SKILLS = {
       "description": "Elite Bow Attack. If Poison Arrow hits, your target becomes Poisoned for 5...20 seconds.",
       "concise": "Elite Bow Attack. Inflicts Poisoned condition (5...20 seconds).",
       "acquisition": [
-        {"capture": 100354, "location": 93},
-        {"capture": 100480, "location": 95},
-        {"capture": 101746, "location": 604}
+        {"capture": 100354, "area": 93},
+        {"capture": 100480, "area": 95},
+        {"capture": 101746, "area": 604}
       ]
     },
     "405": {
@@ -12175,11 +12175,11 @@ const GW_SKILLS = {
       "description": "Elite Bow Attack. If Oath Shot hits, all of your skills except Oath Shot are recharged. If it misses, all of your skills are disabled for 10...4 seconds. (50% miss chance with Expertise 7 or less.)",
       "concise": "Elite Bow Attack. Recharges all skills except Oath Shot if it hits. Disables all skills if it misses (10...4 seconds). 50% miss chance unless Expertise 8 or higher.",
       "acquisition": [
-        {"capture": 100510, "location": 123},
-        {"capture": 100974, "location": 122},
-        {"capture": 100902, "location": 24},
-        {"capture": 101747, "location": 94},
-        {"capture": 100954, "location": 23}
+        {"capture": 100510, "area": 123},
+        {"capture": 100974, "area": 122},
+        {"capture": 100902, "area": 24},
+        {"capture": 101747, "area": 94},
+        {"capture": 100954, "area": 23}
       ]
     },
     "406": {
@@ -12263,10 +12263,10 @@ const GW_SKILLS = {
         {"npc": 168, "as": "skill trainer"},
         {"npc": 68, "as": "skill trainer"},
         {"npc": 812, "as": "hero skill trainer"},
-        {"capture": 101351, "location": 14},
-        {"capture": 100715, "location": 15},
-        {"capture": 101118, "location": 60},
-        {"capture": 101748, "location": 59}
+        {"capture": 101351, "area": 14},
+        {"capture": 100715, "area": 15},
+        {"capture": 101118, "area": 60},
+        {"capture": 101748, "area": 59}
       ]
     },
     "409": {
@@ -12289,7 +12289,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Bow Attack. If Punishing Shot hits, you strike for +10...20 damage and your target is interrupted.",
       "concise": "Elite Bow Attack. Deals +10...20 damage. Interrupts an action.",
-      "acquisition": [{"capture": 100337, "location": 91}]
+      "acquisition": [{"capture": 100337, "area": 91}]
     },
     "411": {
       "name": "Charm Animal",
@@ -12407,9 +12407,9 @@ const GW_SKILLS = {
       "concise": "Skill. Resurrects all allied pets in the area (10...94% Health).",
       "acquisition": [
         {"capture": 101665},
-        {"capture": 101657, "location": 55},
-        {"capture": 101723, "location": 132},
-        {"capture": 101580, "location": 35}
+        {"capture": 101657, "area": 55},
+        {"capture": 101723, "area": 132},
+        {"capture": 101580, "area": 35}
       ]
     },
     "423": {
@@ -12432,7 +12432,7 @@ const GW_SKILLS = {
       "recharge": 55,
       "description": "Shout. For 120...300 seconds, your animal companion gains 1...3 Health regeneration, and half of all damage dealt to your animal companion is redirected to you.",
       "concise": "Shout. (120...300 seconds.) Your pet has +1...3 Health regeneration. Half of all damage dealt to your pet is redirected to you.",
-      "acquisition": [{"capture": 101665}, {"capture": 101749, "location": 155}, {"capture": 101580, "location": 35}]
+      "acquisition": [{"capture": 101665}, {"capture": 101749, "area": 155}, {"capture": 101580, "area": 35}]
     },
     "424": {
       "name": "Throw Dirt",
@@ -12521,8 +12521,8 @@ const GW_SKILLS = {
         {"npc": 168, "as": "skill trainer"},
         {"npc": 68, "as": "skill trainer"},
         {"npc": 753, "as": "hero skill trainer"},
-        {"capture": 100627, "location": 10},
-        {"capture": 100584, "location": 12},
+        {"capture": 100627, "area": 10},
+        {"capture": 100584, "area": 12},
         {"capture": 100024},
         {"npc": 796, "as": "profession changer"},
         {"npc": 797, "as": "profession changer"},
@@ -12580,7 +12580,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Bow Attack. Shoot arrows at target foe and up to 2 foes near your target. Those foes are set on fire for 1...3 seconds.",
       "concise": "Elite Bow Attack. Hits 2 foes near your target and inflicts Burning (1...3 seconds).",
-      "acquisition": [{"capture": 100973, "location": 122}, {"capture": 101750}]
+      "acquisition": [{"capture": 100973, "area": 122}, {"capture": 101750}]
     },
     "429": {
       "name": "Melandru's Arrows",
@@ -12603,13 +12603,13 @@ const GW_SKILLS = {
       "description": "Elite Preparation. For 18 seconds, whenever your arrows hit, they cause Bleeding for 3...25 seconds, and if they hit a target who is under an enchantment, they do +8...28 damage.",
       "concise": "Elite Preparation. (18 seconds.) Your arrows inflict Bleeding condition (3...25 seconds) and deal +8...28 damage to enchanted foes.",
       "acquisition": [
-        {"capture": 101751, "location": 190},
-        {"capture": 100158, "location": 191},
-        {"capture": 101752, "location": 190},
-        {"capture": 100144, "location": 98},
-        {"capture": 101753, "location": 190},
-        {"capture": 100679, "location": 23},
-        {"capture": 101754, "location": 625}
+        {"capture": 101751, "area": 190},
+        {"capture": 100158, "area": 191},
+        {"capture": 101752, "area": 190},
+        {"capture": 100144, "area": 98},
+        {"capture": 101753, "area": 190},
+        {"capture": 100679, "area": 23},
+        {"capture": 101754, "area": 625}
       ]
     },
     "430": {
@@ -12633,9 +12633,9 @@ const GW_SKILLS = {
       "description": "Elite Preparation. For 18 seconds, you gain 5...10 Energy whenever your arrows hit, but lose 10 Energy whenever your arrows fail to strike.",
       "concise": "Elite Preparation. (18 seconds.) Gain 5...10 Energy whenever your arrows hit. Lose 10 Energy whenever you fail to hit.",
       "acquisition": [
-        {"capture": 100930, "location": 118},
-        {"capture": 100884, "location": 116},
-        {"capture": 100869, "location": 117}
+        {"capture": 100930, "area": 118},
+        {"capture": 100884, "area": 116},
+        {"capture": 100869, "area": 117}
       ]
     },
     "431": {
@@ -12662,7 +12662,7 @@ const GW_SKILLS = {
         {"quest": 101333},
         {"npc": 811, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 100044, "location": 654}
+        {"capture": 100044, "area": 654}
       ]
     },
     "432": {
@@ -12732,7 +12732,7 @@ const GW_SKILLS = {
         {"npc": 77, "as": "skill trainer"},
         {"npc": 168, "as": "skill trainer"},
         {"npc": 68, "as": "skill trainer"},
-        {"capture": 101755, "location": 238}
+        {"capture": 101755, "area": 238}
       ]
     },
     "434": {
@@ -12763,9 +12763,9 @@ const GW_SKILLS = {
         {"npc": 168, "as": "skill trainer"},
         {"npc": 68, "as": "skill trainer"},
         {"npc": 822, "as": "hero skill trainer"},
-        {"capture": 101756, "location": 62},
-        {"capture": 101757, "location": 58},
-        {"capture": 100015, "location": 198}
+        {"capture": 101756, "area": 62},
+        {"capture": 101757, "area": 58},
+        {"capture": 100015, "area": 198}
       ]
     },
     "435": {
@@ -12984,9 +12984,9 @@ const GW_SKILLS = {
       "concise": "Pet Attack. Deals +5...20 damage to nearby foes.",
       "acquisition": [
         {"capture": 101665},
-        {"capture": 101723, "location": 132},
-        {"capture": 101657, "location": 55},
-        {"capture": 101580, "location": 35}
+        {"capture": 101723, "area": 132},
+        {"capture": 101657, "area": 55},
+        {"capture": 101580, "area": 35}
       ]
     },
     "442": {
@@ -13010,10 +13010,10 @@ const GW_SKILLS = {
       "description": "Elite Pet Attack. Your animal companion attempts a Ferocious Strike that deals +13...28 damage. If that attack hits, you gain adrenaline and 3...10 Energy.",
       "concise": "Elite Pet Attack. Deals +13...28 damage. You gain adrenaline and 3...10 Energy.",
       "acquisition": [
-        {"capture": 100355, "location": 93},
-        {"capture": 100052, "location": 263},
-        {"capture": 100136, "location": 399},
-        {"capture": 100401, "location": 384}
+        {"capture": 100355, "area": 93},
+        {"capture": 100052, "area": 263},
+        {"capture": 100136, "area": 399},
+        {"capture": 100401, "area": 384}
       ]
     },
     "443": {
@@ -13038,9 +13038,9 @@ const GW_SKILLS = {
       "concise": "Pet Attack. Deals +5...35 damage. Your pet gains 5...50 Health if this attack hits.",
       "acquisition": [
         {"capture": 101665},
-        {"capture": 101591, "location": 36},
-        {"capture": 101592, "location": 134},
-        {"capture": 101580, "location": 35}
+        {"capture": 101591, "area": 36},
+        {"capture": 101592, "area": 134},
+        {"capture": 101580, "area": 35}
       ]
     },
     "444": {
@@ -13063,7 +13063,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Pet Attack. Your animal companion attempts a Brutal Strike that deals +5...35 damage. If that attack strikes a foe whose Health is below 50%, that foe takes an additional +5...35 damage.",
       "concise": "Pet Attack. Deals +5...35 damage. Deals +5...35 more damage if target foe is under 50% Health.",
-      "acquisition": [{"capture": 101665}, {"capture": 101740, "location": 137}, {"capture": 101580, "location": 35}]
+      "acquisition": [{"capture": 101665}, {"capture": 101740, "area": 137}, {"capture": 101580, "area": 35}]
     },
     "445": {
       "name": "Disrupting Lunge",
@@ -13179,10 +13179,10 @@ const GW_SKILLS = {
       "description": "Elite Stance. For 1...8 seconds, you move 33% faster and have a 75% chance to block attacks.",
       "concise": "Elite Stance. (1...8 seconds.) You move 33% faster and have 75% chance to block.",
       "acquisition": [
-        {"capture": 100338, "location": 26},
-        {"capture": 100203, "location": 199},
-        {"capture": 100170, "location": 395},
-        {"capture": 100410, "location": 413}
+        {"capture": 100338, "area": 26},
+        {"capture": 100203, "area": 199},
+        {"capture": 100170, "area": 395},
+        {"capture": 100410, "area": 413}
       ]
     },
     "449": {
@@ -13205,7 +13205,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Stance. For 20...35 seconds, your preparations recharge 50% faster and last 30...300% longer.",
       "concise": "Elite Stance. (20...35 seconds.) Your preparations recharge 50% faster and last 30...300% longer.",
-      "acquisition": [{"capture": 100223, "location": 96}]
+      "acquisition": [{"capture": 100223, "area": 96}]
     },
     "450": {
       "name": "Whirling Defense",
@@ -13265,9 +13265,9 @@ const GW_SKILLS = {
       "description": "Elite Stance. For 8...20 seconds, you gain +4 Health regeneration and +1 Energy regeneration for each condition and hex you are suffering.",
       "concise": "Elite Stance. (8...20 seconds.) You have +4 Health regeneration and +1 Energy regeneration for each condition and hex on you.",
       "acquisition": [
-        {"capture": 100107, "location": 105},
-        {"capture": 100827, "location": 120},
-        {"capture": 100000, "location": 572}
+        {"capture": 100107, "area": 105},
+        {"capture": 100827, "area": 120},
+        {"capture": 100000, "area": 572}
       ]
     },
     "452": {
@@ -13293,11 +13293,11 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 118, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101758, "location": 61},
-        {"capture": 100627, "location": 10},
-        {"capture": 100584, "location": 12},
-        {"capture": 100995, "location": 73},
-        {"capture": 101274, "location": 19}
+        {"capture": 101758, "area": 61},
+        {"capture": 100627, "area": 10},
+        {"capture": 100584, "area": 12},
+        {"capture": 100995, "area": 73},
+        {"capture": 101274, "area": 19}
       ]
     },
     "453": {
@@ -13354,8 +13354,8 @@ const GW_SKILLS = {
         {"quest": 101082},
         {"npc": 49, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101759, "location": 58},
-        {"capture": 100158, "location": 191}
+        {"capture": 101759, "area": 58},
+        {"capture": 100158, "area": 191}
       ]
     },
     "455": {
@@ -13441,7 +13441,7 @@ const GW_SKILLS = {
         {"quest": 101171},
         {"npc": 49, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101760, "location": 17}
+        {"capture": 101760, "area": 17}
       ]
     },
     "458": {
@@ -13474,10 +13474,10 @@ const GW_SKILLS = {
         {"npc": 168, "as": "skill trainer"},
         {"npc": 68, "as": "skill trainer"},
         {"npc": 807, "as": "hero skill trainer"},
-        {"capture": 101756, "location": 62},
-        {"capture": 101757, "location": 58},
-        {"capture": 100716, "location": 15},
-        {"capture": 101761, "location": 59}
+        {"capture": 101756, "area": 62},
+        {"capture": 101757, "area": 58},
+        {"capture": 100716, "area": 15},
+        {"capture": 101761, "area": 59}
       ]
     },
     "459": {
@@ -13514,9 +13514,9 @@ const GW_SKILLS = {
         {"npc": 803, "as": "hero skill trainer"},
         {"npc": 804, "as": "hero skill trainer"},
         {"npc": 805, "as": "hero skill trainer"},
-        {"capture": 100845, "location": 11},
-        {"capture": 101762, "location": 43},
-        {"capture": 101763, "location": 45}
+        {"capture": 100845, "area": 11},
+        {"capture": 101762, "area": 43},
+        {"capture": 101763, "area": 45}
       ]
     },
     "460": {
@@ -13566,9 +13566,9 @@ const GW_SKILLS = {
       "description": "Elite Trap. When Spike Trap is triggered, every second (for 2 seconds total), all nearby foes are struck for 10...40 piercing damage, become Crippled for 3...25 seconds, and are knocked down. Spike Trap ends after 90 seconds. While activating this skill, you are easily interrupted.",
       "concise": "Elite Trap. (90 seconds.) Affects nearby foes. Every second (for 2 seconds), this trap deals 10...40 piercing damage, causes knock-down, and inflicts Crippled condition (3...25 seconds). Easily interrupted.",
       "acquisition": [
-        {"capture": 100972, "location": 122},
-        {"capture": 100282, "location": 211},
-        {"capture": 100388, "location": 446}
+        {"capture": 100972, "area": 122},
+        {"capture": 100282, "area": 211},
+        {"capture": 100388, "area": 446}
       ]
     },
     "462": {
@@ -13666,7 +13666,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Nature Ritual. Create a level 1...10 spirit. For non-spirit creatures within its range, all physical damage is fire damage instead. This spirit dies after 30...240 seconds.",
       "concise": "Elite Nature Ritual. Creates a level 1...10 spirit (30...240 second lifespan). Converts physical damage to fire damage for creatures in range. Does not affect spirits.",
-      "acquisition": [{"capture": 101409, "location": 124}, {"capture": 100108}]
+      "acquisition": [{"capture": 101409, "area": 124}, {"capture": 100108}]
     },
     "466": {
       "name": "Conflagration",
@@ -13718,8 +13718,8 @@ const GW_SKILLS = {
         {"npc": 65, "as": "skill trainer"},
         {"npc": 159, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 100679, "location": 99},
-        {"capture": 100753, "location": 21}
+        {"capture": 100679, "area": 99},
+        {"capture": 100753, "area": 21}
       ]
     },
     "468": {
@@ -13771,9 +13771,9 @@ const GW_SKILLS = {
         {"npc": 77, "as": "skill trainer"},
         {"npc": 168, "as": "skill trainer"},
         {"npc": 68, "as": "skill trainer"},
-        {"capture": 100585, "location": 12},
-        {"capture": 100996, "location": 73},
-        {"capture": 101764, "location": 19}
+        {"capture": 100585, "area": 12},
+        {"capture": 100996, "area": 73},
+        {"capture": 101764, "area": 19}
       ]
     },
     "470": {
@@ -13821,7 +13821,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 118, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 100338, "location": 26}
+        {"capture": 100338, "area": 26}
       ]
     },
     "472": {
@@ -13876,12 +13876,12 @@ const GW_SKILLS = {
       "description": "Nature Ritual. Create a level 1...6 spirit. For non-spirit creatures within its range, all skills cost 15 less Energy (minimum cost 10 Energy), and skills recharge 25% slower. This spirit dies after 1...60 seconds.",
       "concise": "Nature Ritual. Creates a level 1...6 spirit (1...60 second lifespan). Skills cost 15 less Energy (minimum cost 10 Energy) and recharge 25% slower for creatures in range. Does not affect spirits.",
       "acquisition": [
-        {"capture": 101732, "location": 158},
-        {"capture": 101580, "location": 35},
-        {"capture": 101658, "location": 51},
-        {"capture": 101633, "location": 277},
-        {"capture": 101634, "location": 440},
-        {"capture": 101635, "location": 450}
+        {"capture": 101732, "area": 158},
+        {"capture": 101580, "area": 35},
+        {"capture": 101658, "area": 51},
+        {"capture": 101633, "area": 277},
+        {"capture": 101634, "area": 440},
+        {"capture": 101635, "area": 450}
       ]
     },
     "475": {
@@ -13914,7 +13914,7 @@ const GW_SKILLS = {
         {"npc": 77, "as": "skill trainer"},
         {"npc": 168, "as": "skill trainer"},
         {"npc": 68, "as": "skill trainer"},
-        {"capture": 100268, "location": 121}
+        {"capture": 100268, "area": 121}
       ]
     },
     "476": {
@@ -13950,7 +13950,7 @@ const GW_SKILLS = {
         {"npc": 76, "as": "skill trainer"},
         {"npc": 134, "as": "skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 101760, "location": 17}
+        {"capture": 101760, "area": 17}
       ]
     },
     "477": {
@@ -13976,8 +13976,8 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 41, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101765, "location": 98},
-        {"capture": 101766, "location": 90}
+        {"capture": 101765, "area": 98},
+        {"capture": 101766, "area": 90}
       ]
     },
     "570": {
@@ -14088,9 +14088,9 @@ const GW_SKILLS = {
       "description": "Elite Hex Spell. For 2...6 seconds, all of target foe's attributes are set to 0.",
       "concise": "Elite Hex Spell. (2...6 seconds.) Target foe's attributes are 0.",
       "acquisition": [
-        {"capture": 101332, "location": 217},
-        {"capture": 100289, "location": 225},
-        {"capture": 100289, "location": 233}
+        {"capture": 101332, "area": 217},
+        {"capture": 100289, "area": 225},
+        {"capture": 100289, "area": 233}
       ]
     },
     "766": {
@@ -14181,7 +14181,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Enchantment Spell. When you cast Aura of Displacement, Shadow Step to target foe. When you stop maintaining Aura of Displacement you return to your original location.",
       "concise": "Elite Enchantment Spell. Shadow Step to target foe. End effect: return to your original location.",
-      "acquisition": [{"capture": 100133, "location": 210}, {"capture": 100132, "location": 210}]
+      "acquisition": [{"capture": 100133, "area": 210}, {"capture": 100132, "area": 210}]
     },
     "772": {
       "name": "Generous Was Tsungrai",
@@ -14403,7 +14403,7 @@ const GW_SKILLS = {
       "recharge": 2,
       "description": "Elite Off-Hand Attack. Must follow a Dual Attack. If it hits, Moebius Strike strikes for +10...35 damage. If you strike a foe whose Health is below 50%, all your other attack skills are recharged.",
       "concise": "Elite Off-Hand Attack. Deals +10...35 damage. Recharges all your other attack skills if target foe's Health is below 50%. Must follow a dual attack.",
-      "acquisition": [{"capture": 100397, "location": 128}]
+      "acquisition": [{"capture": 100397, "area": 128}]
     },
     "782": {
       "name": "Jagged Strike",
@@ -14599,7 +14599,7 @@ const GW_SKILLS = {
       "recharge": 25,
       "description": "Elite Item Spell. Hold Kuurong's ashes for up to 15...60 seconds. When you drop his ashes, all foes in the area are struck for 15...75 damage and knocked down.",
       "concise": "Elite Item Spell. (15...60 seconds.) Drop effect: deals 15...75 damage and knocks-down all foes in the area.",
-      "acquisition": [{"capture": 100021, "location": 198}]
+      "acquisition": [{"capture": 100021, "area": 198}]
     },
     "790": {
       "name": "Vengeful Was Khanhei",
@@ -14621,7 +14621,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Item Spell. Hold Khanhei's ashes for 5...11 seconds. Whenever a foe strikes you in combat while you are holding Khanhei's ashes, you steal 10...45 Health from that foe.",
       "concise": "Elite Item Spell. (5...11 seconds.) You steal 10...45 Health from every foe that hits you with an attack.",
-      "acquisition": [{"capture": 100252, "location": 209}, {"capture": 100305, "location": 202}]
+      "acquisition": [{"capture": 100252, "area": 209}, {"capture": 100305, "area": 202}]
     },
     "791": {
       "name": "Flesh of My Flesh",
@@ -14750,7 +14750,7 @@ const GW_SKILLS = {
         {"npc": 88, "as": "skill trainer"},
         {"npc": 35, "as": "skill trainer"},
         {"npc": 77, "as": "skill trainer"},
-        {"capture": 100862, "location": 274}
+        {"capture": 100862, "area": 274}
       ]
     },
     "799": {
@@ -14774,9 +14774,9 @@ const GW_SKILLS = {
       "description": "Elite Spell. Shadow Step to target foe. That foe becomes Dazed for 3...9 seconds.",
       "concise": "Elite Spell. You Shadow Step to this foe. Inflicts Dazed condition (3...9 seconds).",
       "acquisition": [
-        {"capture": 100131, "location": 210},
-        {"capture": 100235, "location": 205},
-        {"capture": 100168, "location": 144}
+        {"capture": 100131, "area": 210},
+        {"capture": 100235, "area": 205},
+        {"capture": 100168, "area": 144}
       ]
     },
     "800": {
@@ -14822,9 +14822,9 @@ const GW_SKILLS = {
       "description": "Elite Hex Spell. All of your spells are disabled for 15 seconds. For 1...6 seconds, target touched foe cannot cast spells.",
       "concise": "Elite Touch Hex Spell. (1...6 seconds.) Target foe cannot cast spells. Your spells are disabled for 15 seconds.",
       "acquisition": [
-        {"capture": 101335, "location": 217},
-        {"capture": 100292, "location": 233},
-        {"capture": 100092, "location": 468}
+        {"capture": 101335, "area": 217},
+        {"capture": 100292, "area": 233},
+        {"capture": 100092, "area": 468}
       ]
     },
     "802": {
@@ -14869,7 +14869,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Hex Spell. If target foe is casting a spell or chant, that skill is interrupted and for 10 seconds, whenever that foe casts a spell, you steal up to 5...15 Energy from that foe.",
       "concise": "Elite Hex Spell. Interrupt a spell or a chant. Interruption effect: steal 5...15 Energy whenever target foe casts a spell (10 seconds).",
-      "acquisition": [{"capture": 100661, "location": 219}]
+      "acquisition": [{"capture": 100661, "area": 219}]
     },
     "804": {
       "name": "Arcane Languor",
@@ -14891,7 +14891,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Hex Spell. For 1...10 seconds, all spells cast by the target foe cause 10 Overcast.",
       "concise": "Elite Hex Spell. (1...10 seconds.) Target foe's spells cause 10 Overcast.",
-      "acquisition": [{"capture": 101333, "location": 217}, {"capture": 100290, "location": 270}]
+      "acquisition": [{"capture": 101333, "area": 217}, {"capture": 100290, "area": 270}]
     },
     "805": {
       "name": "Animate Vampiric Horror",
@@ -14917,7 +14917,7 @@ const GW_SKILLS = {
         {"npc": 99, "as": "skill trainer"},
         {"npc": 816, "as": "skill trainer"},
         {"npc": 43, "as": "skill trainer"},
-        {"capture": 101600, "location": 59}
+        {"capture": 101600, "area": 59}
       ]
     },
     "806": {
@@ -14941,9 +14941,9 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 5 seconds and 3 seconds longer for every rank of Soul Reaping, your Necromancer spells cost -1...6 Energy to cast, but you suffer from Bleeding for 10 seconds each time you cast a Necromancer spell.",
       "concise": "Elite Enchantment Spell. (5 seconds plus 3 seconds more for every rank of Soul Reaping.) Your Necromancer spells cost 1...6 less Energy. You suffer from Bleeding (10 seconds) each time you cast a Necromancer spell.",
       "acquisition": [
-        {"capture": 100301, "location": 202},
-        {"capture": 100448, "location": 227},
-        {"capture": 100233, "location": 205}
+        {"capture": 100301, "area": 202},
+        {"capture": 100448, "area": 227},
+        {"capture": 100233, "area": 205}
       ]
     },
     "808": {
@@ -14967,10 +14967,10 @@ const GW_SKILLS = {
       "description": "Elite Hex Spell. For 30 seconds, target foe suffers -1...5 Health degeneration. If that foe dies while hexed with Reaper's Mark, you gain 5...15 Energy.",
       "concise": "Elite Hex Spell. (30 seconds.) Causes -1...5 Health degeneration. You gain 5...15 Energy if target foe dies while suffering from this hex.",
       "acquisition": [
-        {"capture": 100033, "location": 377},
-        {"capture": 100062, "location": 432},
-        {"capture": 101767, "location": 651},
-        {"capture": 101768, "location": 651}
+        {"capture": 100033, "area": 377},
+        {"capture": 100062, "area": 432},
+        {"capture": 101767, "area": 651},
+        {"capture": 101768, "area": 651}
       ]
     },
     "809": {
@@ -14994,13 +14994,13 @@ const GW_SKILLS = {
       "description": "Elite Hex Spell. Target foe is struck for 25...100 cold damage, moves 66% slower, and is hexed with Shatterstone for 3 seconds. When Shatterstone ends, that foe and all nearby foes are struck for 25...100 cold damage.",
       "concise": "Elite Hex Spell. (3 seconds.) Initial effect: deals 25...100 cold damage and target moves 66% slower. End effect: deals 25...100 cold damage to target and all nearby foes.",
       "acquisition": [
-        {"capture": 100566, "location": 218},
-        {"capture": 100396, "location": 128},
-        {"capture": 100303, "location": 202},
-        {"capture": 101769, "location": 617},
-        {"capture": 101770, "location": 628},
-        {"capture": 100180, "location": 546},
-        {"capture": 101771, "location": 628}
+        {"capture": 100566, "area": 218},
+        {"capture": 100396, "area": 128},
+        {"capture": 100303, "area": 202},
+        {"capture": 101769, "area": 617},
+        {"capture": 101770, "area": 628},
+        {"capture": 100180, "area": 546},
+        {"capture": 101771, "area": 628}
       ]
     },
     "810": {
@@ -15068,7 +15068,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Item Spell. Hold Xinrae's ashes for up to 15...60 seconds. While you hold her ashes, you cannot lose more than 20% of your max Health from a single hit. When you drop her ashes, you steal 5...50 Health from all nearby foes.",
       "concise": "Elite Item Spell. (15...60 seconds.) You cannot lose more than 20% of your max Health from a single hit. Drop effect: steal 5...50 Health from nearby foes.",
-      "acquisition": [{"capture": 101336, "location": 217}, {"capture": 100293, "location": 225}]
+      "acquisition": [{"capture": 101336, "area": 217}, {"capture": 100293, "area": 225}]
     },
     "813": {
       "name": "Lyssa's Aura",
@@ -15090,7 +15090,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Elite Enchantment Spell. For 10 seconds, you have +0...5 Energy regeneration. This enchantment reapplies itself every time you cast a spell on a foe.",
       "concise": "Elite Enchantment Spell. (10 seconds.) You have +0...5 Energy regeneration. Renewal: every time you cast a spell on an enemy.",
-      "acquisition": [{"capture": 101174, "location": 216}, {"capture": 100118, "location": 513}]
+      "acquisition": [{"capture": 101174, "area": 216}, {"capture": 100118, "area": 513}]
     },
     "814": {
       "name": "Shadow Refuge",
@@ -15186,9 +15186,9 @@ const GW_SKILLS = {
       "description": "Elite Spell. If target foe is suffering from a condition and under the effects of a hex or an enchantment, that foe suffers 30...110 damage.",
       "concise": "Elite Spell. Deals 30...110 damage. No effect unless target foe has a condition and is either hexed or enchanted.",
       "acquisition": [
-        {"capture": 100018, "location": 198},
-        {"capture": 100204, "location": 199},
-        {"capture": 101772, "location": 265}
+        {"capture": 100018, "area": 198},
+        {"capture": 100204, "area": 199},
+        {"capture": 101772, "area": 265}
       ]
     },
     "818": {
@@ -15239,7 +15239,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Elite Enchantment Spell. Steal up to 15...60 Health from target foe. For 10 seconds, you have +5...10 Health regeneration.",
       "concise": "Elite Enchantment Spell. Steal 15...60 Health from target foe. You have +5...10 Health regeneration (10 seconds).",
-      "acquisition": [{"capture": 100565, "location": 218}, {"capture": 100013, "location": 262}]
+      "acquisition": [{"capture": 100565, "area": 218}, {"capture": 100013, "area": 262}]
     },
     "820": {
       "name": "Depravity",
@@ -15261,7 +15261,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Hex Spell. For 5...20 seconds, whenever target foe casts a spell, that foe and one nearby foe lose 1...5 Energy.",
       "concise": "Elite Hex Spell. (5...20 seconds.) Causes 1...5 Energy loss whenever target foe casts a spell. One foe near your target also loses Energy.",
-      "acquisition": [{"capture": 100025, "location": 380}]
+      "acquisition": [{"capture": 100025, "area": 380}]
     },
     "821": {
       "name": "Icy Veins",
@@ -15283,7 +15283,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Hex Spell. Target foe is struck for 10...90 cold damage. For 10...35 seconds, if target foe dies all nearby foes are struck for 20...110 cold damage.",
       "concise": "Elite Hex Spell. (10...35 seconds.) Deals 20...110 cold damage to nearby foes if target foe dies. Initial effect: deals 10...90 cold damage.",
-      "acquisition": [{"capture": 100121, "location": 195}]
+      "acquisition": [{"capture": 100121, "area": 195}]
     },
     "822": {
       "name": "Weaken Knees",
@@ -15307,9 +15307,9 @@ const GW_SKILLS = {
       "concise": "Elite Hex Spell. (1...16 seconds.) Target foe has -1...4 Health degeneration and takes 5...20 damage while moving.",
       "acquisition": [
         {"capture": 101608},
-        {"capture": 101773, "location": 54},
-        {"capture": 100219, "location": 201},
-        {"capture": 100546, "location": 272}
+        {"capture": 101773, "area": 54},
+        {"capture": 100219, "area": 201},
+        {"capture": 100546, "area": 272}
       ]
     },
     "823": {
@@ -15408,10 +15408,10 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 5...21 seconds, you cannot be the target of enemy spells, and you gain 5 damage reduction for each Assassin enchantment on you. You cannot deal more than 5...25 damage with a single skill or attack.",
       "concise": "Elite Enchantment Spell. (5...21 seconds.) Enemy spells cannot target you. Gain 5 damage reduction for each Assassin enchantment on you. You cannot deal more than 5...25 damage with a single skill or attack.",
       "acquisition": [
-        {"capture": 100372, "location": 215},
-        {"capture": 100769, "location": 222},
-        {"capture": 100861, "location": 274},
-        {"capture": 100250, "location": 209}
+        {"capture": 100372, "area": 215},
+        {"capture": 100769, "area": 222},
+        {"capture": 100861, "area": 274},
+        {"capture": 100250, "area": 209}
       ]
     },
     "827": {
@@ -15434,7 +15434,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Hex Spell. For 5...20 seconds, target foe deals -5...50 damage with attacks and all of your attacks against that foe have an additional 50% chance of being a critical hit.",
       "concise": "Elite Hex Spell. (5...20 seconds.) Target foe deals -5...50 attack damage. You have +50% chance to land a critical hit on this foe.",
-      "acquisition": [{"capture": 100207, "location": 199}]
+      "acquisition": [{"capture": 100207, "area": 199}]
     },
     "828": {
       "name": "Vile Miasma",
@@ -15459,7 +15459,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 99, "as": "skill trainer"},
         {"npc": 115, "as": "skill trainer"},
-        {"capture": 101600, "location": 59}
+        {"capture": 101600, "area": 59}
       ]
     },
     "830": {
@@ -15483,14 +15483,14 @@ const GW_SKILLS = {
       "description": "Elite Spell. Invoke a Ray of Judgment at target foe's location. For 5 seconds, foes adjacent to that location are struck for 10...50 holy damage and begin Burning for 1...3 seconds every second.",
       "concise": "Elite Spell. Deals 10...50 holy damage and inflicts Burning (1...3 seconds) every second (5 seconds). Hits foes adjacent to target's initial location.",
       "acquisition": [
-        {"capture": 101774, "location": 56},
-        {"capture": 100436, "location": 241},
-        {"capture": 100857, "location": 274},
-        {"capture": 101395, "location": 204},
-        {"capture": 101775, "location": 241},
-        {"capture": 101776, "location": 205},
-        {"capture": 101777, "location": 246},
-        {"capture": 101778, "location": 607}
+        {"capture": 101774, "area": 56},
+        {"capture": 100436, "area": 241},
+        {"capture": 100857, "area": 274},
+        {"capture": 101395, "area": 204},
+        {"capture": 101775, "area": 241},
+        {"capture": 101776, "area": 205},
+        {"capture": 101777, "area": 246},
+        {"capture": 101778, "area": 607}
       ]
     },
     "831": {
@@ -15514,7 +15514,7 @@ const GW_SKILLS = {
       "recharge": 4,
       "description": "Elite Stance. For 1...9 seconds, you attack 33% faster and move 33% faster, but you take 150...125% damage.",
       "concise": "Elite Stance. (1...9 seconds.) You attack 33% faster and move 33% faster. You take 150...125% damage.",
-      "acquisition": [{"capture": 100229, "location": 205}, {"capture": 100163, "location": 144}]
+      "acquisition": [{"capture": 100229, "area": 205}, {"capture": 100163, "area": 144}]
     },
     "832": {
       "name": "Animate Flesh Golem",
@@ -15536,7 +15536,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Elite Spell. Exploit nearest corpse to animate a level 3...25 Flesh Golem. The Flesh Golem leaves 1...4 exploitable corpses. You can have only one Flesh Golem at a time.",
       "concise": "Elite Spell. Creates a level 3...25 flesh golem which leaves 1...4 fresh corpses when it dies. Exploits a fresh corpse. You can have only one flesh golem at a time.",
-      "acquisition": [{"capture": 100485, "location": 31}]
+      "acquisition": [{"capture": 100485, "area": 31}]
     },
     "834": {
       "name": "Reckless Haste",
@@ -15613,7 +15613,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Spell. You Ride the Lightning to target. All adjacent foes are Blinded for 1...5 seconds. If your target is a foe, it is struck for 10...70 lightning damage. This spell has 25% armor penetration.",
       "concise": "Elite Spell. Deals 10...70 lightning damage. 25% armor penetration. Blinds all adjacent foes (1...5 seconds). You instantly move to your target. May target allies.",
-      "acquisition": [{"capture": 100450, "location": 227}, {"capture": 101779, "location": 649}]
+      "acquisition": [{"capture": 100450, "area": 227}, {"capture": 101779, "area": 649}]
     },
     "837": {
       "name": "Energy Boon",
@@ -15635,7 +15635,7 @@ const GW_SKILLS = {
       "recharge": 12,
       "description": "Elite Enchantment Spell. For 36...60 seconds, Energy Boon raises the maximum Health of you and target ally by 1...3 for each point of your respective maximum Energy. When this enchantment is first applied, you and your target gain 1...12 Energy. You gain an additional 1 Energy for every 2 points you have in Energy Storage.",
       "concise": "Elite Enchantment Spell. (36...60 seconds.) Maximum Health for you and target ally is increased by 1...3 for each point of maximum Energy. Initial effect: Both gain 1...12 Energy. You gain +1 Energy for every 2 points of Energy Storage.",
-      "acquisition": [{"capture": 100130, "location": 210}]
+      "acquisition": [{"capture": 100130, "area": 210}]
     },
     "838": {
       "name": "Dwayna's Sorrow",
@@ -15776,7 +15776,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Enchantment Spell. For 5...11 seconds, both you and target ally move 33% faster. When you cast this spell, all foes adjacent to you and your target take 15...70 cold damage. Foes struck by Gust while attacking or moving are knocked down.",
       "concise": "Elite Enchantment Spell. (5...11 seconds.) You and target ally move 33% faster. Initial effect: Foes adjacent to you and target ally are struck for 15...70 cold damage. Attacking or moving foes are knocked down.",
-      "acquisition": [{"capture": 100249, "location": 209}, {"capture": 100332, "location": 203}]
+      "acquisition": [{"capture": 100249, "area": 209}, {"capture": 100332, "area": 203}]
     },
     "844": {
       "name": "Churning Earth",
@@ -15868,7 +15868,7 @@ const GW_SKILLS = {
       "recharge": 6,
       "description": "Elite Signet. Heal target ally for 20...80 Health. Your next Healing or Protection Prayer spell that targets an ally heals for an additional 20...100 Health.",
       "concise": "Elite Signet. Heals for 20...80. Your next Healing or Protection Prayer spell that targets an ally heals for +20...100 Health.",
-      "acquisition": [{"capture": 100127, "location": 210}]
+      "acquisition": [{"capture": 100127, "area": 210}]
     },
     "848": {
       "name": "Reverse Hex",
@@ -15957,9 +15957,9 @@ const GW_SKILLS = {
       "concise": "Sword Attack. You attack target foe twice. Unblockable.",
       "acquisition": [
         {"capture": 101665},
-        {"capture": 101632, "location": 194},
-        {"capture": 101780, "location": 283},
-        {"capture": 101658, "location": 51}
+        {"capture": 101632, "area": 194},
+        {"capture": 101780, "area": 283},
+        {"capture": 101658, "area": 51}
       ]
     },
     "852": {
@@ -16011,7 +16011,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Elite Bow Attack. If Melandru's Shot hits, your target begins Bleeding for 5...25 seconds. If it hits a foe that is moving or knocked down, that foe takes +10...25 damage and is Crippled for 5...15 seconds.",
       "concise": "Elite Bow Attack. Inflicts Bleeding (5...25 seconds). Deals +10...25 damage and inflicts Crippled (5...15 seconds) if target foe was moving or knocked down.",
-      "acquisition": [{"capture": 101781, "location": 61}, {"capture": 100015, "location": 198}]
+      "acquisition": [{"capture": 101781, "area": 61}, {"capture": 100015, "area": 198}]
     },
     "854": {
       "name": "Snare",
@@ -16055,7 +16055,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Spell. Send out three Dancing Daggers at target foe, each striking for 5...35 earth damage if they hit. Dancing Daggers has half the normal range. This skill counts as a lead attack.",
       "concise": "Half Range Spell. Three projectiles: each deals 5...35 earth damage. Counts as a lead attack.",
-      "acquisition": [{"quest": 100596}, {"npc": 99, "as": "skill trainer"}, {"capture": 100333, "location": 220}]
+      "acquisition": [{"quest": 100596}, {"npc": 99, "as": "skill trainer"}, {"capture": 100333, "area": 220}]
     },
     "859": {
       "name": "Conjure Nightmare",
@@ -16131,9 +16131,9 @@ const GW_SKILLS = {
       "description": "Elite Spell. Deal 20...40 damage and steal 20...40 Health from target foe and all nearby foes.",
       "concise": "Elite Spell. Deals 20...40 damage and steals 20...40 Health from target and nearby foes.",
       "acquisition": [
-        {"capture": 101782, "location": 843},
-        {"capture": 101783, "location": 486},
-        {"capture": 101629, "location": 369}
+        {"capture": 101782, "area": 843},
+        {"capture": 101783, "area": 486},
+        {"capture": 101629, "area": 369}
       ]
     },
     "863": {
@@ -16157,10 +16157,10 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 5 seconds, whenever a party member hits a foe with physical damage, that foe loses one enchantment. For each Monk enchantment removed, you lose 10...3% maximum Health.",
       "concise": "Elite Enchantment Spell. Enchants all party members (5 seconds). These party members remove one enchantment when they deal physical damage. Removal cost: for each Monk enchantment, you lose 10...3% maximum Health.",
       "acquisition": [
-        {"capture": 100438, "location": 241},
-        {"capture": 101396, "location": 204},
-        {"capture": 101404, "location": 215},
-        {"capture": 100858, "location": 274}
+        {"capture": 100438, "area": 241},
+        {"capture": 101396, "area": 204},
+        {"capture": 101404, "area": 215},
+        {"capture": 100858, "area": 274}
       ]
     },
     "864": {
@@ -16185,8 +16185,8 @@ const GW_SKILLS = {
       "concise": "Spell. Deals 10...30 damage to target and adjacent foes. Inflicts Poison and Weakness (3...12 seconds) on foes suffering from a condition.",
       "acquisition": [
         {"npc": 99, "as": "skill trainer"},
-        {"capture": 100439, "location": 241},
-        {"capture": 101625, "location": 238}
+        {"capture": 100439, "area": 241},
+        {"capture": 101625, "area": 238}
       ]
     },
     "865": {
@@ -16258,7 +16258,7 @@ const GW_SKILLS = {
       "recharge": 4,
       "description": "Elite Spell. Heal target ally for 40...120 Health. If your target has an enchantment, you gain 1...3 Energy.",
       "concise": "Elite Spell. Heals for 40...120. You gain 1...3 Energy if target ally is enchanted.",
-      "acquisition": [{"capture": 100016, "location": 198}, {"capture": 100045, "location": 482}]
+      "acquisition": [{"capture": 100016, "area": 198}, {"capture": 100045, "area": 482}]
     },
     "869": {
       "name": "\"Coward!\"",
@@ -16280,7 +16280,7 @@ const GW_SKILLS = {
       "recharge": 2,
       "description": "Elite Shout. If target foe is moving, that foe is knocked down.",
       "concise": "Elite Shout. Causes knock-down if target foe is moving.",
-      "acquisition": [{"capture": 101784, "location": 54}, {"capture": 100237, "location": 200}]
+      "acquisition": [{"capture": 101784, "area": 54}, {"capture": 100237, "area": 200}]
     },
     "870": {
       "name": "Pestilence",
@@ -16396,7 +16396,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Hex Spell. For 10 seconds, target foe and adjacent foes take 15...45 damage whenever they use a skill and 5...50 additional damage if not under the effects of another Mesmer hex.",
       "concise": "Elite Hex Spell. Also hexes foes adjacent to target (10 seconds). These foes take 15...45 damage whenever they use a skill and 5...50 additional damage if not under the effects of another Mesmer hex.",
-      "acquisition": [{"capture": 100474, "location": 404}]
+      "acquisition": [{"capture": 100474, "area": 404}]
     },
     "879": {
       "name": "Illusion of Pain",
@@ -16443,11 +16443,11 @@ const GW_SKILLS = {
       "description": "Elite Hex Spell. For 1...10 seconds, spells cast by the target foe and all adjacent foes take 100% longer to cast. Spells targeting these foes that are cast by you or your allies take 50% less time to cast.",
       "concise": "Elite Hex Spell. Also hexes adjacent foes (1...10 seconds). Doubles spell casting time. Spells cast by you or your allies on hexed foes have -50% casting time.",
       "acquisition": [
-        {"capture": 100322, "location": 215},
-        {"capture": 100859, "location": 274},
-        {"capture": 101397, "location": 204},
-        {"capture": 101785, "location": 197},
-        {"capture": 101786, "location": 197}
+        {"capture": 100322, "area": 215},
+        {"capture": 100859, "area": 274},
+        {"capture": 101397, "area": 204},
+        {"capture": 101785, "area": 197},
+        {"capture": 101786, "area": 197}
       ]
     },
     "881": {
@@ -16545,9 +16545,9 @@ const GW_SKILLS = {
       "description": "Elite Spell. Target foe and all nearby foes are struck with Searing Flames. Foes already on fire when this skill is cast are struck for 10...100 fire damage. Foes not already on fire begin Burning for 1...7 seconds.",
       "concise": "Elite Spell. Hits foes near your target. Deals 10...100 fire damage to foes already Burning. Inflicts Burning condition (1...7 seconds) to foes not Burning.",
       "acquisition": [
-        {"capture": 101787, "location": 386},
-        {"capture": 100139, "location": 399},
-        {"capture": 100315, "location": 651}
+        {"capture": 101787, "area": 386},
+        {"capture": 100139, "area": 399},
+        {"capture": 100315, "area": 651}
       ]
     },
     "885": {
@@ -16637,7 +16637,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Elite Axe Attack. If Whirling Axe hits, you strike for +5...20 damage and any stance being used by your target ends. This attack cannot be blocked.",
       "concise": "Elite Axe Attack. Deals +5...20 damage and removes a stance. Unblockable.",
-      "acquisition": [{"capture": 101788, "location": 59}, {"capture": 100051, "location": 247}]
+      "acquisition": [{"capture": 101788, "area": 59}, {"capture": 100051, "area": 247}]
     },
     "889": {
       "name": "Forceful Blow",
@@ -16660,11 +16660,11 @@ const GW_SKILLS = {
       "description": "Elite Hammer Attack. If Forceful Blow hits, you strike for +10...30 damage and any stance being used by target foe ends. Target foe suffers from Weakness for 5...20 seconds. This attack cannot be blocked.",
       "concise": "Elite Hammer Attack. Deals +10...30 damage. Removes target foe's stance. Inflicts Weakness condition (5...20 seconds). Unblockable.",
       "acquisition": [
-        {"capture": 101789, "location": 839},
-        {"capture": 100564, "location": 218},
-        {"capture": 100009, "location": 244},
-        {"capture": 100544, "location": 272},
-        {"capture": 101790, "location": 651}
+        {"capture": 101789, "area": 839},
+        {"capture": 100564, "area": 218},
+        {"capture": 100009, "area": 244},
+        {"capture": 100544, "area": 272},
+        {"capture": 101790, "area": 651}
       ]
     },
     "891": {
@@ -16709,7 +16709,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Elite Sword Attack. If Quivering Blade hits, you strike for +10...40 damage. If this attack hits a moving foe, that foe is Dazed for 10 seconds.",
       "concise": "Elite Sword Attack. Deals +10...40 damage. Inflicts Dazed condition (10 seconds) if target foe was moving.",
-      "acquisition": [{"capture": 100467, "location": 239}]
+      "acquisition": [{"capture": 100467, "area": 239}]
     },
     "893": {
       "name": "Seeking Arrows",
@@ -16808,7 +16808,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Hex Spell. For 5...20 seconds, target foe and all foes in the area attack, cast spells, and move 50% slower.",
       "concise": "Elite Hex Spell. Also hexes foes in the area of your target (5...20 seconds). These foes attack, cast spells, and move 50% slower.",
-      "acquisition": [{"capture": 100246, "location": 209}, {"capture": 100331, "location": 203}]
+      "acquisition": [{"capture": 100246, "area": 209}, {"capture": 100331, "area": 203}]
     },
     "901": {
       "name": "Soul Bind",
@@ -16830,7 +16830,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Hex Spell. For 30 seconds, every time target foe is healed, the healer takes 20...80 damage. This hex ends if target is suffering from a Smiting Prayers hex.",
       "concise": "Elite Hex Spell. (30 seconds.) Every time target foe is healed, the healer takes 20...80 damage. Ends if target is suffering from a Smiting Prayers hex.",
-      "acquisition": [{"capture": 100368, "location": 220}, {"capture": 100368, "location": 256}]
+      "acquisition": [{"capture": 100368, "area": 220}, {"capture": 100368, "area": 256}]
     },
     "902": {
       "name": "Blood of the Aggressor",
@@ -16967,9 +16967,9 @@ const GW_SKILLS = {
       "description": "Elite Sword Attack. If Dragon Slash hits, you strike for +10...40 damage and gain 1...5 strikes of adrenaline.",
       "concise": "Elite Sword Attack. Deals +10...40 damage. You gain 1...5 strikes of adrenaline if it hits.",
       "acquisition": [
-        {"capture": 100656, "location": 219},
-        {"capture": 100050, "location": 247},
-        {"capture": 100196, "location": 569}
+        {"capture": 100656, "area": 219},
+        {"capture": 100050, "area": 247},
+        {"capture": 100196, "area": 569}
       ]
     },
     "908": {
@@ -17049,9 +17049,9 @@ const GW_SKILLS = {
         {"npc": 99, "as": "skill trainer"},
         {"npc": 813, "as": "skill trainer"},
         {"npc": 43, "as": "skill trainer"},
-        {"capture": 101791, "location": 237},
-        {"capture": 101431, "location": 213},
-        {"capture": 100077, "location": 379}
+        {"capture": 101791, "area": 237},
+        {"capture": 101431, "area": 213},
+        {"capture": 100077, "area": 379}
       ]
     },
     "911": {
@@ -17104,7 +17104,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Item Spell. Hold Tanasen's ashes for up to 5...20 seconds. While you hold his ashes, you have +10...25 armor and cannot be interrupted.",
       "concise": "Elite Item Spell. (5...20 seconds.) You have +10...25 armor. You cannot be interrupted.",
-      "acquisition": [{"capture": 100487, "location": 31}, {"capture": 101792}]
+      "acquisition": [{"capture": 100487, "area": 31}, {"capture": 101792}]
     },
     "914": {
       "name": "Consume Soul",
@@ -17126,7 +17126,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Spell. You steal 5...70 Health from target foe. All hostile summoned creatures in earshot of that foe take 25...125 damage.",
       "concise": "Elite Spell. Steals 5...70 Health. Deal 25...125 damage to hostile summoned creatures within earshot of target foe.",
-      "acquisition": [{"capture": 100241, "location": 200}]
+      "acquisition": [{"capture": 100241, "area": 200}]
     },
     "915": {
       "name": "Spirit Light",
@@ -17244,7 +17244,7 @@ const GW_SKILLS = {
         {"npc": 43, "as": "skill trainer"},
         {"npc": 99, "as": "skill trainer"},
         {"npc": 77, "as": "skill trainer"},
-        {"capture": 100380, "location": 269}
+        {"capture": 100380, "area": 269}
       ]
     },
     "920": {
@@ -17272,7 +17272,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 99, "as": "skill trainer"},
         {"npc": 43, "as": "skill trainer"},
-        {"capture": 100021, "location": 198}
+        {"capture": 100021, "area": 198}
       ]
     },
     "921": {
@@ -17415,7 +17415,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Hex Spell. For 3...9 seconds, target foe cannot be the target of enchantments.",
       "concise": "Elite Hex Spell. (3...9 seconds.) Target foe cannot be the target of enchantments.",
-      "acquisition": [{"capture": 100451, "location": 227}]
+      "acquisition": [{"capture": 100451, "area": 227}]
     },
     "929": {
       "name": "Shadow of Haste",
@@ -17528,7 +17528,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Elite Spell. Target foe loses all enchantments. For each enchantment removed this way, Shatter Storm is disabled for an additional 7 seconds.",
       "concise": "Elite Spell. Removes all enchantments. Removal cost: Shatter Storm is disabled for +7 seconds for each enchantment removed.",
-      "acquisition": [{"capture": 100440, "location": 241}]
+      "acquisition": [{"capture": 100440, "area": 241}]
     },
     "934": {
       "name": "Unnatural Signet",
@@ -17627,12 +17627,12 @@ const GW_SKILLS = {
       "description": "Elite Spell. All foes in the area take 15...60 earth damage and are Weakened for 1...10 seconds. Nearby foes also take +15...60 earth damage and have Cracked Armor for 1...10 seconds. Adjacent foes suffer the previous effects, take +15...60 earth damage, and are Blinded for 1...10 seconds.",
       "concise": "Elite Spell. Foes in the area take 15...60 earth damage and are Weakened (1...10 seconds). Nearby foes also take +15...60 earth damage and have Cracked Armor (1...10 seconds). Adjacent foes also take +15...60 earth damage and are Blinded (1...10 seconds).",
       "acquisition": [
-        {"capture": 100547, "location": 272},
-        {"capture": 100014, "location": 244},
-        {"capture": 100234, "location": 205},
-        {"capture": 100166, "location": 144},
-        {"capture": 100309, "location": 501},
-        {"capture": 100181, "location": 546}
+        {"capture": 100547, "area": 272},
+        {"capture": 100014, "area": 244},
+        {"capture": 100234, "area": 205},
+        {"capture": 100166, "area": 144},
+        {"capture": 100309, "area": 501},
+        {"capture": 100181, "area": 546}
       ]
     },
     "938": {
@@ -17681,7 +17681,7 @@ const GW_SKILLS = {
       "recharge": 12,
       "description": "Elite Hex Spell. For 1...10 seconds, target foe's movement speed is reduced by 66%. While under the effects of an enchantment, that foe's movement is reduced by 90%.",
       "concise": "Elite Hex Spell. (1...10 seconds.) Target foe moves 66% slower. This foe moves 90% slower if enchanted.",
-      "acquisition": [{"capture": 100178, "location": 486}, {"capture": 100406, "location": 384}]
+      "acquisition": [{"capture": 100178, "area": 486}, {"capture": 100406, "area": 384}]
     },
     "941": {
       "name": "Blessed Light",
@@ -17703,7 +17703,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Spell. Heal target ally for 10...120 Health and remove one condition and one hex.",
       "concise": "Elite Spell. Heals for 10...120. Removes one condition and one hex.",
-      "acquisition": [{"capture": 100471, "location": 62}, {"capture": 100017, "location": 198}]
+      "acquisition": [{"capture": 100471, "area": 62}, {"capture": 100017, "area": 198}]
     },
     "942": {
       "name": "Withdraw Hexes",
@@ -17725,7 +17725,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Spell. Remove all hexes from target ally and all adjacent allies. This spell takes an additional 2 seconds to recharge for each hex removed in this way. (50% failure chance with Divine Favor 4 or less.)",
       "concise": "Elite Spell. Removes all hexes. Also affects adjacent allies. Removal cost: +2 seconds recharge for each hex removed. 50% failure chance unless Divine Favor 5 or more.",
-      "acquisition": [{"capture": 100240, "location": 200}, {"capture": 100465, "location": 566}]
+      "acquisition": [{"capture": 100240, "area": 200}, {"capture": 100465, "area": 566}]
     },
     "943": {
       "name": "Extinguish",
@@ -17796,7 +17796,7 @@ const GW_SKILLS = {
       "recharge": 12,
       "description": "Elite Preparation. For 12...36 seconds, your trap skills are not easily interruptible and your Wilderness Survival attribute is increased by 0...4.",
       "concise": "Elite Preparation. (12...36 seconds.) Your trap skills are no longer easy to interrupt. You gain +0...4 to your Wilderness Survival attribute.",
-      "acquisition": [{"capture": 100239, "location": 200}]
+      "acquisition": [{"capture": 100239, "area": 200}]
     },
     "947": {
       "name": "Brambles",
@@ -17965,7 +17965,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Hex Spell. If target foe is casting a spell or chant, that skill is interrupted and for 4...10 seconds, that foe has -2 Energy degeneration.",
       "concise": "Elite Hex Spell. Interrupts a spell or chant. Interruption effect: -2 Energy degeneration (4...10 seconds).",
-      "acquisition": [{"capture": 100097, "location": 470}, {"capture": 100089, "location": 468}]
+      "acquisition": [{"capture": 100097, "area": 470}, {"capture": 100089, "area": 468}]
     },
     "954": {
       "name": "Expel Hexes",
@@ -17986,7 +17986,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Elite Spell. Remove up to 2 hexes from target ally.",
       "concise": "Elite Spell. Removes 2 hexes from target ally.",
-      "acquisition": [{"capture": 100057, "location": 240}]
+      "acquisition": [{"capture": 100057, "area": 240}]
     },
     "955": {
       "name": "Rip Enchantment",
@@ -18126,7 +18126,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Nature Ritual. Create a level 1...10 spirit. Bleeding creatures within its range suffer -2 Health degeneration. When this spirit dies, all non-spirit creatures within its range that have less than 90% Health begin Bleeding for 5...25 seconds. This spirit dies after 30...240 seconds.",
       "concise": "Elite Nature Ritual. Creates a level 1...10 spirit (30...240 second lifespan). Bleeding creatures in range have -2 Health degeneration. End effect: inflicts Bleeding condition (5...25 seconds) on creatures in range that have less than 90% Health. Does not affect spirits.",
-      "acquisition": [{"capture": 100010, "location": 218}]
+      "acquisition": [{"capture": 100010, "area": 218}]
     },
     "962": {
       "name": "Spirit Transfer",
@@ -18196,14 +18196,14 @@ const GW_SKILLS = {
       "acquisition": [
         {"quest": 100598},
         {"npc": 77, "as": "skill trainer"},
-        {"capture": 101431, "location": 213},
-        {"capture": 101336, "location": 217},
-        {"capture": 100241, "location": 200},
-        {"capture": 100305, "location": 202},
-        {"capture": 100252, "location": 209},
-        {"capture": 100039, "location": 375},
-        {"capture": 100434, "location": 444},
-        {"capture": 100104, "location": 472}
+        {"capture": 101431, "area": 213},
+        {"capture": 101336, "area": 217},
+        {"capture": 100241, "area": 200},
+        {"capture": 100305, "area": 202},
+        {"capture": 100252, "area": 209},
+        {"capture": 100039, "area": 375},
+        {"capture": 100434, "area": 444},
+        {"capture": 100104, "area": 472}
       ]
     },
     "973": {
@@ -18523,7 +18523,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Enchantment Spell. For 5...15 seconds, off-hand and dual attacks cost no Energy and recharge 25...50% faster.",
       "concise": "Elite Enchantment Spell. (5...15 seconds.) Your off-hand and dual attacks cost no Energy and recharge 25...50% faster.",
-      "acquisition": [{"capture": 100053, "location": 247}, {"capture": 100054, "location": 247}]
+      "acquisition": [{"capture": 100053, "area": 247}, {"capture": 100054, "area": 247}]
     },
     "988": {
       "name": "Temple Strike",
@@ -18546,9 +18546,9 @@ const GW_SKILLS = {
       "description": "Elite Off-Hand Attack. Must follow a lead attack. If this attack hits, target foe is Dazed and Blinded for 1...10 seconds, and if target foe is casting a spell, that foe is interrupted.",
       "concise": "Elite Off-Hand Attack. Interrupts a spell. Inflicts Dazed and Blindness conditions (1...10 seconds). Must follow a lead attack.",
       "acquisition": [
-        {"capture": 101793, "location": 58},
-        {"capture": 100333, "location": 220},
-        {"capture": 100333, "location": 203}
+        {"capture": 101793, "area": 58},
+        {"capture": 100333, "area": 220},
+        {"capture": 100333, "area": 203}
       ]
     },
     "989": {
@@ -18601,7 +18601,7 @@ const GW_SKILLS = {
         {"quest": 100543},
         {"npc": 77, "as": "skill trainer"},
         {"npc": 99, "as": "skill trainer"},
-        {"capture": 100207, "location": 199}
+        {"capture": 100207, "area": 199}
       ]
     },
     "991": {
@@ -18650,7 +18650,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Axe Attack. Attack target foe and adjacent foes. Each attack that hits deals +10...40 damage.",
       "concise": "Elite Axe Attack. Deals +10...40 damage. Also hits adjacent foes.",
-      "acquisition": [{"capture": 100055, "location": 240}]
+      "acquisition": [{"capture": 100055, "area": 240}]
     },
     "993": {
       "name": "Enraged Smash",
@@ -18674,12 +18674,12 @@ const GW_SKILLS = {
       "description": "Elite Hammer Attack. If Enraged Smash hits, you gain 1...4 strikes of adrenaline. If you hit a moving foe, you strike for +10...40 damage, and your target is knocked down.",
       "concise": "Elite Hammer Attack. Gives you 1...4 strikes of adrenaline if you hit. Deals +10...40 damage and causes knockdown if your target was moving.",
       "acquisition": [
-        {"capture": 100318, "location": 215},
-        {"capture": 100768, "location": 222},
-        {"capture": 100855, "location": 274},
-        {"capture": 100056, "location": 240},
-        {"capture": 101794, "location": 240},
-        {"capture": 100319, "location": 232}
+        {"capture": 100318, "area": 215},
+        {"capture": 100768, "area": 222},
+        {"capture": 100855, "area": 274},
+        {"capture": 100056, "area": 240},
+        {"capture": 101794, "area": 240},
+        {"capture": 100319, "area": 232}
       ]
     },
     "994": {
@@ -18747,7 +18747,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Sword Attack. If it hits, Standing Slash deals +5...20 damage plus an additional 5...20 damage if you are in a stance.",
       "concise": "Sword Attack. Deals +5...20 damage. Deals 5...20 more damage if you are in a stance.",
-      "acquisition": [{"capture": 101665}, {"capture": 101632, "location": 194}, {"capture": 101780, "location": 283}]
+      "acquisition": [{"capture": 101665}, {"capture": 101632, "area": 194}, {"capture": 101780, "area": 283}]
     },
     "997": {
       "name": "Famine",
@@ -18769,7 +18769,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Nature Ritual. Create a level 1...10 spirit. Whenever a non-spirit creature in its range reaches 0 Energy, that creature takes 20...70 damage. This spirit dies after 30...180 seconds.",
       "concise": "Elite Nature Ritual. Creates a level 1...10 spirit (30...180 second lifespan). Deals 20...70 damage to creatures in range that reach 0 Energy. Does not affect spirits.",
-      "acquisition": [{"capture": 101330, "location": 217}, {"capture": 100287, "location": 233}]
+      "acquisition": [{"capture": 101330, "area": 217}, {"capture": 100287, "area": 233}]
     },
     "1018": {
       "name": "Critical Eye",
@@ -19056,7 +19056,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Enchantment Spell. For 3...17 seconds, every time you successfully land a critical hit, you remove one enchantment from your target. If you remove an enchantment in this way, you lose 10...3 Energy or Dark Apostasy ends.",
       "concise": "Elite Enchantment Spell. (3...17 seconds.) Your critical hits remove an enchantment. Removal cost: lose 10...3 Energy or Dark Apostasy ends.",
-      "acquisition": [{"capture": 100251, "location": 209}, {"capture": 100304, "location": 202}]
+      "acquisition": [{"capture": 100251, "area": 209}, {"capture": 100304, "area": 202}]
     },
     "1030": {
       "name": "Locust's Fury",
@@ -19078,7 +19078,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Enchantment Spell. For 10...35 seconds, you have an additional 50% chance to double strike while using daggers.",
       "concise": "Elite Enchantment Spell. (10...35 seconds.) You have +50% chance to double strike. No effect unless you are wielding daggers.",
-      "acquisition": [{"capture": 100220, "location": 201}]
+      "acquisition": [{"capture": 100220, "area": 201}]
     },
     "1031": {
       "name": "Shroud of Distress",
@@ -19148,7 +19148,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 99, "as": "skill trainer"},
         {"npc": 143, "as": "skill trainer"},
-        {"capture": 100059, "location": 240}
+        {"capture": 100059, "area": 240}
       ]
     },
     "1034": {
@@ -19171,7 +19171,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Hex Spell. For 1...7 seconds, target foe moves 33% slower. That foe takes 5...25 damage each second while suffering from a condition.",
       "concise": "Elite Hex Spell. (1...7 seconds.) Target foe moves 33% slower. This foe takes 5...25 damage each second while suffering from a condition.",
-      "acquisition": [{"capture": 100486, "location": 31}]
+      "acquisition": [{"capture": 100486, "area": 31}]
     },
     "1035": {
       "name": "Assassin's Promise",
@@ -19193,7 +19193,7 @@ const GW_SKILLS = {
       "recharge": 45,
       "description": "Elite Hex Spell. For 5...15 seconds, if target foe dies, you gain 5...20 Energy and all your skills are recharged.",
       "concise": "Elite Hex Spell. (5...15 seconds.) You gain 5...20 Energy and all your skills recharge if target foe dies.",
-      "acquisition": [{"capture": 100283, "location": 211}, {"capture": 100310, "location": 501}]
+      "acquisition": [{"capture": 100283, "area": 211}, {"capture": 100310, "area": 501}]
     },
     "1036": {
       "name": "Signet of Malice",
@@ -19324,7 +19324,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Elite Stance. For 5...30 seconds, you have a 75% chance to block incoming attacks while attacking. If you block an attack in this way, your attacker takes 5...20 damage.",
       "concise": "Elite Stance. (5...30 seconds.) 75% chance to block while attacking. Block effect: 5...20 damage to your attacker.",
-      "acquisition": [{"capture": 100324, "location": 197}, {"capture": 101795}, {"capture": 100442, "location": 241}]
+      "acquisition": [{"capture": 100324, "area": 197}, {"capture": 101795}, {"capture": 100442, "area": 241}]
     },
     "1043": {
       "name": "Dash",
@@ -19376,7 +19376,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Hex Spell. Shadow Step to target foe. For 1...6 seconds, that foe moves 33% slower.",
       "concise": "Hex Spell. Shadow Step to target foe. This foe moves 33% slower (1...6 seconds).",
-      "acquisition": [{"npc": 99, "as": "skill trainer"}, {"capture": 101796, "location": 236}]
+      "acquisition": [{"npc": 99, "as": "skill trainer"}, {"capture": 101796, "area": 236}]
     },
     "1045": {
       "name": "Palm Strike",
@@ -19398,7 +19398,7 @@ const GW_SKILLS = {
       "recharge": 7,
       "description": "Elite Skill. Target touched foe takes 10...65 damage and is Crippled for 1...5 seconds. This skill counts as an off-hand attack.",
       "concise": "Elite Touch Skill. Deals 10...65 damage and inflicts Crippled condition (1...5 seconds). This skill counts as an off-hand attack.",
-      "acquisition": [{"capture": 100059, "location": 240}]
+      "acquisition": [{"capture": 100059, "area": 240}]
     },
     "1048": {
       "name": "Revealed Enchantment",
@@ -19500,7 +19500,7 @@ const GW_SKILLS = {
       "recharge": 2,
       "description": "Elite Spell. All of your other skills are disabled for 8 seconds. If target foe is using a skill, that skill is interrupted and disabled for an additional 5...12 seconds.",
       "concise": "Elite Spell. Interrupts a skill. Interruption effect: disables interrupted skill (+5...12 seconds). Your other skills are disabled (8 seconds).",
-      "acquisition": [{"capture": 100369, "location": 220}, {"capture": 100369, "location": 256}]
+      "acquisition": [{"capture": 100369, "area": 220}, {"capture": 100369, "area": 256}]
     },
     "1054": {
       "name": "Ancestor's Visage",
@@ -19548,7 +19548,7 @@ const GW_SKILLS = {
       "recharge": 3,
       "description": "Elite Hex Spell. For 5 seconds, target foe suffers from -1...6 Health degeneration. If that foe has another hex when Recurring Insecurity would end, it is reapplied.",
       "concise": "Elite Hex Spell. (5 seconds.) Causes -1...6 Health degeneration. Renewal: if target foe has another hex when Recurring Insecurity would end.",
-      "acquisition": [{"capture": 100247, "location": 209}, {"capture": 100302, "location": 202}]
+      "acquisition": [{"capture": 100247, "area": 209}, {"capture": 100302, "area": 202}]
     },
     "1056": {
       "name": "Kitah's Burden",
@@ -19593,7 +19593,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Spell. Interrupts the target foe's action. If that action is a skill, that foe and all nearby foes are knocked down for 2...4 seconds. (50% failure chance with Fast Casting 4 or less.)",
       "concise": "Elite Spell. Interrupts an action. Interruption effect: if the action is a skill, causes knockdown for 2...4 seconds on target foe and all nearby foes. 50% failure chance unless Fast Casting 5 or higher.",
-      "acquisition": [{"capture": 100449, "location": 227}]
+      "acquisition": [{"capture": 100449, "area": 227}]
     },
     "1059": {
       "name": "Hex Eater Signet",
@@ -19696,7 +19696,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Hex Spell. For 3...15 seconds, whenever target foe attacks or casts a spell on a creature with less Health that foe loses 25...100 Health.",
       "concise": "Elite Hex Spell. (3...15 seconds.) Causes 25...100 Health loss whenever target foe attacks or casts spells on a creature with less Health.",
-      "acquisition": [{"capture": 100330, "location": 203}, {"capture": 100244, "location": 209}]
+      "acquisition": [{"capture": 100330, "area": 203}, {"capture": 100244, "area": 209}]
     },
     "1067": {
       "name": "Lifebane Strike",
@@ -19866,8 +19866,8 @@ const GW_SKILLS = {
       "concise": "Spell. Steals 20...65 Health. You begin Bleeding (6 seconds) if your Health is above 90%.",
       "acquisition": [
         {"npc": 99, "as": "skill trainer"},
-        {"capture": 100565, "location": 218},
-        {"capture": 100013, "location": 244}
+        {"capture": 100565, "area": 218},
+        {"capture": 100013, "area": 244}
       ]
     },
     "1077": {
@@ -20006,7 +20006,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Spell. You create Unsteady Ground at target foe's location. For 5 seconds, nearby foes take 10...40 earth damage each second. Attacking foes struck by Unsteady Ground are knocked down.",
       "concise": "Elite Spell. Deals 10...40 earth damage each second (5 seconds) and causes knock-down to attacking foes. Hits foes near target's initial location.",
-      "acquisition": [{"capture": 100206, "location": 199}]
+      "acquisition": [{"capture": 100206, "area": 199}]
     },
     "1084": {
       "name": "Sliver Armor",
@@ -20102,7 +20102,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Spell. You gain 1 Energy and 5 Health for each point of Energy restricted by Overcast. You lose all enchantments.",
       "concise": "Elite Spell. You gain 1 Energy and 5 Health for each point of Overcast. You lose all enchantments.",
-      "acquisition": [{"capture": 100020, "location": 198}]
+      "acquisition": [{"capture": 100020, "area": 198}]
     },
     "1090": {
       "name": "Smoldering Embers",
@@ -20146,7 +20146,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Enchantment Spell. Invoke the power of the Dragon. For 8 seconds, you and target ally are enchanted with Double Dragon. Adjacent foes are dealt 10...40 fire damage each second. Additionally, when you or your ally use skills that target a foe, that foe is set on fire for 1...4 seconds.",
       "concise": "Elite Enchantment Spell. (8 seconds.) Enchants you and target ally. Adjacent foes take 10...40 fire damage each second. Skills that target a foe also inflict Burning (1...4 seconds).",
-      "acquisition": [{"capture": 100470, "location": 239}, {"capture": 101797, "location": 241}]
+      "acquisition": [{"capture": 100470, "area": 239}, {"capture": 101797, "area": 241}]
     },
     "1093": {
       "name": "Teinai's Heat",
@@ -20213,10 +20213,10 @@ const GW_SKILLS = {
       "description": "Elite Spell. Target touched foe and all foes in the area are struck for 7...112 fire damage and set on fire for 1...4 seconds. For each foe you hit, gain 2 Energy.",
       "concise": "Elite Touch Spell. Deals 7...112 fire damage. Inflicts Burning (1...4 seconds). Gain 2 Energy for each foe struck. Also hits foes in the area.",
       "acquisition": [
-        {"capture": 101334, "location": 217},
-        {"capture": 100291, "location": 233},
-        {"capture": 100371, "location": 256},
-        {"capture": 100090, "location": 468}
+        {"capture": 101334, "area": 217},
+        {"capture": 100291, "area": 233},
+        {"capture": 100371, "area": 256},
+        {"capture": 100090, "area": 468}
       ]
     },
     "1096": {
@@ -20286,7 +20286,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Hex Spell. Shatter a Mirror of Ice. All foes near you and target ally take 15...70 cold damage and move 66% slower for 2...6 seconds. If you strike a foe hexed with Water Magic, Mirror of Ice recharges 50% faster.",
       "concise": "Elite Hex Spell. Deals 15...70 cold damage and slows foes by 66% (2...6 seconds). Hits foes near you and target ally. Recharges 50% faster if it hits a foe hexed with Water Magic.",
-      "acquisition": [{"capture": 100370, "location": 256}, {"capture": 100370, "location": 220}]
+      "acquisition": [{"capture": 100370, "area": 256}, {"capture": 100370, "area": 220}]
     },
     "1099": {
       "name": "Teinai's Crystals",
@@ -20312,8 +20312,8 @@ const GW_SKILLS = {
         {"npc": 99, "as": "skill trainer"},
         {"npc": 181, "as": "skill trainer"},
         {"npc": 77, "as": "skill trainer"},
-        {"capture": 100249, "location": 209},
-        {"capture": 100248, "location": 209}
+        {"capture": 100249, "area": 209},
+        {"capture": 100248, "area": 209}
       ]
     },
     "1113": {
@@ -20385,7 +20385,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Elite Enchantment Spell. For 4...10 seconds, enchantments cast on target other ally cost 10 less Energy (minimum 1 Energy).",
       "concise": "Elite Enchantment Spell. (4...10 seconds.) Enchantments cast on target ally cost 10 less Energy (minimum 1 Energy). Cannot self-target.",
-      "acquisition": [{"capture": 100329, "location": 203}, {"capture": 100394, "location": 267}]
+      "acquisition": [{"capture": 100329, "area": 203}, {"capture": 100394, "area": 267}]
     },
     "1117": {
       "name": "Heaven's Delight",
@@ -20434,7 +20434,7 @@ const GW_SKILLS = {
       "recharge": 6,
       "description": "Elite Spell. Target ally is healed for 20...120. All party members in earshot of your target gain Health equal to the Divine Favor bonus from this spell. Your Smiting Prayers are disabled for 20 seconds.",
       "concise": "Elite Spell. Heals for 20...120. Party members in earshot of your target gain Health equal to the Divine Favor bonus. Disables your Smiting Prayers (20 seconds).",
-      "acquisition": [{"capture": 100393, "location": 128}, {"capture": 100300, "location": 202}]
+      "acquisition": [{"capture": 100393, "area": 128}, {"capture": 100300, "area": 202}]
     },
     "1119": {
       "name": "Karei's Healing Circle",
@@ -20531,9 +20531,9 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. Remove 0...2 conditions from target ally. For 8 seconds, the next time that ally would take damage or life steal, that ally gains that amount of Health instead (maximum 20...100).",
       "concise": "Elite Enchantment Spell. (8 seconds.) Converts the next incoming damage or life steal (maximum 20...100) to healing. Initial effect: Removes 0...2 conditions.",
       "acquisition": [
-        {"capture": 100659, "location": 219},
-        {"capture": 100367, "location": 256},
-        {"capture": 101798, "location": 649},
+        {"capture": 100659, "area": 219},
+        {"capture": 100367, "area": 256},
+        {"capture": 101798, "area": 649},
         {"capture": 101799}
       ]
     },
@@ -20556,7 +20556,7 @@ const GW_SKILLS = {
       "recharge": 7,
       "description": "Elite Spell. You and target other ally lose 1 condition and 1 hex, and are healed for 50.",
       "concise": "Elite Spell. Removes one condition and hex from target ally and yourself, and heals for 50. Cannot self-target.",
-      "acquisition": [{"capture": 100218, "location": 201}]
+      "acquisition": [{"capture": 100218, "area": 201}]
     },
     "1128": {
       "name": "Resurrection Chant",
@@ -20581,8 +20581,8 @@ const GW_SKILLS = {
       "acquisition": [
         {"capture": 101665},
         {"capture": 101800},
-        {"capture": 101632, "location": 194},
-        {"capture": 101658, "location": 51}
+        {"capture": 101632, "area": 194},
+        {"capture": 101658, "area": 51}
       ]
     },
     "1129": {
@@ -20605,7 +20605,7 @@ const GW_SKILLS = {
       "recharge": 2,
       "description": "Elite Spell. Target foe takes 30...130 holy damage. If your target was below 50% Health, Word of Censure takes 20 additional seconds to recharge.",
       "concise": "Elite Spell. Deals 30...130 holy damage. +20 recharge time if target foe is below 50% Health.",
-      "acquisition": [{"capture": 100468, "location": 239}, {"capture": 100469, "location": 239}]
+      "acquisition": [{"capture": 100468, "area": 239}, {"capture": 100469, "area": 239}]
     },
     "1130": {
       "name": "Spear of Light",
@@ -20804,10 +20804,10 @@ const GW_SKILLS = {
       "description": "Elite Stance. For 8 seconds, the next attack against you is blocked. You gain 1...4 strikes of adrenaline when this stance ends.",
       "concise": "Elite Stance. (8 seconds.) Blocks one attack. End effect: you gain 1...4 strikes of adrenaline.",
       "acquisition": [
-        {"capture": 101329, "location": 217},
-        {"capture": 100286, "location": 225},
+        {"capture": 101329, "area": 217},
+        {"capture": 100286, "area": 225},
         {"capture": 101693},
-        {"capture": 100086, "location": 468}
+        {"capture": 100086, "area": 468}
       ]
     },
     "1144": {
@@ -20857,7 +20857,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Skill. Target touched foe takes 15...75 damage, their stance ends, and they are knocked down.",
       "concise": "Elite Touch Skill. Target touched foe takes 15...75 damage, their stance ends, and they are knocked down.",
-      "acquisition": [{"capture": 101801, "location": 18}, {"capture": 100126, "location": 210}]
+      "acquisition": [{"capture": 101801, "area": 18}, {"capture": 100126, "area": 210}]
     },
     "1191": {
       "name": "Sundering Attack",
@@ -20903,9 +20903,9 @@ const GW_SKILLS = {
       "description": "Bow Attack. Shoot an arrow that has half the normal range, but strikes for +10...40 damage.",
       "concise": "Half Range Bow Attack. Deals +10...40 damage.",
       "acquisition": [
-        {"capture": 101632, "location": 194},
-        {"capture": 101802, "location": 250},
-        {"capture": 101803, "location": 251}
+        {"capture": 101632, "area": 194},
+        {"capture": 101802, "area": 250},
+        {"capture": 101803, "area": 251}
       ]
     },
     "1194": {
@@ -20958,7 +20958,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Skill. For 15 seconds, your animal companion steals 1...20 Health whenever it hits with an attack. You and your companion are both healed for 20...104 Health. If your companion is dead, it's resurrected with 50% Health. If you have this skill equipped, your companion will travel with you.",
       "concise": "Elite Skill. (15 seconds.) Your pet's attacks steal 1...20 Health. Initial effect: heals you and your pet for 20...104; resurrects your pet (50% Health) if dead. If you have this skill equipped, your pet will travel with you.",
-      "acquisition": [{"capture": 100217, "location": 201}]
+      "acquisition": [{"capture": 100217, "area": 201}]
     },
     "1196": {
       "name": "Zojun's Haste",
@@ -21025,10 +21025,10 @@ const GW_SKILLS = {
       "description": "Elite Bow Attack. You shoot a broad head arrow that moves slower than normal. If it hits, target foe is Dazed for 5...20 seconds, and if target foe is casting a spell that spell is interrupted.",
       "concise": "Elite Bow Attack. Slow-moving arrow. Interrupts a spell. Inflicts Dazed condition (5...20 seconds).",
       "acquisition": [
-        {"capture": 101804, "location": 264},
-        {"capture": 100856, "location": 274},
-        {"capture": 100657, "location": 219},
-        {"capture": 101394, "location": 204}
+        {"capture": 101804, "area": 264},
+        {"capture": 100856, "area": 274},
+        {"capture": 100657, "area": 219},
+        {"capture": 101394, "area": 204}
       ]
     },
     "1199": {
@@ -21053,9 +21053,9 @@ const GW_SKILLS = {
       "description": "Elite Preparation. For 10...35 seconds, your arrows strike for +6...20 damage if they hit and cause Bleeding for 10...20 seconds if they are Blocked.",
       "concise": "Elite Preparation. (10...35 seconds.) Your arrows deal +6...20 damage. Inflicts Bleeding condition if blocked (10...20 seconds).",
       "acquisition": [
-        {"capture": 100299, "location": 202},
-        {"capture": 100231, "location": 205},
-        {"capture": 100464, "location": 566}
+        {"capture": 100299, "area": 202},
+        {"capture": 100231, "area": 205},
+        {"capture": 100464, "area": 566}
       ]
     },
     "1200": {
@@ -21078,7 +21078,7 @@ const GW_SKILLS = {
       "recharge": 12,
       "description": "Elite Signet. For 1...24 seconds, conditions you apply while wielding a bow last 150% longer.",
       "concise": "Elite Signet. (1...24 seconds.) Conditions you apply while wielding a bow last 150% longer.",
-      "acquisition": [{"capture": 100216, "location": 201}]
+      "acquisition": [{"capture": 100216, "area": 201}]
     },
     "1201": {
       "name": "Savage Pounce",
@@ -21123,7 +21123,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Pet Attack. Your animal companion attempts an Enraged Lunge that applies a Deep Wound to target foe for 5...20 seconds and deals +10...50 damage.",
       "concise": "Elite Pet Attack. Inflicts Deep Wound condition (5...20 seconds) and deals +10...50 damage.",
-      "acquisition": [{"capture": 100253, "location": 265}, {"capture": 100198, "location": 569}]
+      "acquisition": [{"capture": 100253, "area": 265}, {"capture": 100198, "area": 569}]
     },
     "1203": {
       "name": "Bestial Mauling",
@@ -21264,7 +21264,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Nature Ritual. Create a level 1...10 spirit. Spells cast within its range that cause Overcast cause an additional 10 Overcast. This spirit dies after 30...240 seconds.",
       "concise": "Elite Nature Ritual. Creates a level 1...10 spirit (30...240 second lifespan). Overcast-causing spells cast within range cause an additional 10 Overcast.",
-      "acquisition": [{"capture": 100365, "location": 220}, {"capture": 100365, "location": 256}]
+      "acquisition": [{"capture": 100365, "area": 220}, {"capture": 100365, "area": 256}]
     },
     "1213": {
       "name": "Tranquility",
@@ -21331,9 +21331,9 @@ const GW_SKILLS = {
       "description": "Elite Skill. For 5...35 seconds, your Ritualist attributes are boosted by 2...4 for your next skill. If that skill is a Binding Ritual, it recharges 10...60% faster and Ritual Lord recharges instantly.",
       "concise": "Elite Skill. (5...35 seconds.) You have +2...4 to all Ritualist attributes for your next skill. If that skill is a Binding Ritual, it recharges 10...60% faster and Ritual Lord recharges instantly.",
       "acquisition": [
-        {"capture": 100399, "location": 128},
-        {"capture": 100334, "location": 203},
-        {"capture": 101805, "location": 643}
+        {"capture": 100399, "area": 128},
+        {"capture": 100334, "area": 203},
+        {"capture": 101805, "area": 643}
       ]
     },
     "1218": {
@@ -21383,7 +21383,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Item Spell. Hold Kaolai's ashes for up to 15...60 seconds. While you hold his ashes, you gain 20 armor. When you drop his ashes, all party members are healed for 20...95 Health.",
       "concise": "Item Spell. (15...60 seconds.) You have +20 armor. Drop effect: all party members are healed for 20...95.",
-      "acquisition": [{"npc": 99, "as": "skill trainer"}, {"capture": 100169, "location": 144}]
+      "acquisition": [{"npc": 99, "as": "skill trainer"}, {"capture": 100169, "area": 144}]
     },
     "1220": {
       "name": "Attuned Was Songkai",
@@ -21604,8 +21604,8 @@ const GW_SKILLS = {
       "acquisition": [
         {"capture": 101665},
         {"capture": 101800},
-        {"capture": 101632, "location": 194},
-        {"capture": 101806, "location": 284}
+        {"capture": 101632, "area": 194},
+        {"capture": 101806, "area": 284}
       ]
     },
     "1229": {
@@ -21631,7 +21631,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 99, "as": "skill trainer"},
         {"npc": 43, "as": "skill trainer"},
-        {"capture": 100325, "location": 197}
+        {"capture": 100325, "area": 197}
       ]
     },
     "1230": {
@@ -21676,7 +21676,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Elite Enchantment Spell. For 12 seconds, you have +1...6 Energy regeneration. When you cast this spell, you gain 3...12 Energy if you are within earshot of a spirit.",
       "concise": "Elite Enchantment Spell. (12 seconds.) You have +1...6 Energy regeneration. Initial effect: you gain 3...12 Energy if you are within earshot of a spirit.",
-      "acquisition": [{"capture": 100325, "location": 197}]
+      "acquisition": [{"capture": 100325, "area": 197}]
     },
     "1232": {
       "name": "Armor of Unfeeling",
@@ -21863,7 +21863,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Elite Signet. Create 3 level 1...12 spirits. These spirits deal 5...20 damage with attacks and die after 60 seconds.",
       "concise": "Elite Signet. Creates 3 level 1...12 spirits (60 second lifespan). These spirits deal 5...20 damage with attacks.",
-      "acquisition": [{"capture": 100134, "location": 210}]
+      "acquisition": [{"capture": 100134, "area": 210}]
     },
     "1240": {
       "name": "Soul Twisting",
@@ -21888,10 +21888,10 @@ const GW_SKILLS = {
       "concise": "Elite Skill. (5...45 seconds.) Your Binding Rituals cost 15 less Energy (minimum 5) and recharge instantly. Ends after 1...3 Binding Rituals.",
       "acquisition": [
         {"capture": 101639},
-        {"capture": 100236, "location": 205},
-        {"capture": 100236, "location": 220},
-        {"capture": 100293, "location": 233},
-        {"capture": 101807, "location": 205}
+        {"capture": 100236, "area": 205},
+        {"capture": 100236, "area": 220},
+        {"capture": 100293, "area": 233},
+        {"capture": 101807, "area": 205}
       ]
     },
     "1244": {
@@ -21917,7 +21917,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 99, "as": "skill trainer"},
         {"npc": 77, "as": "skill trainer"},
-        {"capture": 100221, "location": 201}
+        {"capture": 100221, "area": 201}
       ]
     },
     "1245": {
@@ -22039,9 +22039,9 @@ const GW_SKILLS = {
       "description": "Elite Binding Ritual. Create a level 1...14 spirit. Every 4 seconds, this spirit heals one non-spirit ally in the area for 10...115 Health. This spirit dies after 90 seconds.",
       "concise": "Elite Binding Ritual. Creates a level 1...14 spirit (90 second lifespan). Every 4 seconds, this spirit heals one non-spirit ally for 10...115.",
       "acquisition": [
-        {"capture": 100169, "location": 144},
-        {"capture": 100398, "location": 128},
-        {"capture": 100317, "location": 651}
+        {"capture": 100169, "area": 144},
+        {"capture": 100398, "area": 128},
+        {"capture": 100317, "area": 651}
       ]
     },
     "1251": {
@@ -22088,7 +22088,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Binding Ritual. Create a level 1...14 spirit. All non-spirit foes knocked down within its range are knocked down for at least 3 seconds. Whenever this happens, this spirit loses 50...25 Health. This spirit dies after 15...45 seconds.",
       "concise": "Binding Ritual. Creates a level 1...14 spirit (15...45 second lifespan). Any time non-spirit foes within range are knocked-down, they are knocked down for at least 3 seconds. Knock-down cost: this spirit loses 50...25 Health.",
-      "acquisition": [{"npc": 99, "as": "skill trainer"}, {"capture": 100380, "location": 269}]
+      "acquisition": [{"npc": 99, "as": "skill trainer"}, {"capture": 100380, "area": 269}]
     },
     "1253": {
       "name": "Bloodsong",
@@ -22139,7 +22139,7 @@ const GW_SKILLS = {
       "recharge": 45,
       "description": "Elite Binding Ritual. Create a level 1...12 spirit. Whenever this spirit's attack hits a stationary foe, that foe is knocked down and the spirit loses 70...50 Health. This spirit dies after 30...60 seconds.",
       "concise": "Elite Binding Ritual. Creates a level 1...12 spirit (30...60 second lifespan). Its attacks against stationary foes cause knock-down. Knock-down cost: this spirit loses 70...50 Health.",
-      "acquisition": [{"capture": 100380, "location": 269}]
+      "acquisition": [{"capture": 100380, "area": 269}]
     },
     "1257": {
       "name": "Spirit Light Weapon",
@@ -22161,7 +22161,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Weapon Spell. For 10 seconds, target ally gains 5...25 Health per second and an additional 5...25 Health per second if that ally is within earshot of a spirit.",
       "concise": "Elite Weapon Spell. (10 seconds.) Target ally gains 5...25 Health each second. 5...25 more healing per second while within earshot of a spirit.",
-      "acquisition": [{"capture": 100221, "location": 201}, {"capture": 100003, "location": 572}]
+      "acquisition": [{"capture": 100221, "area": 201}, {"capture": 100003, "area": 572}]
     },
     "1258": {
       "name": "Brutal Weapon",
@@ -22309,7 +22309,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 800, "as": "hero skill trainer"},
         {"npc": 168, "as": "skill trainer"},
-        {"capture": 100295, "location": 402}
+        {"capture": 100295, "area": 402}
       ]
     },
     "1264": {
@@ -22422,11 +22422,11 @@ const GW_SKILLS = {
       "description": "Elite Weapon Spell. For 5...25 seconds, target ally has a Weapon of Quickening, and spells and binding rituals recharge 33% faster.",
       "concise": "Elite Weapon Spell. (5...25 seconds.) Spells and binding rituals recharge 33% faster.",
       "acquisition": [
-        {"capture": 100284, "location": 211},
-        {"capture": 101808, "location": 211},
-        {"capture": 100284, "location": 215},
-        {"capture": 100770, "location": 222},
-        {"capture": 100862, "location": 274}
+        {"capture": 100284, "area": 211},
+        {"capture": 101808, "area": 211},
+        {"capture": 100284, "area": 215},
+        {"capture": 100770, "area": 222},
+        {"capture": 100862, "area": 274}
       ]
     },
     "1269": {
@@ -22471,7 +22471,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Spell. Spread all conditions from target foe to all foes near your target. The durations of those conditions are increased by 5...100% (maximum 30 seconds).",
       "concise": "Elite Spell. Spread all conditions from target foe to all foes near your target. Those durations of those conditions are increased by 5...100% (maximum 30 seconds).",
-      "acquisition": [{"capture": 100211, "location": 371}]
+      "acquisition": [{"capture": 100211, "area": 371}]
     },
     "1334": {
       "name": "Hypochondria",
@@ -22607,7 +22607,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Skill. For 6...40 seconds, this skill becomes the Elite of target foe. Elite skills you cast use your Fast Casting attribute instead of their normal attributes.",
       "concise": "Elite Skill. (6...40 seconds.) This skill becomes the Elite of target foe. Elite skills use your Fast Casting attribute instead of their normal attributes.",
-      "acquisition": [{"capture": 100100, "location": 472}, {"capture": 100117, "location": 513}]
+      "acquisition": [{"capture": 100100, "area": 472}, {"capture": 100117, "area": 513}]
     },
     "1340": {
       "name": "Symbolic Celerity",
@@ -22675,7 +22675,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Spell. If target foe is using a skill, that foe and other foes in the area are interrupted and you steal 0...5 Energy from all foes in the area.",
       "concise": "Elite Spell. Interrupts a skill. Interruption effect: also interrupts other foes in the area, and you steal 0...5 Energy from all foes in the area.",
-      "acquisition": [{"capture": 101608}, {"capture": 101809, "location": 843}, {"capture": 100490, "location": 392}]
+      "acquisition": [{"capture": 101608}, {"capture": 101809, "area": 843}, {"capture": 100490, "area": 392}]
     },
     "1343": {
       "name": "Ether Phantom",
@@ -22742,7 +22742,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Hex Spell. For 10 seconds, target foe casts enchantments 100...200% slower. If target foe is not under the effects of an enchantment when this hex is applied, that foe takes 10...100 damage and all adjacent foes take 75% of that damage.",
       "concise": "Elite Hex Spell. Causes 100...200% slower enchantment casting (10 seconds). Initial effect: if target foe is not enchanted deals 10...100 damage to target and 75% of that damage to adjacent foes.",
-      "acquisition": [{"capture": 101246, "location": 426}, {"capture": 100026, "location": 380}]
+      "acquisition": [{"capture": 101246, "area": 426}, {"capture": 100026, "area": 380}]
     },
     "1346": {
       "name": "Signet of Illusions",
@@ -22764,7 +22764,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Signet. Your next 1...3 non-Illusion spells use your Illusion attribute instead of their normal attribute.",
       "concise": "Elite Signet. Your next 1...3 non-Illusion spells use your Illusion attribute instead of their normal attribute.",
-      "acquisition": [{"capture": 100257, "location": 465}]
+      "acquisition": [{"capture": 100257, "area": 465}]
     },
     "1347": {
       "name": "Discharge Enchantment",
@@ -22808,7 +22808,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Spell. Remove a hex from target ally. If a hex is removed in this way, foes in the area of that ally take 30...90 damage and lose one enchantment.",
       "concise": "Elite Spell. Removes one hex from target ally. Removal effect: deals 30...90 damage and removes one enchantment from foes in the area of this ally.",
-      "acquisition": [{"capture": 101453, "location": 478}, {"capture": 100390, "location": 446}, {"capture": 101042}]
+      "acquisition": [{"capture": 101453, "area": 478}, {"capture": 100390, "area": 446}, {"capture": 101042}]
     },
     "1349": {
       "name": "Mirror of Disenchantment",
@@ -22852,7 +22852,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Spell. Interrupt target foe's action. If that action was a skill, that skill is disabled for 5...20 seconds, and Simple Thievery is replaced by that skill.",
       "concise": "Elite Spell. Interrupts an action. Interruption effect: If a skill was interrupted, that skill is disabled and Simple Thievery becomes that skill (5...20 seconds).",
-      "acquisition": [{"capture": 100038, "location": 375}]
+      "acquisition": [{"capture": 100038, "area": 375}]
     },
     "1351": {
       "name": "Animate Shambling Horror",
@@ -22896,7 +22896,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Spell. For 5 seconds, your minions deal +3...16 damage, but you lose 2% of your maximum Health whenever one of your minions hits with an attack.",
       "concise": "Elite Spell. (5 seconds). Your minions deal +3...16 damage. Minion hit effect: you lose 2% of your maximum Health.",
-      "acquisition": [{"capture": 100430, "location": 444}]
+      "acquisition": [{"capture": 100430, "area": 444}]
     },
     "1353": {
       "name": "Putrid Flesh",
@@ -22963,13 +22963,13 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 60 seconds, whenever target undead servant dies, it is replaced by a level 0...15 jagged horror that causes Bleeding with each of its attacks.",
       "concise": "Elite Enchantment Spell. (60 seconds.) When target undead servant dies, it is replaced by a level 0...15 jagged horror that inflicts Bleeding with attacks.",
       "acquisition": [
-        {"capture": 100082, "location": 466},
-        {"capture": 100256, "location": 465},
-        {"capture": 101810, "location": 465},
-        {"capture": 100179, "location": 546},
-        {"capture": 101811, "location": 560},
-        {"capture": 101812, "location": 604},
-        {"capture": 101813, "location": 625}
+        {"capture": 100082, "area": 466},
+        {"capture": 100256, "area": 465},
+        {"capture": 101810, "area": 465},
+        {"capture": 100179, "area": 546},
+        {"capture": 101811, "area": 560},
+        {"capture": 101812, "area": 604},
+        {"capture": 101813, "area": 625}
       ]
     },
     "1356": {
@@ -22993,10 +22993,10 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 60 seconds, whenever you suffer from a new condition, all foes in the area suffer from that same condition and you sacrifice 10...5% maximum Health.",
       "concise": "Elite Enchantment Spell. (60 seconds.) Whenever you gain a condition, all foes in the area gain that same condition. You sacrifice 10...5% maximum Health each time this happens.",
       "acquisition": [
-        {"capture": 100405, "location": 384},
-        {"capture": 100472, "location": 404},
-        {"capture": 100138, "location": 399},
-        {"capture": 100153, "location": 394}
+        {"capture": 100405, "area": 384},
+        {"capture": 100472, "area": 404},
+        {"capture": 100138, "area": 399},
+        {"capture": 100153, "area": 394}
       ]
     },
     "1358": {
@@ -23041,7 +23041,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Spell. Target foe loses 1...3 enchantments. If an enchantment was lost in this way, that foe and all adjacent foes lose 10...100 Health.",
       "concise": "Elite Spell. Target foe loses 1...3 enchantments. Removal effect: that foe and all adjacent foes lose 10...100 Health.",
-      "acquisition": [{"capture": 100457, "location": 397}]
+      "acquisition": [{"capture": 100457, "area": 397}]
     },
     "1360": {
       "name": "Mark of Fury",
@@ -23092,12 +23092,12 @@ const GW_SKILLS = {
       "acquisition": [
         {"capture": 101608},
         {"capture": 101814},
-        {"capture": 100431, "location": 444},
-        {"capture": 100489, "location": 392},
-        {"capture": 101815, "location": 472},
-        {"capture": 101816, "location": 386},
-        {"capture": 101817, "location": 439},
-        {"capture": 101818, "location": 560}
+        {"capture": 100431, "area": 444},
+        {"capture": 100489, "area": 392},
+        {"capture": 101815, "area": 472},
+        {"capture": 101816, "area": 386},
+        {"capture": 101817, "area": 439},
+        {"capture": 101818, "area": 560}
       ]
     },
     "1363": {
@@ -23142,7 +23142,7 @@ const GW_SKILLS = {
       "recharge": 4,
       "description": "Elite Signet. You suffer from Bleeding for 6 seconds. The next Necromancer skill that targets a foe causes Bleeding for 2...16 seconds.",
       "concise": "Elite Signet. You Bleed for 6 seconds. Applies Bleeding (2...16 seconds) to the target of your next Necromancer skill.",
-      "acquisition": [{"capture": 101452, "location": 478}, {"capture": 101819, "location": 443}]
+      "acquisition": [{"capture": 101452, "area": 478}, {"capture": 101819, "area": 443}]
     },
     "1365": {
       "name": "Signet of Lost Souls",
@@ -23189,8 +23189,8 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 68, "as": "skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 101783, "location": 486},
-        {"capture": 101819, "location": 443}
+        {"capture": 101783, "area": 486},
+        {"capture": 101819, "area": 443}
       ]
     },
     "1367": {
@@ -23214,9 +23214,9 @@ const GW_SKILLS = {
       "description": "Elite Spell. Target foe is struck for 5...50 lightning damage. That foe and all adjacent foes are Blinded for 3...8 seconds. This spell has 25% armor penetration. If this spell strikes an attacking foe, all adjacent foes are also struck and this spell deals 50% more damage.",
       "concise": "Elite Spell. Deals 5...50 lightning damage. Inflicts Blind on target and adjacent foes (3...8 seconds). 25% armor penetration. If target was attacking, also hits adjacent foes and deals 50% more damage.",
       "acquisition": [
-        {"capture": 101820, "location": 205},
-        {"capture": 100475, "location": 404},
-        {"capture": 101821, "location": 581}
+        {"capture": 101820, "area": 205},
+        {"capture": 100475, "area": 404},
+        {"capture": 101821, "area": 581}
       ]
     },
     "1368": {
@@ -23242,7 +23242,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 68, "as": "skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 100475, "location": 404}
+        {"capture": 100475, "area": 404}
       ]
     },
     "1369": {
@@ -23337,7 +23337,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Spell. Create a Sandstorm at target foe's location. For 10 seconds, nearby foes are struck for 20...40 earth damage each second and attacking foes are struck for an additional 10...30 earth damage each second.",
       "concise": "Elite Spell. Deals 20...40 earth damage each second (10 seconds). Hits foes near target foe's initial location. Hits attacking foes for 10...30 more earth damage each second.",
-      "acquisition": [{"capture": 101284, "location": 425}, {"capture": 101822, "location": 443}]
+      "acquisition": [{"capture": 101284, "area": 425}, {"capture": 101822, "area": 443}]
     },
     "1373": {
       "name": "Stone Sheath",
@@ -23359,7 +23359,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Enchantment Spell. For 5...20 seconds, you and target ally have +1...30 armor and are immune to critical hits. When you cast this spell, all foes near you and your target take 15...70 earth damage and are Weakened for 5...20 seconds.",
       "concise": "Elite Enchantment Spell. (5...20 seconds.) Gives you and target ally +1...30 armor and immunity to critical hits. Initial effect: Foes near you and target ally are struck for 15...70 earth damage and are Weakened (5...20 seconds).",
-      "acquisition": [{"capture": 100034, "location": 377}]
+      "acquisition": [{"capture": 100034, "area": 377}]
     },
     "1374": {
       "name": "Ebon Hawk",
@@ -23407,9 +23407,9 @@ const GW_SKILLS = {
         {"npc": 167, "as": "skill trainer"},
         {"npc": 175, "as": "skill trainer"},
         {"npc": 753, "as": "hero skill trainer"},
-        {"capture": 101823, "location": 488},
-        {"capture": 100034, "location": 377},
-        {"capture": 100309, "location": 501}
+        {"capture": 101823, "area": 488},
+        {"capture": 100034, "area": 377},
+        {"capture": 100309, "area": 501}
       ]
     },
     "1376": {
@@ -23454,7 +23454,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Skill. For 3 seconds, all damage you take is reduced by 75%. When Ether Prism ends, you gain 5...20 Energy.",
       "concise": "Elite Skill. (3 seconds.) All damage you take is reduced by 75%. End effect: gain 5...20 Energy.",
-      "acquisition": [{"capture": 101824, "location": 443}, {"capture": 101825, "location": 494}]
+      "acquisition": [{"capture": 101824, "area": 443}, {"capture": 101825, "area": 494}]
     },
     "1378": {
       "name": "Master of Magic",
@@ -23477,10 +23477,10 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 1...61 seconds, all of your elemental attributes are set to 8...14, and your elemental spells return 1 Energy plus 30% of their cost.",
       "concise": "Elite Enchantment Spell. (1...61 seconds). Your elemental attributes are set to 8...14 and elemental spells return 1 Energy plus 30% of their cost.",
       "acquisition": [
-        {"capture": 101101, "location": 493},
-        {"capture": 101247, "location": 426},
-        {"capture": 101663, "location": 369},
-        {"capture": 100492, "location": 392}
+        {"capture": 101101, "area": 493},
+        {"capture": 101247, "area": 426},
+        {"capture": 101663, "area": 369},
+        {"capture": 100492, "area": 392}
       ]
     },
     "1379": {
@@ -23527,12 +23527,12 @@ const GW_SKILLS = {
       "description": "Elite Spell. You create Savannah Heat at target foe's location. For 5 seconds, all nearby foes take 5...20 fire damage for each second this spell has been in effect.",
       "concise": "Elite Spell. Deals 5...20 fire damage for each second since casting this spell (5 seconds). Hits foes near target's initial location.",
       "acquisition": [
-        {"capture": 101826, "location": 106},
-        {"capture": 101827, "location": 62},
-        {"capture": 100432, "location": 444},
-        {"capture": 101828, "location": 570},
-        {"capture": 101829, "location": 584},
-        {"capture": 101830, "location": 607}
+        {"capture": 101826, "area": 106},
+        {"capture": 101827, "area": 62},
+        {"capture": 100432, "area": 444},
+        {"capture": 101828, "area": 570},
+        {"capture": 101829, "area": 584},
+        {"capture": 101830, "area": 607}
       ]
     },
     "1381": {
@@ -23580,8 +23580,8 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 104, "as": "skill trainer"},
         {"npc": 68, "as": "skill trainer"},
-        {"capture": 101831, "location": 488},
-        {"capture": 100406, "location": 384}
+        {"capture": 101831, "area": 488},
+        {"capture": 100406, "area": 384}
       ]
     },
     "1390": {
@@ -23680,7 +23680,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Enchantment Spell. For 10...55 seconds. Healing Prayers spells cast 50% faster and heal for 50% more Health.",
       "concise": "Elite Enchantment Spell. (10...55 seconds.) Healing Prayers spells cast 50% faster and heal for 50% more.",
-      "acquisition": [{"capture": 100295, "location": 402}]
+      "acquisition": [{"capture": 100295, "area": 402}]
     },
     "1394": {
       "name": "Healer's Covenant",
@@ -23702,7 +23702,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Enchantment Spell. While you maintain this enchantment, your Healing Prayers spells heal for 20% less Health, but cost -1...4 Energy.",
       "concise": "Elite Enchantment Spell. Your Healing Prayers spells cost 1...4 less Energy. These spells heal for 20% less.",
-      "acquisition": [{"capture": 100096, "location": 470}]
+      "acquisition": [{"capture": 100096, "area": 470}]
     },
     "1395": {
       "name": "Balthazar's Pendulum",
@@ -23724,7 +23724,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Enchantment Spell. For 5...25 seconds, the next time target ally would be knocked down by a foe, that foe is knocked down instead.",
       "concise": "Elite Enchantment Spell. (5...25 seconds.) Causes knock-down to the next foe attempting to knock-down target ally.",
-      "acquisition": [{"capture": 100061, "location": 432}, {"capture": 100031, "location": 377}]
+      "acquisition": [{"capture": 100061, "area": 432}, {"capture": 100031, "area": 377}]
     },
     "1396": {
       "name": "Words of Comfort",
@@ -23769,7 +23769,7 @@ const GW_SKILLS = {
       "recharge": 6,
       "description": "Elite Spell. All party members are healed for 5...70 Health.",
       "concise": "Elite Spell. Heals entire party for 5...70.",
-      "acquisition": [{"capture": 100210, "location": 371}, {"capture": 101162, "location": 427}]
+      "acquisition": [{"capture": 100210, "area": 371}, {"capture": 101162, "area": 427}]
     },
     "1398": {
       "name": "Scourge Enchantment",
@@ -23816,7 +23816,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 104, "as": "skill trainer"},
         {"npc": 68, "as": "skill trainer"},
-        {"capture": 100421, "location": 439}
+        {"capture": 100421, "area": 439}
       ]
     },
     "1400": {
@@ -23864,7 +23864,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 68, "as": "skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 101832, "location": 61}
+        {"capture": 101832, "area": 61}
       ]
     },
     "1402": {
@@ -23942,9 +23942,9 @@ const GW_SKILLS = {
         {"npc": 68, "as": "skill trainer"},
         {"npc": 168, "as": "skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 100023, "location": 380},
-        {"capture": 101716, "location": 369},
-        {"capture": 101557, "location": 649}
+        {"capture": 100023, "area": 380},
+        {"capture": 101716, "area": 369},
+        {"capture": 101557, "area": 649}
       ]
     },
     "1405": {
@@ -23968,7 +23968,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Stance. For 1...10 seconds, you run 33% faster. Your next successful melee hit does +10...90 damage and this stance ends. This stance ends if you use a skill.",
       "concise": "Elite Stance. (1...10 seconds.) You move 33% faster and deal +10...90 damage with your next melee hit. Ends when you hit or if you use a skill.",
-      "acquisition": [{"capture": 100416, "location": 419}]
+      "acquisition": [{"capture": 100416, "area": 419}]
     },
     "1406": {
       "name": "Headbutt",
@@ -23991,9 +23991,9 @@ const GW_SKILLS = {
       "description": "Elite Skill. Target touched foe takes 40...100 damage. You are Dazed for 10 seconds.",
       "concise": "Elite Touch Skill. Deals 40...100 damage. You are Dazed (10 seconds).",
       "acquisition": [
-        {"capture": 100022, "location": 380},
-        {"capture": 100069, "location": 647},
-        {"capture": 101833, "location": 576}
+        {"capture": 100022, "area": 380},
+        {"capture": 100069, "area": 647},
+        {"capture": 101833, "area": 576}
       ]
     },
     "1407": {
@@ -24016,7 +24016,7 @@ const GW_SKILLS = {
       "recharge": 1,
       "description": "Skill. All of your signets are disabled for 12 seconds. You are healed for 50...110 Health, and you gain 0...3 strikes of adrenaline.",
       "concise": "Skill. You are healed for 50...110 and gain 0...3 strikes of adrenaline. Disables your signets (12 seconds).",
-      "acquisition": [{"capture": 101834, "location": 449}]
+      "acquisition": [{"capture": 101834, "area": 449}]
     },
     "1408": {
       "name": "Rage of the Ntouka",
@@ -24038,7 +24038,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Skill. Gain 1...7 strikes of adrenaline. For 8 seconds, whenever you use an adrenal skill, that skill recharges for 3 seconds.",
       "concise": "Elite Skill. You gain 1...7 adrenaline. For 8 seconds, adrenal skills have a 3 second recharge when used.",
-      "acquisition": [{"capture": 100023, "location": 380}]
+      "acquisition": [{"capture": 100023, "area": 380}]
     },
     "1409": {
       "name": "Mokele Smash",
@@ -24060,7 +24060,7 @@ const GW_SKILLS = {
       "recharge": 12,
       "description": "Hammer Attack. If this attack hits, you strike for +5...20 damage and gain 2 strikes of adrenaline.",
       "concise": "Hammer Attack. Deals +5...20 damage and you gain 2 strikes of adrenaline.",
-      "acquisition": [{"npc": 68, "as": "skill trainer"}, {"capture": 100416, "location": 419}]
+      "acquisition": [{"npc": 68, "as": "skill trainer"}, {"capture": 100416, "area": 419}]
     },
     "1410": {
       "name": "Overbearing Smash",
@@ -24104,7 +24104,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Signet. You have +50...300 maximum Health. This signet ends if you successfully hit with an attack.",
       "concise": "Signet. You have +50...300 maximum Health. Ends if you hit with an attack.",
-      "acquisition": [{"capture": 101665}, {"capture": 101635, "location": 450}]
+      "acquisition": [{"capture": 101665}, {"capture": 101635, "area": 450}]
     },
     "1412": {
       "name": "\"You're All Alone!\"",
@@ -24126,11 +24126,11 @@ const GW_SKILLS = {
       "description": "Elite Shout. If target foe isn't near an ally, that foe suffers from Cripple and Weakness for 8 seconds.",
       "concise": "Elite Shout. Inflicts Cripple and Weakness conditions (8 seconds). No effect if target foe is near one of its allies.",
       "acquisition": [
-        {"capture": 100037, "location": 375},
-        {"capture": 100060, "location": 432},
+        {"capture": 100037, "area": 375},
+        {"capture": 100060, "area": 432},
         {"capture": 100743},
         {"capture": 101608},
-        {"capture": 100190, "location": 64}
+        {"capture": 100190, "area": 64}
       ]
     },
     "1413": {
@@ -24157,9 +24157,9 @@ const GW_SKILLS = {
         {"npc": 167, "as": "skill trainer"},
         {"npc": 68, "as": "skill trainer"},
         {"npc": 753, "as": "hero skill trainer"},
-        {"capture": 101706, "location": 484},
-        {"capture": 101835, "location": 481},
-        {"capture": 100022, "location": 380}
+        {"capture": 101706, "area": 484},
+        {"capture": 101835, "area": 481},
+        {"capture": 100022, "area": 380}
       ]
     },
     "1414": {
@@ -24185,10 +24185,10 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 68, "as": "skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 101836, "location": 488},
-        {"capture": 100400, "location": 384},
-        {"capture": 100042, "location": 482},
-        {"capture": 100069, "location": 647}
+        {"capture": 101836, "area": 488},
+        {"capture": 100400, "area": 384},
+        {"capture": 100042, "area": 482},
+        {"capture": 100069, "area": 647}
       ]
     },
     "1415": {
@@ -24212,9 +24212,9 @@ const GW_SKILLS = {
       "description": "Elite Sword Attack. If this attack hits, target foe is Crippled for 5...15 seconds and begins Bleeding for 10...25 seconds.",
       "concise": "Elite Sword Attack. Inflicts Crippled condition (5...15 seconds) and Bleeding condition (10...25 seconds).",
       "acquisition": [
-        {"capture": 100375, "location": 373},
-        {"capture": 100265, "location": 548},
-        {"capture": 100349, "location": 558}
+        {"capture": 100375, "area": 373},
+        {"capture": 100265, "area": 548},
+        {"capture": 100349, "area": 558}
       ]
     },
     "1416": {
@@ -24259,7 +24259,7 @@ const GW_SKILLS = {
       "recharge": 6,
       "description": "Elite Bow Attack. If this attack hits, you strike for +10...25 damage. If you are under the effects of a preparation, you gain 1...9 Energy.",
       "concise": "Elite Bow Attack. Deals +10...25 damage. You gain 1...9 Energy if you have a preparation active.",
-      "acquisition": [{"capture": 100087, "location": 468}, {"capture": 100174, "location": 499}]
+      "acquisition": [{"capture": 100087, "area": 468}, {"capture": 100174, "area": 499}]
     },
     "1466": {
       "name": "Burning Arrow",
@@ -24283,9 +24283,9 @@ const GW_SKILLS = {
       "concise": "Elite Bow Attack. Deals +10...30 damage. Inflicts Burning condition (2...8 seconds).",
       "acquisition": [
         {"capture": 101608},
-        {"capture": 101837, "location": 58},
-        {"capture": 100209, "location": 371},
-        {"capture": 101838, "location": 573}
+        {"capture": 101837, "area": 58},
+        {"capture": 100209, "area": 371},
+        {"capture": 101838, "area": 573}
       ]
     },
     "1467": {
@@ -24330,7 +24330,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Shout. Your animal companion instantly moves to your target and causes Bleeding for 5...15 seconds with its next attack. The next time you hit with an attack, target foe is Crippled for 5...15 seconds.",
       "concise": "Elite Shout. Your animal companion instantly moves to your target and inflicts Bleeding (5...15 seconds) with its next attack. The next time you hit with an attack, you inflict Crippled condition (5...15 seconds).",
-      "acquisition": [{"capture": 100443, "location": 386}]
+      "acquisition": [{"capture": 100443, "area": 386}]
     },
     "1469": {
       "name": "Crossfire",
@@ -24352,7 +24352,7 @@ const GW_SKILLS = {
       "recharge": 4,
       "description": "Bow Attack. If this attack hits target foe, it deals +5...20 damage. If that foe is near any of your allies, this attack cannot be blocked.",
       "concise": "Bow Attack. Deals +5...20 damage. Unblockable if target foe is near any of your allies.",
-      "acquisition": [{"capture": 101665}, {"capture": 101834, "location": 449}]
+      "acquisition": [{"capture": 101665}, {"capture": 101834, "area": 449}]
     },
     "1470": {
       "name": "Barbed Arrows",
@@ -24402,9 +24402,9 @@ const GW_SKILLS = {
       "description": "Elite Skill. For 10 seconds, if you strike a foe who is suffering from a condition you gain 3...12 Energy.",
       "concise": "Elite Skill. (10 seconds.) You gain 3...12 Energy if you strike a foe who has a condition.",
       "acquisition": [
-        {"capture": 100366, "location": 256},
-        {"capture": 100422, "location": 439},
-        {"capture": 101839, "location": 573}
+        {"capture": 100366, "area": 256},
+        {"capture": 100422, "area": 439},
+        {"capture": 101839, "area": 573}
       ]
     },
     "1472": {
@@ -24453,7 +24453,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Elite Nature Ritual. Create a level 1...10 spirit. All non-spirit creatures within its range lose 1 Energy each time they attack or use a skill. This spirit dies after 30...180 seconds.",
       "concise": "Elite Nature Ritual. Creates a level 1...10 spirit (30...180 second lifespan). Creatures lose 1 Energy each time they attack or use a skill. Does not affect spirits.",
-      "acquisition": [{"capture": 100425, "location": 441}]
+      "acquisition": [{"capture": 100425, "area": 441}]
     },
     "1474": {
       "name": "Storm's Embrace",
@@ -24521,7 +24521,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 68, "as": "skill trainer"},
         {"npc": 800, "as": "hero skill trainer"},
-        {"capture": 100388, "location": 446}
+        {"capture": 100388, "area": 446}
       ]
     },
     "1478": {
@@ -24566,7 +24566,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Spell. Gain 8...17 Energy. If any spirits are within earshot, you do not sacrifice Health.",
       "concise": "Elite Spell. You gain 8...17 Energy. You do not sacrifice Health if any spirits are within earshot.",
-      "acquisition": [{"capture": 101840}, {"capture": 100105, "location": 472}]
+      "acquisition": [{"capture": 101840}, {"capture": 100105, "area": 472}]
     },
     "1480": {
       "name": "Spirit's Gift",
@@ -24633,7 +24633,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Elite Spell. All of your spirits die. You gain 5...20 Energy and all of your Binding Rituals are recharged if a spirit died in this way.",
       "concise": "Elite Spell. All of your Spirits die. If a Spirit dies in this way, you gain 5...20 Energy and all of your Binding Rituals are recharged.",
-      "acquisition": [{"capture": 101841, "location": 443}]
+      "acquisition": [{"capture": 101841, "area": 443}]
     },
     "1483": {
       "name": "Banishing Strike",
@@ -24662,7 +24662,7 @@ const GW_SKILLS = {
         {"npc": 69, "as": "skill trainer"},
         {"npc": 68, "as": "skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 101842, "location": 369}
+        {"capture": 101842, "area": 369}
       ]
     },
     "1484": {
@@ -24688,7 +24688,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 825, "as": "skill trainer"},
         {"npc": 812, "as": "hero skill trainer"},
-        {"capture": 101103, "location": 493}
+        {"capture": 101103, "area": 493}
       ]
     },
     "1485": {
@@ -24738,9 +24738,9 @@ const GW_SKILLS = {
         {"npc": 175, "as": "skill trainer"},
         {"npc": 69, "as": "skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 100041, "location": 375},
-        {"capture": 100379, "location": 373},
-        {"capture": 100049, "location": 482}
+        {"capture": 100041, "area": 375},
+        {"capture": 100379, "area": 373},
+        {"capture": 100049, "area": 482}
       ]
     },
     "1487": {
@@ -24789,7 +24789,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 168, "as": "skill trainer"},
         {"npc": 826, "as": "skill trainer"},
-        {"capture": 100459, "location": 397}
+        {"capture": 100459, "area": 397}
       ]
     },
     "1489": {
@@ -24952,7 +24952,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 167, "as": "skill trainer"},
         {"npc": 800, "as": "hero skill trainer"},
-        {"capture": 101842, "location": 369}
+        {"capture": 101842, "area": 369}
       ]
     },
     "1497": {
@@ -25031,10 +25031,10 @@ const GW_SKILLS = {
       "description": "Elite Flash Enchantment Spell. For 8 seconds, nothing happens. When this enchantment ends, Pious Renewal is recharged and you gain 0...5 Energy and 0...30 Health.",
       "concise": "Elite Flash Enchantment Spell. (8 seconds.) End Effect: recharges itself and you gain 0...5 Energy and 0...30 Health.",
       "acquisition": [
-        {"capture": 100493, "location": 392},
-        {"capture": 101094, "location": 424},
-        {"capture": 101103, "location": 493},
-        {"capture": 100006, "location": 485}
+        {"capture": 100493, "area": 392},
+        {"capture": 101094, "area": 424},
+        {"capture": 101103, "area": 493},
+        {"capture": 100006, "area": 485}
       ]
     },
     "1500": {
@@ -25064,7 +25064,7 @@ const GW_SKILLS = {
         {"npc": 175, "as": "skill trainer"},
         {"npc": 69, "as": "skill trainer"},
         {"npc": 800, "as": "hero skill trainer"},
-        {"capture": 101319, "location": 492}
+        {"capture": 101319, "area": 492}
       ]
     },
     "1502": {
@@ -25088,9 +25088,9 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 10 seconds, whenever you cast a spell, you gain 2 Energy for each enchantment on you (maximum 2...7 Energy).",
       "concise": "Elite Enchantment Spell. (10 seconds.) You gain 2 Energy (maximum 2...7) for each enchantment on you whenever you cast a spell.",
       "acquisition": [
-        {"capture": 100098, "location": 470},
-        {"capture": 100262, "location": 465},
-        {"capture": 101202, "location": 477}
+        {"capture": 100098, "area": 470},
+        {"capture": 100262, "area": 465},
+        {"capture": 101202, "area": 477}
       ]
     },
     "1503": {
@@ -25162,7 +25162,7 @@ const GW_SKILLS = {
       "recharge": 45,
       "description": "Enchantment Spell. For 20 seconds, you have +24 armor and +1...4 Health regeneration. Vow of Piety renews whenever an enchantment on you ends.",
       "concise": "Enchantment Spell. (20 seconds.) +24 armor and +1...4 Health regeneration. Renewal: whenever an enchantment on you ends.",
-      "acquisition": [{"npc": 68, "as": "skill trainer"}, {"capture": 100079, "location": 379}]
+      "acquisition": [{"npc": 68, "as": "skill trainer"}, {"capture": 100079, "area": 379}]
     },
     "1506": {
       "name": "Vital Boon",
@@ -25387,8 +25387,8 @@ const GW_SKILLS = {
       "concise": "Enchantment Spell. Inflicts Weakness condition on all adjacent foes (5...15 seconds). You take 5...20 less damage from foes with a condition (15 seconds).",
       "acquisition": [
         {"npc": 68, "as": "skill trainer"},
-        {"capture": 100064, "location": 432},
-        {"capture": 101103, "location": 493}
+        {"capture": 100064, "area": 432},
+        {"capture": 101103, "area": 493}
       ]
     },
     "1516": {
@@ -25435,9 +25435,9 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 5...10 seconds, you cannot be the target of spells, and you cannot cast spells.",
       "concise": "Elite Enchantment Spell. (5...10 seconds.) Spells cannot target you. You cannot cast spells.",
       "acquisition": [
-        {"capture": 101455, "location": 478},
-        {"capture": 100435, "location": 444},
-        {"capture": 100415, "location": 413}
+        {"capture": 101455, "area": 478},
+        {"capture": 100435, "area": 444},
+        {"capture": 100415, "area": 413}
       ]
     },
     "1518": {
@@ -25460,7 +25460,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Form. For 10...90 seconds, you gain +20 armor against physical damage, you gain adrenaline 25% faster, your attacks deal holy damage, and whenever you lose a Dervish enchantment, nearby foes are set on fire for 1...3 seconds. This skill is disabled for 45 seconds.",
       "concise": "Elite Form. (10...90 seconds.) You gain +20 armor against physical damage, you gain adrenaline 25% faster, your attacks deal holy damage, you inflict Burning (1...3 seconds) on nearby foes whenever you lose a Dervish enchantment. This skill is disabled for 45 seconds.",
-      "acquisition": [{"capture": 101842, "location": 369}]
+      "acquisition": [{"capture": 101842, "area": 369}]
     },
     "1519": {
       "name": "Avatar of Dwayna",
@@ -25483,7 +25483,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Form. For 10...90 seconds, your attacks deal holy damage. Whenever you use a Dervish attack skill, you lose 1 hex. Whenever you lose a Dervish enchantment, all allies in earshot are healed for 5...50 Health. This skill is disabled for 45 seconds.",
       "concise": "Elite Form. (10...90 seconds.) Deal holy damage. You lose 1 hex whenever you use a Dervish attack skill. Heal allies in earshot for 5...50 Health whenever you lose a Dervish enchantment. This skill is disabled for 45 seconds.",
-      "acquisition": [{"capture": 100079, "location": 379}]
+      "acquisition": [{"capture": 100079, "area": 379}]
     },
     "1520": {
       "name": "Avatar of Grenth",
@@ -25505,7 +25505,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Form. For 10...90 seconds, your scythe attacks deal dark damage and steal 0...12 Health. You are immune to Disease and inflict Disease on all adjacent foes for 3 seconds whenever you lose a Dervish enchantment. This skill is disabled for 45 seconds.",
       "concise": "Elite Form. (10...90 seconds.) Your scythe attacks deal dark damage and steal 0...12 Health. You are immune to Disease. Apply Disease to all adjacent foes (3 seconds) when you lose a Dervish enchantment. This skill is disabled for 45 seconds.",
-      "acquisition": [{"capture": 100030, "location": 380}]
+      "acquisition": [{"capture": 100030, "area": 380}]
     },
     "1521": {
       "name": "Avatar of Lyssa",
@@ -25527,7 +25527,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Form. For 10...90 seconds, your Dervish enchantments recharge 50% faster and your attacks deal chaos damage. Whenever you lose a Dervish enchantment, steal 1 Energy from all nearby foes. This skill is disabled for 45 seconds.",
       "concise": "Elite Form. (10...90 seconds.) Your Dervish enchantments recharge 50% faster and deal chaos damage with attacks. Steal 1 Energy from nearby foes when you lose a Dervish enchantment. This skill is disabled for 45 seconds.",
-      "acquisition": [{"capture": 100378, "location": 373}]
+      "acquisition": [{"capture": 100378, "area": 373}]
     },
     "1522": {
       "name": "Avatar of Melandru",
@@ -25550,7 +25550,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Form. For 10...90 seconds, you have +150 Health, +30 elemental armor, and your attacks deal earth damage. Whenever you lose a Dervish enchantment, all party members in earshot lose 1 condition. This skill is disabled for 45 seconds.",
       "concise": "Elite Form. (10...90 seconds.) You have +150 maximum Health, +30 elemental armor, and your attacks deal earth damage. Cure 1 condition from all party members in earshot whenever you lose a Dervish enchantment. This skill is disabled for 45 seconds.",
-      "acquisition": [{"capture": 100214, "location": 371}]
+      "acquisition": [{"capture": 100214, "area": 371}]
     },
     "1523": {
       "name": "Meditation",
@@ -25678,7 +25678,7 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 167, "as": "skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 100079, "location": 379}
+        {"capture": 100079, "area": 379}
       ]
     },
     "1528": {
@@ -25901,9 +25901,9 @@ const GW_SKILLS = {
       "description": "Elite Scythe Attack. If this attack hits, you do +5...20 damage, target foe suffers from Bleeding for 5...20 seconds, and you lose 1 Dervish enchantment. If an enchantment was removed, target foe also suffers from a Deep Wound for 5...20 seconds.",
       "concise": "Elite Scythe Attack. Deals +5...20 damage and inflicts Bleeding condition (5...20 seconds). Remove 1 Dervish enchantment. Removal Effect: inflicts Deep Wound condition (5...20 seconds).",
       "acquisition": [
-        {"capture": 100459, "location": 397},
-        {"capture": 100049, "location": 482},
-        {"capture": 101843, "location": 617}
+        {"capture": 100459, "area": 397},
+        {"capture": 100049, "area": 482},
+        {"capture": 101843, "area": 617}
       ]
     },
     "1537": {
@@ -25954,7 +25954,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Scythe Attack. This attack interrupts an action if it hits. If you are enchanted, any skill you interrupt is disabled for an additional 1...10 seconds. This attack does 50% of normal damage.",
       "concise": "Scythe Attack. Interrupts an action. If you are enchanted, the interrupted skill is disabled for an additional 1...10 seconds. This attack does 50% of normal damage.",
-      "acquisition": [{"npc": 168, "as": "skill trainer"}, {"capture": 101319, "location": 492}]
+      "acquisition": [{"npc": 168, "as": "skill trainer"}, {"capture": 101319, "area": 492}]
     },
     "1539": {
       "name": "Chilling Victory",
@@ -26201,9 +26201,9 @@ const GW_SKILLS = {
       "description": "Elite Spear Attack. If this attack hits, you deal +10...50 damage. If it hits a non-moving target, you inflict a Deep Wound for 5...20 seconds.",
       "concise": "Elite Spear Attack. Deals +10...50 damage. Inflicts Deep Wound condition (5...20 seconds) if target is not moving.",
       "acquisition": [
-        {"capture": 100029, "location": 380},
-        {"capture": 101163, "location": 427},
-        {"capture": 101844, "location": 573}
+        {"capture": 100029, "area": 380},
+        {"capture": 101163, "area": 427},
+        {"capture": 101844, "area": 573}
       ]
     },
     "1549": {
@@ -26229,9 +26229,9 @@ const GW_SKILLS = {
       "concise": "Spear Attack. Deals +5...20 damage. Deals 5...40 more damage if target is moving.",
       "acquisition": [
         {"npc": 168, "as": "skill trainer"},
-        {"capture": 100063, "location": 432},
-        {"capture": 100029, "location": 380},
-        {"capture": 100700, "location": 544}
+        {"capture": 100063, "area": 432},
+        {"capture": 100029, "area": 380},
+        {"capture": 100700, "area": 544}
       ]
     },
     "1550": {
@@ -26325,7 +26325,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Chant. For 10 seconds, all party members within earshot gain 2...5 strikes of adrenaline the next time they use an attack skill.",
       "concise": "Elite Chant. (10 seconds.) Party members in earshot gain 2...5 adrenaline with their next attack skill.",
-      "acquisition": [{"capture": 100260, "location": 465}]
+      "acquisition": [{"capture": 100260, "area": 465}]
     },
     "1554": {
       "name": "Crippling Anthem",
@@ -26347,7 +26347,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Elite Chant. For 10 seconds, the next attack skill used by each ally within earshot causes Crippling for 5...15 seconds.",
       "concise": "Elite Chant. (10 seconds.) Allies in earshot inflict Crippled condition (5...15 seconds) with their next attack skill.",
-      "acquisition": [{"capture": 100040, "location": 375}, {"capture": 100063, "location": 432}]
+      "acquisition": [{"capture": 100040, "area": 375}, {"capture": 100063, "area": 432}]
     },
     "1555": {
       "name": "Defensive Anthem",
@@ -26370,7 +26370,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Chant. For 4...10 seconds, each party member within earshot has a 50% chance to block incoming attacks. This chant ends if that party member hits with an attack skill.",
       "concise": "Elite Chant. (4...10 seconds.) Party members in earshot have 50% chance to block. Ends when hitting with an attack skill.",
-      "acquisition": [{"capture": 101845, "location": 369}]
+      "acquisition": [{"capture": 101845, "area": 369}]
     },
     "1556": {
       "name": "Godspeed",
@@ -26488,7 +26488,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Chant. For 5...20 seconds, each ally within earshot gains 4 Energy regeneration until that ally uses a skill.",
       "concise": "Chant. (5...20 seconds.) Allies in earshot gain +4 Energy regeneration. Ends when using a skill.",
-      "acquisition": [{"npc": 167, "as": "skill trainer"}, {"capture": 100035, "location": 377}]
+      "acquisition": [{"npc": 167, "as": "skill trainer"}, {"capture": 100035, "area": 377}]
     },
     "1561": {
       "name": "Zealous Anthem",
@@ -26601,8 +26601,8 @@ const GW_SKILLS = {
       "concise": "Chant. (10 seconds.) Allies in earshot are healed for 30...90 with their next shout or chant.",
       "acquisition": [
         {"npc": 167, "as": "skill trainer"},
-        {"capture": 100297, "location": 402},
-        {"capture": 101798, "location": 649}
+        {"capture": 100297, "area": 402},
+        {"capture": 101798, "area": 649}
       ]
     },
     "1566": {
@@ -26669,11 +26669,11 @@ const GW_SKILLS = {
       "description": "Elite Chant. For 10 seconds, the next attack skill used by each party member within earshot cannot be blocked.",
       "concise": "Elite Chant. (10 seconds.) Party members in earshot are unblockable with their next attack skill.",
       "acquisition": [
-        {"capture": 100419, "location": 419},
-        {"capture": 100418, "location": 419},
-        {"capture": 100617, "location": 433},
-        {"capture": 101201, "location": 477},
-        {"capture": 101846, "location": 443}
+        {"capture": 100419, "area": 419},
+        {"capture": 100418, "area": 419},
+        {"capture": 100617, "area": 433},
+        {"capture": 101201, "area": 477},
+        {"capture": 101846, "area": 443}
       ]
     },
     "1569": {
@@ -26718,7 +26718,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Elite Chant. For 20 seconds, the next 1...6 skills used by each ally within earshot remove 1 condition from that ally.",
       "concise": "Elite Chant. (20 seconds.) Allies in earshot lose one condition with their next 1...6 skills.",
-      "acquisition": [{"capture": 100297, "location": 402}, {"capture": 100458, "location": 397}]
+      "acquisition": [{"capture": 100297, "area": 402}, {"capture": 100458, "area": 397}]
     },
     "1571": {
       "name": "Hexbreaker Aria",
@@ -27086,7 +27086,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Skill. For 10 seconds, any time target other ally takes more than 250...80 damage per second, that ally is healed for any damage over that amount.",
       "concise": "Skill. (10 seconds.) Each second that target ally takes damage over 250...80, that ally is healed for any damage over that amount. Cannot self target.",
-      "acquisition": [{"capture": 101847, "location": 414}]
+      "acquisition": [{"capture": 101847, "area": 414}]
     },
     "1587": {
       "name": "Angelic Bond",
@@ -27108,7 +27108,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Skill. For 10 seconds, the next time an ally within earshot would take fatal damage, that damage is negated and that ally is healed for 20...200 Health. Angelic Bond ends on all other allies.",
       "concise": "Elite Skill. (10 seconds.) The next time an ally within earshot would take fatal damage, that damage is negated and that ally is healed for 20...200. Ends on all other allies.",
-      "acquisition": [{"capture": 100413, "location": 413}]
+      "acquisition": [{"capture": 100413, "area": 413}]
     },
     "1588": {
       "name": "Cautery Signet",
@@ -27132,10 +27132,10 @@ const GW_SKILLS = {
       "acquisition": [
         {"capture": 101639},
         {"capture": 101848},
-        {"capture": 101102, "location": 493},
-        {"capture": 100078, "location": 379},
-        {"capture": 101093, "location": 424},
-        {"capture": 101248, "location": 426}
+        {"capture": 101102, "area": 493},
+        {"capture": 100078, "area": 379},
+        {"capture": 101093, "area": 424},
+        {"capture": 101248, "area": 426}
       ]
     },
     "1589": {
@@ -27162,11 +27162,11 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 68, "as": "skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 101849, "location": 484},
-        {"capture": 101102, "location": 493},
-        {"capture": 101845, "location": 369},
-        {"capture": 100040, "location": 375},
-        {"capture": 100063, "location": 432}
+        {"capture": 101849, "area": 484},
+        {"capture": 101102, "area": 493},
+        {"capture": 101845, "area": 369},
+        {"capture": 100040, "area": 375},
+        {"capture": 100063, "area": 432}
       ]
     },
     "1590": {
@@ -27211,7 +27211,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Shout. For 5...20 seconds, target other ally moves 33% faster. This skill ends if that ally successfully hits with an attack.",
       "concise": "Shout. (5...20 seconds.) Target ally moves 33% faster. Ends if target ally hits with an attack. Cannot self-target.",
-      "acquisition": [{"capture": 101850, "location": 381}, {"capture": 101851, "location": 436}]
+      "acquisition": [{"capture": 101850, "area": 381}, {"capture": 101851, "area": 436}]
     },
     "1592": {
       "name": "\"We Shall Return!\"",
@@ -27327,10 +27327,10 @@ const GW_SKILLS = {
       "description": "Elite Shout. For 4...10 seconds, all allies within earshot move 33% faster and gain 5...15 Health per second while moving.",
       "concise": "Elite Shout. (4...10 seconds.) Allies in earshot move 33% faster and gain 5...15 Health per second while moving.",
       "acquisition": [
-        {"capture": 100141, "location": 399},
-        {"capture": 100476, "location": 404},
-        {"capture": 100477, "location": 404},
-        {"capture": 100478, "location": 404}
+        {"capture": 100141, "area": 399},
+        {"capture": 100476, "area": 404},
+        {"capture": 100477, "area": 404},
+        {"capture": 100478, "area": 404}
       ]
     },
     "1597": {
@@ -27379,9 +27379,9 @@ const GW_SKILLS = {
       "acquisition": [
         {"npc": 68, "as": "skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 101102, "location": 493},
-        {"capture": 101845, "location": 369},
-        {"capture": 100078, "location": 379}
+        {"capture": 101102, "area": 493},
+        {"capture": 101845, "area": 369},
+        {"capture": 100078, "area": 379}
       ]
     },
     "1599": {
@@ -27404,7 +27404,7 @@ const GW_SKILLS = {
       "recharge": 2,
       "description": "Elite Shout. Target other ally loses all conditions. If a condition was removed in this way, that ally moves 25% faster for 1...10 seconds.",
       "concise": "Elite Shout. Remove all conditions from target ally. That ally moves 25% faster (1...10 seconds) if a condition was removed. Cannot self-target.",
-      "acquisition": [{"capture": 100391, "location": 446}]
+      "acquisition": [{"capture": 100391, "area": 446}]
     },
     "1600": {
       "name": "Barbed Spear",
@@ -27477,10 +27477,10 @@ const GW_SKILLS = {
       "description": "Elite Spear Attack. If this attack hits, you deal +10...50 damage. If it hits a foe suffering from a condition, that foe is also Dazed for 4...10 seconds.",
       "concise": "Elite Spear Attack. Deals +10...50 damage. Inflicts Dazed condition (4...10 seconds) if target has a condition.",
       "acquisition": [
-        {"capture": 100093, "location": 468},
-        {"capture": 100202, "location": 569},
-        {"capture": 101498, "location": 560},
-        {"capture": 101852, "location": 584}
+        {"capture": 100093, "area": 468},
+        {"capture": 100202, "area": 569},
+        {"capture": 101498, "area": 560},
+        {"capture": 101852, "area": 584}
       ]
     },
     "1603": {
@@ -27591,7 +27591,7 @@ const GW_SKILLS = {
       "recharge": 6,
       "description": "Elite Dual Attack. Must follow an off-hand attack. If it hits, you deal 5...50 damage and target foe loses one enchantment. This attack cannot be blocked.",
       "concise": "Elite Dual Attack. Deals 5...50 damage. Removes one enchantment. Unblockable. Must follow an off-hand attack.",
-      "acquisition": [{"capture": 100067, "location": 448}, {"capture": 100103, "location": 472}]
+      "acquisition": [{"capture": 100067, "area": 448}, {"capture": 100103, "area": 472}]
     },
     "1635": {
       "name": "Golden Skull Strike",
@@ -27614,9 +27614,9 @@ const GW_SKILLS = {
       "description": "Elite Off-Hand Attack. If you are under the effects of an enchantment and this attack hits, target foe is Dazed 1...12 seconds.",
       "concise": "Elite Off-Hand Attack. Inflicts Dazed condition (1...12 seconds). No effect unless you are enchanted.",
       "acquisition": [
-        {"capture": 100083, "location": 466},
-        {"capture": 100002, "location": 572},
-        {"capture": 101853, "location": 573}
+        {"capture": 100083, "area": 466},
+        {"capture": 100002, "area": 572},
+        {"capture": 101853, "area": 573}
       ]
     },
     "1636": {
@@ -27728,7 +27728,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Enchantment Spell. For 5...20 seconds, your dagger attacks cannot be blocked. This enchantment ends the next time you fail to hit.",
       "concise": "Elite Enchantment Spell. (5...20 seconds.) Your dagger attacks are unblockable. Ends the next time you fail to hit.",
-      "acquisition": [{"capture": 101854}, {"capture": 100173, "location": 395}]
+      "acquisition": [{"capture": 101854}, {"capture": 100173, "area": 395}]
     },
     "1641": {
       "name": "Feigned Neutrality",
@@ -27755,7 +27755,7 @@ const GW_SKILLS = {
         {"npc": 823, "as": "skill trainer"},
         {"npc": 16, "as": "skill trainer"},
         {"npc": 810, "as": "hero skill trainer"},
-        {"capture": 100213, "location": 371}
+        {"capture": 100213, "area": 371}
       ]
     },
     "1642": {
@@ -27778,7 +27778,7 @@ const GW_SKILLS = {
       "recharge": 12,
       "description": "Elite Hex Spell. Your non-Assassin skills are disabled for 3 seconds. For 1...10 seconds, target foe moves 50% slower. When this hex ends that foe is crippled for 1...15 seconds.",
       "concise": "Elite Hex Spell. (1...10 seconds.) Causes 50% slower movement. End effect: inflicts Crippled condition (1...15 seconds). Your non-Assassin skills are disabled (3 seconds).",
-      "acquisition": [{"capture": 101855}, {"capture": 100407, "location": 384}]
+      "acquisition": [{"capture": 101855}, {"capture": 100407, "area": 384}]
     },
     "1643": {
       "name": "Assault Enchantments",
@@ -27799,7 +27799,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Elite Skill. Must follow a dual attack. Target foe loses all enchantments.",
       "concise": "Elite Skill. Removes all enchantments. Must follow a dual attack.",
-      "acquisition": [{"capture": 100258, "location": 465}]
+      "acquisition": [{"capture": 100258, "area": 465}]
     },
     "1644": {
       "name": "Wastrel's Collapse",
@@ -27820,7 +27820,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Skill. Shadow Step to target foe. If target foe is not using a skill, that foe is knocked down. All of your non-dagger attack skills are disabled for 10 seconds.",
       "concise": "Elite Skill. Shadow Step to target foe. Causes knock-down if target foe is not using a skill. Disables your non-dagger attack skills (10 seconds).",
-      "acquisition": [{"capture": 100462, "location": 406}]
+      "acquisition": [{"capture": 100462, "area": 406}]
     },
     "1645": {
       "name": "Lift Enchantment",
@@ -27936,7 +27936,7 @@ const GW_SKILLS = {
       "recharge": 12,
       "description": "Elite Stance. For the next 20 seconds while wielding daggers, you attack 5...20% faster and have a +5...35% chance to land a critical hit.",
       "concise": "Elite Stance. (20 seconds.) While wielding daggers, you attack 5...20% faster and have +5...35% chance to land a critical hit.",
-      "acquisition": [{"capture": 101856, "location": 205}, {"capture": 100076, "location": 379}]
+      "acquisition": [{"capture": 101856, "area": 205}, {"capture": 100076, "area": 379}]
     },
     "1650": {
       "name": "Shadow Walk",
@@ -28001,7 +28001,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Hex Spell. Shadow Step to target foe. For 1...7 seconds, that foe moves 66% slower.",
       "concise": "Elite Hex Spell. Shadow Step to target foe. This foe moves 66% slower (1...7 seconds).",
-      "acquisition": [{"capture": 100187, "location": 437}, {"capture": 101857, "location": 578}]
+      "acquisition": [{"capture": 100187, "area": 437}, {"capture": 101857, "area": 578}]
     },
     "1653": {
       "name": "Swap",
@@ -28043,7 +28043,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Enchantment Spell. Shadow Step to target other ally. When you stop maintaining this enchantment, you return to your original location.",
       "concise": "Elite Enchantment Spell. Shadow Step to target ally. End effect: return to your original location. Cannot self-target.",
-      "acquisition": [{"capture": 100213, "location": 371}]
+      "acquisition": [{"capture": 100213, "area": 371}]
     },
     "1655": {
       "name": "Price of Pride",
@@ -28087,7 +28087,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Hex Spell. Remove one enchantment from target foe and all nearby foes. For 5...20 seconds, enchantments expire 150...300% faster on those foes.",
       "concise": "Elite Hex Spell. Also hexes foes near your target (5...20 seconds). Remove one enchantment from target and nearby foes. Enchantments expire 150...300% faster on those foes.",
-      "acquisition": [{"capture": 101639}, {"capture": 101854}, {"capture": 100154, "location": 394}]
+      "acquisition": [{"capture": 101639}, {"capture": 101854}, {"capture": 100154, "area": 394}]
     },
     "1657": {
       "name": "Signet of Clumsiness",
@@ -28155,10 +28155,10 @@ const GW_SKILLS = {
       "description": "Elite Spell. Target foe is struck for 15...75 cold damage. If that foe is under the effects of a hex or enchantment, that foe becomes Poisoned for 10...25 seconds.",
       "concise": "Elite Spell. Deals 15...75 cold damage. Inflicts Poisoned condition (10...25 seconds) if target foe is hexed or enchanted.",
       "acquisition": [
-        {"capture": 101858, "location": 64},
-        {"capture": 100473, "location": 404},
-        {"capture": 101606, "location": 607},
-        {"capture": 101859, "location": 573}
+        {"capture": 101858, "area": 64},
+        {"capture": 100473, "area": 404},
+        {"capture": 101606, "area": 607},
+        {"capture": 101859, "area": 573}
       ]
     },
     "1660": {
@@ -28205,8 +28205,8 @@ const GW_SKILLS = {
       "concise": "Spell. Projectile: deals 5...50 earth damage. You gain 5 Energy plus 1 Energy for every 2 ranks of Energy Storage if target foe is Weakened.",
       "acquisition": [
         {"npc": 812, "as": "hero skill trainer"},
-        {"capture": 101824, "location": 443},
-        {"capture": 100186, "location": 437}
+        {"capture": 101824, "area": 443},
+        {"capture": 100186, "area": 437}
       ]
     },
     "1662": {
@@ -28230,9 +28230,9 @@ const GW_SKILLS = {
       "description": "Elite Spell. Target foe is struck for 15...60 fire damage. If you have more Energy than target foe, you gain 1...8 Energy.",
       "concise": "Elite Spell. Deals 15...60 fire damage. You gain 1...8 Energy if you have more Energy than target foe.",
       "acquisition": [
-        {"capture": 100101, "location": 472},
-        {"capture": 100048, "location": 482},
-        {"capture": 101497, "location": 560}
+        {"capture": 100101, "area": 472},
+        {"capture": 100048, "area": 482},
+        {"capture": 101497, "area": 560}
       ]
     },
     "1663": {
@@ -28279,13 +28279,13 @@ const GW_SKILLS = {
       "description": "Elite Spell. Target foe and up to two other foes near your target are struck for 10...90 lightning damage. This spell has 25% armor penetration.",
       "concise": "Elite Spell. Deals 10...90 lightning damage. Hits two foes near target. 25% armor penetration.",
       "acquisition": [
-        {"capture": 100618, "location": 433},
-        {"capture": 100491, "location": 392},
-        {"capture": 101200, "location": 477},
-        {"capture": 101349, "location": 495},
-        {"capture": 100433, "location": 444},
-        {"capture": 100814, "location": 555},
-        {"capture": 101860, "location": 617}
+        {"capture": 100618, "area": 433},
+        {"capture": 100491, "area": 392},
+        {"capture": 101200, "area": 477},
+        {"capture": 101349, "area": 495},
+        {"capture": 100433, "area": 444},
+        {"capture": 100814, "area": 555},
+        {"capture": 101860, "area": 617}
       ]
     },
     "1683": {
@@ -28330,7 +28330,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Enchantment Spell. For 10...35 seconds, you gain 3 Energy whenever you use a signet.",
       "concise": "Elite Enchantment Spell. (10...35 seconds.) You gain 3 Energy whenever you use a signet.",
-      "acquisition": [{"capture": 100065, "location": 448}]
+      "acquisition": [{"capture": 100065, "area": 448}]
     },
     "1685": {
       "name": "Holy Haste",
@@ -28374,7 +28374,7 @@ const GW_SKILLS = {
       "recharge": 1,
       "description": "Elite Spell. Heal target ally for 10...115 Health.",
       "concise": "Elite Spell. Heals for 10...115.",
-      "acquisition": [{"capture": 101861, "location": 55}, {"capture": 100445, "location": 386}]
+      "acquisition": [{"capture": 101861, "area": 55}, {"capture": 100445, "area": 386}]
     },
     "1687": {
       "name": "Zealous Benediction",
@@ -28396,7 +28396,7 @@ const GW_SKILLS = {
       "recharge": 4,
       "description": "Elite Spell. Heal target ally for 30...180 Health. If target was below 50% Health, you gain 7 Energy.",
       "concise": "Elite Spell. Heals for 30...180. You gain 7 Energy if target ally was below 50% Health.",
-      "acquisition": [{"capture": 100744}, {"capture": 101090, "location": 424}, {"capture": 100137, "location": 399}]
+      "acquisition": [{"capture": 100744}, {"capture": 101090, "area": 424}, {"capture": 100137, "area": 399}]
     },
     "1688": {
       "name": "Defender's Zeal",
@@ -28418,7 +28418,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Hex Spell. For 10...30 seconds, whenever target foe hits with an attack, you gain 2 Energy.",
       "concise": "Elite Hex Spell. (10...30 seconds.) You gain 2 Energy whenever target foe hits with an attack.",
-      "acquisition": [{"capture": 100088, "location": 468}, {"capture": 101862, "location": 246}]
+      "acquisition": [{"capture": 100088, "area": 468}, {"capture": 101862, "area": 246}]
     },
     "1689": {
       "name": "Signet of Mystic Wrath",
@@ -28445,7 +28445,7 @@ const GW_SKILLS = {
         {"npc": 168, "as": "skill trainer"},
         {"npc": 68, "as": "skill trainer"},
         {"npc": 800, "as": "hero skill trainer"},
-        {"capture": 101863, "location": 432}
+        {"capture": 101863, "area": 432}
       ]
     },
     "1690": {
@@ -28467,7 +28467,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Signet. If target ally is under the effects of an enchantment, that ally loses one hex and one condition.",
       "concise": "Elite Signet. Removes one hex and one condition. No effect unless target ally is enchanted.",
-      "acquisition": [{"capture": 100403, "location": 384}]
+      "acquisition": [{"capture": 100403, "area": 384}]
     },
     "1691": {
       "name": "Dismiss Condition",
@@ -28511,7 +28511,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Elite Spell. Remove up to 1...3 hexes from target ally. For each hex removed in this way, that ally loses one condition and gains 15...75 Health.",
       "concise": "Elite Spell. Removes 1...3 hexes. For each hex removed, target ally loses one condition and gains 15...75 Health.",
-      "acquisition": [{"capture": 100389, "location": 446}]
+      "acquisition": [{"capture": 100389, "area": 446}]
     },
     "1693": {
       "name": "Counterattack",
@@ -28538,9 +28538,9 @@ const GW_SKILLS = {
         {"npc": 68, "as": "skill trainer"},
         {"npc": 810, "as": "hero skill trainer"},
         {"npc": 800, "as": "hero skill trainer"},
-        {"capture": 101864, "location": 432},
-        {"capture": 100037, "location": 375},
-        {"capture": 100060, "location": 432}
+        {"capture": 101864, "area": 432},
+        {"capture": 100037, "area": 375},
+        {"capture": 100060, "area": 432}
       ]
     },
     "1694": {
@@ -28563,7 +28563,7 @@ const GW_SKILLS = {
       "recharge": 3,
       "description": "Elite Melee Attack. If this attack hits, you strike for +7...25 damage. If your target is under the effects of an enchantment, this attack cannot be blocked.",
       "concise": "Elite Melee Attack. Deals +7...25 damage. Unblockable if target foe is enchanted.",
-      "acquisition": [{"capture": 101100, "location": 493}, {"capture": 100074, "location": 379}]
+      "acquisition": [{"capture": 101100, "area": 493}, {"capture": 100074, "area": 379}]
     },
     "1695": {
       "name": "Soldier's Strike",
@@ -28607,7 +28607,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Elite Axe Attack. You lose all adrenaline and all Energy. This attack is unblockable, you deal +5...80 damage, and cause a Deep Wound for 5...20 seconds. This attack is always critical and if foe is killed, nearby foes are Weakened for 8 seconds.",
       "concise": "Elite Axe Attack. Deals +5...80 damage. Inflicts Deep Wound condition (5...20 seconds). Automatic critical hit. If foe is killed, nearby foes are Weakened (8 seconds). You lose all adrenaline and Energy.",
-      "acquisition": [{"capture": 100400, "location": 384}]
+      "acquisition": [{"capture": 100400, "area": 384}]
     },
     "1697": {
       "name": "Magehunter's Smash",
@@ -28630,11 +28630,11 @@ const GW_SKILLS = {
       "description": "Elite Hammer Attack. If this attack hits, target foe is knocked down. If your target is under the effects of an enchantment, this attack cannot be blocked.",
       "concise": "Elite Hammer Attack. Causes knock-down. Unblockable if target foe is enchanted.",
       "acquisition": [
-        {"capture": 101832, "location": 61},
-        {"capture": 101348, "location": 495},
-        {"capture": 100429, "location": 444},
-        {"capture": 100615, "location": 433},
-        {"capture": 100135, "location": 399}
+        {"capture": 101832, "area": 61},
+        {"capture": 101348, "area": 495},
+        {"capture": 100429, "area": 444},
+        {"capture": 100615, "area": 433},
+        {"capture": 100135, "area": 399}
       ]
     },
     "1698": {
@@ -28658,7 +28658,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Stance. For 5...15 seconds, you have a 75% chance to block. You attack 33% faster while under the effects of a shout or chant.",
       "concise": "Elite Stance. (5...15 seconds.) You have a 75% chance to block. You attack 33% faster while under the effects of a shout or chant.",
-      "acquisition": [{"capture": 101451, "location": 478}, {"capture": 100183, "location": 437}]
+      "acquisition": [{"capture": 101451, "area": 478}, {"capture": 100183, "area": 437}]
     },
     "1699": {
       "name": "Soldier's Defense",
@@ -28680,7 +28680,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Stance. For 1...6 seconds, you have a 75% chance to block attacks while under the effects of a shout or chant. You gain 1 strike of adrenaline for each blocked attack.",
       "concise": "Stance. (1...6 seconds.) You have 75% chance to block while under the effects of a shout or chant. Block effect: gain 1 adrenaline.",
-      "acquisition": [{"capture": 101850, "location": 381}]
+      "acquisition": [{"capture": 101850, "area": 381}]
     },
     "1700": {
       "name": "Frenzied Defense",
@@ -28723,7 +28723,7 @@ const GW_SKILLS = {
       "recharge": 4,
       "description": "Elite Stance. For 10 seconds, the next time you would be knocked down, you gain 1...4 strikes of adrenaline and 1...7 Energy instead.",
       "concise": "Elite Stance. (10 seconds.) The next time you would be knocked-down, you gain 1...4 adrenaline and 1...7 Energy instead.",
-      "acquisition": [{"capture": 100460, "location": 406}, {"capture": 100197, "location": 569}]
+      "acquisition": [{"capture": 100460, "area": 406}, {"capture": 100197, "area": 569}]
     },
     "1702": {
       "name": "Steelfang Slash",
@@ -28796,9 +28796,9 @@ const GW_SKILLS = {
       "concise": "Bow Attack. Deals +5...20 damage. Deals +5...25 more damage if you land a critical hit.",
       "acquisition": [
         {"capture": 101665},
-        {"capture": 101635, "location": 450},
+        {"capture": 101635, "area": 450},
         {"capture": 101865},
-        {"capture": 101866, "location": 450}
+        {"capture": 101866, "area": 450}
       ]
     },
     "1721": {
@@ -28821,7 +28821,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Skill. For 3...15 seconds, both you and your animal companion attack 33% faster and run 25% faster.",
       "concise": "Elite Skill. (3...15 seconds.) You and your pet attack 33% faster and move 25% faster. No effect unless your pet is alive.",
-      "acquisition": [{"capture": 101867, "location": 369}]
+      "acquisition": [{"capture": 101867, "area": 369}]
     },
     "1722": {
       "name": "Forked Arrow",
@@ -28886,7 +28886,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Stance. For 1...20 seconds, you attack 33% faster and your Marksmanship attribute is increased by 2.",
       "concise": "Elite Stance. (1...20 seconds.) You attack 33% faster and you gain +2 to your Marksmanship attribute.",
-      "acquisition": [{"capture": 101608}, {"capture": 101750}, {"capture": 100294, "location": 402}]
+      "acquisition": [{"capture": 101608}, {"capture": 101750}, {"capture": 100294, "area": 402}]
     },
     "1725": {
       "name": "Roaring Winds",
@@ -28936,11 +28936,11 @@ const GW_SKILLS = {
       "description": "Elite Bow Attack. If this attack hits, it interrupts target foe's action. If that action was a spell, it is disabled for an additional 10 seconds. This attack cannot be blocked.",
       "concise": "Elite Bow Attack. Interrupts an action. Interruption effect: an interrupted spell is disabled for +10 seconds. Unblockable.",
       "acquisition": [
-        {"capture": 101868, "location": 64},
-        {"capture": 101869, "location": 55},
-        {"capture": 101870, "location": 205},
-        {"capture": 100426, "location": 441},
-        {"capture": 101871, "location": 465}
+        {"capture": 101868, "area": 64},
+        {"capture": 101869, "area": 55},
+        {"capture": 101870, "area": 205},
+        {"capture": 100426, "area": 441},
+        {"capture": 101871, "area": 465}
       ]
     },
     "1727": {
@@ -28963,7 +28963,7 @@ const GW_SKILLS = {
       "recharge": 12,
       "description": "Stance. For 1...8 seconds, you run 33% faster and have a 50% chance to block incoming attacks. Natural Stride ends if you become hexed or enchanted.",
       "concise": "Stance. (1...8 seconds.) You move 33% faster and have 50% chance to block. Ends if you become hexed or enchanted.",
-      "acquisition": [{"npc": 167, "as": "skill trainer"}, {"capture": 101872, "location": 424}]
+      "acquisition": [{"npc": 167, "as": "skill trainer"}, {"capture": 101872, "area": 424}]
     },
     "1728": {
       "name": "Heket's Rampage",
@@ -29007,7 +29007,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Trap. When Smoke Trap is triggered, foes in the area are Blinded and Dazed for 5...10 seconds. Smoke Trap ends after 90 seconds. While activating this skill, you are easily interrupted.",
       "concise": "Elite Trap. (90 seconds.) Inflicts Blinded and Dazed conditions (5...10 seconds) to foes in the area. Easily interrupted.",
-      "acquisition": [{"capture": 101872, "location": 424}, {"capture": 100427, "location": 441}]
+      "acquisition": [{"capture": 101872, "area": 424}, {"capture": 100427, "area": 441}]
     },
     "1730": {
       "name": "Infuriating Heat",
@@ -29030,7 +29030,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Nature Ritual. Create a level 1...10 spirit. Non-spirit creatures within its range gain adrenaline twice as fast. This spirit dies after 30...120 seconds.",
       "concise": "Elite Nature Ritual. Creates a level 1...10 spirit (30...120 second lifespan). Doubles adrenaline gain for creatures in range.",
-      "acquisition": [{"capture": 100075, "location": 379}, {"capture": 100444, "location": 386}]
+      "acquisition": [{"capture": 100075, "area": 379}, {"capture": 100444, "area": 386}]
     },
     "1731": {
       "name": "Vocal Was Sogolon",
@@ -29075,7 +29075,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Elite Item Spell. Hold Glaive's ashes for up to 30...60 seconds. While you hold her ashes, all Ritualist skills have 20% armor penetration. When you drop her ashes, all foes in the area are struck for 15...85 lightning damage.",
       "concise": "Elite Item Spell. (30...60 seconds.) Your Ritualist skills have 20% armor penetration. Drop effect: deals 15...85 lightning damage to all foes in the area.",
-      "acquisition": [{"capture": 101873, "location": 62}, {"capture": 100028, "location": 380}]
+      "acquisition": [{"capture": 101873, "area": 62}, {"capture": 100028, "area": 380}]
     },
     "1733": {
       "name": "Wielder's Strike",
@@ -29143,10 +29143,10 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 15...60 seconds, your attacks deal 5...35 more damage while under the effects of a weapon spell.",
       "concise": "Elite Enchantment Spell. (15...60 seconds.) Your attacks deal +5...35 damage if you are under a weapon spell.",
       "acquisition": [
-        {"capture": 101874, "location": 64},
-        {"capture": 100140, "location": 399},
-        {"capture": 101875, "location": 615},
-        {"capture": 101876, "location": 615}
+        {"capture": 101874, "area": 64},
+        {"capture": 100140, "area": 399},
+        {"capture": 101875, "area": 615},
+        {"capture": 101876, "area": 615}
       ]
     },
     "1737": {
@@ -29170,7 +29170,7 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 10...40 seconds, whenever you cast a weapon spell on an ally, you gain 1...5 Energy.",
       "concise": "Elite Enchantment Spell. (10...40 seconds.) You gain 1...5 Energy whenever you cast a weapon spell.",
       "related_ids": [1740],
-      "acquisition": [{"capture": 100039, "location": 375}]
+      "acquisition": [{"capture": 100039, "area": 375}]
     },
     "1738": {
       "name": "Sight Beyond Sight",
@@ -29285,7 +29285,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Signet. For 5...20 seconds, all spirits you control within earshot attack 33% faster and deal +5...10 damage.",
       "concise": "Elite Signet. (5...20 seconds.) All spirits you control within earshot attack 33% faster and deal +5...10 damage.",
-      "acquisition": [{"capture": 101877}, {"capture": 100068, "location": 448}]
+      "acquisition": [{"capture": 101877}, {"capture": 100068, "area": 448}]
     },
     "1743": {
       "name": "Signet of Binding",
@@ -29329,7 +29329,7 @@ const GW_SKILLS = {
       "recharge": 4,
       "description": "Elite Spell. Target foe is struck for 20...85 lightning damage. If you are holding an item, you gain 7 Energy and 5...50 Health.",
       "concise": "Elite Spell. Deals 20...85 lightning damage. You gain 7 Energy and 5...50 Health if you are holding an item.",
-      "acquisition": [{"capture": 100104, "location": 472}]
+      "acquisition": [{"capture": 100104, "area": 472}]
     },
     "1745": {
       "name": "Anguish",
@@ -29426,9 +29426,9 @@ const GW_SKILLS = {
       "description": "Elite Weapon Spell. For 5...20 seconds, target ally gains 100% more adrenaline and 1 Energy whenever that ally successfully hits with an attack.",
       "concise": "Elite Weapon Spell. (5...20 seconds.) 100% more adrenaline gain and +1 Energy whenever target ally hits with an attack.",
       "acquisition": [
-        {"capture": 100077, "location": 379},
-        {"capture": 100463, "location": 406},
-        {"capture": 100008, "location": 485}
+        {"capture": 100077, "area": 379},
+        {"capture": 100463, "area": 406},
+        {"capture": 100008, "area": 485}
       ]
     },
     "1750": {
@@ -29451,7 +29451,7 @@ const GW_SKILLS = {
       "recharge": 3,
       "description": "Elite Weapon Spell. For 8 seconds, the next time target ally takes damage from a foe that damage is limited to 5% of that ally's max Health and that ally steals up to 20...80 Health from that foe.",
       "concise": "Elite Weapon Spell. (8 seconds.) The next time target ally takes damage from a foe, that damage is limited to 5% of target ally's max Health and that ally steals up to 20...80 Health from that foe.",
-      "acquisition": [{"capture": 101840}, {"capture": 100084, "location": 466}]
+      "acquisition": [{"capture": 101840}, {"capture": 100084, "area": 466}]
     },
     "1751": {
       "name": "Warmonger's Weapon",
@@ -29495,7 +29495,7 @@ const GW_SKILLS = {
       "recharge": 3,
       "description": "Elite Weapon Spell. For 8 seconds, the next time target ally takes damage or life steal from a foe, that ally steals up to 20...80 Health from that foe and loses 2 conditions.",
       "concise": "Elite Weapon Spell. (8 seconds.) The next time target ally takes damage or life steal from a foe, this ally steals 20...80 Health from that foe and loses 2 conditions.",
-      "acquisition": [{"capture": 101877}, {"capture": 100434, "location": 444}]
+      "acquisition": [{"capture": 101877}, {"capture": 100434, "area": 444}]
     },
     "1753": {
       "name": "Rending Sweep",
@@ -29545,11 +29545,11 @@ const GW_SKILLS = {
       "description": "Elite Flash Enchantment Spell. For 3...15 seconds, you attack, move, and gain adrenaline 25% faster.",
       "concise": "Elite Flash Enchantment Spell. (3...15 seconds.) You attack, move, and gain adrenaline 25% faster.",
       "acquisition": [
-        {"capture": 101878, "location": 58},
-        {"capture": 100261, "location": 465},
-        {"capture": 100263, "location": 465},
-        {"capture": 100119, "location": 513},
-        {"capture": 101530, "location": 670}
+        {"capture": 101878, "area": 58},
+        {"capture": 100261, "area": 465},
+        {"capture": 100263, "area": 465},
+        {"capture": 100119, "area": 513},
+        {"capture": 101530, "area": 670}
       ]
     },
     "1755": {
@@ -29600,7 +29600,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Flash Enchantment Spell. For 20 seconds, your attack skills also Cripple that foe for 1...11 seconds and you transfer 1...3 conditions from yourself to that foe.",
       "concise": "Elite Flash Enchantment Spell. (20 seconds.) Inflict Cripple (1...11 seconds) with your attack skills and transfer 1...3 conditions.",
-      "acquisition": [{"capture": 100215, "location": 371}, {"capture": 100408, "location": 384}]
+      "acquisition": [{"capture": 100215, "area": 371}, {"capture": 100408, "area": 384}]
     },
     "1757": {
       "name": "Veil of Thorns",
@@ -29649,7 +29649,7 @@ const GW_SKILLS = {
         {"npc": 167, "as": "skill trainer"},
         {"npc": 175, "as": "skill trainer"},
         {"npc": 69, "as": "skill trainer"},
-        {"capture": 100455, "location": 553}
+        {"capture": 100455, "area": 553}
       ]
     },
     "1759": {
@@ -29673,10 +29673,10 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 15 seconds, whenever you attack a foe with your scythe, you deal 10...25 slashing damage to all adjacent foes.",
       "concise": "Elite Enchantment Spell. (15 seconds.) Attacks with a scythe deal 10...25 slashing damage to all adjacent foes whenever you attack.",
       "acquisition": [
-        {"capture": 100041, "location": 375},
-        {"capture": 100064, "location": 432},
+        {"capture": 100041, "area": 375},
+        {"capture": 100064, "area": 432},
         {"capture": 100746},
-        {"capture": 101879, "location": 241}
+        {"capture": 101879, "area": 241}
       ]
     },
     "1760": {
@@ -29699,7 +29699,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Flash Enchantment Spell. When you cast this enchantment, all nearby foes are Blinded for 1...7 seconds. For 30 seconds, if you are wielding an earth weapon, your melee attacks deal +3...30 earth damage. When this enchantment ends, you are cured of Blindness.",
       "concise": "Elite Flash Enchantment Spell. (30 seconds.) Deal +3...30 earth damage with your melee attacks. Initial Effect: Blinds nearby foes for 1...7 seconds. End Effect: removes Blindness. No effect unless wielding an earth weapon.",
-      "acquisition": [{"capture": 100420, "location": 419}, {"capture": 100352, "location": 558}]
+      "acquisition": [{"capture": 100420, "area": 419}, {"capture": 100352, "area": 558}]
     },
     "1761": {
       "name": "Zealous Vow",
@@ -29722,10 +29722,10 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 20 seconds, you have -2 Energy regeneration, and you gain 1...6 Energy every time you hit with an attack.",
       "concise": "Elite Enchantment Spell. (20 seconds.) You gain 1...6 Energy each time you hit with an attack. You have -2 Energy regeneration.",
       "acquisition": [
-        {"capture": 101880, "location": 841},
-        {"capture": 100036, "location": 377},
-        {"capture": 100414, "location": 413},
-        {"capture": 101423, "location": 434}
+        {"capture": 101880, "area": 841},
+        {"capture": 100036, "area": 377},
+        {"capture": 100414, "area": 413},
+        {"capture": 101423, "area": 434}
       ]
     },
     "1762": {
@@ -29755,8 +29755,8 @@ const GW_SKILLS = {
         {"npc": 815, "as": "skill trainer"},
         {"npc": 167, "as": "skill trainer"},
         {"npc": 753, "as": "hero skill trainer"},
-        {"capture": 100459, "location": 397},
-        {"capture": 101843, "location": 617}
+        {"capture": 100459, "area": 397},
+        {"capture": 101843, "area": 617}
       ]
     },
     "1763": {
@@ -29871,7 +29871,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Elite Scythe Attack. If this attack hits, you Cripple your target for 3...15 seconds. You lose 1 Dervish enchantment. If an enchantment was removed, this attack knocks down for 2...3 seconds.",
       "concise": "Elite Scythe Attack. (3...15 seconds.) Causes Cripple. Lose 1 Dervish enchantment. Removal Effect: causes knockdown for 2...3 seconds.",
-      "acquisition": [{"capture": 100379, "location": 373}, {"capture": 101881}, {"capture": 100455, "location": 553}]
+      "acquisition": [{"capture": 100379, "area": 373}, {"capture": 101881}, {"capture": 100455, "area": 553}]
     },
     "1768": {
       "name": "Harrier's Haste",
@@ -29919,7 +29919,7 @@ const GW_SKILLS = {
       "recharge": 45,
       "description": "Elite Skill. For 45 seconds, you gain 0...150% more adrenaline.",
       "concise": "Elite Skill. (45 seconds.) You gain 0...150% more adrenaline.",
-      "acquisition": [{"capture": 100035, "location": 377}]
+      "acquisition": [{"capture": 100035, "area": 377}]
     },
     "1770": {
       "name": "Natural Temper",
@@ -29964,7 +29964,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Chant. For 10 seconds, the next time each party member within earshot uses a skill, that party member gains 45...110 Health.",
       "concise": "Elite Chant. (10 seconds.) Party members in earshot gain 45...110 Health with their next skill.",
-      "acquisition": [{"capture": 100155, "location": 394}, {"capture": 101882, "location": 607}]
+      "acquisition": [{"capture": 100155, "area": 394}, {"capture": 101882, "area": 607}]
     },
     "1772": {
       "name": "Lyric of Purification",
@@ -30009,11 +30009,11 @@ const GW_SKILLS = {
       "description": "Elite Echo. For 10...35 seconds, if you are under the effects of a chant or a shout, you attack 33% faster and gain 33% more adrenaline, but you have -20 armor.",
       "concise": "Elite Echo. (10...35 seconds.) You attack 33% faster and gain 33% more adrenaline if under the effects of a shout or chant. You have -20 armor",
       "acquisition": [
-        {"capture": 101883, "location": 58},
-        {"capture": 101454, "location": 478},
-        {"capture": 100188, "location": 437},
-        {"capture": 101884, "location": 604},
-        {"capture": 101885, "location": 560}
+        {"capture": 101883, "area": 58},
+        {"capture": 101454, "area": 478},
+        {"capture": 100188, "area": 437},
+        {"capture": 101884, "area": 604},
+        {"capture": 101885, "area": 560}
       ]
     },
     "1774": {
@@ -30038,11 +30038,11 @@ const GW_SKILLS = {
       "concise": "Echo. (5...25 seconds.) You attack 25% faster. Renewal: whenever a chant or shout ends on you. You have -20 armor.",
       "acquisition": [
         {"capture": 101665},
-        {"capture": 101850, "location": 381},
-        {"capture": 101886, "location": 407},
-        {"capture": 101847, "location": 414},
+        {"capture": 101850, "area": 381},
+        {"capture": 101886, "area": 407},
+        {"capture": 101847, "area": 414},
         {"capture": 101865},
-        {"capture": 101887, "location": 436}
+        {"capture": 101887, "area": 436}
       ]
     },
     "1775": {
@@ -30188,7 +30188,7 @@ const GW_SKILLS = {
         {"npc": 68, "as": "skill trainer"},
         {"npc": 800, "as": "hero skill trainer"},
         {"npc": 801, "as": "hero skill trainer"},
-        {"capture": 100419, "location": 419}
+        {"capture": 100419, "area": 419}
       ]
     },
     "1781": {
@@ -30212,7 +30212,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Shout. For 5...20 seconds, the next time target ally attacks, that ally deals +5...50 damage and inflicts a Deep Wound for 5...20 seconds.",
       "concise": "Shout. (5...20 seconds.) Target ally deals +5...50 damage and inflicts Deep Wound condition (5...20 seconds) with the next attack.",
-      "acquisition": [{"capture": 101850, "location": 381}]
+      "acquisition": [{"capture": 101850, "area": 381}]
     },
     "1782": {
       "name": "\"The Power Is Yours!\"",
@@ -30234,7 +30234,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Elite Shout. For 2...4 seconds, all allies within earshot gain 1...2 Energy regeneration.",
       "concise": "Elite Shout. (2...4 seconds.) Allies within earshot gain 1...2 Energy regeneration.",
-      "acquisition": [{"capture": 100424, "location": 439}]
+      "acquisition": [{"capture": 100424, "area": 439}]
     },
     "1783": {
       "name": "Slayer's Spear",
@@ -30301,7 +30301,7 @@ const GW_SKILLS = {
       "description": "Skill. Target demonic servant of Abaddon takes 100 holy damage and is interrupted. This skill strikes one additional foe in the area for each rank of Lightbringer you have attained. This skill is disabled for 15 seconds after it is used.",
       "concise": "Skill. Target demonic servant of Abaddon takes 100 holy damage and is interrupted. Hits one additional foe in the area for each rank of Lightbringer you have attained. This skill is disabled (15 seconds).",
       "pve_only": true,
-      "acquisition": [{"capture": 101888, "location": 393}]
+      "acquisition": [{"capture": 101888, "area": 393}]
     },
     "1815": {
       "name": "Lightbringer Signet",
@@ -30324,7 +30324,7 @@ const GW_SKILLS = {
       "description": "Signet. If you are within the area of a demonic servant of Abaddon, you gain 3...5 strikes of adrenaline and 16...24 Energy.",
       "concise": "Signet. You gain 3...5 strikes of adrenaline and 16...24 Energy if you are within the area of a demonic servant of Abaddon.",
       "pve_only": true,
-      "acquisition": [{"capture": 101888, "location": 393}]
+      "acquisition": [{"capture": 101888, "area": 393}]
     },
     "1816": {
       "name": "Sunspear Rebirth Signet",
@@ -38345,7 +38345,7 @@ const GW_SKILLS = {
       "description": "Elite Ward Spell. You create a Time Ward at your current location. For 6...20 seconds, non-spirit allies in this area cast spells 15...20% faster and recharge skills 15...20% faster. PvE Skill",
       "concise": "Elite Ward Spell. (6...20 seconds.) Allies in this ward cast spells 15...20% faster and recharge skills 15...20% faster. Allied spirits are not affected. PvE Skill",
       "pve_only": true,
-      "acquisition": [{"capture": 101891, "location": 651}]
+      "acquisition": [{"capture": 101891, "area": 651}]
     },
     "3423": {
       "name": "Soul Taker",
@@ -38368,7 +38368,7 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 3...30 seconds, your attacks sacrifice 15...20 health and deal 15...20 more damage. PvE Skill",
       "concise": "Elite Enchantment Spell. (3...30 seconds.) Attacks deal +15...20 damage and sacrifice 15...20 health. PvE Skill",
       "pve_only": true,
-      "acquisition": [{"capture": 101892, "location": 121}]
+      "acquisition": [{"capture": 101892, "area": 121}]
     },
     "3424": {
       "name": "Over the Limit",
@@ -38391,7 +38391,7 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. While you maintain this enchantment, your spells cast 20...50% faster and recharge 40...80% faster, but you continuously gain Overcast. PvE Skill",
       "concise": "Elite Enchantment Spell. Spells cast 20...50% faster and recharge 40...80% faster. Continuously gain Overcast while active. PvE Skill",
       "pve_only": true,
-      "acquisition": [{"capture": 101892, "location": 121}]
+      "acquisition": [{"capture": 101892, "area": 121}]
     },
     "3425": {
       "name": "Judgment Strike",
@@ -38414,7 +38414,7 @@ const GW_SKILLS = {
       "description": "Elite Melee Attack. Attack target and adjacent foes. Each attack that hits deals +13...30 Holy damage and knocks down attacking foes. PvE Skill",
       "concise": "Elite Melee Attack. Attacks target and adjacent foes for +13...30 Holy damage. Causes knock down on attacking foes. PvE Skill",
       "pve_only": true,
-      "acquisition": [{"capture": 101893, "location": 439}]
+      "acquisition": [{"capture": 101893, "area": 439}]
     },
     "3426": {
       "name": "Seven Weapons Stance",
@@ -38437,7 +38437,7 @@ const GW_SKILLS = {
       "description": "Elite Stance. For 3...20 seconds, your weapon attributes are increased by 1...15 and you attack 33% faster. PvE Skill",
       "concise": "Elite Stance. (3...20 seconds.) Weapon attributes are increased by 1...15. You attack 33% faster. PvE Skill",
       "pve_only": true,
-      "acquisition": [{"capture": 101894, "location": 233}]
+      "acquisition": [{"capture": 101894, "area": 233}]
     },
     "3427": {
       "name": "\"Together as One!\"",
@@ -38460,7 +38460,7 @@ const GW_SKILLS = {
       "description": "Elite Shout. For 3...15 seconds, all party members near you or near your pet deal +5...15 additional damage with attacks and gain +1...7 Health regeneration. PvE Skill",
       "concise": "Elite Shout. (3...15 seconds.) All party members near you or your pet deal +5...15 damage and gain +1...7 Health regeneration. PvE Skill",
       "pve_only": true,
-      "acquisition": [{"capture": 101891, "location": 651}]
+      "acquisition": [{"capture": 101891, "area": 651}]
     },
     "3428": {
       "name": "Shadow Theft",
@@ -38483,7 +38483,7 @@ const GW_SKILLS = {
       "description": "Elite Skill. Shadow Step to target foe. For 5...20 seconds that foe's attributes are reduced by 1...5 and your attributes are increased by 1...5. This skill counts as a Lead Attack. PvE Skill",
       "concise": "Elite Skill. Shadow Step to target foe. For 5...20 seconds that foe's attributes are reduced by 1...5 and your attributes are increased by 1...5. Counts as a Lead Attack. PvE Skill",
       "pve_only": true,
-      "acquisition": [{"capture": 101894, "location": 233}]
+      "acquisition": [{"capture": 101894, "area": 233}]
     },
     "3429": {
       "name": "Weapons of Three Forges",
@@ -38506,7 +38506,7 @@ const GW_SKILLS = {
       "description": "Elite Weapon Spell. For 3...20 seconds, each non-spirit ally in earshot gains the effect of a random Weapon Spell. PvE Skill",
       "concise": "Elite Weapon Spell. (3...20 seconds.) Allies in earshot gain the effect of a random Weapon Spell. Allied spirits are not affected. PvE Skill",
       "pve_only": true,
-      "acquisition": [{"capture": 101894, "location": 233}]
+      "acquisition": [{"capture": 101894, "area": 233}]
     },
     "3430": {
       "name": "Vow of Revolution",
@@ -38529,7 +38529,7 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 3...10 seconds, you have +1...6 energy regeneration. This skill reapplies itself every time you use a non-Dervish skill. PvE Skill",
       "concise": "Elite Enchantment Spell. (3...10 seconds.) Gain +1...6 energy regeneration. Renewal: whenever you use a non-Dervish skill. PvE Skill",
       "pve_only": true,
-      "acquisition": [{"capture": 101893, "location": 439}]
+      "acquisition": [{"capture": 101893, "area": 439}]
     },
     "3431": {
       "name": "Heroic Refrain",
@@ -38552,7 +38552,7 @@ const GW_SKILLS = {
       "description": "Elite Echo. For 3...15 seconds, target non-spirit ally gains +1...3 to all attributes. This echo is reapplied every time a chant or shout ends on that ally. PvE Skill",
       "concise": "Elite Echo. (3...15 seconds.) Target ally gains +1...3 to all attributes. Renewal: every time a chant or shout ends on this ally. Cannot target spirits. PvE Skill",
       "pve_only": true,
-      "acquisition": [{"capture": 101893, "location": 439}]
+      "acquisition": [{"capture": 101893, "area": 439}]
     },
     "3437": {
       "name": "Farmer's Scythe (PvP)",
