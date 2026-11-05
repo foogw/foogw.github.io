@@ -700,6 +700,7 @@ button.rnd-copy:hover { color: var(--text); }
 .loctable .c-name { width: 40%; overflow-wrap: anywhere; }
 .loctable .c-type { width: 20%; }
 .loctable .c-party { width: 64px; }
+.loctable .c-vq { width: 96px; text-align: center; }
 @media (max-width: 560px) { .loctable .c-name { width: auto; } }
 .loctable tr { --c: var(--loc-out); }
 .loctable tr.exp { --c: var(--loc-exp); }
@@ -1178,3 +1179,18 @@ a.hchip { text-decoration: none; }
 .u-btn.reset-all { color: #fff; background: var(--sac); border-color: var(--sac); margin-left: auto; }
 .u-status.bad { color: var(--sac); }
 .u-status.ok { color: var(--loc-exp); }
+
+/* Titles: My titles */
+.my-h { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 18px 0 6px; }
+.my-titles { width: 100%; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
+.my-titles td { padding: 6px 10px 6px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.my-titles .my-name { width: 34%; font-weight: 500; }
+.my-titles .my-rank { width: 16%; }
+.my-titles .my-in { width: 110px; text-align: right; font-size: 13px; }
+.my-max { color: var(--loc-exp); }
+.my-tick { cursor: pointer; white-space: nowrap; }
+.my-step { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.my-step button { border: 1px solid var(--line); background: var(--panel); color: inherit; border-radius: 4px; font-size: 10px; line-height: 1; padding: 3px 5px; cursor: pointer; }
+.my-step button:disabled { opacity: .35; cursor: default; }
+.my-num { min-width: 2ch; text-align: center; font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) { .my-titles .my-how { display: none; } .my-titles .my-name { width: auto; } }

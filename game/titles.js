@@ -1,8 +1,14 @@
 const GW_TITLES = {
-  "titles_": "Kept by hand. Keys are the game's title ids. wiki: its page on each wiki, {en, de} (as areas).",
+  "titles_": "Kept by hand. Keys are the game's title ids (GWCA's list, but its three deprecated ones). scope: character or account. max: its highest rank (where its ranks aren't listed; else the last rank's). pvp: a PvP title. own_name: its name shown alone (where the record covers two titles). rank_names: its ranks' names, from rank 1 (where its ranks aren't listed). wiki: its page on each wiki, {en, de} (as areas).",
   "titles": {
+    "0": {"name": "Hero", "scope": "account", "max": 15, "pvp": true},
+    "1": {"name": "Tyrian Cartographer", "scope": "character", "max": 6},
+    "2": {"name": "Canthan Cartographer", "scope": "character", "max": 6},
+    "3": {"name": "Gladiator", "scope": "account", "max": 12, "pvp": true},
+    "4": {"name": "Champion", "scope": "account", "max": 12, "pvp": true},
     "5": {
       "name": "Kurzick / Luxon",
+      "own_name": "Kurzick",
       "group": "skills",
       "scope": "account",
       "earn": "Kurzick or Luxon faction points transferred to your alliance (Friend of the Kurzicks / Friend of the Luxons: two titles with the same ranks)",
@@ -26,6 +32,12 @@ const GW_TITLES = {
       "wiki": {"en": "Allegiance rank", "de": "Bündnisbelohnungspunkte-Übertragung"},
       "also": 6
     },
+    "6": {"name": "Luxon", "scope": "account", "max": 12},
+    "7": {"name": "Drunkard", "scope": "character", "max": 2},
+    "9": {"name": "Survivor", "scope": "character", "max": 3},
+    "10": {"name": "Kind of a Big Deal", "scope": "character", "max": 6, "rank_names": ["Kind of a Big Deal", "People Know Me", "I'm Very Important", "I Have Many Leather-Bound Books", "My Guild Hall Smells of Rich Mahogany", "God Walking Amongst Mere Mortals"]},
+    "13": {"name": "Protector of Tyria", "scope": "character", "max": 1},
+    "14": {"name": "Protector of Cantha", "scope": "character", "max": 1},
     "15": {
       "name": "Lucky",
       "group": "loot",
@@ -43,6 +55,7 @@ const GW_TITLES = {
       "campaign": 0,
       "wiki": {"en": "Lucky and Unlucky", "de": "Titel Glückspilz"}
     },
+    "16": {"name": "Unlucky", "scope": "account", "max": 7},
     "17": {
       "name": "Sunspear",
       "group": "skills",
@@ -64,6 +77,8 @@ const GW_TITLES = {
       "campaign": 3,
       "wiki": {"en": "Sunspear rank", "de": "Sonnenspeertitel"}
     },
+    "18": {"name": "Elonian Cartographer", "scope": "character", "max": 6},
+    "19": {"name": "Protector of Elona", "scope": "character", "max": 1},
     "20": {
       "name": "Lightbringer",
       "group": "skills",
@@ -86,6 +101,23 @@ const GW_TITLES = {
       "giver": 830,
       "wiki": {"en": "Lightbringer rank", "de": "Lichtbringertitel"}
     },
+    "21": {"name": "Legendary Defender of Ascalon", "scope": "character", "max": 1},
+    "22": {"name": "Commander", "scope": "account", "max": 12, "pvp": true},
+    "23": {"name": "Gamer", "scope": "account", "max": 12, "pvp": true},
+    "24": {"name": "Tyrian Skill Hunter", "scope": "character", "max": 1},
+    "25": {"name": "Tyrian Vanquisher", "scope": "character", "max": 1},
+    "26": {"name": "Canthan Skill Hunter", "scope": "character", "max": 1},
+    "27": {"name": "Canthan Vanquisher", "scope": "character", "max": 1},
+    "28": {"name": "Elonian Skill Hunter", "scope": "character", "max": 1},
+    "29": {"name": "Elonian Vanquisher", "scope": "character", "max": 1},
+    "30": {"name": "Legendary Cartographer", "scope": "character", "max": 1},
+    "31": {"name": "Legendary Guardian", "scope": "character", "max": 1},
+    "32": {"name": "Legendary Skill Hunter", "scope": "character", "max": 1},
+    "33": {"name": "Legendary Vanquisher", "scope": "character", "max": 1},
+    "34": {"name": "Sweet Tooth", "scope": "character", "max": 2},
+    "35": {"name": "Guardian of Tyria", "scope": "character", "max": 1},
+    "36": {"name": "Guardian of Cantha", "scope": "character", "max": 1},
+    "37": {"name": "Guardian of Elona", "scope": "character", "max": 1},
     "38": {
       "name": "Asura",
       "group": "skills",
@@ -182,6 +214,9 @@ const GW_TITLES = {
       "giver": 804,
       "wiki": {"en": "Norn rank", "de": "Norntitel"}
     },
+    "42": {"name": "Master of the North", "scope": "character", "max": 6},
+    "43": {"name": "Party Animal", "scope": "character", "max": 2},
+    "44": {"name": "Zaishen", "scope": "account", "max": 12},
     "45": {
       "name": "Treasure Hunter",
       "group": "loot",
@@ -217,7 +252,8 @@ const GW_TITLES = {
       ],
       "campaign": 0,
       "wiki": {"en": "Wisdom", "de": "Weisheitstitel"}
-    }
+    },
+    "47": {"name": "Codex", "scope": "account", "max": 12, "pvp": true}
   },
   "chests_": "Lucky and Unlucky title odds per chest: [points, chance].",
   "chests": [[50, 55], [80, 53.5], [200, 50], [300, 45], [450, 35], [600, 30], [750, 25], [1250, 10]]

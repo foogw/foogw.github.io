@@ -13,17 +13,20 @@ const keptText = () => (User.broken() ? User.stored() : JSON.stringify(User.data
 let kept = false;  // broken progress copied or downloaded on this visit: only then can it be replaced or reset
 const status = (t, cls = "") => { els.status.textContent = t; els.status.className = `u-status ${cls}`; };
 
+// Kind of a Big Deal: its rank's name and the titles maxed toward its top rank; a link to the character's titles
+function bigDeal(c, o) {
+  const t = TITLES[10], r = titleRankOf(t, c, o), name = r ? t.rank_names[r - 1] : "No rank yet";
+  return `<a href="titles?t=mine" data-titles>${esc(name)} ${titlesMaxed(c, o)}/${titleMax(t) * 5}</a>`;
+}
 function render() {
   const broken = User.broken(), o = User.data(), cur = User.char(o), one = o.chars.length < 2;
-  const n = (c, part, b) => modeProgress(c, part).filter(v => v & b).length;
   $("u-broken").hidden = !broken;
   $("u-char").hidden = broken;
   els.reset.hidden = !broken;
   els.list.innerHTML = o.chars.map(c => `<tr class="${c === cur ? "cur" : ""}" data-id="${c.id}">
     <td><input type="radio" name="u-shown" aria-label="Show ${esc(c.name)}"${c === cur ? " checked" : ""}></td>
     <td><input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name"></td>
-    <td class="num">${c.elites.length}</td><td class="num">${n(c, "missions", 1)}</td><td class="num">${n(c, "missions", 2)}</td>
-    <td class="num">${n(c, "dungeons", 1)}</td><td class="num">${n(c, "dungeons", 2)}</td>
+    <td>${bigDeal(c, o)}</td>
     <td><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></td></tr>`).join("");
   els.text.value = keptText();
   check();
@@ -58,6 +61,8 @@ els.list.addEventListener("change", e => {
 });
 els.list.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.type === "text") e.target.blur(); });
 els.list.addEventListener("click", e => {
+  // a character's titles: it's picked, then its titles are shown
+  if (e.target.closest("[data-titles]")) { User.pick(rowChar(User.data(), e.target).id); return; }
   if (!e.target.closest("[data-delete]")) return;
   const o = User.data(), c = rowChar(o, e.target);
   if (o.chars.length < 2 || !confirm(`Delete "${c.name}" and all its progress (${charCounts(c)})? This can't be undone.`)) return;

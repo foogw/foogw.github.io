@@ -374,20 +374,36 @@ function recruitHTML(h) {
 }
 
 /* ---------- the visitor's progress, per character, kept in this browser only (the User page backs it up) ----------
-   {v: 1, chars: [{id, name, elites: [skill ids captured], missions: {<id>: done}, dungeons: {<id>: done}}]}, done 1 normal
+   {v: 1, chars: [{id, name, elites: [skill ids captured], missions: {<id>: done}, dungeons: {<id>: done}, vanquished: [area
+   ids]}]}, done 1 normal
    mode, 2 hard mode, 3 both; what isn't done isn't listed. Everything is by the game's own ids, so it outlasts the site's
    updates, and ids the site doesn't know are kept. Which character is shown (its id) is kept apart, as it's no progress. */
 const USER_KEY = "gw-user", USER_CHAR_KEY = "gw-user-char";
-const USER_KEYS = ["id", "name", "elites", "missions", "dungeons"];
+const USER_KEYS = ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"];
 const newUserChar = id => ({ id, name: `Char${id}`, elites: [], missions: {}, dungeons: {} });
 // what's wrong with an object as progress, or "" when it's fine
 function userCheck(o) {
   const isObj = x => x && typeof x === "object" && !Array.isArray(x), isId = x => Number.isInteger(x) && x > 0;
   if (!isObj(o)) return "It isn't an object: it should start with {.";
   if (o.v !== 1) return 'It needs "v": 1.';
-  const extra = Object.keys(o).find(k => !["v", "chars"].includes(k));
+  const extra = Object.keys(o).find(k => !["v", "chars", "accounts"].includes(k));
   if (extra) return `Unknown key "${extra}".`;
   if (!Array.isArray(o.chars) || !o.chars.length) return 'It needs "chars": a list of at least one character.';
+  // titles reached, character or account: {title id: rank}, a title not reached is left out
+  const badTitles = t => t !== undefined && !(isObj(t) && Object.entries(t).every(([id, r]) => /^\d+$/.test(id) && Number.isInteger(r) && r > 0 && r < 100));
+  if (o.accounts !== undefined) {
+    if (!Array.isArray(o.accounts)) return '"accounts" should be a list.';
+    for (const [i, a] of o.accounts.entries()) {
+      const at = `Account ${i + 1}`;
+      if (!isObj(a)) return `${at} isn't an object.`;
+      const k = Object.keys(a).find(k => !["id", "name", "titles"].includes(k));
+      if (k) return `${at}: unknown key "${k}".`;
+      if (!isId(a.id)) return `${at}: "id" should be a whole number above 0.`;
+      if (o.accounts.findIndex(x => x?.id === a.id) !== i) return `${at}: id ${a.id} is used twice.`;
+      if (a.name !== undefined && (typeof a.name !== "string" || !a.name.trim() || a.name.length > 40)) return `${at}: "name" should be 1 to 40 characters.`;
+      if (badTitles(a.titles)) return `${at}: "titles" should map title ids to the rank reached (a whole number from 1).`;
+    }
+  }
   for (const [i, c] of o.chars.entries()) {
     const at = `Character ${i + 1}`;
     if (!isObj(c)) return `${at} isn't an object.`;
@@ -399,6 +415,9 @@ function userCheck(o) {
     if (!Array.isArray(c.elites) || !c.elites.every(isId) || new Set(c.elites).size !== c.elites.length) return `${at}: "elites" should be a list of skill ids, each once.`;
     for (const part of ["missions", "dungeons"])
       if (!isObj(c[part]) || !Object.entries(c[part]).every(([id, v]) => /^[1-9]\d*$/.test(id) && [1, 2, 3].includes(v))) return `${at}: "${part}" should map ids to 1 (NM), 2 (HM) or 3 (both).`;
+    if (c.vanquished !== undefined && (!Array.isArray(c.vanquished) || !c.vanquished.every(isId) || new Set(c.vanquished).size !== c.vanquished.length)) return `${at}: "vanquished" should be a list of area ids, each once.`;
+    if (badTitles(c.titles)) return `${at}: "titles" should map title ids to the rank reached (a whole number from 1).`;
+    if (c.account !== undefined && !isId(c.account)) return `${at}: "account" should be an account's id (none: account 1).`;
   }
   return "";
 }
@@ -429,6 +448,26 @@ const User = {
   },
   pick(id) { try { localStorage.setItem(USER_CHAR_KEY, id); } catch { /* storage blocked */ } userSeen = userRaw(); },
   captured(id) { return User.char().elites.includes(+id); },
+  vanquished(id) { return (User.char().vanquished || []).includes(+id); },
+  // the shown character's account (its "account", else account 1), or null while nothing is kept for it
+  account(o = User.data()) { const id = User.char(o).account ?? 1; return (o.accounts || []).find(a => a.id === id) || null; },
+  // the rank reached in a title, kept on the character or on its account (by the title's scope); 0: not reached
+  titleRank(id, scope) { return ((scope === "account" ? User.account()?.titles : User.char().titles) || {})[id] || 0; },
+  // set a title's rank (0: not reached, and left out); an account, a titles list, only while they hold something
+  setTitle(id, scope, rank) {
+    const o = User.data(), c = User.char(o);
+    const put = holder => { holder.titles = holder.titles || {}; if (rank) holder.titles[id] = rank; else delete holder.titles[id]; if (!Object.keys(holder.titles).length) delete holder.titles; };
+    if (scope === "account") {
+      const aid = c.account ?? 1;
+      o.accounts = o.accounts || [];
+      let a = o.accounts.find(x => x.id === aid);
+      if (!a) o.accounts.push(a = { id: aid });
+      put(a);
+      if (Object.keys(a).length === 1) o.accounts = o.accounts.filter(x => x !== a);
+      if (!o.accounts.length) delete o.accounts;
+    } else put(c);
+    return User.save(o);
+  },
   done(part, id) { return User.char()[part][id] || 0; },
   // change the shown character's progress
   change(f) { const o = User.data(); f(User.char(o)); User.save(o); },
@@ -438,20 +477,34 @@ const User = {
   setCapturedMany(ids, on) {
     User.change(c => { const s = new Set(c.elites); for (const id of ids) if (on) s.add(+id); else s.delete(+id); c.elites = [...s].sort((a, b) => a - b); });
   },
+  // areas vanquished (the list only while it holds one)
+  setVanquishedMany(ids, on) {
+    User.change(c => {
+      const s = new Set(c.vanquished); for (const id of ids) if (on) s.add(+id); else s.delete(+id);
+      if (s.size) c.vanquished = [...s].sort((a, b) => a - b); else delete c.vanquished;
+    });
+  },
 };
 // back on a tab after the progress or the character changed in another: its ticks show the new state, and a page that
 // lists by progress draws again (on "userchange")
-addEventListener("focus", () => {
+// (also when the page is shown again from the browser's back/forward cache, or its tab comes back into view)
+function userSync() {
   if (userRaw() === userSeen) return;
   userSeen = userRaw();
   const c = User.char();
   for (const b of document.querySelectorAll(".utick[data-elite]")) b.setAttribute("aria-pressed", c.elites.includes(+b.dataset.elite));
+  for (const b of document.querySelectorAll(".utick[data-vanq]")) b.setAttribute("aria-pressed", (c.vanquished || []).includes(+b.dataset.vanq));
   for (const g of document.querySelectorAll(".uticks")) for (const b of g.querySelectorAll(".utick")) b.setAttribute("aria-pressed", !!((c[g.dataset.part][g.dataset.id] || 0) & +b.dataset.mode));
   dispatchEvent(new Event("userchange"));
-});
+}
+addEventListener("focus", userSync);
+addEventListener("pageshow", userSync);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) userSync(); });
 // the ticks: an elite captured, a mission or dungeon done in normal and hard mode
 // (a list passes what it knows already: reading the progress for each row is slow)
 const eliteTick = (id, on = User.captured(id), label = "") => `<button type="button" class="utick${label ? "" : " ck"}" data-elite="${id}" aria-pressed="${on}" title="Captured">${label ? `<span class="ubox"></span>${label}` : "✓"}</button>`;
+// an area vanquished (one with foes to vanquish)
+const vanqTick = (id, on = User.vanquished(id), label = "") => `<button type="button" class="utick${label ? "" : " ck"}" data-vanq="${id}" aria-pressed="${on}" title="Vanquished">${label ? `<span class="ubox"></span>${label}` : "✓"}</button>`;
 // the missions with normal and hard mode to tick (not challenge, competitive or PvP ones)
 const hasModes = m => m?.kind === "story" || m?.kind === "elite";
 // the progress kept for them (a tick from before a kind lost its modes is kept, not counted)
@@ -473,13 +526,15 @@ document.addEventListener("click", e => {
   const list = document.querySelector(b.closest("[data-bulk-list]").dataset.bulkList), on = b.dataset.bulk === "1";
   if (User.broken()) { if (confirm("Your saved progress can't be read, so it can't be changed here. Open the User page to see it?")) location.href = "user"; return; }
   const elites = [...new Set([...list.querySelectorAll(".utick[data-elite]")].map(x => x.dataset.elite))];
+  const vanqs = [...new Set([...list.querySelectorAll(".utick[data-vanq]")].map(x => x.dataset.vanq))];
   const done = [...list.querySelectorAll(".uticks[data-part]")].map(g => [g.dataset.part, g.dataset.id]);
-  const n = elites.length + done.length, who = User.char().name, m = +b.dataset.mode || 0, mode = ["", "NM", "HM"][m];
+  const n = elites.length + vanqs.length + done.length, who = User.char().name, m = +b.dataset.mode || 0, mode = ["", "NM", "HM"][m];
   if (!n) return;
   const many = (k, w) => `${k} ${w}${k === 1 ? "" : "s"}`;
-  const what = elites.length ? `${many(elites.length, "elite")} as captured` : `${many(done.length, done[0][0] === "dungeons" ? "dungeon" : "mission")} as done in ${mode}`;
+  const what = elites.length ? `${many(elites.length, "elite")} as captured` : vanqs.length ? `${many(vanqs.length, "area")} as vanquished` : `${many(done.length, done[0][0] === "dungeons" ? "dungeon" : "mission")} as done in ${mode}`;
   if (!confirm(on ? `Mark the ${what}, all shown, for ${who}?` : `Clear the ${mode ? `${mode} ` : ""}ticks of all ${n} shown for ${who}?`)) return;
   if (elites.length) User.setCapturedMany(elites, on);
+  if (vanqs.length) User.setVanquishedMany(vanqs, on);
   // NM and HM are bits of one number: set or clear the one asked for, keep the other
   if (done.length) User.change(c => { for (const [part, id] of done) { const v = on ? (c[part][id] || 0) | m : (c[part][id] || 0) & ~m; if (v) c[part][id] = v; else delete c[part][id]; } });
   b.blur();
@@ -495,6 +550,9 @@ document.addEventListener("click", e => {
   if (b.dataset.elite) {
     User.setCaptured(b.dataset.elite, on);
     for (const x of document.querySelectorAll(`.utick[data-elite="${b.dataset.elite}"]`)) x.setAttribute("aria-pressed", on);
+  } else if (b.dataset.vanq) {
+    User.setVanquishedMany([b.dataset.vanq], on);
+    for (const x of document.querySelectorAll(`.utick[data-vanq="${b.dataset.vanq}"]`)) x.setAttribute("aria-pressed", on);
   } else {
     const g = b.parentElement, v = User.done(g.dataset.part, g.dataset.id) ^ +b.dataset.mode;
     User.setDone(g.dataset.part, g.dataset.id, v);

@@ -87,7 +87,7 @@ VIEWS.area = (() => {
     return `
       <p class="back"><a href="areas${query({ c })}">← All ${campaignName(c)} areas</a></p>
       <div class="lhead ${kind(l)}">
-        <div><h2>${esc(l.name)}</h2><div class="lsub">${typeTag(l)} <span>${esc(regionOf(l)?.name)} · ${campaignName(c)}</span></div></div>
+        <div><h2>${esc(l.name)}${l.foes ? vanqTick(l.id, undefined, "Vanquished") : ""}</h2><div class="lsub">${typeTag(l)} <span>${esc(regionOf(l)?.name)} · ${campaignName(c)}</span></div></div>
         ${stats ? `<div class="lstats">${stats}</div>` : ""}
       </div>
       ${notesHTML(l)}

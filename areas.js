@@ -2,7 +2,7 @@
 
 // every area in the game, each with a page on the front page (area.js)
 const ALL_AREAS = Object.values(AREAS);
-const els = { name: $("f-name"), index: $("index"), empty: $("empty"), count: $("count") };
+const els = { name: $("f-name"), vq: $("f-vq"), index: $("index"), empty: $("empty"), count: $("count") };
 const TABS = [1, 2, 3, 4, 0, 5, 6];  // campaigns: the four, Core, the Bonus Mission Pack, and the game's unknown one
 // the campaign tab picked: a campaign's number, or "all"
 const inCamp = l => state.camp === "all" || campaignOf(l) === state.camp;
@@ -20,14 +20,17 @@ const GROUPS = [
 ];
 const KINDS = [["all", "All", () => true],
   ...GROUPS.filter(([, , ts]) => ALL_AREAS.some(l => ts.includes(l.type))).map(([k, label, ts]) => [k, label, l => ts.includes(l.type)])];
-const state = { camp: "all", kind: "all", sort: "", desc: false, all: false };
+const state = { camp: "all", kind: "all", sort: "", desc: false, all: false, vq: "" };
 // the areas shown only with Show all (our list, data/areas.js): cities' festival copies, guild halls, cinematics
 const HIDDEN = new Set(Object.values(data("GW_AREA_LISTS")?.hidden || {}).flat());
 const listed = l => state.all || !HIDDEN.has(l.id);
 // regions in the order each story visits them
 const REGION_ORDER = [7, 2, 101, 0, 1, 5, 3, 6, 11, 8, 9, 10, 15, 12, 13, 14, 16, 100, 19, 20, 17, 18, 21, 4, 25, 24, 22, 23, 26, 27, 28];
 const regionIdx = r => REGION_ORDER.indexOf(r) + 1 || 99;
-const shown = l => listed(l) && KINDS.find(k => k[0] === state.kind)[2](l);
+// the vanquish filter: "v" the areas that can be vanquished, "n" those not yet vanquished by the character picked on the User page
+let vanqSet = new Set();
+const vqOk = l => !state.vq || (l.foes && (state.vq === "v" || !vanqSet.has(l.id)));
+const shown = l => listed(l) && KINDS.find(k => k[0] === state.kind)[2](l) && vqOk(l);
 for (const l of ALL_AREAS) l._k = fold([l.name, regionOf(l)?.name, TYPE_LABEL[l.type], aliasText("areas", l.id), aliasText("regions", l.region)].join(" "));
 
 /* ---------- index ---------- */
@@ -41,12 +44,14 @@ const COLS = [
   ["type", "Type", l => TYPE_LABEL[l.type] || "", l => `<span class="dim">${esc(TYPE_LABEL[l.type] || "")}</span>`],
   ["region", "Region", null, l => `${esc(regionOf(l)?.name || "")}${campaignOf(l) != null && campaignOf(l) !== state.camp ? ` <span class="dim">· ${campaignName(campaignOf(l))}</span>` : ""}`],
   ["party", "Party", l => partyOf(l) ?? Infinity, l => partyOf(l) ?? ""],
+  ["vq", "Vanquished", null, l => (l.foes ? vanqTick(l.id, vanqSet.has(l.id)) : "")],
 ];
 const NUM = new Set(["party"]);
 // a mission area's party is its outpost's (the game gives the area none: you arrive as a party)
 const partyOf = l => l.party ?? AREAS[MISSIONS[l.id]?.outpost]?.party;
 // a search looks through every campaign, the current one first; by default areas come in story order, region by region
 function renderIndex(ts) {
+  vanqSet = new Set(User.char().vanquished);
   const all = ALL_AREAS.filter(l => shown(l) && (ts.length || inCamp(l)));
   const hits = all.filter(l => ts.every(w => l._k.includes(w)));
   els.count.textContent = `${hits.length} / ${all.length}`;
@@ -56,8 +61,10 @@ function renderIndex(ts) {
   const cmp = key ? (a, b) => { const x = key(a), y = key(b); return (typeof x === "number" ? x - y : x.localeCompare(y)) || story(a, b); } : story;
   const rows = hits.sort(cmp);
   if (state.desc) rows.reverse();
-  els.index.innerHTML = !rows.length ? "" : `<table class="dgtable loctable"><thead><tr>${COLS.map(([k, label]) =>
-    `<th class="c-${k}${NUM.has(k) ? " num" : ""}"><button type="button" data-sort="${k}" class="${k === (state.sort || "region") ? `sorted${state.desc ? " desc" : ""}` : ""}">${label}</button></th>`).join("")}</tr></thead>
+  // the Vanquished column's title: Check all and Uncheck all, for the areas shown
+  els.index.innerHTML = !rows.length ? "" : `<table class="dgtable loctable"><thead><tr>${COLS.map(([k, label]) => k === "vq"
+    ? `<th class="c-vq bulk" tabindex="0" title="For the character picked on the User page">${label}${bulkMenu("#index tbody")}</th>`
+    : `<th class="c-${k}${NUM.has(k) ? " num" : ""}"><button type="button" data-sort="${k}" class="${k === (state.sort || "region") ? `sorted${state.desc ? " desc" : ""}` : ""}">${label}</button></th>`).join("")}</tr></thead>
     <tbody>${rows.map(l => `<tr class="${areaGroup(l)}">${COLS.map(([k, , , cell]) => `<td class="c-${k}${NUM.has(k) ? " num" : ""}">${cell(l, ts)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
 }
 const sortArg = () => (state.desc ? "-" : "") + (state.sort || (state.desc ? "region" : ""));
@@ -92,6 +99,8 @@ function readArgs() {
   state.camp = h.has("c") && TABS.includes(+h.get("c")) ? +h.get("c") : "all";
   state.kind = KINDS.some(k => k[0] === h.get("k")) ? h.get("k") : "all";
   state.all = h.get("all") === "1";
+  state.vq = ["v", "n"].includes(h.get("v")) ? h.get("v") : "";
+  els.vq.value = state.vq;
   // a campaign or a type with no area left to show (without Show all) falls back to the first, or to All
   if (!ALL_AREAS.some(l => listed(l) && inCamp(l))) state.camp = "all";
   const is = KINDS.find(k => k[0] === state.kind)[2];
@@ -104,7 +113,10 @@ function readArgs() {
 $("camps").innerHTML = `<button class="prof-chip" data-v="all">All</button>` + TABS.map(c => `<button class="prof-chip" data-v="${c}">${campaignName(c)}</button>`).join("");
 $("kinds").innerHTML = KINDS.map(([k, label]) => `<button class="prof-chip" data-k="${k}">${label}</button>`).join("");
 // the campaign and the kind, in the address (each kept when the other changes)
-const address = (c, k, sort = "", all = state.all) => go(query(Object.fromEntries([["c", c === "all" ? "" : c], ["k", k === "all" ? "" : k], ["sort", sort], ["all", all ? "1" : ""]].filter(x => x[1]))));
+const address = (c, k, sort = "", all = state.all, vq = state.vq) => go(query(Object.fromEntries([["c", c === "all" ? "" : c], ["k", k === "all" ? "" : k], ["v", vq], ["sort", sort], ["all", all ? "1" : ""]].filter(x => x[1]))));
+els.vq.addEventListener("change", () => address(state.camp, state.kind, sortArg(), state.all, els.vq.value));
+// a tick (here or in another tab) takes an area out of "not yet vanquished"
+addEventListener("userchange", () => renderIndex(terms(els.name)));
 $("f-all").addEventListener("change", e => address(state.camp, state.kind, sortArg(), e.target.checked));
 $("camps").addEventListener("click", e => {
   const b = e.target.closest("[data-v]");
