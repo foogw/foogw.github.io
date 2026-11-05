@@ -434,6 +434,10 @@ const User = {
   change(f) { const o = User.data(); f(User.char(o)); User.save(o); },
   setCaptured(id, on) { User.change(c => { c.elites = c.elites.filter(x => x !== +id); if (on) c.elites.push(+id); c.elites.sort((a, b) => a - b); }); },
   setDone(part, id, v) { User.change(c => { if (v) c[part][id] = v; else delete c[part][id]; }); },
+  // many at once, saved once
+  setCapturedMany(ids, on) {
+    User.change(c => { const s = new Set(c.elites); for (const id of ids) if (on) s.add(+id); else s.delete(+id); c.elites = [...s].sort((a, b) => a - b); });
+  },
 };
 // back on a tab after the progress or the character changed in another: its ticks show the new state, and a page that
 // lists by progress draws again (on "userchange")
@@ -456,6 +460,31 @@ const modeProgress = (c, part) => Object.entries(c[part]).filter(([id]) => part 
 const missing = (v = 0, mode) => (mode === "a" ? (v & 3) !== 3 : !(v & +mode));
 const doneTicks = (part, id, v = User.done(part, id), label = "") => { return `<span class="uticks" data-part="${part}" data-id="${id}">${label ? `<span class="ulabel">${label}</span>` : ""}${[[1, "NM", "Normal mode"], [2, "HM", "Hard mode"]].map(([b, l, t]) =>
   `<button type="button" class="utick" data-mode="${b}" aria-pressed="${!!(v & b)}" title="Done in ${t}">${l}</button>`).join("")}</span>`; };
+// a tick column's title: on hover (or focus), Check all and Uncheck all (for NM and HM each, where it has both), for
+// the ticks in the rows shown (the list named by its data-bulk-list), after an are-you-sure
+const bulkMenu = (list, modes = false) => ` <span class="bulk-menu" data-bulk-list="${list}">${(modes
+  ? [[1, 1, "Check all NM"], [1, 2, "Check all HM"], [0, 1, "Uncheck all NM"], [0, 2, "Uncheck all HM"]]
+  : [[1, 0, "Check all"], [0, 0, "Uncheck all"]]).map(([on, m, label]) => `<button type="button" data-bulk="${on}"${m ? ` data-mode="${m}"` : ""}>${label}</button>`).join("")}</span>`;
+for (const s of document.querySelectorAll(".bulk-slot")) s.outerHTML = bulkMenu(s.dataset.list, s.dataset.modes === "1");
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-bulk]");
+  if (!b) return;
+  e.preventDefault(); e.stopPropagation();
+  const list = document.querySelector(b.closest("[data-bulk-list]").dataset.bulkList), on = b.dataset.bulk === "1";
+  if (User.broken()) { if (confirm("Your saved progress can't be read, so it can't be changed here. Open the User page to see it?")) location.href = "user"; return; }
+  const elites = [...new Set([...list.querySelectorAll(".utick[data-elite]")].map(x => x.dataset.elite))];
+  const done = [...list.querySelectorAll(".uticks[data-part]")].map(g => [g.dataset.part, g.dataset.id]);
+  const n = elites.length + done.length, who = User.char().name, m = +b.dataset.mode || 0, mode = ["", "NM", "HM"][m];
+  if (!n) return;
+  const many = (k, w) => `${k} ${w}${k === 1 ? "" : "s"}`;
+  const what = elites.length ? `${many(elites.length, "elite")} as captured` : `${many(done.length, done[0][0] === "dungeons" ? "dungeon" : "mission")} as done in ${mode}`;
+  if (!confirm(on ? `Mark the ${what}, all shown, for ${who}?` : `Clear the ${mode ? `${mode} ` : ""}ticks of all ${n} shown for ${who}?`)) return;
+  if (elites.length) User.setCapturedMany(elites, on);
+  // NM and HM are bits of one number: set or clear the one asked for, keep the other
+  if (done.length) User.change(c => { for (const [part, id] of done) { const v = on ? (c[part][id] || 0) | m : (c[part][id] || 0) & ~m; if (v) c[part][id] = v; else delete c[part][id]; } });
+  b.blur();
+  dispatchEvent(new Event("userchange"));
+}, true);
 // a tick is clicked: before the row it may sit in (a link, or a row that opens) sees the click
 document.addEventListener("click", e => {
   const b = e.target.closest(".utick");
