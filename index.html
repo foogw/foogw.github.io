@@ -282,7 +282,9 @@ document.addEventListener("keydown", e => {
 // a game thing's own page (./?area=146, ./?skill=1234, …): the home page gives way to it
 function route() {
   // a dungeon's old area link: its own page now
-  if (AREAS[args().get("area")]?.type === 18) history.replaceState(null, "", HREF.dungeon(args().get("area")));
+  if (isDungeon(AREAS[args().get("area")])) history.replaceState(null, "", HREF.dungeon(args().get("area")));
+  // and the other way: a dungeon link to one of its levels (or a quest area the game types as a dungeon) is its area page
+  { const d = args().get("dungeon"); if (d && AREAS[d] && !isDungeon(AREAS[d])) history.replaceState(null, "", HREF.area(d)); }
   const p = args(), k = Object.keys(VIEWS).find(k => p.has(k)), v = VIEWS[k], x = v?.find(p.get(k));
   for (const sel of [".hero", ".gsearch", "#results", "#sections"]) document.querySelector(sel).style.display = k ? "none" : "";
   $("view").hidden = !k;

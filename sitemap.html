@@ -61,6 +61,7 @@
   <table>
     <tr><td><code>q</code></td><td>Search the rotations</td></tr>
     <tr><td><code>bonus</code></td><td>One weekly bonus's page, by bonus id</td></tr>
+      <tr><td><code>nick</code></td><td>Nicholas the Traveler's week shown, by its entry in his rotation (without it, this week)</td></tr>
   </table>
   <p class="ex">e.g. <a href="rotations?q=kryta">rotations?q=kryta</a> · <a href="rotations?bonus=1">rotations?bonus=1</a> (Extra Luck)</p>
 
@@ -79,6 +80,15 @@
   </table>
   <p class="ex">e.g. <a href="storylines?factions">storylines?factions</a> · <a href="storylines?prophecies&amp;m=28">storylines?prophecies&amp;m=28</a></p>
 
+  <h3><code>areas</code> <span class="dim">Every area in the game, by kind and region</span></h3>
+  <table>
+    <tr><td><code>c</code></td><td>Campaign tab (none: all): 0 Core, 1 Prophecies, 2 Factions, 3 Nightfall, 4 Eye of the North, 5 Bonus Mission Pack, 6 the game's unknown one</td></tr>
+    <tr><td><code>k</code></td><td>Type filter: outposts (cities, outposts, mission outposts, marketplaces and cooperative missions), missionareas (mission areas and Eye of the North missions), pvp (every PvP type), else a game area type's number (e.g. 6, cooperative mission); none for all</td></tr>
+    <tr><td><code>all</code></td><td>1: Show all, also the areas data/areas.js lists (festival copies of cities, guild halls and their copies, cinematics, arena, alliance battle and other copies, dev, test, unused and unnamed maps)</td></tr>
+    <tr><td><code>sort</code></td><td>Column to sort by (name, type, region, party), with <code>-</code> for the other way</td></tr>
+  </table>
+  <p class="ex">e.g. <a href="areas?c=2&amp;k=6">areas?c=2&amp;k=6</a></p>
+
   <h3><code>missions</code> <span class="dim">The mission list</span></h3>
   <table>
     <tr><td><code>q</code></td><td>Mission name</td></tr>
@@ -90,18 +100,18 @@
     <tr><td><code>e</code></td><td>Has an elite of this profession (1 Warrior … 10 Dervish)</td></tr>
     <tr><td><code>pvp</code></td><td><code>1</code>: include PvP maps</td></tr>
     <tr><td><code>sort</code></td><td><code>story</code>, <code>name</code>, <code>campaign</code>, <code>region</code>, <code>type</code>, <code>party</code>; a leading <code>-</code> reverses it</td></tr>
+      <tr><td><code>cap</code></td><td><code>1</code>: only elites not yet captured by the character picked on the User page</td></tr>
+      <tr><td><code>d</code></td><td>Done filter, for the character picked on the User page: <code>1</code> missing NM, <code>2</code> missing HM, <code>a</code> missing either</td></tr>
   </table>
   <p class="ex">e.g. <a href="missions?q=wall">missions?q=wall</a> · <a href="missions?c=3&amp;sort=-party">missions?c=3&amp;sort=-party</a> ·
     <a href="missions?w=energy%20surge">missions?w=energy surge</a></p>
 
-  <h3><code>areas</code> <span class="dim">Every area in the game, by kind and region</span></h3>
+  <h3><code>dungeons</code> <span class="dim">Every dungeon, with its levels</span></h3>
   <table>
-    <tr><td><code>c</code></td><td>Campaign tab (none: all): 0 Core, 1 Prophecies, 2 Factions, 3 Nightfall, 4 Eye of the North, 5 Bonus Mission Pack, 6 the game's unknown one</td></tr>
-    <tr><td><code>k</code></td><td>Type filter: outposts (cities, outposts, mission outposts, marketplaces and cooperative missions), missionareas (mission areas and Eye of the North missions), pvp (every PvP type), else a game area type's number (e.g. 6, cooperative mission); none for all</td></tr>
-    <tr><td><code>all</code></td><td>1: Show all, also the areas data/areas.js lists (festival copies of cities, guild halls and their copies, cinematics, arena, alliance battle and other copies, dev, test, unused and unnamed maps)</td></tr>
-    <tr><td><code>sort</code></td><td>Column to sort by (name, type, region, party), with <code>-</code> for the other way</td></tr>
+    <tr><td><code>d</code></td><td>Done filter, for the character picked on the User page: <code>1</code> missing NM, <code>2</code> missing HM, <code>a</code> missing either</td></tr>
+    <tr><td><code>sort</code></td><td>Column to sort by (book, name, region, levels, boss, from, bounty, done), with <code>-</code> for the other way; none: the Master Dungeon Guide's order</td></tr>
   </table>
-  <p class="ex">e.g. <a href="areas?c=2&amp;k=6">areas?c=2&amp;k=6</a></p>
+  <p class="ex">e.g. <a href="dungeons?d=a">dungeons?d=a</a> · <a href="dungeons?sort=bounty">dungeons?sort=bounty</a></p>
 
   <h3><code>maps</code> <span class="dim">The world maps with every area's walkable ground</span></h3>
   <table>
@@ -125,6 +135,7 @@
     <tr><td><code>pvp</code></td><td><code>1</code>: include PvP versions</td></tr>
     <tr><td><code>sort</code></td><td><code>name</code>, <code>profession</code>, <code>attribute</code>, <code>type</code>, <code>cost</code>, <code>activation</code>,
       <code>recharge</code>, <code>campaign</code>; a leading <code>-</code> reverses it</td></tr>
+      <tr><td><code>cap</code></td><td><code>1</code>: only elites not yet captured by the character picked on the User page</td></tr>
   </table>
   <p class="ex">e.g. <a href="skills?p=4&amp;e=1">skills?p=4&amp;e=1</a> (Necromancer elites) · <a href="skills?a=a5&amp;sort=recharge">skills?a=a5&amp;sort=recharge</a> (Death Magic) ·
     <a href="skills?t=interrupt">skills?t=interrupt</a></p>
@@ -167,6 +178,7 @@
     <tr><td><code>p</code></td><td>Professions, by number</td></tr>
     <tr><td><code>c</code></td><td>Campaign, by number</td></tr>
     <tr><td><code>e</code></td><td><code>1</code>: only bosses with an elite</td></tr>
+      <tr><td><code>cap</code></td><td><code>1</code>: only elites not yet captured by the character picked on the User page</td></tr>
   </table>
   <p class="ex">e.g. <a href="bosses?q=energy%20surge">bosses?q=energy surge</a> · <a href="bosses?p=5&amp;e=1">bosses?p=5&amp;e=1</a></p>
 
@@ -210,9 +222,6 @@
   <p>No settings. Click two spots for the way between them; Shift+wheel zooms, Shift+click traces a line (logged to the console).</p>
 
   <h3><code>reverie-pins</code> <span class="dim">Placing the Wayfarer's Reverie spots on their maps</span></h3>
-  <p>No settings.</p>
-
-  <h3><code>dungeons</code> <span class="dim">Every dungeon, with its levels</span></h3>
   <p>No settings.</p>
 
   <h3><code>editor-maps</code> <span class="dim">Our fixes to the walkable ground, checked on Nicholas the Traveler's ways</span></h3>

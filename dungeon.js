@@ -139,5 +139,5 @@ VIEWS.dungeon = (() => {
       { t.hidden = false; t.querySelector("b").textContent = `${units(total)}`; t.title = "Game units, from the outpost to the boss"; }
   }
   // any dungeon has a page; its levels where data/depths.js has them
-  return { find: id => (AREAS[id]?.type === 18 ? { id: +id, levels: DEPTHS?.dungeons?.[id]?.levels || [] } : null), title: d => AREAS[d.id].name, html, after };
+  return { find: id => (isDungeon(AREAS[id]) ? { id: +id, levels: DEPTHS?.dungeons?.[id]?.levels || [] } : null), title: d => AREAS[d.id].name, html, after };
 })();

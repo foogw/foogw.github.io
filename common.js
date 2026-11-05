@@ -114,8 +114,8 @@ document.addEventListener("click", e => {
 }
 // the pages of the game's own things are on the front page: ./?area=146
 const HREF = Object.fromEntries(["area", "mission", "dungeon", "quest", "skill", "hero", "boss", "title"].map(k => [k, id => "./" + query({ [k]: id })]));
-// a dungeon is a page of its own, not an area
-{ const area = HREF.area; HREF.area = id => (AREAS[id]?.type === 18 ? HREF.dungeon(id) : area(id)); }
+// a dungeon is a page of its own, not an area (but not its later levels, nor the quest areas the game types as dungeons)
+{ const area = HREF.area; HREF.area = id => (isDungeon(AREAS[id]) ? HREF.dungeon(id) : area(id)); }
 // our own pages name what they show: builds?meta, storylines?prophecies&m=28
 const buildHref = id => "builds?" + encodeURIComponent(id);
 const STORYLINE = { 1: "prophecies", 2: "factions", 3: "nightfall", 4: "eotn" };  // campaign -> its storyline's name
