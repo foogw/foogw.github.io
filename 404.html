@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- served for any address that has no page, at any depth: every link and file below is from the site's root -->
+<base href="/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>Page not found</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .notfound { max-width: 640px; padding-top: 8px; }
+  .notfound code { overflow-wrap: anywhere; }
+  .notfound ul { margin: 8px 0; padding-left: 20px; }
+  .notfound li { margin: 4px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"></header><script src="header.js"></script>
+  <div class="page-title"><h1>Page not found</h1><p>There's no page at <code id="path"></code></p></div>
+  <div class="notfound">
+    <p>It may have moved, or the address may be mistyped. Try:</p>
+    <ul>
+      <li>the <a href="./">front page</a>, whose search finds skills, missions, areas and bosses</li>
+      <li><a href="areas">Areas</a>, <a href="missions">Missions</a>, <a href="dungeons">Dungeons</a> or <a href="skills">Skills</a></li>
+      <li>the <a href="sitemap">sitemap</a>, with every page and its addresses</li>
+    </ul>
+  </div>
+  <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+<script>document.getElementById("path").textContent = decodeURI(location.pathname + location.search);</script>
+</body>
+</html>
