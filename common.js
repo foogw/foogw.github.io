@@ -273,9 +273,67 @@ const Rotation = {
 // what a rotation entry names, as text and as a link
 const entryName = e => (e.item || (e.creature && CREATURES[e.creature]?.name) || (e.quest && QUESTS[e.quest]?.name)
   || (e.bonus && BONUSES[e.bonus]?.name) || (e.mission && (MISSIONS[e.mission]?.name || areaName(e.mission))) || (e.area && areaName(e.area)) || e.name || "");
+// the marks and notes of what the picked character has left to do show only once it has a name of its own (not the
+// default Char<id>), as the top bar names it (header.js): before that, nothing says whose they'd be
+const userNamed = () => { if (User.stored() == null || User.broken()) return false; const c = User.char(); return !!c?.name.trim() && c.name !== `Char${c.id}`; };
+// a mission the picked character hasn't completed: † in normal mode, ‡ in hard mode
+function missionMarks(id) {
+  if (!USER_ALL.missions.includes(+id) || !userNamed()) return "";
+  const c = User.char(), d = User.done("missions", id);
+  return [[1, "†", "NM"], [2, "‡", "HM"]].filter(([b]) => !(d & b))
+    .map(([, m, mode]) => `<sup class="u-miss" tabindex="0" data-tip="${esc(c.name)} hasn't completed this mission in ${mode}" aria-label="${esc(c.name)} hasn't completed this mission in ${mode}">${m}</sup>`).join("");
+}
+// an area with foes to vanquish the picked character hasn't vanquished: §
+function vanqMark(id) {
+  if (!AREAS[id]?.foes || !userNamed() || User.vanquished(id)) return "";
+  const tip = `${esc(User.char().name)} hasn't vanquished this area yet`;
+  return `<sup class="u-miss" tabindex="0" data-tip="${tip}" aria-label="${tip}">§</sup>`;
+}
+// the same as a sentence, for the mission's or the area's page ("" when done, or no progress is kept): what's left to do,
+// "mission:<id>" or "vanq:<id>"; leftNote gives it in a span that follows the page's ticks, its list item hidden while it
+// says nothing
+const LEFT = {
+  mission: id => USER_ALL.missions.includes(+id),
+  vanq: id => !!AREAS[id]?.foes,
+};
+function leftText(key) {
+  const [kind, id] = key.split(":");
+  if (!LEFT[kind]?.(id) || !userNamed()) return "";
+  const who = `<b>${esc(User.char().name)}</b>`;
+  if (kind === "vanq") return User.vanquished(id) ? "" : `${who} hasn't vanquished this area yet.`;
+  const d = User.done("missions", id), left = [[1, "normal"], [2, "hard"]].filter(([b]) => !(d & b)).map(([, m]) => m);
+  return left.length ? `${who} hasn't completed this mission in ${left.join(" or ")} mode.` : "";
+}
+const leftNote = key => (LEFT[key.split(":")[0]]?.(key.split(":")[1]) && userNamed() ? `<span data-left-note="${key}">${leftText(key)}</span>` : "");
+// a list item that says nothing (yet) is hidden
+const noteLi = n => `<li${/^<span data-left-note="[\w:]+"><\/span>$/.test(n) ? " hidden" : ""}>${n}</li>`;
+// [data-tip]: its text in a tooltip at once, above it (below near the top of the window), on hover or keyboard focus
+{
+  let tip = null;
+  const show = el => {
+    tip ??= Object.assign(document.createElement("div"), { className: "tip", role: "tooltip" });
+    if (!tip.isConnected) document.body.append(tip);
+    tip.textContent = el.dataset.tip; tip.hidden = false;
+    const r = el.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight;
+    tip.style.left = `${Math.max(4, Math.min(innerWidth - w - 4, r.left + r.width / 2 - w / 2))}px`;
+    tip.style.top = `${r.top - h - 6 < 4 ? r.bottom + 6 : r.top - h - 6}px`;
+  };
+  const hide = () => { if (tip) tip.hidden = true; };
+  for (const [on, off] of [["mouseover", "mouseout"], ["focusin", "focusout"]]) {
+    addEventListener(on, e => { const el = e.target.closest?.("[data-tip]"); if (el) show(el); });
+    addEventListener(off, e => { if (e.target.closest?.("[data-tip]")) hide(); });
+  }
+  addEventListener("scroll", hide, true);
+}
+addEventListener("userchange", () => {
+  for (const s of document.querySelectorAll("[data-left-note]")) {
+    s.innerHTML = leftText(s.dataset.leftNote);
+    if (s.parentElement.tagName === "LI") s.parentElement.hidden = !s.innerHTML;
+  }
+});
 function entryHTML(e) {
-  if (e.mission) return LINK.mission(e.mission);
-  if (e.area && !e.creature && !e.item) return LINK.area(e.area);
+  if (e.mission) return LINK.mission(e.mission) + missionMarks(e.mission);
+  if (e.area && !e.creature && !e.item) return LINK.area(e.area) + vanqMark(e.area);
   if (e.bonus) return `<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`;
   if (e.quest) return LINK.quest(e.quest);
   // Nicholas the Traveler's item: his map that week, at the foot of the Rotations page

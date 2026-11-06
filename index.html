@@ -148,7 +148,7 @@ function renderRandom() {
 }
 $("rnd-again").addEventListener("click", renderRandom);
 
-const TODAY = [["zaishen-mission", "Mission"], ["zaishen-bounty", "Bounty"], ["zaishen-vanquish", "Vanquish"],
+const TODAY = [["zaishen-mission", "Mission"], ["zaishen-vanquish", "Vanquish"], ["zaishen-bounty", "Bounty"],
   ["nicholas-sandford", "Sandford"], ["vanguard", "Vanguard"], null, ["weekly-pve", "PvE bonus"], ["nicholas-traveler", "Nicholas"]];
 const renderToday = () => { $("today").innerHTML = rotationListHTML(TODAY); };
 renderToday();

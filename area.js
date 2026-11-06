@@ -53,6 +53,10 @@ VIEWS.area = (() => {
     const same = l.terrain ? Object.values(AREAS).filter(x => x !== l && x.type !== 14 && x.type !== 17 && x.terrain === l.terrain && x.set === l.set) : [];
     const from = l.from || [];
     const notes = [
+      // what the picked character has left to do here, and when the Zaishen dailies are next here, first
+      l.foes && leftNote(`vanq:${l.id}`),
+      zaishenNote("zaishen-vanquish", e => e.area === l.id && !e.creature),
+      zaishenNote("zaishen-mission", e => e.mission === l.id),
       missions.length && `This outpost is where ${listText(missions.map(m => the(m.id) + LINK.mission(m.id)))} mission${missions.length > 1 ? "s start" : " starts"}.`,
       MISSIONS[l.id] && l.type !== 5 && !(outpostHere && MISSIONS[l.id].outpost === l.id) && `${the(l.id) ? "The " : ""}${LINK.mission(l.id)} mission is played here.`,
       same.length && `<span data-same="${same.map(x => x.id).join(",")}"></span>`,
@@ -61,13 +65,11 @@ VIEWS.area = (() => {
       l.gateway && `${listText(l.gateway.map(areaLink))} are reached from here, through a god's statue or an NPC.`,
       [14, 17].includes(l.type) && missionWhereNote(l.id),
       missionsIn(l.id).length && `${cap(listText(missionsIn(l.id).map(i => the(i) + LINK.mission(i))))} mission${missionsIn(l.id).length > 1 ? "s are" : " is"} played in this area's place.`,
-      zaishenNote("zaishen-mission", e => e.mission === l.id),
-      zaishenNote("zaishen-vanquish", e => e.area === l.id && !e.creature),
       ROTATED.has(l.id) && `${listText([...ROTATED.get(l.id)].map(esc))} send${ROTATED.get(l.id).size > 1 ? "" : "s"} you here now and then: see when on the <a href="rotations">Rotations</a> page.`,
       ...(l.notes || []).map(text),
       from.length && (l.exits?.length ? `Also reached from ${listText(from.map(areaLink))}, with no way back there.` : `Entered from ${listText(from.map(areaLink))}.`),
     ].filter(Boolean);
-    return notes.length ? `<ul class="lnotes">${notes.map(n => `<li${n.startsWith("<span data-same") ? " hidden" : ""}>${n}</li>`).join("")}</ul>` : "";
+    return notes.length ? `<ul class="lnotes">${notes.map(n => (n.startsWith("<span data-same") ? `<li hidden>${n}</li>` : noteLi(n))).join("")}</ul>` : "";
   }
 
   function html(l) {

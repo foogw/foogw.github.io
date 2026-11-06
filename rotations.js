@@ -1,7 +1,7 @@
 "use strict";
 
 const ROT = ROTATIONS;
-const DAILY = ["zaishen-mission", "zaishen-bounty", "zaishen-vanquish", "zaishen-combat", "wanted",
+const DAILY = ["zaishen-mission", "zaishen-vanquish", "zaishen-bounty", "zaishen-combat", "wanted",
   "vanguard", "nicholas-sandford"].map(k => ROT[k]);
 const WEEKLY = ["nicholas-traveler", "weekly-pve", "weekly-pvp"].map(k => ROT[k]);
 const SHORT = {
@@ -31,8 +31,8 @@ formats();
 
 const $find = $("find");
 
-const NOW = [["zaishen-mission", "Zaishen Mission"], ["zaishen-bounty", "Zaishen Bounty"],
-  ["zaishen-vanquish", "Zaishen Vanquish"], ["zaishen-combat", "Zaishen Combat"], ["wanted", "Shining Blade"],
+const NOW = [["zaishen-mission", "Zaishen Mission"], ["zaishen-vanquish", "Zaishen Vanquish"],
+  ["zaishen-bounty", "Zaishen Bounty"], ["zaishen-combat", "Zaishen Combat"], ["wanted", "Shining Blade"],
   ["vanguard", "Vanguard"], ["nicholas-sandford", "Sandford"], null,
   ["nicholas-traveler", "Nicholas"], ["weekly-pve", "PvE bonus"], ["weekly-pvp", "PvP bonus"]];
 
