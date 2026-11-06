@@ -55,6 +55,7 @@ VIEWS.area = (() => {
       missions.length && `This outpost is where ${listText(missions.map(m => the(m.id) + LINK.mission(m.id)))} mission${missions.length > 1 ? "s start" : " starts"}.`,
       MISSIONS[l.id] && l.type !== 5 && !(outpostHere && MISSIONS[l.id].outpost === l.id) && `${the(l.id) ? "The " : ""}${LINK.mission(l.id)} mission is played here.`,
       same.length && `<span data-same="${same.map(x => x.id).join(",")}"></span>`,
+      AREAS[l.ground] && `The same ground as ${areaLink(l.ground)}: its map is drawn here.`,
       l.after && `Completing the mission takes you to ${areaLink(l.after)}.`,
       l.gateway && `${listText(l.gateway.map(areaLink))} are reached from here, through a god's statue or an NPC.`,
       ROTATED.has(l.id) && `${listText([...ROTATED.get(l.id)].map(esc))} send${ROTATED.get(l.id).size > 1 ? "" : "s"} you here now and then: see when on the <a href="rotations">Rotations</a> page.`,

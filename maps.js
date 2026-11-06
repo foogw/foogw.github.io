@@ -23,8 +23,8 @@ $("unknown").closest("label").remove();  // the old map points by number are gon
 let set = null, view0 = null, areas = [], hover = null, pick = null;
 const view = { zoom: 1, x: 0, y: 0 };
 let cssW = 0, cssH = 0, dpr = 1, raf = 0, token = 0;
-// the areas on a map: their ground is there, or (without ground) their marker
-const inSet = s => Object.values(AREAS).filter(l => (WALK_SET.get(l.id) ?? l.set) === s);
+// the areas on a map: their ground is there, or (without ground) their marker; not the versions drawn with another's
+const inSet = s => Object.values(AREAS).filter(l => !l.ground && (WALK_SET.get(l.id) ?? l.set) === s);
 
 /* ---------- choosing a view ---------- */
 $("groups").innerHTML = GROUPS.map(g => `<button class="prof-chip" data-g="${esc(g.name)}">${esc(g.name)}</button>`).join("");

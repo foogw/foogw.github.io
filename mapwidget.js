@@ -5,6 +5,9 @@
    initMaps(root) brings the windows in it to life; paintMap draws any view, for the Maps page and the route finder. */
 // the maps, and the areas with walkable ground: map id -> the map it is on
 const MAP_SETS = data("GW_MAPS")?.sets || {}, WALK_SET = new Map(Object.entries(data("GW_MAPS")?.walks || {}).map(([k, s]) => [+k, s]));
+// an area drawn with another's ground (a festival's outpost, a quest's instance: "ground" in game/ground.js)
+const groundOf = id => AREAS[id]?.ground ?? +id;
+for (const l of Object.values(AREAS)) if (l.ground && WALK_SET.has(l.ground)) WALK_SET.set(l.id, WALK_SET.get(l.ground));
 const HAS_WALK = { has: id => WALK_SET.has(+id) };
 const TILE = 256;
 const MAP_TINT = "#06080a", MAP_RING = "#ffd98a", MAP_MAX_H = 520;
@@ -14,7 +17,7 @@ const WALKS = new Map();
 // an area's walkable ground, {set, rings: [[x0, y0, x1, y1, ...]]}, or null where the site has none
 function loadWalk(id) {
   if (!HAS_WALK.has(+id)) return Promise.resolve(null);
-  if (!WALKS.has(+id)) WALKS.set(+id, fetch(`game/walk/${id}.json`).then(r => (r.ok ? r.json() : null)).catch(() => null));
+  if (!WALKS.has(+id)) WALKS.set(+id, fetch(`game/walk/${groundOf(id)}.json`).then(r => (r.ok ? r.json() : null)).catch(() => null));
   return WALKS.get(+id);
 }
 // the rings as one path in map pixels (filled non-zero: holes run the other way and stay dark)

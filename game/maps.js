@@ -43,7 +43,7 @@ const GW_MAPS = {
     "135": {"name": "Central Transfer Chamber", "continent": 0, "w": 191, "h": 191},
     "136": {"name": "Fetid River", "continent": 3, "w": 255, "h": 255},
     "137": {"name": "The Antechamber", "continent": 3, "w": 255, "h": 255},
-    "138": {"name": "Unknown 1", "continent": 0, "w": 511, "h": 511}
+    "138": {"name": "A Time for Heroes", "continent": 0, "w": 511, "h": 511}
   },
   "groups_": "The Maps page's tabs, in order: what each shows first, a box [x0, y0, x1, y1] on a set.",
   "groups": [
@@ -57,7 +57,7 @@ const GW_MAPS = {
     {"name": "Eye of the North", "set": 0, "box": [4479, 836, 7853, 2788]},
     {"name": "Core", "set": 110, "box": [0, 0, 640, 512]},
     {"name": "PvP", "set": 120, "box": [0, 0, 255, 255]},
-    {"name": "Others", "set": 138, "box": [0, 0, 511, 511]}
+    {"name": "Others", "set": 125, "box": [0, 0, 383, 511]}
   ],
   "views_": "Each tab's regions: a box on a set.",
   "views": [
@@ -106,6 +106,7 @@ const GW_MAPS = {
     {"name": "Depths of Tyria", "group": "Eye of the North", "set": 109, "box": [0, 0, 1664, 1664]},
     {"name": "Glint's Challenge", "group": "Eye of the North", "set": 123, "box": [0, 0, 255, 287]},
     {"name": "Central Transfer Chamber", "group": "Eye of the North", "set": 135, "box": [0, 0, 191, 191]},
+    {"name": "A Time for Heroes", "group": "Eye of the North", "set": 138, "box": [0, 0, 255, 255]},
     {"name": "The Fissure of Woe", "group": "Core", "set": 110, "box": [0, 0, 640, 512]},
     {"name": "The Underworld", "group": "Core", "set": 111, "box": [0, 0, 512, 640]},
     {"name": "Isle of the Nameless", "group": "Core", "set": 115, "box": [0, 0, 720, 652]},
@@ -121,7 +122,6 @@ const GW_MAPS = {
     {"name": "The Hall of Heroes", "group": "PvP", "set": 119, "box": [0, 0, 255, 319]},
     {"name": "Zaishen Challenge", "group": "PvP", "set": 129, "box": [0, 0, 319, 223]},
     {"name": "Zaishen Elite", "group": "PvP", "set": 130, "box": [0, 0, 223, 223]},
-    {"name": "Unknown 1", "group": "Others", "set": 138, "box": [0, 0, 511, 511]},
     {"name": "Vizunah Square", "group": "Others", "set": 125, "box": [0, 0, 383, 511]}
   ],
   "extras_": "Walkable ground in the pictures that no area claims yet: game/walk/extra/<n>.json, as an area's. name: what the picture called it, if anything.",
@@ -153,7 +153,9 @@ const GW_MAPS = {
     "25": {"name": "", "set": 132},
     "26": {"name": "", "set": 133},
     "27": {"name": "", "set": 134},
-    "28": {"name": "", "set": 137}
+    "28": {"name": "", "set": 137},
+    "29": {"name": "", "set": 138},
+    "30": {"name": "", "set": 138}
   },
   "walks_": "The areas with walkable ground, and the set it is on: game/walk/<map id>.json, {set, rings: [[x0, y0, x1, y1, ...], ...], town: rings} in the set's pixels (fill non-zero: outlines run one way, holes the other); town: an outpost's own ground where its mission is played on the same map id (rings: the mission's); here: map id -> its set.",
   "walks": {
@@ -561,6 +563,7 @@ const GW_MAPS = {
     "665": 0,
     "666": 109,
     "669": 0,
+    "673": 138,
     "675": 0,
     "691": 109,
     "692": 109,

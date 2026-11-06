@@ -142,6 +142,7 @@ async function main() {
   head("game/maps.js and game/walk/");
   rule("walks: each an area", "area", Object.keys(M.walks || {}).map(k => [`walks ${k}`, k]));
   rule("walks: set", "set", all(M.walks).map(([k, s]) => [`walks ${k}`, s]));
+  rule("area ground (an area with a walk file)", "walk", all(G.areas).map(([k, l]) => [`area ${k}`, l.ground]));
   rule("walk file's own set", "set", all(WALK).map(([k, w]) => [`walk/${k}.json`, w.set]));
   rule("groups, views: set", "set", [...(M.groups || []), ...(M.views || [])].map(v => [v.name, v.set]));
   say();
