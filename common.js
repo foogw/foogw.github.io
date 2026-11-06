@@ -374,13 +374,64 @@ function recruitHTML(h) {
 }
 
 /* ---------- the visitor's progress, per character, kept in this browser only (the User page backs it up) ----------
-   {v: 1, chars: [{id, name, elites: [skill ids captured], missions: {<id>: done}, dungeons: {<id>: done}, vanquished: [area
-   ids], account: its account's id, titles: {title id: rank}}], accounts: [{id, name, titles}]}, done 1 normal
-   mode, 2 hard mode, 3 both; what isn't done isn't listed. Everything is by the game's own ids, so it outlasts the site's
-   updates, and ids the site doesn't know are kept. Which character is shown (its id) is kept apart, as it's no progress. */
+   Kept as {v: 2, chars: [{id, name, account: its account's id, elites: [skill ids captured], vanquished: [area ids],
+   missionsNM, missionsHM, dungeonsNM, dungeonsHM: [ids done in that mode], titles: {title id: rank}}], accounts: [{id,
+   name, titles}]}. A list may be "all": every id in USER_ALL (frozen: should the game ever have more, they'd come with a
+   new version). An empty list, or a title not reached, is left out. Version 1 (from before), still read: no "all", and
+   missions and dungeons as {<id>: done}, done 1 normal mode, 2 hard mode, 3 both; with no "account": account 1.
+   In memory, the pages see every character as {id, name, account, elites: [], vanquished: [], missions: {<id>: done},
+   dungeons: {<id>: done}, titles}, the lists in full: it's turned into what's kept only when saved.
+   Everything is by the game's own ids, so it outlasts the site's updates, and ids the site doesn't know are kept. Which
+   character is shown (its id) is kept apart, as it's no progress. */
 const USER_KEY = "gw-user", USER_CHAR_KEY = "gw-user-char";
-const USER_KEYS = ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"];
-const newUserChar = (id, account = 1) => ({ id, name: `Char${id}`, account, elites: [], missions: {}, dungeons: {} });
+// what "all" stands for, version 2: every elite (but PvP versions), every area with foes to vanquish, every mission with
+// modes, every dungeon
+const USER_ALL = {
+  elites: [5,13,33,39,47,52,53,54,55,58,63,74,79,82,86,91,107,113,114,119,121,125,126,128,132,142,146,148,151,164,178,181,185,199,203,205,209,218,226,227,228,236,237,239,259,260,261,262,265,266,268,269,270,273,276,282,285,294,298,317,318,329,335,338,354,355,358,364,365,372,374,375,379,381,389,393,395,397,404,405,409,428,429,430,442,448,449,451,461,465,570,764,771,781,789,790,799,801,803,804,806,808,809,812,813,817,819,820,821,822,826,827,830,831,832,836,837,843,847,853,862,863,867,869,878,880,884,888,889,892,900,901,907,913,914,928,933,937,939,941,942,946,953,954,961,987,988,992,993,997,1029,1030,1034,1035,1042,1045,1053,1055,1057,1066,1083,1088,1091,1095,1098,1115,1118,1123,1126,1129,1142,1146,1195,1198,1199,1200,1202,1212,1215,1217,1220,1231,1239,1240,1250,1255,1257,1268,1333,1339,1342,1345,1346,1348,1350,1352,1355,1356,1359,1362,1364,1367,1372,1373,1377,1378,1380,1393,1394,1395,1397,1405,1406,1408,1412,1415,1465,1466,1468,1471,1473,1479,1482,1499,1502,1517,1518,1519,1520,1521,1522,1536,1548,1553,1554,1555,1568,1570,1587,1588,1596,1599,1602,1634,1635,1640,1642,1643,1644,1649,1652,1654,1656,1659,1662,1664,1684,1686,1687,1688,1690,1692,1694,1696,1697,1698,1701,1721,1724,1726,1729,1730,1732,1736,1737,1742,1744,1749,1750,1752,1754,1756,1759,1760,1761,1767,1769,1771,1773,1782,2374,2379,2384,3422,3423,3424,3425,3426,3427,3428,3429,3430,3431],
+  vanquished: [13,17,18,26,27,31,33,41,42,43,44,45,46,47,48,53,54,56,58,59,60,61,62,63,64,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,110,111,112,113,114,115,121,128,144,191,195,196,197,198,199,200,201,202,203,205,209,210,211,227,232,233,235,236,237,238,239,240,244,245,246,247,256,265,269,313,369,371,373,375,377,379,380,382,384,386,392,394,395,397,399,402,404,406,413,419,430,432,437,439,441,443,444,446,448,481,482,483,484,485,486,488,499,501,513,546,548,553,558,566,569,572,647,649,651],
+  missions: [10,11,12,14,15,16,19,21,22,23,24,25,28,29,30,32,38,73,116,117,118,120,122,123,124,204,215,257,258,260,261,262,263,264,266,267,268,270,271,307,427,453,458,459,460,515,516,517,518,519,520,521,522,523,524,525,526,527,528,556,653,654,655,658,661,664,665,666,669,670,673],
+  dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
+};
+const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
+  2: ["id", "name", "account", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles"] };
+const USER_LISTS = ["elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM"];
+const allOf = k => USER_ALL[k.replace(/[NH]M$/, "")];
+const newUserChar = (id, account = 1) => ({ id, name: `Char${id}`, account, elites: [], vanquished: [], missions: {}, dungeons: {} });
+// what's kept (version 1 or 2, checked) as the pages see it
+function userFromKept(o) {
+  const chars = o.chars.map(k => {
+    const c = { id: k.id, name: k.name, account: k.account ?? 1 };
+    if (o.v === 1) Object.assign(c, { elites: k.elites, vanquished: k.vanquished || [], missions: k.missions, dungeons: k.dungeons });
+    else {
+      const list = key => (k[key] === "all" ? [...allOf(key)] : k[key] || []);
+      Object.assign(c, { elites: list("elites"), vanquished: list("vanquished") });
+      for (const part of ["missions", "dungeons"]) {
+        c[part] = {};
+        for (const [m, b] of [["NM", 1], ["HM", 2]]) for (const id of list(part + m)) c[part][id] = (c[part][id] || 0) | b;
+      }
+    }
+    if (k.titles) c.titles = { ...k.titles };
+    return c;
+  });
+  return userNormalize({ v: 2, chars, accounts: (o.accounts || []).map(a => ({ ...a })) });
+}
+// the pages' progress as it's kept (version 2): each list sorted, "all" when it holds every id, left out when empty
+function userToKept(o) {
+  const chars = o.chars.map(c => {
+    const k = { id: c.id, name: c.name, account: c.account ?? 1 };
+    const lists = { elites: c.elites, vanquished: c.vanquished || [] };
+    for (const part of ["missions", "dungeons"]) for (const [m, b] of [["NM", 1], ["HM", 2]])
+      lists[part + m] = Object.entries(c[part]).filter(([, v]) => v & b).map(([id]) => +id);
+    for (const [key, ids] of Object.entries(lists)) {
+      const sorted = [...new Set(ids)].sort((a, b) => a - b), set = new Set(sorted);
+      if (allOf(key).every(id => set.has(id)) && sorted.length === allOf(key).length) k[key] = "all";
+      else if (sorted.length) k[key] = sorted;
+    }
+    if (c.titles && Object.keys(c.titles).length) k.titles = c.titles;
+    return k;
+  });
+  return { v: 2, chars, accounts: o.accounts };
+}
 // progress as the site keeps it: every character on an account (one kept without, from before accounts: account 1),
 // every account a character is on listed, in id order
 function userNormalize(o) {
@@ -397,7 +448,7 @@ const accountName = a => a.name || `Account ${a.id}`;
 function userCheck(o) {
   const isObj = x => x && typeof x === "object" && !Array.isArray(x), isId = x => Number.isInteger(x) && x > 0;
   if (!isObj(o)) return "It isn't an object: it should start with {.";
-  if (o.v !== 1) return 'It needs "v": 1.';
+  if (o.v !== 1 && o.v !== 2) return 'It needs "v": 2 (or 1, from before).';
   const extra = Object.keys(o).find(k => !["v", "chars", "accounts"].includes(k));
   if (extra) return `Unknown key "${extra}".`;
   if (!Array.isArray(o.chars) || !o.chars.length) return 'It needs "chars": a list of at least one character.';
@@ -419,17 +470,24 @@ function userCheck(o) {
   for (const [i, c] of o.chars.entries()) {
     const at = `Character ${i + 1}`;
     if (!isObj(c)) return `${at} isn't an object.`;
-    const k = Object.keys(c).find(k => !USER_KEYS.includes(k));
+    const k = Object.keys(c).find(k => !USER_KEYS[o.v].includes(k));
     if (k) return `${at}: unknown key "${k}".`;
     if (!isId(c.id)) return `${at}: "id" should be a whole number above 0.`;
     if (o.chars.findIndex(x => x?.id === c.id) !== i) return `${at}: id ${c.id} is used twice.`;
     if (typeof c.name !== "string" || !c.name.trim() || c.name.length > 40) return `${at}: "name" should be 1 to 40 characters.`;
-    if (!Array.isArray(c.elites) || !c.elites.every(isId) || new Set(c.elites).size !== c.elites.length) return `${at}: "elites" should be a list of skill ids, each once.`;
-    for (const part of ["missions", "dungeons"])
-      if (!isObj(c[part]) || !Object.entries(c[part]).every(([id, v]) => /^[1-9]\d*$/.test(id) && [1, 2, 3].includes(v))) return `${at}: "${part}" should map ids to 1 (NM), 2 (HM) or 3 (both).`;
-    if (c.vanquished !== undefined && (!Array.isArray(c.vanquished) || !c.vanquished.every(isId) || new Set(c.vanquished).size !== c.vanquished.length)) return `${at}: "vanquished" should be a list of area ids, each once.`;
+    const idList = x => Array.isArray(x) && x.every(isId) && new Set(x).size === x.length;
+    if (o.v === 1) {
+      if (!idList(c.elites)) return `${at}: "elites" should be a list of skill ids, each once.`;
+      for (const part of ["missions", "dungeons"])
+        if (!isObj(c[part]) || !Object.entries(c[part]).every(([id, v]) => /^[1-9]\d*$/.test(id) && [1, 2, 3].includes(v))) return `${at}: "${part}" should map ids to 1 (NM), 2 (HM) or 3 (both).`;
+      if (c.vanquished !== undefined && !idList(c.vanquished)) return `${at}: "vanquished" should be a list of area ids, each once.`;
+      if (c.account !== undefined && !isId(c.account)) return `${at}: "account" should be an account's id.`;
+    } else {
+      if (!isId(c.account)) return `${at}: "account" should be an account's id.`;
+      const bad = USER_LISTS.find(k => c[k] !== undefined && c[k] !== "all" && !idList(c[k]));
+      if (bad) return `${at}: "${bad}" should be "all" or a list of ids, each once.`;
+    }
     if (badTitles(c.titles)) return `${at}: "titles" should map title ids to the rank reached (a whole number from 1).`;
-    if (c.account !== undefined && !isId(c.account)) return `${at}: "account" should be an account's id (a backup from before accounts has none: account 1).`;
   }
   return "";
 }
@@ -442,12 +500,12 @@ const User = {
   // but the User page's reset, once it's been copied
   broken() { const t = User.stored(); if (t == null) return false; try { return !!userCheck(JSON.parse(t)); } catch { return true; } },
   data() {
-    if (!User.broken()) try { const o = JSON.parse(User.stored()); if (o) return userNormalize(o); } catch { /* none yet */ }
-    return userNormalize({ v: 1, chars: [newUserChar(1)] });
+    if (!User.broken()) try { const o = JSON.parse(User.stored()); if (o) return userFromKept(o); } catch { /* none yet */ }
+    return userNormalize({ v: 2, chars: [newUserChar(1)] });
   },
   save(o) {
     if (User.broken()) return false;
-    try { localStorage.setItem(USER_KEY, JSON.stringify(userNormalize(o))); } catch { /* storage blocked */ }
+    try { localStorage.setItem(USER_KEY, JSON.stringify(userToKept(userNormalize(o)))); } catch { /* storage blocked */ }
     userSeen = userRaw();
     return true;
   },
@@ -482,11 +540,11 @@ const User = {
   setCapturedMany(ids, on) {
     User.change(c => { const s = new Set(c.elites); for (const id of ids) if (on) s.add(+id); else s.delete(+id); c.elites = [...s].sort((a, b) => a - b); });
   },
-  // areas vanquished (the list only while it holds one)
+  // areas vanquished
   setVanquishedMany(ids, on) {
     User.change(c => {
       const s = new Set(c.vanquished); for (const id of ids) if (on) s.add(+id); else s.delete(+id);
-      if (s.size) c.vanquished = [...s].sort((a, b) => a - b); else delete c.vanquished;
+      c.vanquished = [...s].sort((a, b) => a - b);
     });
   },
 };

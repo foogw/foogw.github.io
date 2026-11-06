@@ -7,9 +7,10 @@ const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
 const modes = vs => `${vs.filter(v => v & 1).length} NM, ${vs.filter(v => v & 2).length} HM`;
 const charCounts = c => `${plural(c.elites.length, "elite")} captured · missions ${modes(modeProgress(c, "missions"))} · dungeons ${modes(modeProgress(c, "dungeons"))}`;
 // one line for the accounts and characters, then one for each character
+// (o as the pages see it)
 const summary = o => [`${plural(o.accounts?.length || 1, "account")}, ${plural(o.chars.length, "character")}`, ...o.chars.map(c => `${c.name}: ${charCounts(c)}`)].join("\n");
 // the saved progress as text: as it's kept, when it can't be read
-const keptText = () => (User.broken() ? User.stored() : JSON.stringify(User.data()));
+const keptText = () => (User.broken() ? User.stored() : JSON.stringify(userToKept(User.data())));
 let kept = false;  // broken progress copied or downloaded on this visit: only then can it be replaced or reset
 const status = (t, cls = "") => { els.status.textContent = t; els.status.className = `u-status ${cls}`; };
 
@@ -52,6 +53,7 @@ function check() {
   try { o = JSON.parse(t); err = userCheck(o); } catch { err = "it doesn't read as JSON text."; }
   if (t === keptText().trim()) return broken ? status(`This is your saved progress, as it's kept. It isn't valid: ${err}`, "bad") : status("");
   if (err) return status(`This isn't valid: ${err}`, "bad");
+  o = userFromKept(o);
   if (broken && !kept) return status(`Valid: ${summary(o)}\nCopy or download your saved progress first, to use this in its area.`, "ok");
   els.submit.disabled = false;
   status(`Valid: ${summary(o)}`, "ok");
@@ -140,8 +142,9 @@ $("u-file").addEventListener("change", async e => {
   check();
 });
 els.submit.addEventListener("click", () => {
-  const o = JSON.parse(els.text.value.trim()), broken = User.broken();
-  if (userCheck(o) || broken && !kept) return;
+  const raw = JSON.parse(els.text.value.trim()), broken = User.broken();
+  if (userCheck(raw) || broken && !kept) return;
+  const o = userFromKept(raw);
   const was = broken ? "your saved progress, which can't be read" : summary(User.data());
   if (!confirm(`This replaces all the progress saved in this browser:\n\n${was}\n\nwith this:\n\n${summary(o)}\n\nContinue?`)) return;
   if (broken) User.reset();
