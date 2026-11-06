@@ -839,6 +839,7 @@ a.hchip { text-decoration: none; }
 #team .back { margin: 10px 0 0; font-size: 13px; }
 #team .back a { text-decoration: none; }
 .bd-index { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 14px; margin-top: 10px; }
+.guides .bd-index { grid-template-columns: repeat(auto-fill, minmax(min(100%, 480px), 1fr)); max-width: 1120px; }  /* at most two guides per line */
 .bd-ebars { display: grid; gap: 3px; margin-bottom: 10px; }
 .bd-ebar { display: flex; align-items: center; gap: 3px; }
 .bd-eprofs { display: inline-flex; gap: 1px; width: 44px; flex: none; }
