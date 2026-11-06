@@ -1157,6 +1157,15 @@ a.hchip { text-decoration: none; }
 .u-chars tr.u-acct td { padding-top: 16px; text-align: left; width: auto; }
 .u-acct-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .u-acct-new { margin-left: auto; }
+.u-name { display: flex; align-items: center; gap: 6px; }
+.u-prof { position: relative; flex: none; }
+.u-prof-btn { display: flex; padding: 2px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); cursor: pointer; }
+.u-prof-btn img, .u-prof-menu img { width: 22px; height: 22px; display: block; }
+.u-prof-menu { position: absolute; top: calc(100% + 4px); left: 0; z-index: 20; display: grid; grid-template-columns: repeat(4, auto); gap: 4px; padding: 6px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 6px 18px rgba(0, 0, 0, .25); }
+.u-prof-menu[hidden] { display: none; }
+.u-prof-menu button { padding: 3px; border: 1px solid transparent; border-radius: 6px; background: none; cursor: pointer; }
+.u-prof-menu button:hover, .u-prof-menu button[aria-current] { border-color: var(--accent); }
 .u-chars .u-acct-row input[type=text] { font-weight: 600; font-size: 15px; max-width: 220px; }
 .u-chars .u-acct-row input::placeholder { color: var(--text); opacity: .75; }
 .u-chars select { font: inherit; font-size: 13px; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 2px 4px; }

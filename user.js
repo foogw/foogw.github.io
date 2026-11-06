@@ -19,6 +19,13 @@ function bigDeal(c, o) {
   const t = TITLES[10], r = titleRankOf(t, c, o), name = r ? t.rank_names[r - 1] : "No rank yet";
   return `<a href="titles" data-titles>${esc(name)} ${titlesMaxed(c, o)}/${titleMax(t) * 5}</a>`;
 }
+// a character's profession: its icon, a button that opens the ten to pick from (or none)
+const profPick = c => `<span class="u-prof"><button type="button" class="u-prof-btn" data-prof-open aria-haspopup="true" title="${c.profession ? PROFS[c.profession] : "Profession"}">
+  <img src="${profImg(c.profession || 0)}" alt="${c.profession ? PROFS[c.profession] : "No profession"}"></button>
+  <span class="u-prof-menu" hidden>${[...Array(11).keys()].slice(1).concat(0).map(p => `<button type="button" data-prof="${p}" title="${p ? PROFS[p] : "None"}"${(c.profession || 0) === p ? ' aria-current="true"' : ""}><img src="${profImg(p)}" alt="${p ? PROFS[p] : "None"}"></button>`).join("")}</span></span>`;
+const closeProfs = () => { for (const m of document.querySelectorAll(".u-prof-menu")) m.hidden = true; };
+document.addEventListener("click", e => { if (!e.target.closest(".u-prof")) closeProfs(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeProfs(); });
 // the characters, by account: with one account, just its characters; with more, each account as a heading (its name to
 // rename, a delete while it has no characters, a new character on it), and each character can move
 function render() {
@@ -30,7 +37,7 @@ function render() {
   const move = c => `<select data-move aria-label="Account">${o.accounts.map(a => `<option value="${a.id}"${a.id === c.account ? " selected" : ""}>${esc(accountName(a))}</option>`).join("")}</select>`;
   const row = c => `<tr class="${c === cur ? "cur" : ""}" data-id="${c.id}">
     <td><input type="radio" name="u-shown" aria-label="Show ${esc(c.name)}"${c === cur ? " checked" : ""}></td>
-    <td><input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name"></td>
+    <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name"></div></td>
     <td>${bigDeal(c, o)}</td>${many ? `<td>${move(c)}</td>` : ""}
     <td><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></td></tr>`;
   const head = a => `<tr class="u-acct" data-account="${a.id}"><td colspan="5"><div class="u-acct-row">
@@ -82,6 +89,15 @@ els.list.addEventListener("change", e => {
 });
 els.list.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.type === "text") e.target.blur(); });
 els.list.addEventListener("click", e => {
+  // the profession picker: open it, or pick one
+  const open = e.target.closest("[data-prof-open]");
+  if (open) { const m = open.nextElementSibling, was = m.hidden; closeProfs(); m.hidden = !was; return; }
+  const pick = e.target.closest("[data-prof]");
+  if (pick) {
+    const o = User.data(), c = rowChar(o, pick), p = +pick.dataset.prof;
+    if (p) c.profession = p; else delete c.profession;
+    User.save(o); return render();
+  }
   // a character's titles: it's picked, then its titles are shown
   if (e.target.closest("[data-titles]")) { User.pick(rowChar(User.data(), e.target).id); return; }
   if (e.target.closest("[data-new-char]")) return newChar(+e.target.closest("tr").dataset.account);

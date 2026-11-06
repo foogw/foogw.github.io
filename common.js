@@ -374,7 +374,7 @@ function recruitHTML(h) {
 }
 
 /* ---------- the visitor's progress, per character, kept in this browser only (the User page backs it up) ----------
-   Kept as {v: 2, chars: [{id, name, account: its account's id, elites: [skill ids captured], vanquished: [area ids],
+   Kept as {v: 2, chars: [{id, name, account: its account's id, profession: its primary (1 Warrior ... 10 Dervish), elites: [skill ids captured], vanquished: [area ids],
    missionsNM, missionsHM, dungeonsNM, dungeonsHM: [ids done in that mode], titles: {title id: rank}}], accounts: [{id,
    name, titles}]}. A list may be "all": every id in USER_ALL (frozen: should the game ever have more, they'd come with a
    new version). An empty list, or a title not reached, is left out. Version 1 (from before), still read: no "all", and
@@ -393,7 +393,7 @@ const USER_ALL = {
   dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
 };
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
-  2: ["id", "name", "account", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles"] };
+  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles"] };
 const USER_LISTS = ["elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM"];
 const allOf = k => USER_ALL[k.replace(/[NH]M$/, "")];
 const newUserChar = (id, account = 1) => ({ id, name: `Char${id}`, account, elites: [], vanquished: [], missions: {}, dungeons: {} });
@@ -401,6 +401,7 @@ const newUserChar = (id, account = 1) => ({ id, name: `Char${id}`, account, elit
 function userFromKept(o) {
   const chars = o.chars.map(k => {
     const c = { id: k.id, name: k.name, account: k.account ?? 1 };
+    if (k.profession) c.profession = k.profession;
     if (o.v === 1) Object.assign(c, { elites: k.elites, vanquished: k.vanquished || [], missions: k.missions, dungeons: k.dungeons });
     else {
       const list = key => (k[key] === "all" ? [...allOf(key)] : k[key] || []);
@@ -419,6 +420,7 @@ function userFromKept(o) {
 function userToKept(o) {
   const chars = o.chars.map(c => {
     const k = { id: c.id, name: c.name, account: c.account ?? 1 };
+    if (c.profession) k.profession = c.profession;
     const lists = { elites: c.elites, vanquished: c.vanquished || [] };
     for (const part of ["missions", "dungeons"]) for (const [m, b] of [["NM", 1], ["HM", 2]])
       lists[part + m] = Object.entries(c[part]).filter(([, v]) => v & b).map(([id]) => +id);
@@ -484,6 +486,7 @@ function userCheck(o) {
       if (c.account !== undefined && !isId(c.account)) return `${at}: "account" should be an account's id.`;
     } else {
       if (!isId(c.account)) return `${at}: "account" should be an account's id.`;
+      if (c.profession !== undefined && !(Number.isInteger(c.profession) && c.profession >= 1 && c.profession <= 10)) return `${at}: "profession" should be 1 (Warrior) to 10 (Dervish).`;
       const bad = USER_LISTS.find(k => c[k] !== undefined && c[k] !== "all" && !idList(c[k]));
       if (bad) return `${at}: "${bad}" should be "all" or a list of ids, each once.`;
     }
