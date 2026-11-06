@@ -51,6 +51,8 @@ VIEWS.title = (() => {
   }
   const html = t => `<p class="back"><a href="titles">← My titles</a></p>
     <div class="sp-head" style="--pc:var(${CAMP_COLOR[t.campaign]})"><div class="sp-title"><h2>${esc(t.name)} title</h2></div></div>${panel(t)}`;
-  // (only a title with its ranks listed has a page)
-  return { find: id => (TITLES[id]?.ranks ? TITLES[id] : null), title: t => `${t.name} title`, html, panel, metaHTML, rangeHTML, tableHTML };
+  // only a title with its ranks listed has a page, but Kurzick / Luxon, Lucky, Treasure Hunter and Wisdom (My titles has them)
+  const NO_PAGE = new Set([5, 15, 45, 46]);
+  const hasPage = id => !!TITLES[id]?.ranks && !NO_PAGE.has(+id);
+  return { find: id => (hasPage(id) ? TITLES[id] : null), hasPage, title: t => `${t.name} title`, html, panel, metaHTML, rangeHTML, tableHTML };
 })();

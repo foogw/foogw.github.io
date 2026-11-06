@@ -40,7 +40,7 @@ function mineHTML() {
       : STEPPED.has(t.id) ? `<span class="my-step"><button type="button" data-step="-1" data-title="${t.id}" aria-label="Rank down"${r ? "" : " disabled"}>▼</button>`
         + `<span class="my-num">${r}</span><button type="button" data-step="1" data-title="${t.id}" aria-label="Rank up"${r < max ? "" : " disabled"}>▲</button></span>`
       : `<label class="my-tick"><input type="checkbox" data-title="${t.id}"${r >= max ? " checked" : ""}> Maxed</label>`;
-    const href = t.ranks ? HREF.title(t.id) : TITLE_GUIDE[t.id];
+    const href = VIEWS.title.hasPage(t.id) ? HREF.title(t.id) : TITLE_GUIDE[t.id];
     const name = href ? `<a href="${esc(href)}">${esc(nameOf(t))}</a>` : esc(nameOf(t));
     return `<tr><td class="my-name">${name}</td><td class="my-rank">${status}</td><td class="my-how dim">${how}</td><td class="my-in">${input}</td></tr>`;
   }).join("")}</tbody></table>` : "");
@@ -88,7 +88,7 @@ document.addEventListener("change", e => {
 
 // an old address of a title's tab (titles?t=5) goes to that title's page
 const old = args().get("t");
-if (old && TITLES[old]?.ranks) location.replace(HREF.title(old));
+if (old && VIEWS.title.hasPage(old)) location.replace(HREF.title(old));
 const draw = () => { $("title").innerHTML = mineHTML(); };
 draw();
 // back on the page after the progress changed elsewhere: it draws again

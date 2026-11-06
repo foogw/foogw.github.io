@@ -64,7 +64,7 @@ VIEWS.skill = (() => {
         <div class="lside">
           <section class="lbox"><h4>Description</h4><p class="sp-desc">${richText(s.description)}</p>
             ${s.concise && s.concise !== s.description ? `<p class="dim sp-concise">${richText(s.concise)}</p>` : ""}</section>
-          ${title ? `<section class="lbox"><h4>Title</h4><p>Gets stronger with your <a href="${HREF.title(title.id)}">${esc(title.name)} title</a> rank.</p></section>` : ""}
+          ${title ? `<section class="lbox"><h4>Title</h4><p>Gets stronger with your ${VIEWS.title.hasPage(title.id) ? `<a href="${HREF.title(title.id)}">${esc(title.name)} title</a>` : `${esc(title.name)} title`} rank.</p></section>` : ""}
           ${used.length ? `<section class="lbox"><h4>Used in builds</h4><ul class="lrows">${used.map(u => u.team.single
             ? `<li><a href="${buildHref(u.build.id)}">${esc(u.build.name)}</a><span class="dim">${u.team.single}</span></li>`
             : `<li><a href="${buildHref(u.team.id)}">${esc(u.team.name)}</a><span class="dim">${esc(u.build.name)}${u.n > 1 ? ` ×${u.n}` : ""}</span></li>`).join("")}</ul></section>` : ""}
