@@ -35,17 +35,6 @@ VIEWS.mission = (() => {
     }
     return `<table class="npcs">${html}</table>`;
   }
-  // when the Zaishen Mission is next about this mission, or how long the current one still runs
-  const fmtZDay = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric" });
-  function zaishenNote(m) {
-    const r = ROTATIONS["zaishen-mission"];
-    if (!r?.entries.some(e => e.mission === m.id)) return "";
-    const now = Date.now(), k = Rotation.period(r, now);
-    let i = 0;
-    while (Rotation.entry(r, k + i).mission !== m.id) i++;
-    return i ? `The next <a href="rotations">Zaishen Mission</a> here is on ${fmtZDay.format(Rotation.startsAt(r, k + i))}, in ${i} day${i > 1 ? "s" : ""}.`
-      : `This is today's <a href="rotations">Zaishen Mission</a>, for another ${timeLeft(Rotation.endsAt(r, now) - now)}.`;
-  }
   function html(m) {
     const sub = [m.label && `Mission ${m.label}`, m.kind === "pvp" ? "PvP" : CAMPAIGNS[camp(m)], REGIONS[regionId(m)]?.name, m.kind !== "story" && KINDS[m.kind]].filter(Boolean).map(esc).join(" · ");
     const before = ALL.filter(x => (x.leads_to || []).includes(m.outpost ?? m.id));
@@ -60,7 +49,7 @@ VIEWS.mission = (() => {
       m.outpost !== m.id && [14, 17].includes(area(m)?.type) && ["Mission area", LINK.area(m.id)],
       heroes.length && ["Required hero", heroes.map(heroChip).join(" and ")],
     ].filter(Boolean);
-    const notes = [zaishenNote(m)].filter(Boolean);
+    const notes = [zaishenNote("zaishen-mission", e => e.mission === m.id)].filter(Boolean);
     const steps = QUESTDATA?.storylines?.find(s => (s.nodes || []).some(n => n.mission === m.id) || (s.parts || []).some(p => p.steps.some(n => n.mission === m.id)));
     return `<p class="back"><a href="missions">← All missions</a></p>
       <div class="sp-head" style="--pc:var(${CAMP_COLOR[camp(m)]})">

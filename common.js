@@ -289,6 +289,18 @@ function entryWhere(e) {
   const parts = [(e.creature || e.item) && l.name !== entryName(e) && l.name, regionOf(l)?.name, CAMPAIGNS[campaignOf(l)]].filter(Boolean);
   return ` <span class="dim">· ${parts.map(esc).join(" · ")}</span>`;
 }
+// when a daily rotation (Zaishen Mission, Zaishen Vanquish) is next on what is(entry) picks, or how long the current
+// one still runs: a sentence, or "" when it never comes
+const fmtZDay = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric" });
+function zaishenNote(key, is) {
+  const r = ROTATIONS[key];
+  if (!r?.entries.some(is)) return "";
+  const now = Date.now(), k = Rotation.period(r, now);
+  let i = 0;
+  while (!is(Rotation.entry(r, k + i))) i++;
+  return i ? `The next <a href="rotations">${esc(r.title)}</a> here is on ${fmtZDay.format(Rotation.startsAt(r, k + i))}, in ${i} day${i > 1 ? "s" : ""}.`
+    : `This is today's <a href="rotations">${esc(r.title)}</a>, for another ${timeLeft(Rotation.endsAt(r, now) - now)}.`;
+}
 // the next Zaishen Bounty at an area: {days} from today (0: today), or null
 function bountyAt(id, now = Date.now()) {
   const r = ROTATIONS["zaishen-bounty"], n = r?.entries.length, k0 = n && Rotation.period(r, now);

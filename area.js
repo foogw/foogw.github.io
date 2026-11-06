@@ -7,9 +7,9 @@ VIEWS.area = (() => {
   let pvp = false;
   const shown = l => pvp || !isPvP(l);
   const STORY = new Set((QUESTDATA?.storylines || []).flatMap(s => [...(s.nodes || []), ...(s.parts || []).flatMap(p => p.steps)]).map(n => n.quest).filter(Boolean));
-  // the rotations that send you to an area
+  // the rotations that send you to an area (the Zaishen Mission and Vanquish say when, in a note of their own)
   const ROTATED = new Map();
-  for (const r of Object.values(ROTATIONS)) for (const e of r.entries) {
+  for (const r of Object.values(ROTATIONS)) if (!["zaishen-mission", "zaishen-vanquish"].includes(r.key)) for (const e of r.entries) {
     const id = e.area ?? e.mission;
     if (id != null) (ROTATED.get(id) || ROTATED.set(id, new Set()).get(id)).add(r.title);
   }
@@ -58,6 +58,8 @@ VIEWS.area = (() => {
       AREAS[l.ground] && `The same ground as ${areaLink(l.ground)}: its map is drawn here.`,
       l.after && `Completing the mission takes you to ${areaLink(l.after)}.`,
       l.gateway && `${listText(l.gateway.map(areaLink))} are reached from here, through a god's statue or an NPC.`,
+      zaishenNote("zaishen-mission", e => e.mission === l.id),
+      zaishenNote("zaishen-vanquish", e => e.area === l.id && !e.creature),
       ROTATED.has(l.id) && `${listText([...ROTATED.get(l.id)].map(esc))} send${ROTATED.get(l.id).size > 1 ? "" : "s"} you here now and then: see when on the <a href="rotations">Rotations</a> page.`,
       ...(l.notes || []).map(text),
       from.length && (l.exits?.length ? `Also reached from ${listText(from.map(areaLink))}, with no way back there.` : `Entered from ${listText(from.map(areaLink))}.`),
