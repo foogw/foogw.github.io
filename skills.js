@@ -47,7 +47,8 @@ function fillTypes() {
 els.prof.innerHTML = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0].map(p =>
   `<button class="prof-chip" data-v="${p}" aria-pressed="false" style="--c:${profVar(p)}" title="${PROFS[p]}">${p ? PROFS[p] : "Common"}</button>`).join("");
 chipToggle(els.prof, state.profs, () => { fillAttributes(); fillTypes(); update(); });
-els.camp.innerHTML += CAMPAIGNS.map((c, i) => `<option value="${i}">${c}</option>`).join("");
+// each campaign, and the three story ones also with Core (what their Skill Hunter title counts): "1c"
+els.camp.innerHTML += CAMPAIGNS.map((c, i) => `<option value="${i}">${c}</option>${i >= 1 && i <= 3 ? `<option value="${i}c">${c} and Core</option>` : ""}`).join("");
 for (const el of [els.name, els.text]) el.addEventListener("input", update);
 for (const el of [els.type, els.camp, els.elite, els.cap, els.src, els.pvp]) el.addEventListener("change", update);
 els.attr.addEventListener("change", () => { fillTypes(); update(); });
@@ -67,7 +68,7 @@ searchKeys(els.text, update);
 
 function matches(s, f) {
   return (f.pvp || !s.pvp_only) && f.name.every(t => s._name.includes(t)) && f.text.every(t => s._text.includes(t))
-    && inProfs(s) && (!f.attr || attrKey(s) === f.attr) && typeMatches(s, f.type) && (f.camp === "" || s.campaign === +f.camp)
+    && inProfs(s) && (!f.attr || attrKey(s) === f.attr) && typeMatches(s, f.type) && (f.camp === "" || s.campaign === parseInt(f.camp) || f.camp.endsWith("c") && s.campaign === 0)
     && (!f.elite || s.elite) && (!f.cap || s.elite && !s.pvp_only && !f.got.has(s.id)) && (!f.src || (f.src === "title" ? s.title : s._sources.has(f.src)));
 }
 const byProf = (a, b) => (a.profession || 99) - (b.profession || 99) || cmpStr(attrName(a), attrName(b)) || cmpStr(a.name, b.name);

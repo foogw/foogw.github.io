@@ -15,7 +15,7 @@ const MY_ORDER = [10, 7, 34, 43, 9, 17, 20, 38, 39, 40, 41, 42, 1, 2, 18, 30, 25
 // or HM (Guardian), the dungeons not yet done in NM or HM (Master of the North: its points for the dungeons' quests)
 // the titles set rank by rank (▼ rank ▲), not just ticked maxed
 const STEPPED = new Set([45, 46, 15, 16, 5, 6, 44, 17, 20, 38, 39, 40, 41]);
-const TITLE_GUIDE = { 9: "guides?gom", 24: "skills?c=1&cap=1", 26: "skills?c=2&cap=1", 28: "skills?c=3&cap=1", 32: "skills?cap=1",
+const TITLE_GUIDE = { 9: "guides?gom", 24: "skills?c=1c&cap=1", 26: "skills?c=2c&cap=1", 28: "skills?c=3c&cap=1", 32: "skills?cap=1",
   13: "missions?c=1&ty=story&d=1", 14: "missions?c=2&ty=story&d=1", 19: "missions?c=3&ty=story&d=1",
   35: "missions?c=1&ty=story&d=2", 36: "missions?c=2&ty=story&d=2", 37: "missions?c=3&ty=story&d=2", 31: "missions?c=1,2,3&ty=story&d=2", 42: "dungeons?d=a",
   25: "areas?c=1&v=n", 27: "areas?c=2&v=n", 29: "areas?c=3&v=n", 33: "areas?v=n" };

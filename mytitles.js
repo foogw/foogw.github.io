@@ -4,9 +4,9 @@
    Needs game/titles.js, game/skills.js, game/ground.js and game/missions.js. Every function takes the character c and
    the progress o it's in. */
 const titleMax = t => t.max ?? t.ranks.length;
-// what Skill Hunter counts in a campaign: its own elites and the Core ones its bosses carry (by where they're captured)
-const capturedIn = camp => Object.entries(SKILLS).filter(([, s]) => s.elite && !s.pvp_only && (s.campaign === camp || s.campaign === 0)
-  && (s.acquisition || []).some(a => a.capture && (s.campaign === camp || AREAS[a.area]?.campaign === camp))).map(([id]) => +id);
+// what Skill Hunter counts for a campaign: its own elites and the Core ones (Core ones count for all three, however
+// they were got: captured anywhere or from a tome); not the PvP versions
+const capturedIn = camp => Object.entries(SKILLS).filter(([, s]) => s.elite && !s.pvp_only && (s.campaign === camp || s.campaign === 0)).map(([id]) => +id);
 // the story missions of a campaign (by the area they're played in)
 const storyIn = camp => Object.values(MISSIONS).filter(m => m.kind === "story" && AREAS[m.id]?.campaign === camp).map(m => m.id);
 // the areas of a campaign to vanquish (those with foes to kill for it)
