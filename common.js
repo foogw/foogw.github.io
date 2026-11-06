@@ -306,7 +306,7 @@ function rotationListHTML(rows, now = Date.now()) {
     if (!row) return '<div class="t-sep"></div>';
     const [key, title] = row, r = ROTATIONS[key], k = Rotation.period(r, now);
     return `<div class="t-row"><span class="t-k">${title}</span><span class="t-v">${entryHTML(Rotation.entry(r, k))}${entryWhere(Rotation.entry(r, k))}</span>`
-      + `<span class="t-l">${timeLeft(Rotation.endsAt(r, now) - now)}</span><span class="t-n">then: ${entryHTML(Rotation.entry(r, k + 1))}</span></div>`;
+      + `<span class="t-l">${timeLeft(Rotation.endsAt(r, now) - now)}</span><span class="t-n">Then: ${entryHTML(Rotation.entry(r, k + 1))}</span></div>`;
   }).join("");
 }
 

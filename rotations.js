@@ -2,7 +2,7 @@
 
 const ROT = ROTATIONS;
 const DAILY = ["zaishen-mission", "zaishen-bounty", "zaishen-vanquish", "zaishen-combat", "wanted",
-  "nicholas-sandford", "vanguard"].map(k => ROT[k]);
+  "vanguard", "nicholas-sandford"].map(k => ROT[k]);
 const WEEKLY = ["nicholas-traveler", "weekly-pve", "weekly-pvp"].map(k => ROT[k]);
 const SHORT = {
   "zaishen-mission": "Mission", "zaishen-bounty": "Bounty", "zaishen-vanquish": "Vanquish",
@@ -16,14 +16,24 @@ const expanded = { daily: false, weekly: false };
 // a date shows its year only when it isn't this year's
 const withYear = (opts, f = new Intl.DateTimeFormat(undefined, opts), fy = new Intl.DateTimeFormat(undefined, { ...opts, year: "numeric" })) =>
   ({ format: t => (new Date(t).getFullYear() === new Date().getFullYear() ? f : fy).format(t) });
-const fmtDay = withYear({ weekday: "short", month: "short", day: "numeric" });
-const fmtTime = new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit" });
+// times in your time zone or in UTC, one choice with the Events page's, remembered in this browser
+let utc = false;
+try { utc = localStorage.getItem("events-utc") === "1"; } catch (e) {}
+let fmtDay, fmtTime, fmtWeek, fmtWeekday;
+function formats() {
+  const z = utc ? { timeZone: "UTC", hourCycle: "h23" } : {};
+  fmtDay = withYear({ weekday: "short", month: "short", day: "numeric", ...z });
+  fmtTime = new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit", ...z });
+  fmtWeek = withYear({ weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", ...z });
+  fmtWeekday = new Intl.DateTimeFormat(undefined, { weekday: "long", ...z });
+}
+formats();
 
 const $find = $("find");
 
 const NOW = [["zaishen-mission", "Zaishen Mission"], ["zaishen-bounty", "Zaishen Bounty"],
   ["zaishen-vanquish", "Zaishen Vanquish"], ["zaishen-combat", "Zaishen Combat"], ["wanted", "Shining Blade"],
-  ["nicholas-sandford", "Sandford"], ["vanguard", "Vanguard"], null,
+  ["vanguard", "Vanguard"], ["nicholas-sandford", "Sandford"], null,
   ["nicholas-traveler", "Nicholas"], ["weekly-pve", "PvE bonus"], ["weekly-pvp", "PvP bonus"]];
 
 function renderNow() {
@@ -38,9 +48,14 @@ function matches(e, ts) {
   return ts.every(t => words.some(w => w.startsWith(t)));
 }
 
-// a cell the search matched is marked as a whole, so it stands out in a wide table
-function cell(r, e, ts) {
-  return `<td${ts.length && matches(e, ts) ? ' class="r-hit"' : ""}>${entryHTML(e)}</td>`;
+// a Vanguard quest without its "Vanguard Annihilation: " prefix, in its column where every one has one
+const short = (r, e) => (r.key === "vanguard" && e.quest && QUESTS[e.quest]
+  ? LINK.quest(e.quest, QUESTS[e.quest].name.replace(/^Vanguard \w+: /, "")) : entryHTML(e));
+// a cell the search matched is marked as a whole, so it stands out in a wide table; from: when the entry starts, for
+// a rotation that resets at another hour than the row's
+function cell(r, e, ts, from) {
+  const cls = [ts.length && matches(e, ts) && "r-hit", from && "r-own"].filter(Boolean).join(" ");
+  return `<td${cls ? ` class="${cls}"` : ""}>${from ? `<span class="r-from">${from === true ? "Now" : fmtDay.format(from)}</span>` : ""}${short(r, e)}</td>`;
 }
 
 // time to the column's next reset: 5h 06m, or 3d 4h for a weekly
@@ -50,28 +65,32 @@ function left(ms) {
 }
 
 // Rows are reset periods of the first rotation; other rotations in the table share its period length.
-function table(el, rotations, count, label, ahead = Infinity) {
+// head: what the brackets after each column's title say
+function table(el, rotations, count, label, ahead = Infinity, head = r => left(Rotation.endsAt(r) - Date.now())) {
   const ts = terms($find);
   const anchor = rotations[0];
   const k0 = Rotation.period(anchor);
+  const own = r => (r.start - anchor.start) % r.period !== 0;  // resets at another hour than the rows
   const span = ts.length ? Math.max(...rotations.map(r => r.entries.length)) : count;
   let rows = "";
   for (let i = 0; i < span; i++) {
     const t = Rotation.startsAt(anchor, k0 + i) + 1000;
     if (t > Date.now() + ahead) break;
-    // each rotation's own i-th period from now: Nicholas Sandford resets at another hour than the Zaishen dailies, so
-    // what runs at the row's start isn't what runs now
-    const entries = rotations.map(r => Rotation.entry(r, Rotation.period(r) + i));
+    // each rotation's entry running at the row's start (now, for the first row); one resetting at another hour than
+    // the first rotation (Nicholas Sandford) shows when its entry starts
+    const at = i === 0 ? Date.now() : t;
+    const ks = rotations.map(r => Rotation.period(r, at)), entries = rotations.map((r, j) => Rotation.entry(r, ks[j]));
     if (ts.length && !entries.some(e => matches(e, ts))) continue;
-    rows += `<tr class="${i === 0 ? "cur" : ""}"><th>${label(t, i)}</th>${rotations.map((r, j) => cell(r, entries[j], ts)).join("")}</tr>`;
+    rows += `<tr class="${i === 0 ? "cur" : ""}"><th>${label(t, i)}</th>${rotations.map((r, j) => cell(r, entries[j], ts, own(r) && (i === 0 || Rotation.startsAt(r, ks[j])))).join("")}</tr>`;
   }
-  el.innerHTML = `<thead><tr><th></th>${rotations.map(r => `<th>${esc(SHORT[r.key])} <span class="r-left">(${left(Rotation.endsAt(r) - Date.now())})</span></th>`).join("")}</tr></thead>`
+  el.innerHTML = `<thead><tr><th></th>${rotations.map(r => `<th${own(r) ? ' class="r-own"' : ""}>${esc(SHORT[r.key])} <span class="r-left">(${head(r)})</span></th>`).join("")}</tr></thead>`
     + `<tbody>${rows || `<tr><td colspan="${rotations.length + 1}" class="dim">No match in a full cycle.</td></tr>`}</tbody>`;
 }
 
 function render() {
   renderNow();
-  table($("daily"), DAILY, expanded.daily ? SHOW_DAYS : SHOW_FIRST, (t, i) => (i === 0 ? "Now" : ""), DAILY_AHEAD);
+  table($("daily"), DAILY, expanded.daily ? SHOW_DAYS : SHOW_FIRST, (t, i) => (i === 0 ? "Now" : fmtDay.format(t)), DAILY_AHEAD,
+    r => fmtTime.format(Rotation.endsAt(r)) + (utc ? " UTC" : ""));  // the hour each column switches
   table($("weekly"), WEEKLY, expanded.weekly ? SHOW_WEEKS : SHOW_FIRST, (t, i) => (i === 0 ? "This week" : `Week of ${fmtDay.format(t)}`));
   const searching = terms($find).length > 0;
   $("nowbox").hidden = searching;  // a search shows only its matches
@@ -82,11 +101,17 @@ function render() {
   const daily = Rotation.endsAt(ROT["zaishen-mission"]);
   const sandford = Rotation.endsAt(ROT["nicholas-sandford"]);
   const weekly = Rotation.endsAt(ROT["weekly-pve"]);
-  $("tz").textContent = `Times in your time zone. Dailies change at ${fmtTime.format(daily)}, Nicholas Sandford at ${fmtTime.format(sandford)}, weeklies on ${new Intl.DateTimeFormat(undefined, { weekday: "long" }).format(weekly)} at ${fmtTime.format(weekly)}.`;
+  $("tz").innerHTML = `${utc ? 'Times are in UTC (<a id="tzflip" href="#">change to your time</a>)' : 'Times are in your time (<a id="tzflip" href="#">change to UTC</a>)'}. Dailies change at ${fmtTime.format(daily)}, Nicholas Sandford at ${fmtTime.format(sandford)}, weeklies on ${fmtWeekday.format(weekly)} at ${fmtTime.format(weekly)}.`;
+  $("tzflip").onclick = e => {
+    e.preventDefault();
+    utc = !utc;
+    try { localStorage.setItem("events-utc", utc ? "1" : "0"); } catch (x) {}
+    formats();
+    render();
+  };
 }
 
 /* ---------- one weekly PvE bonus's page ---------- */
-const fmtWeek = withYear({ weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
 
 // the weeks this bonus runs, from the current one on: [start, end] in ms
 function bonusWeeks(id, count) {
