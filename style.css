@@ -1137,7 +1137,7 @@ a.hchip { text-decoration: none; }
 .utick:has(.ubox) { display: inline-flex; align-items: center; gap: 5px; padding: 3px 6px 3px 4px; }
 .ubox { width: 11px; height: 11px; border: 1.5px solid currentColor; border-radius: 2px; display: inline-grid; area-items: center; font-size: 9px; line-height: 1; }
 .utick[aria-pressed="true"] .ubox::after { content: "✓"; color: var(--loc-exp); font-weight: 700; }
-.sp-title .utick, .sp-title .uticks, .lhead .uticks { margin-left: 8px; vertical-align: middle; }
+.sp-title .utick, .sp-title .uticks, .lhead .utick, .lhead .uticks { margin-left: 10px; vertical-align: middle; }
 .bp-skill .utick { margin: 0 8px; }
 .echip.got { opacity: 0.45; }
 .echip.got::after { content: " ✓"; color: var(--loc-exp); }
