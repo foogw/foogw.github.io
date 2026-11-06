@@ -46,6 +46,7 @@ VIEWS.area = (() => {
     // an outpost (a challenge's too) is where its missions start; an elite mission's area is the mission itself
     const outpostHere = isOutpost(l);
     const missions = Object.values(MISSIONS).filter(m => m.outpost === l.id && (outpostHere || m.id !== l.id));
+    const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
     const the = id => (/^the /i.test(MISSIONS[id]?.name || AREAS[id]?.name || "") ? "" : "the ");
     // the areas that may share its ground: the same terrain file on the same map (checked against the ground itself
     // once loaded: an outpost inside an area shares its terrain, not its ground)
@@ -58,6 +59,8 @@ VIEWS.area = (() => {
       AREAS[l.ground] && `The same ground as ${areaLink(l.ground)}: its map is drawn here.`,
       l.after && `Completing the mission takes you to ${areaLink(l.after)}.`,
       l.gateway && `${listText(l.gateway.map(areaLink))} are reached from here, through a god's statue or an NPC.`,
+      [14, 17].includes(l.type) && missionWhereNote(l.id),
+      missionsIn(l.id).length && `${cap(listText(missionsIn(l.id).map(i => the(i) + LINK.mission(i))))} mission${missionsIn(l.id).length > 1 ? "s are" : " is"} played in this area's place.`,
       zaishenNote("zaishen-mission", e => e.mission === l.id),
       zaishenNote("zaishen-vanquish", e => e.area === l.id && !e.creature),
       ROTATED.has(l.id) && `${listText([...ROTATED.get(l.id)].map(esc))} send${ROTATED.get(l.id).size > 1 ? "" : "s"} you here now and then: see when on the <a href="rotations">Rotations</a> page.`,
@@ -82,7 +85,8 @@ VIEWS.area = (() => {
     const questRows = quests.map(q => `<li><span>${LINK.quest(q.id)}${q.travel != null ? ` <span class="tag" title="Takes you to ${campaignName(q.travel)}">To ${CAMP_SHORT[q.travel]}</span>`
       : q.type !== "secondary" ? ` <span class="tag">${esc(q.type[0].toUpperCase() + q.type.slice(1))}</span>` : STORY.has(q.id) ? ' <span class="tag" title="A secondary quest the campaign\'s storyline goes through">Story</span>' : ""}</span>${
       q.skills?.length ? `<span class="qsk">${q.skills.filter(id => SKILLS[id]).map(id => `<a href="${HREF.skill(id)}" title="${esc(SKILLS[id].name)}">${skillIcon(id, "sk-ic sm")}</a>`).join("")}</span>` : ""}</li>`).join("");
-    const side = mapHTML(shownAreas(l), { self: isOutpost(l) ? l.id : null, town: isOutpost(l) ? l.id : null })
+    // a mission's own area (not its outpost) is drawn where the mission is played, where we marked it
+    const side = ([14, 17].includes(l.type) && missionMapHTML(l.id, l.name)) || mapHTML(shownAreas(l), { self: isOutpost(l) ? l.id : null, town: isOutpost(l) ? l.id : null })
       + box("Services", services && `<ul class="lrows">${services}</ul>`)
       + box("Elite skills to capture", bosses && `<ul class="lrows">${bosses}</ul>`)
       + box(`Quests <span class="dim">${quests.length || ""}</span>`, questRows && `<ul class="lrows lquests">${questRows}</ul>`);

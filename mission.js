@@ -35,6 +35,7 @@ VIEWS.mission = (() => {
     }
     return `<table class="npcs">${html}</table>`;
   }
+  const missionMap = m => missionMapHTML(m.id, m.name) || mapHTML([m.id]);
   function html(m) {
     const sub = [m.label && `Mission ${m.label}`, m.kind === "pvp" ? "PvP" : CAMPAIGNS[camp(m)], REGIONS[regionId(m)]?.name, m.kind !== "story" && KINDS[m.kind]].filter(Boolean).map(esc).join(" · ");
     const before = ALL.filter(x => (x.leads_to || []).includes(m.outpost ?? m.id));
@@ -49,7 +50,7 @@ VIEWS.mission = (() => {
       m.outpost !== m.id && [14, 17].includes(area(m)?.type) && ["Mission area", LINK.area(m.id)],
       heroes.length && ["Required hero", heroes.map(heroChip).join(" and ")],
     ].filter(Boolean);
-    const notes = [zaishenNote("zaishen-mission", e => e.mission === m.id)].filter(Boolean);
+    const notes = [missionWhereNote(m.id), zaishenNote("zaishen-mission", e => e.mission === m.id)].filter(Boolean);
     const steps = QUESTDATA?.storylines?.find(s => (s.nodes || []).some(n => n.mission === m.id) || (s.parts || []).some(p => p.steps.some(n => n.mission === m.id)));
     return `<p class="back"><a href="missions">← All missions</a></p>
       <div class="sp-head" style="--pc:var(${CAMP_COLOR[camp(m)]})">
@@ -66,7 +67,7 @@ VIEWS.mission = (() => {
           <section class="lbox"><h4>Foes</h4>${creaturesHTML(m.foes)}</section>
         </div>
         <div class="lside">
-          ${m.kind !== "pvp" ? mapHTML([m.id]) : ""}
+          ${m.kind !== "pvp" ? missionMap(m) : ""}
           ${story.length ? `<section class="lbox"><h4>Story</h4><ul class="lrows">${story.map(([k, v]) => `<li><span class="dim">${k}</span><span>${v}</span></li>`).join("")}</ul></section>` : ""}
           ${teams.length ? `<section class="lbox"><h4>Team builds</h4><ul class="lrows">${teams.map(t =>
             `<li><a href="builds?${esc(t.id)}">${esc(t.name)}</a><span class="dim">${t.builds.length} heroes</span></li>`).join("")}</ul></section>` : ""}

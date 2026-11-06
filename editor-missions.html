@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>Mission Map Editor</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .ex { max-width: 900px; padding-top: 8px; }
+  .ex p { margin: 6px 0; }
+  .ex h3 { font-size: 15px; margin: 22px 0 6px; }
+  #mlist { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px; }
+  #mlist button { background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px 9px; font: inherit; font-size: 13px; cursor: pointer; }
+  #mlist button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  #mlist button.done::after { content: " ✓"; color: var(--muted); }
+  .mtools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  #mwalk { padding: 4px 6px; }
+  #mout { width: 100%; font: 13px ui-monospace, monospace; }
+</style>
+</head>
+<body>
+<div class="wrap topbar">
+  <header class="top"></header><script src="header.js"></script>
+</div>
+<div class="wrap ex">
+  <div class="page-title"><h1>Mission Map Editor</h1><p>The part of an area's map a mission is played on, for the missions the site has no ground of their own for</p></div>
+
+  <div id="mlist"></div>
+  <h3 id="mtitle"></h3>
+  <p class="mtools"><select id="mmode"><option value="box">Box</option><option value="cut">Cut</option><option value="keep">Keep</option></select>
+    <button id="mdone" type="button">Done</button> <button id="mundo" type="button">Undo</button>
+    <label>Ground of <select id="mwalk"></select></label> <button id="mclear" type="button">Clear</button></p>
+  <p class="dim" id="mstatus"></p>
+  <div id="mbox"></div>
+  <h3>The mission's window</h3>
+  <div id="mpreview"><p class="dim">Mark a box above to see it.</p></div>
+  <h3>To paste back</h3>
+  <textarea id="mout" rows="6" readonly placeholder="The boxes, cuts and keep points you mark show here"></textarea>
+
+  <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="game/ground.js"></script>
+<script src="game/maps.js"></script>
+<script src="game/missions.js"></script>
+<script src="data/missionmaps.js"></script>
+<script src="common.js"></script>
+<script src="mapwidget.js"></script>
+<script>
+"use strict";
+// a mission with no ground of its own (its ground file is its outpost's, or its outpost is a town apart from it): two
+// clicks on its map mark the box its window shows, and the area whose ground it's played on; cuts (lines across the
+// ground) and a keep point say what new ground of its own to make: the piece at the point, cut off along the lines; ?mission=id
+{
+  const ARGS = new URLSearchParams(location.search);
+  const SAVED = GW_MISSION_MAPS.missions, drawn = {};  // drawn here: {mission id: {walk, box}}
+  const boxOf = id => drawn[id] || SAVED[id];
+  const same = (a, b) => !!a && !!b && JSON.stringify(a) === JSON.stringify(b);
+  let list = [], mid = null, shown = [], walks = [], view = null, corner = null, loads = 0;
+  const cuts = {}, keeps = {};  // {mission id: [[x0, y0, x1, y1, ...], ...]}, {mission id: [x, y]}
+  let line = null;  // the cut being drawn: [[x, y], ...]
+  const mode = () => $("mmode").value;
+  const dot = ([x, y], color) => ({ lines: [[[x - 0.5, y], [x + 0.5, y]]], color });
+  const pairs = l => l.reduce((ps, v, k) => (k % 2 ? ps : [...ps, [v, l[k + 1]]]), []);
+
+  // the missions to mark: those whose ground is their outpost's, and those whose outpost is only a town (Augury Rock)
+  async function findList() {
+    const ms = Object.values(MISSIONS).filter(m => m.kind !== "pvp" && AREAS[m.id] && AREAS[m.id].type !== 18);  // (a dungeon's are its levels)
+    const out = [];
+    for (const m of ms) {
+      const w = await loadWalk(m.id), o = m.outpost != null && m.outpost !== m.id ? await loadWalk(m.outpost) : null;
+      if (!w || (o && same(w.rings, o.town || o.rings)) || (m.outpost === m.id && AREAS[m.id].type === 10)) out.push(m.id);
+    }
+    // and those marked already
+    for (const id of Object.keys(SAVED).map(Number)) if (MISSIONS[id] && !out.includes(id)) out.push(id);
+    return out.filter(id => WALK_SET.has(id) || WALK_SET.has(MISSIONS[id].outpost));
+  }
+  const outpostOf = id => (WALK_SET.has(MISSIONS[id].outpost) ? MISSIONS[id].outpost : id);
+
+  function chips() {
+    $("mlist").innerHTML = list.map(id => `<button data-id="${id}" aria-pressed="${id === mid}" class="${boxOf(id) ? "done" : ""}">${esc(MISSIONS[id].name)}</button>`).join("");
+  }
+  $("mlist").addEventListener("click", e => { const b = e.target.closest("[data-id]"); if (b) pick(+b.dataset.id); });
+
+  // the box as lines on the map, the corner clicked so far as a dot
+  function show() {
+    const b = boxOf(mid)?.box, ways = [];
+    if (b) { const [x0, y0, x1, y1] = b; ways.push({ lines: [[[x0, y0], [x1, y0], [x1, y1], [x0, y1], [x0, y0]]], color: drawn[mid] ? "#ffd84a" : "#9aa0a6" }); }
+    if (corner) ways.push(dot(corner, "#4be06b"));
+    for (const c of cuts[mid] || []) ways.push({ lines: [pairs(c)], color: "#ff6b8b" });
+    if (line) ways.push(line.length > 1 ? { lines: [line], color: "#ff6b8b" } : dot(line[0], "#ff6b8b"));
+    if (keeps[mid]) ways.push(dot(keeps[mid], "#4fd1ff"));
+    if (view) { view.ways = ways; view.draw(); }
+    $("mstatus").textContent = mode() === "cut" ? (line ? "Click along the cut, then press Done." : "Click along a line across the ground where it should end, then press Done. Draw as many as needed.")
+      : mode() === "keep" ? "Click inside the piece of ground to keep: what the cuts leave connected to it becomes the mission's ground."
+      : corner ? "Now click the opposite corner." : b ? (drawn[mid] ? "Marked. Click again to mark it anew." : "The box in the data (grey). Click two corners to mark it anew.") : "Click one corner of the box, then the opposite one.";
+    const ids = [...new Set([...Object.keys(drawn), ...Object.keys(cuts), ...Object.keys(keeps)])].map(Number);
+    $("mout").value = ids.flatMap(id => [
+      drawn[id] && `"${id}": {"walk": ${drawn[id].walk}, "box": [${drawn[id].box.join(", ")}]},  // ${MISSIONS[id].name}`,
+      ...(cuts[id] || []).map(c => `cut ${id} (${MISSIONS[id].name}): ${pairs(c).map(p => p.join(",")).join(" ")}`),
+      keeps[id] && `keep ${id} (${MISSIONS[id].name}): ${keeps[id].join(",")}`]).filter(Boolean).join("\n");
+    preview();
+    chips();
+  }
+  async function preview() {
+    const b = boxOf(mid);
+    if (!b) { $("mpreview").innerHTML = '<p class="dim">Mark a box above to see it.</p>'; return; }
+    const [x0, y0, x1, y1] = b.box || [];
+    $("mpreview").innerHTML = mapHTML([], { height: 360, level: { name: MISSIONS[mid].name, walk: b.walk, rings: SAVED[mid]?.rings, area: b.box ? [x0, y0, x1, y0, x1, y1, x0, y1] : b.area } });
+    await initMaps($("mpreview"));
+  }
+
+  // the area whose ground covers the most of the box (the outpost too: a mission may be played on its ground)
+  const cv = document.createElement("canvas").getContext("2d");
+  const mostIn = ([x0, y0, x1, y1]) => {
+    let best = null, most = 0;
+    shown.forEach((id, k) => {
+      if (!walks[k]) return;
+      const path = walkPath([{ rings: [...walks[k].rings, ...(walks[k].town || [])] }]);
+      let n = 0;
+      for (let i = 0; i < 20; i++) for (let j = 0; j < 20; j++) if (cv.isPointInPath(path, x0 + (i + 0.5) * (x1 - x0) / 20, y0 + (j + 0.5) * (y1 - y0) / 20)) n++;
+      if (n > most) { best = id; most = n; }
+    });
+    return best;
+  };
+  function walkOptions(sel) {
+    $("mwalk").innerHTML = shown.filter((id, k) => walks[k]).map(id => `<option value="${id}"${id === sel ? " selected" : ""}>${esc(AREAS[id].name)} (${id})</option>`).join("");
+  }
+  $("mwalk").onchange = () => {
+    const b = boxOf(mid);
+    if (b) { drawn[mid] = { walk: +$("mwalk").value, box: b.box }; show(); }
+  };
+  $("mclear").onclick = () => { delete drawn[mid]; delete cuts[mid]; delete keeps[mid]; corner = null; line = null; walkOptions(SAVED[mid]?.walk); show(); };
+  const finish = () => { if (line?.length > 1) (cuts[mid] ||= []).push(line.flat()); line = null; show(); };
+  $("mdone").onclick = finish;
+  $("mmode").onchange = () => { finish(); corner = null; };
+  $("mundo").onclick = () => {
+    if (line?.length) { line.pop(); if (!line.length) line = null; return show(); }
+    if (mode() === "keep") delete keeps[mid]; else if (mode() === "cut") cuts[mid]?.pop(); else delete drawn[mid];
+    show();
+  };
+
+  async function pick(id) {
+    mid = id; corner = null; line = null; view = null;
+    const k = ++loads;
+    history.replaceState(null, "", "?mission=" + id);
+    const o = outpostOf(id), set = WALK_SET.get(o);
+    $("mtitle").innerHTML = `${LINK.mission(id)} <span class="dim">· outpost ${LINK.area(MISSIONS[id].outpost ?? id)}</span>`;
+    // the outpost, the areas next to it, and the areas on its terrain, on its map
+    const t = AREAS[o]?.terrain;
+    shown = [...new Set([o, ...(AREAS[o]?.exits || []).map(x => x.to), ...Object.values(AREAS).filter(a => t && a.terrain === t).map(a => a.id)])]
+      .filter(i => WALK_SET.get(i) === set && !AREAS[i].ground);
+    walks = await Promise.all(shown.map(loadWalk));
+    if (k !== loads) return;
+    walkOptions(boxOf(id)?.walk ?? shown.find(i => i !== o && walks[shown.indexOf(i)]) ?? o);
+    $("mbox").innerHTML = mapHTML(shown, { height: 560, town: o });
+    await initMaps($("mbox"));
+    if (k !== loads) return;
+    view = $("mbox").querySelector(".gmap")?.mapView;
+    if (view) {
+      view.win.style.cursor = "crosshair";
+      view.win.addEventListener("click", ev => {
+        ev.preventDefault();
+        if (view.dragged) return;
+        const r = view.win.getBoundingClientRect(), [x0, y0, x1, y1] = view.box;
+        const at = [Math.round(x0 + (ev.clientX - r.left) / r.width * (x1 - x0)), Math.round(y0 + (ev.clientY - r.top) / r.height * (y1 - y0))];
+        if (mode() === "cut") { (line ||= []).push(at); return show(); }
+        if (mode() === "keep") { keeps[mid] = at; return show(); }
+        if (!corner) { corner = at; return show(); }
+        const box = [Math.min(corner[0], at[0]), Math.min(corner[1], at[1]), Math.max(corner[0], at[0]), Math.max(corner[1], at[1])];
+        corner = null;
+        const walk = mostIn(box) ?? +$("mwalk").value;
+        drawn[mid] = { walk, box };
+        walkOptions(walk);
+        show();
+      }, true);
+    }
+    show();
+  }
+
+  $("mstatus").textContent = "Finding the missions…";
+  findList().then(l => {
+    list = l;
+    const want = +ARGS.get("mission");
+    pick(list.includes(want) ? want : list.find(id => !boxOf(id)) ?? list[0]);
+  });
+}
+</script>
+</body>
+</html>

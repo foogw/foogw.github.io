@@ -168,11 +168,26 @@ function paintMap(ctx, v) {
 }
 
 /* ---------- a window on some areas ---------- */
+// a mission's window on the part of an area's ground it is played on, where we marked one (data/missionmaps.js), or ""
+function missionMapHTML(id, name, opts = {}) {
+  const b = data("GW_MISSION_MAPS")?.missions?.[id];
+  if (!b) return "";
+  const [x0, y0, x1, y1] = b.box || [];
+  return mapHTML([], { ...opts, level: { name, walk: b.walk, rings: b.rings, area: b.area || [x0, y0, x1, y0, x1, y1, x0, y1] } });
+}
+// where a mission (or its copy) is played, when that's another area's place: a sentence, or ""
+function missionWhereNote(id) {
+  const b = data("GW_MISSION_MAPS")?.missions?.[id];
+  if (b?.note) return text(b.note);
+  return b?.in != null && AREAS[b.in] ? `Played in the same place as ${LINK.area(b.in)}: the mission's map is that area's.` : "";
+}
+// the missions played in an area's place (data/missionmaps.js "in"), as mission ids
+const missionsIn = id => Object.entries(data("GW_MISSION_MAPS")?.missions || {}).filter(([k, b]) => b.in === id && MISSIONS[k]).map(([k]) => +k);
 // ids: the areas lit; self: an area the page is about, marked out (an outpost shows the areas around it)
 // town: an outpost (or a list) whose own town to light (where its mission's ground shares its map id), not the mission's ground
 // spots: points of the map to mark, [{x, y, name}] in its pixels (where an NPC stands), shown even with markers hidden
 // note: HTML under the map, between its controls
-// level: a dungeon level instead of areas, {name, walk (its cell's game/walk file), area: [x0, y0, ...] the part of the
+// level: a dungeon level instead of areas, {name, walk (its cell's game/walk file), rings (ground added to it), area: [x0, y0, ...] the part of the
 // ground lit (or none: all of it), spots, portals: [{at, name}] (named on hover)} (data/depths.js)
 function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null, spots = null, note = "", level = null } = {}) {
   ids = [...new Set(ids.map(Number))];
@@ -204,6 +219,7 @@ async function initMap(fig) {
   const towns = (fig.dataset.town || "").split(",").filter(Boolean).map(Number);
   const level = fig.dataset.level ? JSON.parse(fig.dataset.level) : null;
   const walks = level ? [await fetch(`game/walk/${level.walk}.json`).then(r => r.json()).catch(() => null)].filter(Boolean)
+    .map(w => (level.rings ? { ...w, rings: [...w.rings, ...level.rings] } : w))
     : (await Promise.all(ids.map(loadWalk))).map((w, i) => w && { set: w.set, rings: towns.includes(ids[i]) && w.town ? w.town : w.rings, id: ids[i] }).filter(Boolean);
   const here = AREAS[self] || AREAS[ids[0]];
   const set = walks[0]?.set ?? here?.set;

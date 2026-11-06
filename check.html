@@ -19,7 +19,7 @@
    Open it as /check on the local server or the published site. */
 
 const GAME = ["ground", "maps", "missions", "creatures", "quests", "skills", "heroes", "titles", "armor", "calendar"];
-const DATA = ["calendar", "guides", "builds", "aliases", "depths", "routing", "nicholas", "areas"];
+const DATA = ["calendar", "guides", "builds", "aliases", "depths", "routing", "nicholas", "areas", "missionmaps"];
 
 const out = document.getElementById("out");
 const say = (t = "") => { out.textContent += t + "\n"; };
@@ -231,6 +231,11 @@ async function main() {
   say();
   head("data/areas.js");
   rule("areas shown only with Show all", "area", all(F["data/areas"]?.hidden || {}).map(([k, ids]) => [`hidden ${k}`, ids]));
+  say();
+  head("data/missionmaps.js");
+  rule("mission map: a mission's area (or its copy's)", "area", Object.keys(F["data/missionmaps"]?.missions || {}).map(k => [`mission map ${k}`, k]));
+  rule("mission map: in", "area", all(F["data/missionmaps"]?.missions).map(([k, v]) => [`mission map ${k}`, v.in]));
+  rule("mission map: walk", "walk", all(F["data/missionmaps"]?.missions).map(([k, v]) => [`mission map ${k}`, v.walk]));
   say();
   head("data/depths.js, routing.js");
   rule("dungeon (its map)", "area", Object.keys(DE.dungeons || {}).map(k => [`dungeon ${k}`, k]));
