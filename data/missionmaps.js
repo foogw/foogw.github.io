@@ -1,5 +1,5 @@
 const GW_MISSION_MAPS = {
-  "_": "Ours: where a mission is played, for the missions the site has no ground of their own for (the mission is played on an area's ground: Augury Rock's on Skyward Reach's, Nightfall's on their explorables', G.O.L.E.M.'s in Oola's Lab). Marked in the mission map editor (editor-missions).",
+  "_": "Ours: where a mission is played, for the missions the site has no ground of their own for (the mission is played on an area's ground: Augury Rock's on Skyward Reach's, Nightfall's on their explorables', G.O.L.E.M.'s in Oola's Lab)..",
   "missions_": "By the mission's map id (or its copy's): walk, the ground it is played on (game/walk/<it>.json; an area's, or a Depths of Tyria cell's); box, the part of that map its window shows, [x0, y0, x1, y1] in its pixels, or area, an outline [x0, y0, x1, y1, ...] instead; rings, ground the mission adds to that walk file's, as in a walk file; in, the area it is played in, said on its pages; note, what else to say (ours, with {area:id} links).",
   "missions": {
     "38": {"walk": 119, "box": [6756, 8043, 7012, 8165], "in": 115},
