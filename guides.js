@@ -185,7 +185,16 @@ function blockHTML(x, g) {
     <figcaption>${text(x.img.caption)}</figcaption></figure>`;
   if (x.builds) return `<div class="gd-builds">${x.builds.map(buildHTML).join("")}</div>`;
   if (x.capCalc) return capCalcHTML(x.capCalc, g);
-  if (x.areas) return `<div class="gd-map${x.side ? " side" : ""}">${mapHTML(x.areas, { height: x.height || MAP_MAX_H })}</div>`;
+  // a dungeon's level (data/depths.js): {level: [dungeon map id, its index], to: [x, y]}: the way through it as the
+  // dungeon's page has it, or from where you arrive to that point
+  if (x.level) {
+    const [id, i] = x.level, d = VIEWS.dungeon?.find(id);
+    if (!d?.levels[i]) return "";
+    return `<div class="gd-map" data-level-way="${esc(JSON.stringify({ id, i, to: x.to }))}">${VIEWS.dungeon.levelMap(d, i, { height: x.height || 340 })}</div>`;
+  }
+  if (x.maps) return `<div class="gd-maps">${x.maps.map(y => blockHTML(y, g)).join("")}</div>`;
+  if (x.areas) return `<div class="gd-map${x.side ? " side" : ""}"${x.spots ? ` data-way="${esc(JSON.stringify({ ids: x.areas, spots: x.spots.map(p => p.at), from: x.from }))}"` : ""}>${mapHTML(x.areas,
+    { height: x.height || MAP_MAX_H, spots: x.spots?.map(p => ({ x: p.at[0], y: p.at[1], name: p.name })) })}</div>`;
   if (x.table) return `<div class="gd-table"><table><thead><tr>${x.table.head.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
     <tbody>${x.table.rows.map(r => `<tr>${r.map(c => `<td>${text(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
     ${(x.table.notes || []).length ? `<ul class="gd-notes">${x.table.notes.map(n => `<li>${text(n)}</li>`).join("")}</ul>` : ""}`;
@@ -261,11 +270,38 @@ async function render() {
   if (g) {
     $("guide").innerHTML = guidePageHTML(g);
     document.querySelectorAll(".gd-cap").forEach(capUpdate);
-    initMaps($("guide"));
+    initMaps($("guide")).then(() => drawWays(g));
     document.title = `${g.name} · GW Guides`;
   } else {
     $("index").innerHTML = indexHTML();
     document.title = "GW Guides";
+  }
+}
+
+// a map with spots: the way on foot from its first area (the outpost), or from each outpost it names (from), through
+// the areas it shows, to the first spot, then on to each next one
+// the ways from different starts on one map, each in its own colour
+const WAYS = ["#4fd1ff", "#ff9f43", "#c56cf0", "#7bed9f"];
+async function drawWays(g) {
+  for (const box of $("guide").querySelectorAll(".gd-map[data-level-way]")) {
+    const { id, i, to } = JSON.parse(box.dataset.levelWay), view = box.querySelector(".gmap")?.mapView;
+    const pts = view && await VIEWS.dungeon.levelWay(VIEWS.dungeon.find(id).levels[i], i, { to });
+    if (g.id !== guideId()) return;
+    if (pts) { view.ways = [{ lines: walkLines(pts), color: WAYS[0] }]; view.draw(); }
+  }
+  for (const box of $("guide").querySelectorAll(".gd-map[data-way]")) {
+    const { ids, spots, from = ids[0] } = JSON.parse(box.dataset.way), view = box.querySelector(".gmap")?.mapView, froms = [from].flat(), all = [...new Set([...froms, ...ids])];
+    if (!view || all.length < 2) continue;
+    // (the ground of the areas on this map only: a start on another map is reached through its portal here)
+    const grid = await walkGrid(all.filter(i => walkable(i) && AREAS[i]?.set === view.set));
+    // (a start the game counts as an explorable area, but walked out of as an outpost: from its portals into the areas shown)
+    const portalsOut = f => (AREAS[f]?.exits || []).filter(e => e.at && all.includes(e.to)).map(e => walkRoute(grid, { at: e.at, area: e.to }, spots[0])).filter(Boolean)
+      .sort((a, b) => walkLength(a) - walkLength(b))[0];
+    // each start's way in its own colour; the way on from spot to spot is one trip, in the first's
+    const legs = [...froms.map((f, i) => [walkWay(grid, f, all, spots[0]) || portalsOut(f), i]), ...spots.slice(1).map((at, i) => [walkRoute(grid, spots[i], at), 0])];
+    if (g.id !== guideId()) return;  // another guide meanwhile
+    view.ways = legs.filter(([pts]) => pts).map(([pts, i]) => ({ lines: walkLines(pts), color: WAYS[i % WAYS.length] }));
+    view.draw();
   }
 }
 

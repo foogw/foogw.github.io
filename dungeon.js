@@ -12,8 +12,8 @@ VIEWS.dungeon = (() => {
   const mark = (v, ...kinds) => v.marks.find(m => kinds.includes(m[0]));
   // where you arrive: from the level above, or (level 1) by its portal in from outside
   const arrive = (v, i) => mark(v, "start") || (i === 0 ? mark(v, "portal") : null);
-  // where the level's way goes: down to the next, else its boss
-  const goal = v => mark(v, "down") || mark(v, "boss");
+  // where the level's way goes: down to the next, else its boss, else what's at its end
+  const goal = v => mark(v, "down") || mark(v, "boss") || mark(v, "goal");
   // what has to be done on the way, in order: keys picked up, the locks they open, other tasks
   const STOP = ["key", "lock", "do"];
   const stops = v => v.marks.filter(m => STOP.includes(m[0]));
@@ -43,22 +43,45 @@ VIEWS.dungeon = (() => {
   function levelRow(d, v, i) {
     const a = arrive(v, i), g = goal(v);
     const from = !a ? "" : a[0] === "portal" ? `From ${LINK.area(a[3])}` : v.name || !i ? "From the start" : `From ${esc(levelName(d, i - 1))}`;
-    const to = !g ? "" : g[0] === "down" ? `down to ${esc(levelName(d, i + 1))}` : `to the boss, ${bossLink(g[3])}`;
+    const to = !g ? "" : g[0] === "down" ? `down to ${esc(levelName(d, i + 1))}` : g[0] === "goal" ? `to ${esc(g[3])}` : `to the boss, ${bossLink(g[3])}`;
     const ways = v.marks.filter(m => m[0] === "portal" || m[0] === "down");
     const steps = stops(v).map(m => m[3]), sights = v.marks.filter(m => ["npc", "spot", "wall"].includes(m[0])).map(m => m[3]);
     const others = ways.filter(m => m[0] === "portal" && m !== a).map(m => LINK.area(m[3]));
-    const level = { name: levelName(d, i), walk: (v.walk ?? DEPTHS.cells[v.cell]), area: v.area,
-      portals: ways.map(m => ({ at: [m[1], m[2]], name: m[0] === "down" ? levelName(d, i + 1) : AREAS[m[3]]?.name || "" })) };
-    // on the map, the steps by their number in the list
-    const spots = v.marks.filter(m => !ways.includes(m)).map(m => ({ x: m[1], y: m[2],
-      name: m[0] === "start" ? "Arrive" : STOP.includes(m[0]) ? `${stops(v).indexOf(m) + 1}. ${m[3]}` : m[3] }));
     return row(i + 1, esc(levelName(d, i)), `
       <p class="dgroute">${from && to ? `${from} → ${to}` : '<span class="dim">Where you arrive and where it leads aren\'t marked yet.</span>'}</p>
       <p class="dgway" data-way="${i}"></p>
-      ${steps.length ? `<p><small class="dim">Steps</small></p><ol class="dgsteps">${steps.map(t => `<li>${esc(t)}</li>`).join("")}<li>${g?.[0] === "down" ? `Down to ${esc(levelName(d, i + 1))}` : g ? `Kill ${esc(g[3])}` : ""}</li></ol>` : ""}
+      ${steps.length ? `<p><small class="dim">Steps</small></p><ol class="dgsteps">${steps.map(t => `<li>${esc(t)}</li>`).join("")}<li>${g?.[0] === "down" ? `Down to ${esc(levelName(d, i + 1))}` : g?.[0] === "goal" ? esc(g[3]) : g ? `Kill ${esc(g[3])}` : ""}</li></ol>` : ""}
       ${sights.length ? `<p><small class="dim">Also here</small><br>${sights.map(esc).join(" · ")}</p>` : ""}
       ${others.length ? `<p><small class="dim">Also a way out</small><br>${others.join(" · ")}</p>` : ""}`,
-      mapHTML([], { level, spots, height: 340 }));
+      levelMap(d, i));
+  }
+  // a level's map: its ground, its ways out, the steps on it by their number in the list (and more spots: [{x, y, name}])
+  function levelMap(d, i, { height = 340, more = [] } = {}) {
+    const v = d.levels[i], ways = v.marks.filter(m => m[0] === "portal" || m[0] === "down");
+    const level = { name: levelName(d, i), walk: (v.walk ?? DEPTHS.cells[v.cell]), area: v.area,
+      portals: ways.map(m => ({ at: [m[1], m[2]], name: m[0] === "down" ? levelName(d, i + 1) : AREAS[m[3]]?.name || "" })) };
+    const spots = v.marks.filter(m => !ways.includes(m)).map(m => ({ x: m[1], y: m[2],
+      name: m[0] === "start" ? "Arrive" : STOP.includes(m[0]) ? `${stops(v).indexOf(m) + 1}. ${m[3]}` : m[3] }));
+    return mapHTML([], { level, spots: [...spots, ...more], height });
+  }
+  // a level's way: from where you arrive, through each stop, to its goal (or to: [x, y], from: [x, y] instead), as one
+  // line on its ground walled in along the level's area (where the area cuts the way off, all the cell's); or null
+  async function levelWay(v, i, { from = null, to = null } = {}) {
+    const a = from || arrive(v, i)?.slice(1, 3), g = to || goal(v)?.slice(1, 3);
+    if (!a || !g) return null;
+    const ground = await loadGround((v.walk ?? DEPTHS.cells[v.cell]));
+    if (!ground) return null;
+    const legs = [a, ...(to ? [] : stops(v).map(m => [m[1], m[2]])), g];
+    const route = async walls => {
+      const grid = await walkGrid([v.map], { [v.map]: { rings: ground.rings, walls } }), all = [];
+      for (let k = 1; k < legs.length; k++) {
+        const leg = walkRoute(grid, legs[k - 1], legs[k]);
+        if (!leg) return null;
+        all.push(...(k > 1 ? leg.slice(1) : leg));
+      }
+      return all;
+    };
+    return (v.area && await route([[...v.area, v.area[0], v.area[1]]])) || await route([]);
   }
 
   function html(d) {
@@ -114,30 +137,18 @@ VIEWS.dungeon = (() => {
     }
     // each level's way through
     for (const [i, v] of d.levels.entries()) {
-      const p = el.querySelector(`[data-way="${i}"]`), a = arrive(v, i), g = goal(v);
-      if (!p || !a || !g) continue;
-      const ground = await loadGround((v.walk ?? DEPTHS.cells[v.cell]));
-      if (!ground) continue;
-      // the cell's ground walled in along the level's area (where the area cuts the way off, all the cell's)
-      // through each stop in turn: one leg per stop, joined
-      const legs = [a, ...stops(v), g].map(m => [m[1], m[2]]);
-      const route = async walls => {
-        const grid = await walkGrid([v.map], { [v.map]: { rings: ground.rings, walls } }), all = [];
-        for (let k = 1; k < legs.length; k++) {
-          const leg = walkRoute(grid, legs[k - 1], legs[k]);
-          if (!leg) return null;
-          all.push(...(k > 1 ? leg.slice(1) : leg));
-        }
-        return all;
-      };
-      const pts = (v.area && await route([[...v.area, v.area[0], v.area[1]]])) || await route([]);
+      const p = el.querySelector(`[data-way="${i}"]`);
+      if (!p || !arrive(v, i) || !goal(v)) continue;
+      const pts = await levelWay(v, i);
       if (!live()) return;
       total += await show(p, pts, "The way through");
     }
     const t = el.querySelector(".dgtotal");
     if (t && total && !d.levels.some(v => v.name))  // (branches, as Slavers' Exile's, have no one total)
-      { t.hidden = false; t.querySelector("b").textContent = `${units(total)}`; t.title = "Game units, from the outpost to the boss"; }
+      { t.hidden = false; t.querySelector("b").textContent = `${units(total)}`; t.title = "Game units, from the outpost to the end"; }
   }
   // any dungeon has a page; its levels where data/depths.js has them
-  return { find: id => (isDungeon(AREAS[id]) ? { id: +id, levels: DEPTHS?.dungeons?.[id]?.levels || [] } : null), title: d => AREAS[d.id].name, html, after };
+  const dungeonOf = id => (isDungeon(AREAS[id]) ? { id: +id, levels: DEPTHS?.dungeons?.[id]?.levels || [] } : null);
+  // (levelMap and levelWay for other pages: a guide shows a dungeon's levels)
+  return { find: dungeonOf, title: d => AREAS[d.id].name, html, after, levelMap, levelWay };
 })();
