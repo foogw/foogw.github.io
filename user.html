@@ -11,7 +11,7 @@
 <body>
 <div class="wrap">
   <header class="top"></header><script src="header.js"></script>
-  <div class="page-title"><h1>User</h1><p>Your progress: elites captured, missions and dungeons done, per character</p></div>
+  <div class="page-title"><h1>User</h1><p>Your progress: elites captured, missions and dungeons done, areas vanquished and titles, per character and account</p></div>
   <div class="u-box">
     <p class="u-warn"><b>Experimental:</b> this hasn't gone through any testing yet. Use it with care, and keep a copy of your progress.</p>
     <p class="dim">Your progress is kept in this browser only, and clearing the site's data loses it. Download it, or copy it somewhere safe, to keep it or move it to another browser.</p>
@@ -21,13 +21,14 @@
       with the text. Then you can paste a fixed version and use it, or reset everything and start afresh.
     </div>
     <div id="u-char">
-    <h2 class="r-h">Characters</h2>
-    <p class="dim">Pick the character you're playing: its ticks are the ones the whole site shows and changes, on Skills, Missions, Dungeons and their pages. Click a name to rename it.</p>
+    <h2 class="r-h">Accounts and characters</h2>
+    <p class="dim">Pick the character you're playing: its ticks are the ones the whole site shows and changes, on Skills, Missions, Dungeons and their pages. Click a name to rename it. Account titles are kept on the account, shared by its characters.</p>
     <table class="u-chars">
-      <thead><tr><th>Shown</th><th>Name</th><th>Kind of a Big Deal</th><th></th></tr></thead>
+      <thead id="u-head"></thead>
       <tbody id="u-list"></tbody>
     </table>
     <div class="u-row"><button type="button" class="u-btn" id="u-new">New character</button></div>
+    <div class="u-row u-right"><button type="button" class="u-btn" id="u-new-account">New account</button></div>
     </div>
     <h2 class="r-h">Back up or restore</h2>
     <textarea class="u-text" id="u-text" spellcheck="false" aria-label="Your progress"></textarea>

@@ -1,13 +1,13 @@
 "use strict";
-/* The User page: the characters whose progress the site keeps in this browser (User, in common.js), and that progress
+/* The User page: the accounts and characters whose progress the site keeps in this browser (User, in common.js), and that progress
    as text to copy, download, or paste or load back in place of it. Saved progress the site can't read is shown as it
    is, to be copied, then replaced or reset. */
 const els = { list: $("u-list"), text: $("u-text"), status: $("u-status"), submit: $("u-submit"), reset: $("u-reset") };
 const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
 const modes = vs => `${vs.filter(v => v & 1).length} NM, ${vs.filter(v => v & 2).length} HM`;
 const charCounts = c => `${plural(c.elites.length, "elite")} captured · missions ${modes(modeProgress(c, "missions"))} · dungeons ${modes(modeProgress(c, "dungeons"))}`;
-// one line for the characters, then one for each
-const summary = o => [plural(o.chars.length, "character"), ...o.chars.map(c => `${c.name}: ${charCounts(c)}`)].join("\n");
+// one line for the accounts and characters, then one for each character
+const summary = o => [`${plural(o.accounts?.length || 1, "account")}, ${plural(o.chars.length, "character")}`, ...o.chars.map(c => `${c.name}: ${charCounts(c)}`)].join("\n");
 // the saved progress as text: as it's kept, when it can't be read
 const keptText = () => (User.broken() ? User.stored() : JSON.stringify(User.data()));
 let kept = false;  // broken progress copied or downloaded on this visit: only then can it be replaced or reset
@@ -18,16 +18,26 @@ function bigDeal(c, o) {
   const t = TITLES[10], r = titleRankOf(t, c, o), name = r ? t.rank_names[r - 1] : "No rank yet";
   return `<a href="titles?t=mine" data-titles>${esc(name)} ${titlesMaxed(c, o)}/${titleMax(t) * 5}</a>`;
 }
+// the characters, by account: with one account, just its characters; with more, each account as a heading (its name to
+// rename, a delete while it has no characters, a new character on it), and each character can move
 function render() {
-  const broken = User.broken(), o = User.data(), cur = User.char(o), one = o.chars.length < 2;
+  const broken = User.broken(), o = User.data(), cur = User.char(o), one = o.chars.length < 2, many = o.accounts.length > 1;
   $("u-broken").hidden = !broken;
   $("u-char").hidden = broken;
   els.reset.hidden = !broken;
-  els.list.innerHTML = o.chars.map(c => `<tr class="${c === cur ? "cur" : ""}" data-id="${c.id}">
+  $("u-new").hidden = many;
+  const move = c => `<select data-move aria-label="Account">${o.accounts.map(a => `<option value="${a.id}"${a.id === c.account ? " selected" : ""}>${esc(accountName(a))}</option>`).join("")}</select>`;
+  const row = c => `<tr class="${c === cur ? "cur" : ""}" data-id="${c.id}">
     <td><input type="radio" name="u-shown" aria-label="Show ${esc(c.name)}"${c === cur ? " checked" : ""}></td>
     <td><input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name"></td>
-    <td>${bigDeal(c, o)}</td>
-    <td><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></td></tr>`).join("");
+    <td>${bigDeal(c, o)}</td>${many ? `<td>${move(c)}</td>` : ""}
+    <td><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></td></tr>`;
+  const head = a => `<tr class="u-acct" data-account="${a.id}"><td colspan="5"><div class="u-acct-row">
+      <input type="text" maxlength="40" value="${esc(a.name || "")}" placeholder="${esc(accountName(a))}" aria-label="Account name">
+      ${o.chars.some(c => c.account === a.id) ? "" : `<button type="button" class="u-btn danger" data-delete-account>Delete account</button>`}
+      <button type="button" class="u-btn u-acct-new" data-new-char>New character</button></div></td></tr>`;
+  $("u-head").innerHTML = `<tr><th>Shown</th><th>Name</th><th>Kind of a Big Deal</th>${many ? "<th>Account</th>" : ""}<th></th></tr>`;
+  els.list.innerHTML = many ? o.accounts.map(a => head(a) + o.chars.filter(c => c.account === a.id).map(row).join("")).join("") : o.chars.map(row).join("");
   els.text.value = keptText();
   check();
 }
@@ -50,8 +60,17 @@ els.text.addEventListener("input", check);
 
 /* ---------- characters ---------- */
 const rowChar = (o, el) => o.chars.find(c => c.id === +el.closest("tr").dataset.id);
+const rowAccount = (o, el) => o.accounts.find(a => a.id === +el.closest("tr").dataset.account);
 els.list.addEventListener("change", e => {
-  const o = User.data(), c = rowChar(o, e.target);
+  const o = User.data();
+  // an account's new name (none: its number)
+  if (e.target.closest(".u-acct")) {
+    const a = rowAccount(o, e.target), n = e.target.value.trim();
+    if (n) a.name = n; else delete a.name;
+    User.save(o); return render();
+  }
+  const c = rowChar(o, e.target);
+  if (e.target.matches("[data-move]")) { c.account = +e.target.value; User.save(o); return render(); }
   if (e.target.type === "radio") { User.pick(c.id); return render(); }
   // a new name, once it's left
   const n = e.target.value.trim();
@@ -63,6 +82,13 @@ els.list.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.ty
 els.list.addEventListener("click", e => {
   // a character's titles: it's picked, then its titles are shown
   if (e.target.closest("[data-titles]")) { User.pick(rowChar(User.data(), e.target).id); return; }
+  if (e.target.closest("[data-new-char]")) return newChar(+e.target.closest("tr").dataset.account);
+  if (e.target.closest("[data-delete-account]")) {
+    const o = User.data(), a = rowAccount(o, e.target);
+    if (o.chars.some(c => c.account === a.id) || !confirm(`Delete the account "${accountName(a)}" and its account titles? This can't be undone.`)) return;
+    o.accounts = o.accounts.filter(x => x !== a);
+    User.save(o); return render();
+  }
   if (!e.target.closest("[data-delete]")) return;
   const o = User.data(), c = rowChar(o, e.target);
   if (o.chars.length < 2 || !confirm(`Delete "${c.name}" and all its progress (${charCounts(c)})? This can't be undone.`)) return;
@@ -72,12 +98,21 @@ els.list.addEventListener("click", e => {
   if (shown) User.pick(o.chars[0].id);
   render();
 });
-// a new character is named by its id (Char2), to be renamed in its row
-$("u-new").addEventListener("click", () => {
-  const o = User.data(), c = newUserChar(Math.max(...o.chars.map(c => c.id)) + 1);
+// a new character is named by its id (Char2), to be renamed in its row; it's on the account of the one shown (or the
+// account it's added to)
+function newChar(account = User.char().account) {
+  const o = User.data(), c = newUserChar(Math.max(...o.chars.map(c => c.id)) + 1, account);
   o.chars.push(c);
   User.save(o); User.pick(c.id); render();
   els.list.querySelector(`tr[data-id="${c.id}"] input[type=text]`).select();
+}
+$("u-new").addEventListener("click", () => newChar());
+// a new account, with no characters yet
+$("u-new-account").addEventListener("click", () => {
+  const o = User.data(), id = Math.max(...o.accounts.map(a => a.id)) + 1;
+  o.accounts.push({ id });
+  User.save(o); render();
+  els.list.querySelector(`tr[data-account="${id}"] input[type=text]`)?.focus();
 });
 
 /* ---------- the text: copy, download, load, use, reset ---------- */

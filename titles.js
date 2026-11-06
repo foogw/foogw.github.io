@@ -73,7 +73,7 @@ function mineHTML() {
   }).join("")}</tbody></table>` : "");
   const of = (scope, pvp) => list.filter(t => t.scope === scope && !!t.pvp === pvp);
   return `<section class="t-panel my" style="--c:var(--accent)">
-    <p>Titles of <b>${esc(c.name)}</b> and its account. Pick the character on the <a href="user">User page</a>. Skill Hunter, Protector,
+    <p>Titles of <b>${esc(c.name)}</b> and its account, <b>${esc(accountName(User.account(o)))}</b>. Pick the character on the <a href="user">User page</a>. Skill Hunter, Protector,
       Guardian, Vanquisher, the Legendary titles and Kind of a Big Deal are worked out from your ticks and the other titles; tick the others when maxed (or set their rank).</p>
     ${section("Character titles", of("character", false))}${section("Character titles, PvP", of("character", true))}
     ${section("Account titles", of("account", false))}${section("Account titles, PvP", of("account", true))}

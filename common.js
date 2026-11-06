@@ -375,12 +375,24 @@ function recruitHTML(h) {
 
 /* ---------- the visitor's progress, per character, kept in this browser only (the User page backs it up) ----------
    {v: 1, chars: [{id, name, elites: [skill ids captured], missions: {<id>: done}, dungeons: {<id>: done}, vanquished: [area
-   ids]}]}, done 1 normal
+   ids], account: its account's id, titles: {title id: rank}}], accounts: [{id, name, titles}]}, done 1 normal
    mode, 2 hard mode, 3 both; what isn't done isn't listed. Everything is by the game's own ids, so it outlasts the site's
    updates, and ids the site doesn't know are kept. Which character is shown (its id) is kept apart, as it's no progress. */
 const USER_KEY = "gw-user", USER_CHAR_KEY = "gw-user-char";
 const USER_KEYS = ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"];
-const newUserChar = id => ({ id, name: `Char${id}`, elites: [], missions: {}, dungeons: {} });
+const newUserChar = (id, account = 1) => ({ id, name: `Char${id}`, account, elites: [], missions: {}, dungeons: {} });
+// progress as the site keeps it: every character on an account (one kept without, from before accounts: account 1),
+// every account a character is on listed, in id order
+function userNormalize(o) {
+  o.accounts = o.accounts || [];
+  for (const c of o.chars) {
+    c.account = c.account ?? 1;
+    if (!o.accounts.some(a => a.id === c.account)) o.accounts.push({ id: c.account });
+  }
+  o.accounts.sort((a, b) => a.id - b.id);
+  return o;
+}
+const accountName = a => a.name || `Account ${a.id}`;
 // what's wrong with an object as progress, or "" when it's fine
 function userCheck(o) {
   const isObj = x => x && typeof x === "object" && !Array.isArray(x), isId = x => Number.isInteger(x) && x > 0;
@@ -417,7 +429,7 @@ function userCheck(o) {
       if (!isObj(c[part]) || !Object.entries(c[part]).every(([id, v]) => /^[1-9]\d*$/.test(id) && [1, 2, 3].includes(v))) return `${at}: "${part}" should map ids to 1 (NM), 2 (HM) or 3 (both).`;
     if (c.vanquished !== undefined && (!Array.isArray(c.vanquished) || !c.vanquished.every(isId) || new Set(c.vanquished).size !== c.vanquished.length)) return `${at}: "vanquished" should be a list of area ids, each once.`;
     if (badTitles(c.titles)) return `${at}: "titles" should map title ids to the rank reached (a whole number from 1).`;
-    if (c.account !== undefined && !isId(c.account)) return `${at}: "account" should be an account's id (none: account 1).`;
+    if (c.account !== undefined && !isId(c.account)) return `${at}: "account" should be an account's id (a backup from before accounts has none: account 1).`;
   }
   return "";
 }
@@ -430,12 +442,12 @@ const User = {
   // but the User page's reset, once it's been copied
   broken() { const t = User.stored(); if (t == null) return false; try { return !!userCheck(JSON.parse(t)); } catch { return true; } },
   data() {
-    if (!User.broken()) try { const o = JSON.parse(User.stored()); if (o) return o; } catch { /* none yet */ }
-    return { v: 1, chars: [newUserChar(1)] };
+    if (!User.broken()) try { const o = JSON.parse(User.stored()); if (o) return userNormalize(o); } catch { /* none yet */ }
+    return userNormalize({ v: 1, chars: [newUserChar(1)] });
   },
   save(o) {
     if (User.broken()) return false;
-    try { localStorage.setItem(USER_KEY, JSON.stringify(o)); } catch { /* storage blocked */ }
+    try { localStorage.setItem(USER_KEY, JSON.stringify(userNormalize(o))); } catch { /* storage blocked */ }
     userSeen = userRaw();
     return true;
   },
@@ -449,23 +461,16 @@ const User = {
   pick(id) { try { localStorage.setItem(USER_CHAR_KEY, id); } catch { /* storage blocked */ } userSeen = userRaw(); },
   captured(id) { return User.char().elites.includes(+id); },
   vanquished(id) { return (User.char().vanquished || []).includes(+id); },
-  // the shown character's account (its "account", else account 1), or null while nothing is kept for it
-  account(o = User.data()) { const id = User.char(o).account ?? 1; return (o.accounts || []).find(a => a.id === id) || null; },
+  // the shown character's account
+  account(o = User.data()) { return o.accounts.find(a => a.id === User.char(o).account); },
   // the rank reached in a title, kept on the character or on its account (by the title's scope); 0: not reached
   titleRank(id, scope) { return ((scope === "account" ? User.account()?.titles : User.char().titles) || {})[id] || 0; },
-  // set a title's rank (0: not reached, and left out); an account, a titles list, only while they hold something
+  // set a title's rank (0: not reached, and left out; a titles list only while it holds one)
   setTitle(id, scope, rank) {
-    const o = User.data(), c = User.char(o);
-    const put = holder => { holder.titles = holder.titles || {}; if (rank) holder.titles[id] = rank; else delete holder.titles[id]; if (!Object.keys(holder.titles).length) delete holder.titles; };
-    if (scope === "account") {
-      const aid = c.account ?? 1;
-      o.accounts = o.accounts || [];
-      let a = o.accounts.find(x => x.id === aid);
-      if (!a) o.accounts.push(a = { id: aid });
-      put(a);
-      if (Object.keys(a).length === 1) o.accounts = o.accounts.filter(x => x !== a);
-      if (!o.accounts.length) delete o.accounts;
-    } else put(c);
+    const o = User.data(), c = User.char(o), holder = scope === "account" ? User.account(o) : c;
+    holder.titles = holder.titles || {};
+    if (rank) holder.titles[id] = rank; else delete holder.titles[id];
+    if (!Object.keys(holder.titles).length) delete holder.titles;
     return User.save(o);
   },
   done(part, id) { return User.char()[part][id] || 0; },
