@@ -188,8 +188,8 @@ kbd { border: 1px solid var(--line); border-radius: 3px; padding: 0 4px; font-si
 }
 
 /* page nav */
-nav.pages { display: flex; gap: 18px; align-items: baseline; max-width: 100%; overflow-x: auto; scrollbar-width: none; }  /* (too wide: it scrolls) */
-nav.pages a { font-size: 17px; font-weight: 700; color: var(--muted); text-decoration: none; letter-spacing: .02em; }
+nav.pages { display: flex; gap: 14px; align-items: center; max-width: 100%; overflow-x: auto; scrollbar-width: none; }  /* (too wide: it scrolls) */
+nav.pages a { display: flex; align-items: center; font-size: 12px; font-weight: 700; color: var(--muted); text-decoration: none; letter-spacing: .02em; }
 nav.pages a[aria-current=page] { color: var(--text); }
 nav.pages a:hover { color: var(--text); }
 
@@ -956,7 +956,7 @@ a.hchip { text-decoration: none; }
   nav.pages { flex: 1 1 100%; gap: 16px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px;
     -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
   nav.pages::-webkit-scrollbar { display: none; }
-  nav.pages a { font-size: 15px; white-space: nowrap; }
+  nav.pages a { font-size: 11px; white-space: nowrap; }
   .hdr-link.push { margin-left: 0; }
   .hdr-link { font-size: 11px; }
   .page-title h1, .hero h1 { font-size: 26px; }

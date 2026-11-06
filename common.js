@@ -108,7 +108,7 @@ document.addEventListener("click", e => {
 {
   if (/^#[\w-]+=/.test(location.hash) && !location.search) history.replaceState(null, "", location.pathname + "?" + location.hash.slice(1));
   const page = location.pathname.match(/([\w-]*?)(\.html)?$/)[1];
-  const key = { missions: "mission", "all-quests": "quest", quests: "quest", skills: "skill", heroes: "hero", bosses: "boss" }[page];
+  const key = { missions: "mission", quests: "quest", skills: "skill", heroes: "hero", bosses: "boss" }[page];
   const id = key && args().get(key);
   if (id) location.replace("./" + query({ [key]: id }));
 }
