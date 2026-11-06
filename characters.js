@@ -16,33 +16,41 @@ const redrawTitles = () => typeof draw === "function" && draw();
 // Kind of a Big Deal: its rank's name and the titles maxed toward its top rank
 function bigDeal(c, o) {
   const t = TITLES[10], r = titleRankOf(t, c, o), name = r ? t.rank_names[r - 1] : "No rank yet";
-  return `${esc(name)} ${titlesMaxed(c, o)}/${titleMax(t) * 5}`;
+  return `${titlesMaxed(c, o)}/${titleMax(t) * 5} ${esc(name)}`;
 }
 // a character's profession: its icon, a button that opens the ten to pick from (or none)
 const profPick = c => `<span class="u-prof"><button type="button" class="u-prof-btn" data-prof-open aria-haspopup="true" title="${c.profession ? PROFS[c.profession] : "Profession"}">
   <img src="${profImg(c.profession || 0)}" alt="${c.profession ? PROFS[c.profession] : "No profession"}"></button>
   <span class="u-prof-menu" hidden>${[...Array(11).keys()].slice(1).concat(0).map(p => `<button type="button" data-prof="${p}" title="${p ? PROFS[p] : "None"}"${(c.profession || 0) === p ? ' aria-current="true"' : ""}><img src="${profImg(p)}" alt="${p ? PROFS[p] : "None"}"></button>`).join("")}</span></span>`;
+// up and down chevrons to move a character within its account, or an account among the accounts (the saved order)
+const CHEV = d => `<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const moveBtns = (first, last) => `<span class="u-move"><button type="button" data-move="-1" aria-label="Move up"${first ? " disabled" : ""}>${CHEV("M3 10l5-5 5 5")}</button><button type="button" data-move="1" aria-label="Move down"${last ? " disabled" : ""}>${CHEV("M3 6l5 5 5-5")}</button></span>`;
+// the optional game modes, each a badge: lit when the character is bound to it, greyed when not; click to set or clear
+const modeBadges = c => `<span class="u-modes">${Object.entries(USER_MODES).map(([m, name]) =>
+  `<button type="button" class="u-mode" data-mode="${m}" aria-pressed="${(c.modes || []).includes(m)}" title="${esc(name)}"><img src="img/modes/${m}.png" alt="${esc(name)}"></button>`).join("")}</span>`;
 const closeProfs = () => { for (const m of document.querySelectorAll(".u-prof-menu")) m.hidden = true; };
 document.addEventListener("click", e => { if (!e.target.closest(".u-prof")) closeProfs(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeProfs(); });
 // the characters, by account: with one account, just its characters; with more, each account as a heading (its name to
-// rename, a delete while it has no characters, a new character on it); a character stays on the account it was made on
+// rename, a delete while it has no characters, chevrons to reorder) with a new character after its last; a character stays on the
+// account it was made on, and chevrons move it among the account's characters: the saved order is the shown order
 function render() {
   const broken = User.broken(), o = User.data(), cur = User.char(o), one = o.chars.length < 2, many = o.accounts.length > 1;
   $("u-broken").hidden = !broken;
   $("u-char").hidden = broken;
   $("u-new").hidden = many;
-  const row = c => `<tr class="${c === cur ? "cur" : ""}" data-id="${c.id}">
+  const row = c => { const sib = o.chars.filter(x => x.account === c.account); return `<tr class="${c === cur ? "cur" : ""}" data-id="${c.id}">
     <td><input type="radio" name="u-shown" aria-label="Show ${esc(c.name)}"${c === cur ? " checked" : ""}></td>
-    <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name"></div></td>
-    <td>${bigDeal(c, o)}</td>
-    <td><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></td></tr>`;
+    <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}</div></td>
+    <td><button type="button" class="link u-gwamm" data-rank="${titleRankOf(TITLES[10], c, o)}" data-pick title="Show ${esc(c.name)}">${bigDeal(c, o)}</button></td>
+    <td>${moveBtns(sib[0] === c, sib[sib.length - 1] === c)}<span class="u-slot"><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></span></td></tr>`; };
   const head = a => `<tr class="u-acct" data-account="${a.id}"><td colspan="4"><div class="u-acct-row">
       <input type="text" maxlength="40" value="${esc(a.name || "")}" placeholder="${esc(accountName(a))}" aria-label="Account name">
-      ${o.chars.some(c => c.account === a.id) ? "" : `<button type="button" class="u-btn danger" data-delete-account>Delete account</button>`}
-      <button type="button" class="u-btn u-acct-new" data-new-char>New character</button></div></td></tr>`;
-  $("u-head").innerHTML = `<tr><th>Shown</th><th>Name</th><th>Kind of a Big Deal</th><th></th></tr>`;
-  els.list.innerHTML = many ? o.accounts.map(a => head(a) + o.chars.filter(c => c.account === a.id).map(row).join("")).join("") : o.chars.map(row).join("");
+      <span class="u-acct-right">${moveBtns(o.accounts[0] === a, o.accounts[o.accounts.length - 1] === a)}<span class="u-slot">${o.chars.some(c => c.account === a.id) ? "" : `<button type="button" class="u-btn danger" data-delete-account>Delete account</button>`}</span></span></div></td></tr>`;
+  // after an account's characters: a new one on it
+  const foot = a => `<tr class="u-acct-foot" data-account="${a.id}"><td colspan="4"><button type="button" class="u-btn" data-new-char>New character</button></td></tr>`;
+  $("u-head").innerHTML = `<tr><th>Shown</th><th>Name</th><th>GWAMM</th><th></th></tr>`;
+  els.list.innerHTML = many ? o.accounts.map(a => head(a) + o.chars.filter(c => c.account === a.id).map(row).join("") + foot(a)).join("") : o.chars.map(row).join("");
   redrawTitles();
 }
 /* ---------- characters ---------- */
@@ -73,6 +81,31 @@ els.list.addEventListener("click", e => {
   if (pick) {
     const o = User.data(), c = rowChar(o, pick), p = +pick.dataset.prof;
     if (p) c.profession = p; else delete c.profession;
+    User.save(o); return render();
+  }
+  const mv = e.target.closest("[data-move]");
+  if (mv) {
+    const o = User.data(), d = +mv.dataset.move, tr = mv.closest("tr");
+    if (tr.dataset.account) {  // an account among the accounts
+      const i = o.accounts.findIndex(a => a.id === +tr.dataset.account), j = i + d;
+      if (j < 0 || j >= o.accounts.length) return;
+      [o.accounts[i], o.accounts[j]] = [o.accounts[j], o.accounts[i]];
+    } else {  // a character among its account's: swap with the next one of the same account in the saved order
+      const c = rowChar(o, mv), i = o.chars.indexOf(c);
+      let j = i + d;
+      while (j >= 0 && j < o.chars.length && o.chars[j].account !== c.account) j += d;
+      if (j < 0 || j >= o.chars.length) return;
+      [o.chars[i], o.chars[j]] = [o.chars[j], o.chars[i]];
+    }
+    User.save(o); return render();
+  }
+  const pick1 = e.target.closest("[data-pick]");
+  if (pick1) { User.pick(rowChar(User.data(), pick1).id); return render(); }
+  const mode = e.target.closest("[data-mode]");
+  if (mode) {
+    const o = User.data(), c = rowChar(o, mode), m = mode.dataset.mode, set = new Set(c.modes || []);
+    if (set.has(m)) set.delete(m); else set.add(m);
+    if (set.size) c.modes = [...set]; else delete c.modes;
     User.save(o); return render();
   }
   if (e.target.closest("[data-new-char]")) return newChar(+e.target.closest("tr").dataset.account);

@@ -375,7 +375,8 @@ function recruitHTML(h) {
 
 /* ---------- the visitor's progress, per character, kept in this browser only (the Backup page backs it up) ----------
    Kept as {v: 2, chars: [{id, name, account: its account's id, profession: its primary (1 Warrior ... 10 Dervish), elites: [skill ids captured], vanquished: [area ids],
-   missionsNM, missionsHM, dungeonsNM, dungeonsHM: [ids done in that mode], titles: {title id: rank}}], accounts: [{id,
+   missionsNM, missionsHM, dungeonsNM, dungeonsHM: [ids done in that mode], titles: {title id: rank}, modes: the optional game modes
+   the character is bound to (and our pre-Searing mark), of USER_MODES}], accounts: [{id,
    name, titles}]}. A list may be "all": every id in USER_ALL (frozen: should the game ever have more, they'd come with a
    new version). An empty list, or a title not reached, is left out. Version 1 (from before), still read: no "all", and
    missions and dungeons as {<id>: done}, done 1 normal mode, 2 hard mode, 3 both; with no "account": account 1.
@@ -393,7 +394,10 @@ const USER_ALL = {
   dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
 };
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
-  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles"] };
+  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes"] };
+// the optional game modes (Guild Wars Reforged): a character bound to one wears its badge beside its name; and our own
+// "pre-Searing", a character that stays in pre-Searing Ascalon, with the Tapestry Shred as its badge
+const USER_MODES = { presearing: "Pre-Searing: stays in pre-Searing Ascalon", melandru: "Melandru's Accord", dhuum: "Dhuum's Covenant" };
 const USER_LISTS = ["elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM"];
 const allOf = k => USER_ALL[k.replace(/[NH]M$/, "")];
 const newUserChar = (id, account = 1) => ({ id, name: `Char${id}`, account, elites: [], vanquished: [], missions: {}, dungeons: {} });
@@ -402,6 +406,7 @@ function userFromKept(o) {
   const chars = o.chars.map(k => {
     const c = { id: k.id, name: k.name, account: k.account ?? 1 };
     if (k.profession) c.profession = k.profession;
+    if (k.modes?.length) c.modes = [...k.modes];
     if (o.v === 1) Object.assign(c, { elites: k.elites, vanquished: k.vanquished || [], missions: k.missions, dungeons: k.dungeons });
     else {
       const list = key => (k[key] === "all" ? [...allOf(key)] : k[key] || []);
@@ -421,6 +426,7 @@ function userToKept(o) {
   const chars = o.chars.map(c => {
     const k = { id: c.id, name: c.name, account: c.account ?? 1 };
     if (c.profession) k.profession = c.profession;
+    if (c.modes?.length) k.modes = Object.keys(USER_MODES).filter(m => c.modes.includes(m));
     const lists = { elites: c.elites, vanquished: c.vanquished || [] };
     for (const part of ["missions", "dungeons"]) for (const [m, b] of [["NM", 1], ["HM", 2]])
       lists[part + m] = Object.entries(c[part]).filter(([, v]) => v & b).map(([id]) => +id);
@@ -435,14 +441,13 @@ function userToKept(o) {
   return { v: 2, chars, accounts: o.accounts };
 }
 // progress as the site keeps it: every character on an account (one kept without, from before accounts: account 1),
-// every account a character is on listed, in id order
+// every account a character is on listed (one not listed is added last); the lists' order is the order shown
 function userNormalize(o) {
   o.accounts = o.accounts || [];
   for (const c of o.chars) {
     c.account = c.account ?? 1;
     if (!o.accounts.some(a => a.id === c.account)) o.accounts.push({ id: c.account });
   }
-  o.accounts.sort((a, b) => a.id - b.id);
   return o;
 }
 const accountName = a => a.name || `Account ${a.id}`;
@@ -487,6 +492,7 @@ function userCheck(o) {
     } else {
       if (!isId(c.account)) return `${at}: "account" should be an account's id.`;
       if (c.profession !== undefined && !(Number.isInteger(c.profession) && c.profession >= 1 && c.profession <= 10)) return `${at}: "profession" should be 1 (Warrior) to 10 (Dervish).`;
+      if (c.modes !== undefined && !(Array.isArray(c.modes) && c.modes.every(m => USER_MODES[m]) && new Set(c.modes).size === c.modes.length)) return `${at}: "modes" should list game modes of ${Object.keys(USER_MODES).join(", ")}, each once.`;
       const bad = USER_LISTS.find(k => c[k] !== undefined && c[k] !== "all" && !idList(c[k]));
       if (bad) return `${at}: "${bad}" should be "all" or a list of ids, each once.`;
     }

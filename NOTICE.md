@@ -10,7 +10,7 @@ Guild Wars, Guild Wars Factions, Guild Wars Nightfall, Guild Wars: Eye of the No
 and all associated logos and designs are trademarks or registered trademarks of NCSOFT Corporation.
 All other trademarks are the property of their respective owners.
 
-Skill and profession icons in `img/` are ArenaNet artwork; the files were taken from the
+Skill, profession, item and game-mode badge icons in `img/` are ArenaNet artwork; the files were taken from the
 official Guild Wars Wiki (wiki.guildwars.com).
 
 ## build-wars/gw-skilldata

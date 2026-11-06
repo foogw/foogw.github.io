@@ -18,6 +18,8 @@
   --p-warrior: #d6b24f; --p-ranger: #8fbf4a; --p-monk: #6fb4e6; --p-necromancer: #3fa36f;
   --p-mesmer: #a874d8; --p-elementalist: #e0563f; --p-assassin: #d466a4; --p-ritualist: #47c1bf;
   --p-paragon: #e3a33a; --p-dervish: #8f9bc9; --p-none: #8a8a8a;
+  /* the Kind of a Big Deal track, no rank (0) to God Walking Amongst Mere Mortals (6, gold) */
+  --gw0: #9a978f; --gw1: #b58a63; --gw2: #7cbf8a; --gw3: #62b4dc; --gw4: #a99bff; --gw5: #e4e1da; --gw6: #d8b25a;
   color-scheme: dark;
 }
 @media (prefers-color-scheme: light) {
@@ -27,6 +29,7 @@
     --sac: #b62e2e; --upkeep: #1d8a7a; --gray: #7b776e; --hl: rgba(154, 116, 32, 0.18);
     --loc-out: #9a7420; --loc-exp: #2f7a45; --loc-dgn: #6a52c4; --loc-pvp: #b8432c;
     --q-skill: #7a4fd0; --q-attr: #1d8a55; --hdr-bg: #e9e5dc;
+    --gw0: #7b776e; --gw1: #8a5a2b; --gw2: #2f7a45; --gw3: #1f6fd1; --gw4: #6a52c4; --gw5: #4a4a52; --gw6: #9a7420;
     color-scheme: light;
   }
 }
@@ -1154,10 +1157,22 @@ a.hchip { text-decoration: none; }
 .u-chars .num { text-align: right; }
 .u-chars tr.cur td { background: color-mix(in srgb, var(--accent) 8%, transparent); }
 .u-chars td:first-child { width: 56px; text-align: center; }
-.u-chars td:last-child { width: 1%; text-align: right; }
+.u-chars td:nth-child(2), .u-chars td:nth-child(3) { width: 1%; white-space: nowrap; }
+.u-chars td:nth-child(2) { padding-right: 28px; }  /* name and Kind of a Big Deal packed at the left; the buttons take the rest, at the right */
+.u-chars td:last-child { text-align: right; }
 .u-chars tr.u-acct td { padding-top: 16px; text-align: left; width: auto; }
 .u-acct-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.u-acct-new { margin-left: auto; }
+.u-acct-right { margin-left: auto; display: inline-flex; gap: 0; align-items: center; }
+.u-move { display: inline-flex; gap: 2px; margin-right: 48px; vertical-align: middle; }
+.u-move button { display: grid; place-items: center; width: 22px; height: 22px; padding: 0; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; }
+/* an account's chevrons sit above its characters' (the same slot at the right), drawn as the account's own: filled, a touch bigger */
+.u-acct .u-move button { width: 26px; height: 26px; color: var(--accent); background: var(--panel-2); border-color: var(--accent); border-radius: 8px; }
+.u-gwamm[data-rank="0"] { color: var(--gw0); } .u-gwamm[data-rank="1"] { color: var(--gw1); } .u-gwamm[data-rank="2"] { color: var(--gw2); }
+.u-gwamm[data-rank="3"] { color: var(--gw3); } .u-gwamm[data-rank="4"] { color: var(--gw4); } .u-gwamm[data-rank="5"] { color: var(--gw5); } .u-gwamm[data-rank="6"] { color: var(--gw6); }
+.u-slot { display: inline-flex; justify-content: flex-end; min-width: 68px; vertical-align: middle; }
+.u-move button:hover:not(:disabled) { border-color: var(--accent); }
+.u-move button:disabled { opacity: .3; cursor: default; }
+.u-chars tr.u-acct-foot td { text-align: right; width: auto; border-bottom: 0; padding: 8px 0 4px; }
 .ch-fold { margin: 6px 0 18px; }
 .ch-fold > summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; }
 .ch-fold > summary::-webkit-details-marker { display: none; }
@@ -1166,7 +1181,14 @@ a.hchip { text-decoration: none; }
 .ch-fold > summary .r-h { margin: 8px 0; }
 .characters .u-broken { margin: 10px 0; }
 .u-name { display: flex; align-items: center; gap: 6px; }
+.u-chars .u-name input[type=text] { width: calc(19ch + 14px); flex: none; }  /* the game's names are up to 19 characters; the badges follow right after */
 .u-prof { position: relative; flex: none; }
+.u-modes { display: inline-flex; gap: 4px; }
+.u-mode { display: flex; padding: 2px; border: 1px solid transparent; border-radius: 6px; background: none; cursor: pointer; }
+.u-mode img { width: 24px; height: 24px; display: block; }
+.u-mode[aria-pressed="false"] img { filter: grayscale(1); opacity: .07; }
+.u-mode:hover { border-color: var(--line); }
+.u-mode[aria-pressed="false"]:hover img { opacity: .35; }
 .u-prof-btn { display: flex; padding: 2px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); cursor: pointer; }
 .u-prof-btn img, .u-prof-menu img { width: 22px; height: 22px; display: block; }
 .u-prof-menu { position: absolute; top: calc(100% + 4px); left: 0; z-index: 20; display: grid; grid-template-columns: repeat(4, auto); gap: 4px; padding: 6px;
