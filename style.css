@@ -194,6 +194,8 @@ kbd { border: 1px solid var(--line); border-radius: 3px; padding: 0 4px; font-si
 nav.pages { display: flex; gap: 14px; align-items: center; max-width: 100%; overflow-x: auto; scrollbar-width: none; }  /* (too wide: it scrolls) */
 nav.pages a { display: flex; align-items: center; font-size: 12px; font-weight: 700; color: var(--muted); text-decoration: none; letter-spacing: .02em; }
 nav.pages a[aria-current=page] { color: var(--text); }
+nav.pages a.hdr-char.named, nav.pages a.hdr-char.named:hover { color: var(--accent); }
+nav.pages a.hdr-char.named[aria-current=page] { text-decoration: underline; text-underline-offset: 4px; }
 nav.pages a:hover { color: var(--text); }
 
 /* missions */

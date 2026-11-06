@@ -528,16 +528,17 @@ const User = {
     if (User.broken()) return false;
     try { localStorage.setItem(USER_KEY, JSON.stringify(userToKept(userNormalize(o)))); } catch { /* storage blocked */ }
     userSeen = userRaw();
+    globalThis.headerChar?.();
     return true;
   },
   // the Backup page's way out of broken progress: all of it gone, a fresh start
-  reset() { try { localStorage.removeItem(USER_KEY); localStorage.removeItem(USER_CHAR_KEY); } catch { /* storage blocked */ } userSeen = userRaw(); },
+  reset() { try { localStorage.removeItem(USER_KEY); localStorage.removeItem(USER_CHAR_KEY); } catch { /* storage blocked */ } userSeen = userRaw(); globalThis.headerChar?.(); },
   // the character shown: the one picked on My Characters, else the first
   char(o = User.data()) {
     let id = null; try { id = +localStorage.getItem(USER_CHAR_KEY); } catch { /* storage blocked */ }
     return o.chars.find(c => c.id === id) || o.chars[0];
   },
-  pick(id) { try { localStorage.setItem(USER_CHAR_KEY, id); } catch { /* storage blocked */ } userSeen = userRaw(); },
+  pick(id) { try { localStorage.setItem(USER_CHAR_KEY, id); } catch { /* storage blocked */ } userSeen = userRaw(); globalThis.headerChar?.(); },
   captured(id) { return User.char().elites.includes(+id); },
   vanquished(id) { return (User.char().vanquished || []).includes(+id); },
   // the shown character's account
