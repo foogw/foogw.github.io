@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>GW Experiments</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .xp { max-width: 1240px; padding-top: 8px; }
+  .xp h2 { font-size: 15px; margin: 22px 0 6px; }
+  .xp-up { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .xp-up td { padding: 6px 10px 6px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  .xp-up th { text-align: left; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 6px 10px 6px 0; border-bottom: 1px solid var(--line); }
+  .xp-up .d { white-space: nowrap; color: var(--muted); width: 110px; }
+  .xp-up .e { white-space: nowrap; }
+  .xp-up .w { white-space: nowrap; text-align: right; color: var(--muted); width: 120px; }
+  .xp-up tr.today td { background: var(--panel); }
+</style>
+</head>
+<body>
+<!-- ideas tried out before they get a place on the site; linked from the Dev page only -->
+<div class="wrap">
+  <header class="top"></header><script src="header.js"></script>
+  <div class="page-title"><h1>Experiments</h1><p>Ideas tried out before they get a place on the site</p></div>
+  <div class="xp">
+    <h2>Coming up for you</h2>
+    <p class="dim">The next Zaishen Missions and Zaishen Vanquishes the character you're playing still needs: † not completed in NM,
+      ‡ not completed in HM, § not vanquished.</p>
+    <div id="xp-up"></div>
+    <button class="link r-more" type="button" id="xp-more">Show more</button>
+  </div>
+  <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="game/calendar.js"></script>
+<script src="game/ground.js"></script>
+<script src="game/missions.js"></script>
+<script src="game/creatures.js"></script>
+<script src="game/quests.js"></script>
+<script src="common.js"></script>
+<script>
+"use strict";
+/* ---------- coming up for you ---------- */
+// each day ahead, the Zaishen Mission and Zaishen Vanquish that day, kept when the character still needs it (the same
+// marks as Rotations: they show only once the character has a name of its own)
+{
+  const fmtDay = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric" });
+  const KINDS = [["zaishen-mission", "Mission", e => missionMarks(e.mission)], ["zaishen-vanquish", "Vanquish", e => vanqMark(e.area)]];
+  const MAX_DAYS = 120;
+  let days = 7;
+  function render() {
+    $("xp-more").hidden = !userNamed() || days >= MAX_DAYS;
+    if (!userNamed()) {
+      $("xp-up").innerHTML = `<p class="dim">Give your character a name on <a href="characters">My Characters</a> to see what's coming up for it.</p>`;
+      return;
+    }
+    // one row a day, the kinds side by side (the Zaishen dailies all change at once): the days with something needed
+    const now = Date.now(), kinds = KINDS, rows = [];
+    const anchor = ROTATIONS["zaishen-mission"], k0 = Rotation.period(anchor, now);
+    for (let i = 0; i < days; i++) {
+      const cells = kinds.map(([key, , marks]) => { const r = ROTATIONS[key], e = Rotation.entry(r, Rotation.period(r, now) + i); return marks(e) ? e : null; });
+      if (cells.some(Boolean)) rows.push({ i, at: Rotation.startsAt(anchor, k0 + i), cells });
+    }
+    $("xp-up").innerHTML = rows.length ? `<table class="xp-up"><thead><tr><th></th>${kinds.map((k, j) => `<th class="c${j}">${k[1]}</th>`).join("")}<th></th></tr></thead><tbody>${rows.map(x => `<tr class="${x.i ? "" : "today"}">
+        <td class="d">${x.i ? fmtDay.format(x.at) : "Now"}</td>${x.cells.map((e, j) => `<td class="e c${j}">${e ? entryHTML(e) + entryWhere(e) : ""}</td>`).join("")}
+        <td class="w">${x.i ? inDays(x.i) : `${timeLeft(Rotation.endsAt(anchor, now) - now)} left`}</td></tr>`).join("")}</tbody></table>`
+      : `<p class="dim">Nothing ${esc(User.char().name)} still needs in the next ${days} days.</p>`;
+  }
+  // a week ahead, each Show more doubling it, up to 120 days
+  $("xp-more").addEventListener("click", () => { days = Math.min(MAX_DAYS, days * 2); render(); });
+  addEventListener("userchange", render);
+  render();
+}
+</script>
+</body>
+</html>
