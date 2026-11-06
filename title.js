@@ -49,7 +49,7 @@ VIEWS.title = (() => {
       <p class="t-src">${wikiLink(t.wiki)}</p>
     </section>`;
   }
-  const html = t => `<p class="back"><a href="titles">← My titles</a></p>
+  const html = t => `<p class="back"><a href="characters">← My Characters</a></p>
     <div class="sp-head" style="--pc:var(${CAMP_COLOR[t.campaign]})"><div class="sp-title"><h2>${esc(t.name)} title</h2></div></div>${panel(t)}`;
   // only a title with its ranks listed has a page, but Kurzick / Luxon, Lucky, Treasure Hunter and Wisdom (My titles has them)
   const NO_PAGE = new Set([5, 15, 45, 46]);

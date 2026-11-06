@@ -1,6 +1,6 @@
 "use strict";
 /* A character's titles, worked out from its progress (User, in common.js): the ones reached through its ticks or
-   through other titles, the others as kept on it or its account. Used by My titles (titles) and the User page.
+   through other titles, the others as kept on it or its account. Used by My Characters (characters).
    Needs game/titles.js, game/skills.js, game/ground.js and game/missions.js. Every function takes the character c and
    the progress o it's in. */
 const titleMax = t => t.max ?? t.ranks.length;

@@ -12,7 +12,7 @@
 <div class="wrap">
   <header class="top"></header><script src="header.js"></script>
   <div class="page-title"><h1>Dungeons</h1><p>Every dungeon: its levels, its boss, where it's entered and its next Zaishen Bounty</p></div>
-  <div class="u-row"><select id="done" title="As ticked for the character picked on the User page"><option value="">Done or not</option><option value="1">Missing NM</option><option value="2">Missing HM</option><option value="a">Missing either</option></select></div>
+  <div class="u-row"><select id="done" title="As ticked for the character picked on My Characters"><option value="">Done or not</option><option value="1">Missing NM</option><option value="2">Missing HM</option><option value="a">Missing either</option></select></div>
   <table class="dgtable"><thead id="head"></thead><tbody id="list"></tbody></table>
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
@@ -46,7 +46,7 @@ const COLS = [
   ["boss", "Boss", r => r.boss || "~", r => (r.boss ? bossLink(r.boss) : "")],
   ["from", "Entered from", r => areaName(r.from[0]) || "~", r => r.from.map(i => LINK.area(i)).join(", ")],
   ["bounty", "Bounty", r => last(r.bounty), r => (r.bounty == null ? "" : r.bounty === 0 ? "<b>Today</b>" : inDays(r.bounty))],
-  // done in normal and hard mode, as ticked for the character picked on the User page
+  // done in normal and hard mode, as ticked for the character picked on My Characters
   ["done", "Done", r => prog[r.l.id] || 0, r => doneTicks("dungeons", r.l.id, prog[r.l.id] || 0)],
 ];
 const NUM = new Set(["book", "levels", "bounty"]);

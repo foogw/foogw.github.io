@@ -27,7 +27,7 @@ const listed = l => state.all || !HIDDEN.has(l.id);
 // regions in the order each story visits them
 const REGION_ORDER = [7, 2, 101, 0, 1, 5, 3, 6, 11, 8, 9, 10, 15, 12, 13, 14, 16, 100, 19, 20, 17, 18, 21, 4, 25, 24, 22, 23, 26, 27, 28];
 const regionIdx = r => REGION_ORDER.indexOf(r) + 1 || 99;
-// the vanquish filter: "v" the areas that can be vanquished, "n" those not yet vanquished by the character picked on the User page
+// the vanquish filter: "v" the areas that can be vanquished, "n" those not yet vanquished by the character picked on My Characters
 let vanqSet = new Set();
 const vqOk = l => !state.vq || (l.foes && (state.vq === "v" || !vanqSet.has(l.id)));
 const shown = l => listed(l) && KINDS.find(k => k[0] === state.kind)[2](l) && vqOk(l);
@@ -63,7 +63,7 @@ function renderIndex(ts) {
   if (state.desc) rows.reverse();
   // the Vanquished column's title: Check all and Uncheck all, for the areas shown
   els.index.innerHTML = !rows.length ? "" : `<table class="dgtable loctable"><thead><tr>${COLS.map(([k, label]) => k === "vq"
-    ? `<th class="c-vq bulk" tabindex="0" title="For the character picked on the User page">${label}${bulkMenu("#index tbody")}</th>`
+    ? `<th class="c-vq bulk" tabindex="0" title="For the character picked on My Characters">${label}${bulkMenu("#index tbody")}</th>`
     : `<th class="c-${k}${NUM.has(k) ? " num" : ""}"><button type="button" data-sort="${k}" class="${k === (state.sort || "region") ? `sorted${state.desc ? " desc" : ""}` : ""}">${label}</button></th>`).join("")}</tr></thead>
     <tbody>${rows.map(l => `<tr class="${areaGroup(l)}">${COLS.map(([k, , , cell]) => `<td class="c-${k}${NUM.has(k) ? " num" : ""}">${cell(l, ts)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
 }

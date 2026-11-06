@@ -1,10 +1,10 @@
 "use strict";
 
-/* The Titles page: My titles, every title of the character picked on the User page and its account. A title's own
-   page is on the front page (title.js). */
+/* My Characters' titles (below its list, characters.js): every title of the character picked and its account. A
+   title's own page is on the front page (title.js). */
 
 /* ---------- my titles ---------- */
-// every title, for the character picked on the User page and its account: the ones worked out from its ticks (or from
+// every title, for the character picked and its account: the ones worked out from its ticks (or from
 // other titles) shown as they stand, the others ticked when maxed (kept as the max rank: a title not reached isn't kept)
 const nameOf = t => t.own_name || t.name;
 // the order: the max titles' title first, then the other character titles, then account titles (PvE, then PvP)
@@ -51,7 +51,6 @@ function mineHTML() {
         `<option value="${a.id}"${a.id === c.account ? " selected" : ""}>${esc(accountName(a))}</option>`).join("")}</select></label>
       <label>Character <select id="my-char">${o.chars.filter(x => x.account === c.account).map(x =>
         `<option value="${x.id}"${x === c ? " selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
-      <a href="user" class="dim">Accounts and characters</a>
     </div>
     <p>Skill Hunter, Protector, Guardian, Vanquisher, the Legendary titles and Kind of a Big Deal are worked out from your
       ticks and the other titles; tick the others when maxed (or set their rank).</p>
@@ -60,21 +59,21 @@ function mineHTML() {
   </section>
   ${retentionHTML(c, o)}`;
 }
-const lockedOut = () => User.broken() && (alert("Your saved progress can't be read, so it can't be changed here: see the User page."), true);
+const lockedOut = () => User.broken() && (alert("Your saved progress can't be read, so it can't be changed here: see the Backup page."), true);
 // a rank up or down
 document.addEventListener("click", e => {
   const b = e.target.closest("button[data-step]");
   if (!b || lockedOut()) return;
   const t = TITLES[b.dataset.title], o = User.data(), r = titleRankOf(t, User.char(o), o) + +b.dataset.step;
   User.setTitle(t.id, t.scope, Math.max(0, Math.min(titleMax(t), r)));
-  draw();
+  refresh();
 });
 // another account (its first character) or character picked: the one the whole site shows
 document.addEventListener("change", e => {
   if (e.target.id !== "my-account" && e.target.id !== "my-char") return;
   const o = User.data();
   User.pick(e.target.id === "my-char" ? +e.target.value : o.chars.find(x => x.account === +e.target.value).id);
-  draw();
+  refresh();
 });
 // ticking a title maxed (or not)
 document.addEventListener("change", e => {
@@ -83,13 +82,12 @@ document.addEventListener("change", e => {
   const t = TITLES[box.dataset.title];
   if (lockedOut()) { box.checked = !box.checked; return; }
   User.setTitle(t.id, t.scope, box.checked ? titleMax(t) : 0);
-  draw();
+  refresh();
 });
 
-// an old address of a title's tab (titles?t=5) goes to that title's page
-const old = args().get("t");
-if (old && VIEWS.title.hasPage(old)) location.replace(HREF.title(old));
 const draw = () => { $("title").innerHTML = mineHTML(); };
+// after a change here: the list above too (characters.js), which draws these again
+const refresh = () => (typeof render === "function" ? render() : draw());
 draw();
 // back on the page after the progress changed elsewhere: it draws again
 addEventListener("userchange", draw);

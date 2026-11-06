@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
-<title>GW User</title>
+<title>GW Backup</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="wrap">
   <header class="top"></header><script src="header.js"></script>
-  <div class="page-title"><h1>User</h1><p>Your progress: elites captured, missions and dungeons done, areas vanquished and titles, per character and account</p></div>
+  <div class="page-title"><h1>Backup</h1><p>Your progress, kept in this browser: copy it, download it, or load one back</p></div>
   <div class="u-box">
     <p class="u-warn"><b>Experimental:</b> this hasn't gone through any testing yet. Use it with care, and keep a copy of your progress.</p>
     <p class="dim">Your progress is kept in this browser only, and clearing the site's data loses it. Download it, or copy it somewhere safe, to keep it or move it to another browser.</p>
@@ -19,16 +19,6 @@
       <b>Your saved progress is broken: the site can't read it.</b> The pages go without it until it's fixed, and nothing
       here writes over it. Copy or download the text below to keep it, and please <a href="contact">tell me</a> about it,
       with the text. Then you can paste a fixed version and use it, or reset everything and start afresh.
-    </div>
-    <div id="u-char">
-    <h2 class="r-h">Accounts and characters</h2>
-    <p class="dim">Pick the character you're playing: its ticks are the ones the whole site shows and changes, on Skills, Missions, Dungeons and their pages. Click a name to rename it. Account titles are kept on the account, shared by its characters.</p>
-    <table class="u-chars">
-      <thead id="u-head"></thead>
-      <tbody id="u-list"></tbody>
-    </table>
-    <div class="u-row"><button type="button" class="u-btn" id="u-new">New character</button></div>
-    <div class="u-row u-right"><button type="button" class="u-btn" id="u-new-account">New account</button></div>
     </div>
     <h2 class="r-h">Back up or restore</h2>
     <textarea class="u-text" id="u-text" spellcheck="false" aria-label="Your progress"></textarea>
@@ -45,12 +35,8 @@
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
 
-<script src="game/titles.js"></script>
-<script src="game/skills.js"></script>
-<script src="game/ground.js"></script>
 <script src="game/missions.js"></script>
 <script src="common.js"></script>
-<script src="mytitles.js"></script>
-<script src="user.js"></script>
+<script src="backup.js"></script>
 </body>
 </html>

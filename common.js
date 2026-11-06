@@ -373,7 +373,7 @@ function recruitHTML(h) {
   return t;
 }
 
-/* ---------- the visitor's progress, per character, kept in this browser only (the User page backs it up) ----------
+/* ---------- the visitor's progress, per character, kept in this browser only (the Backup page backs it up) ----------
    Kept as {v: 2, chars: [{id, name, account: its account's id, profession: its primary (1 Warrior ... 10 Dervish), elites: [skill ids captured], vanquished: [area ids],
    missionsNM, missionsHM, dungeonsNM, dungeonsHM: [ids done in that mode], titles: {title id: rank}}], accounts: [{id,
    name, titles}]}. A list may be "all": every id in USER_ALL (frozen: should the game ever have more, they'd come with a
@@ -500,7 +500,7 @@ const User = {
   // what's kept, as text: null when nothing is
   stored() { try { return localStorage.getItem(USER_KEY); } catch { return null; } },
   // kept progress that can't be read (broken, or by a newer site): the pages go without it, and nothing writes over it
-  // but the User page's reset, once it's been copied
+  // but the Backup page's reset, once it's been copied
   broken() { const t = User.stored(); if (t == null) return false; try { return !!userCheck(JSON.parse(t)); } catch { return true; } },
   data() {
     if (!User.broken()) try { const o = JSON.parse(User.stored()); if (o) return userFromKept(o); } catch { /* none yet */ }
@@ -512,9 +512,9 @@ const User = {
     userSeen = userRaw();
     return true;
   },
-  // the User page's way out of broken progress: all of it gone, a fresh start
+  // the Backup page's way out of broken progress: all of it gone, a fresh start
   reset() { try { localStorage.removeItem(USER_KEY); localStorage.removeItem(USER_CHAR_KEY); } catch { /* storage blocked */ } userSeen = userRaw(); },
-  // the character shown: the one picked on the User page, else the first
+  // the character shown: the one picked on My Characters, else the first
   char(o = User.data()) {
     let id = null; try { id = +localStorage.getItem(USER_CHAR_KEY); } catch { /* storage blocked */ }
     return o.chars.find(c => c.id === id) || o.chars[0];
@@ -590,7 +590,7 @@ document.addEventListener("click", e => {
   if (!b) return;
   e.preventDefault(); e.stopPropagation();
   const list = document.querySelector(b.closest("[data-bulk-list]").dataset.bulkList), on = b.dataset.bulk === "1";
-  if (User.broken()) { if (confirm("Your saved progress can't be read, so it can't be changed here. Open the User page to see it?")) location.href = "user"; return; }
+  if (User.broken()) { if (confirm("Your saved progress can't be read, so it can't be changed here. Open the Backup page to see it?")) location.href = "backup"; return; }
   const elites = [...new Set([...list.querySelectorAll(".utick[data-elite]")].map(x => x.dataset.elite))];
   const vanqs = [...new Set([...list.querySelectorAll(".utick[data-vanq]")].map(x => x.dataset.vanq))];
   const done = [...list.querySelectorAll(".uticks[data-part]")].map(g => [g.dataset.part, g.dataset.id]);
@@ -611,7 +611,7 @@ document.addEventListener("click", e => {
   const b = e.target.closest(".utick");
   if (!b) return;
   e.preventDefault(); e.stopPropagation();
-  if (User.broken()) { if (confirm("Your saved progress can't be read, so it can't be changed here. Open the User page to see it?")) location.href = "user"; return; }
+  if (User.broken()) { if (confirm("Your saved progress can't be read, so it can't be changed here. Open the Backup page to see it?")) location.href = "backup"; return; }
   const on = b.getAttribute("aria-pressed") !== "true";
   if (b.dataset.elite) {
     User.setCaptured(b.dataset.elite, on);

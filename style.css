@@ -1157,6 +1157,13 @@ a.hchip { text-decoration: none; }
 .u-chars tr.u-acct td { padding-top: 16px; text-align: left; width: auto; }
 .u-acct-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .u-acct-new { margin-left: auto; }
+.ch-fold { margin: 6px 0 18px; }
+.ch-fold > summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; }
+.ch-fold > summary::-webkit-details-marker { display: none; }
+.ch-fold > summary::before { content: "▸"; color: var(--muted); font-size: 13px; transition: transform .15s; }
+.ch-fold[open] > summary::before { transform: rotate(90deg); }
+.ch-fold > summary .r-h { margin: 8px 0; }
+.characters .u-broken { margin: 10px 0; }
 .u-name { display: flex; align-items: center; gap: 6px; }
 .u-prof { position: relative; flex: none; }
 .u-prof-btn { display: flex; padding: 2px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); cursor: pointer; }
