@@ -16,7 +16,7 @@ const status = (t, cls = "") => { els.status.textContent = t; els.status.classNa
 // Kind of a Big Deal: its rank's name and the titles maxed toward its top rank; a link to the character's titles
 function bigDeal(c, o) {
   const t = TITLES[10], r = titleRankOf(t, c, o), name = r ? t.rank_names[r - 1] : "No rank yet";
-  return `<a href="titles?t=mine" data-titles>${esc(name)} ${titlesMaxed(c, o)}/${titleMax(t) * 5}</a>`;
+  return `<a href="titles" data-titles>${esc(name)} ${titlesMaxed(c, o)}/${titleMax(t) * 5}</a>`;
 }
 // the characters, by account: with one account, just its characters; with more, each account as a heading (its name to
 // rename, a delete while it has no characters, a new character on it), and each character can move

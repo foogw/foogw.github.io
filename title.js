@@ -49,7 +49,7 @@ VIEWS.title = (() => {
       <p class="t-src">${wikiLink(t.wiki)}</p>
     </section>`;
   }
-  const html = t => `<p class="back"><a href="titles">← All titles</a></p>
+  const html = t => `<p class="back"><a href="titles">← My titles</a></p>
     <div class="sp-head" style="--pc:var(${CAMP_COLOR[t.campaign]})"><div class="sp-title"><h2>${esc(t.name)} title</h2></div></div>${panel(t)}`;
   // (only a title with its ranks listed has a page)
   return { find: id => (TITLES[id]?.ranks ? TITLES[id] : null), title: t => `${t.name} title`, html, panel, metaHTML, rangeHTML, tableHTML };

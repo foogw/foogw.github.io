@@ -744,9 +744,8 @@ button.rnd-copy:hover { color: var(--text); }
 }
 
 /* titles */
-.t-tabs { flex-wrap: wrap; }
 .t-panel { padding: 14px 16px; border: 1px solid var(--line); border-left: 4px solid var(--c); border-radius: 10px; background: var(--panel); max-width: 1100px; }
-.t-panel > p, .t-loot > p { margin: 0 0 6px; font-size: 14px; }
+.t-panel > p { margin: 0 0 6px; font-size: 14px; }
 .t-panel h4 { margin: 16px 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: color-mix(in srgb, var(--text) 75%, var(--muted)); }
 .t-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; color: var(--muted); font-size: 13px; margin-bottom: 8px; }
 .t-range, .t-unlocks { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; font-size: 13px; }
@@ -766,15 +765,6 @@ table.t-ranks td { padding: 3px 14px 3px 0; border-top: 1px solid var(--line); f
 table.t-ranks .num { text-align: right; }
 table.t-ranks td:last-child { color: var(--muted); }
 .t-src { margin: 12px 0 0; font-size: 12px; }
-.t-loot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
-.t-loot h4 { margin-top: 0; }
-.t-inputs { display: flex; flex-wrap: wrap; gap: 10px 16px; font-size: 13px; color: var(--muted); }
-.t-inputs select { margin-left: 4px; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; font: inherit; }
-.t-out { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0 10px; }
-.t-out div { display: grid; padding: 8px 14px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); }
-.t-out b { font-size: 24px; font-variant-numeric: tabular-nums; }
-.t-out span { font-size: 12px; color: var(--muted); }
-.t-formula { font-size: 12px; margin: 0; }
 
 /* one skill's, mission's, boss's, quest's or hero's page */
 .ent { padding: 6px 0 20px; }
@@ -1188,6 +1178,9 @@ a.hchip { text-decoration: none; }
 .u-status.ok { color: var(--loc-exp); }
 
 /* Titles: My titles */
+.my-pick { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 0 0 10px; font-size: 13px; color: var(--muted); }
+.my-pick select { margin-left: 4px; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; font: inherit; font-size: 14px; }
+.my-retention { margin: 16px 0 0; font-size: 14px; }
 .my-h { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 18px 0 6px; }
 .my-titles { width: 100%; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
 .my-titles td { padding: 6px 10px 6px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
