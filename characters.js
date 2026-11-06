@@ -6,8 +6,9 @@ const els = { list: $("u-list") };
 const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
 const modes = vs => `${vs.filter(v => v & 1).length} NM, ${vs.filter(v => v & 2).length} HM`;
 const charCounts = c => `${plural(c.elites.length, "elite")} captured · missions ${modes(modeProgress(c, "missions"))} · dungeons ${modes(modeProgress(c, "dungeons"))}`;
-// the list open or folded
-const FOLD = "chars.fold";
+// the list open or folded; and each account's characters, folded under its name (the accounts' ids, kept as one list)
+const FOLD = "chars.fold", ACCT_FOLDS = "chars.folded";
+const acctFolds = () => { try { return JSON.parse(localStorage.getItem(ACCT_FOLDS)) || []; } catch { return []; } };
 try { if (localStorage.getItem(FOLD) === "1") $("u-char").open = false; } catch { /* storage blocked */ }
 $("u-char").addEventListener("toggle", e => { try { localStorage.setItem(FOLD, e.target.open ? "0" : "1"); } catch { /* storage blocked */ } });
 // the titles below draw again (titles.js, once it's in): the character picked, its account, may have changed
@@ -44,13 +45,17 @@ function render() {
     <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}</div></td>
     <td><button type="button" class="link u-gwamm" data-rank="${titleRankOf(TITLES[10], c, o)}" data-pick title="Show ${esc(c.name)}">${bigDeal(c, o)}</button></td>
     <td>${moveBtns(sib[0] === c, sib[sib.length - 1] === c)}<span class="u-slot"><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></span></td></tr>`; };
+  const folded = new Set(acctFolds());
   const head = a => `<tr class="u-acct" data-account="${a.id}"><td colspan="4"><div class="u-acct-row">
+      <button type="button" class="u-fold" data-fold-account aria-expanded="${!folded.has(a.id)}" aria-label="${folded.has(a.id) ? "Show" : "Hide"} its characters"></button>
       <input type="text" maxlength="40" value="${esc(a.name || "")}" placeholder="${esc(accountName(a))}" aria-label="Account name">
       <span class="u-acct-right">${moveBtns(o.accounts[0] === a, o.accounts[o.accounts.length - 1] === a)}<span class="u-slot">${o.chars.some(c => c.account === a.id) ? "" : `<button type="button" class="u-btn danger" data-delete-account>Delete account</button>`}</span></span></div></td></tr>`;
   // after an account's characters: a new one on it
   const foot = a => `<tr class="u-acct-foot" data-account="${a.id}"><td colspan="4"><button type="button" class="u-btn" data-new-char>New character</button></td></tr>`;
-  $("u-head").innerHTML = `<tr><th>Shown</th><th>Name</th><th>GWAMM</th><th></th></tr>`;
-  els.list.innerHTML = many ? o.accounts.map(a => head(a) + o.chars.filter(c => c.account === a.id).map(row).join("") + foot(a)).join("") : o.chars.map(row).join("");
+  // the columns' titles: above the list, or with two accounts or more under each account's name (folded with its characters)
+  const cols = `<tr class="u-cols"><th>Shown</th><th>Name</th><th>GWAMM</th><th></th></tr>`;
+  $("u-head").innerHTML = many ? "" : cols;
+  els.list.innerHTML = many ? o.accounts.map(a => head(a) + (folded.has(a.id) ? "" : cols + o.chars.filter(c => c.account === a.id).map(row).join("") + foot(a))).join("") : o.chars.map(row).join("");
   redrawTitles();
 }
 /* ---------- characters ---------- */
@@ -82,6 +87,13 @@ els.list.addEventListener("click", e => {
     const o = User.data(), c = rowChar(o, pick), p = +pick.dataset.prof;
     if (p) c.profession = p; else delete c.profession;
     User.save(o); return render();
+  }
+  // an account's characters folded away, or shown again
+  const fold = e.target.closest("[data-fold-account]");
+  if (fold) {
+    const id = +fold.closest("tr").dataset.account, fs = acctFolds().filter(x => x !== id);
+    try { localStorage.setItem(ACCT_FOLDS, JSON.stringify(fold.getAttribute("aria-expanded") === "true" ? [...fs, id] : fs)); } catch { /* storage blocked */ }
+    return render();
   }
   const mv = e.target.closest("[data-move]");
   if (mv) {

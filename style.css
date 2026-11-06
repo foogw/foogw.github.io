@@ -1200,7 +1200,11 @@ a.hchip { text-decoration: none; }
 .u-prof-menu[hidden] { display: none; }
 .u-prof-menu button { padding: 3px; border: 1px solid transparent; border-radius: 6px; background: none; cursor: pointer; }
 .u-prof-menu button:hover, .u-prof-menu button[aria-current] { border-color: var(--accent); }
-.u-chars .u-acct-row input[type=text] { font-weight: 600; font-size: 15px; max-width: 220px; }
+.u-chars .u-acct-row input[type=text] { font-weight: 600; font-size: 17px; max-width: 240px; }
+.u-fold { all: unset; cursor: pointer; width: 22px; text-align: center; color: var(--muted); font-size: 24px; line-height: 1; }
+.u-fold::before { content: "▸"; display: inline-block; transition: transform .15s; }
+.u-fold[aria-expanded="true"]::before { transform: rotate(90deg); }
+.u-fold:hover, .u-fold:focus-visible { color: var(--text); }
 .u-chars .u-acct-row input::placeholder { color: var(--text); opacity: .75; }
 .u-chars select { font: inherit; font-size: 13px; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 2px 4px; }
 .u-chars input[type=text] { font: inherit; color: var(--text); background: transparent; border: 1px solid transparent; border-radius: 6px; padding: 3px 6px; width: 100%; max-width: 260px; }
