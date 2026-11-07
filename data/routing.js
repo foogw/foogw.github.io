@@ -3,13 +3,17 @@ const GW_ROUTING = {
   "walls": {
     "48": [[1592, 5496, 1592, 5511]],
     "198": [[4485, 2421, 4482, 2415, 4478, 2416, 4483, 2425]],
-    "205": [[4316, 3699, 4311, 3704]]
+    "205": [[4316, 3699, 4311, 3704]],
+    "567": [[219, 81, 244, 87, 307, 73, 315, 54]],
+    "568": [[394, 785, 370, 789, 353, 832, 354, 852], [381, 899, 362, 908], [357, 889, 335, 890], [202, 893, 174, 892], [154, 922, 137, 948], [138, 969, 154, 982]]
   },
   "paths_": "Ours: lines on an area's map that can be walked, where its walkable ground misses them (a narrow pass), by map id: [[x0, y0, x1, y1, ...], ...] in its map's pixels, 4 pixels wide. Drawn in the map editor.",
   "paths": {
     "17": [[2508, 4440, 2518, 4434, 2523, 4438, 2526, 4444, 2531, 4451, 2544, 4448, 2550, 4444, 2559, 4445, 2565, 4450]],
     "99": [[5796, 3655, 5810, 3667]],
-    "448": [[2028, 653, 2040, 637], [2159, 553, 2166, 540]]
+    "448": [[2028, 653, 2040, 637], [2159, 553, 2166, 540]],
+    "560": [[90, 817, 130, 817]],
+    "568": [[382, 808, 362, 839]]
   },
   "cross_": "Ours: where a way crosses over another (a bridge over a path), by map id: [[cx, cy, r, x0, y0, x1, y1, x2, y2, x3, y3], ...]: a circle walled off, and the two ways through it by their ends (taken out to the circle's edge); a way that comes in along one goes out along the same one. Drawn in the map editor.",
   "cross": {
