@@ -1,0 +1,115 @@
+{
+ "stats": [
+  [
+   "Party",
+   "Solo"
+  ],
+  [
+   "Mode",
+   "Hard mode"
+  ],
+  [
+   "Where",
+   "Jaga Moraine"
+  ],
+  [
+   "Health",
+   "55"
+  ]
+ ],
+ "sections": [
+  {
+   "blocks": [
+    {
+     "p": "In Hard mode there are 60 Vaettir in the south-east of {area:546}, and a Monk with 55 Health takes next to no damage from them: {skill:245} caps each hit at 10% of your Health (about 5), and the Assassin's {skill:826} takes 5 off every hit. Meanwhile three Smiting spells burn them all down at once."
+    },
+    {
+     "areas": [
+      482,
+      546
+     ],
+     "height": 380,
+     "from": 650,
+     "spots": [
+      {
+       "at": [
+        6095,
+        1365
+       ],
+       "name": "The Vaettirs"
+      }
+     ],
+     "crop": [
+      6000,
+      1250,
+      6830,
+      1660
+     ]
+    },
+    {
+     "p": "The run from {area:650} is made once. After each clear, step out through the portal to {area:482} and straight back in. So come with plenty of free inventory space, as you won't be back in town for a while."
+    }
+   ]
+  },
+  {
+   "title": "Build",
+   "blocks": [
+    {
+     "builds": [
+      {
+       "name": "55hp Vaettir farmer",
+       "role": "You",
+       "code": "OwcT4wn+ZqegHRnBXEi4eILSeAA",
+       "gear": [
+        "A superior rune on every armor piece: 105 Health",
+        "The −50 Health Grim Cesta (from Cities of Ascalon): 55 Health",
+        "A +5 energy / 20% longer enchanting weapon"
+       ],
+       "runes": {
+        "14": "3",
+        "15": "1+3"
+       }
+      }
+     ]
+    },
+    {
+     "note": "Smiting above 11 is wasted: {skill:826} caps your damage at 21."
+    }
+   ]
+  },
+  {
+   "title": "Walkthrough",
+   "blocks": [
+    {
+     "ol": [
+      "In {area:650}, switch to Hard mode.",
+      "Leave {area:650} and run through {area:482} to {area:546}. The way can be run without aggroing anything, and a Birthday Cupcake's speed boost is handy for it.",
+      "On arriving in {area:546}, take the Norn Hunting Party bounty at the resurrection shrine if your {page:?title=41|Norn} title isn't maxed yet.",
+      "Cast {skill:242}.",
+      "Before aggroing: {skill:245}, then {skill:572}, then {skill:826}, in that order so {skill:826}'s damage reduction counts. Recast them in the same order before {skill:826} ends.",
+      "Aggro the groups on the north side, and wait for them to ball around you.",
+      "When they're all hitting you: {skill:2232} first, then {skill:272}, {skill:247} and {skill:1113}. Recast them as they recharge until all the Vaettir are dead: how often depends on how often the Standard's faster recharge comes up.",
+      "Don't start a 2-second cast when {skill:826} is about to recharge: the window to recast it is short.",
+      "Then do the same with the groups on the south side.",
+      "Pick up the drops, step out to {area:482} and back in for another round."
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Drops",
+   "blocks": [
+    {
+     "ul": [
+      "Event items, while an event is on.",
+      "Gold inscribable items.",
+      "Mesmer tomes.",
+      "Map pieces.",
+      "Glacial Stones, for the Glacial Gauntlets or for salvaging into Dust.",
+      "Also dyes, lockpicks, Bird's Eye Compasses and Stalker's Rations."
+     ]
+    }
+   ]
+  }
+ ]
+}
