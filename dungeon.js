@@ -5,8 +5,7 @@
 
 VIEWS.dungeon = (() => {
   const DEPTHS = data("GW_DEPTHS");
-  const WAY = "#4fd1ff", UNITS = 96;  // game units per map pixel
-  const units = px => `${Math.round(px * UNITS).toLocaleString()}`;
+  const WAY = "#4fd1ff";
   // a level's name: its own (a branch, like Slavers' Exile's four), else its number
   const levelName = (d, i) => d.levels[i]?.name || `Level ${i + 1}`;
   const mark = (v, ...kinds) => v.marks.find(m => kinds.includes(m[0]));
@@ -106,7 +105,7 @@ VIEWS.dungeon = (() => {
       <p class="back"><a href="dungeons">← All dungeons</a></p>
       <div class="lhead exp">
         <div><h2>${esc(l.name)}${doneTicks("dungeons", d.id, undefined, "Done in")}</h2><div class="lsub"><span class="ltype t${l.type} dgn">Dungeon</span> <span>${esc(regionOf(l)?.name)}</span></div></div>
-        <div class="lstats"><span class="lstat"><small>Levels</small><b>${d.levels.length || l.levels || "?"}</b></span>${l.party ? `<span class="lstat"><small>Party</small><b>${l.party}</b></span>` : ""}<span class="lstat dgtotal" hidden><small>Walk</small><b></b></span></div>
+        <div class="lstats"><span class="lstat"><small>Levels</small><b>${d.levels.length || l.levels || "?"}</b></span>${l.party ? `<span class="lstat"><small>Party</small><b>${l.party}</b></span>` : ""}<span class="lstat dgtotal" hidden><small>Distance, compass ranges</small><b></b></span></div>
       </div>
       ${notes.length ? `<ul class="lnotes">${notes.map(noteLi).join("")}</ul>` : ""}
       <div class="llinks">${wikiLink(l.wiki)}</div>
@@ -124,7 +123,7 @@ VIEWS.dungeon = (() => {
   async function show(p, pts, what, note = "") {
     const view = await viewOf(p.closest(".dgrow").querySelector(".gmap"));
     if (pts && view) { view.ways = [...view.ways, { lines: walkLines(pts), color: WAY }]; view.draw(); }
-    p.innerHTML = pts ? `<span class="dgleg" style="--c:${WAY}">${what}: about ${units(walkLength(pts))} game units</span>${note}` : '<span class="dim">No way found.</span>';
+    p.innerHTML = pts ? `<span class="dgleg" style="--c:${WAY}">${what}: ${walkText(walkLength(pts))}</span>${note}` : '<span class="dim">No way found.</span>';
     return pts ? walkLength(pts) : 0;
   }
 
@@ -138,7 +137,7 @@ VIEWS.dungeon = (() => {
       const grid = await walkGrid([e.area]);
       const best = e.outposts.map(o => walkWay(grid, o, [e.area, o], e.at)).filter(Boolean).sort((a, b) => walkLength(a) - walkLength(b))[0];
       if (!live()) return;
-      total += await show(p, best, "The walk");
+      total += await show(p, best, "Distance");
     }
     // each level's way through
     for (const [i, v] of d.levels.entries()) {
@@ -153,16 +152,16 @@ VIEWS.dungeon = (() => {
         // each in a colour of its own, its stairs named on the map by it
         const COLORS = [WAY, "#ffb347", "#c58bff", "#7ee08a", "#ff6b8b"], col = k => COLORS[k % COLORS.length];
         if (view) { view.ways = all.map((pts, k) => pts && { lines: walkLines(pts), color: col(k) }).filter(Boolean); view.draw(); }
-        p.innerHTML = `<small class="dim">The ways down</small><br>${all.map((pts, k) => `<span class="dgleg" style="--c:${col(k)}">${downs[k][3] ? `To ${esc(levelName(d, d.levels.findIndex(x => x.map === downs[k][3])))}: ` : ""}${pts ? `about ${units(walkLength(pts))} game units` : "no way found"}</span>`).join("<br>")}${UNCHECKED}`;
+        p.innerHTML = `<small class="dim">Distance down each stairs</small><br>${all.map((pts, k) => `<span class="dgleg" style="--c:${col(k)}">${downs[k][3] ? `To ${esc(levelName(d, d.levels.findIndex(x => x.map === downs[k][3])))}: ` : ""}${pts ? walkText(walkLength(pts)) : "no way found"}</span>`).join("<br>")}${UNCHECKED}`;
         continue;
       }
       const pts = await levelWay(v, i);
       if (!live()) return;
-      total += await show(p, pts, "The way through", UNCHECKED);
+      total += await show(p, pts, "Distance", UNCHECKED);
     }
     const t = el.querySelector(".dgtotal");
     if (t && total && !d.levels.some(v => v.name))  // (branches, as Slavers' Exile's, have no one total)
-      { t.hidden = false; t.querySelector("b").textContent = `${units(total)}`; t.title = "Game units, from the outpost to the end"; }
+      { t.hidden = false; t.querySelector("b").textContent = compassRanges(total); t.title = `From the outpost to the end: ${walkText(total)}`; }
   }
   // any dungeon has a page; its levels where data/depths.js has them
   const dungeonOf = id => (isDungeon(AREAS[id]) ? { id: +id, levels: DEPTHS?.dungeons?.[id]?.levels || [] } : null);

@@ -80,7 +80,7 @@ function onClick(e) {
   draw(lastPts = pts);
   // the way, for checking: its length, how long the search took, and its points in map pixels
   console.log(`route ${Math.round(len * UNITS)} units, ${ms} ms, ${pts.length} points: ${pts.map(p => (p ? p.map(Math.round).join(",") : "|")).join(" ")}`);
-  status.textContent = `About ${Math.round(len * UNITS).toLocaleString()} game units (found in ${ms} ms). Click to start again.`;
+  status.textContent = `${walkText(len)} (found in ${ms} ms). Click to start again.`;
 }
 clear.onclick = () => { ends = []; ridge = []; lastPts = null; draw(null); clear.hidden = true; status.textContent = "Click where you are."; };
 </script>

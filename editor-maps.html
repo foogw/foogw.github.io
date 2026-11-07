@@ -180,7 +180,7 @@
     ends.push(at); way = null;
     if (ends.length === 1) { $("dstatus").textContent = "Now click where to go."; return show(); }
     way = walkRoute(await routeGrid(routeIds()), ...ends);
-    $("dstatus").textContent = way ? `About ${Math.round(walkLength(way) * NICK_UNITS).toLocaleString()} game units.` : "No way between those two spots.";
+    $("dstatus").textContent = way ? `${walkText(walkLength(way))}.` : "No way between those two spots.";
     show();
   };
   // a click near one of the data's fixes, in the drop mode: it's taken off

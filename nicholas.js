@@ -4,7 +4,6 @@
    are worked out in the browser (walkroute.js); his area, the outposts and the areas the ways cross are lit. */
 const NICK = ROTATIONS["nicholas-traveler"];
 const NICK_COLORS = ["#4fd1ff", "#ffb347", "#c58bff", "#ff6b8b", "#7ee08a"];
-const NICK_UNITS = 96;  // game units per map pixel
 
 const nickHTML = () => '<div class="nmap"></div><div class="nways"></div>';
 
@@ -41,7 +40,7 @@ async function nickWays(e, makeGrid = walkGrid) {
 }
 // the ways as a legend: each outpost's color and length
 const nickLegend = ways => ways.map(w => `<span style="--c:${w.color}">${esc(AREAS[w.id].name)}: ${w.pts
-  ? `about ${Math.round(walkLength(w.pts) * NICK_UNITS).toLocaleString()} game units` : "no way found"}</span>`).join("")
+  ? walkText(walkLength(w.pts)) : "no way found"}</span>`).join("")
   || '<span class="dim">No outpost to walk to him from yet.</span>';
 
 async function nickMap(el, i) {

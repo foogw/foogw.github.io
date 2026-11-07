@@ -255,6 +255,11 @@ function walkRoute(grid, from, [tx, ty]) {
 // a way as its unbroken lines: split where it jumps through a portal
 const walkLines = pts => pts.reduce((ls, p) => (p ? ls.at(-1).push(p) : ls.push([]), ls), [[]]).filter(l => l.length);
 // a way's length in map pixels, not counting the jumps
+// a walk's length as players know it: in compass ranges (the compass's radius, 5,000 game units), from its length in
+// map pixels (96 game units each)
+const WALK_UNITS = 96, COMPASS_UNITS = 5000;
+const compassRanges = px => { const n = px * WALK_UNITS / COMPASS_UNITS; return n < 10 ? Math.round(n * 10) / 10 : Math.round(n); };
+const walkText = px => `~${compassRanges(px)} compass ranges`;
 const walkLength = pts => walkLines(pts).reduce((s, l) => s + l.slice(1).reduce((t, p, i) => t + Math.hypot(p[0] - l[i][0], p[1] - l[i][1]), 0), 0);
 // where a walk from an area can start: an outpost's portals out to the areas, or any area's whose ground isn't walked
 // over (portals both sides list: the ways you leave it), each on its area's ground; else its marker
