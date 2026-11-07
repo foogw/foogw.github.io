@@ -192,10 +192,11 @@ const missionsIn = id => Object.entries(data("GW_MISSION_MAPS")?.missions || {})
 // note: HTML under the map, between its controls
 // level: a dungeon level instead of areas, {name, walk (its cell's game/walk file), rings (ground added to it), area: [x0, y0, ...] (or [[outline], [hole], ...]) the part of
 // ground lit (or none: all of it), spots, portals: [{at, name}] (named on hover)} (data/depths.js)
-function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null, spots = null, note = "", level = null } = {}) {
+// crop: [x0, y0, x1, y1] the part of the map to show, in its pixels, instead of all the ground lit
+function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null, spots = null, note = "", level = null, crop = null } = {}) {
   ids = [...new Set(ids.map(Number))];
   if (!ids.length && !self && !level) return "";
-  return `<figure class="gmap" data-ids="${ids.join(",")}"${self ? ` data-self="${self}"` : ""}${town ? ` data-town="${[town].flat().join(",")}"` : ""}${spots ? ` data-spots="${esc(JSON.stringify(spots))}"` : ""}${level ? ` data-level="${esc(JSON.stringify(level))}"` : ""} data-h="${height}">
+  return `<figure class="gmap" data-ids="${ids.join(",")}"${self ? ` data-self="${self}"` : ""}${town ? ` data-town="${[town].flat().join(",")}"` : ""}${spots ? ` data-spots="${esc(JSON.stringify(spots))}"` : ""}${level ? ` data-level="${esc(JSON.stringify(level))}"` : ""}${crop ? ` data-crop="${crop.join(",")}"` : ""} data-h="${height}">
     <div class="gmap-win" tabindex="0" role="img"><canvas></canvas></div>
     <figcaption><label>Darkness <input type="range" min="0" max="100" value="66"></label>${note && `
       <span class="gmap-note">${note}</span>`}
@@ -230,8 +231,8 @@ async function initMap(fig) {
   const lit = walks.filter(w => w.set === set);
   // the box: the areas' ground and the area marked out, with a margin, kept within the map
   const area = level?.area && [{ rings: areaRings(level.area) }];
-  let box = ringsBox(area || lit);
-  if (!level) for (const l of [AREAS[self], ...ids.map(i => AREAS[i])]) if (l?.set === set && l.at) {
+  let box = fig.dataset.crop ? fig.dataset.crop.split(",").map(Number) : ringsBox(area || lit);
+  if (!level && !fig.dataset.crop) for (const l of [AREAS[self], ...ids.map(i => AREAS[i])]) if (l?.set === set && l.at) {
     const [x, y] = l.at;
     box = box ? [Math.min(box[0], x), Math.min(box[1], y), Math.max(box[2], x), Math.max(box[3], y)] : [x - 250, y - 180, x + 250, y + 180];
   }
