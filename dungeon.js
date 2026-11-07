@@ -43,7 +43,9 @@ VIEWS.dungeon = (() => {
   function levelRow(d, v, i) {
     const a = arrive(v, i), g = goal(v);
     const from = !a ? "" : a[0] === "portal" ? `From ${LINK.area(a[3])}` : v.name || !i ? "From the start" : `From ${esc(levelName(d, i - 1))}`;
-    const to = !g ? "" : g[0] === "down" ? `down to ${esc(levelName(d, i + 1))}` : g[0] === "goal" ? `to ${esc(g[3])}` : `to the boss, ${bossLink(g[3])}`;
+    // (a level with several stairs down, each to a level of its own: Slavers' Exile's entrance)
+    const downs = v.marks.filter(m => m[0] === "down");
+    const to = !g ? "" : downs.length > 1 ? `down one of its ${downs.length} stairs` : g[0] === "down" ? `down to ${esc(levelName(d, i + 1))}` : g[0] === "goal" ? `to ${esc(g[3])}` : `to the boss, ${bossLink(g[3])}`;
     const ways = v.marks.filter(m => m[0] === "portal" || m[0] === "down");
     const steps = stops(v).map(m => m[3]), sights = v.marks.filter(m => ["npc", "spot", "wall"].includes(m[0])).map(m => m[3]);
     const others = ways.filter(m => m[0] === "portal" && m !== a).map(m => LINK.area(m[3]));
@@ -59,7 +61,7 @@ VIEWS.dungeon = (() => {
   function levelMap(d, i, { height = 340, more = [] } = {}) {
     const v = d.levels[i], ways = v.marks.filter(m => m[0] === "portal" || m[0] === "down");
     const level = { name: levelName(d, i), walk: (v.walk ?? DEPTHS.cells[v.cell]), area: v.area,
-      portals: ways.map(m => ({ at: [m[1], m[2]], name: m[0] === "down" ? levelName(d, i + 1) : AREAS[m[3]]?.name || "" })) };
+      portals: ways.map(m => ({ at: [m[1], m[2]], name: m[0] === "down" ? (m[3] ? levelName(d, d.levels.findIndex(x => x.map === m[3])) : v.marks.filter(x => x[0] === "down").length > 1 ? "Stairs down" : levelName(d, i + 1)) : AREAS[m[3]]?.name || "" })) };
     const spots = v.marks.filter(m => !ways.includes(m)).map(m => ({ x: m[1], y: m[2],
       name: m[0] === "start" ? "Arrive" : STOP.includes(m[0]) ? `${stops(v).indexOf(m) + 1}. ${m[3]}` : m[3] }));
     return mapHTML([], { level, spots: [...spots, ...more], height });
@@ -81,7 +83,7 @@ VIEWS.dungeon = (() => {
       }
       return all;
     };
-    return (v.area && await route([[...v.area, v.area[0], v.area[1]]])) || await route([]);
+    return (v.area && await route(areaRings(v.area).map(r => [...r, r[0], r[1]]))) || await route([]);
   }
 
   function html(d) {
@@ -121,7 +123,7 @@ VIEWS.dungeon = (() => {
   const UNCHECKED = `<br><small class="dim">This path is unchecked and might go through walls or closed passages.</small>`;
   async function show(p, pts, what, note = "") {
     const view = await viewOf(p.closest(".dgrow").querySelector(".gmap"));
-    if (pts && view) { view.ways = [{ lines: walkLines(pts), color: WAY }]; view.draw(); }
+    if (pts && view) { view.ways = [...view.ways, { lines: walkLines(pts), color: WAY }]; view.draw(); }
     p.innerHTML = pts ? `<span class="dgleg" style="--c:${WAY}">${what}: about ${units(walkLength(pts))} game units</span>${note}` : '<span class="dim">No way found.</span>';
     return pts ? walkLength(pts) : 0;
   }
@@ -142,6 +144,18 @@ VIEWS.dungeon = (() => {
     for (const [i, v] of d.levels.entries()) {
       const p = el.querySelector(`[data-way="${i}"]`);
       if (!p || !arrive(v, i) || !goal(v)) continue;
+      const downs = v.marks.filter(m => m[0] === "down");
+      if (downs.length > 1) {  // a way to each stairs down, said together (no one total then)
+        const all = [];
+        for (const m of downs) all.push(await levelWay(v, i, { to: [m[1], m[2]] }));
+        if (!live()) return;
+        const view = await viewOf(p.closest(".dgrow").querySelector(".gmap"));
+        // each in a colour of its own, its stairs named on the map by it
+        const COLORS = [WAY, "#ffb347", "#c58bff", "#7ee08a", "#ff6b8b"], col = k => COLORS[k % COLORS.length];
+        if (view) { view.ways = all.map((pts, k) => pts && { lines: walkLines(pts), color: col(k) }).filter(Boolean); view.draw(); }
+        p.innerHTML = `<small class="dim">The ways down</small><br>${all.map((pts, k) => `<span class="dgleg" style="--c:${col(k)}">${downs[k][3] ? `To ${esc(levelName(d, d.levels.findIndex(x => x.map === downs[k][3])))}: ` : ""}${pts ? `about ${units(walkLength(pts))} game units` : "no way found"}</span>`).join("<br>")}${UNCHECKED}`;
+        continue;
+      }
       const pts = await levelWay(v, i);
       if (!live()) return;
       total += await show(p, pts, "The way through", UNCHECKED);

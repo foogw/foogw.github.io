@@ -161,7 +161,7 @@
       ROUTING.paths[id] = [...(keep.paths[id] || []).filter(data => !dropped({ map: id, what: "path", data })), ...mine("path").map(d => d.pts.flat())];
       ROUTING.teleports[id] = [...(keep.teleports[id] || []).filter(data => !dropped({ map: id, what: "teleporter", data })), ...mine("teleporter").map(d => d.pts.flat())];
     }
-    const given = lvl && lvlGround ? { [mapId]: { rings: lvlGround.rings, walls: lvl.v.area ? [[...lvl.v.area, lvl.v.area[0], lvl.v.area[1]]] : [] } } : {};
+    const given = lvl && lvlGround ? { [mapId]: { rings: lvlGround.rings, walls: lvl.v.area ? areaRings(lvl.v.area).map(r => [...r, r[0], r[1]]) : [] } } : {};
     try { return await walkGrid(ids, given); } finally { Object.assign(ROUTING, keep); }
   };
   const routeIds = () => (nick ? nick.ids : shown).filter(id => id === mapId || walkable(id));

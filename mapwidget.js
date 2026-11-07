@@ -9,6 +9,9 @@ const MAP_SETS = data("GW_MAPS")?.sets || {}, WALK_SET = new Map(Object.entries(
 const groundOf = id => AREAS[id]?.ground ?? +id;
 for (const l of Object.values(AREAS)) if (l.ground && WALK_SET.has(l.ground)) WALK_SET.set(l.id, WALK_SET.get(l.ground));
 const HAS_WALK = { has: id => WALK_SET.has(+id) };
+// a dungeon level's area as rings: one outline [x0, y0, ...], or a list of them, the first its outline and the others
+// holes in it (running the other way round)
+const areaRings = a => (!a ? null : Array.isArray(a[0]) ? a : [a]);
 const TILE = 256;
 const MAP_TINT = "#06080a", MAP_RING = "#ffd98a", MAP_MAX_H = 520;
 
@@ -187,7 +190,7 @@ const missionsIn = id => Object.entries(data("GW_MISSION_MAPS")?.missions || {})
 // town: an outpost (or a list) whose own town to light (where its mission's ground shares its map id), not the mission's ground
 // spots: points of the map to mark, [{x, y, name}] in its pixels (where an NPC stands), shown even with markers hidden
 // note: HTML under the map, between its controls
-// level: a dungeon level instead of areas, {name, walk (its cell's game/walk file), rings (ground added to it), area: [x0, y0, ...] the part of the
+// level: a dungeon level instead of areas, {name, walk (its cell's game/walk file), rings (ground added to it), area: [x0, y0, ...] (or [[outline], [hole], ...]) the part of
 // ground lit (or none: all of it), spots, portals: [{at, name}] (named on hover)} (data/depths.js)
 function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null, spots = null, note = "", level = null } = {}) {
   ids = [...new Set(ids.map(Number))];
@@ -226,7 +229,7 @@ async function initMap(fig) {
   if (set == null || !MAP_SETS[set]) { fig.remove(); return; }
   const lit = walks.filter(w => w.set === set);
   // the box: the areas' ground and the area marked out, with a margin, kept within the map
-  const area = level?.area && [{ rings: [level.area] }];
+  const area = level?.area && [{ rings: areaRings(level.area) }];
   let box = ringsBox(area || lit);
   if (!level) for (const l of [AREAS[self], ...ids.map(i => AREAS[i])]) if (l?.set === set && l.at) {
     const [x, y] = l.at;
