@@ -26,9 +26,10 @@
 <script src="common.js"></script>
 <script>
 "use strict";
-// every dungeon (not the quest areas the game also counts as dungeons, nor a level listed on its own), by region
+// every dungeon (not the quest areas the game also counts as dungeons, nor a level listed on its own, nor Destruction's
+// Depths: a mission, though the game types it a dungeon, and not one of Master of the North's), by region
 const DEPTHS = data("GW_DEPTHS")?.dungeons || {};
-const dungeons = Object.values(AREAS).filter(isDungeon)
+const dungeons = Object.values(AREAS).filter(l => isDungeon(l) && l.id !== 670)
   .sort((a, b) => (regionOf(a)?.name || "").localeCompare(regionOf(b)?.name || "") || a.name.localeCompare(b.name));
 // the boss: the last level's, from our data, else the Zaishen Bounty's
 const bossOf = l => DEPTHS[l.id]?.levels.at(-1)?.marks.find(m => m[0] === "boss")?.[3] || entryName(ROTATIONS["zaishen-bounty"]?.entries.find(e => e.area === l.id) || {});

@@ -26,11 +26,14 @@ const TITLE_GUIDE = { 9: "guides?gom", 24: "skills?c=1c&cap=1", 26: "skills?c=2c
 // Treasure Hunter and Wisdom rank, at most 92%); and Master of the North's points from the character's ticks, from which
 // the Eye of the North map explored is worked out (1 point a percent): 5 an EotN mission in NM and 10 in HM, 10 a
 // dungeon in NM and 20 in HM, 15 an area vanquished
+// the 18 dungeons it counts: the Eye of the North's, with Secret Lair of the Snowmen (701) and not Destruction's Depths
+// (a mission, counted with them)
+const MOTN_DUNGEONS = [...USER_ALL.dungeons.filter(id => AREAS[id]?.campaign === 4 && !MISSIONS[id]), 701];
 function motnTicked(c) {
   const modes = (part, id, nm, hm) => ((c[part]?.[id] || 0) & 1 ? nm : 0) + ((c[part]?.[id] || 0) & 2 ? hm : 0);
   const got = new Set(c.vanquished || []);
   return storyIn(4).reduce((n, id) => n + modes("missions", id, 5, 10), 0)
-    + USER_ALL.dungeons.filter(id => AREAS[id]?.campaign === 4).reduce((n, id) => n + modes("dungeons", id, 10, 20), 0)
+    + MOTN_DUNGEONS.reduce((n, id) => n + modes("dungeons", id, 10, 20), 0)
     + 15 * vanquishIn(4).filter(id => got.has(id)).length;
 }
 // the map explored, once worked out, is kept on the character (eotnMap): when its ticks change, the points shown are its
