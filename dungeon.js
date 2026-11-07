@@ -116,10 +116,12 @@ VIEWS.dungeon = (() => {
   const GROUND = new Map();
   const loadGround = walk => GROUND.get(walk) || GROUND.set(walk, fetch(`game/walk/${walk}.json`).then(r => r.json()).catch(() => null)).get(walk);
   // draw a way on a row's map and say how long it is; its length, or 0
-  async function show(p, pts, what) {
+  // (a level's way is worked out on its whole cell's ground, which knows nothing of the level's own walls and doors)
+  const UNCHECKED = `<br><small class="dim">This path is unchecked and might go through walls or closed passages.</small>`;
+  async function show(p, pts, what, note = "") {
     const view = await viewOf(p.closest(".dgrow").querySelector(".gmap"));
     if (pts && view) { view.ways = [{ lines: walkLines(pts), color: WAY }]; view.draw(); }
-    p.innerHTML = pts ? `<span class="dgleg" style="--c:${WAY}">${what}: about ${units(walkLength(pts))} game units</span>` : '<span class="dim">No way found.</span>';
+    p.innerHTML = pts ? `<span class="dgleg" style="--c:${WAY}">${what}: about ${units(walkLength(pts))} game units</span>${note}` : '<span class="dim">No way found.</span>';
     return pts ? walkLength(pts) : 0;
   }
 
@@ -141,7 +143,7 @@ VIEWS.dungeon = (() => {
       if (!p || !arrive(v, i) || !goal(v)) continue;
       const pts = await levelWay(v, i);
       if (!live()) return;
-      total += await show(p, pts, "The way through");
+      total += await show(p, pts, "The way through", UNCHECKED);
     }
     const t = el.querySelector(".dgtotal");
     if (t && total && !d.levels.some(v => v.name))  // (branches, as Slavers' Exile's, have no one total)

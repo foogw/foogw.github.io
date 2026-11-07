@@ -67,6 +67,7 @@
 <script src="common.js"></script>
 <script src="mapwidget.js"></script>
 <script src="data/routing.js"></script>
+<script src="data/depths.js"></script>
 <script src="walkroute.js"></script>
 <script src="nicholas.js"></script>
 <script>
@@ -76,7 +77,16 @@
 {
   const COLORS = { crossing: "#4fd1ff", wall: "#ff6b8b", teleporter: "#c58bff", path: "#7ee0d0", line: "#ffb347", point: "#7ee08a" }, GREY = "#9aa0a6";
   const N = NICK.entries.length, now = Rotation.period(NICK) % N;
-  // the address: ?nick=N (a week) or ?area=id (an area); points=x,y;x,y... marks points on the map (red dots); embed
+  // a dungeon level (data/depths.js), shown alone as its dungeon page shows it: its cell's ground walled in to its area,
+  // with the way through it (from where you arrive, through its stops, to its goal); its walls are kept under its map id
+  const DEPTHS = data("GW_DEPTHS");
+  const levelOf = id => { for (const [did, d] of Object.entries(DEPTHS?.dungeons || {})) { const i = d.levels.findIndex(v => v.map === id);
+    if (i >= 0) return { d, v: d.levels[i], i, did: +did }; } return null; };
+  let lvl = null, lvlGround = null;  // the level shown ({d, v, i, did}), and its cell's ground
+  const lvlMark = kind => lvl.v.marks.find(m => m[0] === kind);
+  const lvlLegs = () => { const v = lvl.v, a = lvlMark("start") || (lvl.i === 0 ? lvlMark("portal") : null), g = lvlMark("down") || lvlMark("boss") || lvlMark("goal");
+    return a && g ? [a, ...v.marks.filter(m => ["key", "lock", "do"].includes(m[0])), g].map(m => [m[1], m[2]]) : null; };
+  // the address: ?nick=N (a week), ?area=id (an area) or ?level=id (a dungeon level, by its map id); points=x,y;x,y... marks points on the map (red dots); embed
   // shows the map alone
   const ARGS = new URLSearchParams(location.search);
   const marks = (ARGS.get("points") || "").split(";").map(p => p.split(",").map(Number)).filter(p => p.length === 2 && p.every(Number.isFinite));
@@ -121,7 +131,7 @@
       view.ways = [
         ...theirs().flatMap(f => (f.what === "crossing" ? crossLines(f.data, GREY) : f.what === "teleporter" ? telLines(pairs(f.data), GREY) : [{ lines: [pairs(f.data)], color: GREY }])),
         ...(mode() === "view" && nick?.ways || []).filter(w => w.pts).map(w => ({ lines: walkLines(w.pts), color: w.color })),
-        ...(way ? [{ lines: walkLines(way), color: "#fff" }] : []), ...marks.map(p => dot(p, "#ff2020")), ...ends.map(p => dot(p, "#4be06b")),
+        ...(way ? [{ lines: walkLines(way), color: "#fff" }] : !ends.length && lvlWay ? [{ lines: walkLines(lvlWay), color: "#fff" }] : []), ...marks.map(p => dot(p, "#ff2020")), ...ends.map(p => dot(p, "#4be06b")),
         ...[...shapes, ...(cur ? [cur] : [])].filter(d => d.kind !== "drop").flatMap(d => {
           if (d.kind === "crossing") return d.pts.length >= 6 ? crossLines(crossData(d), COLORS.crossing)
             : [...(d.pts.length >= 2 ? [crossLines(crossData(d), COLORS.crossing)[0]] : []), ...d.pts.map(p => dot(p, COLORS.crossing))];
@@ -151,9 +161,20 @@
       ROUTING.paths[id] = [...(keep.paths[id] || []).filter(data => !dropped({ map: id, what: "path", data })), ...mine("path").map(d => d.pts.flat())];
       ROUTING.teleports[id] = [...(keep.teleports[id] || []).filter(data => !dropped({ map: id, what: "teleporter", data })), ...mine("teleporter").map(d => d.pts.flat())];
     }
-    try { return await walkGrid(ids); } finally { Object.assign(ROUTING, keep); }
+    const given = lvl && lvlGround ? { [mapId]: { rings: lvlGround.rings, walls: lvl.v.area ? [[...lvl.v.area, lvl.v.area[0], lvl.v.area[1]]] : [] } } : {};
+    try { return await walkGrid(ids, given); } finally { Object.assign(ROUTING, keep); }
   };
   const routeIds = () => (nick ? nick.ids : shown).filter(id => id === mapId || walkable(id));
+  // a level's way through, with the fixes (white), while no route of one's own is shown
+  let lvlWay = null;
+  const levelWalk = async () => {
+    const legs = lvl && lvlLegs();
+    lvlWay = null;
+    if (!legs) return;
+    const grid = await routeGrid([mapId]), all = [];
+    for (let k = 1; k < legs.length; k++) { const leg = walkRoute(grid, legs[k - 1], legs[k]); if (!leg) return; all.push(...(k > 1 ? leg.slice(1) : leg)); }
+    lvlWay = all;
+  };
   const route = async at => {
     if (ends.length === 2) ends = [];
     ends.push(at); way = null;
@@ -179,6 +200,7 @@
   const rewalk = async () => {
     const e = entry();
     if (e) { nick = await nickWays(e, routeGrid); $("dways").innerHTML = nickLegend(nick.ways); }
+    if (lvl) await levelWalk();
     show();
   };
   const finish = () => {
@@ -197,16 +219,26 @@
     nick = ways;
     // an area: it and its neighbours on its map
     shown = nick ? [...nick.lit] : [mapId, ...(AREAS[mapId]?.exits || []).map(x => x.to).filter(i => WALK_SET.get(i) === WALK_SET.get(mapId))];
+    if (lvl) shown = [mapId];
     shown = [...new Set(shown)];
-    walks = await Promise.all(shown.map(loadWalk));
+    if (lvl) {
+      const walk = lvl.v.walk ?? DEPTHS.cells[lvl.v.cell];
+      lvlGround = await fetch(`game/walk/${walk}.json`).then(r => r.json()).catch(() => null);
+      walks = [lvlGround];
+    } else walks = await Promise.all(shown.map(loadWalk));
     if (k !== loads) return;
-    $("dbox").innerHTML = mapHTML(shown, { height: 560, town: nick?.here, spots: e && [{ x: e.at[0], y: e.at[1], name: "Nicholas the Traveler" }] });
+    const lname = lvl && `${AREAS[lvl.did]?.name}: ${lvl.v.name || `Level ${lvl.i + 1}`}`;
+    $("dbox").innerHTML = lvl
+      ? mapHTML([], { height: 560, level: { name: lname, walk: lvl.v.walk ?? DEPTHS.cells[lvl.v.cell], area: lvl.v.area },
+        spots: lvl.v.marks.map(m => ({ x: m[1], y: m[2], name: m[0] === "start" ? "Arrive" : m[0] === "down" ? "Down" : m[0] === "portal" ? AREAS[m[3]]?.name || "Portal" : m[3] || m[0] })) })
+      : mapHTML(shown, { height: 560, town: nick?.here, spots: e && [{ x: e.at[0], y: e.at[1], name: "Nicholas the Traveler" }] });
     $("dways").innerHTML = nick ? nickLegend(nick.ways) : "";
     await initMaps($("dbox"));
     if (k !== loads) return;
     view = $("dbox").querySelector(".gmap").mapView;
     const win = view.win;
     win.style.cursor = "crosshair";
+    if (lvl) await levelWalk();
     win.addEventListener("click", ev => {
       ev.preventDefault();
       if (view.dragged) return;
@@ -228,16 +260,18 @@
   const pick = (week, area) => {
     ni = week == null ? null : (week + N) % N;
     mapId = ni == null ? area : NICK.entries[ni].area;
+    lvl = ni == null ? levelOf(mapId) : null; lvlWay = null;
     ends = []; way = null; $("dstatus").textContent = "";
     const e = ni == null ? null : NICK.entries[ni];
-    $("dtitle").innerHTML = e ? `${fmtWeek.format(when(ni))}: ${e.count} × ${esc(e.item)} <span class="dim">· ${LINK.area(e.area)}</span>` : LINK.area(mapId);
+    $("dtitle").innerHTML = e ? `${fmtWeek.format(when(ni))}: ${e.count} × ${esc(e.item)} <span class="dim">· ${LINK.area(e.area)}</span>`
+      : lvl ? `${LINK.area(lvl.did)}: ${esc(lvl.v.name || `Level ${lvl.i + 1}`)} <span class="dim">(${mapId})</span>` : LINK.area(mapId);
     for (const b of [$("dprev"), $("dnext")]) b.style.visibility = e ? "" : "hidden";
     $("dmode").querySelector('[value="view"]').hidden = !e;
     if (!e && mode() === "view") $("dmode").value = "route";
     if (e && !shapes.length && !cur) $("dmode").value = "view";
     help();
     const keep = ["points", "embed"].filter(k => ARGS.has(k)).map(k => `&${k}${ARGS.get(k) ? "=" + ARGS.get(k) : ""}`).join("");
-    history.replaceState(null, "", (e ? "?nick=" + ni : "?area=" + mapId) + keep);
+    history.replaceState(null, "", (e ? "?nick=" + ni : lvl ? "?level=" + mapId : "?area=" + mapId) + keep);
     load();
   };
   $("dprev").onclick = () => pick(ni - 1);
@@ -298,7 +332,7 @@
     rewalk();
   };
   const q = ARGS;
-  q.has("area") && AREAS[+q.get("area")] ? pick(null, +q.get("area")) : pick(+(q.get("nick") ?? now) % N || 0);
+  q.has("level") && levelOf(+q.get("level")) ? pick(null, +q.get("level")) : q.has("area") && AREAS[+q.get("area")] ? pick(null, +q.get("area")) : pick(+(q.get("nick") ?? now) % N || 0);
 }
 </script>
 </body>

@@ -32,9 +32,11 @@ async function walkGrid(ids, given = {}) {
   const both = (a, b) => (AREAS[b]?.exits || []).some(x => x.to === a);
   for (const id of ids) for (const e of AREAS[id]?.exits || []) if (e.at && bit.has(id) && bit.has(e.to) && both(id, e.to))
     walkNear(W, H, [gx(e.at[0]), gy(e.at[1])], WALK_BRIDGE / WALK_S, i => { area[i] |= bit.get(id) | bit.get(e.to); portal[i] = 1; });
-  // paths (our data): lines the area's ground misses, walkable, 4 map pixels wide
+  // paths (our data): lines the area's ground misses, walkable, 4 map pixels wide (a step on one at the plain cost below:
+  // it's all edge, and would cost more than going round)
+  const onPath = new Uint8Array(W * H);
   for (const w of walks) for (const l of w.paths || []) for (let k = 2; k < l.length; k += 2)
-    walkNear(W, H, [gx(l[k - 2]), gy(l[k - 1])], 2 / WALK_S, i => { area[i] |= bit.get(w.id); }, [gx(l[k]), gy(l[k + 1])]);
+    walkNear(W, H, [gx(l[k - 2]), gy(l[k - 1])], 2 / WALK_S, i => { area[i] |= bit.get(w.id); onPath[i] = 1; }, [gx(l[k]), gy(l[k + 1])]);
   // where two areas with no portal between them overlap on the map (their pictures' edges), the ground is neither's:
   // a wall, so a way doesn't step from one into the other there
   const linked = new Set(walks.map(w => bit.get(w.id)));
@@ -127,7 +129,7 @@ async function walkGrid(ids, given = {}) {
     cur = next;
   }
   const cost = new Float32Array(W * H);
-  for (let i = 0; i < W * H; i++) cost[i] = 1 + 3 * (WALK_WALL - d[i]) / WALK_WALL;
+  for (let i = 0; i < W * H; i++) cost[i] = onPath[i] ? 1 : 1 + 3 * (WALK_WALL - d[i]) / WALK_WALL;
   // the grid's corner in map pixels
   return { ...grid, cost, jumps, cross, teleport };
 }
