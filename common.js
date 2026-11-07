@@ -446,7 +446,8 @@ function recruitHTML(h) {
 /* ---------- the visitor's progress, per character, kept in this browser only (the Backup page backs it up) ----------
    Kept as {v: 2, chars: [{id, name, account: its account's id, profession: its primary (1 Warrior ... 10 Dervish), elites: [skill ids captured], vanquished: [area ids],
    missionsNM, missionsHM, dungeonsNM, dungeonsHM: [ids done in that mode], titles: {title id: rank}, modes: the optional game modes
-   the character is bound to (and our pre-Searing mark), of USER_MODES}], accounts: [{id,
+   the character is bound to (and our pre-Searing mark), of USER_MODES, eotnMap: the percent of the Eye of the North map
+   explored, as worked out on My Characters from Master of the North's points}], accounts: [{id,
    name, titles}]}. A list may be "all": every id in USER_ALL (frozen: should the game ever have more, they'd come with a
    new version). An empty list, or a title not reached, is left out. Version 1 (from before), still read: no "all", and
    missions and dungeons as {<id>: done}, done 1 normal mode, 2 hard mode, 3 both; with no "account": account 1.
@@ -464,7 +465,7 @@ const USER_ALL = {
   dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
 };
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
-  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes"] };
+  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "eotnMap"] };
 // the optional game modes (Guild Wars Reforged): a character bound to one wears its badge beside its name; and our own
 // "pre-Searing", a character that stays in pre-Searing Ascalon, with the Tapestry Shred as its badge
 const USER_MODES = { presearing: "Pre-Searing: stays in pre-Searing Ascalon", melandru: "Melandru's Accord", dhuum: "Dhuum's Covenant" };
@@ -487,6 +488,7 @@ function userFromKept(o) {
       }
     }
     if (k.titles) c.titles = { ...k.titles };
+    if (k.eotnMap !== undefined) c.eotnMap = k.eotnMap;
     return c;
   });
   return userNormalize({ v: 2, chars, accounts: (o.accounts || []).map(a => ({ ...a })) });
@@ -506,6 +508,7 @@ function userToKept(o) {
       else if (sorted.length) k[key] = sorted;
     }
     if (c.titles && Object.keys(c.titles).length) k.titles = c.titles;
+    if (c.eotnMap !== undefined) k.eotnMap = c.eotnMap;
     return k;
   });
   return { v: 2, chars, accounts: o.accounts };
@@ -563,6 +566,7 @@ function userCheck(o) {
       if (!isId(c.account)) return `${at}: "account" should be an account's id.`;
       if (c.profession !== undefined && !(Number.isInteger(c.profession) && c.profession >= 1 && c.profession <= 10)) return `${at}: "profession" should be 1 (Warrior) to 10 (Dervish).`;
       if (c.modes !== undefined && !(Array.isArray(c.modes) && c.modes.every(m => USER_MODES[m]) && new Set(c.modes).size === c.modes.length)) return `${at}: "modes" should list game modes of ${Object.keys(USER_MODES).join(", ")}, each once.`;
+      if (c.eotnMap !== undefined && !(Number.isInteger(c.eotnMap) && c.eotnMap >= 0 && c.eotnMap <= 1000)) return `${at}: "eotnMap" should be the percent of the Eye of the North map explored (a whole number from 0).`;
       const bad = USER_LISTS.find(k => c[k] !== undefined && c[k] !== "all" && !idList(c[k]));
       if (bad) return `${at}: "${bad}" should be "all" or a list of ids, each once.`;
     }
@@ -611,6 +615,8 @@ const User = {
     if (!Object.keys(holder.titles).length) delete holder.titles;
     return User.save(o);
   },
+  // the percent of the Eye of the North map explored (undefined: not worked out, and left out)
+  setEotnMap(map) { User.change(c => { if (map === undefined) delete c.eotnMap; else c.eotnMap = map; }); },
   done(part, id) { return User.char()[part][id] || 0; },
   // change the shown character's progress
   change(f) { const o = User.data(); f(User.char(o)); User.save(o); },

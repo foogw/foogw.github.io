@@ -20,16 +20,49 @@ const TITLE_GUIDE = { 9: "guides?gom", 24: "skills?c=1c&cap=1", 26: "skills?c=2c
   35: "missions?c=1&ty=story&d=2", 36: "missions?c=2&ty=story&d=2", 37: "missions?c=3&ty=story&d=2", 31: "missions?c=1,2,3&ty=story&d=2", 42: "dungeons?d=a",
   25: "areas?c=1&v=n", 27: "areas?c=2&v=n", 29: "areas?c=3&v=n", 33: "areas?v=n" };
 
-// what the account's Treasure Hunter, Lucky and Wisdom ranks give, for a level 20 character, in the wiki's terms: the
-// lockpick retention bonus, added to a chest's base rate (10%, half the level, + 3% a Treasure Hunter rank + 2% a Lucky
-// rank), and the chance of retaining the item when salvaging an upgrade (50% + 3% a Treasure Hunter and Wisdom rank, at
-// most 92%)
-function retentionHTML(c, o) {
+// the calculator below the titles: what the account's Treasure Hunter, Lucky and Wisdom ranks give, for a level 20
+// character, in the wiki's terms: the lockpick retention bonus, added to a chest's base rate (10%, half the level, + 3% a
+// Treasure Hunter rank + 2% a Lucky rank), and the chance of retaining the item when salvaging an upgrade (50% + 3% a
+// Treasure Hunter and Wisdom rank, at most 92%); and Master of the North's points from the character's ticks, from which
+// the Eye of the North map explored is worked out (1 point a percent): 5 an EotN mission in NM and 10 in HM, 10 a
+// dungeon in NM and 20 in HM, 15 an area vanquished
+function motnTicked(c) {
+  const modes = (part, id, nm, hm) => ((c[part]?.[id] || 0) & 1 ? nm : 0) + ((c[part]?.[id] || 0) & 2 ? hm : 0);
+  const got = new Set(c.vanquished || []);
+  return storyIn(4).reduce((n, id) => n + modes("missions", id, 5, 10), 0)
+    + USER_ALL.dungeons.filter(id => AREAS[id]?.campaign === 4).reduce((n, id) => n + modes("dungeons", id, 10, 20), 0)
+    + 15 * vanquishIn(4).filter(id => got.has(id)).length;
+}
+// the map explored, once worked out, is kept on the character (eotnMap): when its ticks change, the points shown are its
+// ticks' plus the map's
+const motnMap = c => c.eotnMap ?? null;
+function motnOut(map) {
+  if (map === null) return `your EotN map is at <b>…</b>`;
+  return map < 0 ? `that's <b>${-map}</b> fewer than your ticks award: check them.` : `your EotN map is at <b>${map}%</b>.`;
+}
+function calcHTML(c, o) {
   const r = id => titleKept(TITLES[id], c, o), th = r(45), lucky = r(15), wis = r(46);
   const pick = Math.min(100, 10 + 3 * th + 2 * lucky), keep = Math.min(92, 50 + 3 * (th + wis));
-  return `<p class="my-retention">This character has <b title="On top of the chest's own rate">+${pick}%</b> lockpick retention
-    and <b>${keep}%</b> item retention when salvaging upgrades.</p>`;
+  return `<section class="t-panel calc" style="--c:var(--accent)">
+    <h5>Account</h5>
+    <ul>
+      <li>With Treasure Hunter rank ${th} and Lucky rank ${lucky}, your lockpick retention is <b title="On top of the chest's own rate">+${pick}%</b>.</li>
+      <li>With Treasure Hunter rank ${th} and Wisdom rank ${wis}, your item retention when salvaging an upgrade is <b>${keep}%</b>.</li>
+    </ul>
+    <h5>${esc(c.name)}</h5>
+    <ul>
+      <li>Your EotN ticks give <b>${motnTicked(c)}</b> Master of the North points. With <input type="number" class="calc-in" id="motn-points" min="0" style="width:6em" value="${motnMap(c) === null ? "" : motnTicked(c) + motnMap(c)}"> points,
+        <span id="motn-out">${motnOut(motnMap(c))}</span></li>
+    </ul>
+  </section>`;
 }
+// typing the points: only the answer is drawn again
+document.addEventListener("input", e => {
+  if (e.target.id !== "motn-points") return;
+  const c = User.char(), v = e.target.value, map = v === "" || isNaN(+v) ? null : Math.round(+v) - motnTicked(c);
+  if (!lockedOut()) User.setEotnMap(map === null || map < 0 ? undefined : map);
+  $("motn-out").innerHTML = motnOut(map);
+});
 function mineHTML() {
   const o = User.data(), c = User.char(o), list = MY_ORDER.map(id => TITLES[id]).filter(Boolean);
   const section = (label, ts) => (ts.length ? `<h3 class="my-h">${label}</h3><table class="my-titles"><tbody>${ts.map(t => {
@@ -45,20 +78,26 @@ function mineHTML() {
     return `<tr><td class="my-name">${name}</td><td class="my-rank">${status}</td><td class="my-how dim">${how}</td><td class="my-in">${input}</td></tr>`;
   }).join("")}</tbody></table>` : "");
   const of = (scope, pvp) => list.filter(t => t.scope === scope && !!t.pvp === pvp);
-  return `<section class="t-panel my" style="--c:var(--accent)">
-    <div class="my-pick">
-      <label>Account <select id="my-account">${o.accounts.filter(a => o.chars.some(x => x.account === a.id)).map(a =>
-        `<option value="${a.id}"${a.id === c.account ? " selected" : ""}>${esc(accountName(a))}</option>`).join("")}</select></label>
-      <label>Character <select id="my-char">${o.chars.filter(x => x.account === c.account).map(x =>
-        `<option value="${x.id}"${x === c ? " selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
-    </div>
+  const acct = o.accounts.find(a => a.id === c.account);
+  return `${foldHTML("my-fold", `${esc(c.name)} (${esc(accountName(acct))})`, `<section class="t-panel my" style="--c:var(--accent)">
     <p>Skill Hunter, Protector, Guardian, Vanquisher, the Legendary titles and Kind of a Big Deal are worked out from your
       ticks and the other titles; tick the others when maxed (or set their rank).</p>
     ${section("Character titles", of("character", false))}${section("Character titles, PvP", of("character", true))}
     ${section("Account titles", of("account", false))}${section("Account titles, PvP", of("account", true))}
-  </section>
-  ${retentionHTML(c, o)}`;
+  </section>`)}
+  ${foldHTML("calc-fold", "Calculator", calcHTML(c, o))}`;
 }
+// the character's titles and the calculator, each folded under its heading as Accounts and characters is (kept folded:
+// the ids of the folded ones)
+const TITLE_FOLDS = "chars.titlefolds";
+const titleFolds = () => { try { return JSON.parse(localStorage.getItem(TITLE_FOLDS)) || []; } catch { return []; } };
+const foldHTML = (id, head, body) => `<details class="ch-fold" id="${id}"${titleFolds().includes(id) ? "" : " open"}>
+  <summary><h2 class="r-h">${head}</h2></summary>${body}</details>`;
+document.addEventListener("toggle", e => {
+  if (e.target.id !== "my-fold" && e.target.id !== "calc-fold") return;
+  const fs = titleFolds().filter(x => x !== e.target.id);
+  try { localStorage.setItem(TITLE_FOLDS, JSON.stringify(e.target.open ? fs : [...fs, e.target.id])); } catch { /* storage blocked */ }
+}, true);
 const lockedOut = () => User.broken() && (alert("Your saved progress can't be read, so it can't be changed here: see the Backup page."), true);
 // a rank up or down
 document.addEventListener("click", e => {
@@ -66,13 +105,6 @@ document.addEventListener("click", e => {
   if (!b || lockedOut()) return;
   const t = TITLES[b.dataset.title], o = User.data(), r = titleRankOf(t, User.char(o), o) + +b.dataset.step;
   User.setTitle(t.id, t.scope, Math.max(0, Math.min(titleMax(t), r)));
-  refresh();
-});
-// another account (its first character) or character picked: the one the whole site shows
-document.addEventListener("change", e => {
-  if (e.target.id !== "my-account" && e.target.id !== "my-char") return;
-  const o = User.data();
-  User.pick(e.target.id === "my-char" ? +e.target.value : o.chars.find(x => x.account === +e.target.value).id);
   refresh();
 });
 // ticking a title maxed (or not)
