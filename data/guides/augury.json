@@ -1,0 +1,207 @@
+{
+ "source": {
+  "href": "https://wiki.guildwars.com/wiki/Augury_Rock/Guide",
+  "archive": "https://web.archive.org/web/2026/https://wiki.guildwars.com/wiki/Augury_Rock/Guide",
+  "author": "Guild Wars Wiki",
+  "full": false,
+  "more": false
+ },
+ "stats": [
+  [
+   "Party",
+   "Solo"
+  ],
+  [
+   "Bonus",
+   "Under 10 min (NM), 2 min (HM)"
+  ],
+  [
+   "Foe",
+   "Your Doppelganger"
+  ]
+ ],
+ "sections": [
+  {
+   "blocks": [
+    {
+     "p": "{mission:38} is a fight against your own Doppelganger, alone: no heroes, henchmen or summoning stones. It equips the same skills as you, with rank 12 in every attribute of your primary and secondary professions, and fights with a spear at range and a Shocking axe in melee. Level 20 in normal mode, 30 in hard mode."
+    },
+    {
+     "p": "Two things beat it with any profession: it can't use PvE-only skills, and it uses whatever you give it. So bring PvE skills for the damage (three at most, as on any bar), and only skills that do nothing when it turns them on you."
+    },
+    {
+     "areas": [
+      119
+     ],
+     "height": 300
+    }
+   ]
+  },
+  {
+   "title": "Insidious Parasite: for everybody",
+   "blocks": [
+    {
+     "p": "It attacks all fight long. Under {skill:123} every hit heals you, and {skill:103} makes it miss, each miss hurting it. It copies both and puts them on you, but you never attack, so they do nothing. Your PvE skills do the rest: {skill:2235} sends in an assassin, and {skill:2360} keeps you up."
+    },
+    {
+     "ol": [
+      "Hex it with {skill:123} and {skill:103}, and keep them up.",
+      "{skill:2235} on recharge.",
+      "{skill:2360} when it's on you."
+     ]
+    },
+    {
+     "builds": [
+      {
+       "name": "Any profession, Necromancer secondary",
+       "codes": [
+        "OQQBcMtHcGAAAAAAAAsLiTC",
+        "OgQBcMtHcGAAAAAAAAsLiTC",
+        "OwQBcMtHcGAAAAAAAAsLiTC",
+        "OABBcMtHcGAAAAAAAAsLiTC",
+        "OQRCcMs0ewZAAAAAAAAwuIOJ",
+        "OgRCcMv0ewZAAAAAAAAwuIOJ",
+        "OwRBcMtHcGAAAAAAAAsLiTC",
+        "OASBcMtHcGAAAAAAAAsLiTC",
+        "OQSBcMtHcGAAAAAAAAsLiTC",
+        "OgSBcMtHcGAAAAAAAAsLiTC"
+       ]
+      }
+     ]
+    },
+    {
+     "note": "One bar for every profession: copy your primary's code. All it needs is Curses 12 (the Elementalist's code also has Energy Storage 11, the Mesmer's Fast Casting 11). The two free slots are yours for anything but healing. The PvE skills are as strong as your Ebon Vanguard and Norn ranks."
+    },
+    {
+     "note": "Professions with low armor (Elementalist, Mesmer, Monk, Necromancer, Ritualist) take a beating before the hexes pay off: that's what {skill:2360} is for. Warriors and Paragons have little energy and slow regeneration, so keep {skill:123} and {skill:103} up first, the rest when there's energy. A staff helps anyone: about +15 energy."
+    }
+   ]
+  },
+  {
+   "title": "Bear form: nothing to copy",
+   "blocks": [
+    {
+     "p": "With only PvE skills on your bar, the Doppelganger gets no skills at all. Hex it with {skill:2418}, send in {skill:2235}, then turn into a bear with {skill:2374} and maul it for a minute; when the bear ends, start over ({skill:2374} has recharged by then). It needs a good Norn rank."
+    },
+    {
+     "builds": [
+      {
+       "name": "Any profession, no secondary",
+       "codes": [
+        "OQAAQyl7iGlAAAAAAAAAA",
+        "OgAAQyl7iGlAAAAAAAAAA",
+        "OwAAQyl7iGlAAAAAAAAAA",
+        "OABAQyl7iGlAAAAAAAAAA",
+        "OQBAQyl7iGlAAAAAAAAAA",
+        "OgBAQyl7iGlAAAAAAAAAA",
+        "OwBAQyl7iGlAAAAAAAAAA",
+        "OACAQyl7iGlAAAAAAAAAA",
+        "OQCAQyl7iGlAAAAAAAAAA",
+        "OgCAQyl7iGlAAAAAAAAAA"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Signet of Spirits: for everybody",
+   "blocks": [
+    {
+     "p": "Spirits do the fighting, and it never catches them. Leave out self-healing and any other damage: it would copy them ({skill:2110} is PvE-only, so its healing is yours alone)."
+    },
+    {
+     "ol": [
+      "After the cutscene, run back up the ramp: it casts its spirits in the middle, out of reach of you.",
+      "Cast {skill:1239}, {skill:1247}, {skill:1253} and {skill:2110} there, and hex it with {skill:1237} as it comes: every spirit's hit then hurts it more.",
+      "When it pulls away from your spirits, fall back and {skill:2051} brings them to you."
+     ]
+    },
+    {
+     "builds": [
+      {
+       "name": "Any profession, Ritualist secondary",
+       "codes": [
+        "OQgiIygJdN9NVOVNBAAA4DOAC",
+        "OggiIygJdN9NVOVNBAAA4DOAC",
+        "OwgiIygJdN9NVOVNBAAA4DOAC",
+        "OAhiIygJdN9NVOVNBAAA4DOAC",
+        "OQhjIygJQSXTfTlTVTAAAA+gDg",
+        "OghjIygJTSXTfTlTVTAAAA+gDg",
+        "OwhiIygJdN9NVOVNBAAA4DOAC",
+        "OACiIygJdN9NVOVNBAAA4DOAC",
+        "OQiiIygJdN9NVOVNBAAA4DOAC",
+        "OgiiIygJdN9NVOVNBAAA4DOAC"
+       ]
+      }
+     ]
+    },
+    {
+     "note": "One bar for every profession: copy your primary's code. Channeling Magic 12 and Communing 9 (the Elementalist's code also has Energy Storage 9, the Mesmer's Fast Casting 9). {skill:2051} is the Luxon version; the Kurzick one works the same."
+    }
+   ]
+  },
+  {
+   "title": "Your own profession",
+   "blocks": [
+    {
+     "p": "A bar for each profession from its own skills, from the wiki's guide and our own."
+    },
+    {
+     "builds": [
+      {
+       "name": "Warrior",
+       "code": "OQARU5guDmwAAAAAAAA",
+       "note": "Fight with a sword for the Ripostes, but don't attack: its own {skill:372} would block you and hit back. Let it attack into yours."
+      },
+      {
+       "name": "Ranger",
+       "code": "OgASY5rOzSdDvB38b4M0GAA",
+       "note": "Beast master: it has no pet, so none of this is any use to it. Leave out {skill:1195} and {skill:3427}: it can use those without a pet."
+      },
+      {
+       "name": "Monk",
+       "code": "OwUS4YYK+89sEAUNRPAAAA",
+       "note": "{skill:830} and {skill:247} burn it every second for 5 seconds, and it doesn't step out of them (step out of its own). {skill:75} doubles {skill:830}. The three enchantments are only there to waste its energy: never cast them."
+      },
+      {
+       "name": "Necromancer",
+       "code": "OABBcMsndnBAAAAAA",
+       "note": "Hex it and wait: it kills itself attacking, and Weakness from {skill:118} takes the edge off its hits. You'll recast them once."
+      },
+      {
+       "name": "Mesmer",
+       "code": "OQBCIcwgGvAAAAAAAAA",
+       "note": "Keep {skill:26} on it, {skill:47} too when it's up, and don't attack. Dodge what you can."
+      },
+      {
+       "name": "Elementalist",
+       "code": "OgBCkMqDPkbUKAAAAAAAAAA",
+       "note": "Keep it blind with {skill:220} and hit it with a wand or staff: it only blinds you back if you use a martial weapon. {skill:1084} and {skill:165} when it closes in."
+      },
+      {
+       "name": "Assassin",
+       "code": "OwBi0xjq4wM8B3wAAAAAAA",
+       "note": "You finish a combo faster than it does: lead, off-hand, then {skill:775} and {skill:781} over and over ({skill:781} recharges your attacks once it's under half Health). Fill the rest with your secondary's maintained skills to keep it busy."
+      },
+      {
+       "name": "Ritualist",
+       "code": "OACiIygKdN9NVOd24DWNBAMAC",
+       "note": "The Signet of Spirits bar above, with {skill:871} to blind it."
+      },
+      {
+       "name": "Paragon",
+       "code": "OQCiUyo6wgbwE5KMAAAAAAA",
+       "note": "Get into melee range: it switches to its axe and can't use your spear attacks."
+      },
+      {
+       "name": "Dervish",
+       "code": "OgCkkysoKueT3n7ycBwAAAAAAAA",
+       "note": "It never uses a scythe, so {skill:2013} heals only you and your scythe attacks are yours alone. {skill:1500} when it's in melee. A form you had up is gone by the fight."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

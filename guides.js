@@ -21,9 +21,11 @@ function prepareBuilds(g) {
     return !first;
   });
   for (const b of x.builds) {
+    // one bar for many professions (codes: a code each, its primary the one it's for): shown once, copied for any
+    if (b.codes) { b.code = b.codes[0]; b._codes = b.codes.map(c => { try { return [TemplateCode.decode(c).professions[0], c]; } catch { return null; } }).filter(Boolean); }
     if (b.code) try { b._bar = TemplateCode.decode(b.code); } catch { b._bar = null; }
     b._skills = b._bar ? b._bar.skills : b.skills;
-    b._profs = b._bar ? b._bar.professions.filter(Boolean) : (b.profs || []).map(p => PROFS.indexOf(p));
+    b._profs = b._codes ? b._bar.professions.slice(1).filter(Boolean) : b._bar ? b._bar.professions.filter(Boolean) : (b.profs || []).map(p => PROFS.indexOf(p));
   }
   }
 }
@@ -54,12 +56,13 @@ function buildHTML(b) {
     <div class="bd-obar">${b._skills.map(id => {
       const s = SKILLS[id];
       return s ? `<a href="${HREF.skill(id)}" title="${esc(s.name)}" class="${s.elite ? "elite" : ""}" style="--pc:${profVar(s.profession)}"><img src="img/skills/${id}.jpg" alt="${esc(s.name)}" loading="lazy"></a>`
-        : `<i class="bd-noskill" title="${id === null ? "Free slot" : "Empty slot"}">${id === null ? "" : "?"}</i>`;
+        : `<i class="bd-noskill" title="${!id ? "Free slot" : "Empty slot"}">${!id ? "" : "?"}</i>`;  // (a code's empty slot is 0)
     }).join("")}</div>
     <div class="gd-info">
       ${attrs ? `<div class="bd-attrs">${attrs}</div>` : ""}
       ${b.note ? `<p class="bd-note">${text(b.note)}</p>` : ""}
-      ${b.code ? `<div class="bd-actions"><a href="${esc(builderHref(b))}">Builder →</a><button class="link" data-copy="${esc(b.code)}">Copy code</button></div>` : ""}
+      ${b._codes ? `<div class="bd-actions bd-copies">Copy for${b._codes.map(([p, c]) => `<button class="bd-copyp" data-copy="${esc(c)}" title="Copy the ${PROFS[p]}'s code"><img class="bd-prof" src="${profImg(p)}" alt="${PROFS[p]}"></button>`).join("")}</div>`
+        : b.code ? `<div class="bd-actions"><a href="${esc(builderHref(b))}">Builder →</a><button class="link" data-copy="${esc(b.code)}">Copy code</button></div>` : ""}
     </div>
   </div>`;
 }
@@ -231,7 +234,7 @@ function guidePageHTML(g) {
     <article class="gd">${g.sections.map(s => `<section${s.title ? ` id="gd-${slug(s.title)}"` : ""}${s.flow ? ` class="flow"` : ""}>
       ${s.title ? `<h2>${esc(s.title)}</h2>` : ""}${s.blocks.map(x => blockHTML(x, g)).join("")}</section>`).join("")}
     </article>
-    ${g.source ? `<p class="gd-src">${g.source.full ? "Also on" : "See the full guide and more at"} <a href="${esc(g.source.href)}" target="_blank" rel="noopener">the Guild Wars Wiki</a> (<a href="${esc(g.source.archive)}" target="_blank" rel="noopener">archived copy</a>).</p>` : ""}`;
+    ${g.source && g.source.more !== false ? `<p class="gd-src">${g.source.full ? "Also on" : "See the full guide and more at"} <a href="${esc(g.source.href)}" target="_blank" rel="noopener">the Guild Wars Wiki</a> (<a href="${esc(g.source.archive)}" target="_blank" rel="noopener">archived copy</a>).</p>` : ""}`;
 }
 
 /* ---------- the list ---------- */

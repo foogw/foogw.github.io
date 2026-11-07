@@ -220,6 +220,8 @@ document.addEventListener("click", e => {
   const b = e.target.closest("[data-copy]");
   if (!b) return;
   navigator.clipboard?.writeText(b.dataset.copy).then(() => {
+    // (an icon button: lit for a moment instead)
+    if (b.classList.contains("bd-copyp")) { b.classList.add("copied"); setTimeout(() => b.classList.remove("copied"), 1500); return; }
     const was = b.innerHTML;
     b.textContent = "Copied";
     setTimeout(() => { b.innerHTML = was; }, 1500);

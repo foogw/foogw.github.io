@@ -1014,6 +1014,13 @@ a.hchip { text-decoration: none; }
 .gd-info .bd-attrs { margin: 0 0 3px; font-size: 12px; }
 .gd-info .bd-note { margin: 0; font-size: 13px; }
 .gd-info .bd-actions { margin-top: 3px; font-size: 12.5px; }
+.bd-copies { align-items: center; gap: 2px; }
+.bd-copies::after { content: "Copied"; margin-left: 6px; color: var(--accent); visibility: hidden; }
+.bd-copies:has(.copied)::after { visibility: visible; }
+.bd-copyp { all: unset; cursor: pointer; padding: 3px; border-radius: 5px; line-height: 0; }
+.bd-copies .bd-copyp:first-of-type { margin-left: 6px; }
+.bd-copyp:hover, .bd-copyp:focus-visible { background: var(--line); }
+.bd-copyp.copied { background: color-mix(in srgb, var(--accent) 35%, transparent); }
 .gd-build .bd-noskill:empty { border-style: dashed; opacity: .6; }
 @media (max-width: 760px) {
   .gd-build { grid-template-columns: minmax(0, 1fr); }
