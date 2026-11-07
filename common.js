@@ -278,24 +278,29 @@ const entryName = e => (e.item || (e.creature && CREATURES[e.creature]?.name) ||
 // the marks and notes of what the picked character has left to do show only once it has a name of its own (not the
 // default Char<id>), as the top bar names it (header.js): before that, nothing says whose they'd be
 const userNamed = () => { if (User.stored() == null || User.broken()) return false; const c = User.char(); return !!c?.name.trim() && c.name !== `Char${c.id}`; };
-// a mission the picked character hasn't completed: † in normal mode, ‡ in hard mode
-function missionMarks(id) {
-  if (!USER_ALL.missions.includes(+id) || !userNamed()) return "";
-  const c = User.char(), d = User.done("missions", id);
+// the dungeons ticked done (Secret Lair of the Snowmen too; not Destruction's Depths, a mission)
+const isTickedDungeon = id => (USER_ALL.dungeons.includes(+id) || +id === 701) && +id !== 670;
+// a mission or dungeon ("missions" or "dungeons") the picked character hasn't completed: † in normal mode, ‡ in hard mode
+function modeMarks(part, id) {
+  if (!(part === "missions" ? USER_ALL.missions.includes(+id) : isTickedDungeon(id)) || !userNamed()) return "";
+  // (a dungeon by its name: its marks are on a bounty, named for its boss)
+  const c = User.char(), d = User.done(part, id), what = part === "missions" ? "this mission" : esc(areaName(id));
   return [[1, "†", "NM"], [2, "‡", "HM"]].filter(([b]) => !(d & b))
-    .map(([, m, mode]) => `<sup class="u-miss" tabindex="0" data-tip="${esc(c.name)} hasn't completed this mission in ${mode}" aria-label="${esc(c.name)} hasn't completed this mission in ${mode}">${m}</sup>`).join("");
+    .map(([, m, mode]) => `<sup class="u-miss" tabindex="0" data-tip="${esc(c.name)} hasn't completed ${what} in ${mode}" aria-label="${esc(c.name)} hasn't completed ${what} in ${mode}">${m}</sup>`).join("");
 }
+const missionMarks = id => modeMarks("missions", id);
 // an area with foes to vanquish the picked character hasn't vanquished: §
 function vanqMark(id) {
   if (!AREAS[id]?.foes || !userNamed() || User.vanquished(id)) return "";
   const tip = `${esc(User.char().name)} hasn't vanquished this area yet`;
   return `<sup class="u-miss" tabindex="0" data-tip="${tip}" aria-label="${tip}">§</sup>`;
 }
-// the same as a sentence, for the mission's or the area's page ("" when done, or no progress is kept): what's left to do,
-// "mission:<id>" or "vanq:<id>"; leftNote gives it in a span that follows the page's ticks, its list item hidden while it
+// the same as a sentence, for the mission's, the dungeon's or the area's page ("" when done, or no progress is kept):
+// what's left to do, "mission:<id>", "dungeon:<id>" or "vanq:<id>"; leftNote gives it in a span that follows the page's ticks, its list item hidden while it
 // says nothing
 const LEFT = {
   mission: id => USER_ALL.missions.includes(+id),
+  dungeon: isTickedDungeon,
   vanq: id => !!AREAS[id]?.foes,
 };
 function leftText(key) {
@@ -303,8 +308,8 @@ function leftText(key) {
   if (!LEFT[kind]?.(id) || !userNamed()) return "";
   const who = `<b>${esc(User.char().name)}</b>`;
   if (kind === "vanq") return User.vanquished(id) ? "" : `${who} hasn't vanquished this area yet.`;
-  const d = User.done("missions", id), left = [[1, "normal"], [2, "hard"]].filter(([b]) => !(d & b)).map(([, m]) => m);
-  return left.length ? `${who} hasn't completed this mission in ${left.join(" or ")} mode.` : "";
+  const d = User.done(kind + "s", id), left = [[1, "normal"], [2, "hard"]].filter(([b]) => !(d & b)).map(([, m]) => m);
+  return left.length ? `${who} hasn't completed this ${kind} in ${left.join(" or ")} mode.` : "";
 }
 const leftNote = key => (LEFT[key.split(":")[0]]?.(key.split(":")[1]) && userNamed() ? `<span data-left-note="${key}">${leftText(key)}</span>` : "");
 // a list item that says nothing (yet) is hidden
@@ -337,6 +342,8 @@ function entryHTML(e) {
   if (e.mission) return LINK.mission(e.mission) + missionMarks(e.mission);
   if (e.area && !e.creature && !e.item) return LINK.area(e.area) + vanqMark(e.area);
   if (e.bonus) return `<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`;
+  // a bounty at the end of a dungeon: the dungeon's marks
+  if (e.creature && e.area && isTickedDungeon(e.area)) return esc(entryName(e)) + modeMarks("dungeons", e.area);
   if (e.quest) return LINK.quest(e.quest);
   // Nicholas the Traveler's item: his map that week, at the foot of the Rotations page
   if (e.item) return `${e.count} × ${e.at ? `<a href="rotations${query({ nick: ROTATIONS["nicholas-traveler"].entries.indexOf(e) })}">${esc(e.item)}</a>` : esc(e.item)}`;
