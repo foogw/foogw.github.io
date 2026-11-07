@@ -22,7 +22,7 @@ function render() {
   check();
 }
 // the box's text, checked: the button takes it only when it's valid progress that differs from the saved one (and, in
-// area of broken progress, only once that's been copied)
+// place of broken progress, only once that's been copied)
 function check() {
   const t = els.text.value.trim(), broken = User.broken();
   els.submit.disabled = true;
@@ -33,7 +33,7 @@ function check() {
   if (t === keptText().trim()) return broken ? status(`This is your saved progress, as it's kept. It isn't valid: ${err}`, "bad") : status("");
   if (err) return status(`This isn't valid: ${err}`, "bad");
   o = userFromKept(o);
-  if (broken && !kept) return status(`Valid: ${summary(o)}\nCopy or download your saved progress first, to use this in its area.`, "ok");
+  if (broken && !kept) return status(`Valid: ${summary(o)}\nCopy or download your saved progress first, to use this in its place.`, "ok");
   els.submit.disabled = false;
   status(`Valid: ${summary(o)}`, "ok");
 }
