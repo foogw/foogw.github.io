@@ -23,26 +23,18 @@ const TITLE_GUIDE = { 9: "guides?gom", 24: "skills?c=1c&cap=1", 26: "skills?c=2c
 // the calculator below the titles: what the account's Treasure Hunter, Lucky and Wisdom ranks give, for a level 20
 // character, in the wiki's terms: the lockpick retention bonus, added to a chest's base rate (10%, half the level, + 3% a
 // Treasure Hunter rank + 2% a Lucky rank), and the chance of retaining the item when salvaging an upgrade (50% + 3% a
-// Treasure Hunter and Wisdom rank, at most 92%); and Master of the North's points from the character's ticks, from which
-// the Eye of the North map explored is worked out (1 point a percent): 5 an EotN mission in NM and 10 in HM, 10 a
-// dungeon in NM and 20 in HM, 15 an area vanquished
-// the 18 dungeons it counts: the Eye of the North's, with Secret Lair of the Snowmen (701) and not Destruction's Depths
-// (a mission, counted with them)
-const MOTN_DUNGEONS = [...USER_ALL.dungeons.filter(id => AREAS[id]?.campaign === 4 && !MISSIONS[id]), 701];
-function motnTicked(c) {
-  const modes = (part, id, nm, hm) => ((c[part]?.[id] || 0) & 1 ? nm : 0) + ((c[part]?.[id] || 0) & 2 ? hm : 0);
-  const got = new Set(c.vanquished || []);
-  return storyIn(4).reduce((n, id) => n + modes("missions", id, 5, 10), 0)
-    + MOTN_DUNGEONS.reduce((n, id) => n + modes("dungeons", id, 10, 20), 0)
-    + 15 * vanquishIn(4).filter(id => got.has(id)).length;
-}
-// the map explored, once worked out, is kept on the character (eotnMap): when its ticks change, the points shown are its
-// ticks' plus the map's
-const motnMap = c => c.eotnMap ?? null;
-function motnOut(map) {
-  if (map === null) return `your EotN map is at <b>…</b>`;
-  return map < 0 ? `that's <b>${-map}</b> fewer than your ticks award: check them.` : `your EotN map is at <b>${map}%</b>.`;
-}
+// Treasure Hunter and Wisdom rank, at most 92%)
+// Master of the North's row: its points from the ticks, and the points the game shows typed in, from which the Eye of
+// the North map explored is worked out (mytitles.js) and its rank
+const MOTN_MAP_MAX = 104;
+const motnHow = c => {
+  const map = c.eotnMap ?? null, t = motnTicked(c);
+  if (map === null) return `${t}/${motnTickMax()} ticks + EotN map 0%: check the game's points`;
+  if (map < 0) return `that's ${-map} fewer than your ticks give (${t}): check them`;
+  // the map gives at most 104 (100%, and up to 4 more past it): more is missions, dungeons or vanquishes not ticked
+  return map > MOTN_MAP_MAX ? `${t}/${motnTickMax()} ticks: ${map - MOTN_MAP_MAX} points more than the map gives, tick your dungeons/missions/vanqs`
+    : `${t}/${motnTickMax()} ticks + EotN map ${map}%`;
+};
 function calcHTML(c, o) {
   const r = id => titleKept(TITLES[id], c, o), th = r(45), lucky = r(15), wis = r(46);
   const pick = Math.min(100, 10 + 3 * th + 2 * lucky), keep = Math.min(92, 50 + 3 * (th + wis));
@@ -52,39 +44,39 @@ function calcHTML(c, o) {
       <li>With Treasure Hunter rank ${th} and Lucky rank ${lucky}, your lockpick retention is <b title="On top of the chest's own rate">+${pick}%</b>.</li>
       <li>With Treasure Hunter rank ${th} and Wisdom rank ${wis}, your item retention when salvaging an upgrade is <b>${keep}%</b>.</li>
     </ul>
-    <h5>${esc(c.name)}</h5>
-    <ul>
-      <li>Your EotN ticks give <b>${motnTicked(c)}</b> Master of the North points. With <input type="number" class="calc-in" id="motn-points" min="0" style="width:6em" value="${motnMap(c) === null ? "" : motnTicked(c) + motnMap(c)}"> points,
-        <span id="motn-out">${motnOut(motnMap(c))}</span></li>
-    </ul>
   </section>`;
 }
-// typing the points: only the answer is drawn again
-document.addEventListener("input", e => {
+// the game's Master of the North points typed in (or cleared): the map explored is kept, and the titles drawn again
+document.addEventListener("change", e => {
   if (e.target.id !== "motn-points") return;
   const c = User.char(), v = e.target.value, map = v === "" || isNaN(+v) ? null : Math.round(+v) - motnTicked(c);
-  if (!lockedOut()) User.setEotnMap(map === null || map < 0 ? undefined : map);
-  $("motn-out").innerHTML = motnOut(map);
+  if (lockedOut()) { e.target.value = motnTicked(c) + Math.max(0, c.eotnMap ?? 0); return; }
+  // (kept at most 1034, every Master of the North point there is, as the progress check wants)
+  User.setEotnMap(map === null || map < 0 ? undefined : Math.min(map, 1034));
+  refresh();
+  if (map !== null && map < 0) $("motn-how").textContent = motnHow({ ...User.char(), eotnMap: map });
 });
 function mineHTML() {
   const o = User.data(), c = User.char(o), list = MY_ORDER.map(id => TITLES[id]).filter(Boolean);
   const section = (label, ts) => (ts.length ? `<h3 class="my-h">${label}</h3><table class="my-titles"><tbody>${ts.map(t => {
     const r = titleRankOf(t, c, o), max = titleMax(t), d = DERIVED_TITLES.get(t.id)?.(c, o), big = t.id === 10;
     const status = r >= max ? `<b class="my-max">Max</b>` : r ? `Rank ${r} of ${max}` : `<span class="dim">—</span>`;
-    const how = d ? `${d[0]} / ${d[1]} ${d[2]}` : big ? `${titlesMaxed(c, o)} titles maxed (5 a rank)` : "";
-    const input = d || big ? `<span class="dim">worked out</span>`
+    const how = d ? `${d[0]} / ${d[1]} ${d[2]}` : big ? `${titlesMaxed(c, o)} titles maxed (5 a rank)` : t.id === 42 ? motnHow(c) : "";
+    const input = t.id === 42 ? `<input type="number" class="calc-in my-pts" id="motn-points" min="0" placeholder="Points" aria-label="Master of the North points the game shows" value="${motnTicked(c) + Math.max(0, c.eotnMap ?? 0)}">`
+      : d || big ? `<span class="dim">worked out</span>`
       : STEPPED.has(t.id) ? `<span class="my-step"><button type="button" data-step="-1" data-title="${t.id}" aria-label="Rank down"${r ? "" : " disabled"}>▼</button>`
         + `<span class="my-num">${r}</span><button type="button" data-step="1" data-title="${t.id}" aria-label="Rank up"${r < max ? "" : " disabled"}>▲</button></span>`
       : `<label class="my-tick"><input type="checkbox" data-title="${t.id}"${r >= max ? " checked" : ""}> Maxed</label>`;
     const href = VIEWS.title.hasPage(t.id) ? HREF.title(t.id) : TITLE_GUIDE[t.id];
     const name = href ? `<a href="${esc(href)}">${esc(nameOf(t))}</a>` : esc(nameOf(t));
-    return `<tr><td class="my-name">${name}</td><td class="my-rank">${status}</td><td class="my-how dim">${how}</td><td class="my-in">${input}</td></tr>`;
+    return `<tr><td class="my-name">${name}</td><td class="my-rank">${status}</td><td class="my-how dim"${t.id === 42 ? ' id="motn-how"' : ""}>${how}</td><td class="my-in">${input}</td></tr>`;
   }).join("")}</tbody></table>` : "");
   const of = (scope, pvp) => list.filter(t => t.scope === scope && !!t.pvp === pvp);
   const acct = o.accounts.find(a => a.id === c.account);
   return `${foldHTML("my-fold", `${esc(c.name)} (${esc(accountName(acct))})`, `<section class="t-panel my" style="--c:var(--accent)">
     <p>Skill Hunter, Protector, Guardian, Vanquisher, the Legendary titles and Kind of a Big Deal are worked out from your
-      ticks and the other titles; tick the others when maxed (or set their rank).</p>
+      ticks and the other titles, Master of the North from your ticks and the points the game shows; tick the others when
+      maxed (or set their rank).</p>
     ${section("Character titles", of("character", false))}${section("Character titles, PvP", of("character", true))}
     ${section("Account titles", of("account", false))}${section("Account titles, PvP", of("account", true))}
   </section>`)}

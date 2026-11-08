@@ -1244,6 +1244,7 @@ a.hchip { text-decoration: none; }
 .calc ul { margin: 0; padding-left: 20px; }
 .calc li { margin: 4px 0; line-height: 1.9; }
 .calc-in { padding: 1px 4px; font: inherit; }
+.my-titles .my-pts { width: 100%; box-sizing: border-box; text-align: right; }
 .my-h { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 18px 0 6px; }
 .my-titles { width: 100%; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
 .my-titles td { padding: 6px 10px 6px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
