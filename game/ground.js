@@ -6217,6 +6217,7 @@ const GW_GROUND = {
         {"to": 877, "at": [136, 326]}
       ],
       "order": 1.5,
+      "bosses": [101932],
       "wiki": {"en": "Forsaken Tunnels", "de": "Verlassene Tunnel"}
     },
     "781": {"name": "Secret Lair of the Snowmen (2)", "type": 2, "region": 18, "campaign": 0, "party": 8},

@@ -1932,7 +1932,8 @@ const GW_CREATURES = {
     "101928": {"name": "Havok Soulwail"},
     "101929": {"name": "Murakai, Lady of the Night"},
     "101930": {"name": "Rand Stormweaver"},
-    "101931": {"name": "Verata"}
+    "101931": {"name": "Verata"},
+    "101932": {"name": "Maz Scourgeheart", "profession": 6}
   },
   "npcs_": "Placed creatures with a job, keyed by our numbers (the game has no id for a placement). area: map id, or region when the area isn't known. roles: what they do.",
   "npcs": {

@@ -2,6 +2,10 @@
 /* A boss's page, on the front page: ./?boss=<creature id>. Its elite to capture and where it is. */
 
 VIEWS.boss = (() => {
+  // a boss at the end of a dungeon level (its boss mark, data/depths.js): that level's map, marked, in place of the
+  // dungeon's whole area
+  const bossMaps = b => b._where.flatMap(id => { const d = VIEWS.dungeon?.find(id);
+    return (d?.levels || []).map((v, i) => v.marks.some(m => m[0] === "boss" && m[3] === b.name) ? VIEWS.dungeon.levelMap(d, i) : "").filter(Boolean); }).join("");
   function html(b) {
     const sub = [b.prof && PROFS[b.prof], [...b.camps].sort().map(c => CAMPAIGNS[c]).join(", ")].filter(Boolean).map(esc).join(" · ");
     return `<p class="back"><a href="bosses">← All bosses</a></p>
@@ -19,7 +23,7 @@ VIEWS.boss = (() => {
         <div class="lside">
           <section class="lbox"><h4>Where</h4><ul class="lrows">${b._where.map(i =>
             `<li>${whereLink(i)}<span class="dim">${MISSIONS[i] ? "Mission" : esc(TYPE_LABEL[AREAS[i]?.type] || "")}</span></li>`).join("")}</ul></section>
-          ${mapHTML(b._where.filter(i => AREAS[i]))}
+          ${bossMaps(b) || mapHTML(b._where.filter(i => AREAS[i]))}
         </div>
       </div>`;
   }
