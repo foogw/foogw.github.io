@@ -250,19 +250,17 @@ $("ch-edit").addEventListener("keydown", e => { if (e.target.id === "edit-note" 
 /* ---------- heroes and builds tabs ---------- */
 // every hero recruited
 const allHeroes = c => { const got = new Set(c.heroes || []); return Object.values(HEROES).every(h => got.has(h.id)); };
-// the heroes in the order to recruit them, the easiest first (the ones a story gives on the way, then the longer
-// quests), the hardest last
-const HERO_ORDER = ["Koss", "Dunkoro", "Tahlkora", "Melonni", "Acolyte Jin", "Acolyte Sousuke", "Zhed Shadowhoof", "Margrid the Sly",
-  "Master of Whispers", "Goren", "Norgu", "General Morgahn", "Razah", "Olias", "Zenmai", "M.O.X.", "Jora", "Pyre Fierceshot",
-  "Ogden Stonehealer", "Livia", "Vekk", "Gwen", "Hayda", "Devona", "Xandra", "Kahmu", "Keiran Thackeray", "Ghost of Althea",
-  "Anton", "Miku", "Zei Ri"];
-const heroRank = h => { const i = HERO_ORDER.indexOf(h.name); return i < 0 ? HERO_ORDER.length : i; };
 // the heroes it has recruited, each a button to tick, by profession (Razah, of none, last); all ticked or none at once
 // the heroes a character can recruit: a pre-Searing one, only Devona (the others shown, but not to tick; what's saved
 // is left as it is)
 const PRE_HEROES = ["Devona"];
 const isPre = c => (c.modes || []).includes("presearing");
 const canRecruit = c => (isPre(c) ? PRE_HEROES.map(n => Object.values(HEROES).find(h => h.name === n)).filter(Boolean) : Object.values(HEROES));
+// the heroes' order among their profession's pills
+const PILL_ORDER = ["Goren", "Koss", "Jora", "Devona", "Acolyte Jin", "Margrid the Sly", "Pyre Fierceshot", "Tahlkora", "Dunkoro",
+  "Ogden Stonehealer", "Master of Whispers", "Olias", "Livia", "Norgu", "Gwen", "Ghost of Althea", "Acolyte Sousuke", "Zhed Shadowhoof",
+  "Vekk", "Zenmai", "Anton", "Miku", "Xandra", "Zei Ri", "General Morgahn", "Keiran Thackeray", "Hayda", "Melonni", "M.O.X.", "Kahmu"];
+const pillRank = h => { const i = PILL_ORDER.indexOf(h.name); return i < 0 ? PILL_ORDER.length : i; };
 function heroesHTML(c) {
   const got = new Set(c.heroes || []), all = Object.values(HEROES), open = canRecruit(c), may = new Set(open.map(h => h.id));
   const n = open.filter(h => got.has(h.id)).length;
@@ -271,12 +269,13 @@ function heroesHTML(c) {
   return `<div class="ch-tab-head"><span><b>${n}</b> <span class="dim">/ ${open.length} ${open.length === 1 ? "hero" : "heroes"} recruited${open.length < all.length ? " (pre-Searing)" : ""}</span></span>
       <span><button type="button" class="u-btn" data-heroes="all"${n === open.length ? " disabled" : ""}>Tick all</button>
       <button type="button" class="u-btn" data-heroes="none"${n ? "" : " disabled"}>Untick all</button></span></div>
-    <div class="ch-hgrid"><div class="ch-hprofs">${profs.map(p => { const hs = all.filter(h => (h.profession || 0) === p).sort((a, b) => cmpStr(a.name, b.name));
-      return hs.length ? `<div class="ch-hprof" style="--pc:${profVar(p)}"><img src="${profImg(p)}" alt="${p ? PROFS[p] : "Any profession"}" title="${p ? PROFS[p] : "Any profession"}"><div>${hs.map(btn).join("")}</div></div>` : ""; }).join("")}</div>${toRecruit(open, got, isPre(c))}</div>`;
+    <div class="ch-hgrid"><div class="ch-hprofs">${profs.map(p => { const hs = all.filter(h => (h.profession || 0) === p).sort((a, b) => pillRank(a) - pillRank(b) || cmpStr(a.name, b.name));
+      return hs.length ? `<div class="ch-hprof" style="--pc:${profVar(p)}"><img src="${profImg(p)}" alt="${p ? PROFS[p] : "Any profession"}" title="${p ? PROFS[p] : "Any profession"}"><div>${hs.map(btn).join("")}</div></div>` : ""; }).join("")}</div>${toRecruit(open, got)}</div>`;
 }
-// the heroes still to recruit, each linked to its page, the easiest first (in two columns when more than 8)
-// (a pre-Searing character's in its own order)
-const toRecruit = (all, got, pre = false) => { const left = all.filter(h => !got.has(h.id)).sort((a, b) => (pre ? 0 : heroRank(a) - heroRank(b)));
+// the heroes still to recruit, each linked to its page, in the pills' order: by profession (Razah last), then as
+// PILL_ORDER (in two columns when more than 8)
+const PROF_ORDER = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0], profRank = h => PROF_ORDER.indexOf(h.profession || 0);
+const toRecruit = (all, got) => { const left = all.filter(h => !got.has(h.id)).sort((a, b) => profRank(a) - profRank(b) || pillRank(a) - pillRank(b));
   return left.length ? `<aside class="ch-hleft"><h3 class="ch-tab-h">To recruit <span class="dim">${left.length}</span></h3><ol${left.length > 8 ? ' class="two"' : ""}>${left.map(h =>
     `<li><a href="${HREF.hero(h.id)}"><img src="${profImg(h.profession || 0)}" alt="">${esc(h.name)}</a></li>`).join("")}</ol></aside>` : ""; };
 // its saved skill templates, in its order: each one's bar (opening it in the builder), its code to copy, chevrons and
