@@ -53,7 +53,8 @@ const eotn = id => AREAS[id]?.campaign === 4;
 function progress(c) {
   const el = new Set(c.elites), vq = new Set(c.vanquished), has = (ids, got) => ids.filter(id => got.has(id)).length;
   const mode = (part, ids, b) => ids.filter(id => (c[part][id] || 0) & b).length;
-  const ms = USER_ALL.missions.filter(id => !eotn(id)), ems = USER_ALL.missions.filter(eotn);
+  const ticked = USER_ALL.missions.filter(id => hasModes(MISSIONS[id]));
+  const ms = ticked.filter(id => !eotn(id)), ems = ticked.filter(eotn);
   const vs = USER_ALL.vanquished.filter(id => !eotn(id)), evs = USER_ALL.vanquished.filter(eotn);
   return [["Prophecies, Factions, Nightfall", [
       ["Elites captured", has(USER_ALL.elites, el), USER_ALL.elites.length, "skills?cap=1"],

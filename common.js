@@ -283,7 +283,7 @@ const userNamed = () => { if (User.stored() == null || User.broken()) return fal
 const isTickedDungeon = id => (USER_ALL.dungeons.includes(+id) || +id === 701) && +id !== 670 && AREAS[id]?.campaign === 4;
 // a mission or dungeon ("missions" or "dungeons") the picked character hasn't completed: † in normal mode, ‡ in hard mode
 function modeMarks(part, id) {
-  if (!(part === "missions" ? USER_ALL.missions.includes(+id) : isTickedDungeon(id)) || !userNamed()) return "";
+  if (!(part === "missions" ? hasModes(MISSIONS[id]) : isTickedDungeon(id)) || !userNamed()) return "";
   // (a dungeon by its name: its marks are on a bounty, named for its boss)
   const c = User.char(), d = User.done(part, id), what = part === "missions" ? "this mission" : esc(areaName(id));
   return [[1, "†", "NM"], [2, "‡", "HM"]].filter(([b]) => !(d & b))
@@ -300,7 +300,7 @@ function vanqMark(id) {
 // what's left to do, "mission:<id>", "dungeon:<id>" or "vanq:<id>"; leftNote gives it in a span that follows the page's ticks, its list item hidden while it
 // says nothing
 const LEFT = {
-  mission: id => USER_ALL.missions.includes(+id),
+  mission: id => hasModes(MISSIONS[id]),
   dungeon: isTickedDungeon,
   vanq: id => !!AREAS[id]?.foes,
 };
@@ -664,8 +664,9 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden) user
 const eliteTick = (id, on = User.captured(id), label = "") => `<button type="button" class="utick${label ? "" : " ck"}" data-elite="${id}" aria-pressed="${on}" title="Captured">${label ? `<span class="ubox"></span>${label}` : "✓"}</button>`;
 // an area vanquished (one with foes to vanquish)
 const vanqTick = (id, on = User.vanquished(id), label = "") => `<button type="button" class="utick${label ? "" : " ck"}" data-vanq="${id}" aria-pressed="${on}" title="Vanquished">${label ? `<span class="ubox"></span>${label}` : "✓"}</button>`;
-// the missions with normal and hard mode to tick (not challenge, competitive or PvP ones)
-const hasModes = m => m?.kind === "story" || m?.kind === "elite";
+// the missions with normal and hard mode to tick: the story ones (not the elite ones, Urgoz's Warren and The Deep, nor
+// challenge, competitive or PvP ones)
+const hasModes = m => m?.kind === "story";
 // the progress kept for them (a tick from before a kind lost its modes is kept, not counted)
 const modeProgress = (c, part) => Object.entries(c[part]).filter(([id]) => part !== "missions" || hasModes(MISSIONS[id])).map(([, v]) => v);
 // the done filter: "1" not done in NM, "2" not done in HM, "a" not done in one of them or both
