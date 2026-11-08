@@ -33,6 +33,19 @@ try {
 } catch { /* storage blocked */ }
 // the characters the view lists: all but the hidden ones (the one picked stays)
 const shownChars = (o, cur) => { const hs = new Set(hiddenIds(o)); return o.chars.filter(c => c === cur || !hs.has(c.id)); };
+// the picked character's tabs, [key, label, its panel]: the one shown, the same for every character, kept in this
+// browser (first Titles)
+const TABS = [["titles", "Titles", "title"], ["heroes", "Heroes", "ch-heroes"], ["builds", "Builds", "ch-builds"], ["edit", "Edit", "ch-edit"]], TAB = "chars.tab";
+let tab = (() => { try { const t = localStorage.getItem(TAB); return TABS.some(x => x[0] === t) ? t : "titles"; } catch { return "titles"; } })();
+// the tabs, and the one shown drawn (only it: the others are drawn when picked)
+const drawTabs = (o = User.data(), cur = User.char(o)) => {
+  $("ch-tabs").innerHTML = TABS.map(([k, label]) => `<button type="button" role="tab" data-tab="${k}" aria-selected="${k === tab}">${label}</button>`).join("");
+  for (const [k, , id] of TABS) $(id).hidden = k !== tab;
+  if (tab === "titles") redrawTitles();
+  else if (tab === "heroes") $("ch-heroes").innerHTML = heroesHTML(cur);
+  else if (tab === "builds") $("ch-builds").innerHTML = buildsHTML(cur);
+  else $("ch-edit").innerHTML = `<table class="u-chars ch-edit-row"><tbody>${charRow(o, cur, null, true)}</tbody></table>`;
+};
 // managing or not, not kept: the page opens on the view, or managing while nothing is saved yet, to name the character
 let manage = User.stored() == null;
 // the titles below draw again (titles.js, once it's in): the character picked, its account, may have changed
@@ -105,6 +118,54 @@ const selectHTML = (o, cur, many) => {
   return many ? o.accounts.map(a => { const cs = chars.filter(c => c.account === a.id);
     return cs.length ? `<optgroup label="${esc(accountName(a))}">${cs.map(opt).join("")}</optgroup>` : ""; }).join("") : chars.map(opt).join("");
 };
+/* ---------- heroes and builds tabs ---------- */
+// the heroes it has recruited, each a button to tick, by profession (Razah, of none, last); all ticked or none at once
+function heroesHTML(c) {
+  const got = new Set(c.heroes || []), all = Object.values(HEROES), n = all.filter(h => got.has(h.id)).length;
+  const btn = h => `<button type="button" class="ch-hero${got.has(h.id) ? " got" : ""}" data-hero="${h.id}" aria-pressed="${got.has(h.id)}">${esc(h.name)}</button>`;
+  const profs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0];
+  return `<div class="ch-tab-head"><span><b>${n}</b> <span class="dim">/ ${all.length} heroes recruited</span></span>
+      <span><button type="button" class="u-btn" data-heroes="all"${n === all.length ? " disabled" : ""}>Tick all</button>
+      <button type="button" class="u-btn" data-heroes="none"${n ? "" : " disabled"}>Untick all</button></span></div>
+    <div class="ch-hprofs">${profs.map(p => { const hs = all.filter(h => (h.profession || 0) === p).sort((a, b) => cmpStr(a.name, b.name));
+      return hs.length ? `<div class="ch-hprof" style="--pc:${profVar(p)}"><img src="${profImg(p)}" alt="${p ? PROFS[p] : "Any profession"}" title="${p ? PROFS[p] : "Any profession"}"><div>${hs.map(btn).join("")}</div></div>` : ""; }).join("")}</div>`;
+}
+// its saved skill templates, in its order: each one's bar (opening it in the builder), its code to copy, chevrons and
+// a delete; a code pasted in adds one
+function buildsHTML(c) {
+  const bs = c.builds || [];
+  const row = (code, i) => `<li class="ch-build" data-build="${i}"><a class="hb-bar" href="${esc(builderHref({ code }))}" title="Open in the builder">${barIcons(code)}</a>
+    <code class="ch-code">${esc(code)}</code><button type="button" class="u-btn" data-copy="${esc(code)}">Copy</button>
+    ${moveBtns(i === 0, i === bs.length - 1)}<button type="button" class="u-btn danger" data-build-delete>Delete</button></li>`;
+  return `<form class="ch-build-add" id="build-add"><input type="text" id="build-code" placeholder="Paste a skill template code" aria-label="Skill template code" autocomplete="off" spellcheck="false">
+    <button type="submit" class="u-btn">Add</button><span class="dim" id="build-err" role="alert"></span></form>
+    ${bs.length ? `<ol class="ch-builds">${bs.map(row).join("")}</ol>` : `<p class="dim">No builds saved yet.</p>`}`;
+}
+// a change to the picked character's heroes or builds, saved and drawn again
+const editChar = f => { if (User.broken()) return; const o = User.data(), c = User.char(o); f(c); User.save(o); render(); };
+$("ch-heroes").addEventListener("click", e => {
+  const all = e.target.closest("[data-heroes]");
+  if (all) return editChar(c => { if (all.dataset.heroes === "all") c.heroes = Object.values(HEROES).map(h => h.id); else delete c.heroes; });
+  const b = e.target.closest("[data-hero]");
+  if (!b) return;
+  editChar(c => { const id = +b.dataset.hero, hs = new Set(c.heroes || []); if (hs.has(id)) hs.delete(id); else hs.add(id);
+    if (hs.size) c.heroes = [...hs]; else delete c.heroes; });
+});
+$("ch-builds").addEventListener("submit", e => {
+  e.preventDefault();
+  const code = $("build-code").value.trim().replace(/\s+/g, "");
+  if (!code) return;
+  try { if (!TemplateCode.decode(code).skills.some(id => SKILLS[id])) throw 0; } catch { $("build-err").textContent = "That isn't a skill template code."; return; }
+  editChar(c => { c.builds = [...(c.builds || []), code]; });
+});
+$("ch-builds").addEventListener("click", e => {
+  const li = e.target.closest("[data-build]");
+  if (!li) return;
+  const i = +li.dataset.build, mv = e.target.closest("[data-move]");
+  if (mv) editChar(c => { const j = i + +mv.dataset.move; [c.builds[i], c.builds[j]] = [c.builds[j], c.builds[i]]; });
+  else if (e.target.closest("[data-build-delete]") && confirm("Delete this build?")) editChar(c => { c.builds.splice(i, 1); if (!c.builds.length) delete c.builds; });
+});
+
 // the character picked: its card (its Kind of a Big Deal, then its modes, under its name), and how far it is, each count a link to what's left
 function cardHTML(o, c) {
   return `<section class="ch-card">
@@ -123,11 +184,14 @@ function statsHTML(c) {
 // to rename, a delete while it has no characters, chevrons to reorder) with a new character after its last; a character
 // stays on the account it was made on, and chevrons move it among the account's characters: the saved order is the shown
 // order
-function manageHTML(o, cur, many) {
-  const one = o.chars.length < 2, folded = new Set(acctFolds()), hidden = new Set(hiddenIds(o));
-  const row = c => { const sib = o.chars.filter(x => x.account === c.account), hid = hidden.has(c.id); return `<tr class="${[c === cur && "cur", hid && "u-hid"].filter(Boolean).join(" ")}" data-id="${c.id}">
+// a character's row to change: its profession, name, modes and gender, then hide or show, chevrons (round the ends:
+// the first up goes last) and delete; the Edit tab's (the one picked) without hide and delete
+const charRow = (o, c, cur, tab = false) => { const sib = o.chars.filter(x => x.account === c.account), hid = !!c.hidden, one = o.chars.length < 2, lone = sib.length < 2;
+  return `<tr class="${[c === cur && "cur", hid && "u-hid"].filter(Boolean).join(" ")}" data-id="${c.id}">
     <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}${genderBtn(c)}</div></td>
-    <td><button type="button" class="u-btn u-show" data-hide aria-pressed="${hid}" title="${hid ? "Hidden from the view: show it" : "Hide it from the view"}">${hid ? "Show" : "Hide"}</button>${moveBtns(sib[0] === c, sib[sib.length - 1] === c)}<span class="u-slot"><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></span></td></tr>`; };
+    <td>${tab ? "" : `<button type="button" class="u-btn u-show" data-hide aria-pressed="${hid}" title="${hid ? "Hidden from the view: show it" : "Hide it from the view"}">${hid ? "Show" : "Hide"}</button>`}${moveBtns(lone, lone)}${tab ? "" : `<span class="u-slot"><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></span>`}</td></tr>`; };
+function manageHTML(o, cur, many) {
+  const folded = new Set(acctFolds()), row = c => charRow(o, c, cur);
   const head = a => `<tr class="u-acct" data-account="${a.id}"><td colspan="2"><div class="u-acct-row">
       <button type="button" class="u-fold" data-fold-account="${a.id}" aria-expanded="${!folded.has(a.id)}" aria-label="${folded.has(a.id) ? "Show" : "Hide"} its characters"></button>
       <input type="text" maxlength="40" value="${esc(a.name || "")}" placeholder="${esc(accountName(a))}" aria-label="Account name">
@@ -149,14 +213,16 @@ function render() {
     $("ch-list").innerHTML = sideHTML(o, cur, many);
     $("ch-select").innerHTML = selectHTML(o, cur, many);
     $("ch-card").innerHTML = cardHTML(o, cur);
-    redrawTitles();
+    drawTabs(o, cur);
   }
 }
 const setManage = on => { manage = on; render(); scrollTo(0, 0); };
-// picking a character (its name at the left, or the menu), managing or done, an account folded
+// picking a character (its name at the left, or the menu), managing or done, a tab, an account folded
 document.addEventListener("click", e => {
   const m = e.target.closest("[data-manage]");
   if (m) return setManage(m.dataset.manage === "1");
+  const tb = e.target.closest("[data-tab]");
+  if (tb) { tab = tb.dataset.tab; try { localStorage.setItem(TAB, tab); } catch { /* storage blocked */ } return drawTabs(); }
   const p = e.target.closest("[data-pick]");
   if (p) { User.pick(+p.dataset.pick); return render(); }
   const f = e.target.closest("[data-fold-account]");
@@ -166,7 +232,9 @@ $("ch-select").addEventListener("change", e => { User.pick(+e.target.value); ren
 /* ---------- characters ---------- */
 const rowChar = (o, el) => o.chars.find(c => c.id === +el.closest("tr").dataset.id);
 const rowAccount = (o, el) => o.accounts.find(a => a.id === +el.closest("tr").dataset.account);
-els.list.addEventListener("change", e => {
+// the Edit list's handlers, and the Edit tab's (its one row)
+const onEdit = (type, f) => { els.list.addEventListener(type, f); $("ch-edit").addEventListener(type, f); };
+onEdit("change", e => {
   const o = User.data();
   // an account's new name (none: its number)
   if (e.target.closest(".u-acct")) {
@@ -181,13 +249,13 @@ els.list.addEventListener("change", e => {
   c.name = n;
   User.save(o); render();
 });
-els.list.addEventListener("keydown", e => {
+onEdit("keydown", e => {
   if (e.target.type !== "text") return;
   if (e.key === "Enter") e.target.blur();
   // Escape: the name as it was
   if (e.key === "Escape") { const o = User.data(); e.target.value = e.target.closest(".u-acct") ? rowAccount(o, e.target).name || "" : rowChar(o, e.target).name; e.target.blur(); }
 });
-els.list.addEventListener("click", e => {
+onEdit("click", e => {
   // a character hidden from the view, or shown again
   const hb = e.target.closest("[data-hide]");
   if (hb) { hideChar(+hb.closest("tr").dataset.id); return render(); }
@@ -207,12 +275,14 @@ els.list.addEventListener("click", e => {
       const i = o.accounts.findIndex(a => a.id === +tr.dataset.account), j = i + d;
       if (j < 0 || j >= o.accounts.length) return;
       [o.accounts[i], o.accounts[j]] = [o.accounts[j], o.accounts[i]];
-    } else {  // a character among its account's: swap with the next one of the same account in the saved order
-      const c = rowChar(o, mv), i = o.chars.indexOf(c);
+    } else {  // a character among its account's: swap with the next one of the same account in the saved order, or,
+      // past the first or the last, round to the other end
+      const c = rowChar(o, mv), i = o.chars.indexOf(c), sib = o.chars.filter(x => x.account === c.account);
+      if (sib.length < 2) return;
       let j = i + d;
       while (j >= 0 && j < o.chars.length && o.chars[j].account !== c.account) j += d;
-      if (j < 0 || j >= o.chars.length) return;
-      [o.chars[i], o.chars[j]] = [o.chars[j], o.chars[i]];
+      if (j >= 0 && j < o.chars.length) [o.chars[i], o.chars[j]] = [o.chars[j], o.chars[i]];
+      else { o.chars.splice(i, 1); const end = o.chars.indexOf(d < 0 ? sib.at(-1) : sib[0]); o.chars.splice(d < 0 ? end + 1 : end, 0, c); }
     }
     User.save(o); return render();
   }

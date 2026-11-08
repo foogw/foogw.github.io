@@ -4,13 +4,15 @@
    Needs game/titles.js, game/skills.js, game/ground.js and game/missions.js. Every function takes the character c and
    the progress o it's in. */
 const titleMax = t => t.max ?? t.ranks.length;
+// a list worked out from the game's data once, then kept (the elites, missions and areas of a campaign)
+const ONCE = new Map(), once = (k, f) => ONCE.get(k) ?? ONCE.set(k, f()).get(k);
 // what Skill Hunter counts for a campaign: its own elites and the Core ones (Core ones count for all three, however
 // they were got: captured anywhere or from a tome); not the PvP versions
-const capturedIn = camp => Object.entries(SKILLS).filter(([, s]) => s.elite && !s.pvp_only && (s.campaign === camp || s.campaign === 0)).map(([id]) => +id);
+const capturedIn = camp => once("cap" + camp, () => Object.entries(SKILLS).filter(([, s]) => s.elite && !s.pvp_only && (s.campaign === camp || s.campaign === 0)).map(([id]) => +id));
 // the story missions of a campaign (by the area they're played in)
-const storyIn = camp => Object.values(MISSIONS).filter(m => m.kind === "story" && AREAS[m.id]?.campaign === camp).map(m => m.id);
+const storyIn = camp => once("story" + camp, () => Object.values(MISSIONS).filter(m => m.kind === "story" && AREAS[m.id]?.campaign === camp).map(m => m.id));
 // the areas of a campaign to vanquish (those with foes to kill for it)
-const vanquishIn = camp => Object.values(AREAS).filter(l => l.foes && l.campaign === camp).map(l => l.id);
+const vanquishIn = camp => once("vanq" + camp, () => Object.values(AREAS).filter(l => l.foes && l.campaign === camp).map(l => l.id));
 // the derived titles: [title id, (c, o) => [have, need, unit]]; a title is reached when have >= need
 const DERIVED_TITLES = new Map([
   ...[[24, 1, 90], [26, 2, 120], [28, 3, 140]].map(([id, camp, need]) => [id, c => { const got = new Set(c.elites); return [capturedIn(camp).filter(s => got.has(s)).length, need, "elites"]; }]),
@@ -45,7 +47,17 @@ function titleKept(t, c, o) {
   return holder?.titles?.[t.id] || 0;
 }
 // the other titles maxed, that Kind of a Big Deal counts
-const titlesMaxed = (c, o) => Object.values(TITLES).filter(x => x.id !== 10 && titleMaxed(x.id, c, o)).length;
+// (kept per character, worked out again only when what titles go by changed: its ticks, titles, map explored, its
+// account's titles; not its name, order, modes, heroes or builds)
+const MAXED = new Map();
+function titlesMaxed(c, o) {
+  const sig = JSON.stringify([c.elites, c.vanquished, c.missions, c.dungeons, c.titles, c.eotnMap, o.accounts.find(a => a.id === c.account)?.titles]);
+  const was = MAXED.get(c.id);
+  if (was?.sig === sig) return was.n;
+  const n = Object.values(TITLES).filter(x => x.id !== 10 && titleMaxed(x.id, c, o)).length;
+  MAXED.set(c.id, { sig, n });
+  return n;
+}
 // a title's rank: worked out, or as kept; Kind of a Big Deal: a rank for every 5 other titles maxed
 function titleRankOf(t, c, o) {
   if (t.id === 10) return Math.min(titleMax(t), Math.floor(titlesMaxed(c, o) / 5));

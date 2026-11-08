@@ -25,7 +25,12 @@
     </aside>
     <div class="ch-main">
       <div id="ch-card"></div>
-      <div id="title"></div>
+      <!-- the character's tabs: its titles (titles.js), its heroes, its builds, and its own row to change (as Edit's) -->
+      <div class="ch-tabs" id="ch-tabs" role="tablist"></div>
+      <div id="title" role="tabpanel"></div>
+      <div id="ch-heroes" role="tabpanel" hidden></div>
+      <div id="ch-builds" role="tabpanel" hidden></div>
+      <div id="ch-edit" role="tabpanel" hidden></div>
     </div>
   </div>
   <section class="ch-manage" id="ch-manage" hidden>
@@ -48,7 +53,9 @@
 <script src="game/ground.js"></script>
 <script src="game/creatures.js"></script>
 <script src="game/missions.js"></script>
+<script src="game/heroes.js"></script>
 <script src="common.js"></script>
+<script src="template-code.js"></script>
 <script src="mytitles.js"></script>
 <script src="title.js"></script>
 <script src="characters.js"></script>

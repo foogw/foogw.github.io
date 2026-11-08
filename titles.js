@@ -74,8 +74,8 @@ function mineHTML() {
   }).join("")}</tbody></table>` : "");
   const of = (scope, pvp) => list.filter(t => t.scope === scope && !!t.pvp === pvp);
   const acct = o.accounts.find(a => a.id === c.account);
-  // the progress boxes (characters.js) under the heading
-  return `<h2 class="r-h">Titles</h2>${typeof statsHTML === "function" ? statsHTML(c) : ""}<section class="t-panel my" style="--c:var(--accent)">
+  // the progress boxes (characters.js) first
+  return `${typeof statsHTML === "function" ? statsHTML(c) : ""}<section class="t-panel my" style="--c:var(--accent)">
     ${section("Character titles", of("character", false))}${section("Character titles, PvP", of("character", true))}
     ${section(`Account titles: ${esc(accountName(acct))}, shared by its characters`, of("account", false))}${section("Account titles, PvP", of("account", true))}
   </section>`;
