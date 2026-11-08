@@ -39,7 +39,13 @@ $("u-layout").addEventListener("click", e => {
 let kept = false;  // broken progress copied or downloaded on this visit: only then can it be replaced or reset
 const status = (t, cls = "") => { els.status.textContent = t; els.status.className = `u-status ${cls}`; };
 
+// the format's version a backup is made in; an older one still loads, and becomes it with the next change
+const USER_VERSION = 3;
+function versionLine() {
+  $("u-version").textContent = `Backups are made in the format's version ${USER_VERSION}. Older ones still load, and become version ${USER_VERSION} with your next change.`;
+}
 function render() {
+  versionLine();
   const broken = User.broken();
   $("u-broken").hidden = !broken;
   els.reset.hidden = !broken;
