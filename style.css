@@ -1186,6 +1186,9 @@ a.hchip { text-decoration: none; }
 .u-acct-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .u-acct-right { margin-left: auto; display: inline-flex; gap: 0; align-items: center; }
 .u-move { display: inline-flex; gap: 2px; margin-right: 48px; vertical-align: middle; }
+.u-gender { margin-left: 8px; padding: 2px 8px; font: inherit; font-size: 12px; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; white-space: nowrap; }
+.u-gender.unset { color: var(--muted); }
+.u-gender:hover { border-color: var(--accent); }
 .u-show { min-width: 58px; margin-right: 10px; vertical-align: middle; }
 .u-hid .u-name { opacity: .5; }
 .u-move button { display: grid; place-items: center; width: 22px; height: 22px; padding: 0; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; }
@@ -1265,8 +1268,7 @@ a.hchip { text-decoration: none; }
 .ch-card { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .ch-prof { width: 48px; height: 48px; flex: none; }
 .ch-who h2 { margin: 0 0 2px; font-size: 24px; }
-.ch-big { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 13px; }
-.ch-big b { font-size: 15px; }
+.ch-says { color: var(--muted); }
 .ch-hint { margin: 10px 0 0; padding: 8px 12px; border: 1px solid var(--accent); border-radius: 8px; background: color-mix(in srgb, var(--accent) 8%, transparent); }
 .ch-stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 10px 0 0; }
 @media (max-width: 1250px) { .ch-stats { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); } }
@@ -1289,7 +1291,6 @@ a.hchip { text-decoration: none; }
   .ch-groups, .ch-side-foot { display: none; }
   .ch-select { display: block; width: 100%; font: inherit; color: var(--text); background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; }
   .ch-card { flex-wrap: wrap; }
-  .ch-big { margin-left: 0; align-items: flex-start; }
 }
 /* Titles: My titles */
 .calc-in { padding: 1px 4px; font: inherit; }

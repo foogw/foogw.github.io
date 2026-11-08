@@ -1,8 +1,8 @@
 "use strict";
 /* My Characters: the accounts and characters whose progress the site keeps in this browser (User, in common.js). At the
    left, the characters to pick from (the one picked is the one the whole site shows the ticks of); at the right, the one
-   picked: its card, its progress and its titles (titles.js). Manage swaps both for the list to change: names,
-   professions, game modes, order, the ones hidden from the view, new ones and deletes. */
+   picked: its card, its progress and its titles (titles.js). Edit (managing, in the code) swaps both for the list to change: names,
+   professions, game modes, genders, order, the ones hidden from the view, new ones and deletes. */
 const els = { list: $("u-list") };
 const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
 const modes = vs => `${vs.filter(v => v & 1).length} NM, ${vs.filter(v => v & 2).length} HM`;
@@ -14,24 +14,37 @@ const foldAccount = id => {
   const fs = acctFolds(), next = fs.includes(id) ? fs.filter(x => x !== id) : [...fs, id];
   try { localStorage.setItem(ACCT_FOLDS, JSON.stringify(next)); } catch { /* storage blocked */ }
 };
-// the characters hidden from the view (Manage still lists them, to show them again): their ids, kept in this browser
-const HIDDEN = "chars.hidden";
-const hiddenIds = () => { try { return JSON.parse(localStorage.getItem(HIDDEN)) || []; } catch { return []; } };
+// the characters hidden from the view (Edit still lists them, to show them again): "hidden" in the progress
+const hiddenIds = (o = User.data()) => o.chars.filter(c => c.hidden).map(c => c.id);
 const hideChar = id => {
-  const hs = hiddenIds(), next = hs.includes(id) ? hs.filter(x => x !== id) : [...hs, id];
-  try { localStorage.setItem(HIDDEN, JSON.stringify(next)); } catch { /* storage blocked */ }
+  const o = User.data(), c = o.chars.find(x => x.id === id);
+  if (c.hidden) delete c.hidden; else c.hidden = true;
+  User.save(o);
 };
+// (from before, the hidden ones kept in this browser apart: into the progress, once)
+try {
+  const old = JSON.parse(localStorage.getItem("chars.hidden"));
+  if (old && User.stored() != null && !User.broken()) {
+    const o = User.data();
+    for (const c of o.chars) if (old.includes(c.id)) c.hidden = true;
+    User.save(o);
+  }
+  localStorage.removeItem("chars.hidden");
+} catch { /* storage blocked */ }
 // the characters the view lists: all but the hidden ones (the one picked stays)
-const shownChars = (o, cur) => { const hs = new Set(hiddenIds()); return o.chars.filter(c => c === cur || !hs.has(c.id)); };
+const shownChars = (o, cur) => { const hs = new Set(hiddenIds(o)); return o.chars.filter(c => c === cur || !hs.has(c.id)); };
 // managing or not, not kept: the page opens on the view, or managing while nothing is saved yet, to name the character
 let manage = User.stored() == null;
 // the titles below draw again (titles.js, once it's in): the character picked, its account, may have changed
 const redrawTitles = () => typeof draw === "function" && draw();
 
-// Kind of a Big Deal: its rank's name and the titles maxed toward its top rank
+// Kind of a Big Deal, on the card's second line, before the modes: its rank said of the character ("Very Important", "People Know Her"), the
+// titles maxed on hover; none for no rank yet (People Know Him or Her by its gender, set in Edit)
+const BIG_DEAL_SAYS = ["", "Kind of a Big Deal", c => `People Know ${{ f: "Her", m: "Him" }[c.gender] || "Them"}`, "Very Important",
+  "Has Many Leather-Bound Books", "Smells of Rich Mahogany", "A God Walking Amongst Mere Mortals"];
 function bigDeal(c, o) {
-  const t = TITLES[10], r = titleRankOf(t, c, o), name = r ? t.rank_names[r - 1] : "No rank yet";
-  return `${titlesMaxed(c, o)}/${titleMax(t) * 5} ${esc(name)}`;
+  const t = TITLES[10], r = titleRankOf(t, c, o), says = [BIG_DEAL_SAYS[r]].map(x => (typeof x === "function" ? x(c) : x))[0];
+  return !r ? "" : `<span class="ch-says" title="Kind of a Big Deal: ${titlesMaxed(c, o)} of ${titleMax(t) * 5} titles maxed">${says}</span>`;
 }
 // a character's profession: its icon, a button that opens the ten to pick from (or none)
 const profPick = c => `<span class="u-prof"><button type="button" class="u-prof-btn" data-prof-open aria-haspopup="true" title="${c.profession ? PROFS[c.profession] : "Profession"}">
@@ -41,6 +54,10 @@ const profPick = c => `<span class="u-prof"><button type="button" class="u-prof-
 const CHEV = d => `<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const moveBtns = (first, last) => `<span class="u-move"><button type="button" data-move="-1" aria-label="Move up"${first ? " disabled" : ""}>${CHEV("M3 10l5-5 5 5")}</button><button type="button" data-move="1" aria-label="Move down"${last ? " disabled" : ""}>${CHEV("M3 6l5 5 5-5")}</button></span>`;
 // the optional game modes, each a badge: lit when the character is bound to it, greyed when not; click to set or clear
+// a character's gender, for how the site speaks of it: not set, he or she, each click the next
+const GENDERS = { "": ["He / She", "Not set"], m: ["He", "Male"], f: ["She", "Female"] };
+const genderBtn = c => { const [label, name] = GENDERS[c.gender || ""];
+  return `<button type="button" class="u-gender${c.gender ? "" : " unset"}" data-gender title="Gender: ${name}">${label}</button>`; };
 const modeBadges = c => `<span class="u-modes">${Object.entries(USER_MODES).map(([m, name]) =>
   `<button type="button" class="u-mode" data-mode="${m}" aria-pressed="${(c.modes || []).includes(m)}" title="${esc(name)}"><img src="img/modes/${m}.png" alt="${esc(name)}"></button>`).join("")}</span>`;
 const closeProfs = () => { for (const m of document.querySelectorAll(".u-prof-menu")) m.hidden = true; };
@@ -88,15 +105,13 @@ const selectHTML = (o, cur, many) => {
   return many ? o.accounts.map(a => { const cs = chars.filter(c => c.account === a.id);
     return cs.length ? `<optgroup label="${esc(accountName(a))}">${cs.map(opt).join("")}</optgroup>` : ""; }).join("") : chars.map(opt).join("");
 };
-// the character picked: its card, and how far it is, each count a link to what's left
+// the character picked: its card (its Kind of a Big Deal, then its modes, under its name), and how far it is, each count a link to what's left
 function cardHTML(o, c) {
-  const acct = o.accounts.find(a => a.id === c.account);
   return `<section class="ch-card">
       <img class="ch-prof" src="${profImg(c.profession || 0)}" alt="${c.profession ? PROFS[c.profession] : "No profession"}">
-      <div class="ch-who"><h2>${esc(c.name)}</h2><div class="dim">${c.profession ? PROFS[c.profession] : "No profession"} · ${esc(accountName(acct))}${lit(c) ? ` · ${lit(c)}` : ""}</div></div>
-      <div class="ch-big"><span class="dim">Kind of a Big Deal</span><b class="u-gwamm" data-rank="${titleRankOf(TITLES[10], c, o)}">${bigDeal(c, o)}</b></div>
+      <div class="ch-who"><h2>${esc(c.name)}</h2><div class="dim">${[bigDeal(c, o), lit(c)].filter(Boolean).join(" · ")}</div></div>
     </section>
-    ${unnamed(c) ? `<p class="ch-hint">Give this character its name and profession: <button type="button" class="link" data-manage="1">Manage</button>.</p>` : ""}
+    ${unnamed(c) ? `<p class="ch-hint">Give this character its name and profession: <button type="button" class="link" data-manage="1">Edit</button>.</p>` : ""}
 `;
 }
 // its progress by subject, each count a link to what's left (under the titles' heading, titles.js)
@@ -109,9 +124,9 @@ function statsHTML(c) {
 // stays on the account it was made on, and chevrons move it among the account's characters: the saved order is the shown
 // order
 function manageHTML(o, cur, many) {
-  const one = o.chars.length < 2, folded = new Set(acctFolds()), hidden = new Set(hiddenIds());
+  const one = o.chars.length < 2, folded = new Set(acctFolds()), hidden = new Set(hiddenIds(o));
   const row = c => { const sib = o.chars.filter(x => x.account === c.account), hid = hidden.has(c.id); return `<tr class="${[c === cur && "cur", hid && "u-hid"].filter(Boolean).join(" ")}" data-id="${c.id}">
-    <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}</div></td>
+    <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}${genderBtn(c)}</div></td>
     <td><button type="button" class="u-btn u-show" data-hide aria-pressed="${hid}" title="${hid ? "Hidden from the view: show it" : "Hide it from the view"}">${hid ? "Show" : "Hide"}</button>${moveBtns(sib[0] === c, sib[sib.length - 1] === c)}<span class="u-slot"><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></span></td></tr>`; };
   const head = a => `<tr class="u-acct" data-account="${a.id}"><td colspan="2"><div class="u-acct-row">
       <button type="button" class="u-fold" data-fold-account="${a.id}" aria-expanded="${!folded.has(a.id)}" aria-label="${folded.has(a.id) ? "Show" : "Hide"} its characters"></button>
@@ -199,6 +214,12 @@ els.list.addEventListener("click", e => {
       if (j < 0 || j >= o.chars.length) return;
       [o.chars[i], o.chars[j]] = [o.chars[j], o.chars[i]];
     }
+    User.save(o); return render();
+  }
+  const g = e.target.closest("[data-gender]");
+  if (g) {
+    const o = User.data(), c = rowChar(o, g), next = { "": "m", m: "f", f: "" }[c.gender || ""];
+    if (next) c.gender = next; else delete c.gender;
     User.save(o); return render();
   }
   const mode = e.target.closest("[data-mode]");

@@ -456,7 +456,8 @@ function recruitHTML(h) {
 /* ---------- the visitor's progress, per character, kept in this browser only (the Backup page backs it up) ----------
    Kept as {v: 2, chars: [{id, name, account: its account's id, profession: its primary (1 Warrior ... 10 Dervish), elites: [skill ids captured], vanquished: [area ids],
    missionsNM, missionsHM, dungeonsNM, dungeonsHM: [ids done in that mode], titles: {title id: rank}, modes: the optional game modes
-   the character is bound to (and our pre-Searing mark), of USER_MODES, eotnMap: the percent of the Eye of the North map
+   the character is bound to (and our pre-Searing mark), of USER_MODES, gender: "m" or "f" (for how the site speaks of it,
+   left out when not set), hidden: true when kept out of My Characters' list (left out when shown), eotnMap: the percent of the Eye of the North map
    explored, as worked out on My Characters from Master of the North's points}], accounts: [{id,
    name, titles}]}. A list may be "all": every id in USER_ALL (frozen: should the game ever have more, they'd come with a
    new version). An empty list, or a title not reached, is left out. Version 1 (from before), still read: no "all", and
@@ -475,7 +476,7 @@ const USER_ALL = {
   dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
 };
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
-  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "eotnMap"] };
+  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "eotnMap"] };
 // the optional game modes (Guild Wars Reforged): a character bound to one wears its badge beside its name; and our own
 // "pre-Searing", a character that stays in pre-Searing Ascalon, with the Tapestry Shred as its badge
 const USER_MODES = { presearing: "Pre-Searing: stays in pre-Searing Ascalon", melandru: "Melandru's Accord", dhuum: "Dhuum's Covenant" };
@@ -488,6 +489,8 @@ function userFromKept(o) {
     const c = { id: k.id, name: k.name, account: k.account ?? 1 };
     if (k.profession) c.profession = k.profession;
     if (k.modes?.length) c.modes = [...k.modes];
+    if (k.gender) c.gender = k.gender;
+    if (k.hidden) c.hidden = true;
     if (o.v === 1) Object.assign(c, { elites: k.elites, vanquished: k.vanquished || [], missions: k.missions, dungeons: k.dungeons });
     else {
       const list = key => (k[key] === "all" ? [...allOf(key)] : k[key] || []);
@@ -509,6 +512,8 @@ function userToKept(o) {
     const k = { id: c.id, name: c.name, account: c.account ?? 1 };
     if (c.profession) k.profession = c.profession;
     if (c.modes?.length) k.modes = Object.keys(USER_MODES).filter(m => c.modes.includes(m));
+    if (c.gender) k.gender = c.gender;
+    if (c.hidden) k.hidden = true;
     const lists = { elites: c.elites, vanquished: c.vanquished || [] };
     for (const part of ["missions", "dungeons"]) for (const [m, b] of [["NM", 1], ["HM", 2]])
       lists[part + m] = Object.entries(c[part]).filter(([, v]) => v & b).map(([id]) => +id);
@@ -576,6 +581,8 @@ function userCheck(o) {
       if (!isId(c.account)) return `${at}: "account" should be an account's id.`;
       if (c.profession !== undefined && !(Number.isInteger(c.profession) && c.profession >= 1 && c.profession <= 10)) return `${at}: "profession" should be 1 (Warrior) to 10 (Dervish).`;
       if (c.modes !== undefined && !(Array.isArray(c.modes) && c.modes.every(m => USER_MODES[m]) && new Set(c.modes).size === c.modes.length)) return `${at}: "modes" should list game modes of ${Object.keys(USER_MODES).join(", ")}, each once.`;
+      if (c.gender !== undefined && !["m", "f"].includes(c.gender)) return `${at}: "gender" should be "m" or "f".`;
+      if (c.hidden !== undefined && c.hidden !== true) return `${at}: "hidden" should be true (or left out).`;
       if (c.eotnMap !== undefined && !(Number.isInteger(c.eotnMap) && c.eotnMap >= 0)) return `${at}: "eotnMap" should be the Eye of the North map's Master of the North points (a whole number from 0).`;
       const bad = USER_LISTS.find(k => c[k] !== undefined && c[k] !== "all" && !idList(c[k]));
       if (bad) return `${at}: "${bad}" should be "all" or a list of ids, each once.`;
