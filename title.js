@@ -1,5 +1,5 @@
 "use strict";
-/* A title's page, on the front page: ./?title=<title id>, and its panel on the Titles page. What earns it, what each
+/* A title's page, on the front page: ./?title=<title id>, listed on the Titles page (titlelist.js). What earns it, what each
    rank gives and the skills that grow with it. */
 
 VIEWS.title = (() => {
@@ -23,7 +23,10 @@ VIEWS.title = (() => {
     // the rank's name, where known, and what it unlocks, where any rank unlocks something
     const names = !!t.rank_names, unl = t.ranks.some(r => r.unlocks.length);
     const head = [["Rank", 1], ...(names ? [["Name", 0]] : []), [t.points_name || "Points", 1], ...(t.columns || []).map(c => [c[0], 1]), ...(unl ? [["Unlocks", 0]] : [])];
-    const rows = t.ranks.map((r, i) => `<tr><td class="num">${r.rank}</td>${names ? `<td>${esc(t.rank_names[i] || "")}</td>` : ""}<td class="num">${num(r.points)}</td>${
+    // the picked character's rank (or its account's) marked, Luxon's too on Kurzick / Luxon's page
+    const mine = User.stored() != null && !User.broken() ? (() => { const o = User.data(), c = User.char(o);
+      return new Set([t.id, t.also].filter(x => TITLES[x]).map(x => titleRankOf(TITLES[x], c, o))); })() : new Set();
+    const rows = t.ranks.map((r, i) => `<tr${mine.has(r.rank) ? ' class="me" title="Your rank"' : ""}><td class="num">${r.rank}</td>${names ? `<td>${esc(t.rank_names[i] || "")}</td>` : ""}<td class="num">${num(r.points)}</td>${
       r.values.map((v, i) => `<td class="num">${value(v, t.columns[i])}</td>`).join("")}${unl ? `<td class="dim">${esc(r.unlocks.join(", "))}</td>` : ""}</tr>`).join("");
     return `<div class="t-table"><h4>Ranks</h4><div class="t-scroll"><table class="t-ranks"><thead><tr>${
       head.map(([h, n]) => `<th${n ? ' class="num"' : ""}>${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div></div>`;
@@ -57,7 +60,7 @@ VIEWS.title = (() => {
       <p class="t-src">${wikiLink(t.wiki)}</p>
     </section>`;
   }
-  const html = t => `<p class="back"><a href="characters">← My Characters</a></p>
+  const html = t => `<p class="back"><a href="titles">← Titles</a></p>
     <div class="sp-head" style="--pc:var(${CAMP_COLOR[t.campaign]})"><div class="sp-title"><h2>${esc(t.name)} title</h2></div></div>${panel(t)}`;
   // only a title with its ranks listed has a page
   const hasPage = id => !!TITLES[id]?.ranks;

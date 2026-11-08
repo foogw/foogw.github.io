@@ -772,8 +772,17 @@ button.rnd-copy:hover { color: var(--text); }
 table.t-ranks { border-collapse: collapse; font-size: 14px; min-width: 300px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
 table.t-ranks th { text-align: left; font-size: 12px; font-weight: 600; color: color-mix(in srgb, var(--text) 78%, var(--muted)); padding: 8px 16px; white-space: nowrap; background: var(--hdr-bg); }
 table.t-ranks td { padding: 5px 16px; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums; white-space: nowrap; }
-table.t-ranks tbody tr:last-child td { color: var(--accent); font-weight: 600; }
 table.t-ranks .num { text-align: right; }
+table.t-ranks tr.me td { background: color-mix(in srgb, var(--accent) 22%, var(--panel-2)); color: var(--text); }
+/* the Titles page: every title with a page, as cards */
+.tl-group { margin: 22px 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.tl-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.tl-list + .tl-list { margin-top: 10px; }
+.tl-card { display: flex; flex-direction: column; gap: 4px; padding: 10px 14px; border: 1px solid var(--line); border-left: 4px solid var(--c); border-radius: 8px; background: var(--panel); color: inherit; text-decoration: none; }
+.tl-card:hover { border-color: var(--accent); border-left-color: var(--c); }
+.tl-card b { font-size: 16px; }
+.tl-card span { font-size: 13px; color: var(--muted); }
+.tl-card .tl-me { color: var(--accent); }
 .t-panel > p.t-src { margin: 28px 0 0; padding-top: 10px; border-top: 1px solid var(--line); font-size: 12px; }
 
 /* one skill's, mission's, boss's, quest's or hero's page */
