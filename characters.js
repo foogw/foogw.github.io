@@ -45,7 +45,11 @@ const drawTabs = (o = User.data(), cur = User.char(o)) => {
   else if (tab === "next") $("ch-next").innerHTML = nextHTML(o, cur);
   else if (tab === "heroes") $("ch-heroes").innerHTML = heroesHTML(cur);
   else if (tab === "builds") $("ch-builds").innerHTML = buildsHTML(cur);
-  else $("ch-edit").innerHTML = `<table class="u-chars ch-edit-row"><tbody>${charRow(o, cur, null, true)}</tbody></table>`;
+  else $("ch-edit").innerHTML = `<table class="u-chars ch-edit-row"><tbody>${charRow(o, cur, null, true)}</tbody></table>
+    <label class="ch-edit-camp">Made in <select id="edit-campaign"${fixedCampaign(cur) ? ` disabled title="${PROF_CAMPAIGN[cur.profession] ? `A ${PROFS[cur.profession]} can only be made in ${CAMPAIGNS[PROF_CAMPAIGN[cur.profession]]}` : "A pre-Searing character is a Prophecies one"}"` : ""}>${[[0, "Not set"], [1, "Prophecies"], [2, "Factions"], [3, "Nightfall"]].map(([v, n]) =>
+      `<option value="${v}"${(madeIn(cur) || 0) === v ? " selected" : ""}>${n}</option>`).join("")}</select></label>
+    <label class="ch-edit-note">Note <input type="text" id="edit-note" maxlength="${USER_NOTE_MAX}" value="${esc(cur.note || "")}"
+      placeholder="A line about ${esc(cur.name)}: its role, what it's farming…" autocomplete="off"><span class="dim" id="edit-note-n">${(cur.note || "").length} / ${USER_NOTE_MAX}</span></label>`;
 };
 // managing or not, not kept: the page opens on the view, or managing while nothing is saved yet, to name the character
 let manage = User.stored() == null;
@@ -64,9 +68,15 @@ function bigDeal(c, o) {
   return !r ? "" : `<span class="ch-says" title="Kind of a Big Deal: ${titlesMaxed(c, o)} of ${titleMax(t) * 5} titles maxed">${says}</span>`;
 }
 // a character's profession: its icon, a button that opens the ten to pick from (or none)
+// a pre-Searing character can't be an Assassin, Ritualist, Paragon or Dervish (made in Factions or Nightfall), nor one
+// made in a campaign be a profession of another (a Factions one, a Paragon): those aren't offered, nor pre-Searing to
+// them
+const PRE_NOT = { 7: 1, 8: 1, 9: 1, 10: 1 };
+const PROF_CAMP = { 7: 2, 8: 2, 9: 3, 10: 3 };
+const noPre = (c, p) => !!PROF_CAMP[p] && ((c.modes || []).includes("presearing") || (!!c.campaign && c.campaign !== PROF_CAMP[p]));
 const profPick = c => `<span class="u-prof"><button type="button" class="u-prof-btn" data-prof-open aria-haspopup="true" title="${c.profession ? PROFS[c.profession] : "Profession"}">
   <img src="${profImg(c.profession || 0)}" alt="${c.profession ? PROFS[c.profession] : "No profession"}"></button>
-  <span class="u-prof-menu" hidden>${[...Array(11).keys()].slice(1).concat(0).map(p => `<button type="button" data-prof="${p}" title="${p ? PROFS[p] : "None"}"${(c.profession || 0) === p ? ' aria-current="true"' : ""}><img src="${profImg(p)}" alt="${p ? PROFS[p] : "None"}"></button>`).join("")}</span></span>`;
+  <span class="u-prof-menu" hidden>${[...Array(11).keys()].slice(1).concat(0).filter(p => !noPre(c, p)).map(p => `<button type="button" data-prof="${p}" title="${p ? PROFS[p] : "None"}"${(c.profession || 0) === p ? ' aria-current="true"' : ""}><img src="${profImg(p)}" alt="${p ? PROFS[p] : "None"}"></button>`).join("")}</span></span>`;
 // up and down chevrons to move a character within its account, or an account among the accounts (the saved order)
 const CHEV = d => `<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const moveBtns = (first, last) => `<span class="u-move"><button type="button" data-move="-1" aria-label="Move up"${first ? " disabled" : ""}>${CHEV("M3 10l5-5 5 5")}</button><button type="button" data-move="1" aria-label="Move down"${last ? " disabled" : ""}>${CHEV("M3 6l5 5 5-5")}</button></span>`;
@@ -75,7 +85,9 @@ const moveBtns = (first, last) => `<span class="u-move"><button type="button" da
 const GENDERS = { "": ["He / She", "Not set"], m: ["He", "Male"], f: ["She", "Female"] };
 const genderBtn = c => { const [label, name] = GENDERS[c.gender || ""];
   return `<button type="button" class="u-gender${c.gender ? "" : " unset"}" data-gender title="Gender: ${name}">${label}</button>`; };
+// (pre-Searing not offered to a profession that can't be, its place kept so the badges stay lined up)
 const modeBadges = c => `<span class="u-modes">${Object.entries(USER_MODES).map(([m, name]) =>
+  m === "presearing" && PRE_NOT[c.profession] && !(c.modes || []).includes(m) ? '<span class="u-mode-gap"></span>' :
   `<button type="button" class="u-mode" data-mode="${m}" aria-pressed="${(c.modes || []).includes(m)}" title="${esc(name)}"><img src="img/modes/${m}.png" alt="${esc(name)}"></button>`).join("")}</span>`;
 const closeProfs = () => { for (const m of document.querySelectorAll(".u-prof-menu")) m.hidden = true; };
 document.addEventListener("click", e => { if (!e.target.closest(".u-prof")) closeProfs(); });
@@ -187,11 +199,26 @@ function nextHTML(o, c) {
       `<span class="ch-next-it"><span class="dim">Event:</span> <a href="events">${esc(ev.name)}</a> <span class="dim">· ${esc(acctSaid(o, c))} hasn't maxed the ${esc(t.name)} title</span></span>`, now]);
   }
   const acctHTML = acct.length ? `<h3 class="ch-tab-h">Account</h3>${list(acct)}` : "";
-  // (nothing for the character: what that means, its own titles only; its account's list below all the same)
-  return (rows.length ? list(rows) : `<p class="ch-next-done">${esc(c.name)} has maxed the titles of Legendary Guardian, Legendary Vanquisher, Sunspear,
+  // (a line first saying what's listed; nothing for the character: what that means, its own titles only; its account's
+  // list below all the same)
+  const intro = `<p class="dim ch-next-intro">The coming Zaishen dailies, weekly bonuses and events that help ${esc(c.name)}'s titles not yet maxed.</p>`;
+  return intro + (rows.length ? list(rows) : `<p class="ch-next-done">${esc(c.name)} has maxed the titles of Legendary Guardian, Legendary Vanquisher, Sunspear,
       Lightbringer, Asura, Deldrimor, Ebon Vanguard and Norn, and has beaten every dungeon boss the Zaishen Bounties send
       you to, so there aren't any important dailies for ${objPronoun(c)}!</p>`) + acctHTML;
 }
+
+// the campaign a character was made in: an Assassin or Ritualist, Factions, a Paragon or Dervish, Nightfall, a
+// pre-Searing one, Prophecies, whatever is kept; the others, as picked in the Edit tab (or none)
+const PROF_CAMPAIGN = { 7: 2, 8: 2, 9: 3, 10: 3 };
+const fixedCampaign = c => PROF_CAMPAIGN[c.profession] || ((c.modes || []).includes("presearing") ? 1 : 0);
+const madeIn = c => fixedCampaign(c) || c.campaign || 0;
+// the campaign it was made in, picked in the Edit tab; and its note, saved once it's left (or Enter), its length counted
+$("ch-edit").addEventListener("change", e => {
+  if (e.target.id === "edit-campaign") editChar(c => { const v = +e.target.value; if (v) c.campaign = v; else delete c.campaign; });
+  if (e.target.id === "edit-note") editChar(c => { const v = e.target.value.trim(); if (v) c.note = v; else delete c.note; });
+});
+$("ch-edit").addEventListener("input", e => { if (e.target.id === "edit-note") $("edit-note-n").textContent = `${e.target.value.length} / ${USER_NOTE_MAX}`; });
+$("ch-edit").addEventListener("keydown", e => { if (e.target.id === "edit-note" && e.key === "Enter") e.target.blur(); });
 
 /* ---------- heroes and builds tabs ---------- */
 // every hero recruited
@@ -204,9 +231,9 @@ const HERO_ORDER = ["Koss", "Dunkoro", "Tahlkora", "Melonni", "Acolyte Jin", "Ac
   "Anton", "Miku", "Zei Ri"];
 const heroRank = h => { const i = HERO_ORDER.indexOf(h.name); return i < 0 ? HERO_ORDER.length : i; };
 // the heroes it has recruited, each a button to tick, by profession (Razah, of none, last); all ticked or none at once
-// the heroes a character can recruit: a pre-Searing one, only Devona and Ghost of Althea, in that order (the others
-// shown, but not to tick; what's saved is left as it is)
-const PRE_HEROES = ["Devona", "Ghost of Althea"];
+// the heroes a character can recruit: a pre-Searing one, only Devona (the others shown, but not to tick; what's saved
+// is left as it is)
+const PRE_HEROES = ["Devona"];
 const isPre = c => (c.modes || []).includes("presearing");
 const canRecruit = c => (isPre(c) ? PRE_HEROES.map(n => Object.values(HEROES).find(h => h.name === n)).filter(Boolean) : Object.values(HEROES));
 function heroesHTML(c) {
@@ -333,6 +360,7 @@ const rowAccount = (o, el) => o.accounts.find(a => a.id === +el.closest("tr").da
 // the Edit list's handlers, and the Edit tab's (its one row)
 const onEdit = (type, f) => { els.list.addEventListener(type, f); $("ch-edit").addEventListener(type, f); };
 onEdit("change", e => {
+  if (!e.target.closest("tr")) return;  // (not a row's: the Edit tab's campaign)
   const o = User.data();
   // an account's new name (none: its number)
   if (e.target.closest(".u-acct")) {

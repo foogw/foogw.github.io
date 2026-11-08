@@ -480,7 +480,8 @@ function recruitHTML(h) {
    missionsNM, missionsHM, dungeonsNM, dungeonsHM: [ids done in that mode], titles: {title id: rank}, modes: the optional game modes
    the character is bound to (and our pre-Searing mark), of USER_MODES, gender: "m" or "f" (for how the site speaks of it,
    left out when not set), hidden: true when kept out of My Characters' list (left out when shown), heroes: [hero ids
-   recruited] (or "all"), builds: [skill template codes saved, in the order shown], eotnMap: the percent of the Eye of the North map
+   recruited] (or "all"), builds: [skill template codes saved, in the order shown], campaign: the one it was made in (1 Prophecies, 2 Factions, 3
+   Nightfall), note: the player's one line about it, eotnMap: the percent of the Eye of the North map
    explored, as worked out on My Characters from Master of the North's points}]}]}, the accounts in the order shown.
    A list may be "all": every id in USER_ALL_V3 (frozen: should the game ever have more, they'd come with a
    new version). An empty list, or a title not reached, is left out. Version 1 (from before), still read: no "all", and
@@ -492,6 +493,7 @@ function recruitHTML(h) {
    Everything is by the game's own ids, so it outlasts the site's updates, and ids the site doesn't know are kept. Which
    character is shown (its id) is kept apart, as it's no progress. */
 const USER_KEY = "gw-user", USER_CHAR_KEY = "gw-user-char";
+const USER_NOTE_MAX = 100;  // a character's note, at most
 /* Kept in this browser apart from the characters, and in a backup with them (the Backup page): the Builder's saved
    builds, the guides' steps ticked and faction cap calculators, and the Rotations page's UTC switch. In a backup, each
    part is optional: {builds: [template codes, newest first], guides: {<guide id>: {steps: "1-5,7", cap: {rows: [the
@@ -579,7 +581,7 @@ const USER_ALL = {
   dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
 };
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
-  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "heroes", "builds", "eotnMap"] };
+  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "heroes", "builds", "campaign", "note", "eotnMap"] };
 // (version 3's characters: version 2's, their account the one they're in)
 USER_KEYS[3] = USER_KEYS[2].filter(k => k !== "account");
 // version 3 as version 2: each account's characters in one list, each with its account's id
@@ -618,6 +620,8 @@ function userFromKept(o) {
     if (k.titles) c.titles = { ...k.titles };
     if (k.heroes) c.heroes = k.heroes === "all" ? [...USER_ALL_V3.heroes] : [...k.heroes];
     if (k.builds) c.builds = [...k.builds];
+    if (k.campaign) c.campaign = k.campaign;
+    if (k.note) c.note = k.note;
     if (k.eotnMap !== undefined) c.eotnMap = k.eotnMap;
     return c;
   });
@@ -645,6 +649,8 @@ function userToKept(o) {
     if (c.heroes?.length) { const hs = [...new Set(c.heroes)].sort((a, b) => a - b);
       k.heroes = hs.length === USER_ALL_V3.heroes.length && USER_ALL_V3.heroes.every(id => hs.includes(id)) ? "all" : hs; }
     if (c.builds?.length) k.builds = [...c.builds];
+    if (c.campaign) k.campaign = c.campaign;
+    if (c.note?.trim()) k.note = c.note.trim();
     if (c.eotnMap !== undefined) k.eotnMap = c.eotnMap;
     return k;
   });
@@ -729,6 +735,8 @@ function userCheck(o) {
       if (c.gender !== undefined && !["m", "f"].includes(c.gender)) return `${at}: "gender" should be "m" or "f".`;
       if (c.hidden !== undefined && c.hidden !== true) return `${at}: "hidden" should be true (or left out).`;
       if (c.heroes !== undefined && c.heroes !== "all" && !idList(c.heroes)) return `${at}: "heroes" should be "all" or a list of hero ids, each once.`;
+      if (c.note !== undefined && !(typeof c.note === "string" && c.note.length <= USER_NOTE_MAX && !/\n/.test(c.note))) return `${at}: "note" should be one line, at most ${USER_NOTE_MAX} characters.`;
+      if (c.campaign !== undefined && ![1, 2, 3].includes(c.campaign)) return `${at}: "campaign" should be 1 (Prophecies), 2 (Factions) or 3 (Nightfall).`;
       if (c.builds !== undefined && !(Array.isArray(c.builds) && c.builds.every(b => typeof b === "string" && /^[A-Za-z0-9+/]{1,200}$/.test(b)))) return `${at}: "builds" should be a list of skill template codes.`;
       if (c.eotnMap !== undefined && !(Number.isInteger(c.eotnMap) && c.eotnMap >= 0)) return `${at}: "eotnMap" should be the Eye of the North map's Master of the North points (a whole number from 0).`;
       const bad = USER_LISTS.find(k => c[k] !== undefined && c[k] !== "all" && !idList(c[k]));
