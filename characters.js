@@ -116,6 +116,16 @@ function progress(c) {
 }
 const unnamed = c => c.name === `Char${c.id}`;
 const lit = c => (c.modes || []).map(m => `<img class="ch-mode" src="img/modes/${m}.png" alt="${esc(USER_MODES[m])}" title="${esc(USER_MODES[m])}">`).join("");
+// an account's Reforged Coins waiting (with the bell): a coin each, clicked once they're taken (the game's icons, in img/items)
+const BELL = '<img src="img/items/purveyors-bell.png" alt="Purveyor\'s Bell">', COIN = '<img src="img/items/reforged-coin.png" alt="">';
+function coinsPill(a) {
+  if (!a || a.reforgedCoinsTaken === undefined) return "";
+  const n = coinsWaiting(a), left = timeLeft(coinsNext() - Date.now());
+  // (at once, in the site's tooltip: how many, and the time to the next round, at any count)
+  const tip = `${n ? `${n} coin${n === 1 ? "" : "s"} waiting. Next round in ${left}` : `New coins in ${left}`}. Click to reset`;
+  // (a coin each, a faded one for none)
+  return `<button type="button" class="ch-coins${n >= COINS.HOLD ? " full" : n ? "" : " none"}" data-coins="${a.id}" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${COIN.repeat(Math.max(1, n))}</button>`;
+}
 // the characters to pick from, by account (with one account, just its characters); and the same as a menu, on a phone
 function sideHTML(o, cur, many) {
   const folded = new Set(acctFolds());
@@ -126,8 +136,8 @@ function sideHTML(o, cur, many) {
   // an account with all its characters hidden is left out
   return many ? o.accounts.map(a => { const cs = chars.filter(c => c.account === a.id), open = !folded.has(a.id);
     if (!cs.length) return "";
-    return `<div class="ch-acct"><button type="button" class="ch-acct-h" data-fold-account="${a.id}" aria-expanded="${open}">${esc(accountName(a))}</button>${open ? list(cs) : ""}</div>`; }).join("")
-    : list(chars);
+    return `<div class="ch-acct"><div class="ch-acct-row"><button type="button" class="ch-acct-h" data-fold-account="${a.id}" aria-expanded="${open}">${esc(accountName(a))}</button>${coinsPill(a)}</div>${open ? list(cs) : ""}</div>`; }).join("")
+    : (coinsPill(o.accounts[0]) ? `<div class="ch-acct-row ch-acct-one"><span class="dim">Reforged Coins</span>${coinsPill(o.accounts[0])}</div>` : "") + list(chars);
 }
 const selectHTML = (o, cur, many) => {
   const opt = c => `<option value="${c.id}"${c === cur ? " selected" : ""}>${esc(c.name)}</option>`, chars = shownChars(o, cur);
@@ -321,6 +331,7 @@ function manageHTML(o, cur, many) {
       <button type="button" class="u-fold" data-fold-account="${a.id}" aria-expanded="${!folded.has(a.id)}" aria-label="${folded.has(a.id) ? "Show" : "Hide"} its characters"></button>
       <input type="text" maxlength="40" value="${esc(a.name || "")}" placeholder="${esc(accountName(a))}" aria-label="Account name">
       <span class="u-n" title="Characters">${o.chars.filter(c => c.account === a.id).length}</span>
+      <button type="button" class="u-bell" data-bell aria-pressed="${a.reforgedCoinsTaken !== undefined}" title="${a.reforgedCoinsTaken !== undefined ? "Has the bell: its Reforged Coins counted (click if it hasn't)" : "Has the bell? Click to count its Reforged Coins"}">${BELL}</button>
       <span class="u-acct-right">${moveBtns(o.accounts[0] === a, o.accounts[o.accounts.length - 1] === a)}<span class="u-slot">${o.chars.some(c => c.account === a.id) ? "" : `<button type="button" class="u-btn danger" data-delete-account>Delete account</button>`}</span></span></div></td></tr>`;
   // after an account's characters: a new one on it
   const foot = a => `<tr class="u-acct-foot" data-account="${a.id}"><td colspan="2"><button type="button" class="u-btn" data-new-char>New character</button></td></tr>`;
@@ -353,6 +364,17 @@ document.addEventListener("click", e => {
   const f = e.target.closest("[data-fold-account]");
   if (f) { foldAccount(+f.dataset.foldAccount); return render(); }
 });
+// coins taken: counted again from now (after asking)
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-coins]");
+  if (!b || User.broken()) return;
+  const o = User.data(), a = o.accounts.find(x => x.id === +b.dataset.coins);
+  if (!a || !confirm(`Took ${accountName(a)}'s Reforged Coins from the Purveyor?`)) return;
+  a.reforgedCoinsTaken = new Date().toISOString().slice(0, 16) + "Z";
+  User.save(o); render();
+});
+// (the coins counted again as the day turns)
+setInterval(() => { if (!manage && !User.broken()) { const o = User.data(); $("ch-list").innerHTML = sideHTML(o, User.char(o), o.accounts.length > 1); } }, 60000);
 $("ch-select").addEventListener("change", e => { User.pick(+e.target.value); render(); });
 /* ---------- characters ---------- */
 const rowChar = (o, el) => o.chars.find(c => c.id === +el.closest("tr").dataset.id);
@@ -412,6 +434,13 @@ onEdit("click", e => {
       if (j >= 0 && j < o.chars.length) [o.chars[i], o.chars[j]] = [o.chars[j], o.chars[i]];
       else { o.chars.splice(i, 1); const end = o.chars.indexOf(d < 0 ? sib.at(-1) : sib[0]); o.chars.splice(d < 0 ? end + 1 : end, 0, c); }
     }
+    User.save(o); return render();
+  }
+  // an account with the bell (its coins counted, never taken yet) or without
+  const bell = e.target.closest("[data-bell]");
+  if (bell) {
+    const o = User.data(), a = rowAccount(o, bell);
+    if (a.reforgedCoinsTaken === undefined) a.reforgedCoinsTaken = 0; else delete a.reforgedCoinsTaken;
     User.save(o); return render();
   }
   const g = e.target.closest("[data-gender]");

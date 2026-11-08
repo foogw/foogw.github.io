@@ -475,7 +475,8 @@ function recruitHTML(h) {
 }
 
 /* ---------- the visitor's progress, per character, kept in this browser only (the Backup page backs it up) ----------
-   Kept as {v: 3, accounts: [{id, name, titles: its account titles, chars: [its characters, in the order shown: {id,
+   Kept as {v: 3, accounts: [{id, name, titles: its account titles, reforgedCoinsTaken: (with the bell) 0 or when the
+   Purveyor's coins were last taken, chars: [its characters, in the order shown: {id,
    name, profession: its primary (1 Warrior ... 10 Dervish), elites: [skill ids captured], vanquished: [area ids],
    missionsNM, missionsHM, dungeonsNM, dungeonsHM: [ids done in that mode], titles: {title id: rank}, modes: the optional game modes
    the character is bound to (and our pre-Searing mark), of USER_MODES, gender: "m" or "f" (for how the site speaks of it,
@@ -667,6 +668,12 @@ function userNormalize(o) {
   return o;
 }
 const accountName = a => a.name || `Account ${a.id}`;
+/* An account's Reforged Coins, kept by the Purveyor for an account with the bell (its "reforgedCoinsTaken": 0 never
+   taken, else when they last were; left out without the bell): one a day from 8:00 UTC, at most 3 */
+const COINS = { DAY: 864e5, RESET: 8 * 36e5, HOLD: 3 };
+const coinDay = t => Math.floor((t - COINS.RESET) / COINS.DAY);
+const coinsWaiting = a => (a.reforgedCoinsTaken === 0 ? COINS.HOLD : Math.max(0, Math.min(COINS.HOLD, coinDay(Date.now()) - coinDay(Date.parse(a.reforgedCoinsTaken)))));
+const coinsNext = () => (coinDay(Date.now()) + 1) * COINS.DAY + COINS.RESET;
 // what's wrong with an object as progress, or "" when it's fine
 function userCheck(o) {
   const isObj = x => x && typeof x === "object" && !Array.isArray(x), isId = x => Number.isInteger(x) && x > 0;
@@ -682,7 +689,7 @@ function userCheck(o) {
     let n = 0;
     for (const [i, a] of o.accounts.entries()) {
       if (!isObj(a)) return `Account ${i + 1} isn't an object.`;
-      const k = Object.keys(a).find(k => !["id", "name", "titles", "chars"].includes(k));
+      const k = Object.keys(a).find(k => !["id", "name", "titles", "reforgedCoinsTaken", "chars"].includes(k));
       if (k) return `Account ${i + 1}: unknown key "${k}".`;
       if (!Array.isArray(a.chars)) return `Account ${i + 1}: "chars" should be a list of its characters.`;
       for (const c of a.chars) {
@@ -705,7 +712,9 @@ function userCheck(o) {
     for (const [i, a] of o.accounts.entries()) {
       const at = `Account ${i + 1}`;
       if (!isObj(a)) return `${at} isn't an object.`;
-      const k = Object.keys(a).find(k => !["id", "name", "titles"].includes(k));
+      const k = Object.keys(a).find(k => !["id", "name", "titles", "reforgedCoinsTaken"].includes(k));
+      if (a.reforgedCoinsTaken !== undefined && a.reforgedCoinsTaken !== 0 && !(typeof a.reforgedCoinsTaken === "string" && !isNaN(Date.parse(a.reforgedCoinsTaken))))
+        return `${at}: "reforgedCoinsTaken" should be 0 (never) or the time they were taken.`;
       if (k) return `${at}: unknown key "${k}".`;
       if (!isId(a.id)) return `${at}: "id" should be a whole number above 0.`;
       if (o.accounts.findIndex(x => x?.id === a.id) !== i) return `${at}: id ${a.id} is used twice.`;
