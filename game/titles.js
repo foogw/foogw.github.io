@@ -1,5 +1,5 @@
 const GW_TITLES = {
-  "titles_": "Kept by hand. Keys are the game's title ids (GWCA's list, but its three deprecated ones). scope: character or account. max: its highest rank (where its ranks aren't listed; else the last rank's). pvp: a PvP title. own_name: its name shown alone (where the record covers two titles). rank_names: its ranks' names, from rank 1 (where its ranks aren't listed). wiki: its page on each wiki, {en, de} (as areas).",
+  "titles_": "Kept by hand. Keys are the game's title ids (GWCA's list, but its three deprecated ones). scope: character or account. max: its highest rank (where its ranks aren't listed; else the last rank's). pvp: a PvP title. own_name: its name shown alone (where the record covers two titles). rank_names: its ranks' names, from rank 1. points_name: what its points count, where they aren't points (Kind of a Big Deal: titles maxed). wiki: its page on each wiki, {en, de} (as areas).",
   "titles": {
     "0": {"name": "Hero", "scope": "account", "max": 15, "pvp": true},
     "1": {"name": "Tyrian Cartographer", "scope": "character", "max": 6},
@@ -34,8 +34,37 @@ const GW_TITLES = {
     },
     "6": {"name": "Luxon", "scope": "account", "max": 12},
     "7": {"name": "Drunkard", "scope": "character", "max": 2},
-    "9": {"name": "Survivor", "scope": "character", "max": 3},
-    "10": {"name": "Kind of a Big Deal", "scope": "character", "max": 6, "rank_names": ["Kind of a Big Deal", "People Know Me", "I'm Very Important", "I Have Many Leather-Bound Books", "My Guild Hall Smells of Rich Mahogany", "God Walking Amongst Mere Mortals"]},
+    "9": {
+      "name": "Survivor",
+      "scope": "character",
+      "earn": "experience gained without dying (a death starts the count again)",
+      "points_name": "XP",
+      "rank_names": ["Survivor", "Indomitable Survivor", "Legendary Survivor"],
+      "ranks": [
+        {"rank": 1, "points": 140600, "values": [], "unlocks": []},
+        {"rank": 2, "points": 587500, "values": [], "unlocks": []},
+        {"rank": 3, "points": 1337500, "values": [], "unlocks": []}
+      ],
+      "campaign": 0,
+      "wiki": {"en": "Survivor"}
+    },
+    "10": {
+      "name": "Kind of a Big Deal",
+      "scope": "character",
+      "earn": "maxing other titles: 5 a rank",
+      "points_name": "Titles maxed",
+      "rank_names": ["Kind of a Big Deal", "People Know Me", "I'm Very Important", "I Have Many Leather-Bound Books", "My Guild Hall Smells of Rich Mahogany", "God Walking Amongst Mere Mortals"],
+      "ranks": [
+        {"rank": 1, "points": 5, "values": [], "unlocks": []},
+        {"rank": 2, "points": 10, "values": [], "unlocks": []},
+        {"rank": 3, "points": 15, "values": [], "unlocks": []},
+        {"rank": 4, "points": 20, "values": [], "unlocks": []},
+        {"rank": 5, "points": 25, "values": [], "unlocks": []},
+        {"rank": 6, "points": 30, "values": [], "unlocks": []}
+      ],
+      "campaign": 0,
+      "wiki": {"en": "Kind of a Big Deal"}
+    },
     "13": {"name": "Protector of Tyria", "scope": "character", "max": 1},
     "14": {"name": "Protector of Cantha", "scope": "character", "max": 1},
     "15": {
@@ -55,7 +84,23 @@ const GW_TITLES = {
       "campaign": 0,
       "wiki": {"en": "Lucky and Unlucky", "de": "Titel Glückspilz"}
     },
-    "16": {"name": "Unlucky", "scope": "account", "max": 7},
+    "16": {
+      "name": "Unlucky",
+      "rank_names": ["Hapless", "Unlucky", "Unfavored", "Tragic", "Wretched", "Jinxed", "Cursed by Fate"],
+      "scope": "account",
+      "earn": "Unlucky points, from losing festival games and breaking lockpicks",
+      "ranks": [
+        {"rank": 1, "points": 5000, "values": [], "unlocks": []},
+        {"rank": 2, "points": 10000, "values": [], "unlocks": []},
+        {"rank": 3, "points": 25000, "values": [], "unlocks": []},
+        {"rank": 4, "points": 50000, "values": [], "unlocks": []},
+        {"rank": 5, "points": 100000, "values": [], "unlocks": []},
+        {"rank": 6, "points": 250000, "values": [], "unlocks": []},
+        {"rank": 7, "points": 500000, "values": [], "unlocks": []}
+      ],
+      "campaign": 0,
+      "wiki": {"en": "Lucky and Unlucky"}
+    },
     "17": {
       "name": "Sunspear",
       "group": "skills",
@@ -214,9 +259,45 @@ const GW_TITLES = {
       "giver": 804,
       "wiki": {"en": "Norn rank", "de": "Norntitel"}
     },
-    "42": {"name": "Master of the North", "scope": "character", "max": 6},
+    "42": {
+      "name": "Master of the North",
+      "rank_names": ["Adventurer of the North", "Pioneer of the North", "Veteran of the North", "Conqueror of the North", "Master of the North", "Legendary Master of the North"],
+      "scope": "character",
+      "earn": "the first time you finish each Eye of the North mission (5 points, 10 in HM) and dungeon (10, 20 in HM), vanquish each of its areas (15), and for each percent of its map explored (1)",
+      "ranks": [
+        {"rank": 1, "points": 100, "values": [], "unlocks": []},
+        {"rank": 2, "points": 200, "values": [], "unlocks": []},
+        {"rank": 3, "points": 350, "values": [], "unlocks": []},
+        {"rank": 4, "points": 550, "values": [], "unlocks": []},
+        {"rank": 5, "points": 750, "values": [], "unlocks": []},
+        {"rank": 6, "points": 1000, "values": [], "unlocks": []}
+      ],
+      "campaign": 4,
+      "wiki": {"en": "Master of the North"}
+    },
     "43": {"name": "Party Animal", "scope": "character", "max": 2},
-    "44": {"name": "Zaishen", "scope": "account", "max": 12},
+    "44": {
+      "name": "Zaishen",
+      "rank_names": ["Zaishen Supporter", "Friend of the Zaishen", "Companion of the Zaishen", "Ally of the Zaishen", "Sentinel of the Zaishen", "Steward of the Zaishen", "Defender of the Zaishen", "Warden of the Zaishen", "Bastion of the Zaishen", "Champion of the Zaishen", "Hero of the Zaishen", "Legendary Hero of the Zaishen"],
+      "scope": "account",
+      "earn": "Zaishen points, 5 for each Zaishen Key used",
+      "ranks": [
+        {"rank": 1, "points": 250, "values": [], "unlocks": []},
+        {"rank": 2, "points": 500, "values": [], "unlocks": []},
+        {"rank": 3, "points": 1000, "values": [], "unlocks": []},
+        {"rank": 4, "points": 1680, "values": [], "unlocks": []},
+        {"rank": 5, "points": 2800, "values": [], "unlocks": []},
+        {"rank": 6, "points": 4660, "values": [], "unlocks": []},
+        {"rank": 7, "points": 7750, "values": [], "unlocks": []},
+        {"rank": 8, "points": 12960, "values": [], "unlocks": []},
+        {"rank": 9, "points": 21600, "values": [], "unlocks": []},
+        {"rank": 10, "points": 36000, "values": [], "unlocks": []},
+        {"rank": 11, "points": 60000, "values": [], "unlocks": []},
+        {"rank": 12, "points": 100000, "values": [], "unlocks": []}
+      ],
+      "campaign": 0,
+      "wiki": {"en": "Zaishen rank"}
+    },
     "45": {
       "name": "Treasure Hunter",
       "group": "loot",
