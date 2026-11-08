@@ -1309,3 +1309,19 @@ a.hchip { text-decoration: none; }
 .my-step button:disabled { opacity: .35; cursor: default; }
 .my-num { min-width: 2ch; text-align: center; font-variant-numeric: tabular-nums; }
 @media (max-width: 560px) { .my-titles .my-how { display: none; } .my-titles .my-name { width: auto; } }
+/* on a phone: Edit's rows stack (the name, its profession, badges and gender, then its buttons at the right); the
+   progress boxes two to a row, their labels wrapping; a title's rank table tighter, its names wrapping */
+@media (max-width: 560px) {
+  .u-chars tr:not(.u-acct):not(.u-acct-foot) td { display: block; width: auto; border-bottom: 0; padding: 4px 0; }
+  .u-chars tr:not(.u-acct):not(.u-acct-foot) td:last-child { padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+  .u-chars td:first-child { white-space: normal; }
+  .u-name { flex-wrap: wrap; }
+  .u-chars .u-name input[type=text] { width: auto; flex: 1 1 140px; }
+  .u-move { margin-right: 12px; }
+  .u-slot { min-width: 0; }
+  .ch-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .ch-stat { flex-direction: column; align-items: flex-start; gap: 0; white-space: normal; padding: 6px 10px; }
+  table.t-ranks { min-width: 0; font-size: 13px; }
+  table.t-ranks th, table.t-ranks td { padding-left: 8px; padding-right: 8px; }
+  table.t-ranks td { white-space: normal; }
+}
