@@ -1276,6 +1276,7 @@ a.hchip { text-decoration: none; }
 .ch-acct-h:hover { color: var(--text); }
 .u-n { color: var(--muted); font-variant-numeric: tabular-nums; }
 .ch-select { display: none; }
+.ch-coins-phone { display: none; }
 .ch-card { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .ch-prof { width: 48px; height: 48px; flex: none; }
 .ch-who h2 { margin: 0 0 2px; font-size: 24px; }
@@ -1286,8 +1287,8 @@ a.hchip { text-decoration: none; }
 @media (max-width: 1250px) { .ch-stats { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); } }
 .ch-stats + .t-panel { margin-top: 16px; }
 /* the character's tabs, under its card */
-.ch-tabs { display: flex; gap: 4px; margin: 18px 0 12px; border-bottom: 1px solid var(--line); }
-.ch-tabs button { padding: 8px 14px; font: inherit; font-size: 14px; font-weight: 600; color: var(--muted); background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; }
+.ch-tabs { display: flex; gap: 4px; margin: 18px 0 12px; border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
+.ch-tabs button { flex: none; white-space: nowrap; padding: 8px 14px; font: inherit; font-size: 14px; font-weight: 600; color: var(--muted); background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; }
 .ch-tabs button:hover { color: var(--text); }
 .ch-tabs button[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); }
 #title > .ch-stats:first-child { margin-top: 0; }
@@ -1347,6 +1348,8 @@ a.hchip { text-decoration: none; }
   .ch-page { grid-template-columns: 1fr; gap: 14px; }
   .ch-side { position: static; max-height: none; }
   .ch-groups, .ch-side-foot { display: none; }
+  .ch-tabs button { padding: 8px 9px; }
+  .ch-coins-phone:not(:empty) { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; font-size: 13px; }
   .ch-select { display: block; width: 100%; font: inherit; color: var(--text); background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; }
   .ch-card { flex-wrap: wrap; }
 }

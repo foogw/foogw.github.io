@@ -365,6 +365,9 @@ function render() {
   } else {
     $("ch-list").innerHTML = sideHTML(o, cur, many);
     $("ch-select").innerHTML = selectHTML(o, cur, many);
+    // (on a phone, the list hidden: the picked character's account's coins under the menu)
+    const ca = o.accounts.find(a => a.id === cur.account), cp = coinsPill(ca);
+    $("ch-coins-phone").innerHTML = cp ? `<span class="dim">${esc(accountName(ca))}'s Reforged Coins</span>${cp}` : "";
     $("ch-card").innerHTML = cardHTML(o, cur);
     drawTabs(o, cur);
   }
