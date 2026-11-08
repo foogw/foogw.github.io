@@ -17,6 +17,11 @@
   .xp-up .e { white-space: nowrap; }
   .xp-up .w { white-space: nowrap; text-align: right; color: var(--muted); width: 120px; }
   .xp-up tr.today td { background: var(--panel); }
+  .xp-coins { display: flex; flex-wrap: wrap; gap: 12px; }
+  .xp-coin { border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 10px 14px; min-width: 260px; }
+  .xp-coin .n { font-size: 26px; font-weight: 700; margin: 6px 0 2px; }
+  .xp-coin .n.full { color: var(--accent); }
+  .xp-coin .xp-row { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -30,6 +35,10 @@
       ‡ not completed in HM, § not vanquished.</p>
     <div id="xp-up"></div>
     <button class="link r-more" type="button" id="xp-more">Show more</button>
+    <h2>Reforged Coins</h2>
+    <p class="dim">The Purveyor gives one Reforged Coin a day per account (with the Purveyor's Bell) and holds up to 3: past
+      that, a day's coin is lost. The day starts at 8:00 UTC (<span id="xp-reset"></span> your time).</p>
+    <div class="xp-coins" id="xp-coins"></div>
   </div>
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
@@ -71,6 +80,38 @@
   // a week ahead, each Show more doubling it, up to 120 days
   $("xp-more").addEventListener("click", () => { days = Math.min(MAX_DAYS, days * 2); render(); });
   addEventListener("userchange", render);
+  render();
+}
+
+/* ---------- Reforged Coins ---------- */
+// each counter keeps the day its coins were last taken (days counted from 8:00 UTC); waiting: the days since, at most 3
+{
+  const DAY = 864e5, RESET = 8 * 36e5, HOLD = 3, KEY = "xp.coins";
+  const dayOf = t => Math.floor((t - RESET) / DAY);
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || null; } catch { return null; } };
+  const save = cs => { try { localStorage.setItem(KEY, JSON.stringify(cs)); } catch { /* storage blocked */ } };
+  let coins = load() || [{ name: "Account 1", took: dayOf(Date.now()) - HOLD }, { name: "Account 2", took: dayOf(Date.now()) - HOLD }];
+  const waiting = c => Math.max(0, Math.min(HOLD, dayOf(Date.now()) - c.took));
+  $("xp-reset").textContent = new Date(Date.UTC(2026, 0, 1, 8)).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+  function render() {
+    const now = Date.now(), next = (dayOf(now) + 1) * DAY + RESET;
+    $("xp-coins").innerHTML = coins.map((c, i) => {
+      const n = waiting(c), lost = dayOf(now) - c.took - HOLD;
+      const when = n >= HOLD ? (lost > 0 ? `Full: ${lost} coin${lost > 1 ? "s" : ""} lost so far` : `Full: take them within ${timeLeft(next - now)}`)
+        : `Next coin in ${timeLeft(next - now)}`;
+      return `<div class="xp-coin"><b>${esc(c.name)}</b>
+        <div class="n${n >= HOLD ? " full" : ""}">${n} / ${HOLD}</div><div class="dim">${when}</div>
+        <div class="xp-row"><button type="button" data-i="${i}" data-do="take">Got them</button></div></div>`;
+    }).join("");
+  }
+  $("xp-coins").addEventListener("click", e => {
+    const b = e.target.closest("button[data-do]");
+    if (!b) return;
+    const c = coins[b.dataset.i], today = dayOf(Date.now());
+    c.took = today;
+    save(coins); render();
+  });
+  setInterval(render, 30000);
   render();
 }
 </script>
