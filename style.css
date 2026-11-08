@@ -781,6 +781,7 @@ table.t-ranks .num { text-align: right; }
 .ent .back { margin: 10px 0 0; font-size: 13px; }
 .ent .back a { text-decoration: none; }
 .ent h4 { margin: 0 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: color-mix(in srgb, var(--text) 75%, var(--muted)); }
+.ent .t-panel h4 { margin: 22px 0 8px; }
 .ent .lbox h4 + .chips + h4 { margin-top: 14px; }
 .ent .lbox > h4:not(:first-child) { margin-top: 16px; }
 .ent .ip { width: 16px; height: 16px; vertical-align: -3px; }
