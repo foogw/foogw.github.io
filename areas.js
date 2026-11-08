@@ -4,8 +4,10 @@
 const ALL_AREAS = Object.values(AREAS);
 const els = { name: $("f-name"), vq: $("f-vq"), index: $("index"), empty: $("empty"), count: $("count") };
 const TABS = [1, 2, 3, 4, 0, 5, 6];  // campaigns: the four, Core, the Bonus Mission Pack, and the game's unknown one
-// the campaign tab picked: a campaign's number, or "all"
-const inCamp = l => state.camp === "all" || campaignOf(l) === state.camp;
+// the campaign tab picked: a campaign's number, or "all"; or several campaigns from a link (c=1,2,3: the three
+// campaigns' areas, from My Characters), their tabs all pressed
+const inCamps = c => (Array.isArray(state.camp) ? state.camp.includes(c) : c === state.camp);
+const inCamp = l => state.camp === "all" || inCamps(campaignOf(l));
 // the type filters (ours), each one or more of the game's area types (the Type column still shows the area's own):
 // [key, label, types], in this order; a single type's key is its number
 const one = t => [String(t), TYPE_LABEL[t], [t]];
@@ -36,7 +38,7 @@ for (const l of ALL_AREAS) l._k = fold([l.name, regionOf(l)?.name, TYPE_LABEL[l.
 /* ---------- index ---------- */
 // the columns, every one always shown: [key, label, sort value, cell]
 const storyKey = l => {
-  const camps = state.camp === "all" ? TABS : [state.camp, ...TABS.filter(c => c !== state.camp)];
+  const camps = state.camp === "all" ? TABS : [...[state.camp].flat(), ...TABS.filter(c => !inCamps(c))];
   return [(camps.indexOf(campaignOf(l)) + 1 || 99), regionIdx(l.region), l.order ?? 999];
 };
 const COLS = [
@@ -81,7 +83,7 @@ els.index.addEventListener("click", e => {
 function update() {
   // a campaign with no area left to show (the game's unknown one, without Show all) is left out
   for (const b of $("camps").children) {
-    b.setAttribute("aria-pressed", b.dataset.v === String(state.camp));
+    b.setAttribute("aria-pressed", b.dataset.v === "all" ? state.camp === "all" : state.camp !== "all" && inCamps(+b.dataset.v));
     b.hidden = b.dataset.v !== "all" && !ALL_AREAS.some(l => listed(l) && campaignOf(l) === +b.dataset.v);
   }
   // a type the campaign has none of is greyed out; one no campaign has (all its areas need Show all) is left out
@@ -96,7 +98,8 @@ function update() {
 }
 function readArgs() {
   const h = args();
-  state.camp = h.has("c") && TABS.includes(+h.get("c")) ? +h.get("c") : "all";
+  const cs = (h.get("c") || "").split(",").filter(Boolean).map(Number).filter(c => TABS.includes(c));
+  state.camp = cs.length > 1 ? cs : cs.length ? cs[0] : "all";
   state.kind = KINDS.some(k => k[0] === h.get("k")) ? h.get("k") : "all";
   state.all = h.get("all") === "1";
   state.vq = ["v", "n"].includes(h.get("v")) ? h.get("v") : "";
@@ -113,7 +116,7 @@ function readArgs() {
 $("camps").innerHTML = `<button class="prof-chip" data-v="all">All</button>` + TABS.map(c => `<button class="prof-chip" data-v="${c}">${campaignName(c)}</button>`).join("");
 $("kinds").innerHTML = KINDS.map(([k, label]) => `<button class="prof-chip" data-k="${k}">${label}</button>`).join("");
 // the campaign and the kind, in the address (each kept when the other changes)
-const address = (c, k, sort = "", all = state.all, vq = state.vq) => go(query(Object.fromEntries([["c", c === "all" ? "" : c], ["k", k === "all" ? "" : k], ["v", vq], ["sort", sort], ["all", all ? "1" : ""]].filter(x => x[1]))));
+const address = (c, k, sort = "", all = state.all, vq = state.vq) => go(query(Object.fromEntries([["c", c === "all" ? "" : [c].flat().join(",")], ["k", k === "all" ? "" : k], ["v", vq], ["sort", sort], ["all", all ? "1" : ""]].filter(x => x[1]))));
 els.vq.addEventListener("change", () => address(state.camp, state.kind, sortArg(), state.all, els.vq.value));
 // a tick (here or in another tab) takes an area out of "not yet vanquished"
 addEventListener("userchange", () => renderIndex(terms(els.name)));

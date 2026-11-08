@@ -1,6 +1,6 @@
 "use strict";
 
-/* My Characters' titles (below its list, characters.js): every title of the character picked and its account. A
+/* My Characters' titles (beside its list, characters.js): every title of the character picked and its account. A
    title's own page is on the front page (title.js). */
 
 /* ---------- my titles ---------- */
@@ -10,20 +10,29 @@ const nameOf = t => t.own_name || t.name;
 // the order: the max titles' title first, then the other character titles, then account titles (PvE, then PvP)
 const MY_ORDER = [10, 7, 34, 43, 9, 17, 20, 38, 39, 40, 41, 42, 1, 2, 18, 30, 25, 27, 29, 33, 24, 26, 28, 32, 13, 35, 14, 36, 19, 37, 31, 21,
   45, 46, 15, 16, 5, 6, 44, 0, 3, 4, 22, 23, 47];
-// a title with no ranks page links to the guide that earns it, or the list of what it still needs: the elites not yet
-// captured (Skill Hunter), the areas not yet vanquished (Vanquisher), the story missions not yet done in NM (Protector)
-// or HM (Guardian), the dungeons not yet done in NM or HM (Master of the North: its points for the dungeons' quests)
+// a title links to its page (Luxon to Kurzick / Luxon's), where it has one
 // the titles set rank by rank (▼ rank ▲), not just ticked maxed
 const STEPPED = new Set([45, 46, 15, 16, 5, 6, 44, 17, 20, 38, 39, 40, 41]);
-const TITLE_GUIDE = { 9: "guides?gom", 24: "skills?c=1c&cap=1", 26: "skills?c=2c&cap=1", 28: "skills?c=3c&cap=1", 32: "skills?cap=1",
+// a count worked out from the ticks links to the list of what it still needs: the elites not yet captured (Skill
+// Hunter), the story missions not yet done in NM (Protector) or HM (Guardian), the areas not yet vanquished (Vanquisher)
+const LEFT_LIST = { 24: "skills?c=1c&cap=1", 26: "skills?c=2c&cap=1", 28: "skills?c=3c&cap=1",
   13: "missions?c=1&ty=story&d=1", 14: "missions?c=2&ty=story&d=1", 19: "missions?c=3&ty=story&d=1",
-  35: "missions?c=1&ty=story&d=2", 36: "missions?c=2&ty=story&d=2", 37: "missions?c=3&ty=story&d=2", 31: "missions?c=1,2,3&ty=story&d=2", 42: "dungeons?d=a",
-  25: "areas?c=1&v=n", 27: "areas?c=2&v=n", 29: "areas?c=3&v=n", 33: "areas?v=n" };
+  35: "missions?c=1&ty=story&d=2", 36: "missions?c=2&ty=story&d=2", 37: "missions?c=3&ty=story&d=2",
+  25: "areas?c=1&v=n", 27: "areas?c=2&v=n", 29: "areas?c=3&v=n",
+  // the Legendary ones: the three campaigns' lists together
+  32: "skills?cap=1", 31: "missions?c=1,2,3&ty=story&d=2", 33: "areas?c=1,2,3&v=n" };
+// a title's guide, said in its row
+const GUIDE_ROW = { 9: ["gom", "GoM AFK guide"], 6: ["zos", "Luxon AFK guide"] };
 
-// the calculator below the titles: what the account's Treasure Hunter, Lucky and Wisdom ranks give, for a level 20
-// character, in the wiki's terms: the lockpick retention bonus, added to a chest's base rate (10%, half the level, + 3% a
-// Treasure Hunter rank + 2% a Lucky rank), and the chance of retaining the item when salvaging an upgrade (50% + 3% a
-// Treasure Hunter and Wisdom rank, at most 92%)
+// what the account's Treasure Hunter, Lucky and Wisdom ranks give, for a level 20 character, in the wiki's terms, said in
+// their rows: the lockpick retention bonus, added to a chest's base rate (10%, half the level, + 3% a Treasure Hunter rank
+// + 2% a Lucky rank), and the chance of retaining the item when salvaging an upgrade (50% + 3% a Treasure Hunter and
+// Wisdom rank, at most 92%)
+function luckHow(id, c, o) {
+  const r = x => titleKept(TITLES[x], c, o), th = r(45), lucky = r(15), wis = r(46);
+  const pick = `lockpicks kept +${Math.min(100, 10 + 3 * th + 2 * lucky)}%`, keep = `upgrades kept ${Math.min(92, 50 + 3 * (th + wis))}% when salvaging`;
+  return id === 45 ? `${pick}, ${keep}` : id === 15 ? pick : id === 46 ? keep : "";
+}
 // Master of the North's row: its points from the ticks, and the points the game shows typed in, from which the Eye of
 // the North map explored is worked out (mytitles.js) and its rank
 const MOTN_MAP_MAX = 104;
@@ -35,17 +44,6 @@ const motnHow = c => {
   return map > MOTN_MAP_MAX ? `${t}/${motnTickMax()} ticks: ${map - MOTN_MAP_MAX} points more than the map gives, tick your dungeons/missions/vanqs`
     : `${t}/${motnTickMax()} ticks + EotN map ${map}%`;
 };
-function calcHTML(c, o) {
-  const r = id => titleKept(TITLES[id], c, o), th = r(45), lucky = r(15), wis = r(46);
-  const pick = Math.min(100, 10 + 3 * th + 2 * lucky), keep = Math.min(92, 50 + 3 * (th + wis));
-  return `<section class="t-panel calc" style="--c:var(--accent)">
-    <h5>Account</h5>
-    <ul>
-      <li>With Treasure Hunter rank ${th} and Lucky rank ${lucky}, your lockpick retention is <b title="On top of the chest's own rate">+${pick}%</b>.</li>
-      <li>With Treasure Hunter rank ${th} and Wisdom rank ${wis}, your item retention when salvaging an upgrade is <b>${keep}%</b>.</li>
-    </ul>
-  </section>`;
-}
 // the game's Master of the North points typed in (or cleared): the map explored is kept, and the titles drawn again
 document.addEventListener("change", e => {
   if (e.target.id !== "motn-points") return;
@@ -61,38 +59,25 @@ function mineHTML() {
   const section = (label, ts) => (ts.length ? `<h3 class="my-h">${label}</h3><table class="my-titles"><tbody>${ts.map(t => {
     const r = titleRankOf(t, c, o), max = titleMax(t), d = DERIVED_TITLES.get(t.id)?.(c, o), big = t.id === 10;
     const status = r >= max ? `<b class="my-max">Max</b>` : r ? `Rank ${r} of ${max}` : `<span class="dim">—</span>`;
-    const how = d ? `${d[0]} / ${d[1]} ${d[2]}` : big ? `${titlesMaxed(c, o)} titles maxed (5 a rank)` : t.id === 42 ? motnHow(c) : "";
+    const how = d ? (LEFT_LIST[t.id] ? `<a href="${LEFT_LIST[t.id]}">${d[0]} / ${d[1]} ${d[2]}</a>` : `${d[0]} / ${d[1]} ${d[2]}`) : big ? `${titlesMaxed(c, o)} titles maxed (5 a rank)` : t.id === 42 ? motnHow(c) : GUIDE_ROW[t.id] ? `<a href="guides?${GUIDE_ROW[t.id][0]}">${GUIDE_ROW[t.id][1]}</a>` : luckHow(t.id, c, o);
     const input = t.id === 42 ? `<input type="number" class="calc-in my-pts" id="motn-points" min="0" placeholder="Points" aria-label="Master of the North points the game shows" value="${motnTicked(c) + Math.max(0, c.eotnMap ?? 0)}">`
       : d || big ? `<span class="dim">worked out</span>`
       : STEPPED.has(t.id) ? `<span class="my-step"><button type="button" data-step="-1" data-title="${t.id}" aria-label="Rank down"${r ? "" : " disabled"}>▼</button>`
         + `<span class="my-num">${r}</span><button type="button" data-step="1" data-title="${t.id}" aria-label="Rank up"${r < max ? "" : " disabled"}>▲</button></span>`
       : `<label class="my-tick"><input type="checkbox" data-title="${t.id}"${r >= max ? " checked" : ""}> Maxed</label>`;
-    const href = VIEWS.title.hasPage(t.id) ? HREF.title(t.id) : TITLE_GUIDE[t.id];
+    // Luxon shares Kurzick / Luxon's ranks, and its page
+    const page = t.id === 6 ? 5 : t.id, href = VIEWS.title.hasPage(page) ? HREF.title(page) : "";
     const name = href ? `<a href="${esc(href)}">${esc(nameOf(t))}</a>` : esc(nameOf(t));
     return `<tr><td class="my-name">${name}</td><td class="my-rank">${status}</td><td class="my-how dim"${t.id === 42 ? ' id="motn-how"' : ""}>${how}</td><td class="my-in">${input}</td></tr>`;
   }).join("")}</tbody></table>` : "");
   const of = (scope, pvp) => list.filter(t => t.scope === scope && !!t.pvp === pvp);
   const acct = o.accounts.find(a => a.id === c.account);
-  return `${foldHTML("my-fold", `${esc(c.name)} (${esc(accountName(acct))})`, `<section class="t-panel my" style="--c:var(--accent)">
-    <p>Skill Hunter, Protector, Guardian, Vanquisher, the Legendary titles and Kind of a Big Deal are worked out from your
-      ticks and the other titles, Master of the North from your ticks and the points the game shows; tick the others when
-      maxed (or set their rank).</p>
+  // the progress boxes (characters.js) under the heading
+  return `<h2 class="r-h">Titles</h2>${typeof statsHTML === "function" ? statsHTML(c) : ""}<section class="t-panel my" style="--c:var(--accent)">
     ${section("Character titles", of("character", false))}${section("Character titles, PvP", of("character", true))}
-    ${section("Account titles", of("account", false))}${section("Account titles, PvP", of("account", true))}
-  </section>`)}
-  ${foldHTML("calc-fold", "Calculator", calcHTML(c, o))}`;
+    ${section(`Account titles: ${esc(accountName(acct))}, shared by its characters`, of("account", false))}${section("Account titles, PvP", of("account", true))}
+  </section>`;
 }
-// the character's titles and the calculator, each folded under its heading as Accounts and characters is (kept folded:
-// the ids of the folded ones)
-const TITLE_FOLDS = "chars.titlefolds";
-const titleFolds = () => { try { return JSON.parse(localStorage.getItem(TITLE_FOLDS)) || []; } catch { return []; } };
-const foldHTML = (id, head, body) => `<details class="ch-fold" id="${id}"${titleFolds().includes(id) ? "" : " open"}>
-  <summary><h2 class="r-h">${head}</h2></summary>${body}</details>`;
-document.addEventListener("toggle", e => {
-  if (e.target.id !== "my-fold" && e.target.id !== "calc-fold") return;
-  const fs = titleFolds().filter(x => x !== e.target.id);
-  try { localStorage.setItem(TITLE_FOLDS, JSON.stringify(e.target.open ? fs : [...fs, e.target.id])); } catch { /* storage blocked */ }
-}, true);
 const lockedOut = () => User.broken() && (alert("Your saved progress can't be read, so it can't be changed here: see the Backup page."), true);
 // a rank up or down
 document.addEventListener("click", e => {
