@@ -8,7 +8,7 @@ const modes = vs => `${vs.filter(v => v & 1).length} NM, ${vs.filter(v => v & 2)
 const charCounts = c => `${plural(c.elites.length, "elite")} captured · missions ${modes(modeProgress(c, "missions"))} · dungeons ${modes(modeProgress(c, "dungeons"))}`;
 // one line for the accounts and characters, one for each character, then one for the rest (o as the pages see it, x
 // the rest as kept)
-const extrasLine = x => [x.builds && plural(x.builds.length, "saved build"), x.guides && `${plural(Object.keys(x.guides).length, "guide")} with steps ticked or a calculator set`,
+const extrasLine = x => [x.builderBuilds && plural(x.builderBuilds.length, "saved build"), x.guides && `${plural(Object.keys(x.guides).length, "guide")} with steps ticked or a calculator set`,
   x.settings && `Rotations in ${x.settings.eventsUtc ? "UTC" : "your time"}`].filter(Boolean).join(" · ");
 const summary = (o, x = {}) => [`${plural(o.accounts?.length || 1, "account")}, ${plural(o.chars.length, "character")}`, ...o.chars.map(c => `${c.name}: ${charCounts(c)}`),
   extrasLine(x)].filter(Boolean).join("\n");

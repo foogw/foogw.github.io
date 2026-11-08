@@ -121,7 +121,7 @@ const lit = c => (c.modes || []).map(m => `<img class="ch-mode" src="img/modes/$
 // an account's Reforged Coins waiting (with the bell): a coin each, clicked once they're taken (the game's icons, in img/items)
 const BELL = '<img src="img/items/purveyors-bell.png" alt="Purveyor\'s Bell">', COIN = '<img src="img/items/reforged-coin.png" alt="">';
 function coinsPill(a) {
-  if (!a || a.reforgedCoinsTaken === undefined) return "";
+  if (!a || a.reforgedCoinClock === undefined) return "";
   const n = coinsWaiting(a), left = timeLeft(coinsNext() - Date.now());
   // (at once, in the site's tooltip: how many, and the time to the next round, at any count)
   const tip = `${n ? `${n} coin${n === 1 ? "" : "s"} waiting. Next round in ${left}` : `New coins in ${left}`}. Click to reset`;
@@ -243,7 +243,7 @@ const fixedCampaign = c => PROF_CAMPAIGN[c.profession] || ((c.modes || []).inclu
 const madeIn = c => fixedCampaign(c) || c.campaign || 0;
 /* ---------- its age: when it was made, from what /age says ----------
    /age gives whole months (whole days for a young one), a month a twelfth of the game's 365-day year; a reading of N months at time t puts its making
-   after t − (N+1) months and no later than t − N months. Only that range is kept ("made"), each reading narrowing it;
+   after t − (N+1) months and no later than t − N months. Only that range is kept ("bornBetween"), each reading narrowing it;
    a reading helps only while a month could tick over within it (the window: the range moved on by whole months), so
    the tab says when to check next, best halfway through, till it's down to a day. Its birthdays: every 365 days. */
 const AGE_MONTH = 365 / 12 * 864e5, AGE_YEAR = 365 * 864e5;
@@ -261,8 +261,8 @@ function ageWindow(lo, hi, now = Date.now()) {
 function ageHTML(c) {
   // first what's known of it, then how to know more
   let known = `We have no idea of ${esc(c.name)}'s age yet.`, next = "Type in how old /age says it is: \"79 months\", or \"12 days\" for a young one.";
-  if (c.made) {
-    const [lo, hi] = c.made.map(Date.parse), now = Date.now();
+  if (c.bornBetween) {
+    const [lo, hi] = c.bornBetween.map(Date.parse), now = Date.now();
     if (ageDates(lo, hi) === 1) {
       const mid = (lo + hi) / 2, years = Math.floor((now - mid) / AGE_YEAR), bday = mid + (years + 1) * AGE_YEAR;
       known = `${esc(c.name)} was created on ${fmtAgeDay.format(lo)}: ${years} year${years === 1 ? "" : "s"} old, next birthday ${fmtAgeDay.format(bday)} (${(years + 1) * 12} months).`;
@@ -288,9 +288,9 @@ $("ch-edit").addEventListener("click", e => {
   if (!m) return $("age-months").focus();
   const n = +m[1], unit = m[2]?.startsWith("d") ? 864e5 : AGE_MONTH;
   const lo = now - (n + 1) * unit, hi = now - n * unit, cur = User.char();
-  const [a, b] = cur.made ? cur.made.map(Date.parse) : [-Infinity, Infinity], nlo = Math.max(lo, a), nhi = Math.min(hi, b);
+  const [a, b] = cur.bornBetween ? cur.bornBetween.map(Date.parse) : [-Infinity, Infinity], nlo = Math.max(lo, a), nhi = Math.min(hi, b);
   if (nlo > nhi) { $("age-say").textContent = `${$("age-months").value.trim()} doesn't fit what earlier readings said: check /age again.`; return; }
-  editChar(c => { c.made = [isoMin(nlo), isoMin(nhi)]; });
+  editChar(c => { c.bornBetween = [isoMin(nlo), isoMin(nhi)]; });
 });
 $("ch-edit").addEventListener("keydown", e => { if (e.target.id === "age-months" && e.key === "Enter") $("age-add").click(); });
 
@@ -403,7 +403,7 @@ function manageHTML(o, cur, many) {
       <button type="button" class="u-fold" data-fold-account="${a.id}" aria-expanded="${!folded.has(a.id)}" aria-label="${folded.has(a.id) ? "Show" : "Hide"} its characters"></button>
       <input type="text" maxlength="40" value="${esc(a.name || "")}" placeholder="${esc(accountName(a))}" aria-label="Account name">
       <span class="u-n" title="Characters">${o.chars.filter(c => c.account === a.id).length}</span>
-      <button type="button" class="u-bell" data-bell aria-pressed="${a.reforgedCoinsTaken !== undefined}" title="${a.reforgedCoinsTaken !== undefined ? "Has the bell: its Reforged Coins counted (click if it hasn't)" : "Has the bell? Click to count its Reforged Coins"}">${BELL}</button>
+      <button type="button" class="u-bell" data-bell aria-pressed="${a.reforgedCoinClock !== undefined}" title="${a.reforgedCoinClock !== undefined ? "Has the bell: its Reforged Coins counted (click if it hasn't)" : "Has the bell? Click to count its Reforged Coins"}">${BELL}</button>
       <span class="u-acct-right">${moveBtns(o.accounts[0] === a, o.accounts[o.accounts.length - 1] === a)}<span class="u-slot">${o.chars.some(c => c.account === a.id) ? "" : `<button type="button" class="u-btn danger" data-delete-account>Delete account</button>`}</span></span></div></td></tr>`;
   // after an account's characters: a new one on it
   const foot = a => `<tr class="u-acct-foot" data-account="${a.id}"><td colspan="2"><button type="button" class="u-btn" data-new-char>New character</button></td></tr>`;
@@ -445,7 +445,7 @@ document.addEventListener("click", e => {
   if (!b || User.broken()) return;
   const o = User.data(), a = o.accounts.find(x => x.id === +b.dataset.coins);
   if (!a || !confirm(`Took ${accountName(a)}'s Reforged Coins from the Purveyor?`)) return;
-  a.reforgedCoinsTaken = new Date().toISOString().slice(0, 16) + "Z";
+  a.reforgedCoinClock = new Date().toISOString().slice(0, 16) + "Z";
   User.save(o); render();
 });
 // (the coins counted again as the day turns)
@@ -515,7 +515,7 @@ onEdit("click", e => {
   const bell = e.target.closest("[data-bell]");
   if (bell) {
     const o = User.data(), a = rowAccount(o, bell);
-    if (a.reforgedCoinsTaken === undefined) a.reforgedCoinsTaken = 0; else delete a.reforgedCoinsTaken;
+    if (a.reforgedCoinClock === undefined) a.reforgedCoinClock = 0; else delete a.reforgedCoinClock;
     User.save(o); return render();
   }
   const g = e.target.closest("[data-gender]");

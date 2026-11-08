@@ -374,7 +374,7 @@ function bonusPills(bonus, o, cs) {
     .map(([a, x]) => `<span class="c-pill">${esc(accountName(a))}<span class="dim">${esc(left(x))}</span></span>`);
   return [...chars, ...accts];
 }
-// a character's age range at a moment (its "made", narrowed by /age readings): the unit it's said in (days while it
+// a character's age range at a moment (its "bornBetween", narrowed by /age readings): the unit it's said in (days while it
 // covers more than two dates, then hours, then minutes), and what a reading then takes off for sure (the smaller side
 // where a month ticks over inside it). A month: a twelfth of the game's 365-day year
 const AGE_DAY = 864e5, AGE_MO = 365 / 12 * AGE_DAY;
@@ -508,14 +508,14 @@ function recruitHTML(h) {
 }
 
 /* ---------- the visitor's progress, per character, kept in this browser only (the Backup page backs it up) ----------
-   Kept as {v: 3, accounts: [{id, name, titles: its account titles, reforgedCoinsTaken: (with the bell) 0 or when the
+   Kept as {v: 3, accounts: [{id, name, titles: its account titles, reforgedCoinClock: (with the bell) 0 or when the
    Purveyor's coins were last taken, chars: [its characters, in the order shown: {id,
    name, profession: its primary (1 Warrior ... 10 Dervish), elites: [skill ids captured], vanquished: [area ids],
    missionsNM, missionsHM, dungeonsNM, dungeonsHM: [ids done in that mode], titles: {title id: rank}, modes: the optional game modes
    the character is bound to (and our pre-Searing mark), of USER_MODES, gender: "m" or "f" (for how the site speaks of it,
    left out when not set), hidden: true when kept out of My Characters' list (left out when shown), heroes: [hero ids
    recruited] (or "all"), builds: [skill template codes saved, in the order shown], campaign: the one it was made in (1 Prophecies, 2 Factions, 3
-   Nightfall), note: the player's one line about it, retired: true when no longer played (left out of the Today page's suggestions), made: [the earliest, the latest]
+   Nightfall), note: the player's one line about it, retired: true when no longer played (left out of the Today page's suggestions), bornBetween: [the earliest, the latest]
    time it can have been made, narrowed by the ages /age gave (My Characters' Edit), eotnMap: the percent of the Eye of the North map
    explored, as worked out on My Characters from Master of the North's points}]}]}, the accounts in the order shown.
    A list may be "all": every id in USER_ALL_V3 (frozen: should the game ever have more, they'd come with a
@@ -531,7 +531,7 @@ const USER_KEY = "gw-user", USER_CHAR_KEY = "gw-user-char";
 const USER_NOTE_MAX = 100;  // a character's note, at most
 /* Kept in this browser apart from the characters, and in a backup with them (the Backup page): the Builder's saved
    builds, the guides' steps ticked and faction cap calculators, and the Rotations page's UTC switch. In a backup, each
-   part is optional: {builds: [template codes, newest first], guides: {<guide id>: {steps: "1-5,7", cap: {rows: [the
+   part is optional: {builderBuilds: [the Builder's template codes, newest first], guides: {<guide id>: {steps: "1-5,7", cap: {rows: [the
    raises ticked, by their row], rank}}}, settings: {eventsUtc: true | false}}. */
 const BUILDER_SAVED_KEY = "gw-builder-saved-v2", GUIDE_STEPS_KEY = id => `gw-guide-${id}`, GUIDE_CAP_KEY = id => `gw-cap-${id}`;
 const lsGet = k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } };
@@ -563,7 +563,7 @@ const RANGES = /^(\d+(-\d+)?)(,\d+(-\d+)?)*$/;
 // what's kept in this browser of them, as it goes in a backup (a part with nothing in it left out)
 function extrasKept() {
   const x = {}, builds = builderSaved(), guides = {};
-  if (builds.length) x.builds = builds;
+  if (builds.length) x.builderBuilds = builds;
   let keys = []; try { keys = Object.keys(localStorage); } catch { /* storage blocked */ }
   for (const k of keys) {
     const m = k.match(/^gw-(guide|cap)-([a-z0-9-]+)$/);
@@ -580,7 +580,7 @@ function extrasKept() {
 }
 // a backup's parts put in this browser: each part in it replaces what's here, a part left out leaves it as it is
 function extrasApply(o) {
-  if (o.builds) lsSet(BUILDER_SAVED_KEY, [...new Set(o.builds)]);
+  if (o.builderBuilds) lsSet(BUILDER_SAVED_KEY, [...new Set(o.builderBuilds)]);
   if (o.guides) {
     let keys = []; try { keys = Object.keys(localStorage); } catch { /* storage blocked */ }
     for (const k of keys) if (/^gw-(guide|cap)-/.test(k)) lsSet(k, null);
@@ -594,7 +594,7 @@ function extrasApply(o) {
 // what's wrong with them in a backup, or ""
 function extrasCheck(o) {
   const isObj = x => x && typeof x === "object" && !Array.isArray(x);
-  if (o.builds !== undefined && !(Array.isArray(o.builds) && o.builds.every(b => typeof b === "string" && /^[A-Za-z0-9+/]{1,200}$/.test(b)))) return '"builds" should be a list of skill template codes.';
+  if (o.builderBuilds !== undefined && !(Array.isArray(o.builderBuilds) && o.builderBuilds.every(b => typeof b === "string" && /^[A-Za-z0-9+/]{1,200}$/.test(b)))) return '"builderBuilds" should be a list of skill template codes.';
   if (o.guides !== undefined) {
     if (!isObj(o.guides)) return '"guides" should map guide ids to what\'s kept of them.';
     for (const [id, g] of Object.entries(o.guides)) {
@@ -616,7 +616,7 @@ const USER_ALL = {
   dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
 };
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
-  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "heroes", "builds", "campaign", "note", "made", "retired", "eotnMap"] };
+  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap"] };
 // (version 3's characters: version 2's, their account the one they're in)
 USER_KEYS[3] = USER_KEYS[2].filter(k => k !== "account");
 // version 3 as version 2: each account's characters in one list, each with its account's id
@@ -627,9 +627,10 @@ const userFlat = o => (o.v !== 3 ? o : { v: 2, chars: o.accounts.flatMap(a => a.
 const USER_MODES = { presearing: "Pre-Searing: stays in pre-Searing Ascalon", melandru: "Melandru's Accord", dhuum: "Dhuum's Covenant" };
 const USER_LISTS = ["elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM"];
 // what "all" stands for in version 3: the same, but the dungeons are the 18 ticked (the Eye of the North's with Secret
-// Lair of the Snowmen; not Destruction's Depths, a mission, nor the Piken Square ones), and the heroes are every one;
+// Lair of the Snowmen; not Destruction's Depths, a mission, nor the Piken Square ones), the missions are the 69 story
+// ones (not Urgoz's Warren and The Deep), and the heroes are every one;
 // frozen, as USER_ALL is
-const USER_ALL_V3 = { ...USER_ALL, dungeons: [560, 570, 573, 576, 577, 578, 581, 584, 604, 607, 612, 615, 617, 628, 630, 635, 701, 704],
+const USER_ALL_V3 = { ...USER_ALL, missions: USER_ALL.missions.filter(id => id !== 266 && id !== 307), dungeons: [560, 570, 573, 576, 577, 578, 581, 584, 604, 607, 612, 615, 617, 628, 630, 635, 701, 704],
   heroes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 36, 37, 38, 39] };
 const allOf = (k, v = 3) => (v < 3 ? USER_ALL : USER_ALL_V3)[k.replace(/[NH]M$/, "")];
 const newUserChar = (id, account = 1) => ({ id, name: `Char${id}`, account, elites: [], vanquished: [], missions: {}, dungeons: {} });
@@ -657,7 +658,7 @@ function userFromKept(o) {
     if (k.builds) c.builds = [...k.builds];
     if (k.campaign) c.campaign = k.campaign;
     if (k.note) c.note = k.note;
-    if (k.made) c.made = [...k.made];
+    if (k.bornBetween) c.bornBetween = [...k.bornBetween];
     if (k.retired) c.retired = true;
     if (k.eotnMap !== undefined) c.eotnMap = k.eotnMap;
     return c;
@@ -674,9 +675,9 @@ function userToKept(o) {
     if (c.gender) k.gender = c.gender;
     if (c.hidden) k.hidden = true;
     const lists = { elites: c.elites, vanquished: c.vanquished || [] };
-    // (a dungeon with no ticks, as Destruction's Depths or the Piken Square ones, isn't kept)
+    // (a mission or dungeon with no ticks, as Urgoz's Warren, Destruction's Depths or the Piken Square ones, isn't kept)
     for (const part of ["missions", "dungeons"]) for (const [m, b] of [["NM", 1], ["HM", 2]])
-      lists[part + m] = Object.entries(c[part]).filter(([id, v]) => v & b && (part === "missions" || isTickedDungeon(id))).map(([id]) => +id);
+      lists[part + m] = Object.entries(c[part]).filter(([id, v]) => v & b && USER_ALL_V3[part].includes(+id)).map(([id]) => +id);
     for (const [key, ids] of Object.entries(lists)) {
       const sorted = [...new Set(ids)].sort((a, b) => a - b), set = new Set(sorted);
       if (allOf(key).every(id => set.has(id)) && sorted.length === allOf(key).length) k[key] = "all";
@@ -688,7 +689,7 @@ function userToKept(o) {
     if (c.builds?.length) k.builds = [...c.builds];
     if (c.campaign) k.campaign = c.campaign;
     if (c.note?.trim()) k.note = c.note.trim();
-    if (c.made) k.made = c.made;
+    if (c.bornBetween) k.bornBetween = c.bornBetween;
     if (c.retired) k.retired = true;
     if (c.eotnMap !== undefined) k.eotnMap = c.eotnMap;
     return k;
@@ -706,11 +707,11 @@ function userNormalize(o) {
   return o;
 }
 const accountName = a => a.name || `Account ${a.id}`;
-/* An account's Reforged Coins, kept by the Purveyor for an account with the bell (its "reforgedCoinsTaken": 0 never
+/* An account's Reforged Coins, kept by the Purveyor for an account with the bell (its "reforgedCoinClock": 0 never
    taken, else when they last were; left out without the bell): one a day from 8:00 UTC, at most 3 */
 const COINS = { DAY: 864e5, RESET: 8 * 36e5, HOLD: 3 };
 const coinDay = t => Math.floor((t - COINS.RESET) / COINS.DAY);
-const coinsWaiting = a => (a.reforgedCoinsTaken === 0 ? COINS.HOLD : Math.max(0, Math.min(COINS.HOLD, coinDay(Date.now()) - coinDay(Date.parse(a.reforgedCoinsTaken)))));
+const coinsWaiting = a => (a.reforgedCoinClock === 0 ? COINS.HOLD : Math.max(0, Math.min(COINS.HOLD, coinDay(Date.now()) - coinDay(Date.parse(a.reforgedCoinClock)))));
 const coinsNext = () => (coinDay(Date.now()) + 1) * COINS.DAY + COINS.RESET;
 // what's wrong with an object as progress, or "" when it's fine
 function userCheck(o) {
@@ -719,7 +720,7 @@ function userCheck(o) {
   if (![1, 2, 3].includes(o.v)) return 'It needs "v": 3 (or 2 or 1, from before).';
   // version 3: its accounts, each with its characters (no "account" of their own), then checked as version 2
   if (o.v === 3) {
-    const extra = Object.keys(o).find(k => !["v", "accounts", "builds", "guides", "settings"].includes(k));
+    const extra = Object.keys(o).find(k => !["v", "accounts", "builderBuilds", "guides", "settings"].includes(k));
     if (extra) return `Unknown key "${extra}".`;
     const bad = extrasCheck(o);
     if (bad) return bad;
@@ -727,7 +728,7 @@ function userCheck(o) {
     let n = 0;
     for (const [i, a] of o.accounts.entries()) {
       if (!isObj(a)) return `Account ${i + 1} isn't an object.`;
-      const k = Object.keys(a).find(k => !["id", "name", "titles", "reforgedCoinsTaken", "chars"].includes(k));
+      const k = Object.keys(a).find(k => !["id", "name", "titles", "reforgedCoinClock", "chars"].includes(k));
       if (k) return `Account ${i + 1}: unknown key "${k}".`;
       if (!Array.isArray(a.chars)) return `Account ${i + 1}: "chars" should be a list of its characters.`;
       for (const c of a.chars) {
@@ -750,9 +751,9 @@ function userCheck(o) {
     for (const [i, a] of o.accounts.entries()) {
       const at = `Account ${i + 1}`;
       if (!isObj(a)) return `${at} isn't an object.`;
-      const k = Object.keys(a).find(k => !["id", "name", "titles", "reforgedCoinsTaken"].includes(k));
-      if (a.reforgedCoinsTaken !== undefined && a.reforgedCoinsTaken !== 0 && !(typeof a.reforgedCoinsTaken === "string" && !isNaN(Date.parse(a.reforgedCoinsTaken))))
-        return `${at}: "reforgedCoinsTaken" should be 0 (never) or the time they were taken.`;
+      const k = Object.keys(a).find(k => !["id", "name", "titles", "reforgedCoinClock"].includes(k));
+      if (a.reforgedCoinClock !== undefined && a.reforgedCoinClock !== 0 && !(typeof a.reforgedCoinClock === "string" && !isNaN(Date.parse(a.reforgedCoinClock))))
+        return `${at}: "reforgedCoinClock" should be 0 (never) or the time they were taken.`;
       if (k) return `${at}: unknown key "${k}".`;
       if (!isId(a.id)) return `${at}: "id" should be a whole number above 0.`;
       if (o.accounts.findIndex(x => x?.id === a.id) !== i) return `${at}: id ${a.id} is used twice.`;
@@ -784,8 +785,9 @@ function userCheck(o) {
       if (c.heroes !== undefined && c.heroes !== "all" && !idList(c.heroes)) return `${at}: "heroes" should be "all" or a list of hero ids, each once.`;
       if (c.note !== undefined && !(typeof c.note === "string" && c.note.length <= USER_NOTE_MAX && !/\n/.test(c.note))) return `${at}: "note" should be one line, at most ${USER_NOTE_MAX} characters.`;
       if (c.retired !== undefined && c.retired !== true) return `${at}: "retired" should be true (or left out).`;
-      if (c.made !== undefined && !(Array.isArray(c.made) && c.made.length === 2 && c.made.every(t => typeof t === "string" && !isNaN(Date.parse(t))) && Date.parse(c.made[0]) <= Date.parse(c.made[1])))
-        return `${at}: "made" should be [the earliest, the latest] time it can have been made.`;
+      const r = c.bornBetween;
+      if (r !== undefined && !(Array.isArray(r) && r.length === 2 && r.every(t => typeof t === "string" && !isNaN(Date.parse(t))) && Date.parse(r[0]) <= Date.parse(r[1])))
+        return `${at}: "bornBetween" should be [the earliest, the latest] time it can have been made.`;
       if (c.campaign !== undefined && ![1, 2, 3].includes(c.campaign)) return `${at}: "campaign" should be 1 (Prophecies), 2 (Factions) or 3 (Nightfall).`;
       if (c.builds !== undefined && !(Array.isArray(c.builds) && c.builds.every(b => typeof b === "string" && /^[A-Za-z0-9+/]{1,200}$/.test(b)))) return `${at}: "builds" should be a list of skill template codes.`;
       if (c.eotnMap !== undefined && !(Number.isInteger(c.eotnMap) && c.eotnMap >= 0)) return `${at}: "eotnMap" should be the Eye of the North map's Master of the North points (a whole number from 0).`;

@@ -59,7 +59,7 @@ function draw() {
   $("td-bonus").innerHTML = `<table class="td-t"><tbody>${row("PvE", e, !BONUS_TITLES[e.bonus] ? '<span class="dim">No titles</span>' : !ok ? none
     : pills.length ? pills.join("") : '<span class="dim">No one: maxed</span>', "weekly-pve")}${ROTATIONS["nicholas-traveler"] ? row("Nicholas", at("nicholas-traveler"), "", "nicholas-traveler") : ""}</tbody></table>`;
   // the characters whose age a check that day narrows by a whole day (an hour, once it's down to hours) at least
-  const bdays = ok ? byImportance(o.chars.filter(c => c.made && played(c)), o).map(c => [c, ageAt(c.made, t)])
+  const bdays = ok ? byImportance(o.chars.filter(c => c.bornBetween && played(c)), o).map(c => [c, ageAt(c.bornBetween, t)])
     .filter(([, a]) => !a.done && a.word !== "minute" && a.side >= a.unit) : [];
   $("td-bday").innerHTML = !ok ? `<p>${none}</p>` : bdays.length
     ? bdays.map(([c, a]) => charPill(c, `narrows by ${a.said(Math.floor(a.side / a.unit))}`)).join("")

@@ -86,7 +86,7 @@
 }
 
 /* ---------- birthdays ---------- */
-// every character with a range it was made in ("made", narrowed on My Characters' Edit tab), oldest first (by the
+// every character with a range it was made in ("bornBetween", narrowed on My Characters' Edit tab), oldest first (by the
 // range's middle; the others left out); a reading of /age now splits the range where a month would tick over, if that's
 // inside it: the days the range would be cut to, either way. A month: a twelfth of the game's 365-day year
 {
@@ -101,7 +101,7 @@
   function render() {
     if (User.stored() == null || User.broken()) { $("xp-bd").innerHTML = `<p class="dim">No characters yet: see <a href="characters">My Characters</a>.</p>`; return; }
     const o = User.data(), acct = c => accountName(o.accounts.find(a => a.id === c.account) || { id: c.account });
-    const now = Date.now(), cs = o.chars.filter(c => c.made).map(c => ({ c, r: c.made.map(Date.parse) })).sort((a, b) =>
+    const now = Date.now(), cs = o.chars.filter(c => c.bornBetween).map(c => ({ c, r: c.bornBetween.map(Date.parse) })).sort((a, b) =>
       (a.r[0] + a.r[1]) / 2 - (b.r[0] + b.r[1]) / 2);
     if (!cs.length) { $("xp-bd").innerHTML = `<p class="dim">No character's age known yet: add one on My Characters' Edit tab.</p>`; return; }
     $("xp-bd").innerHTML = `<table class="xp-bd"><thead><tr><th>Account</th><th>Character</th><th>Age</th>
@@ -130,10 +130,10 @@
     const box = document.querySelector(`[data-age="${btn.dataset.ageAdd}"]`), m = box.value.trim().toLowerCase().match(/^(\d+)\s*(d|days?|m|mo|months?)?$/);
     if (!m) return box.focus();
     const n = +m[1], u = m[2]?.startsWith("d") ? DAY : MONTH, now = Date.now(), o = User.data(), c = o.chars.find(x => x.id === +btn.dataset.ageAdd);
-    const [a, b] = c.made.map(Date.parse), lo = Math.max(a, now - (n + 1) * u), hi = Math.min(b, now - n * u);
+    const [a, b] = c.bornBetween.map(Date.parse), lo = Math.max(a, now - (n + 1) * u), hi = Math.min(b, now - n * u);
     if (lo > hi) { box.value = ""; box.placeholder = "Doesn't fit: check again"; return; }
     const iso = t => new Date(t).toISOString().slice(0, 16) + "Z";
-    c.made = [iso(Math.floor(lo / 6e4) * 6e4), iso(Math.ceil(hi / 6e4) * 6e4)];
+    c.bornBetween = [iso(Math.floor(lo / 6e4) * 6e4), iso(Math.ceil(hi / 6e4) * 6e4)];
     User.save(o); render();
   });
   document.addEventListener("keydown", e => { if (e.target.matches?.("[data-age]") && e.key === "Enter") document.querySelector(`[data-age-add="${e.target.dataset.age}"]`).click(); });
