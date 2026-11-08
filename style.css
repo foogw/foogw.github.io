@@ -1184,6 +1184,8 @@ a.hchip { text-decoration: none; }
 .u-acct .u-move button { width: 26px; height: 26px; color: var(--accent); background: var(--panel-2); border-color: var(--accent); border-radius: 8px; }
 .u-gwamm[data-rank="0"] { color: var(--gw0); } .u-gwamm[data-rank="1"] { color: var(--gw1); } .u-gwamm[data-rank="2"] { color: var(--gw2); }
 .u-gwamm[data-rank="3"] { color: var(--gw3); } .u-gwamm[data-rank="4"] { color: var(--gw4); } .u-gwamm[data-rank="5"] { color: var(--gw5); } .u-gwamm[data-rank="6"] { color: var(--gw6); }
+.u-chars .u-edit { text-align: right; text-transform: none; letter-spacing: 0; }
+.u-chars tr:not(.editing) :is(.u-rename, .u-move, .u-slot) { visibility: hidden; }
 .u-slot { display: inline-flex; justify-content: flex-end; min-width: 68px; vertical-align: middle; }
 .u-move button:hover:not(:disabled) { border-color: var(--accent); }
 .u-move button:disabled { opacity: .3; cursor: default; }
@@ -1196,7 +1198,11 @@ a.hchip { text-decoration: none; }
 .ch-fold > summary .r-h { margin: 8px 0; }
 .characters .u-broken { margin: 10px 0; }
 .u-name { display: flex; align-items: center; gap: 6px; }
-.u-chars .u-name input[type=text] { width: calc(19ch + 14px); flex: none; }  /* the game's names are up to 19 characters; the badges follow right after */
+/* a character's name, a link; Rename puts its box on top of it, so nothing moves */
+.u-chars .u-cn { position: relative; width: calc(19ch + 14px); flex: none; }  /* the game's names are up to 19 characters; the badges follow right after */
+.u-chars .u-cname { display: block; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.u-chars .u-cn input[type=text] { position: absolute; left: -5px; top: 50%; transform: translateY(-50%); width: calc(100% + 10px); box-sizing: border-box; }
+.u-rename { padding: 2px 8px; font-size: 13px; margin-right: 8px; vertical-align: middle; }
 .u-prof { position: relative; flex: none; }
 .u-modes { display: inline-flex; gap: 4px; }
 .u-mode { display: flex; padding: 2px; border: 1px solid transparent; border-radius: 6px; background: none; cursor: pointer; }

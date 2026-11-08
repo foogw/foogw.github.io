@@ -35,27 +35,34 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") closeProfs()
 // the characters, by account: with one account, just its characters; with more, each account as a heading (its name to
 // rename, a delete while it has no characters, chevrons to reorder) with a new character after its last; a character stays on the
 // account it was made on, and chevrons move it among the account's characters: the saved order is the shown order
+// the accounts done editing (Done editing pressed under their name, and kept in this browser; till then every account
+// is edited, for a newcomer to see what can be done): Rename, the chevrons and Delete hide
+const DONE_EDITING = "chars.doneediting";
+const doneEditing = new Set((() => { try { return JSON.parse(localStorage.getItem(DONE_EDITING)) || []; } catch { return []; } })());
+const editing = { has: id => !doneEditing.has(id) };
 function render() {
   const broken = User.broken(), o = User.data(), cur = User.char(o), one = o.chars.length < 2, many = o.accounts.length > 1;
   $("u-broken").hidden = !broken;
   $("u-char").hidden = broken;
   $("u-new").hidden = many;
-  const row = c => { const sib = o.chars.filter(x => x.account === c.account); return `<tr class="${c === cur ? "cur" : ""}" data-id="${c.id}">
+  const row = c => { const sib = o.chars.filter(x => x.account === c.account); return `<tr class="${c === cur ? "cur" : ""}${editing.has(c.account) ? " editing" : ""}" data-id="${c.id}">
     <td><input type="radio" name="u-shown" aria-label="Show ${esc(c.name)}"${c === cur ? " checked" : ""}></td>
-    <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}</div></td>
+    <td><div class="u-name">${profPick(c)}<span class="u-cn"><button type="button" class="link u-cname" data-pick title="Show ${esc(c.name)}">${esc(c.name)}</button><input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name" hidden></span>${modeBadges(c)}</div></td>
     <td><button type="button" class="link u-gwamm" data-rank="${titleRankOf(TITLES[10], c, o)}" data-pick title="Show ${esc(c.name)}">${bigDeal(c, o)}</button></td>
-    <td>${moveBtns(sib[0] === c, sib[sib.length - 1] === c)}<span class="u-slot"><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></span></td></tr>`; };
+    <td><button type="button" class="u-btn u-rename" data-rename>Rename</button>${moveBtns(sib[0] === c, sib[sib.length - 1] === c)}<span class="u-slot"><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></span></td></tr>`; };
   const folded = new Set(acctFolds());
-  const head = a => `<tr class="u-acct" data-account="${a.id}"><td colspan="4"><div class="u-acct-row">
+  const head = a => `<tr class="u-acct${editing.has(a.id) ? " editing" : ""}" data-account="${a.id}"><td colspan="4"><div class="u-acct-row">
       <button type="button" class="u-fold" data-fold-account aria-expanded="${!folded.has(a.id)}" aria-label="${folded.has(a.id) ? "Show" : "Hide"} its characters"></button>
       <input type="text" maxlength="40" value="${esc(a.name || "")}" placeholder="${esc(accountName(a))}" aria-label="Account name">
       <span class="u-acct-right">${moveBtns(o.accounts[0] === a, o.accounts[o.accounts.length - 1] === a)}<span class="u-slot">${o.chars.some(c => c.account === a.id) ? "" : `<button type="button" class="u-btn danger" data-delete-account>Delete account</button>`}</span></span></div></td></tr>`;
   // after an account's characters: a new one on it
   const foot = a => `<tr class="u-acct-foot" data-account="${a.id}"><td colspan="4"><button type="button" class="u-btn" data-new-char>New character</button></td></tr>`;
   // the columns' titles: above the list, or with two accounts or more under each account's name (folded with its characters)
-  const cols = `<tr class="u-cols"><th>Shown</th><th>Name</th><th>GWAMM</th><th></th></tr>`;
-  $("u-head").innerHTML = many ? "" : cols;
-  els.list.innerHTML = many ? o.accounts.map(a => head(a) + (folded.has(a.id) ? "" : cols + o.chars.filter(c => c.account === a.id).map(row).join("") + foot(a))).join("") : o.chars.map(row).join("");
+  // and Done editing (Edit once pressed): the account's Rename, chevrons and
+  // Delete show only while it's edited
+  const cols = a => `<tr class="u-cols"><th>Shown</th><th>Name</th><th>GWAMM</th><th class="u-edit"><button type="button" class="link" data-edit="${a.id}">${editing.has(a.id) ? "Done editing" : "Edit"}</button></th></tr>`;
+  $("u-head").innerHTML = many ? "" : cols(o.accounts.find(a => a.id === cur.account) || o.accounts[0]);
+  els.list.innerHTML = many ? o.accounts.map(a => head(a) + (folded.has(a.id) ? "" : cols(a) + o.chars.filter(c => c.account === a.id).map(row).join("") + foot(a))).join("") : o.chars.map(row).join("");
   redrawTitles();
 }
 /* ---------- characters ---------- */
@@ -77,7 +84,20 @@ els.list.addEventListener("change", e => {
   c.name = n;
   User.save(o); render();
 });
-els.list.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.type === "text") e.target.blur(); });
+els.list.addEventListener("keydown", e => {
+  if (e.target.type !== "text") return;
+  if (e.key === "Enter") e.target.blur();
+  // Escape: the name as it was (a character's: its link back)
+  if (e.key === "Escape") { const o = User.data(); e.target.value = e.target.closest(".u-acct") ? rowAccount(o, e.target).name || "" : rowChar(o, e.target).name; e.target.blur(); }
+});
+// a character's name left unchanged: its link back
+els.list.addEventListener("focusout", e => { if (e.target.matches(".u-name input[type=text]") && !e.target.hidden) setTimeout(render); });
+$("u-head").closest("table").addEventListener("click", e => { const b = e.target.closest("[data-edit]");
+  if (!b) return;
+  const id = +b.dataset.edit;
+  if (editing.has(id)) doneEditing.add(id); else doneEditing.delete(id);
+  try { localStorage.setItem(DONE_EDITING, JSON.stringify([...doneEditing])); } catch { /* storage blocked */ }
+  render(); });
 els.list.addEventListener("click", e => {
   // the profession picker: open it, or pick one
   const open = e.target.closest("[data-prof-open]");
@@ -110,6 +130,13 @@ els.list.addEventListener("click", e => {
       [o.chars[i], o.chars[j]] = [o.chars[j], o.chars[i]];
     }
     User.save(o); return render();
+  }
+  // the name made editable in place of its link
+  const ren = e.target.closest("[data-rename]");
+  if (ren) {
+    const box = ren.closest("tr").querySelector(".u-name input[type=text]");
+    box.previousElementSibling.style.visibility = "hidden"; box.hidden = false; box.focus(); box.select();
+    return;
   }
   const pick1 = e.target.closest("[data-pick]");
   if (pick1) { User.pick(rowChar(User.data(), pick1).id); return render(); }
