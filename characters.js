@@ -48,6 +48,7 @@ const drawTabs = (o = User.data(), cur = User.char(o)) => {
   else $("ch-edit").innerHTML = `<table class="u-chars ch-edit-row"><tbody>${charRow(o, cur, null, true)}</tbody></table>
     <label class="ch-edit-camp">Made in <select id="edit-campaign"${fixedCampaign(cur) ? ` disabled title="${PROF_CAMPAIGN[cur.profession] ? `A ${PROFS[cur.profession]} can only be made in ${CAMPAIGNS[PROF_CAMPAIGN[cur.profession]]}` : "A pre-Searing character is a Prophecies one"}"` : ""}>${[[0, "Not set"], [1, "Prophecies"], [2, "Factions"], [3, "Nightfall"]].map(([v, n]) =>
       `<option value="${v}"${(madeIn(cur) || 0) === v ? " selected" : ""}>${n}</option>`).join("")}</select></label>
+    <label class="ch-edit-retired"><input type="checkbox" id="edit-retired"${cur.retired ? " checked" : ""}> No longer played <span class="dim">(left out of the Today page's suggestions)</span></label>
     <label class="ch-edit-note">Note <input type="text" id="edit-note" maxlength="${USER_NOTE_MAX}" value="${esc(cur.note || "")}"
       placeholder="A line about ${esc(cur.name)}: its role, what it's farming…" autocomplete="off"><span class="dim" id="edit-note-n">${(cur.note || "").length} / ${USER_NOTE_MAX}</span></label>
     ${ageHTML(cur)}`;
@@ -295,6 +296,7 @@ $("ch-edit").addEventListener("keydown", e => { if (e.target.id === "age-months"
 
 // the campaign it was made in, picked in the Edit tab; and its note, saved once it's left (or Enter), its length counted
 $("ch-edit").addEventListener("change", e => {
+  if (e.target.id === "edit-retired") editChar(c => { if (e.target.checked) c.retired = true; else delete c.retired; });
   if (e.target.id === "edit-campaign") editChar(c => { const v = +e.target.value; if (v) c.campaign = v; else delete c.campaign; });
   if (e.target.id === "edit-note") editChar(c => { const v = e.target.value.trim(); if (v) c.note = v; else delete c.note; });
 });

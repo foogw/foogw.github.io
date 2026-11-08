@@ -1213,9 +1213,9 @@ a.hchip { text-decoration: none; }
 .u-mode { display: flex; padding: 2px; border: 1px solid transparent; border-radius: 6px; background: none; cursor: pointer; }
 .u-mode img { width: 24px; height: 24px; display: block; }
 .u-mode-gap { width: 30px; flex: none; }  /* (a badge left out: its place kept, 24px + padding and border) */
-.u-mode[aria-pressed="false"] img { filter: grayscale(1); opacity: .07; }
+.u-mode[aria-pressed="false"] img { filter: grayscale(1); opacity: .25; }
 .u-mode:hover { border-color: var(--line); }
-.u-mode[aria-pressed="false"]:hover img { opacity: .35; }
+.u-mode[aria-pressed="false"]:hover img { opacity: .6; }
 .u-prof-btn { display: flex; padding: 2px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); cursor: pointer; }
 .u-prof-btn img, .u-prof-menu img { width: 22px; height: 22px; display: block; }
 .u-prof-menu { position: absolute; top: calc(100% + 4px); left: 0; z-index: 20; display: grid; grid-template-columns: repeat(4, auto); gap: 4px; padding: 6px;
@@ -1329,6 +1329,7 @@ a.hchip { text-decoration: none; }
 .ch-edit-age p { margin: 6px 0 0; }
 .ch-edit-age .ch-age-known { margin: 0 0 8px; color: var(--text); }
 .ch-edit-age b { color: var(--accent); font-weight: 600; }
+.ch-edit-retired { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; cursor: pointer; }
 .ch-edit-note { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; color: var(--muted); }
 .ch-edit-note input { flex: 1; max-width: 640px; font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; }
 .ch-edit-note .dim { font-size: 12px; min-width: 60px; }
@@ -1406,3 +1407,21 @@ a.hchip { text-decoration: none; }
 .ch-coins.none img { opacity: .3; filter: grayscale(1); }
 .ch-coins.full { border-color: var(--accent); }
 .ch-coins:hover { border-color: var(--accent); }
+/* a character as a pill (charPill, common.js), what it needs inside it */
+.c-pill { display: inline-flex; align-items: center; gap: 4px; margin: 0 4px 4px 0; padding: 1px 8px 1px 4px; border: 1px solid var(--line); border-radius: 999px; color: var(--text); text-decoration: none; font-size: 13px; white-space: nowrap; }
+a.c-pill:hover { border-color: var(--accent); }
+.c-pill.more { opacity: .6; border-style: dashed; }  /* (one shown though it hasn't passed the list's bar) */
+.c-pill img { width: 16px; height: 16px; }
+.c-pill .dim { margin-left: 4px; font-size: 12px; }
+/* the Today page */
+.td { max-width: 1240px; }
+.td-pick { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 4px 0 8px; }
+.td-pick label { display: inline-flex; align-items: center; gap: 8px; }
+.td-pick [hidden] { display: none; }
+.td-pick input { font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; color-scheme: dark; }
+.td h2 { font-size: 18px; margin: 34px 0 8px; padding-top: 18px; border-top: 2px solid var(--muted); }
+.td-t { width: 100%; border-collapse: collapse; font-size: 14px; }
+.td-t td { padding: 7px 14px 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.td-t td:first-child { width: 90px; white-space: nowrap; color: var(--muted); }
+.td-t .e { width: 280px; }
+.td-left { display: block; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }

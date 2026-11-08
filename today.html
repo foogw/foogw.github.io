@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>GW Today</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top"></header><script src="header.js"></script>
+  <div class="page-title"><h1>Today</h1><p>The day's dailies and weekly bonus, and what your characters can do with them</p></div>
+  <div class="td">
+    <div class="td-pick"><label>Pick another day: <input type="date" id="td-date"></label><label id="td-at" hidden>at <select id="td-time"></select></label>
+      <button type="button" class="link" id="td-today" hidden>Back to now</button><span class="dim" id="td-when"></span></div>
+    <h2>Zaishen dailies</h2>
+    <p class="dim">And which of your characters still need each, most important first: of the ones that do that kind of thing, 3
+      at least done (missions in HM, areas vanquished, dungeons in HM), not pre-Searing, hidden or no longer played; made up to 3 with the next that
+      need it, dashed.</p>
+    <div id="td-zaishen"></div>
+    <h2>Other dailies</h2>
+    <div id="td-other"></div>
+    <h2>This week's bonus</h2>
+    <div id="td-bonus"></div>
+    <h2>Birthdays worth checking</h2>
+    <p class="dim">Characters whose /age now narrows when they were made by a day at least (an hour, once it's down to hours): see
+      their Edit tab on My Characters.</p>
+    <div id="td-bday"></div>
+  </div>
+  <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="game/titles.js"></script>
+<script src="game/skills.js"></script>
+<script src="game/calendar.js"></script>
+<script src="game/ground.js"></script>
+<script src="game/missions.js"></script>
+<script src="game/creatures.js"></script>
+<script src="game/quests.js"></script>
+<script src="common.js"></script>
+<script src="mytitles.js"></script>
+<script src="today.js"></script>
+</body>
+</html>

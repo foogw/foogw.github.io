@@ -353,6 +353,39 @@ function bonusNeeds(id, c, o, scope = null) {
   const say = (ts, who) => ts.length && `${who} hasn't maxed the ${andList(ts.map(t => t.own_name || t.name))} title${ts.length > 1 ? "s" : ""}`;
   return [say(left.filter(t => t.scope === "character"), c.name), say(left.filter(t => t.scope === "account"), acctSaid(o, c))].filter(Boolean);
 }
+// a character as a pill linking to My Characters (with it picked: data-go, handled below), a note inside it
+const charPill = (c, x = "") => `<a class="c-pill" href="characters" data-go="${c.id}"><img src="${profImg(c.profession || 0)}" alt="">${esc(c.name)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</a>`;
+document.addEventListener("click", e => { const a = e.target.closest?.("[data-go]"); if (a && typeof User !== "undefined") User.pick(+a.dataset.go); });
+// a Zaishen daily's characters still needing it, of cs, [character, note] each: a mission not done in NM or HM (said
+// which), an area not vanquished, a dungeon not done; null when the daily isn't one tracked
+function dailyNeeds(key, e, cs) {
+  const modesLeft = (c, part, id) => { const d = c[part][id] || 0; return [!(d & 1) && "NM", !(d & 2) && "HM"].filter(Boolean).join(", "); };
+  const f = key === "zaishen-mission" ? hasModes(MISSIONS[e.mission]) && (c => modesLeft(c, "missions", e.mission))
+    : key === "zaishen-vanquish" ? AREAS[e.area]?.foes && (c => !(c.vanquished || []).includes(e.area) && " ")
+    : key === "zaishen-bounty" ? e.area && isTickedDungeon(e.area) && (c => modesLeft(c, "dungeons", e.area)) : null;
+  return f ? cs.map(c => [c, f(c)]).filter(([, x]) => x).map(([c, x]) => [c, x.trim()]) : null;
+}
+// a weekly bonus's pills: the characters of cs, then the accounts, whose titles it helps, each with those titles
+function bonusPills(bonus, o, cs) {
+  const left = x => x[0].replace(/^.* hasn't maxed the /, "").replace(/ titles?$/, "");
+  const chars = cs.map(c => [c, bonusNeeds(bonus, c, o, "character")]).filter(([, x]) => x.length).map(([c, x]) => charPill(c, left(x)));
+  const accts = o.accounts.map(a => [a, o.chars.find(c => c.account === a.id)]).filter(([, c]) => c)
+    .map(([a, c]) => [a, bonusNeeds(bonus, c, o, "account")]).filter(([, x]) => x.length)
+    .map(([a, x]) => `<span class="c-pill">${esc(accountName(a))}<span class="dim">${esc(left(x))}</span></span>`);
+  return [...chars, ...accts];
+}
+// a character's age range at a moment (its "made", narrowed by /age readings): the unit it's said in (days while it
+// covers more than two dates, then hours, then minutes), and what a reading then takes off for sure (the smaller side
+// where a month ticks over inside it). A month: a twelfth of the game's 365-day year
+const AGE_DAY = 864e5, AGE_MO = 365 / 12 * AGE_DAY;
+function ageAt(made, t = Date.now()) {
+  const [lo, hi] = made.map(Date.parse), dates = Math.floor(hi / AGE_DAY) - Math.floor(lo / AGE_DAY) + 1;
+  const [unit, word] = dates > 2 ? [AGE_DAY, "day"] : hi - lo >= 36e5 ? [36e5, "hour"] : [6e4, "minute"];
+  const b = t - Math.floor((t - lo) / AGE_MO) * AGE_MO, side = b > lo && b < hi ? Math.min(b - lo, hi - b) : 0;
+  const mid = (lo + hi) / 2;
+  return { lo, hi, dates, unit, word, side, mid, done: hi - lo <= 6e4, next: mid + Math.ceil((t - mid) / AGE_MO) * AGE_MO,
+    said: n => `${n} ${word}${n === 1 ? "" : "s"}` };
+}
 function bonusMark(id) {
   if (!userNamed()) return "";
   const o = User.data(), says = bonusNeeds(id, User.char(o), o);
@@ -482,8 +515,8 @@ function recruitHTML(h) {
    the character is bound to (and our pre-Searing mark), of USER_MODES, gender: "m" or "f" (for how the site speaks of it,
    left out when not set), hidden: true when kept out of My Characters' list (left out when shown), heroes: [hero ids
    recruited] (or "all"), builds: [skill template codes saved, in the order shown], campaign: the one it was made in (1 Prophecies, 2 Factions, 3
-   Nightfall), note: the player's one line about it, made: [the earliest, the latest] time it can have
-   been made, narrowed by the ages /age gave (My Characters' Edit), eotnMap: the percent of the Eye of the North map
+   Nightfall), note: the player's one line about it, retired: true when no longer played (left out of the Today page's suggestions), made: [the earliest, the latest]
+   time it can have been made, narrowed by the ages /age gave (My Characters' Edit), eotnMap: the percent of the Eye of the North map
    explored, as worked out on My Characters from Master of the North's points}]}]}, the accounts in the order shown.
    A list may be "all": every id in USER_ALL_V3 (frozen: should the game ever have more, they'd come with a
    new version). An empty list, or a title not reached, is left out. Version 1 (from before), still read: no "all", and
@@ -583,7 +616,7 @@ const USER_ALL = {
   dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
 };
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
-  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "heroes", "builds", "campaign", "note", "made", "eotnMap"] };
+  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "heroes", "builds", "campaign", "note", "made", "retired", "eotnMap"] };
 // (version 3's characters: version 2's, their account the one they're in)
 USER_KEYS[3] = USER_KEYS[2].filter(k => k !== "account");
 // version 3 as version 2: each account's characters in one list, each with its account's id
@@ -625,6 +658,7 @@ function userFromKept(o) {
     if (k.campaign) c.campaign = k.campaign;
     if (k.note) c.note = k.note;
     if (k.made) c.made = [...k.made];
+    if (k.retired) c.retired = true;
     if (k.eotnMap !== undefined) c.eotnMap = k.eotnMap;
     return c;
   });
@@ -655,6 +689,7 @@ function userToKept(o) {
     if (c.campaign) k.campaign = c.campaign;
     if (c.note?.trim()) k.note = c.note.trim();
     if (c.made) k.made = c.made;
+    if (c.retired) k.retired = true;
     if (c.eotnMap !== undefined) k.eotnMap = c.eotnMap;
     return k;
   });
@@ -748,6 +783,7 @@ function userCheck(o) {
       if (c.hidden !== undefined && c.hidden !== true) return `${at}: "hidden" should be true (or left out).`;
       if (c.heroes !== undefined && c.heroes !== "all" && !idList(c.heroes)) return `${at}: "heroes" should be "all" or a list of hero ids, each once.`;
       if (c.note !== undefined && !(typeof c.note === "string" && c.note.length <= USER_NOTE_MAX && !/\n/.test(c.note))) return `${at}: "note" should be one line, at most ${USER_NOTE_MAX} characters.`;
+      if (c.retired !== undefined && c.retired !== true) return `${at}: "retired" should be true (or left out).`;
       if (c.made !== undefined && !(Array.isArray(c.made) && c.made.length === 2 && c.made.every(t => typeof t === "string" && !isNaN(Date.parse(t))) && Date.parse(c.made[0]) <= Date.parse(c.made[1])))
         return `${at}: "made" should be [the earliest, the latest] time it can have been made.`;
       if (c.campaign !== undefined && ![1, 2, 3].includes(c.campaign)) return `${at}: "campaign" should be 1 (Prophecies), 2 (Factions) or 3 (Nightfall).`;
