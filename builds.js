@@ -136,11 +136,12 @@ function singlesHTML(key, title, ids) {
   const shown = all.filter(b => !listProf[key] || b._profs[0] === listProf[key])
     .sort((x, y) => rank(x) - rank(y) || cmpStr(x.name, y.name));
   return `<h2 class="bd-section">${title}</h2>${chips}<div class="bd-singles">${shown.map(b =>
-    `<a class="bd-single" href="${buildHref(b.id)}" style="--pc:${profVar(b._profs[0])}">
+    // (the row a link to the build, its code copied by the icon at its right)
+    `<div class="bd-single" style="--pc:${profVar(b._profs[0])}"><a class="bd-slink" href="${buildHref(b.id)}">
       <span class="bd-sname">${profIcons(b)}<b>${esc(b.name)}</b></span>
       ${modeHTML(b) || "<span></span>"}
       <span class="bd-ebar">${miniBar(b)}</span>
-    </a>`).join("")}</div>`;
+    </a><button type="button" class="bd-copyp" data-copy="${esc(b.code)}" title="Copy its template code" aria-label="Copy ${esc(b.name)}'s template code">${COPY_ICON}</button></div>`).join("")}</div>`;
 }
 
 function singleHTML(b) {

@@ -955,16 +955,19 @@ a.hchip { text-decoration: none; }
 .bd-section { font-size: 20px; margin: 22px 0 10px; }
 /* column-first, so a profession's builds run down one column */
 .bd-singles { columns: 560px 2; column-gap: 14px; }
-.bd-single { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 4px 12px; padding: 8px 12px;
+.bd-single { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; align-items: center; gap: 4px 12px; padding: 8px 12px;
   break-inside: avoid; margin-bottom: 6px;
   border: 1px solid var(--line); border-left: 4px solid var(--pc); border-radius: 8px; background: var(--panel); color: var(--text); text-decoration: none; }
 .bd-single:hover { border-color: var(--accent); border-left-color: var(--pc); }
+.bd-slink { display: contents; color: inherit; text-decoration: none; }
+.bd-single .bd-copyp { color: var(--muted); }
+.bd-single .bd-copyp:hover { color: var(--text); }
 .bd-sname { display: flex; align-items: center; gap: 4px; min-width: 0; }
 .bd-sname b { margin-left: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bd-pi { display: inline-flex; gap: 2px; width: 38px; flex: none; }
 .bd-single .bd-mode { justify-self: end; }
 @media (max-width: 600px) {
-  .bd-single { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 24px auto; }
+  .bd-single { grid-template-columns: minmax(0, 1fr) auto auto; grid-template-rows: 24px auto; }
   .bd-single .bd-ebar { grid-column: 1 / -1; }
 }
 .bd-one { max-width: 760px; margin-top: 10px; }
