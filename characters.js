@@ -246,7 +246,9 @@ const madeIn = c => fixedCampaign(c) || c.campaign || 0;
    a reading helps only while a month could tick over within it (the window: the range moved on by whole months), so
    the tab says when to check next, best halfway through, till it's down to a day. Its birthdays: every 365 days. */
 const AGE_MONTH = 365 / 12 * 864e5, AGE_YEAR = 365 * 864e5;
-const fmtAgeDay = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", year: "numeric" });
+// (dates as the game's servers count them, UTC: one it can have been made on, a whole UTC day)
+const fmtAgeDay = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+const ageDates = (lo, hi) => Math.floor(hi / 864e5) - Math.floor(lo / 864e5) + 1;
 const fmtAgeTime = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
 const isoMin = t => new Date(t).toISOString().slice(0, 16) + "Z";
 // the window for a reading now or next: [opens, closes, best], k whole months on from the range
@@ -260,9 +262,9 @@ function ageHTML(c) {
   let known = `We have no idea of ${esc(c.name)}'s age yet.`, next = "Type in how old /age says it is: \"79 months\", or \"12 days\" for a young one.";
   if (c.made) {
     const [lo, hi] = c.made.map(Date.parse), now = Date.now();
-    if (hi - lo < 864e5) {
+    if (ageDates(lo, hi) === 1) {
       const mid = (lo + hi) / 2, years = Math.floor((now - mid) / AGE_YEAR), bday = mid + (years + 1) * AGE_YEAR;
-      known = `${esc(c.name)} was created on ${fmtAgeDay.format(mid)}: ${years} year${years === 1 ? "" : "s"} old, next birthday ${fmtAgeDay.format(bday)} (${(years + 1) * 12} months).`;
+      known = `${esc(c.name)} was created on ${fmtAgeDay.format(lo)}: ${years} year${years === 1 ? "" : "s"} old, next birthday ${fmtAgeDay.format(bday)} (${(years + 1) * 12} months).`;
       next = "";
     } else {
       const [a, b, best] = ageWindow(lo, hi, now);
