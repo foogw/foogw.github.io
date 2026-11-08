@@ -65,7 +65,7 @@ document.addEventListener("click", e => { if (!e.target.closest(".u-prof")) clos
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeProfs(); });
 // the counts under the card, a row by subject: [subject, [label, have, of, the page listing what's left]]; the three
 // campaigns' (with the Core elites), and the Eye of the North's (the subject not shown)
-const DONE_DUNGEONS = [...USER_ALL.dungeons, 701].filter(isTickedDungeon);
+const DONE_DUNGEONS = USER_ALL_V3.dungeons;
 const eotn = id => AREAS[id]?.campaign === 4;
 function progress(c) {
   const el = new Set(c.elites), vq = new Set(c.vanquished), has = (ids, got) => ids.filter(id => got.has(id)).length;

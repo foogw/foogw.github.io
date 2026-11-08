@@ -27,7 +27,7 @@ const DERIVED_TITLES = new Map([
 // vanquished, from the character's ticks; and 1 a percent of the Eye of the North map explored, worked out on My
 // Characters from the points the game shows and kept on the character (eotnMap). The 18 dungeons it counts: the Eye of
 // the North's, with Secret Lair of the Snowmen (701) and not Destruction's Depths (a mission, counted with them)
-const MOTN_DUNGEONS = [...USER_ALL.dungeons.filter(id => AREAS[id]?.campaign === 4 && !MISSIONS[id]), 701];
+const MOTN_DUNGEONS = USER_ALL_V3.dungeons;
 const MOTN_RANKS = [100, 200, 350, 550, 750, 1000];
 function motnTicked(c) {
   const modes = (part, id, nm, hm) => ((c[part]?.[id] || 0) & 1 ? nm : 0) + ((c[part]?.[id] || 0) & 2 ? hm : 0);

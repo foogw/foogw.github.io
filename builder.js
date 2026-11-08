@@ -21,7 +21,8 @@ const POINT_COST = [0, 1, 3, 6, 10, 15, 21, 28, 37, 48, 61, 77, 97]; // cumulati
 const MAX_POINTS = 200;
 const MAX_BONUS = 10; // runes, headgear, consumables and skills on top of the spent ranks
 const STORE_KEY = "gw-builder-v1";
-const SAVED_KEY = "gw-builder-saved-v1";
+// the saved builds: their template codes, newest first (BUILDER_SAVED_KEY, common.js; backed up on the Backup page)
+const SAVED_KEY = BUILDER_SAVED_KEY;
 
 const state = { primary: 3, secondary: 0, ranks: {}, bonus: {}, bar: Array(8).fill(0), pool: [], selected: null, notice: "" };
 
@@ -29,7 +30,7 @@ const els = {
   code: $("code"), msg: $("code-msg"), primary: $("primary"), secondary: $("secondary"),
   points: $("points"), attrs: $("attrs"), bar: $("bar"), warnings: $("warnings"), detail: $("detail"),
   search: $("search"), onlyProfs: $("only-profs"), results: $("results"), pool: $("pool"),
-  saveName: $("save-name"), saved: $("saved"),
+  saved: $("saved"),
 };
 
 /* ---------- storage (per-viewer convenience only) ---------- */
@@ -271,12 +272,12 @@ function renderPool() {
 }
 
 function renderSaved() {
-  const saved = load(SAVED_KEY, []);
-  els.saved.innerHTML = saved.map((b, i) => {
-    let skills = [];
-    try { skills = TemplateCode.decode(b.code).skills; } catch { /* keep the row, show no icons */ }
-    return `<div class="b-srow" data-code="${esc(b.code)}">
-      <span class="b-sname">${esc(b.name)}</span>
+  const saved = builderSaved();
+  els.saved.innerHTML = saved.map((code, i) => {
+    let skills = [], profs = "";
+    try { const t = TemplateCode.decode(code); skills = t.skills; profs = t.professions.map(p => PROF_ABBR[p] ?? "?").join("/"); } catch { /* keep the row, show no icons */ }
+    return `<div class="b-srow" data-code="${esc(code)}">
+      <span class="b-sname">${esc(profs)}</span>
       <span class="b-smini">${skills.map(id => icon(SKILL.get(id), "xs")).join("")}</span>
       <button type="button" class="x" data-del="${i}" title="Delete">×</button></div>`;
   }).join("") || '<span class="dim">None yet</span>';
@@ -582,18 +583,16 @@ els.pool.addEventListener("drop", e => {
 });
 
 /* saved builds */
+// (a build saved again goes to the top, not in twice)
 $("save").addEventListener("click", () => {
-  const name = els.saveName.value.trim() || `${PROF_IDS[state.primary]}/${PROF_IDS[state.secondary]}`;
-  const saved = load(SAVED_KEY, []);
-  saved.unshift({ name, code: currentCode() });
-  store(SAVED_KEY, saved);
-  els.saveName.value = "";
+  const code = currentCode();
+  store(SAVED_KEY, [code, ...builderSaved().filter(c => c !== code)]);
   renderSaved();
 });
 els.saved.addEventListener("click", e => {
   const del = e.target.closest("[data-del]");
   if (del) {
-    const saved = load(SAVED_KEY, []);
+    const saved = builderSaved();
     saved.splice(+del.dataset.del, 1);
     store(SAVED_KEY, saved);
     return renderSaved();

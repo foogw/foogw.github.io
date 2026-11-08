@@ -17,7 +17,9 @@
   const charName = () => {
     try {
       const o = JSON.parse(localStorage.getItem("gw-user")), id = +localStorage.getItem("gw-user-char");
-      const c = o?.chars?.find(c => c.id === id) ?? o?.chars?.[0];
+      // (version 3 keeps the characters under their accounts, version 2 in one list)
+      const chars = o?.chars ?? o?.accounts?.flatMap(a => a.chars || []) ?? [];
+      const c = chars.find(c => c.id === id) ?? chars[0];
       const n = typeof c?.name === "string" ? c.name.trim() : "";
       return n && n !== `Char${c.id}` ? n : null;
     } catch { return null; }

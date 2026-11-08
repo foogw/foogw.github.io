@@ -11,26 +11,41 @@
 <body>
 <div class="wrap">
   <header class="top"></header><script src="header.js"></script>
-  <div class="page-title"><h1>Backup</h1><p>Your progress, kept in this browser: copy it, download it, or load one back</p></div>
+  <div class="page-title"><h1>Backup</h1></div>
   <div class="u-box">
-    <p class="u-warn"><b>Experimental:</b> this hasn't gone through any testing yet. Use it with care, and keep a copy of your progress.</p>
-    <p class="dim">Your progress is kept in this browser only, and clearing the site's data loses it. Download it, or copy it somewhere safe, to keep it or move it to another browser.</p>
+    <p class="u-warn"><b>Your progress is kept in this browser only!</b><br>This is a static site, so your progress lives in
+      your browser, not on a server. If you lose your device or clear this browser's data, you lose it. Download it or copy
+      it now and then to keep it safe. Use it also to move between computers or browsers, but remember that each one keeps
+      its own copy: a change made in one isn't seen in the others until you load it there.</p>
     <div class="u-broken" id="u-broken" hidden>
       <b>Your saved progress is broken: the site can't read it.</b> The pages go without it until it's fixed, and nothing
       here writes over it. Copy or download the text below to keep it, and please <a href="contact">tell me</a> about it,
       with the text. Then you can paste a fixed version and use it, or reset everything and start afresh.
     </div>
-    <h2 class="r-h">Back up or restore</h2>
-    <textarea class="u-text" id="u-text" spellcheck="false" aria-label="Your progress"></textarea>
-    <p class="u-status" id="u-status"></p>
+    <h2 class="r-h">What's in it</h2>
+    <ul class="u-incl">
+      <li><b><a href="characters">Your accounts and characters</a></b>: their details, ticks, titles, heroes and builds</li>
+      <li><b>The <a href="builder">Builder</a>'s saved builds</b></li>
+      <li><b>The <a href="guides">guides</a></b>: the steps you ticked, and the faction cap calculator's choices</li>
+      <li><b><a href="rotations">Rotations</a></b>: times shown in UTC or yours</li>
+    </ul>
+    <p class="dim">Not in it: the character picked, accounts folded, the tab open and other choices of how a page looks.</p>
+    <h2 class="r-h">Back up</h2>
     <div class="u-row">
       <button type="button" class="u-btn" id="u-copy">Copy</button>
       <button type="button" class="u-btn" id="u-download">Download</button>
+    </div>
+    <h2 class="r-h u-sub">Restore</h2>
+    <p class="dim">Paste a backup in the box below, or load it from a file, then click <b>Use this progress</b> to overwrite the progress saved in this browser.</p>
+    <div class="u-row">
       <button type="button" class="u-btn" id="u-load">Load from file</button>
       <input type="file" id="u-file" accept=".json,.txt,application/json,text/plain" hidden>
       <button type="button" class="u-btn" id="u-submit" disabled>Use this progress</button>
       <button type="button" class="u-btn reset-all" id="u-reset" hidden disabled title="Copy or download your saved progress first">Reset all</button>
     </div>
+    <p class="u-status" id="u-status"></p>
+    <div class="u-text-head"><button type="button" class="u-btn u-layout" id="u-layout" aria-pressed="false" title="Show it laid out, a line for each key (copied and downloaded so too)">Laid out</button></div>
+    <textarea class="u-text" id="u-text" spellcheck="false" aria-label="Your progress"></textarea>
   </div>
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>

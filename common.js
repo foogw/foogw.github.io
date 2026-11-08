@@ -280,7 +280,7 @@ const entryName = e => (e.item || (e.creature && CREATURES[e.creature]?.name) ||
 const userNamed = () => { if (User.stored() == null || User.broken()) return false; const c = User.char(); return !!c?.name.trim() && c.name !== `Char${c.id}`; };
 // the dungeons ticked done: the Eye of the North's (Secret Lair of the Snowmen too; not Destruction's Depths, a mission,
 // nor the Piken Square ones)
-const isTickedDungeon = id => (USER_ALL.dungeons.includes(+id) || +id === 701) && +id !== 670 && AREAS[id]?.campaign === 4;
+const isTickedDungeon = id => USER_ALL_V3.dungeons.includes(+id);
 // a mission or dungeon ("missions" or "dungeons") the picked character hasn't completed: † in normal mode, ‡ in hard mode
 function modeMarks(part, id) {
   if (!(part === "missions" ? hasModes(MISSIONS[id]) : isTickedDungeon(id)) || !userNamed()) return "";
@@ -454,19 +454,101 @@ function recruitHTML(h) {
 }
 
 /* ---------- the visitor's progress, per character, kept in this browser only (the Backup page backs it up) ----------
-   Kept as {v: 2, chars: [{id, name, account: its account's id, profession: its primary (1 Warrior ... 10 Dervish), elites: [skill ids captured], vanquished: [area ids],
+   Kept as {v: 3, accounts: [{id, name, titles: its account titles, chars: [its characters, in the order shown: {id,
+   name, profession: its primary (1 Warrior ... 10 Dervish), elites: [skill ids captured], vanquished: [area ids],
    missionsNM, missionsHM, dungeonsNM, dungeonsHM: [ids done in that mode], titles: {title id: rank}, modes: the optional game modes
    the character is bound to (and our pre-Searing mark), of USER_MODES, gender: "m" or "f" (for how the site speaks of it,
-   left out when not set), hidden: true when kept out of My Characters' list (left out when shown), eotnMap: the percent of the Eye of the North map
-   explored, as worked out on My Characters from Master of the North's points}], accounts: [{id,
-   name, titles}]}. A list may be "all": every id in USER_ALL (frozen: should the game ever have more, they'd come with a
+   left out when not set), hidden: true when kept out of My Characters' list (left out when shown), heroes: [hero ids
+   recruited] (or "all"), builds: [skill template codes saved, in the order shown], eotnMap: the percent of the Eye of the North map
+   explored, as worked out on My Characters from Master of the North's points}]}]}, the accounts in the order shown.
+   A list may be "all": every id in USER_ALL_V3 (frozen: should the game ever have more, they'd come with a
    new version). An empty list, or a title not reached, is left out. Version 1 (from before), still read: no "all", and
    missions and dungeons as {<id>: done}, done 1 normal mode, 2 hard mode, 3 both; with no "account": account 1.
+   Version 2 (from before), still read: "all" as USER_ALL, the same characters in one list, {v: 2, chars: [{..., account: its account's
+   id}], accounts: [{id, name, titles}]}.
    In memory, the pages see every character as {id, name, account, elites: [], vanquished: [], missions: {<id>: done},
    dungeons: {<id>: done}, titles}, the lists in full: it's turned into what's kept only when saved.
    Everything is by the game's own ids, so it outlasts the site's updates, and ids the site doesn't know are kept. Which
    character is shown (its id) is kept apart, as it's no progress. */
 const USER_KEY = "gw-user", USER_CHAR_KEY = "gw-user-char";
+/* Kept in this browser apart from the characters, and in a backup with them (the Backup page): the Builder's saved
+   builds, the guides' steps ticked and faction cap calculators, and the Rotations page's UTC switch. In a backup, each
+   part is optional: {builds: [template codes, newest first], guides: {<guide id>: {steps: "1-5,7", cap: {rows: [the
+   raises ticked, by their row], rank}}}, settings: {eventsUtc: true | false}}. */
+const BUILDER_SAVED_KEY = "gw-builder-saved-v2", GUIDE_STEPS_KEY = id => `gw-guide-${id}`, GUIDE_CAP_KEY = id => `gw-cap-${id}`;
+const lsGet = k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } };
+const lsSet = (k, v) => { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage blocked */ } };
+// the guides' ids before they were short names: what this browser kept under them moved to the new ones, once (kept
+// there when the new one has its own), and the old ones gone
+const GUIDE_OLD_IDS = {"gom-afk-xp": "gom", "pre-searing-quests": "pre", "wayfarers-reverie": "reverie", "fow-quests": "fow", "uw-quests": "uw", "chaos-axe-farm": "drakes", "fow-spider-cave": "spidercave", "zos-afk-luxon": "zos"};
+for (const [old, id] of Object.entries(GUIDE_OLD_IDS)) for (const key of [GUIDE_STEPS_KEY, GUIDE_CAP_KEY]) try {
+  const v = localStorage.getItem(key(old));
+  if (v == null) continue;
+  if (localStorage.getItem(key(id)) == null) localStorage.setItem(key(id), v);
+  localStorage.removeItem(key(old));
+} catch { /* storage blocked */ }
+// the Builder's saved builds (from before, {name, code} each: the codes, once, the names dropped)
+function builderSaved() {
+  let codes = lsGet(BUILDER_SAVED_KEY);
+  if (!Array.isArray(codes)) {
+    const old = lsGet("gw-builder-saved-v1");
+    codes = Array.isArray(old) ? [...new Set(old.map(b => b?.code).filter(c => typeof c === "string"))] : [];
+    if (old) { lsSet(BUILDER_SAVED_KEY, codes); lsSet("gw-builder-saved-v1", null); }
+  }
+  return codes.filter(c => typeof c === "string");
+}
+// numbers as ranges, "1-5,7,12-30", and back
+const toRanges = ns => [...new Set(ns)].sort((a, b) => a - b).reduce((rs, n) => { const r = rs.at(-1); if (r && n === r[1] + 1) r[1] = n; else rs.push([n, n]); return rs; }, [])
+  .map(([a, b]) => (a === b ? `${a}` : `${a}-${b}`)).join(",");
+const fromRanges = t => t.split(",").filter(Boolean).flatMap(r => { const [a, b = a] = r.split("-").map(Number); return Array.from({ length: b - a + 1 }, (_, i) => a + i); });
+const RANGES = /^(\d+(-\d+)?)(,\d+(-\d+)?)*$/;
+// what's kept in this browser of them, as it goes in a backup (a part with nothing in it left out)
+function extrasKept() {
+  const x = {}, builds = builderSaved(), guides = {};
+  if (builds.length) x.builds = builds;
+  let keys = []; try { keys = Object.keys(localStorage); } catch { /* storage blocked */ }
+  for (const k of keys) {
+    const m = k.match(/^gw-(guide|cap)-([a-z0-9-]+)$/);
+    if (!m) continue;
+    const v = lsGet(k), g = guides[m[2]] ||= {};
+    if (m[1] === "guide" && Array.isArray(v) && v.length) g.steps = toRanges(v.filter(Number.isInteger));
+    if (m[1] === "cap" && v && typeof v === "object" && (v.rows?.length || v.rank)) g.cap = { rows: v.rows || [], rank: v.rank || 0 };
+  }
+  for (const [id, g] of Object.entries(guides)) if (!Object.keys(g).length) delete guides[id];
+  if (Object.keys(guides).length) x.guides = Object.fromEntries(Object.entries(guides).sort(([a], [b]) => cmpStr(a, b)));
+  let utc = null; try { utc = localStorage.getItem("events-utc"); } catch { /* storage blocked */ }
+  if (utc != null) x.settings = { eventsUtc: utc === "1" };
+  return x;
+}
+// a backup's parts put in this browser: each part in it replaces what's here, a part left out leaves it as it is
+function extrasApply(o) {
+  if (o.builds) lsSet(BUILDER_SAVED_KEY, [...new Set(o.builds)]);
+  if (o.guides) {
+    let keys = []; try { keys = Object.keys(localStorage); } catch { /* storage blocked */ }
+    for (const k of keys) if (/^gw-(guide|cap)-/.test(k)) lsSet(k, null);
+    for (const [id, g] of Object.entries(o.guides)) {
+      if (g.steps) lsSet(GUIDE_STEPS_KEY(id), fromRanges(g.steps));
+      if (g.cap) lsSet(GUIDE_CAP_KEY(id), { rows: g.cap.rows, rank: g.cap.rank });
+    }
+  }
+  if (o.settings && "eventsUtc" in o.settings) try { localStorage.setItem("events-utc", o.settings.eventsUtc ? "1" : "0"); } catch { /* storage blocked */ }
+}
+// what's wrong with them in a backup, or ""
+function extrasCheck(o) {
+  const isObj = x => x && typeof x === "object" && !Array.isArray(x);
+  if (o.builds !== undefined && !(Array.isArray(o.builds) && o.builds.every(b => typeof b === "string" && /^[A-Za-z0-9+/]{1,200}$/.test(b)))) return '"builds" should be a list of skill template codes.';
+  if (o.guides !== undefined) {
+    if (!isObj(o.guides)) return '"guides" should map guide ids to what\'s kept of them.';
+    for (const [id, g] of Object.entries(o.guides)) {
+      if (!/^[a-z0-9-]+$/.test(id) || !isObj(g) || Object.keys(g).some(k => !["steps", "cap"].includes(k))) return `Guide "${id}": it should have "steps" and/or "cap".`;
+      if (g.steps !== undefined && !(typeof g.steps === "string" && RANGES.test(g.steps))) return `Guide "${id}": "steps" should be step numbers and ranges, as "1-5,7".`;
+      if (g.cap !== undefined && !(isObj(g.cap) && Array.isArray(g.cap.rows) && g.cap.rows.every(r => Number.isInteger(r) && r >= 0) && Number.isInteger(g.cap.rank) && g.cap.rank >= 0))
+        return `Guide "${id}": "cap" should be {rows: [row numbers], rank}.`;
+    }
+  }
+  if (o.settings !== undefined && !(isObj(o.settings) && Object.entries(o.settings).every(([k, v]) => k === "eventsUtc" && typeof v === "boolean"))) return '"settings" should be {"eventsUtc": true or false}.';
+  return "";
+}
 // what "all" stands for, version 2: every elite (but PvP versions), every area with foes to vanquish, every mission with
 // modes, every dungeon
 const USER_ALL = {
@@ -476,15 +558,27 @@ const USER_ALL = {
   dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
 };
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
-  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "eotnMap"] };
+  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "heroes", "builds", "eotnMap"] };
+// (version 3's characters: version 2's, their account the one they're in)
+USER_KEYS[3] = USER_KEYS[2].filter(k => k !== "account");
+// version 3 as version 2: each account's characters in one list, each with its account's id
+const userFlat = o => (o.v !== 3 ? o : { v: 2, chars: o.accounts.flatMap(a => a.chars.map(c => ({ ...c, account: a.id }))),
+  accounts: o.accounts.map(({ chars, ...a }) => a) });
 // the optional game modes (Guild Wars Reforged): a character bound to one wears its badge beside its name; and our own
 // "pre-Searing", a character that stays in pre-Searing Ascalon, with the Tapestry Shred as its badge
 const USER_MODES = { presearing: "Pre-Searing: stays in pre-Searing Ascalon", melandru: "Melandru's Accord", dhuum: "Dhuum's Covenant" };
 const USER_LISTS = ["elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM"];
-const allOf = k => USER_ALL[k.replace(/[NH]M$/, "")];
+// what "all" stands for in version 3: the same, but the dungeons are the 18 ticked (the Eye of the North's with Secret
+// Lair of the Snowmen; not Destruction's Depths, a mission, nor the Piken Square ones), and the heroes are every one;
+// frozen, as USER_ALL is
+const USER_ALL_V3 = { ...USER_ALL, dungeons: [560, 570, 573, 576, 577, 578, 581, 584, 604, 607, 612, 615, 617, 628, 630, 635, 701, 704],
+  heroes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 36, 37, 38, 39] };
+const allOf = (k, v = 3) => (v < 3 ? USER_ALL : USER_ALL_V3)[k.replace(/[NH]M$/, "")];
 const newUserChar = (id, account = 1) => ({ id, name: `Char${id}`, account, elites: [], vanquished: [], missions: {}, dungeons: {} });
-// what's kept (version 1 or 2, checked) as the pages see it
+// what's kept (version 1, 2 or 3, checked) as the pages see it
 function userFromKept(o) {
+  const v = o.v;
+  o = userFlat(o);
   const chars = o.chars.map(k => {
     const c = { id: k.id, name: k.name, account: k.account ?? 1 };
     if (k.profession) c.profession = k.profession;
@@ -493,7 +587,7 @@ function userFromKept(o) {
     if (k.hidden) c.hidden = true;
     if (o.v === 1) Object.assign(c, { elites: k.elites, vanquished: k.vanquished || [], missions: k.missions, dungeons: k.dungeons });
     else {
-      const list = key => (k[key] === "all" ? [...allOf(key)] : k[key] || []);
+      const list = key => (k[key] === "all" ? [...allOf(key, v)] : k[key] || []);
       Object.assign(c, { elites: list("elites"), vanquished: list("vanquished") });
       for (const part of ["missions", "dungeons"]) {
         c[part] = {};
@@ -501,32 +595,39 @@ function userFromKept(o) {
       }
     }
     if (k.titles) c.titles = { ...k.titles };
+    if (k.heroes) c.heroes = k.heroes === "all" ? [...USER_ALL_V3.heroes] : [...k.heroes];
+    if (k.builds) c.builds = [...k.builds];
     if (k.eotnMap !== undefined) c.eotnMap = k.eotnMap;
     return c;
   });
   return userNormalize({ v: 2, chars, accounts: (o.accounts || []).map(a => ({ ...a })) });
 }
-// the pages' progress as it's kept (version 2): each list sorted, "all" when it holds every id, left out when empty
+// the pages' progress as it's kept (version 3): each list sorted, "all" when it holds every id, left out when empty;
+// the characters under their accounts
 function userToKept(o) {
   const chars = o.chars.map(c => {
-    const k = { id: c.id, name: c.name, account: c.account ?? 1 };
+    const k = { id: c.id, name: c.name };
     if (c.profession) k.profession = c.profession;
     if (c.modes?.length) k.modes = Object.keys(USER_MODES).filter(m => c.modes.includes(m));
     if (c.gender) k.gender = c.gender;
     if (c.hidden) k.hidden = true;
     const lists = { elites: c.elites, vanquished: c.vanquished || [] };
+    // (a dungeon with no ticks, as Destruction's Depths or the Piken Square ones, isn't kept)
     for (const part of ["missions", "dungeons"]) for (const [m, b] of [["NM", 1], ["HM", 2]])
-      lists[part + m] = Object.entries(c[part]).filter(([, v]) => v & b).map(([id]) => +id);
+      lists[part + m] = Object.entries(c[part]).filter(([id, v]) => v & b && (part === "missions" || isTickedDungeon(id))).map(([id]) => +id);
     for (const [key, ids] of Object.entries(lists)) {
       const sorted = [...new Set(ids)].sort((a, b) => a - b), set = new Set(sorted);
       if (allOf(key).every(id => set.has(id)) && sorted.length === allOf(key).length) k[key] = "all";
       else if (sorted.length) k[key] = sorted;
     }
     if (c.titles && Object.keys(c.titles).length) k.titles = c.titles;
+    if (c.heroes?.length) { const hs = [...new Set(c.heroes)].sort((a, b) => a - b);
+      k.heroes = hs.length === USER_ALL_V3.heroes.length && USER_ALL_V3.heroes.every(id => hs.includes(id)) ? "all" : hs; }
+    if (c.builds?.length) k.builds = [...c.builds];
     if (c.eotnMap !== undefined) k.eotnMap = c.eotnMap;
     return k;
   });
-  return { v: 2, chars, accounts: o.accounts };
+  return { v: 3, accounts: o.accounts.map(a => ({ ...a, chars: chars.filter((k, i) => (o.chars[i].account ?? 1) === a.id) })) };
 }
 // progress as the site keeps it: every character on an account (one kept without, from before accounts: account 1),
 // every account a character is on listed (one not listed is added last); the lists' order is the order shown
@@ -543,7 +644,30 @@ const accountName = a => a.name || `Account ${a.id}`;
 function userCheck(o) {
   const isObj = x => x && typeof x === "object" && !Array.isArray(x), isId = x => Number.isInteger(x) && x > 0;
   if (!isObj(o)) return "It isn't an object: it should start with {.";
-  if (o.v !== 1 && o.v !== 2) return 'It needs "v": 2 (or 1, from before).';
+  if (![1, 2, 3].includes(o.v)) return 'It needs "v": 3 (or 2 or 1, from before).';
+  // version 3: its accounts, each with its characters (no "account" of their own), then checked as version 2
+  if (o.v === 3) {
+    const extra = Object.keys(o).find(k => !["v", "accounts", "builds", "guides", "settings"].includes(k));
+    if (extra) return `Unknown key "${extra}".`;
+    const bad = extrasCheck(o);
+    if (bad) return bad;
+    if (!Array.isArray(o.accounts) || !o.accounts.length) return 'It needs "accounts": a list of at least one account.';
+    let n = 0;
+    for (const [i, a] of o.accounts.entries()) {
+      if (!isObj(a)) return `Account ${i + 1} isn't an object.`;
+      const k = Object.keys(a).find(k => !["id", "name", "titles", "chars"].includes(k));
+      if (k) return `Account ${i + 1}: unknown key "${k}".`;
+      if (!Array.isArray(a.chars)) return `Account ${i + 1}: "chars" should be a list of its characters.`;
+      for (const c of a.chars) {
+        n++;
+        if (!isObj(c)) return `Character ${n} isn't an object.`;
+        const ck = Object.keys(c).find(k => !USER_KEYS[3].includes(k));
+        if (ck) return `Character ${n}: unknown key "${ck}".`;
+      }
+    }
+    if (!n) return "It needs at least one character.";
+    o = userFlat(o);
+  }
   const extra = Object.keys(o).find(k => !["v", "chars", "accounts"].includes(k));
   if (extra) return `Unknown key "${extra}".`;
   if (!Array.isArray(o.chars) || !o.chars.length) return 'It needs "chars": a list of at least one character.';
@@ -583,6 +707,8 @@ function userCheck(o) {
       if (c.modes !== undefined && !(Array.isArray(c.modes) && c.modes.every(m => USER_MODES[m]) && new Set(c.modes).size === c.modes.length)) return `${at}: "modes" should list game modes of ${Object.keys(USER_MODES).join(", ")}, each once.`;
       if (c.gender !== undefined && !["m", "f"].includes(c.gender)) return `${at}: "gender" should be "m" or "f".`;
       if (c.hidden !== undefined && c.hidden !== true) return `${at}: "hidden" should be true (or left out).`;
+      if (c.heroes !== undefined && c.heroes !== "all" && !idList(c.heroes)) return `${at}: "heroes" should be "all" or a list of hero ids, each once.`;
+      if (c.builds !== undefined && !(Array.isArray(c.builds) && c.builds.every(b => typeof b === "string" && /^[A-Za-z0-9+/]{1,200}$/.test(b)))) return `${at}: "builds" should be a list of skill template codes.`;
       if (c.eotnMap !== undefined && !(Number.isInteger(c.eotnMap) && c.eotnMap >= 0)) return `${at}: "eotnMap" should be the Eye of the North map's Master of the North points (a whole number from 0).`;
       const bad = USER_LISTS.find(k => c[k] !== undefined && c[k] !== "all" && !idList(c[k]));
       if (bad) return `${at}: "${bad}" should be "all" or a list of ids, each once.`;
