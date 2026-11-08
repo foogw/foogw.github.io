@@ -1063,6 +1063,7 @@ a.hchip { text-decoration: none; }
 .gd-src { font-size: 14px; margin-top: 22px; }
 @media (max-width: 600px) { .gd-fig.side, .gd-map.side { float: none; width: 100%; margin: 14px 0; } }
 /* a guide's route: legs of numbered steps, each with the quests it takes and turns in */
+.gd-route-head { display: flex; align-items: baseline; gap: 12px; margin: 0 0 8px; font-size: 13px; }
 .gd-route { margin: 12px 0; } /* plain blocks, not a grid, so a side map narrows only the steps beside it */
 .gd-leg + .gd-leg { margin-top: 12px; }
 .gd-leg { padding: 10px 14px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }

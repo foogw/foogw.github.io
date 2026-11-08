@@ -139,9 +139,12 @@ const UNDERGROUND = new Set([145]);  // you go down into these (the Catacombs), 
 const legVerb = (leg, prev) => (leg.start ? "Start in" : leg.map ? "Map to" : leg.area ? "Head to" : UNDERGROUND.has(leg.step) ? "Go down into" : outpostAt(leg.step) ? "Step into"
   : prev && outpostAt(legArea(prev)) ? "Step out to" : "Cross into");
 const legHead = (leg, prev) => `<span class="dim">${legVerb(leg, prev)}</span> ${legName(leg)}`;
+// the steps ticked, of all, and Uncheck all while any is
+const stepsHead = (n, all) => `<div class="gd-route-head"><span class="dim" data-steps-count data-all="${all}">${n} of ${all} steps ticked</span>
+  <button type="button" class="link" data-steps-clear${n ? "" : " hidden"}>Uncheck all</button></div>`;
 function routeHTML(g, route) {
-  const done = ticked(g.id);
-  return `<div class="gd-route">${route.map((leg, i) => {
+  const done = ticked(g.id), all = route.reduce((t, leg) => t + leg.steps.length, 0);
+  return `<div class="gd-route">${stepsHead(route.flatMap(leg => leg.steps).filter(st => done.has(st._n)).length, all)}${route.map((leg, i) => {
     if (!leg.steps.length && route[i + 1]) return "";
     const prev = route[i - 1] && !route[i - 1].steps.length ? `${legHead(route[i - 1], route[i - 2])} <span class="dim">and ${legVerb(leg, route[i - 1]).toLowerCase()}</span> ${legName(leg)}` : legHead(leg, route[i - 1]);
     return `<section class="gd-leg"><h3>${prev}</h3><ol>${leg.steps.map(st =>
@@ -251,12 +254,9 @@ function indexHTML() {
   }).join("");
 }
 
-// the guides' ids before they were short names, as older links (guides#guide=gom-afk-xp) and this browser's saved
-// ticks have them
-const OLD_IDS = {"gom-afk-xp": "gom", "pre-searing-quests": "pre", "wayfarers-reverie": "reverie", "fow-quests": "fow", "uw-quests": "uw", "chaos-axe-farm": "drakes", "fow-spider-cave": "spidercave", "zos-afk-luxon": "zos"};
-for (const [old, id] of Object.entries(OLD_IDS)) for (const key of [STORE, capKey]) try {
-  if (localStorage.getItem(key(old)) != null && localStorage.getItem(key(id)) == null) localStorage.setItem(key(id), localStorage.getItem(key(old)));
-} catch {}
+// the guides' ids before they were short names, as older links (guides#guide=gom-afk-xp) have them (GUIDE_OLD_IDS,
+// common.js, which also moves this browser's saved ticks over)
+const OLD_IDS = GUIDE_OLD_IDS;
 // the guide the address names: guides?gom
 const guideId = () => [...args().keys()][0];
 
@@ -328,6 +328,21 @@ document.addEventListener("change", e => {
   box.checked ? done.add(+box.dataset.step) : done.delete(+box.dataset.step);
   box.closest(".gd-step").classList.toggle("ticked", box.checked);
   try { localStorage.setItem(STORE(id), JSON.stringify([...done])); } catch {}
+  stepsCount();
+});
+const stepsCount = () => {
+  const n = document.querySelectorAll(".gd-route [data-step]:checked").length;
+  for (const c of document.querySelectorAll("[data-steps-count]")) c.textContent = `${n} of ${c.dataset.all} steps ticked`;
+  for (const b of document.querySelectorAll("[data-steps-clear]")) b.hidden = !n;
+};
+// every step unticked, after asking
+document.addEventListener("click", e => {
+  if (!e.target.closest("[data-steps-clear]")) return;
+  const boxes = [...document.querySelectorAll(".gd-route [data-step]:checked")];
+  if (!boxes.length || !confirm(`Uncheck all ${boxes.length} steps ticked in this guide?`)) return;
+  for (const b of boxes) { b.checked = false; b.closest(".gd-step").classList.remove("ticked"); }
+  try { localStorage.removeItem(STORE(guideId())); } catch {}
+  stepsCount();
 });
 
 document.addEventListener("click", e => {
