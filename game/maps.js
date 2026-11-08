@@ -44,7 +44,8 @@ const GW_MAPS = {
     "136": {"name": "Fetid River", "continent": 3, "w": 255, "h": 255},
     "137": {"name": "The Antechamber", "continent": 3, "w": 255, "h": 255},
     "138": {"name": "A Time for Heroes", "continent": 0, "w": 511, "h": 511},
-    "139": {"name": "Sorrow's Furnace", "continent": 0, "w": 1022, "h": 1022}
+    "139": {"name": "Sorrow's Furnace", "continent": 0, "w": 1022, "h": 1022},
+    "140": {"name": "Tunnels of the Forsaken", "continent": 0, "w": 1627, "h": 576}
   },
   "groups_": "The Maps page's tabs, in order: what each shows first, a box [x0, y0, x1, y1] on a set.",
   "groups": [
@@ -74,6 +75,7 @@ const GW_MAPS = {
     {"name": "Ring of Fire Islands", "group": "Tyria", "set": 0, "box": [1056, 7200, 2304, 8032]},
     {"name": "The Dragon's Lair", "group": "Tyria", "set": 121, "box": [0, 0, 511, 511]},
     {"name": "Sorrow's Furnace", "group": "Tyria", "set": 139, "box": [0, 0, 1022, 1022]},
+    {"name": "Tunnels of the Forsaken", "group": "Tyria", "set": 140, "box": [0, 0, 1627, 576]},
     {"name": "Tomb of the Primeval Kings", "group": "Tyria", "set": 131, "box": [0, 0, 319, 319]},
     {"name": "Shing Jea Island", "group": "Cantha", "set": 2, "box": [672, 2048, 2656, 3072]},
     {"name": "Kaineng City", "group": "Cantha", "set": 2, "box": [2496, 576, 4128, 2272]},
@@ -582,6 +584,9 @@ const GW_MAPS = {
     "862": 2,
     "877": 100,
     "878": 100,
+    "880": 140,
+    "881": 140,
+    "882": 140,
     "100000": 114,
     "100001": 114,
     "100002": 114,

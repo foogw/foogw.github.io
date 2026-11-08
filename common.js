@@ -278,8 +278,9 @@ const entryName = e => (e.item || (e.creature && CREATURES[e.creature]?.name) ||
 // the marks and notes of what the picked character has left to do show only once it has a name of its own (not the
 // default Char<id>), as the top bar names it (header.js): before that, nothing says whose they'd be
 const userNamed = () => { if (User.stored() == null || User.broken()) return false; const c = User.char(); return !!c?.name.trim() && c.name !== `Char${c.id}`; };
-// the dungeons ticked done (Secret Lair of the Snowmen too; not Destruction's Depths, a mission)
-const isTickedDungeon = id => (USER_ALL.dungeons.includes(+id) || +id === 701) && +id !== 670;
+// the dungeons ticked done: the Eye of the North's (Secret Lair of the Snowmen too; not Destruction's Depths, a mission,
+// nor the Piken Square ones)
+const isTickedDungeon = id => (USER_ALL.dungeons.includes(+id) || +id === 701) && +id !== 670 && AREAS[id]?.campaign === 4;
 // a mission or dungeon ("missions" or "dungeons") the picked character hasn't completed: † in normal mode, ‡ in hard mode
 function modeMarks(part, id) {
   if (!(part === "missions" ? USER_ALL.missions.includes(+id) : isTickedDungeon(id)) || !userNamed()) return "";

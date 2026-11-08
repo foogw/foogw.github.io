@@ -160,11 +160,18 @@ const GW_DEPTHS = {
       "book": 17,
       "levels": []
     },
+    "879": {
+      "levels": [
+        {"map": 880, "walk": 880, "marks": [["start", 31, 232], ["do", 313, 209, "Take the Elemental Keystone from the bandits"], ["lock", 319, 53, "Crystal Gate (the Keystone opens it)"], ["down", 319, 28]]},
+        {"map": 881, "walk": 881, "marks": [["start", 736, 417], ["down", 1008, 369]]},
+        {"map": 882, "walk": 882, "marks": [["start", 1330, 201], ["key", 1403, 325, "Boss Key, from the Enraged Phantom"], ["lock", 1474, 358, "Boss Lock"], ["boss", 1355, 397, "Varny the Zealot"]]}
+      ]
+    },
     "780": {
       "levels": [
-        {"map": 780, "walk": 780, "marks": [["portal", 172, 60, 147], ["portal", 93, 115, 147], ["down", 136, 326]]},
-        {"map": 877, "walk": 877, "marks": [["start", 508, 347], ["down", 550, 102]]},
-        {"map": 878, "walk": 878, "marks": [["start", 971, 232]]}
+        {"map": 780, "walk": 780, "marks": [["portal", 93, 115, 147], ["portal", 172, 60, 147], ["key", 143, 274, "Dungeon Key, from Wyle Brimscourge"], ["lock", 148, 310, "Dungeon Lock"], ["down", 136, 326]]},
+        {"map": 877, "walk": 877, "marks": [["start", 508, 347], ["do", 628, 120, "Take the Elemental Crystal from the Shard Elementals"], ["lock", 550, 112, "Crystal gate (the Crystal opens it)"], ["down", 550, 102]]},
+        {"map": 878, "walk": 878, "marks": [["start", 971, 232], ["key", 858, 159, "Boss Key"], ["lock", 995, 133, "Boss Lock"], ["boss", 880, 235, "Maz Scourgeheart"]]}
       ]
     }
   }
