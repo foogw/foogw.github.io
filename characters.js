@@ -168,6 +168,22 @@ function eventRows(c, o, scope) {
 const NEXT_DAYS = 3, NEXT_WEEKS = 3, NEXT_ROWS = 7, LOOK_DAYS = Math.max(...["zaishen-mission", "zaishen-vanquish", "zaishen-bounty"].map(k => ROTATIONS[k].entries.length)),
   LOOK_WEEKS = ROTATIONS["weekly-pve"].entries.length;
 const fmtNextDay = new Intl.DateTimeFormat(undefined, { weekday: "short", day: "numeric", month: "short" });
+// a pre-Searing character: the pre-Searing dailies of the next days instead (the Vanguard quest, Nicholas Sandford's
+// item), none of the rest being for it
+function preNextHTML(c) {
+  const r0 = ROTATIONS["vanguard"], k0 = Rotation.period(r0);
+  const rows = Array.from({ length: NEXT_ROWS }, (_, i) => {
+    const at = Rotation.startsAt(r0, k0 + i), t = at + 1000;
+    const items = [["vanguard", "Vanguard"], ["nicholas-sandford", "Sandford"]].map(([key, label]) => { const r = ROTATIONS[key];
+      const e = Rotation.entry(r, Rotation.period(r, t));
+      // (a Vanguard quest without its "Vanguard Annihilation: " prefix, as on the Rotations page)
+      const html = e.quest && QUESTS[e.quest] ? LINK.quest(e.quest, QUESTS[e.quest].name.replace(/^Vanguard \w+: /, "")) : entryHTML(e);
+      return `<span class="ch-next-it"><span class="dim">${label}:</span> ${html}</span>`; }).join("");
+    return `<li${i === 1 ? ' class="ch-next-later"' : ""}><b>${i === 0 ? "Today" : i === 1 ? "Tomorrow" : fmtNextDay.format(at)}</b><span>${items}</span></li>`;
+  }).join("");
+  return `<p class="dim ch-next-intro">${esc(c.name)} stays in pre-Searing Ascalon: its coming dailies, the Vanguard quest and Nicholas Sandford's gift.</p>
+    <ul class="ch-next">${rows}</ul>`;
+}
 function nextHTML(o, c) {
   const both = (part, id) => ((c[part][id] || 0) & 3) === 3, vq = new Set(c.vanquished || []);
   const needs = [["zaishen-mission", "Mission", e => hasModes(MISSIONS[e.mission]) && !both("missions", e.mission)],
@@ -209,6 +225,7 @@ function nextHTML(o, c) {
       `<span class="ch-next-it"><span class="dim">Event:</span> <a href="events">${esc(ev.name)}</a> <span class="dim">· ${esc(acctSaid(o, c))} hasn't maxed the ${esc(t.name)} title</span></span>`, now]);
   }
   const acctHTML = acct.length ? `<h3 class="ch-tab-h">Account</h3>${list(acct)}` : "";
+  if ((c.modes || []).includes("presearing")) return preNextHTML(c);  // (nor its account's: none of it is for it)
   // (a line first saying what's listed; nothing for the character: what that means, its own titles only; its account's
   // list below all the same)
   const intro = `<p class="dim ch-next-intro">The coming Zaishen dailies, weekly bonuses and events that help ${esc(c.name)}'s titles not yet maxed.</p>`;
