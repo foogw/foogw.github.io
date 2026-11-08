@@ -1275,6 +1275,7 @@ a.hchip { text-decoration: none; }
 .ch-card { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .ch-prof { width: 48px; height: 48px; flex: none; }
 .ch-who h2 { margin: 0 0 2px; font-size: 24px; }
+.ch-who .dim { min-height: 1.5em; }  /* (kept, empty, when there is nothing to say: the card stays the same height) */
 .ch-says { color: var(--muted); }
 .ch-hint { margin: 10px 0 0; padding: 8px 12px; border: 1px solid var(--accent); border-radius: 8px; background: color-mix(in srgb, var(--accent) 8%, transparent); }
 .ch-stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 10px 0 0; }
@@ -1288,12 +1289,30 @@ a.hchip { text-decoration: none; }
 #title > .ch-stats:first-child { margin-top: 0; }
 /* the Heroes and Builds tabs */
 .ch-tab-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 12px; }
+/* the What's next tab: a row a day (or week), its date then what's due */
+.ch-next { list-style: none; margin: 0; padding: 0; font-size: 14px; }
+.ch-next li { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.ch-next-done { margin: 1.5em 0 28px; }
+.ch-next li.ch-next-later { border-top: 2px solid var(--muted); }
+.ch-next li:has(+ .ch-next-later) { border-bottom: 0; }
+.ch-next li > span { display: flex; flex-wrap: wrap; gap: 4px 22px; }
+@media (max-width: 560px) { .ch-next li { grid-template-columns: 1fr; gap: 2px; } }
 .ch-hprofs { display: grid; gap: 8px; }
+.ch-hgrid { display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 24px; align-items: start; }
+.ch-hleft .ch-tab-h { margin-top: 0; }
+.ch-hleft ol.two { columns: 2; column-gap: 20px; }
+.ch-hleft ol { margin: 0; padding-left: 26px; font-size: 14px; line-height: 1.8; color: var(--muted); }
+.ch-hleft a { color: var(--text); text-decoration: none; }
+.ch-hleft a:hover { color: var(--accent); }
+.ch-hleft li { break-inside: avoid; }
+.ch-hleft img { width: 16px; height: 16px; vertical-align: -3px; margin-right: 6px; }
+@media (max-width: 1100px) { .ch-hgrid { grid-template-columns: 1fr; } }
 .ch-hprof { display: flex; align-items: flex-start; gap: 10px; padding-left: 8px; border-left: 3px solid var(--pc); }
 .ch-hprof > img { width: 24px; height: 24px; margin-top: 3px; flex: none; }
 .ch-hprof > div { display: flex; flex-wrap: wrap; gap: 6px; }
 .ch-hero { padding: 4px 10px; font: inherit; font-size: 14px; color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 999px; cursor: pointer; }
-.ch-hero:hover { border-color: var(--accent); }
+.ch-hero:hover:not(:disabled) { border-color: var(--accent); }
+.ch-hero:disabled { opacity: .35; cursor: default; }
 .ch-hero.got { color: var(--text); border-color: color-mix(in srgb, var(--loc-exp) 55%, var(--line)); background: color-mix(in srgb, var(--loc-exp) 14%, var(--panel)); }
 .ch-edit-row { margin-top: 0; }
 .ch-build-add { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 12px; }

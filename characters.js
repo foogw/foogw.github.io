@@ -35,13 +35,14 @@ try {
 const shownChars = (o, cur) => { const hs = new Set(hiddenIds(o)); return o.chars.filter(c => c === cur || !hs.has(c.id)); };
 // the picked character's tabs, [key, label, its panel]: the one shown, the same for every character, kept in this
 // browser (first Titles)
-const TABS = [["titles", "Titles", "title"], ["heroes", "Heroes", "ch-heroes"], ["builds", "Builds", "ch-builds"], ["edit", "Edit", "ch-edit"]], TAB = "chars.tab";
+const TABS = [["titles", "Titles", "title"], ["next", "What's next", "ch-next"], ["heroes", "Heroes", "ch-heroes"], ["builds", "Builds", "ch-builds"], ["edit", "Edit", "ch-edit"]], TAB = "chars.tab";
 let tab = (() => { try { const t = localStorage.getItem(TAB); return TABS.some(x => x[0] === t) ? t : "titles"; } catch { return "titles"; } })();
 // the tabs, and the one shown drawn (only it: the others are drawn when picked)
 const drawTabs = (o = User.data(), cur = User.char(o)) => {
   $("ch-tabs").innerHTML = TABS.map(([k, label]) => `<button type="button" role="tab" data-tab="${k}" aria-selected="${k === tab}">${label}</button>`).join("");
   for (const [k, , id] of TABS) $(id).hidden = k !== tab;
   if (tab === "titles") redrawTitles();
+  else if (tab === "next") $("ch-next").innerHTML = nextHTML(o, cur);
   else if (tab === "heroes") $("ch-heroes").innerHTML = heroesHTML(cur);
   else if (tab === "builds") $("ch-builds").innerHTML = buildsHTML(cur);
   else $("ch-edit").innerHTML = `<table class="u-chars ch-edit-row"><tbody>${charRow(o, cur, null, true)}</tbody></table>`;
@@ -53,7 +54,10 @@ const redrawTitles = () => typeof draw === "function" && draw();
 
 // Kind of a Big Deal, on the card's second line, before the modes: its rank said of the character ("Very Important", "People Know Her"), the
 // titles maxed on hover; none for no rank yet (People Know Him or Her by its gender, set in Edit)
-const BIG_DEAL_SAYS = ["", "Kind of a Big Deal", c => `People Know ${{ f: "Her", m: "Him" }[c.gender] || "Them"}`, "Very Important",
+// a character spoken of by its gender (set in Edit): him, her, or them when not set
+const objPronoun = c => ({ m: "him", f: "her" })[c.gender] || "them";
+const cap = t => t[0].toUpperCase() + t.slice(1);
+const BIG_DEAL_SAYS = ["", "Kind of a Big Deal", c => `People Know ${cap(objPronoun(c))}`, "Very Important",
   "Has Many Leather-Bound Books", "Smells of Rich Mahogany", "A God Walking Amongst Mere Mortals"];
 function bigDeal(c, o) {
   const t = TITLES[10], r = titleRankOf(t, c, o), says = [BIG_DEAL_SAYS[r]].map(x => (typeof x === "function" ? x(c) : x))[0];
@@ -118,18 +122,109 @@ const selectHTML = (o, cur, many) => {
   return many ? o.accounts.map(a => { const cs = chars.filter(c => c.account === a.id);
     return cs.length ? `<optgroup label="${esc(accountName(a))}">${cs.map(opt).join("")}</optgroup>` : ""; }).join("") : chars.map(opt).join("");
 };
-/* ---------- heroes and builds tabs ---------- */
-// the heroes it has recruited, each a button to tick, by profession (Razah, of none, last); all ticked or none at once
-function heroesHTML(c) {
-  const got = new Set(c.heroes || []), all = Object.values(HEROES), n = all.filter(h => got.has(h.id)).length;
-  const btn = h => `<button type="button" class="ch-hero${got.has(h.id) ? " got" : ""}" data-hero="${h.id}" aria-pressed="${got.has(h.id)}">${esc(h.name)}</button>`;
-  const profs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0];
-  return `<div class="ch-tab-head"><span><b>${n}</b> <span class="dim">/ ${all.length} heroes recruited</span></span>
-      <span><button type="button" class="u-btn" data-heroes="all"${n === all.length ? " disabled" : ""}>Tick all</button>
-      <button type="button" class="u-btn" data-heroes="none"${n ? "" : " disabled"}>Untick all</button></span></div>
-    <div class="ch-hprofs">${profs.map(p => { const hs = all.filter(h => (h.profession || 0) === p).sort((a, b) => cmpStr(a.name, b.name));
-      return hs.length ? `<div class="ch-hprof" style="--pc:${profVar(p)}"><img src="${profImg(p)}" alt="${p ? PROFS[p] : "Any profession"}" title="${p ? PROFS[p] : "Any profession"}"><div>${hs.map(btn).join("")}</div></div>` : ""; }).join("")}</div>`;
+/* ---------- what's next tab ---------- */
+// one list, by date: the next 3 days with Zaishen dailies the character still needs (a mission not done in NM and HM,
+// an area not vanquished, a bounty at the end of a dungeon not done), and the next 3 weeks whose PvE bonus helps a title
+// of its not maxed (bonusNeeds, common.js); looked for up to a whole cycle of each ahead
+// (as far as the longest daily cycle goes, the vanquishes' 136 days, and the bonuses' whole cycle)
+// the yearly events for an account title: [event name, title id]
+const ACCOUNT_EVENTS = [["Sweet Treats Week", 45]];
+// the yearly events that bring weekly PvE bonuses for titles: [event name, the bonuses' ids] (Wayfarer's Reverie: all
+// of them at once)
+const BONUS_EVENTS = [["Wayfarer's Reverie", [2, 5, 8]]];
+// an event's row, while it runs or for its next time, when it helps a title not maxed (scope: the character's, or
+// its account's)
+function eventRows(c, o, scope) {
+  return BONUS_EVENTS.flatMap(([name, ids]) => {
+    const ev = Object.values(EVENTS).find(x => x.name === name), says = ev ? bonusNeeds(ids, c, o, scope) : [];
+    if (!says.length) return [];
+    const [a, b] = eventWindow(ev), now = a <= Date.now();
+    return [[now ? Date.now() : +a, now ? `Now, till ${fmtNextDay.format(b)}` : fmtNextDay.format(a),
+      `<span class="ch-next-it"><span class="dim">Event:</span> <a href="events">${esc(ev.name)}</a> <span class="dim">· ${esc(says.join("; "))}</span></span>`, now]];
+  });
 }
+const NEXT_DAYS = 3, NEXT_WEEKS = 3, NEXT_ROWS = 7, LOOK_DAYS = Math.max(...["zaishen-mission", "zaishen-vanquish", "zaishen-bounty"].map(k => ROTATIONS[k].entries.length)),
+  LOOK_WEEKS = ROTATIONS["weekly-pve"].entries.length;
+const fmtNextDay = new Intl.DateTimeFormat(undefined, { weekday: "short", day: "numeric", month: "short" });
+function nextHTML(o, c) {
+  const both = (part, id) => ((c[part][id] || 0) & 3) === 3, vq = new Set(c.vanquished || []);
+  const needs = [["zaishen-mission", "Mission", e => hasModes(MISSIONS[e.mission]) && !both("missions", e.mission)],
+    ["zaishen-vanquish", "Vanquish", e => AREAS[e.area]?.foes && !vq.has(e.area)],
+    ["zaishen-bounty", "Bounty", e => e.area && isTickedDungeon(e.area) && !both("dungeons", e.area)]];
+  const rw = ROTATIONS["weekly-pve"], w0 = Rotation.period(rw);
+  // the next weeks whose bonus helps a title of the character's (or of its account's) not maxed
+  const bonusRows = scope => { const out = [];
+    for (let i = 0; i < LOOK_WEEKS && out.length < NEXT_WEEKS; i++) {
+      const e = Rotation.entry(rw, w0 + i), says = bonusNeeds(e.bonus, c, o, scope), at = Rotation.startsAt(rw, w0 + i);
+      if (says.length) out.push([i === 0 ? Date.now() : at, i === 0 ? "This week" : `Week of ${fmtNextDay.format(at)}`,
+        `<span class="ch-next-it"><span class="dim">Bonus:</span> <a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a> <span class="dim">· ${esc(says.join("; "))}</span></span>`, i === 0]);
+    }
+    return out; };
+  // the weeks and events first, then days, at least 3, as many as fit in 7 rows
+  const rows = [...bonusRows("character"), ...eventRows(c, o, "character")], r0 = ROTATIONS["zaishen-mission"], k0 = Rotation.period(r0);
+  const days = Math.max(NEXT_DAYS, NEXT_ROWS - rows.length);
+  const seen = new Set();
+  for (let i = 0, n = 0; i < LOOK_DAYS && n < days; i++) {
+    const at = Rotation.startsAt(r0, k0 + i), t = at + 1000;
+    // (each one once, the first time it comes: a cycle shorter than the days looked through comes round again)
+    const items = needs.map(([key, label, need]) => { const r = ROTATIONS[key], e = Rotation.entry(r, Rotation.period(r, t));
+      if (!need(e) || seen.has(e)) return ""; seen.add(e);
+      return `<span class="ch-next-it"><span class="dim">${label}:</span> ${entryHTML(e)}</span>`; }).filter(Boolean);
+    if (items.length) { rows.push([at, i === 0 ? "Today" : i === 1 ? "Tomorrow" : fmtNextDay.format(at), items.join(""), i === 0]); n++; }
+  }
+  // (today's and this week's first, then a firmer line before what's later)
+  const list = rs => { rs.sort((a, b) => b[3] - a[3] || a[0] - b[0]); const later = rs.findIndex(r => !r[3]);
+    return `<ul class="ch-next">${rs.map(([, when, what], i) => `<li${i === later && i > 0 ? ' class="ch-next-later"' : ""}><b>${when}</b><span>${what}</span></li>`).join("")}</ul>`; };
+  // what's for its account (the account titles' bonuses), in a list of its own below
+  // and the yearly events that help an account title not maxed: Sweet Treats Week, Treasure Hunter's (running now, or
+  // its next time)
+  const acct = [...bonusRows("account"), ...eventRows(c, o, "account")];
+  for (const [name, tid] of ACCOUNT_EVENTS) {
+    const ev = Object.values(EVENTS).find(x => x.name === name), t = TITLES[tid];
+    if (!ev || !t || titleKept(t, c, o) >= titleMax(t)) continue;
+    const [a, b] = eventWindow(ev), now = a <= Date.now();
+    acct.push([now ? Date.now() : +a, now ? `Now, till ${fmtNextDay.format(b)}` : fmtNextDay.format(a),
+      `<span class="ch-next-it"><span class="dim">Event:</span> <a href="events">${esc(ev.name)}</a> <span class="dim">· ${esc(acctSaid(o, c))} hasn't maxed the ${esc(t.name)} title</span></span>`, now]);
+  }
+  const acctHTML = acct.length ? `<h3 class="ch-tab-h">Account</h3>${list(acct)}` : "";
+  // (nothing for the character: what that means, its own titles only; its account's list below all the same)
+  return (rows.length ? list(rows) : `<p class="ch-next-done">${esc(c.name)} has maxed the titles of Legendary Guardian, Legendary Vanquisher, Sunspear,
+      Lightbringer, Asura, Deldrimor, Ebon Vanguard and Norn, and has beaten every dungeon boss the Zaishen Bounties send
+      you to, so there aren't any important dailies for ${objPronoun(c)}!</p>`) + acctHTML;
+}
+
+/* ---------- heroes and builds tabs ---------- */
+// every hero recruited
+const allHeroes = c => { const got = new Set(c.heroes || []); return Object.values(HEROES).every(h => got.has(h.id)); };
+// the heroes in the order to recruit them, the easiest first (the ones a story gives on the way, then the longer
+// quests), the hardest last
+const HERO_ORDER = ["Koss", "Dunkoro", "Tahlkora", "Melonni", "Acolyte Jin", "Acolyte Sousuke", "Zhed Shadowhoof", "Margrid the Sly",
+  "Master of Whispers", "Goren", "Norgu", "General Morgahn", "Razah", "Olias", "Zenmai", "M.O.X.", "Jora", "Pyre Fierceshot",
+  "Ogden Stonehealer", "Livia", "Vekk", "Gwen", "Hayda", "Devona", "Xandra", "Kahmu", "Keiran Thackeray", "Ghost of Althea",
+  "Anton", "Miku", "Zei Ri"];
+const heroRank = h => { const i = HERO_ORDER.indexOf(h.name); return i < 0 ? HERO_ORDER.length : i; };
+// the heroes it has recruited, each a button to tick, by profession (Razah, of none, last); all ticked or none at once
+// the heroes a character can recruit: a pre-Searing one, only Devona and Ghost of Althea, in that order (the others
+// shown, but not to tick; what's saved is left as it is)
+const PRE_HEROES = ["Devona", "Ghost of Althea"];
+const isPre = c => (c.modes || []).includes("presearing");
+const canRecruit = c => (isPre(c) ? PRE_HEROES.map(n => Object.values(HEROES).find(h => h.name === n)).filter(Boolean) : Object.values(HEROES));
+function heroesHTML(c) {
+  const got = new Set(c.heroes || []), all = Object.values(HEROES), open = canRecruit(c), may = new Set(open.map(h => h.id));
+  const n = open.filter(h => got.has(h.id)).length;
+  const btn = h => `<button type="button" class="ch-hero${got.has(h.id) ? " got" : ""}" data-hero="${h.id}" aria-pressed="${got.has(h.id)}"${may.has(h.id) ? "" : ' disabled title="Not for a pre-Searing character"'}>${esc(h.name)}</button>`;
+  const profs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0];
+  return `<div class="ch-tab-head"><span><b>${n}</b> <span class="dim">/ ${open.length} ${open.length === 1 ? "hero" : "heroes"} recruited${open.length < all.length ? " (pre-Searing)" : ""}</span></span>
+      <span><button type="button" class="u-btn" data-heroes="all"${n === open.length ? " disabled" : ""}>Tick all</button>
+      <button type="button" class="u-btn" data-heroes="none"${n ? "" : " disabled"}>Untick all</button></span></div>
+    <div class="ch-hgrid"><div class="ch-hprofs">${profs.map(p => { const hs = all.filter(h => (h.profession || 0) === p).sort((a, b) => cmpStr(a.name, b.name));
+      return hs.length ? `<div class="ch-hprof" style="--pc:${profVar(p)}"><img src="${profImg(p)}" alt="${p ? PROFS[p] : "Any profession"}" title="${p ? PROFS[p] : "Any profession"}"><div>${hs.map(btn).join("")}</div></div>` : ""; }).join("")}</div>${toRecruit(open, got, isPre(c))}</div>`;
+}
+// the heroes still to recruit, each linked to its page, the easiest first (in two columns when more than 8)
+// (a pre-Searing character's in its own order)
+const toRecruit = (all, got, pre = false) => { const left = all.filter(h => !got.has(h.id)).sort((a, b) => (pre ? 0 : heroRank(a) - heroRank(b)));
+  return left.length ? `<aside class="ch-hleft"><h3 class="ch-tab-h">To recruit <span class="dim">${left.length}</span></h3><ol${left.length > 8 ? ' class="two"' : ""}>${left.map(h =>
+    `<li><a href="${HREF.hero(h.id)}"><img src="${profImg(h.profession || 0)}" alt="">${esc(h.name)}</a></li>`).join("")}</ol></aside>` : ""; };
 // its saved skill templates, in its order: each one's bar (opening it in the builder), its code to copy, chevrons and
 // a delete; a code pasted in adds one
 function buildsHTML(c) {
@@ -145,7 +240,10 @@ function buildsHTML(c) {
 const editChar = f => { if (User.broken()) return; const o = User.data(), c = User.char(o); f(c); User.save(o); render(); };
 $("ch-heroes").addEventListener("click", e => {
   const all = e.target.closest("[data-heroes]");
-  if (all) return editChar(c => { if (all.dataset.heroes === "all") c.heroes = Object.values(HEROES).map(h => h.id); else delete c.heroes; });
+  // (only the heroes it can recruit ticked or unticked; any other saved stays)
+  if (all) return editChar(c => { const ids = canRecruit(c).map(h => h.id), hs = new Set(c.heroes || []);
+    for (const id of ids) if (all.dataset.heroes === "all") hs.add(id); else hs.delete(id);
+    if (hs.size) c.heroes = [...hs]; else delete c.heroes; });
   const b = e.target.closest("[data-hero]");
   if (!b) return;
   editChar(c => { const id = +b.dataset.hero, hs = new Set(c.heroes || []); if (hs.has(id)) hs.delete(id); else hs.add(id);
@@ -170,7 +268,7 @@ $("ch-builds").addEventListener("click", e => {
 function cardHTML(o, c) {
   return `<section class="ch-card">
       <img class="ch-prof" src="${profImg(c.profession || 0)}" alt="${c.profession ? PROFS[c.profession] : "No profession"}">
-      <div class="ch-who"><h2>${esc(c.name)}</h2><div class="dim">${[bigDeal(c, o), lit(c)].filter(Boolean).join(" · ")}</div></div>
+      <div class="ch-who"><h2>${esc(c.name)}</h2><div class="dim">${[bigDeal(c, o), allHeroes(c) && `<span class="ch-says">Recruiter of Heroes</span>`, lit(c)].filter(Boolean).join(" · ")}</div></div>
     </section>
     ${unnamed(c) ? `<p class="ch-hint">Give this character its name and profession: <button type="button" class="link" data-manage="1">Edit</button>.</p>` : ""}
 `;
@@ -277,10 +375,12 @@ onEdit("click", e => {
       [o.accounts[i], o.accounts[j]] = [o.accounts[j], o.accounts[i]];
     } else {  // a character among its account's: swap with the next one of the same account in the saved order, or,
       // past the first or the last, round to the other end
-      const c = rowChar(o, mv), i = o.chars.indexOf(c), sib = o.chars.filter(x => x.account === c.account);
+      // (from the Edit tab, past the hidden ones, as the list at the left shows it)
+      const c = rowChar(o, mv), i = o.chars.indexOf(c), tab = !!mv.closest("#ch-edit");
+      const near = x => x.account === c.account && (x === c || !tab || !x.hidden), sib = o.chars.filter(near);
       if (sib.length < 2) return;
       let j = i + d;
-      while (j >= 0 && j < o.chars.length && o.chars[j].account !== c.account) j += d;
+      while (j >= 0 && j < o.chars.length && !near(o.chars[j])) j += d;
       if (j >= 0 && j < o.chars.length) [o.chars[i], o.chars[j]] = [o.chars[j], o.chars[i]];
       else { o.chars.splice(i, 1); const end = o.chars.indexOf(d < 0 ? sib.at(-1) : sib[0]); o.chars.splice(d < 0 ? end + 1 : end, 0, c); }
     }

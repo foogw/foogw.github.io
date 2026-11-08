@@ -339,12 +339,33 @@ addEventListener("userchange", () => {
     if (s.parentElement.tagName === "LI") s.parentElement.hidden = !s.innerHTML;
   }
 });
+// the weekly PvE bonuses that double a title's points, and those titles (Faction Support: Luxon's only, the one
+// farmed; not Extra Luck's); the titles the picked character, or its account, hasn't maxed, said of a bonus
+// (titleKept, mytitles.js)
+const BONUS_TITLES = { 2: [17, 20], 5: [38, 39, 40, 41], 8: [6] };
+const andList = xs => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs.at(-1)}`);
+// an account as a sentence names it: Account "Main" (one with no name of its own: Account 2)
+const acctSaid = (o, c) => { const a = o.accounts.find(x => x.id === c.account); return a?.name ? `Account "${a.name}"` : `Account ${c.account}`; };
+// (only the character's titles, or only its account's, when scope says so; several bonuses at once, as a list of ids)
+function bonusNeeds(id, c, o, scope = null) {
+  if (typeof titleKept !== "function") return [];
+  const left = [id].flat().flatMap(b => BONUS_TITLES[b] || []).map(t => TITLES[t]).filter(t => t && (!scope || t.scope === scope) && titleKept(t, c, o) < titleMax(t));
+  const say = (ts, who) => ts.length && `${who} hasn't maxed the ${andList(ts.map(t => t.own_name || t.name))} title${ts.length > 1 ? "s" : ""}`;
+  return [say(left.filter(t => t.scope === "character"), c.name), say(left.filter(t => t.scope === "account"), acctSaid(o, c))].filter(Boolean);
+}
+function bonusMark(id) {
+  if (!userNamed()) return "";
+  const o = User.data(), says = bonusNeeds(id, User.char(o), o);
+  if (!says.length) return "";
+  const tip = esc(says.join("; "));
+  return `<sup class="u-miss" tabindex="0" data-tip="${tip}" aria-label="${tip}">¶</sup>`;
+}
 function entryHTML(e) {
   if (e.mission) return LINK.mission(e.mission) + missionMarks(e.mission);
   if (e.area && !e.creature && !e.item) return LINK.area(e.area) + vanqMark(e.area);
-  if (e.bonus) return `<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`;
-  // a bounty at the end of a dungeon: the dungeon's marks
-  if (e.creature && e.area && isTickedDungeon(e.area)) return esc(entryName(e)) + modeMarks("dungeons", e.area);
+  if (e.bonus) return `<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>${bonusMark(e.bonus)}`;
+  // a bounty at the end of a dungeon: a link to the dungeon, and its marks
+  if (e.creature && e.area && isTickedDungeon(e.area)) return `<a href="${HREF.dungeon(e.area)}" title="${esc(areaName(e.area))}">${esc(entryName(e))}</a>` + modeMarks("dungeons", e.area);
   if (e.quest) return LINK.quest(e.quest);
   // Nicholas the Traveler's item: his map that week, at the foot of the Rotations page
   if (e.item) return `${e.count} × ${e.at ? `<a href="rotations${query({ nick: ROTATIONS["nicholas-traveler"].entries.indexOf(e) })}">${esc(e.item)}</a>` : esc(e.item)}`;
@@ -789,6 +810,8 @@ function userSync() {
   for (const g of document.querySelectorAll(".uticks")) for (const b of g.querySelectorAll(".utick")) b.setAttribute("aria-pressed", !!((c[g.dataset.part][g.dataset.id] || 0) & +b.dataset.mode));
   dispatchEvent(new Event("userchange"));
 }
+// (as soon as another tab saves, while this one is in the background; and on coming back, as a safety net)
+addEventListener("storage", e => { if (e.key === USER_KEY || e.key === USER_CHAR_KEY || e.key === null) userSync(); });
 addEventListener("focus", userSync);
 addEventListener("pageshow", userSync);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) userSync(); });

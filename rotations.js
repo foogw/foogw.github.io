@@ -201,6 +201,8 @@ $find.addEventListener("input", () => {
 show();
 onRoute(show);
 setInterval(() => { if (!$("browse").hidden) render(); }, 30000);  // the clocks in the column titles too
+// the picked character or its progress changed (in another tab): its marks drawn again
+addEventListener("userchange", () => { if (!$("browse").hidden) render(); });
 for (const b of document.querySelectorAll("[data-more]")) {
   b.addEventListener("click", () => { expanded[b.dataset.more] = !expanded[b.dataset.more]; render(); });
 }

@@ -154,6 +154,8 @@ const TODAY = [["zaishen-mission", "Mission"], ["zaishen-vanquish", "Vanquish"],
 const renderToday = () => { $("today").innerHTML = rotationListHTML(TODAY); };
 renderToday();
 setInterval(renderToday, 30000);
+// the picked character or its progress changed (in another tab): today's marks drawn again
+addEventListener("userchange", renderToday);
 
 // the running event above Today, the next one below it
 function renderEvents() {
