@@ -49,7 +49,8 @@ const drawTabs = (o = User.data(), cur = User.char(o)) => {
     <label class="ch-edit-camp">Made in <select id="edit-campaign"${fixedCampaign(cur) ? ` disabled title="${PROF_CAMPAIGN[cur.profession] ? `A ${PROFS[cur.profession]} can only be made in ${CAMPAIGNS[PROF_CAMPAIGN[cur.profession]]}` : "A pre-Searing character is a Prophecies one"}"` : ""}>${[[0, "Not set"], [1, "Prophecies"], [2, "Factions"], [3, "Nightfall"]].map(([v, n]) =>
       `<option value="${v}"${(madeIn(cur) || 0) === v ? " selected" : ""}>${n}</option>`).join("")}</select></label>
     <label class="ch-edit-note">Note <input type="text" id="edit-note" maxlength="${USER_NOTE_MAX}" value="${esc(cur.note || "")}"
-      placeholder="A line about ${esc(cur.name)}: its role, what it's farming…" autocomplete="off"><span class="dim" id="edit-note-n">${(cur.note || "").length} / ${USER_NOTE_MAX}</span></label>`;
+      placeholder="A line about ${esc(cur.name)}: its role, what it's farming…" autocomplete="off"><span class="dim" id="edit-note-n">${(cur.note || "").length} / ${USER_NOTE_MAX}</span></label>
+    ${ageHTML(cur)}`;
 };
 // managing or not, not kept: the page opens on the view, or managing while nothing is saved yet, to name the character
 let manage = User.stored() == null;
@@ -239,6 +240,57 @@ function nextHTML(o, c) {
 const PROF_CAMPAIGN = { 7: 2, 8: 2, 9: 3, 10: 3 };
 const fixedCampaign = c => PROF_CAMPAIGN[c.profession] || ((c.modes || []).includes("presearing") ? 1 : 0);
 const madeIn = c => fixedCampaign(c) || c.campaign || 0;
+/* ---------- its age: when it was made, from what /age says ----------
+   /age gives whole months (whole days for a young one), a month a twelfth of the game's 365-day year; a reading of N months at time t puts its making
+   after t − (N+1) months and no later than t − N months. Only that range is kept ("made"), each reading narrowing it;
+   a reading helps only while a month could tick over within it (the window: the range moved on by whole months), so
+   the tab says when to check next, best halfway through, till it's down to a day. Its birthdays: every 365 days. */
+const AGE_MONTH = 365 / 12 * 864e5, AGE_YEAR = 365 * 864e5;
+const fmtAgeDay = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", year: "numeric" });
+const fmtAgeTime = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
+const isoMin = t => new Date(t).toISOString().slice(0, 16) + "Z";
+// the window for a reading now or next: [opens, closes, best], k whole months on from the range
+function ageWindow(lo, hi, now = Date.now()) {
+  let k = Math.floor((now - lo) / AGE_MONTH);
+  if (now >= hi + k * AGE_MONTH) k++;
+  return [lo + k * AGE_MONTH, hi + k * AGE_MONTH, (lo + hi) / 2 + k * AGE_MONTH];
+}
+function ageHTML(c) {
+  // first what's known of it, then how to know more
+  let known = `We have no idea of ${esc(c.name)}'s age yet.`, next = "Type in how old /age says it is: \"79 months\", or \"12 days\" for a young one.";
+  if (c.made) {
+    const [lo, hi] = c.made.map(Date.parse), now = Date.now();
+    if (hi - lo < 864e5) {
+      const mid = (lo + hi) / 2, years = Math.floor((now - mid) / AGE_YEAR), bday = mid + (years + 1) * AGE_YEAR;
+      known = `${esc(c.name)} was created on ${fmtAgeDay.format(mid)}: ${years} year${years === 1 ? "" : "s"} old, next birthday ${fmtAgeDay.format(bday)} (${(years + 1) * 12} months).`;
+      next = "";
+    } else {
+      const [a, b, best] = ageWindow(lo, hi, now);
+      known = `${esc(c.name)} was created between ${fmtAgeDay.format(lo)} and ${fmtAgeDay.format(hi)}.`;
+      // (best halfway through the window; "now" only once that's passed: a reading just after the last tells little)
+      next = now >= best ? `<b>Check now</b>: a reading till ${fmtAgeTime.format(b)} narrows it.`
+        : `<b>Next check</b>: best ${fmtAgeTime.format(best)}, or any time from ${fmtAgeTime.format(Math.min(best, Math.max(a, now + 864e5)))} till ${fmtAgeTime.format(b)}.`;
+    }
+  }
+  return `<hr class="ch-edit-hr"><div class="ch-edit-age"><p class="ch-age-known">${known}</p>
+    ${next ? `<label>Age <input type="text" maxlength="12" id="age-months" placeholder="79 months" aria-label="What /age says: months, or days"></label>
+    <button type="button" class="u-btn" id="age-add">Add reading</button>` : ""}
+    <p class="dim" id="age-say">${next}</p></div>`;
+}
+// a reading: the range narrowed (one that doesn't fit what's known is refused)
+$("ch-edit").addEventListener("click", e => {
+  if (e.target.id !== "age-add") return;
+  // ("79", "79 months", "12 days", "12d": months unless it says days)
+  const m = $("age-months").value.trim().toLowerCase().match(/^(\d+)\s*(d|days?|m|mo|months?)?$/), now = Date.now();
+  if (!m) return $("age-months").focus();
+  const n = +m[1], unit = m[2]?.startsWith("d") ? 864e5 : AGE_MONTH;
+  const lo = now - (n + 1) * unit, hi = now - n * unit, cur = User.char();
+  const [a, b] = cur.made ? cur.made.map(Date.parse) : [-Infinity, Infinity], nlo = Math.max(lo, a), nhi = Math.min(hi, b);
+  if (nlo > nhi) { $("age-say").textContent = `${$("age-months").value.trim()} doesn't fit what earlier readings said: check /age again.`; return; }
+  editChar(c => { c.made = [isoMin(nlo), isoMin(nhi)]; });
+});
+$("ch-edit").addEventListener("keydown", e => { if (e.target.id === "age-months" && e.key === "Enter") $("age-add").click(); });
+
 // the campaign it was made in, picked in the Edit tab; and its note, saved once it's left (or Enter), its length counted
 $("ch-edit").addEventListener("change", e => {
   if (e.target.id === "edit-campaign") editChar(c => { const v = +e.target.value; if (v) c.campaign = v; else delete c.campaign; });
