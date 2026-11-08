@@ -9,7 +9,20 @@
 <link rel="stylesheet" href="style.css">
 <style>
   .xp { max-width: 1240px; padding-top: 8px; }
-  .xp h2 { font-size: 15px; margin: 22px 0 6px; }
+  /* each experiment set apart: a firm rule and room above its heading (the first one too, under the page title) */
+  .xp h2 { font-size: 18px; margin: 44px 0 6px; padding-top: 22px; border-top: 2px solid var(--muted); }
+  .xp h2:first-child { margin-top: 16px; }
+  .xp-t { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .xp-t td { padding: 7px 14px 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .xp-t td:first-child { width: 90px; white-space: nowrap; }
+  .xp-t th { text-align: left; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 14px 0 6px; border-bottom: 1px solid var(--line); }
+  #xp-anniv .xp-t td:first-child { width: 170px; }
+  .xp-t .e { width: 260px; }
+  .xp-c { display: inline-flex; align-items: center; gap: 4px; margin: 0 4px 4px 0; padding: 1px 8px 1px 4px; border: 1px solid var(--line); border-radius: 999px; color: var(--text); text-decoration: none; font-size: 13px; }
+  .xp-c:hover { border-color: var(--accent); }
+  .xp-c img { width: 16px; height: 16px; }
+  .xp-c .dim { margin-left: 4px; font-size: 12px; }
+  .xp-c { white-space: nowrap; }
   .xp-bd { width: 100%; border-collapse: collapse; font-size: 14px; }
   .xp-bd th { text-align: left; font-size: 12px; font-weight: 600; color: var(--muted); padding: 6px 14px 6px 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
   .xp-bd td { padding: 6px 14px 6px 0; border-bottom: 1px solid var(--line); vertical-align: middle; white-space: nowrap; }
@@ -31,6 +44,16 @@
   <header class="top"></header><script src="header.js"></script>
   <div class="page-title"><h1>Experiments</h1><p>Ideas tried out before they get a place on the site</p></div>
   <div class="xp">
+    <h2>Who needs today</h2>
+    <p class="dim">Today's Zaishen dailies, and which of your characters still need each (not pre-Searing ones, nor hidden ones).</p>
+    <div id="xp-today"></div>
+    <h2>Bonus weeks</h2>
+    <p class="dim">The next three support weeks (Elonian, Northern and Faction Support), and whose titles each helps.</p>
+    <div id="xp-bonus"></div>
+    <h2>Anniversary planner</h2>
+    <p class="dim">The easy Zaishen Missions around the next Anniversary Celebration: the last three before it, to take their
+      quests ahead, and every one during it.</p>
+    <div id="xp-anniv"></div>
     <h2>Birthdays</h2>
     <p class="dim">Your characters, oldest first, by when they were made as far as their ages on My Characters' Edit tell; one
       that a check of /age right now would narrow says by how much.</p>
@@ -39,14 +62,79 @@
   <footer class="site-footer"><a href="about">About</a> · <a href="license">License &amp; credits</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
 
+<script src="game/titles.js"></script>
+<script src="game/skills.js"></script>
 <script src="game/calendar.js"></script>
 <script src="game/ground.js"></script>
 <script src="game/missions.js"></script>
 <script src="game/creatures.js"></script>
 <script src="game/quests.js"></script>
 <script src="common.js"></script>
+<script src="mytitles.js"></script>
 <script>
 "use strict";
+/* ---------- who needs today, bonus weeks ---------- */
+// today's Zaishen Mission, Vanquish and Bounty (a dungeon's), each with the characters that still need it: a mission
+// not done in NM or HM (which said), an area not vanquished, a dungeon not done; and this week's and next week's PvE
+// bonus, with the characters (and accounts) whose titles it helps (bonusNeeds, common.js). Pre-Searing and hidden
+// characters left out
+{
+  // a character as a pill, what it needs said inside it
+  const link = (c, x = "") => `<a class="xp-c" href="characters" data-go="${c.id}"><img src="${profImg(c.profession || 0)}" alt="">${esc(c.name)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</a>`;
+  const fmtWeek = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short" });
+  function draw() {
+    if (User.stored() == null || User.broken()) { $("xp-today").innerHTML = $("xp-bonus").innerHTML = `<p class="dim">No characters yet: see <a href="characters">My Characters</a>.</p>`; return; }
+    // (most important first: the most titles maxed, byImportance in mytitles.js)
+    const o = User.data(), cs = byImportance(o.chars.filter(c => !c.hidden && !(c.modes || []).includes("presearing")), o);
+    const modesLeft = (c, part, id) => { const d = c[part][id] || 0; return [!(d & 1) && "NM", !(d & 2) && "HM"].filter(Boolean).join(", "); };
+    const today = [["zaishen-mission", "Mission", e => hasModes(MISSIONS[e.mission]) && (c => modesLeft(c, "missions", e.mission))],
+      ["zaishen-vanquish", "Vanquish", e => AREAS[e.area]?.foes && (c => !(c.vanquished || []).includes(e.area) && " ")],
+      ["zaishen-bounty", "Bounty", e => e.area && isTickedDungeon(e.area) && (c => modesLeft(c, "dungeons", e.area))]];
+    $("xp-today").innerHTML = `<table class="xp-t"><tbody>${today.map(([key, label, need]) => {
+      const e = Rotation.current(ROTATIONS[key]), f = need(e);
+      const who = f ? cs.map(c => [c, f(c)]).filter(([, x]) => x) : [];
+      return `<tr><td class="dim">${label}</td><td class="e">${entryHTML(e)}</td><td>${!f ? '<span class="dim">Nothing to track</span>'
+        : who.length ? who.map(([c, x]) => link(c, x.trim())).join("") : '<span class="dim">No one: all done</span>'}</td></tr>`;
+    }).join("")}</tbody></table>`;
+    const rw = ROTATIONS["weekly-pve"], w0 = Rotation.period(rw);
+    // the next 3 support weeks (the bonuses that double a title's points: Elonian, Northern, Faction Support)
+    const weeks = [];
+    for (let i = 0; weeks.length < 3 && i < 3 * rw.entries.length; i++) if (BONUS_TITLES[Rotation.entry(rw, w0 + i).bonus]) weeks.push(i);
+    $("xp-bonus").innerHTML = `<table class="xp-t"><tbody>${weeks.map(i => {
+      const e = Rotation.entry(rw, w0 + i), at = Rotation.startsAt(rw, w0 + i);
+      const chars = cs.map(c => [c, bonusNeeds(e.bonus, c, o, "character")]).filter(([, x]) => x.length);
+      const accts = o.accounts.map(a => [a, o.chars.find(c => c.account === a.id)]).filter(([, c]) => c).map(([a, c]) => [a, bonusNeeds(e.bonus, c, o, "account")]).filter(([, x]) => x.length);
+      const left = x => x[0].replace(/^.* hasn't maxed the /, "").replace(/ titles?$/, "");
+      const who = [...chars.map(([c, x]) => link(c, left(x))), ...accts.map(([a, x]) => `<span class="xp-c">${esc(accountName(a))}<span class="dim">${esc(left(x))}</span></span>`)];
+      return `<tr><td class="dim">${i ? `From ${fmtWeek.format(at)}` : "This week"}</td><td class="e">${entryHTML(e)}</td><td>${who.length ? who.join("") : '<span class="dim">No one: maxed</span>'}</td></tr>`;
+    }).join("")}</tbody></table>`;
+  }
+  draw();
+  addEventListener("userchange", draw);
+  setInterval(draw, 60000);
+}
+
+/* ---------- anniversary planner ---------- */
+// the next Anniversary Celebration (its window, eventWindow in common.js), and the Zaishen Missions among the easy
+// ones: the three last before it starts, and all of those while it runs
+{
+  const EASY = [28, 38, 257, 204, 271, 556, 525, 673];  // The Great Northern Wall, Augury Rock, Minister Cho's Estate, Unwaking Waters, Imperial Sanctum, Chahbek Village, Ruins of Morah, A Time for Heroes
+  const fmt = new Intl.DateTimeFormat(undefined, { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+  const ev = Object.values(EVENTS).find(e => e.name === "Anniversary Celebration"), r = ROTATIONS["zaishen-mission"];
+  if (ev && r) {
+    const [a, b] = eventWindow(ev), ka = Rotation.period(r, +a), kb = Rotation.period(r, +b - 1);
+    const day = k => ({ k, e: Rotation.entry(r, k), at: Rotation.startsAt(r, k) }), easy = d => EASY.includes(d.e.mission);
+    const before = [];
+    for (let k = ka - 1; before.length < 3 && k > ka - r.entries.length; k--) if (easy(day(k))) before.unshift(day(k));
+    const during = [];
+    for (let k = ka; k <= kb; k++) if (easy(day(k))) during.push(day(k));
+    const rows = ds => ds.map(d => `<tr><td class="dim">${fmt.format(d.at)}</td><td>${LINK.mission(d.e.mission)}</td></tr>`).join("");
+    $("xp-anniv").innerHTML = `<p>${esc(ev.name)}: <b>${fmt.format(a)}</b> to <b>${fmt.format(b)}</b>${a <= Date.now() ? " (on now)" : ""}.</p>
+      <table class="xp-t"><tbody><tr><th colspan="2">Before it: take their quests</th></tr>${rows(before) || '<tr><td colspan="2" class="dim">None in the cycle before it</td></tr>'}
+      <tr><th colspan="2">During it</th></tr>${rows(during) || '<tr><td colspan="2" class="dim">None while it runs</td></tr>'}</tbody></table>`;
+  }
+}
+
 /* ---------- birthdays ---------- */
 // every character with a range it was made in ("made", narrowed on My Characters' Edit tab), oldest first (by the
 // range's middle; the others left out); a reading of /age now splits the range where a month would tick over, if that's

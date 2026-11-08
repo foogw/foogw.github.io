@@ -59,6 +59,10 @@ function titlesMaxed(c, o) {
   return n;
 }
 // a title's rank: worked out, or as kept; Kind of a Big Deal: a rank for every 5 other titles maxed
+// a character's importance: the titles it has maxed (Kind of a Big Deal's count); characters most important first, the
+// saved order among equals
+const charImportance = (c, o) => titlesMaxed(c, o);
+const byImportance = (cs, o) => cs.map((c, i) => [c, charImportance(c, o), i]).sort((a, b) => b[1] - a[1] || a[2] - b[2]).map(x => x[0]);
 function titleRankOf(t, c, o) {
   if (t.id === 10) return Math.min(titleMax(t), Math.floor(titlesMaxed(c, o) / 5));
   if (t.id === 42) return MOTN_RANKS.filter(p => motnPoints(c) >= p).length;
