@@ -89,7 +89,7 @@ function rowHTML(m, f) {
 }
 function update() {
   const f = { name: terms(els.name), who: terms(els.who), type: els.type.value, region: els.region.value, party: els.party.value, elite: els.elite.value, pvp: els.pvp.checked,
-    cap: els.cap.checked, done: els.done.value, got: new Set(User.char().elites), prog: User.char().missions };
+    cap: els.cap.checked && !prePicked(), done: prePicked() ? "" : els.done.value, got: new Set(User.char().elites), prog: User.char().missions };
   const first = f.name[0];
   const cmp = SORTS[state.sort] || (first ? (a, b) => (!fold(a.name).startsWith(first)) - (!fold(b.name).startsWith(first)) || story(a, b) : story);
   const visible = ALL.filter(m => matches(m, f)).sort(cmp);

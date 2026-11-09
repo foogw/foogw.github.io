@@ -276,8 +276,9 @@ const Rotation = {
 const entryName = e => (e.item || (e.creature && CREATURES[e.creature]?.name) || (e.quest && QUESTS[e.quest]?.name)
   || (e.bonus && BONUSES[e.bonus]?.name) || (e.mission && (MISSIONS[e.mission]?.name || areaName(e.mission))) || (e.area && areaName(e.area)) || e.name || "");
 // the marks and notes of what the picked character has left to do show only once it has a name of its own (not the
-// default Char<id>), as the top bar names it (header.js): before that, nothing says whose they'd be
-const userNamed = () => { if (User.stored() == null || User.broken()) return false; const c = User.char(); return !!c?.name.trim() && c.name !== `Char${c.id}`; };
+// default Char<id>), as the top bar names it (header.js): before that, nothing says whose they'd be; nor for a
+// pre-Searing character, which has none of it to do
+const userNamed = () => { if (User.stored() == null || User.broken()) return false; const c = User.char(); return !!c?.name.trim() && c.name !== `Char${c.id}` && !isPreSearing(c); };
 // the dungeons ticked done: the Eye of the North's (Secret Lair of the Snowmen too; not Destruction's Depths, a mission,
 // nor the Piken Square ones)
 const isTickedDungeon = id => USER_ALL_V3.dungeons.includes(+id);
@@ -881,6 +882,16 @@ const User = {
     });
   },
 };
+// a pre-Searing character picked: no missions, vanquishes or elite captures there, so the ticks and the filters by
+// progress are hidden (the page's u-pre class, style.css; its ticks kept), and a line says why (a .u-pre-note)
+const prePicked = () => User.stored() != null && !User.broken() && isPreSearing(User.char());
+function markPre() {
+  const pre = prePicked();
+  document.documentElement.classList.toggle("u-pre", pre);
+  if (pre) for (const p of document.querySelectorAll(".u-pre-note")) p.textContent = `${User.char().name} stays in pre-Searing: nothing here to tick.`;
+}
+markPre();
+addEventListener("userchange", markPre);
 // back on a tab after the progress or the character changed in another: its ticks show the new state, and a page that
 // lists by progress draws again (on "userchange")
 // (also when the page is shown again from the browser's back/forward cache, or its tab comes back into view)

@@ -31,7 +31,8 @@ const REGION_ORDER = [7, 2, 101, 0, 1, 5, 3, 6, 11, 8, 9, 10, 15, 12, 13, 14, 16
 const regionIdx = r => REGION_ORDER.indexOf(r) + 1 || 99;
 // the vanquish filter: "v" the areas that can be vanquished, "n" those not yet vanquished by the character picked on My Characters
 let vanqSet = new Set();
-const vqOk = l => !state.vq || (l.foes && (state.vq === "v" || !vanqSet.has(l.id)));
+// (a pre-Searing character: "n" as "v", and not offered)
+const vqOk = l => !state.vq || (l.foes && (state.vq === "v" || prePicked() || !vanqSet.has(l.id)));
 const shown = l => listed(l) && KINDS.find(k => k[0] === state.kind)[2](l) && vqOk(l);
 for (const l of ALL_AREAS) l._k = fold([l.name, regionOf(l)?.name, TYPE_LABEL[l.type], aliasText("areas", l.id), aliasText("regions", l.region)].join(" "));
 
@@ -54,6 +55,7 @@ const partyOf = l => l.party ?? AREAS[MISSIONS[l.id]?.outpost]?.party;
 // a search looks through every campaign, the current one first; by default areas come in story order, region by region
 function renderIndex(ts) {
   vanqSet = new Set(User.char().vanquished);
+  els.vq.querySelector('option[value="n"]').disabled = prePicked();
   const all = ALL_AREAS.filter(l => shown(l) && (ts.length || inCamp(l)));
   const hits = all.filter(l => ts.every(w => l._k.includes(w)));
   els.count.textContent = `${hits.length} / ${all.length}`;

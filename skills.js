@@ -100,7 +100,7 @@ function rowHTML(s, f) {
 
 function update() {
   const f = { name: terms(els.name), text: terms(els.text), attr: els.attr.value, type: els.type.value, camp: els.camp.value,
-    elite: els.elite.checked, cap: els.cap.checked, got: new Set(User.char().elites), src: els.src.value, pvp: els.pvp.checked };
+    elite: els.elite.checked, cap: els.cap.checked && !prePicked(), got: new Set(User.char().elites), src: els.src.value, pvp: els.pvp.checked };
   const first = f.name[0];
   const cmp = SORTS[state.sort] || (first ? (a, b) => (!fold(a.name).startsWith(first)) - (!fold(b.name).startsWith(first)) || byProf(a, b) : byProf);
   const visible = ALL.filter(s => matches(s, f)).sort(cmp);

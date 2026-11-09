@@ -25,7 +25,7 @@ const rowHTML = (b, ts, got) => `<a class="row brow" href="${HREF.boss(b.id)}" s
 function update() {
   const ts = terms(els.name), got = new Set(User.char().elites);
   const list = ALL.filter(b => ts.every(t => b._k.includes(t)) && (!state.profs.size || state.profs.has(String(b.prof)))
-    && (els.camp.value === "" || b.camps.has(+els.camp.value)) && (!els.elite.checked || b._elites.length) && (!els.cap.checked || b._elites.some(s => !got.has(s.id))))
+    && (els.camp.value === "" || b.camps.has(+els.camp.value)) && (!els.elite.checked || b._elites.length) && (!els.cap.checked || prePicked() || b._elites.some(s => !got.has(s.id))))
     .sort((a, b) => (ts[0] ? (!fold(a.name).startsWith(ts[0])) - (!fold(b.name).startsWith(ts[0])) : 0) || (a.prof || 99) - (b.prof || 99) || cmpStr(a.name, b.name));
   els.count.textContent = `${list.length} / ${ALL.length}`;
   els.empty.hidden = list.length > 0;
