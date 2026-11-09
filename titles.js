@@ -59,12 +59,14 @@ function mineHTML() {
   const list = MY_ORDER.map(id => TITLES[id]).filter(t => t && (!pre || t.scope === "account" || PRE_TITLES.has(t.id)));
   const section = (label, ts) => (ts.length ? `<h3 class="my-h">${label}</h3><table class="my-titles"><tbody>${ts.map(t => {
     const r = titleRankOf(t, c, o), max = titleMax(t), d = DERIVED_TITLES.get(t.id)?.(c, o), big = t.id === 10;
-    const status = r >= max ? `<b class="my-max">Max</b>` : r ? `Rank ${r} of ${max}` : `<span class="dim">—</span>`;
+    // Legendary Defender of Ascalon, for a character made in Factions or Nightfall: not to be had (N/A, no tick)
+    const na = t.id === 21 && typeof madeIn === "function" && madeIn(c) > 1;
+    const status = na ? `<span class="dim" tabindex="0" data-tip="Only a character made in Prophecies can be a Legendary Defender of Ascalon">N/A</span>` : r >= max ? `<b class="my-max">Max</b>` : r ? `Rank ${r} of ${max}` : `<span class="dim">—</span>`;
     // (more than needed, as a campaign's Skill Hunter counting the Core elites, said as x / x)
     const count = d && `${d[0]} / ${Math.max(d[0], d[1])} ${d[2]}`;
     const how = d ? (LEFT_LIST[t.id] ? `<a href="${LEFT_LIST[t.id]}">${count}</a>` : count) : big ? `${titlesMaxed(c, o)} titles maxed` : t.id === 42 ? motnHow(c) : GUIDE_ROW[t.id] && !pre ? `<a href="guides?${GUIDE_ROW[t.id][0]}">${GUIDE_ROW[t.id][1]}</a>` : luckHow(t.id, c, o);
     const input = t.id === 42 ? `<input type="number" class="calc-in my-pts" id="motn-points" min="0" placeholder="Points" aria-label="Master of the North points the game shows" value="${motnTicked(c) + Math.max(0, c.eotnMap ?? 0)}">`
-      : d || big ? ""
+      : d || big || na ? ""
       : STEPPED.has(t.id) ? `<span class="my-step"><button type="button" data-step="-1" data-title="${t.id}" aria-label="Rank down"${r ? "" : " disabled"}>▼</button>`
         + `<span class="my-num">${r}</span><button type="button" data-step="1" data-title="${t.id}" aria-label="Rank up"${r < max ? "" : " disabled"}>▲</button></span>`
       : `<label class="my-tick"><input type="checkbox" data-title="${t.id}"${r >= max ? " checked" : ""}> Maxed</label>`;
