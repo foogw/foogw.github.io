@@ -55,13 +55,14 @@ document.addEventListener("change", e => {
   if (map !== null && map < 0) $("motn-how").textContent = motnHow({ ...User.char(), eotnMap: map });
 });
 function mineHTML() {
-  const o = User.data(), c = User.char(o), list = MY_ORDER.map(id => TITLES[id]).filter(Boolean);
+  const o = User.data(), c = User.char(o), pre = (c.modes || []).includes("presearing");
+  const list = MY_ORDER.map(id => TITLES[id]).filter(t => t && (!pre || t.scope === "account" || PRE_TITLES.has(t.id)));
   const section = (label, ts) => (ts.length ? `<h3 class="my-h">${label}</h3><table class="my-titles"><tbody>${ts.map(t => {
     const r = titleRankOf(t, c, o), max = titleMax(t), d = DERIVED_TITLES.get(t.id)?.(c, o), big = t.id === 10;
     const status = r >= max ? `<b class="my-max">Max</b>` : r ? `Rank ${r} of ${max}` : `<span class="dim">—</span>`;
     // (more than needed, as a campaign's Skill Hunter counting the Core elites, said as x / x)
     const count = d && `${d[0]} / ${Math.max(d[0], d[1])} ${d[2]}`;
-    const how = d ? (LEFT_LIST[t.id] ? `<a href="${LEFT_LIST[t.id]}">${count}</a>` : count) : big ? `${titlesMaxed(c, o)} titles maxed` : t.id === 42 ? motnHow(c) : GUIDE_ROW[t.id] ? `<a href="guides?${GUIDE_ROW[t.id][0]}">${GUIDE_ROW[t.id][1]}</a>` : luckHow(t.id, c, o);
+    const how = d ? (LEFT_LIST[t.id] ? `<a href="${LEFT_LIST[t.id]}">${count}</a>` : count) : big ? `${titlesMaxed(c, o)} titles maxed` : t.id === 42 ? motnHow(c) : GUIDE_ROW[t.id] && !pre ? `<a href="guides?${GUIDE_ROW[t.id][0]}">${GUIDE_ROW[t.id][1]}</a>` : luckHow(t.id, c, o);
     const input = t.id === 42 ? `<input type="number" class="calc-in my-pts" id="motn-points" min="0" placeholder="Points" aria-label="Master of the North points the game shows" value="${motnTicked(c) + Math.max(0, c.eotnMap ?? 0)}">`
       : d || big ? ""
       : STEPPED.has(t.id) ? `<span class="my-step"><button type="button" data-step="-1" data-title="${t.id}" aria-label="Rank down"${r ? "" : " disabled"}>▼</button>`
@@ -74,8 +75,8 @@ function mineHTML() {
   }).join("")}</tbody></table>` : "");
   const of = (scope, pvp) => list.filter(t => t.scope === scope && !!t.pvp === pvp);
   const acct = o.accounts.find(a => a.id === c.account);
-  // the progress boxes (characters.js) first
-  return `${typeof statsHTML === "function" ? statsHTML(c) : ""}<section class="t-panel my" style="--c:var(--accent)">
+  // the progress boxes (characters.js) first: not for a pre-Searing character
+  return `${typeof statsHTML === "function" && !pre ? statsHTML(c) : ""}<section class="t-panel my" style="--c:var(--accent)">
     ${section("Character titles", of("character", false))}${section("Character titles, PvP", of("character", true))}
     ${section(`Account titles: ${esc(accountName(acct))}, shared by its characters`, of("account", false))}${section("Account titles, PvP", of("account", true))}
   </section>`;

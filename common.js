@@ -643,6 +643,10 @@ const userFlat = o => (o.v !== 3 ? o : { v: 2, chars: o.accounts.flatMap(a => a.
 // the optional game modes (Guild Wars Reforged): a character bound to one wears its badge beside its name; and our own
 // "pre-Searing", a character that stays in pre-Searing Ascalon, with the Tapestry Shred as its badge
 const USER_MODES = { presearing: "Pre-Searing: stays in pre-Searing Ascalon", melandru: "Melandru's Accord", dhuum: "Dhuum's Covenant" };
+// a pre-Searing character's own titles: the only ones it can work on there (Kind of a Big Deal, Drunkard, Sweet Tooth,
+// Party Animal, Survivor, Legendary Defender of Ascalon); its account's all the same
+const PRE_TITLES = new Set([10, 7, 34, 43, 9, 21]);
+const isPreSearing = c => (c.modes || []).includes("presearing");
 const USER_LISTS = ["elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM"];
 // what "all" stands for in version 3: the same, but the dungeons are the 18 ticked (the Eye of the North's with Secret
 // Lair of the Snowmen; not Destruction's Depths, a mission, nor the Piken Square ones), the missions are the 69 story
