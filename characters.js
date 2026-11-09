@@ -87,9 +87,10 @@ const moveBtns = (first, last) => `<span class="u-move"><button type="button" da
 const GENDERS = { "": ["He / She", "Not set"], m: ["He", "Male"], f: ["She", "Female"] };
 const genderBtn = c => { const [label, name] = GENDERS[c.gender || ""];
   return `<button type="button" class="u-gender${c.gender ? "" : " unset"}" data-gender title="Gender: ${name}">${label}</button>`; };
-// (pre-Searing not offered to a profession that can't be, its place kept so the badges stay lined up)
+// (pre-Searing not offered to a profession that can't be, nor to a character made in Factions or Nightfall, its place
+// kept so the badges stay lined up)
 const modeBadges = c => `<span class="u-modes">${Object.entries(USER_MODES).map(([m, name]) =>
-  m === "presearing" && PRE_NOT[c.profession] && !(c.modes || []).includes(m) ? '<span class="u-mode-gap"></span>' :
+  m === "presearing" && (PRE_NOT[c.profession] || madeIn(c) > 1) && !(c.modes || []).includes(m) ? '<span class="u-mode-gap"></span>' :
   `<button type="button" class="u-mode" data-mode="${m}" aria-pressed="${(c.modes || []).includes(m)}" title="${esc(name)}"><img src="img/modes/${m}.png" alt="${esc(name)}"></button>`).join("")}</span>`;
 const closeProfs = () => { for (const m of document.querySelectorAll(".u-prof-menu")) m.hidden = true; };
 document.addEventListener("click", e => { if (!e.target.closest(".u-prof")) closeProfs(); });
