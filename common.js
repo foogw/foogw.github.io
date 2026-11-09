@@ -528,6 +528,24 @@ function recruitHTML(h) {
    Everything is by the game's own ids, so it outlasts the site's updates, and ids the site doesn't know are kept. Which
    character is shown (its id) is kept apart, as it's no progress. */
 const USER_KEY = "gw-user", USER_CHAR_KEY = "gw-user-char";
+/* Read-only mode, for a copy of the progress brought from another machine or browser (set on the Backup page, kept in
+   this browser only, not in a backup): every change is refused with a notice, but loading a backup over it. */
+const READ_ONLY_KEY = "gw-read-only";
+const readOnly = () => { try { return localStorage.getItem(READ_ONLY_KEY) === "1"; } catch { return false; } };
+// the notice, once at a time; true when read-only (the change to be dropped)
+function readOnlyBlocks() {
+  if (!readOnly()) return false;
+  if (document.querySelector(".ro-note")) return true;
+  const d = document.createElement("div");
+  d.className = "ro-note"; d.setAttribute("role", "alertdialog"); d.setAttribute("aria-modal", "true");
+  d.innerHTML = `<div class="ro-box"><b>This is read-only mode.</b><p>You probably want to edit the source, which is on another
+    machine or browser.</p><p class="dim">To change things here anyway, turn read-only off on the <a href="backup">Backup</a> page.</p>
+    <button type="button" class="u-btn">OK</button></div>`;
+  d.addEventListener("click", e => { if (e.target === d || e.target.closest("button")) d.remove(); });
+  document.body.append(d);
+  d.querySelector("button").focus();
+  return true;
+}
 const USER_NOTE_MAX = 100;  // a character's note, at most
 /* Kept in this browser apart from the characters, and in a backup with them (the Backup page): the Builder's saved
    builds, the guides' steps ticked and faction cap calculators, and the Rotations page's UTC switch. In a backup, each
@@ -810,8 +828,9 @@ const User = {
     if (!User.broken()) try { const o = JSON.parse(User.stored()); if (o) return userFromKept(o); } catch { /* none yet */ }
     return userNormalize({ v: 2, chars: [newUserChar(1)] });
   },
-  save(o) {
-    if (User.broken()) return false;
+  // (read-only: refused, with the notice; force: loading a backup, which a read-only copy is made by)
+  save(o, force = false) {
+    if (User.broken() || (!force && readOnlyBlocks())) return false;
     try { localStorage.setItem(USER_KEY, JSON.stringify(userToKept(userNormalize(o)))); } catch { /* storage blocked */ }
     userSeen = userRaw();
     globalThis.headerChar?.();
@@ -901,6 +920,7 @@ document.addEventListener("click", e => {
   e.preventDefault(); e.stopPropagation();
   const list = document.querySelector(b.closest("[data-bulk-list]").dataset.bulkList), on = b.dataset.bulk === "1";
   if (User.broken()) { if (confirm("Your saved progress can't be read, so it can't be changed here. Open the Backup page to see it?")) location.href = "backup"; return; }
+  if (readOnlyBlocks()) return;
   const elites = [...new Set([...list.querySelectorAll(".utick[data-elite]")].map(x => x.dataset.elite))];
   const vanqs = [...new Set([...list.querySelectorAll(".utick[data-vanq]")].map(x => x.dataset.vanq))];
   const done = [...list.querySelectorAll(".uticks[data-part]")].map(g => [g.dataset.part, g.dataset.id]);
@@ -922,6 +942,7 @@ document.addEventListener("click", e => {
   if (!b) return;
   e.preventDefault(); e.stopPropagation();
   if (User.broken()) { if (confirm("Your saved progress can't be read, so it can't be changed here. Open the Backup page to see it?")) location.href = "backup"; return; }
+  if (readOnlyBlocks()) return;
   const on = b.getAttribute("aria-pressed") !== "true";
   if (b.dataset.elite) {
     User.setCaptured(b.dataset.elite, on);

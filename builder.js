@@ -585,6 +585,7 @@ els.pool.addEventListener("drop", e => {
 /* saved builds */
 // (a build saved again goes to the top, not in twice)
 $("save").addEventListener("click", () => {
+  if (readOnlyBlocks()) return;
   const code = currentCode();
   store(SAVED_KEY, [code, ...builderSaved().filter(c => c !== code)]);
   renderSaved();
@@ -592,6 +593,7 @@ $("save").addEventListener("click", () => {
 els.saved.addEventListener("click", e => {
   const del = e.target.closest("[data-del]");
   if (del) {
+    if (readOnlyBlocks()) return;
     const saved = builderSaved();
     saved.splice(+del.dataset.del, 1);
     store(SAVED_KEY, saved);

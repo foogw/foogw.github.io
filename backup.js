@@ -102,7 +102,7 @@ els.submit.addEventListener("click", () => {
   const was = broken ? "your saved progress, which can't be read" : summary(User.data(), extrasKept());
   if (!confirm(`This replaces all the progress saved in this browser:\n\n${was}\n\nwith this:\n\n${summary(o, raw)}\n\nContinue?`)) return;
   if (broken) User.reset();
-  User.save(o);
+  User.save(o, true);
   extrasApply(raw);
   kept = false;
   render();
@@ -115,6 +115,9 @@ els.reset.addEventListener("click", () => {
   render();
   status("Reset: a fresh start.", "ok");
 });
+// read-only on or off (in this browser only)
+$("u-read-only").checked = readOnly();
+$("u-read-only").addEventListener("change", e => { try { if (e.target.checked) localStorage.setItem(READ_ONLY_KEY, "1"); else localStorage.removeItem(READ_ONLY_KEY); } catch { /* storage blocked */ } });
 // changed in another tab
 addEventListener("userchange", render);
 render();

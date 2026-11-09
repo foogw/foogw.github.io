@@ -24,7 +24,7 @@ const hideChar = id => {
 // (from before, the hidden ones kept in this browser apart: into the progress, once)
 try {
   const old = JSON.parse(localStorage.getItem("chars.hidden"));
-  if (old && User.stored() != null && !User.broken()) {
+  if (old && User.stored() != null && !User.broken() && !readOnly()) {
     const o = User.data();
     for (const c of o.chars) if (old.includes(c.id)) c.hidden = true;
     User.save(o);
@@ -552,7 +552,8 @@ onEdit("click", e => {
 function newChar(account = User.char().account) {
   const o = User.data(), c = newUserChar(Math.max(...o.chars.map(c => c.id)) + 1, account);
   o.chars.push(c);
-  User.save(o); User.pick(c.id); render();
+  if (!User.save(o)) return;  // (read-only)
+  User.pick(c.id); render();
   els.list.querySelector(`tr[data-id="${c.id}"] input[type=text]`).select();
 }
 $("u-new").addEventListener("click", () => newChar());
@@ -560,7 +561,8 @@ $("u-new").addEventListener("click", () => newChar());
 $("u-new-account").addEventListener("click", () => {
   const o = User.data(), id = Math.max(...o.accounts.map(a => a.id)) + 1;
   o.accounts.push({ id });
-  User.save(o); render();
+  if (!User.save(o)) return;  // (read-only)
+  render();
   els.list.querySelector(`tr[data-account="${id}"] input[type=text]`)?.focus();
 });
 

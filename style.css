@@ -1425,3 +1425,10 @@ a.c-pill:hover { border-color: var(--accent); }
 .td-t td:first-child { width: 90px; white-space: nowrap; color: var(--muted); }
 .td-t .e { width: 280px; }
 .td-left { display: block; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+/* read-only mode: its switch (Backup), and the notice a change gets (readOnlyBlocks, common.js) */
+.u-ro { display: flex; align-items: center; gap: 8px; margin: 6px 0; cursor: pointer; }
+.ro-note { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: rgb(0 0 0 / .55); }
+.ro-box { max-width: 420px; margin: 16px; padding: 18px 20px; border: 1px solid var(--adren); border-radius: 10px; background: var(--panel); box-shadow: 0 8px 30px rgb(0 0 0 / .5); }
+.ro-box b { color: var(--adren); font-size: 16px; }
+.ro-box p { margin: 8px 0 0; }
+.ro-box button { margin-top: 14px; }

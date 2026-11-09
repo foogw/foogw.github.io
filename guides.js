@@ -316,13 +316,17 @@ function capChanged(el) {
 }
 document.addEventListener("input", e => {
   const el = e.target.closest(".gd-cap");
-  if (el) capChanged(el);
+  if (!el) return;
+  // (read-only: put back as it was)
+  if (readOnlyBlocks()) { e.target.checked = !e.target.checked; return; }
+  capChanged(el);
 });
 
 // a ticked step is remembered in this browser only
 document.addEventListener("change", e => {
   const box = e.target.closest("[data-step]");
   if (!box) return;
+  if (readOnlyBlocks()) { box.checked = !box.checked; return; }
   const id = guideId();
   const done = ticked(id);
   box.checked ? done.add(+box.dataset.step) : done.delete(+box.dataset.step);
@@ -337,7 +341,7 @@ const stepsCount = () => {
 };
 // every step unticked, after asking
 document.addEventListener("click", e => {
-  if (!e.target.closest("[data-steps-clear]")) return;
+  if (!e.target.closest("[data-steps-clear]") || readOnlyBlocks()) return;
   const boxes = [...document.querySelectorAll(".gd-route [data-step]:checked")];
   if (!boxes.length || !confirm(`Uncheck all ${boxes.length} steps ticked in this guide?`)) return;
   for (const b of boxes) { b.checked = false; b.closest(".gd-step").classList.remove("ticked"); }
@@ -348,6 +352,7 @@ document.addEventListener("click", e => {
 document.addEventListener("click", e => {
   const step = e.target.closest("[data-cap-step]");
   if (step) {
+    if (readOnlyBlocks()) return;
     const box = step.parentElement, n = box.querySelector("[data-cap-rank]");
     n.textContent = Math.min(+box.dataset.max, Math.max(0, +n.textContent + +step.dataset.capStep));
     capChanged(step.closest(".gd-cap"));
