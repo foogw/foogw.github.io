@@ -253,11 +253,13 @@ const fmtAgeDay = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "s
 const ageDates = (lo, hi) => Math.floor(hi / 864e5) - Math.floor(lo / 864e5) + 1;
 const fmtAgeTime = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
 const isoMin = t => new Date(t).toISOString().slice(0, 16) + "Z";
-// the window for a reading now or next: [opens, closes, best], k whole months on from the range
+// the window for a reading now or next: [opens, closes, best], k whole ticks on from the range (days for a character
+// under two months old, else months: ageTick)
 function ageWindow(lo, hi, now = Date.now()) {
-  let k = Math.floor((now - lo) / AGE_MONTH);
-  if (now >= hi + k * AGE_MONTH) k++;
-  return [lo + k * AGE_MONTH, hi + k * AGE_MONTH, (lo + hi) / 2 + k * AGE_MONTH];
+  const tick = ageTick(lo, hi, now);
+  let k = Math.floor((now - lo) / tick);
+  if (now >= hi + k * tick) k++;
+  return [lo + k * tick, hi + k * tick, (lo + hi) / 2 + k * tick];
 }
 function ageHTML(c) {
   // first what's known of it, then how to know more

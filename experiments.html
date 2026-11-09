@@ -111,12 +111,12 @@
       const name = `<td class="dim">${esc(acct(c))}</td><td><a class="n" href="characters" data-go="${c.id}"><img src="${profImg(c.profession || 0)}" alt="">${esc(c.name)}</a></td>`;
       // down to a minute, it's known: nothing more to check
       const [lo, hi] = r, done = hi - lo <= 6e4, [unit, word] = unitOf(lo, hi), said = n => `${n} ${word}${n === 1 ? "" : "s"}`;
-      // where a month ticks over for a reading now: inside the range, it splits it; worth saying when the smaller side is
+      // where a month (a day, under two months old: ageTick) ticks over for a reading now: inside the range, it splits it; worth saying when the smaller side is
       // a whole unit at least
-      const b = now - Math.floor((now - lo) / MONTH) * MONTH, side = b > lo && b < hi ? Math.min(b - lo, hi - b) : 0;
+      const tick = ageTick(lo, hi, now), b = now - Math.floor((now - lo) / tick) * tick, side = b > lo && b < hi ? Math.min(b - lo, hi - b) : 0;
       const check = !done && side >= unit ? "Now" : "";
       // else the next best moment: where a month ticks over for the range's middle, next
-      const mid = (lo + hi) / 2, next = mid + Math.ceil((now - mid) / MONTH) * MONTH;
+      const mid = (lo + hi) / 2, next = mid + Math.ceil((now - mid) / tick) * tick;
       const add = done ? `<span class="dim">Known to the minute</span>` : `<input type="text" class="xp-age" data-age="${c.id}" maxlength="12" placeholder="79 months" aria-label="What /age says for ${esc(c.name)}"><button type="button" class="u-btn" data-age-add="${c.id}">Add</button>`;
       return `<tr>${name}<td>${ageSaid(now - mid)}</td><td class="num">${done ? "" : said(Math.max(1, Math.ceil((hi - lo) / unit)))}</td>
         <td class="num">${done ? "" : said(Math.floor(side / unit))}</td><td class="${check ? "now" : "dim"}">${done ? "" : check || fmtWhen.format(next)}</td><td class="add">${add}</td></tr>`;

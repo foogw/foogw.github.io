@@ -377,14 +377,16 @@ function bonusPills(bonus, o, cs) {
 }
 // a character's age range at a moment (its "bornBetween", narrowed by /age readings): the unit it's said in (days while it
 // covers more than two dates, then hours, then minutes), and what a reading then takes off for sure (the smaller side
-// where a month ticks over inside it). A month: a twelfth of the game's 365-day year
+// where a month, or a day for a young one, ticks over inside it). A month: a twelfth of the game's 365-day year
 const AGE_DAY = 864e5, AGE_MO = 365 / 12 * AGE_DAY;
+// what /age ticks by at t: whole days for a character under two months old, then whole months
+const ageTick = (lo, hi, t) => (t - (lo + hi) / 2 < 2 * AGE_MO ? AGE_DAY : AGE_MO);
 function ageAt(made, t = Date.now()) {
-  const [lo, hi] = made.map(Date.parse), dates = Math.floor(hi / AGE_DAY) - Math.floor(lo / AGE_DAY) + 1;
+  const [lo, hi] = made.map(Date.parse), dates = Math.floor(hi / AGE_DAY) - Math.floor(lo / AGE_DAY) + 1, tick = ageTick(lo, hi, t);
   const [unit, word] = dates > 2 ? [AGE_DAY, "day"] : hi - lo >= 36e5 ? [36e5, "hour"] : [6e4, "minute"];
-  const b = t - Math.floor((t - lo) / AGE_MO) * AGE_MO, side = b > lo && b < hi ? Math.min(b - lo, hi - b) : 0;
+  const b = t - Math.floor((t - lo) / tick) * tick, side = b > lo && b < hi ? Math.min(b - lo, hi - b) : 0;
   const mid = (lo + hi) / 2;
-  return { lo, hi, dates, unit, word, side, mid, done: hi - lo <= 6e4, next: mid + Math.ceil((t - mid) / AGE_MO) * AGE_MO,
+  return { lo, hi, dates, unit, word, side, mid, done: hi - lo <= 6e4, next: mid + Math.ceil((t - mid) / tick) * tick,
     said: n => `${n} ${word}${n === 1 ? "" : "s"}` };
 }
 function bonusMark(id) {
