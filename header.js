@@ -29,4 +29,12 @@
   showChar();
   globalThis.headerChar = showChar;
   addEventListener("storage", showChar);  // (another tab)
+  // Backup with a * while this browser's progress is read-only (set on that page: common.js's READ_ONLY_KEY)
+  const showReadOnly = () => {
+    let ro = false; try { ro = localStorage.getItem("gw-read-only") === "1"; } catch { /* storage blocked */ }
+    for (const a of nav.querySelectorAll('a[href="backup"]')) { a.textContent = ro ? "Backup*" : "Backup"; a.title = ro ? "Backup (read-only mode is on)" : ""; }
+  };
+  showReadOnly();
+  globalThis.headerReadOnly = showReadOnly;
+  addEventListener("storage", showReadOnly);
 }

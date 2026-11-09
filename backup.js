@@ -117,7 +117,7 @@ els.reset.addEventListener("click", () => {
 });
 // read-only on or off (in this browser only); the box set from what's kept whenever the page shows (a browser that puts
 // a form back as it was on a reload or Back, autocomplete or not, doesn't get the last word)
-const showReadOnly = () => { $("u-read-only").checked = readOnly(); };
+const showReadOnly = () => { $("u-read-only").checked = readOnly(); globalThis.headerReadOnly?.(); };
 $("u-read-only").addEventListener("change", e => { try { if (e.target.checked) localStorage.setItem(READ_ONLY_KEY, "1"); else localStorage.removeItem(READ_ONLY_KEY); } catch { /* storage blocked */ } showReadOnly(); });
 showReadOnly();
 addEventListener("pageshow", showReadOnly);
