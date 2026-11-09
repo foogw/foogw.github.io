@@ -22,8 +22,10 @@ const DERIVED_TITLES = new Map([
     const got = new Set(c.vanquished), all = vanquishIn(camp);
     return [all.filter(l => got.has(l)).length, all.length, "areas vanquished"];
   }]),
-  ...[[31, [35, 36, 37]], [32, [24, 26, 28]], [30, [1, 2, 18]], [33, [25, 27, 29]]].map(([id, of]) =>
+  ...[[32, [24, 26, 28]], [30, [1, 2, 18]], [33, [25, 27, 29]]].map(([id, of]) =>
     [id, (c, o) => [of.filter(x => titleMaxed(x, c, o)).length, 3, "campaigns"]]),
+  // Legendary Guardian: the three Protector titles (NM) and the three Guardian ones (HM)
+  [31, (c, o) => [[13, 14, 19, 35, 36, 37].filter(x => titleMaxed(x, c, o)).length, 6, "titles"]],
 ]);
 // Master of the North's points: 5 an EotN mission in NM and 10 in HM, 10 a dungeon in NM and 20 in HM, 15 an area
 // vanquished, from the character's ticks; and 1 a percent of the Eye of the North map explored, worked out on My

@@ -19,8 +19,8 @@ const LEFT_LIST = { 24: "skills?c=1c&cap=1", 26: "skills?c=2c&cap=1", 28: "skill
   13: "missions?c=1&ty=story&d=1", 14: "missions?c=2&ty=story&d=1", 19: "missions?c=3&ty=story&d=1",
   35: "missions?c=1&ty=story&d=2", 36: "missions?c=2&ty=story&d=2", 37: "missions?c=3&ty=story&d=2",
   25: "areas?c=1&v=n", 27: "areas?c=2&v=n", 29: "areas?c=3&v=n",
-  // the Legendary ones: the three campaigns' lists together
-  32: "skills?cap=1", 31: "missions?c=1,2,3&ty=story&d=2", 33: "areas?c=1,2,3&v=n" };
+  // the Legendary ones: the three campaigns' lists together (Guardian's: missing in NM or HM)
+  32: "skills?cap=1", 31: "missions?c=1,2,3&ty=story&d=a", 33: "areas?c=1,2,3&v=n" };
 // a title's guide, said in its row
 const GUIDE_ROW = { 9: ["gom", "GoM AFK guide"], 6: ["zos", "Luxon AFK guide"] };
 
