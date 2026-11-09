@@ -49,9 +49,10 @@
       "blocks": [
         {
           "img": {
-            "src": "img/guides/chaos-axe-farm-path.jpg",
-            "caption": "The path from the portal to the drops, clockwise around the cliff. The flag marks Koss in the pool.",
-            "side": true
+            "src": "img/guides/chaos-axe-farm-below.jpg",
+            "caption": "Below the cliff by the portal out of Moddok Crevice: the two Obsidian Furnace Drakes above can't reach you, nor see you.",
+            "side": true,
+            "width": 480
           }
         },
         {
@@ -70,14 +71,21 @@
       "blocks": [
         {
           "ol": [
-            "Take {quest:100872}, which needs {hero:6}, and leave {area:427} with him.",
+            "Take {quest:100872}, which needs {hero:6}, and leave {area:427} with him into {area:384}.",
             "Flag Koss far into the pool to your south-west.",
             "Walk back towards the portal to aggro the drakes above the cliff.",
-            "Wait a minute for the initial drop-rate reduction to pass (a good time to set up another account for the farm).",
+            "Wait a minute for the initial drop-rate reduction to pass (or farm on two accounts and do a run on the other meanwhile).",
             "Kill both drakes.",
-            "If anything worthwhile dropped, run through {area:384} to pick it up.",
+            "If anything worthwhile dropped, run around the cliff to pick it up.",
             "Rezone and repeat."
           ]
+        },
+        {
+          "img": {
+            "src": "img/guides/chaos-axe-farm-path.jpg",
+            "caption": "The path from the portal to the drops, clockwise around the cliff. The flag marks Koss in the pool.",
+            "center": true
+          }
         }
       ]
     },

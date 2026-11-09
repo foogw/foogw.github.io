@@ -187,7 +187,9 @@ function blockHTML(x, g) {
   if (x.ol) return `<ol>${x.ol.map(t => `<li>${text(t)}</li>`).join("")}</ol>`;
   if (x.imgs) return `<figure class="gd-fig"><div class="gd-row">${x.imgs.srcs.map(src => `<a href="${esc(src)}" target="_blank"><img src="${esc(src)}" alt="" loading="lazy"></a>`).join("")}</div>
     <figcaption>${text(x.imgs.caption)}</figcaption></figure>`;
-  if (x.img) return `<figure class="gd-fig${x.img.side ? " side" : ""}"><a href="${esc(x.img.src)}" target="_blank"><img src="${esc(x.img.src)}" alt="" loading="lazy"></a>
+  // (a side picture's width, when wider than the usual: width, in pixels; or centered on its own, center, 300px unless
+  // a width says)
+  if (x.img) return `<figure class="gd-fig${x.img.side ? " side" : x.img.center ? " center" : ""}"${(x.img.side || x.img.center) && x.img.width ? ` style="width: min(${+x.img.width}px, ${x.img.side ? 55 : 100}%)"` : ""}><a href="${esc(x.img.src)}" target="_blank"><img src="${esc(x.img.src)}" alt="" loading="lazy"></a>
     <figcaption>${text(x.img.caption)}</figcaption></figure>`;
   if (x.builds) return `<div class="gd-builds">${x.builds.map(buildHTML).join("")}</div>`;
   if (x.capCalc) return capCalcHTML(x.capCalc, g);

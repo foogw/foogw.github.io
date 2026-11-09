@@ -1045,6 +1045,8 @@ a.hchip { text-decoration: none; }
 .gd-row { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
 .gd-row img { width: auto; max-width: 100%; }
 .gd-fig.side { float: right; width: min(300px, 40%); margin: 4px 0 12px 20px; }
+.gd-fig.center { width: min(300px, 100%); margin: 14px auto; }
+.gd-fig.center figcaption { text-align: center; }
 .gd-map { margin: 14px 0; }
 .gd-maps { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin: 14px 0; }
 .gd-maps > .gd-map { margin: 0; }
