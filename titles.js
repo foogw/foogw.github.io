@@ -83,7 +83,7 @@ function mineHTML() {
     ${section(`Account titles: ${esc(accountName(acct))}, shared by its characters`, of("account", false))}${section("Account titles, PvP", of("account", true))}
   </section>`;
 }
-const lockedOut = () => User.broken() && (alert("Your saved progress can't be read, so it can't be changed here: see the Backup page."), true);
+const lockedOut = () => User.broken() && (askBroken(), true);
 // a rank up or down
 document.addEventListener("click", e => {
   const b = e.target.closest("button[data-step]");

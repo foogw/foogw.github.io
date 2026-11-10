@@ -342,10 +342,10 @@ const stepsCount = () => {
   for (const b of document.querySelectorAll("[data-steps-clear]")) b.hidden = !n;
 };
 // every step unticked, after asking
-document.addEventListener("click", e => {
+document.addEventListener("click", async e => {
   if (!e.target.closest("[data-steps-clear]") || readOnlyBlocks()) return;
   const boxes = [...document.querySelectorAll(".gd-route [data-step]:checked")];
-  if (!boxes.length || !confirm(`Uncheck all ${boxes.length} steps ticked in this guide?`)) return;
+  if (!boxes.length || !await ask({ title: `Uncheck all ${boxes.length} steps ticked in this guide?`, ok: "Uncheck all", danger: true, focus: "cancel" })) return;
   for (const b of boxes) { b.checked = false; b.closest(".gd-step").classList.remove("ticked"); }
   try { localStorage.removeItem(STORE(guideId())); } catch {}
   stepsCount();

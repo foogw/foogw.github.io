@@ -119,11 +119,11 @@ $("u-file").addEventListener("change", async e => {
   if (f.size > 1e6) return status("This file is too big to be progress.", "bad");
   check();
 });
-els.submit.addEventListener("click", () => {
+els.submit.addEventListener("click", async () => {
   const raw = JSON.parse(els.text.value.trim()), broken = User.broken();
   if (userCheck(raw) || broken && !kept) return;
   const o = userFromKept(raw);
-  if (!confirm(`This replaces all the progress saved in this browser.\n\n${restoreSays(o, raw)}\n\nContinue?`)) return;
+  if (!await ask({ title: "Replace all the progress saved in this browser?", body: restoreSays(o, raw), ok: "Replace", danger: true, focus: "cancel" })) return;
   if (broken) User.reset();
   User.save(o, true);
   extrasApply(raw);
@@ -131,8 +131,8 @@ els.submit.addEventListener("click", () => {
   render();
   status("Done: this is your progress now.", "ok");
 });
-els.reset.addEventListener("click", () => {
-  if (!kept || !confirm("This deletes all your saved progress for good and starts afresh, with one empty character. You've kept a copy?")) return;
+els.reset.addEventListener("click", async () => {
+  if (!kept || !await ask({ title: "Delete all your saved progress?", body: "For good, starting afresh with one empty character. You've kept a copy?", ok: "Delete all", danger: true, focus: "cancel" })) return;
   User.reset();
   kept = false;
   render();

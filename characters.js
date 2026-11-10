@@ -371,12 +371,12 @@ $("ch-builds").addEventListener("submit", e => {
   try { if (!TemplateCode.decode(code).skills.some(id => SKILLS[id])) throw 0; } catch { $("build-err").textContent = "That isn't a skill template code."; return; }
   editChar(c => { c.builds = [...(c.builds || []), code]; });
 });
-$("ch-builds").addEventListener("click", e => {
+$("ch-builds").addEventListener("click", async e => {
   const li = e.target.closest("[data-build]");
   if (!li) return;
   const i = +li.dataset.build, mv = e.target.closest("[data-move]");
   if (mv) editChar(c => { const j = i + +mv.dataset.move; [c.builds[i], c.builds[j]] = [c.builds[j], c.builds[i]]; });
-  else if (e.target.closest("[data-build-delete]") && confirm("Delete this build?")) editChar(c => { c.builds.splice(i, 1); if (!c.builds.length) delete c.builds; });
+  else if (e.target.closest("[data-build-delete]") && await ask({ title: "Delete this build?", ok: "Delete", danger: true, focus: "cancel" })) editChar(c => { c.builds.splice(i, 1); if (!c.builds.length) delete c.builds; });
 });
 
 // the character picked: its card (its Kind of a Big Deal, then its modes, under its name), and how far it is, each count a link to what's left
@@ -446,11 +446,11 @@ document.addEventListener("click", e => {
   if (f) { foldAccount(+f.dataset.foldAccount); return render(); }
 });
 // coins taken: counted again from now (after asking)
-document.addEventListener("click", e => {
+document.addEventListener("click", async e => {
   const b = e.target.closest("[data-coins]");
   if (!b || User.broken()) return;
   const o = User.data(), a = o.accounts.find(x => x.id === +b.dataset.coins);
-  if (!a || !confirm(`Took ${accountName(a)}'s Reforged Coins from the Purveyor?`)) return;
+  if (!a || !await ask({ title: `Took ${accountName(a)}'s Reforged Coins from the Purveyor?`, ok: "Took them" })) return;
   a.reforgedCoinClock = new Date().toISOString().slice(0, 16) + "Z";
   User.save(o); render();
 });
@@ -484,7 +484,7 @@ onEdit("keydown", e => {
   // Escape: the name as it was
   if (e.key === "Escape") { const o = User.data(); e.target.value = e.target.closest(".u-acct") ? rowAccount(o, e.target).name || "" : rowChar(o, e.target).name; e.target.blur(); }
 });
-onEdit("click", e => {
+onEdit("click", async e => {
   // a character hidden from the view, or shown again
   const hb = e.target.closest("[data-hide]");
   if (hb) { hideChar(+hb.closest("tr").dataset.id); return render(); }
@@ -540,13 +540,13 @@ onEdit("click", e => {
   if (e.target.closest("[data-new-char]")) return newChar(+e.target.closest("tr").dataset.account);
   if (e.target.closest("[data-delete-account]")) {
     const o = User.data(), a = rowAccount(o, e.target);
-    if (o.chars.some(c => c.account === a.id) || !confirm(`Delete the account "${accountName(a)}" and its account titles? This can't be undone.`)) return;
+    if (o.chars.some(c => c.account === a.id) || !await ask({ title: `Delete the account "${accountName(a)}"?`, body: "And its account titles. This can't be undone.", ok: "Delete", danger: true, focus: "cancel" })) return;
     o.accounts = o.accounts.filter(x => x !== a);
     User.save(o); return render();
   }
   if (!e.target.closest("[data-delete]")) return;
   const o = User.data(), c = rowChar(o, e.target);
-  if (o.chars.length < 2 || !confirm(`Delete "${c.name}" and all its progress (${charCounts(c)})? This can't be undone.`)) return;
+  if (o.chars.length < 2 || !await ask({ title: `Delete "${c.name}"?`, body: `And all its progress (${charCounts(c)}). This can't be undone.`, ok: "Delete", danger: true, focus: "cancel" })) return;
   const shown = User.char(o) === c;
   o.chars = o.chars.filter(x => x !== c);
   User.save(o);

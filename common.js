@@ -535,18 +535,33 @@ const USER_KEY = "gw-user", USER_CHAR_KEY = "gw-user-char";
    this browser only, not in a backup): every change is refused with a notice, but loading a backup over it. */
 const READ_ONLY_KEY = "gw-read-only";
 const readOnly = () => { try { return localStorage.getItem(READ_ONLY_KEY) === "1"; } catch { return false; } };
+/* The site's question (in place of the browser's confirm and alert): a title, its details (text, its lines kept; or
+   html), Cancel and the action's own button (danger: in red), the one focused at first doing it on Enter; Escape is
+   Cancel, a click outside does nothing. A promise of true (the action) or false; one at a time (another asked meanwhile:
+   false). With no cancel, it's a notice: its one button. */
+let asking = null;
+function ask({ title, body = "", html = "", ok = "OK", cancel = "Cancel", danger = false, focus = "ok", tone = "" }) {
+  if (asking) return Promise.resolve(false);
+  const back = document.activeElement, d = document.createElement("dialog");
+  d.className = `ask${tone ? ` ${tone}` : ""}`;
+  d.setAttribute("aria-labelledby", "ask-t");
+  d.innerHTML = `<b id="ask-t">${esc(title)}</b>${body ? `<p class="ask-body">${esc(body)}</p>` : ""}${html}<div class="ask-btns">${cancel ? `<button type="button" class="u-btn" data-ask="0">${esc(cancel)}</button>` : ""}<button type="button" class="u-btn${danger ? " ask-danger" : ""}" data-ask="1">${esc(ok)}</button></div>`;
+  document.body.append(d);
+  return asking = new Promise(res => {
+    const done = v => { d.close(); d.remove(); asking = null; back?.focus?.(); res(v); };
+    d.addEventListener("click", e => { const b = e.target.closest("[data-ask]"); if (b) done(b.dataset.ask === "1"); });
+    d.addEventListener("cancel", e => { e.preventDefault(); done(false); });
+    d.showModal();
+    d.querySelector(focus === "cancel" && cancel ? '[data-ask="0"]' : '[data-ask="1"]').focus();
+  });
+}
+// saved progress that can't be read: said, with the way to the Backup page
+const askBroken = async () => { if (await ask({ title: "Your saved progress can't be read", body: "So it can't be changed here. Open the Backup page to see it?", ok: "Open Backup" })) location.href = "backup"; };
 // the notice, once at a time; true when read-only (the change to be dropped)
 function readOnlyBlocks() {
   if (!readOnly()) return false;
-  if (document.querySelector(".ro-note")) return true;
-  const d = document.createElement("div");
-  d.className = "ro-note"; d.setAttribute("role", "alertdialog"); d.setAttribute("aria-modal", "true");
-  d.innerHTML = `<div class="ro-box"><b>This is read-only mode.</b><p>You probably want to edit the source, which is on another
-    machine or browser.</p><p class="dim">To change things here anyway, turn read-only off on the <a href="backup">Backup</a> page.</p>
-    <button type="button" class="u-btn">OK</button></div>`;
-  d.addEventListener("click", e => { if (e.target === d || e.target.closest("button")) d.remove(); });
-  document.body.append(d);
-  d.querySelector("button").focus();
+  ask({ title: "This is read-only mode.", tone: "ro", cancel: "", html: `<p>You probably want to edit the source, which is on another
+    machine or browser.</p><p class="dim">To change things here anyway, turn read-only off on the <a href="backup">Backup</a> page.</p>` });
   return true;
 }
 const USER_NOTE_MAX = 100;  // a character's note, at most
@@ -931,12 +946,12 @@ const bulkMenu = (list, modes = false) => ` <span class="bulk-menu" data-bulk-li
   ? [[1, 1, "Check all NM"], [1, 2, "Check all HM"], [0, 1, "Uncheck all NM"], [0, 2, "Uncheck all HM"]]
   : [[1, 0, "Check all"], [0, 0, "Uncheck all"]]).map(([on, m, label]) => `<button type="button" data-bulk="${on}"${m ? ` data-mode="${m}"` : ""}>${label}</button>`).join("")}</span>`;
 for (const s of document.querySelectorAll(".bulk-slot")) s.outerHTML = bulkMenu(s.dataset.list, s.dataset.modes === "1");
-document.addEventListener("click", e => {
+document.addEventListener("click", async e => {
   const b = e.target.closest("[data-bulk]");
   if (!b) return;
   e.preventDefault(); e.stopPropagation();
   const list = document.querySelector(b.closest("[data-bulk-list]").dataset.bulkList), on = b.dataset.bulk === "1";
-  if (User.broken()) { if (confirm("Your saved progress can't be read, so it can't be changed here. Open the Backup page to see it?")) location.href = "backup"; return; }
+  if (User.broken()) return askBroken();
   if (readOnlyBlocks()) return;
   const elites = [...new Set([...list.querySelectorAll(".utick[data-elite]")].map(x => x.dataset.elite))];
   const vanqs = [...new Set([...list.querySelectorAll(".utick[data-vanq]")].map(x => x.dataset.vanq))];
@@ -945,7 +960,8 @@ document.addEventListener("click", e => {
   if (!n) return;
   const many = (k, w) => `${k} ${w}${k === 1 ? "" : "s"}`;
   const what = elites.length ? `${many(elites.length, "elite")} as captured` : vanqs.length ? `${many(vanqs.length, "area")} as vanquished` : `${many(done.length, done[0][0] === "dungeons" ? "dungeon" : "mission")} as done in ${mode}`;
-  if (!confirm(on ? `Mark the ${what}, all shown, for ${who}?` : `Clear the ${mode ? `${mode} ` : ""}ticks of all ${n} shown for ${who}?`)) return;
+  if (!await ask({ title: on ? `Mark the ${what}, all shown, for ${who}?` : `Clear the ${mode ? `${mode} ` : ""}ticks of all ${n} shown for ${who}?`,
+    ok: on ? "Check all" : "Uncheck all", danger: !on, focus: on ? "ok" : "cancel" })) return;
   if (elites.length) User.setCapturedMany(elites, on);
   if (vanqs.length) User.setVanquishedMany(vanqs, on);
   // NM and HM are bits of one number: set or clear the one asked for, keep the other
@@ -958,7 +974,7 @@ document.addEventListener("click", e => {
   const b = e.target.closest(".utick");
   if (!b) return;
   e.preventDefault(); e.stopPropagation();
-  if (User.broken()) { if (confirm("Your saved progress can't be read, so it can't be changed here. Open the Backup page to see it?")) location.href = "backup"; return; }
+  if (User.broken()) return askBroken();
   if (readOnlyBlocks()) return;
   const on = b.getAttribute("aria-pressed") !== "true";
   if (b.dataset.elite) {
