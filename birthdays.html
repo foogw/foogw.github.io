@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>GW Birthdays</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .xp-bd { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .xp-bd th { text-align: left; font-size: 12px; font-weight: 600; color: var(--muted); padding: 6px 14px 6px 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .xp-bd td { padding: 6px 14px 6px 0; border-bottom: 1px solid var(--line); vertical-align: middle; white-space: nowrap; }
+  .xp-bd .n { font-weight: 600; display: inline-flex; align-items: center; gap: 8px; color: var(--text); }
+  .xp-bd a.n:hover { color: var(--accent); }
+  .xp-bd .n img { width: 20px; height: 20px; }
+  .xp-bd .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .xp-bd .d { font-variant-numeric: tabular-nums; }
+  .xp-bd .now { color: var(--accent); }
+  .xp-bd .arr { font-weight: 200; }
+  .xp-bd .chk { width: 200px; }
+  .xp-bd th button { all: unset; cursor: pointer; }
+  .xp-bd th button:hover { color: var(--text); }
+  .xp-bd .add { display: flex; gap: 6px; align-items: center; }
+  .xp-bd .known { padding: 5px 0; border: 1px solid transparent; }  /* (as tall as the Add button: the row keeps its height) */
+  .xp-age { width: 110px; font: inherit; font-size: 13px; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; }  /* (its room kept even with no check to suggest) */
+  .xp-bd .dim { color: var(--muted); }
+  .back { margin: 10px 0 0; font-size: 13px; }
+  .back a { text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"></header><script src="header.js"></script>
+  <p class="back"><a href="characters">← My Characters</a></p>
+  <div class="page-title"><h1>Birthdays</h1><p>When your characters were made, and when a check of /age narrows it</p></div>
+  <div id="bd"></div>
+  <footer class="site-footer"><a href="about">About</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · <a href="license">License &amp; credits</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="game/titles.js"></script>
+<script src="game/skills.js"></script>
+<script src="game/calendar.js"></script>
+<script src="game/ground.js"></script>
+<script src="game/missions.js"></script>
+<script src="game/creatures.js"></script>
+<script src="game/quests.js"></script>
+<script src="common.js"></script>
+<script src="mytitles.js"></script>
+<script src="birthdays.js"></script>
+</body>
+</html>
