@@ -9,7 +9,8 @@
     ["heroes", "Heroes"], ["armor", "Armor"], ["builds", "Builds"], ["builder", "Builder"], ["titles", "Titles"], ["characters", "My Characters"]];
   const SMALL = [["about", "About"], ["thanks", "Thanks"], ["contact", "Contact"], ["license", "License"], ["backup", "Backup"]];
   const page = location.pathname.match(/([\w-]*?)(\.html)?$/)[1].replace(/^index$/, "") || "./";
-  const link = ([href, name, label], cls = "") => `<a${cls ? ` class="${cls}"` : ""} href="${href}"${label ? ` aria-label="${label}" title="${label}"` : ""}${href === page ? ' aria-current="page"' : ""}>${name}</a>`;
+  // (My Characters' other tabs, characters-overview and characters-birthdays, mark it current too)
+  const link = ([href, name, label], cls = "") => `<a${cls ? ` class="${cls}"` : ""} href="${href}"${label ? ` aria-label="${label}" title="${label}"` : ""}${href === page || href === "characters" && page.startsWith("characters-") ? ' aria-current="page"' : ""}>${name}</a>`;
   document.currentScript.previousElementSibling.innerHTML = `<nav class="pages">${PAGES.map(p => link(p, p[0] === "characters" ? "hdr-char" : "")).join("")}</nav>`
     + SMALL.map((p, i) => link(p, i ? "hdr-link" : "hdr-link push")).join("");
   // My Characters by the picked character's name, once it has one of its own (not the default Char<id>): read from the

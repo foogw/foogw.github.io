@@ -562,10 +562,15 @@ button.rnd-copy:hover { color: var(--text); }
 .page-title { padding: 6px 0 12px; }
 .page-title h1 { margin: 0; letter-spacing: .01em; }
 .page-title p { margin: 2px 0 0; color: var(--muted); font-size: 15px; }
-/* My Characters' pages about all the characters and accounts together: each in a thin box */
-.ch-pages { display: flex; flex-wrap: wrap; gap: 8px; margin: -4px 0 12px; font-size: 13px; }
-.ch-pages a { padding: 4px 10px; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; text-decoration: none; }
-.ch-pages a:hover { color: var(--accent); border-color: var(--accent); }
+/* a sortable table's arrow (Birthdays, Characters Overview): its room kept on every header, so the columns stay put */
+.sort-ar { display: inline-block; width: 1em; text-align: right; }
+.sort-ar[hidden] { visibility: hidden; }
+/* My Characters' pages as tabs under its title (Characters, Overview, Birthdays): larger than a character's own tabs */
+.pg-tabs { display: flex; gap: 4px; margin: 0 0 16px; border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
+.pg-tabs a { flex: none; padding: 8px 16px; font-size: 16px; font-weight: 600; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.pg-tabs a:hover { color: var(--text); }
+.pg-empty { margin: 8px 0; }  /* (a tab with nothing to show yet: said the same on each) */
+.pg-tabs a[aria-current="page"] { color: var(--text); border-bottom-color: var(--accent); }
 .page-title .chk { margin-left: 10px; white-space: nowrap; color: var(--text); font-size: 13px; }
 .row .desc { -webkit-line-clamp: 1; }
 .name .nm { overflow: hidden; text-overflow: ellipsis; }

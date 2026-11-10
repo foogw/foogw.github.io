@@ -8,8 +8,6 @@
 <title>GW Characters Overview</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  .back { margin: 10px 0 0; font-size: 13px; }
-  .back a { text-decoration: none; }
   .ov-wrap { overflow-x: auto; }
   .ov { width: 100%; border-collapse: collapse; font-size: 14px; }
   .ov th { text-align: left; font-size: 12px; font-weight: 600; color: var(--muted); padding: 6px 14px 6px 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
@@ -23,15 +21,15 @@
   .ov th button:hover { color: var(--text); }
   .ov-modes { display: inline-flex; gap: 4px; vertical-align: middle; }
   .ov-modes .ch-mode { display: block; vertical-align: 0; }
-  .ov tr.hid td { opacity: .55; }  /* (a character hidden from My Characters' list: dimmed) */
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top"></header><script src="header.js"></script>
-  <p class="back"><a href="characters">← My Characters</a></p>
-  <div class="page-title"><h1>Characters Overview</h1><p>All your characters at a glance</p></div>
-  <div class="ov-wrap" id="ov"></div>
+  <div class="page-title"><h1>My Characters</h1><p>All your characters at a glance</p></div>
+  <!-- My Characters' pages, as tabs under its title: the characters one by one, all of them at a glance, their birthdays -->
+  <nav class="pg-tabs"><a href="characters">Characters</a><a href="characters-overview" aria-current="page">Overview</a><a href="characters-birthdays">Birthdays</a></nav>
+  <div id="ov"></div>
   <footer class="site-footer"><a href="about">About</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · <a href="license">License &amp; credits</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
 

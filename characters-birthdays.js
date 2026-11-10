@@ -1,5 +1,5 @@
 "use strict";
-/* The Birthdays page: every character with a range it was made in ("bornBetween", narrowed here or on My Characters'
+/* The Characters Birthdays page (characters-birthdays; birthdays leads here): every character with a range it was made in ("bornBetween", narrowed here or on My Characters'
    Edit tab), and when a check of /age narrows it. */
 // every character with a range it was made in ("bornBetween", narrowed on My Characters' Edit tab), oldest first (by the
 // range's middle; the others left out); a reading of /age now splits the range where a month would tick over, if that's
@@ -27,7 +27,7 @@
     ["best", "Best check (50%)", "When a reading of /age halves the range (the age it says ticks over at its middle)", "chk"],
     ["start", "Can check", "When a reading of /age starts to narrow the range (the age it says ticks over inside it); now, how much of it a reading cuts off at least: ⭡ still rising to the best check, ⭣ past it", "chk"]];
   function render() {
-    if (User.stored() == null || User.broken()) { $("bd").innerHTML = `<p class="dim">No characters yet: see <a href="characters">My Characters</a>.</p>`; return; }
+    if (User.stored() == null || User.broken()) { $("bd").innerHTML = `<p class="dim pg-empty">No characters yet: add them on the <a href="characters">Characters</a> tab.</p>`; return; }
     const o = User.data(), acct = c => accountName(o.accounts.find(a => a.id === c.account) || { id: c.account });
     const now = Date.now(), rows = o.chars.filter(c => c.bornBetween).map(c => {
       const [lo, hi] = c.bornBetween.map(Date.parse);
@@ -45,7 +45,7 @@
       // what each column sorts by (known to the minute: last on the checks, either way); a check helping now, the most it cuts first
       return { id: c.id, html, mid, done, key: { acct: c.account ?? 1, name: c.name.toLowerCase(), age: now - mid, range: hi - lo, best, start: start - cut } };
     });
-    if (!rows.length) { $("bd").innerHTML = `<p class="dim">No character's age known yet: add one on My Characters' Edit tab.</p>`; return; }
+    if (!rows.length) { $("bd").innerHTML = `<p class="dim pg-empty">No character's age known yet: add one on a character's Edit tab, on the <a href="characters">Characters</a> tab.</p>`; return; }
     if (!order) {
       // (ties left in the order they were in: by account, each account's characters as they were)
       const last = sortBy === "best" || sortBy === "start", was = x => { const i = prev.indexOf(x.id); return i < 0 ? prev.length : i; };
@@ -54,7 +54,7 @@
     }
     const at = x => { const i = order.indexOf(x.id); return i < 0 ? order.length : i; };
     rows.sort((a, b) => at(a) - at(b));
-    const head = COLS.map(([k, t, tip, cls]) => `<th class="sort${cls ? ` ${cls}` : ""}"${tip ? ` title="${tip}"` : ""}><button type="button" data-sort="${k}">${t}${sortBy === k ? (sortDir > 0 ? " ▴" : " ▾") : ""}</button></th>`).join("");
+    const head = COLS.map(([k, t, tip, cls]) => `<th class="sort${cls ? ` ${cls}` : ""}"${tip ? ` title="${tip}"` : ""}><button type="button" data-sort="${k}">${t}<span class="sort-ar"${sortBy === k ? "" : " hidden"}>${sortDir > 0 || sortBy !== k ? "▴" : "▾"}</span></button></th>`).join("");
     $("bd").innerHTML = `<table class="xp-bd"><thead><tr>${head}<th>Add what /age says</th></tr></thead><tbody>${rows.map(x => x.html).join("")}</tbody></table>`;
   }
   // a header clicked: sorted by it (again: the other way)
