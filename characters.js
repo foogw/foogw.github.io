@@ -37,6 +37,9 @@ const shownChars = (o, cur) => { const hs = new Set(hiddenIds(o)); return o.char
 // browser (first Titles)
 const TABS = [["titles", "Titles", "title"], ["next", "What's next", "ch-next"], ["heroes", "Heroes", "ch-heroes"], ["builds", "Builds", "ch-builds"], ["edit", "Edit", "ch-edit"]], TAB = "chars.tab";
 let tab = (() => { try { const t = localStorage.getItem(TAB); return TABS.some(x => x[0] === t) ? t : "titles"; } catch { return "titles"; } })();
+// a tab asked for in the address (characters?tab=edit, from Today's birthdays): picked, kept, and taken off the address
+{ const t = new URLSearchParams(location.search).get("tab");
+  if (TABS.some(x => x[0] === t)) { tab = t; try { localStorage.setItem(TAB, t); } catch { /* storage blocked */ } history.replaceState(null, "", location.pathname); } }
 // the tabs, and the one shown drawn (only it: the others are drawn when picked)
 const drawTabs = (o = User.data(), cur = User.char(o)) => {
   $("ch-tabs").innerHTML = TABS.map(([k, label]) => `<button type="button" role="tab" data-tab="${k}" aria-selected="${k === tab}">${label}</button>`).join("");

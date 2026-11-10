@@ -30,6 +30,7 @@ const ACTIVE = {
 function draw() {
   const t = moment(), picked = args().has("d") || args().has("h"), today = ymd(t) === ymd(Date.now());
   T = t;
+  drawnAt = Date.now();
   $("td-date").value = ymd(t);
   $("td-time").value = String(new Date(t).getHours());
   // (a moment picked: said, with the way back to now)
@@ -58,13 +59,37 @@ function draw() {
   const e = at("weekly-pve"), pills = ok && BONUS_TITLES[e.bonus] ? bonusPills(e.bonus, o, cs) : null;
   $("td-bonus").innerHTML = `<table class="td-t"><tbody>${row("PvE", e, !BONUS_TITLES[e.bonus] ? '<span class="dim">No titles</span>' : !ok ? none
     : pills.length ? pills.join("") : '<span class="dim">No one: maxed</span>', "weekly-pve")}${ROTATIONS["nicholas-traveler"] ? row("Nicholas", at("nicholas-traveler"), "", "nicholas-traveler") : ""}</tbody></table>`;
-  // the characters whose age a check that day narrows by a whole day (an hour, once it's down to hours) at least
-  const bdays = ok ? byImportance(o.chars.filter(c => c.bornBetween && played(c)), o).map(c => [c, ageAt(c.bornBetween, t)])
-    .filter(([, a]) => !a.done && a.word !== "minute" && a.side >= a.unit) : [];
+  // the characters whose age a check of /age narrows: a range still in days, when a check at some hour of the day cuts a
+  // third of it at least; one down to hours or minutes, whenever a check cuts it at all, with the time left to check
+  const day0 = new Date(t).setHours(0, 0, 0, 0), cutAt = (c, at) => { const a = ageAt(c.bornBetween, at); return a.side / (a.hi - a.lo); };
+  const bdays = ok ? byImportance(o.chars.filter(c => c.bornBetween && played(c)), o).flatMap(c => {
+    const a = ageAt(c.bornBetween, t);
+    if (a.done) return [];
+    if (a.word === "day") return [...Array(25).keys()].some(h => cutAt(c, day0 + h * 36e5) >= 1 / 3) ? [[c, null]] : [];
+    // (a check helps till the age's tick, b, passes the range's latest end)
+    const b = t - Math.floor((t - a.lo) / ageTick(a.lo, a.hi, t)) * ageTick(a.lo, a.hi, t);
+    return a.side ? [[c, t + a.hi - b]] : [];
+  }) : [];
   $("td-bday").innerHTML = !ok ? `<p>${none}</p>` : bdays.length
-    ? bdays.map(([c, a]) => charPill(c, `narrows by ${a.said(Math.floor(a.side / a.unit))}`)).join("")
+    // (each to its Edit tab, where its age is narrowed)
+    ? bdays.map(([c, end]) => { const p = charPill(c).replace('href="characters"', 'href="characters?tab=edit"');
+      return end == null ? p : p.replace(/<\/a>$/, `<span class="dim" data-end="${end}">${leftSaid(end - t)}</span></a>`); }).join("")
     : `<p class="dim">No one${today ? " today" : " that day"}.</p>`;
 }
+// a time left to check as a countdown: 1:04:09, 4:32
+const leftSaid = ms => { const s = Math.max(0, Math.floor(ms / 1000)), h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, x = String(s % 60).padStart(2, "0");
+  return `${h ? `${h}:${String(m).padStart(2, "0")}` : m}:${x} left`; };
+// the countdowns counting down each second, from the moment looked at (a moment picked too, as if the clock ran from
+// it); one at 0 gone, and "No one" when none are left
+let drawnAt = Date.now();
+setInterval(() => {
+  const at = T + Date.now() - drawnAt, box = $("td-bday");
+  for (const e of box.querySelectorAll("[data-end]")) {
+    if (+e.dataset.end <= at) e.closest(".c-pill").remove();
+    else e.textContent = leftSaid(+e.dataset.end - at);
+  }
+  if (!box.querySelector(".c-pill") && !box.querySelector("p")) box.innerHTML = '<p class="dim">No one now.</p>';
+}, 1000);
 // a day or time picked: in the address, so it can be shared or kept
 const pick = () => { const d = $("td-date").value || ymd(Date.now()), h = $("td-at").hidden ? new Date().getHours() : $("td-time").value;
   history.replaceState(null, "", `?${new URLSearchParams({ d, h })}`); draw(); };
