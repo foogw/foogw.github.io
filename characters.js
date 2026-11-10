@@ -240,11 +240,7 @@ function nextHTML(o, c) {
       you to, so there aren't any important dailies for ${objPronoun(c)}!</p>`) + acctHTML;
 }
 
-// the campaign a character was made in: an Assassin or Ritualist, Factions, a Paragon or Dervish, Nightfall, a
-// pre-Searing one, Prophecies, whatever is kept; the others, as picked in the Edit tab (or none)
-const PROF_CAMPAIGN = { 7: 2, 8: 2, 9: 3, 10: 3 };
-const fixedCampaign = c => PROF_CAMPAIGN[c.profession] || ((c.modes || []).includes("presearing") ? 1 : 0);
-const madeIn = c => fixedCampaign(c) || c.campaign || 0;
+// (the campaign a character was made in: madeIn, common.js)
 /* ---------- its age: when it was made, from what /age says ----------
    /age gives whole months (whole days for a young one), a month a twelfth of the game's 365-day year; a reading of N months at time t puts its making
    after t − (N+1) months and no later than t − N months. Only that range is kept ("bornBetween"), each reading narrowing it;
@@ -315,9 +311,7 @@ const allHeroes = c => { const got = new Set(c.heroes || []); return Object.valu
 // the heroes it has recruited, each a button to tick, by profession (Razah, of none, last); all ticked or none at once
 // the heroes a character can recruit: a pre-Searing one, only Devona (the others shown, but not to tick; what's saved
 // is left as it is)
-const PRE_HEROES = ["Devona"];
 const isPre = c => (c.modes || []).includes("presearing");
-const canRecruit = c => (isPre(c) ? PRE_HEROES.map(n => Object.values(HEROES).find(h => h.name === n)).filter(Boolean) : Object.values(HEROES));
 // the heroes' order among their profession's pills
 const PILL_ORDER = ["Goren", "Koss", "Jora", "Devona", "Acolyte Jin", "Margrid the Sly", "Pyre Fierceshot", "Tahlkora", "Dunkoro",
   "Ogden Stonehealer", "Master of Whispers", "Olias", "Livia", "Norgu", "Gwen", "Ghost of Althea", "Acolyte Sousuke", "Zhed Shadowhoof",

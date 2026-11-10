@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>GW Characters Overview</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .back { margin: 10px 0 0; font-size: 13px; }
+  .back a { text-decoration: none; }
+  .ov-wrap { overflow-x: auto; }
+  .ov { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .ov th { text-align: left; font-size: 12px; font-weight: 600; color: var(--muted); padding: 6px 14px 6px 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .ov td { padding: 6px 14px 6px 0; border-bottom: 1px solid var(--line); vertical-align: middle; white-space: nowrap; }
+  .ov .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .ov .dim { color: var(--muted); }
+  .ov .n { font-weight: 600; display: inline-flex; align-items: center; gap: 8px; color: var(--text); }
+  .ov a.n:hover { color: var(--accent); }
+  .ov .n img { width: 20px; height: 20px; }
+  .ov th button { all: unset; cursor: pointer; }
+  .ov th button:hover { color: var(--text); }
+  .ov-modes { display: inline-flex; gap: 4px; vertical-align: middle; }
+  .ov-modes .ch-mode { display: block; vertical-align: 0; }
+  .ov tr.hid td { opacity: .55; }  /* (a character hidden from My Characters' list: dimmed) */
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"></header><script src="header.js"></script>
+  <p class="back"><a href="characters">← My Characters</a></p>
+  <div class="page-title"><h1>Characters Overview</h1><p>All your characters at a glance</p></div>
+  <div class="ov-wrap" id="ov"></div>
+  <footer class="site-footer"><a href="about">About</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · <a href="license">License &amp; credits</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="game/titles.js"></script>
+<script src="game/skills.js"></script>
+<script src="game/ground.js"></script>
+<script src="game/creatures.js"></script>
+<script src="game/missions.js"></script>
+<script src="game/heroes.js"></script>
+<script src="game/calendar.js"></script>
+<script src="game/quests.js"></script>
+<script src="common.js"></script>
+<script src="mytitles.js"></script>
+<script src="characters-overview.js"></script>
+</body>
+</html>

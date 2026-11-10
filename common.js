@@ -663,6 +663,14 @@ const userFlat = o => (o.v !== 3 ? o : { v: 2, chars: o.accounts.flatMap(a => a.
 const USER_MODES = { presearing: "Pre-Searing: stays in pre-Searing Ascalon", melandru: "Melandru's Accord", dhuum: "Dhuum's Covenant" };
 // a pre-Searing character's own titles: the only ones it can work on there (Kind of a Big Deal, Drunkard, Sweet Tooth,
 // Party Animal, Survivor, Legendary Defender of Ascalon); its account's all the same
+// the campaign a character was made in: an Assassin or Ritualist, Factions, a Paragon or Dervish, Nightfall, a
+// pre-Searing one, Prophecies, whatever is kept; the others, as picked in My Characters' Edit tab (or none)
+const PROF_CAMPAIGN = { 7: 2, 8: 2, 9: 3, 10: 3 };
+const fixedCampaign = c => PROF_CAMPAIGN[c.profession] || ((c.modes || []).includes("presearing") ? 1 : 0);
+const madeIn = c => fixedCampaign(c) || c.campaign || 0;
+// the heroes a character can recruit (game/heroes.js): a pre-Searing one, only Devona
+const PRE_HEROES = ["Devona"];
+const canRecruit = c => ((c.modes || []).includes("presearing") ? PRE_HEROES.map(n => Object.values(HEROES).find(h => h.name === n)).filter(Boolean) : Object.values(HEROES));
 const PRE_TITLES = new Set([10, 7, 34, 43, 9, 21]);
 const isPreSearing = c => (c.modes || []).includes("presearing");
 const USER_LISTS = ["elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM"];
