@@ -520,7 +520,8 @@ function recruitHTML(h) {
    recruited] (or "all"), builds: [skill template codes saved, in the order shown], campaign: the one it was made in (1 Prophecies, 2 Factions, 3
    Nightfall), note: the player's one line about it, retired: true when no longer played (left out of the Today page's suggestions), bornBetween: [the earliest, the latest]
    time it can have been made, narrowed by the ages /age gave (My Characters' Edit), eotnMap: the percent of the Eye of the North map
-   explored, as worked out on My Characters from Master of the North's points}]}]}, the accounts in the order shown.
+   explored, as worked out on My Characters from Master of the North's points, xp, played, playedOutside: its experience,
+   hours played and hours played outside, each the last typed in (My Characters' Edit) and when: [amount, "2026-11-10T13:16Z"]}]}]}, the accounts in the order shown.
    A list may be "all": every id in USER_ALL_V3 (frozen: should the game ever have more, they'd come with a
    new version). An empty list, or a title not reached, is left out. Version 1 (from before), still read: no "all", and
    missions and dungeons as {<id>: done}, done 1 normal mode, 2 hard mode, 3 both; with no "account": account 1.
@@ -652,7 +653,11 @@ const USER_ALL = {
   dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
 };
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
-  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap"] };
+  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap", "xp", "played", "playedOutside"] };
+// a character's readings typed in on its Edit tab, each kept with when: [amount, time]
+const USER_READINGS = ["xp", "played", "playedOutside"];
+// an amount said back: round ones short (12.5m, 340k, 1b: to a tenth of the unit), the others in full with commas (12,345)
+const amountSaid = v => { for (const [u, x] of [[1e9, "b"], [1e6, "m"], [1e3, "k"]]) if (v >= u && v % (u / 10) === 0) return `${v / u}${x}`; return v.toLocaleString("en-US", { maximumFractionDigits: 1 }); };
 // (version 3's characters: version 2's, their account the one they're in)
 USER_KEYS[3] = USER_KEYS[2].filter(k => k !== "account");
 // version 3 as version 2: each account's characters in one list, each with its account's id
@@ -709,6 +714,7 @@ function userFromKept(o) {
     if (k.bornBetween) c.bornBetween = [...k.bornBetween];
     if (k.retired) c.retired = true;
     if (k.eotnMap !== undefined) c.eotnMap = k.eotnMap;
+    for (const r of USER_READINGS) if (k[r]) c[r] = [...k[r]];
     return c;
   });
   return userNormalize({ v: 2, chars, accounts: (o.accounts || []).map(a => ({ ...a })) });
@@ -740,6 +746,7 @@ function userToKept(o) {
     if (c.bornBetween) k.bornBetween = c.bornBetween;
     if (c.retired) k.retired = true;
     if (c.eotnMap !== undefined) k.eotnMap = c.eotnMap;
+    for (const r of USER_READINGS) if (c[r]) k[r] = c[r];
     return k;
   });
   return { v: 3, accounts: o.accounts.map(a => ({ ...a, chars: chars.filter((k, i) => (o.chars[i].account ?? 1) === a.id) })) };
@@ -838,6 +845,10 @@ function userCheck(o) {
         return `${at}: "bornBetween" should be [the earliest, the latest] time it can have been made.`;
       if (c.campaign !== undefined && ![1, 2, 3].includes(c.campaign)) return `${at}: "campaign" should be 1 (Prophecies), 2 (Factions) or 3 (Nightfall).`;
       if (c.builds !== undefined && !(Array.isArray(c.builds) && c.builds.every(b => typeof b === "string" && /^[A-Za-z0-9+/]{1,200}$/.test(b)))) return `${at}: "builds" should be a list of skill template codes.`;
+      const badR = USER_READINGS.find(r => c[r] !== undefined && !(Array.isArray(c[r]) && c[r].length === 2 && typeof c[r][0] === "number" && c[r][0] >= 0 && isFinite(c[r][0])
+        && typeof c[r][1] === "string" && !isNaN(Date.parse(c[r][1]))));
+      if (badR) return `${at}: "${badR}" should be [the amount, when it was typed in].`;
+      if (c.played && c.playedOutside && c.playedOutside[0] > c.played[0]) return `${at}: "playedOutside" should be no more hours than "played".`;
       if (c.eotnMap !== undefined && !(Number.isInteger(c.eotnMap) && c.eotnMap >= 0)) return `${at}: "eotnMap" should be the Eye of the North map's Master of the North points (a whole number from 0).`;
       const bad = USER_LISTS.find(k => c[k] !== undefined && c[k] !== "all" && !idList(c[k]));
       if (bad) return `${at}: "${bad}" should be "all" or a list of ids, each once.`;

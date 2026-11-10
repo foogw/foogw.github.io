@@ -1206,6 +1206,9 @@ a.hchip { text-decoration: none; }
 .u-gender:hover { border-color: var(--accent); }
 .u-show { min-width: 58px; margin-right: 10px; vertical-align: middle; }
 .u-hid .u-name { opacity: .5; }
+/* (on the Edit tab, only its profession and name dimmed: Made in and Retired there still look as usable as they are) */
+#ch-edit .u-hid .u-name { opacity: 1; }
+#ch-edit .u-hid .u-name > .u-prof, #ch-edit .u-hid .u-name > input { opacity: .5; }
 .u-move button { display: grid; place-items: center; width: 22px; height: 22px; padding: 0; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; }
 /* an account's chevrons sit above its characters' (the same slot at the right), drawn as the account's own: filled, a touch bigger */
 .u-acct .u-move button { width: 26px; height: 26px; color: var(--accent); background: var(--panel-2); border-color: var(--accent); border-radius: 8px; }
@@ -1331,15 +1334,22 @@ a.hchip { text-decoration: none; }
 .ch-hero:disabled { opacity: .35; cursor: default; }
 .ch-hero.got { color: var(--text); border-color: color-mix(in srgb, var(--loc-exp) 55%, var(--line)); background: color-mix(in srgb, var(--loc-exp) 14%, var(--panel)); }
 .ch-edit-row { margin-top: 0; }
-.ch-edit-camp { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; color: var(--muted); }
+.ch-edit-camp { display: inline-flex; align-items: center; gap: 8px; margin-left: 10px; font-size: 14px; color: var(--muted); }
 .ch-edit-hr { margin: 18px 0 14px; border: 0; border-top: 1px solid var(--line); }
 .ch-edit-age { margin-top: 0; font-size: 14px; color: var(--muted); }
 .ch-edit-age label { display: inline-flex; align-items: center; gap: 8px; margin-right: 8px; }
 .ch-edit-age input { width: 120px; font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; }
 .ch-edit-age p { margin: 6px 0 0; }
 .ch-edit-age .ch-age-known { margin: 0 0 8px; color: var(--text); }
+.ch-age-say { margin-left: 10px; }
 .ch-edit-age b { color: var(--accent); font-weight: 600; }
-.ch-edit-retired { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; cursor: pointer; }
+/* its experience and hours played, typed in, each with the last and when */
+.ch-edit-read { display: grid; grid-template-columns: max-content max-content 1fr; gap: 8px 14px; align-items: center; font-size: 14px; }
+.ch-edit-read label { display: contents; color: var(--muted); }
+.ch-edit-read .bad { color: var(--sac); transition: opacity .4s; }
+.ch-edit-read .bad.gone { opacity: 0; }
+.ch-edit-read input { width: 120px; font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; }
+.ch-edit-retired { display: inline-flex; align-items: center; gap: 6px; margin-left: 14px; font-size: 14px; cursor: pointer; }
 .ch-edit-note { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; color: var(--muted); }
 .ch-edit-note input { flex: 1; max-width: 640px; font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; }
 .ch-edit-note .dim { font-size: 12px; min-width: 60px; }

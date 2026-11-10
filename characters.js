@@ -49,12 +49,9 @@ const drawTabs = (o = User.data(), cur = User.char(o)) => {
   else if (tab === "heroes") $("ch-heroes").innerHTML = heroesHTML(cur);
   else if (tab === "builds") $("ch-builds").innerHTML = buildsHTML(cur);
   else $("ch-edit").innerHTML = `<table class="u-chars ch-edit-row"><tbody>${charRow(o, cur, null, true)}</tbody></table>
-    <label class="ch-edit-camp">Made in <select id="edit-campaign"${fixedCampaign(cur) ? ` disabled title="${PROF_CAMPAIGN[cur.profession] ? `A ${PROFS[cur.profession]} can only be made in ${CAMPAIGNS[PROF_CAMPAIGN[cur.profession]]}` : "A pre-Searing character is a Prophecies one"}"` : ""}>${[[0, "Not set"], [1, "Prophecies"], [2, "Factions"], [3, "Nightfall"]].map(([v, n]) =>
-      `<option value="${v}"${(madeIn(cur) || 0) === v ? " selected" : ""}>${n}</option>`).join("")}</select></label>
-    <label class="ch-edit-retired"><input type="checkbox" id="edit-retired"${cur.retired ? " checked" : ""}> No longer played <span class="dim">(left out of the Today page's suggestions)</span></label>
     <label class="ch-edit-note">Note <input type="text" id="edit-note" maxlength="${USER_NOTE_MAX}" value="${esc(cur.note || "")}"
       placeholder="A line about ${esc(cur.name)}: its role, what it's farming…" autocomplete="off"><span class="dim" id="edit-note-n">${(cur.note || "").length} / ${USER_NOTE_MAX}</span></label>
-    ${ageHTML(cur)}`;
+    ${ageHTML(cur)}${readingsHTML(cur)}`;
 };
 // managing or not, not kept: the page opens on the view, or managing while nothing is saved yet, to name the character
 let manage = User.stored() == null;
@@ -280,7 +277,7 @@ function ageHTML(c) {
   return `<hr class="ch-edit-hr"><div class="ch-edit-age"><p class="ch-age-known">${known}</p>
     ${next ? `<label>Age <input type="text" maxlength="12" id="age-months" placeholder="79 months" aria-label="What /age says: months, or days"></label>
     <button type="button" class="u-btn" id="age-add">Add reading</button>` : ""}
-    <p class="dim" id="age-say">${next}</p></div>`;
+    <span class="dim ch-age-say" id="age-say">${next}</span></div>`;
 }
 // a reading: the range narrowed (one that doesn't fit what's known is refused)
 $("ch-edit").addEventListener("click", e => {
@@ -304,6 +301,47 @@ $("ch-edit").addEventListener("change", e => {
 });
 $("ch-edit").addEventListener("input", e => { if (e.target.id === "edit-note") $("edit-note-n").textContent = `${e.target.value.length} / ${USER_NOTE_MAX}`; });
 $("ch-edit").addEventListener("keydown", e => { if (e.target.id === "edit-note" && e.key === "Enter") e.target.blur(); });
+
+// its experience, hours played and hours played outside: typed in ("12.5m", "340k", "1b": thousands, millions,
+// billions), each kept with when: the last in its box, and beside it with when
+const READINGS = [["xp", "Experience"], ["played", "Hours played"], ["playedOutside", "Hours played outside"]];
+const fmtReadDay = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", year: "numeric" });
+const amountOf = s => { const m = s.trim().toLowerCase().replace(/,/g, "").match(/^(\d+(?:\.\d+)?)\s*([kmb])?$/);
+  return m ? +m[1] * ({ k: 1e3, m: 1e6, b: 1e9 }[m[2]] || 1) : null; };
+// (an amount said back: amountSaid, common.js)
+// beside its box: the amount, its unit, and when
+const readingSaid = (k, r) => (r ? `${amountSaid(r[0])} ${k === "xp" ? "XP" : r[0] === 1 ? "hour" : "hours"}, as of ${fmtReadDay.format(Date.parse(r[1]))}` : "");
+const readingsHTML = c => `<hr class="ch-edit-hr"><div class="ch-edit-read">${READINGS.map(([k, label]) => `<label>${label}
+  <input type="text" data-reading="${k}" maxlength="16" autocomplete="off" value="${c[k] ? amountSaid(c[k][0]) : ""}"></label><span class="dim" data-reading-at="${k}">${readingSaid(k, c[k])}</span>`).join("")}</div>`;
+// a reading typed in (Enter, or leaving the box): kept with now (0: taken off); one that doesn't read as an amount, said so
+$("ch-edit").addEventListener("change", e => {
+  const k = e.target.dataset?.reading;
+  if (!k || !e.target.value.trim()) return;
+  // (one refused: the box back to what's kept)
+  const was = User.char()[k] ? amountSaid(User.char()[k][0]) : "";
+  // (one refused: said in red, the box emptied, what was kept left as it was)
+  // (said a couple of seconds, then faded back to what was beside it)
+  const say = t => { const el = document.querySelector(`[data-reading-at="${k}"]`), back = el.dataset.was ??= el.textContent;
+    clearTimeout(el.fade); el.textContent = `Not saved: ${t}`; el.className = "bad"; e.target.value = was;
+    el.fade = setTimeout(() => { el.classList.add("gone"); el.fade = setTimeout(() => { el.textContent = back; el.className = "dim"; delete el.dataset.was; }, 400); }, 2500); };
+  const v = amountOf(e.target.value);
+  if (v === null) return say(`"${e.target.value.trim()}" isn't an amount (a number, or with k, m or b)`);
+  // (hours played outside no more than hours played, either typed in)
+  const cur = User.char(), h = Math.round(v * 10) / 10;
+  if (v && k === "playedOutside" && cur.played && h > cur.played[0]) return say(`more than the ${cur.played[0].toLocaleString()} hours played`);
+  if (v && k === "played" && cur.playedOutside && h < cur.playedOutside[0]) return say(`fewer than the ${cur.playedOutside[0].toLocaleString()} hours played outside`);
+  // (0: the reading taken off; saved without drawing the tab again, so a click into the next box isn't lost: its box and
+  // what's beside it said again in place)
+  if (User.broken()) return;
+  const o = User.data(), c = User.char(o);
+  if (!v) delete c[k]; else c[k] = [k === "xp" ? Math.round(v) : Math.round(v * 10) / 10, isoMin(Date.now())];
+  if (!User.save(o)) return;
+  const el = document.querySelector(`[data-reading-at="${k}"]`);
+  clearTimeout(el.fade); delete el.dataset.was; el.className = "dim";
+  el.textContent = readingSaid(k, c[k]);
+  e.target.value = c[k] ? amountSaid(c[k][0]) : "";
+});
+$("ch-edit").addEventListener("keydown", e => { if (e.target.dataset?.reading && e.key === "Enter") e.target.blur(); });
 
 /* ---------- heroes and builds tabs ---------- */
 // every hero recruited
@@ -393,9 +431,12 @@ function statsHTML(c) {
 // order
 // a character's row to change: its profession, name, modes and gender, then hide or show, chevrons (round the ends:
 // the first up goes last) and delete; the Edit tab's (the one picked) without hide and delete
+// the campaign it was made in, to pick (on the Edit tab's row, after its gender)
+const campPick = c => `<label class="ch-edit-camp">Made in <select id="edit-campaign"${fixedCampaign(c) ? ` disabled title="${PROF_CAMPAIGN[c.profession] ? `A ${PROFS[c.profession]} can only be made in ${CAMPAIGNS[PROF_CAMPAIGN[c.profession]]}` : "A pre-Searing character is a Prophecies one"}"` : ""}>${[[0, "Not set"], [1, "Prophecies"], [2, "Factions"], [3, "Nightfall"]].map(([v, n]) =>
+  `<option value="${v}"${(madeIn(c) || 0) === v ? " selected" : ""}>${n}</option>`).join("")}</select></label>`;
 const charRow = (o, c, cur, tab = false) => { const sib = o.chars.filter(x => x.account === c.account), hid = !!c.hidden, one = o.chars.length < 2, lone = sib.length < 2;
   return `<tr class="${[c === cur && "cur", hid && "u-hid"].filter(Boolean).join(" ")}" data-id="${c.id}">
-    <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}${genderBtn(c)}</div></td>
+    <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}${genderBtn(c)}${tab ? campPick(c) + `<label class="ch-edit-retired" title="No longer played: left out of the Today page's suggestions"><input type="checkbox" id="edit-retired"${c.retired ? " checked" : ""}> Retired <span class="dim">(no suggestions)</span></label>` : ""}</div></td>
     <td>${tab ? "" : `<button type="button" class="u-btn u-show" data-hide aria-pressed="${hid}" title="${hid ? "Hidden from the view: show it" : "Hide it from the view"}">${hid ? "Show" : "Hide"}</button>`}${moveBtns(lone, lone)}${tab ? "" : `<span class="u-slot"><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></span>`}</td></tr>`; };
 function manageHTML(o, cur, many) {
   const folded = new Set(acctFolds()), row = c => charRow(o, c, cur);
@@ -457,7 +498,7 @@ const rowAccount = (o, el) => o.accounts.find(a => a.id === +el.closest("tr").da
 // the Edit list's handlers, and the Edit tab's (its one row)
 const onEdit = (type, f) => { els.list.addEventListener(type, f); $("ch-edit").addEventListener(type, f); };
 onEdit("change", e => {
-  if (!e.target.closest("tr")) return;  // (not a row's: the Edit tab's campaign)
+  if (!e.target.closest("tr") || ["edit-campaign", "edit-retired"].includes(e.target.id)) return;  // (not a row's name: the Edit tab's campaign, retired)
   const o = User.data();
   // an account's new name (none: its number)
   if (e.target.closest(".u-acct")) {
