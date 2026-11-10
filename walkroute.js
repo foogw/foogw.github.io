@@ -268,9 +268,10 @@ function walkFrom(grid, id, ids) {
     && !ROUTING?.closed?.[id]?.includes(e.to);  // (a portal it can't be left by: ours, data/routing.js)
   // an area off this map: the portals into it on the own maps of the areas here
   const own = grid.bit?.has(id) ? [] : ids.flatMap(a => grid.bit?.has(a) ? Object.entries(ROUTING?.portals[a] || {}).filter(([to]) => +to === id).map(([, at]) => ({ at, area: a })) : []);
-  if (own.length) return own;
+  // and its own portals into the areas here (an outpost with both, as Longeye's Ledge: either, the shorter way wins)
   const es = isOutpost(l) || !grid.bit?.has(id) ? (l.exits || []).filter(out) : [];  // (an area not walked over, too: a mission)
-  return es.length ? es.map(e => ({ at: e.at, area: e.to })) : l?.at ? [l.at] : [];
+  const all = [...own, ...es.map(e => ({ at: e.at, area: e.to }))];
+  return all.length ? all : l?.at ? [l.at] : [];
 }
 // the shortest way from an area (by any of its portals) to a point, or null
 function walkWay(grid, id, ids, to) {
