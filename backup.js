@@ -105,7 +105,8 @@ $("u-copy").addEventListener("click", e => navigator.clipboard?.writeText(keptTe
 $("u-download").addEventListener("click", () => {
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([keptText()], { type: "application/json" }));
-  a.download = "guild-wars-today-data.json";
+  // (named with the day, in your own time: guild-wars-today-data-2026-11-10.json)
+  a.download = `guild-wars-today-data-${ymd()}.json`;
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   keep();

@@ -87,6 +87,8 @@ const wikiLink = w => { const p = wikiHref(w); return p ? `<a href="${esc(p.href
 /* ---------- addresses: a page's settings are after ? (missions?c=1&sort=name) ---------- */
 const query = o => "?" + new URLSearchParams(o);
 const args = () => new URLSearchParams(location.search);
+// a moment's day in your own time: "2026-11-10"
+const ymd = (t = Date.now()) => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
 // a page that redraws from its address calls onRoute(draw): links to its own address then change it in place, and go()
 // moves to one (replace: without a step back)
 let routed = false;

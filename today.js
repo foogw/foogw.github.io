@@ -3,7 +3,6 @@
    characters can do with them: who still needs each Zaishen daily, whose titles a support week helps, whose age a
    check of /age that day narrows. A day picked is taken at an hour picked (at first, this hour). */
 const fmtDay = new Intl.DateTimeFormat(undefined, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
-const ymd = t => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
 // the moment looked at: the day and hour picked (today?d=2026-11-25&h=15; a day alone: at this hour), else now
 function moment() {
   const d = args().get("d"), m = d && d.match(/^(\d{4})-(\d{2})-(\d{2})$/), h = args().get("h");
