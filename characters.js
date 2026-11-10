@@ -303,11 +303,11 @@ $("ch-edit").addEventListener("input", e => { if (e.target.id === "edit-note") $
 $("ch-edit").addEventListener("keydown", e => { if (e.target.id === "edit-note" && e.key === "Enter") e.target.blur(); });
 
 // its experience, hours played and hours played outside: typed in ("12.5m", "340k", "1b": thousands, millions,
-// billions), each kept with when: the last in its box, and beside it with when
+// billions; whole numbers, anything after the point dropped), each kept with when: the last in its box, and beside it with when
 const READINGS = [["xp", "Experience"], ["played", "Hours played"], ["playedOutside", "Hours played outside"]];
 const fmtReadDay = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", year: "numeric" });
 const amountOf = s => { const m = s.trim().toLowerCase().replace(/,/g, "").match(/^(\d+(?:\.\d+)?)\s*([kmb])?$/);
-  return m ? +m[1] * ({ k: 1e3, m: 1e6, b: 1e9 }[m[2]] || 1) : null; };
+  return m ? Math.floor(+m[1] * ({ k: 1e3, m: 1e6, b: 1e9 }[m[2]] || 1)) : null; };
 // (an amount said back: amountSaid, common.js)
 // beside its box: the amount, its unit, and when
 const readingSaid = (k, r) => (r ? `${amountSaid(r[0])} ${k === "xp" ? "XP" : r[0] === 1 ? "hour" : "hours"}, as of ${fmtReadDay.format(Date.parse(r[1]))}` : "");
@@ -327,14 +327,16 @@ $("ch-edit").addEventListener("change", e => {
   const v = amountOf(e.target.value);
   if (v === null) return say(`"${e.target.value.trim()}" isn't an amount (a number, or with k, m or b)`);
   // (hours played outside no more than hours played, either typed in)
-  const cur = User.char(), h = Math.round(v * 10) / 10;
-  if (v && k === "playedOutside" && cur.played && h > cur.played[0]) return say(`more than the ${cur.played[0].toLocaleString()} hours played`);
-  if (v && k === "played" && cur.playedOutside && h < cur.playedOutside[0]) return say(`fewer than the ${cur.playedOutside[0].toLocaleString()} hours played outside`);
-  // (0: the reading taken off; saved without drawing the tab again, so a click into the next box isn't lost: its box and
-  // what's beside it said again in place)
-  if (User.broken()) return;
+  const cur = User.char();
+  if (v && k === "playedOutside" && cur.played && v > cur.played[0]) return say(`more than the ${cur.played[0].toLocaleString()} hours played`);
+  if (v && k === "played" && cur.playedOutside && v < cur.playedOutside[0]) return say(`fewer than the ${cur.playedOutside[0].toLocaleString()} hours played outside`);
+  // (refused, read-only or what's kept unreadable: said, the box back to what's kept)
+  if (User.broken()) { e.target.value = was; return askBroken(); }
+  if (readOnlyBlocks()) { e.target.value = was; return; }
+  // (0, or under 1: the reading taken off; saved without drawing the tab again, so a click into the next box isn't lost:
+  // its box and what's beside it said again in place)
   const o = User.data(), c = User.char(o);
-  if (!v) delete c[k]; else c[k] = [k === "xp" ? Math.round(v) : Math.round(v * 10) / 10, isoMin(Date.now())];
+  if (!v) delete c[k]; else c[k] = [v, isoMin(Date.now())];
   if (!User.save(o)) return;
   const el = document.querySelector(`[data-reading-at="${k}"]`);
   clearTimeout(el.fade); delete el.dataset.was; el.className = "dim";

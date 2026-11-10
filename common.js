@@ -526,7 +526,7 @@ function recruitHTML(h) {
    Nightfall), note: the player's one line about it, retired: true when no longer played (left out of the Today page's suggestions), bornBetween: [the earliest, the latest]
    time it can have been made, narrowed by the ages /age gave (My Characters' Edit), eotnMap: the percent of the Eye of the North map
    explored, as worked out on My Characters from Master of the North's points, xp, played, playedOutside: its experience,
-   hours played and hours played outside, each the last typed in (My Characters' Edit) and when: [amount, "2026-11-10T13:16Z"]}]}]}, the accounts in the order shown.
+   hours played and hours played outside, each the last typed in (My Characters' Edit), a whole number, and when: [amount, "2026-11-10T13:16Z"]}]}]}, the accounts in the order shown.
    A list may be "all": every id in USER_ALL_V3 (frozen: should the game ever have more, they'd come with a
    new version). An empty list, or a title not reached, is left out. Version 1 (from before), still read: no "all", and
    missions and dungeons as {<id>: done}, done 1 normal mode, 2 hard mode, 3 both; with no "account": account 1.
@@ -850,9 +850,9 @@ function userCheck(o) {
         return `${at}: "bornBetween" should be [the earliest, the latest] time it can have been made.`;
       if (c.campaign !== undefined && ![1, 2, 3].includes(c.campaign)) return `${at}: "campaign" should be 1 (Prophecies), 2 (Factions) or 3 (Nightfall).`;
       if (c.builds !== undefined && !(Array.isArray(c.builds) && c.builds.every(b => typeof b === "string" && /^[A-Za-z0-9+/]{1,200}$/.test(b)))) return `${at}: "builds" should be a list of skill template codes.`;
-      const badR = USER_READINGS.find(r => c[r] !== undefined && !(Array.isArray(c[r]) && c[r].length === 2 && typeof c[r][0] === "number" && c[r][0] >= 0 && isFinite(c[r][0])
+      const badR = USER_READINGS.find(r => c[r] !== undefined && !(Array.isArray(c[r]) && c[r].length === 2 && Number.isInteger(c[r][0]) && c[r][0] >= 1
         && typeof c[r][1] === "string" && !isNaN(Date.parse(c[r][1]))));
-      if (badR) return `${at}: "${badR}" should be [the amount, when it was typed in].`;
+      if (badR) return `${at}: "${badR}" should be [the amount (a whole number from 1), when it was typed in].`;
       if (c.played && c.playedOutside && c.playedOutside[0] > c.played[0]) return `${at}: "playedOutside" should be no more hours than "played".`;
       if (c.eotnMap !== undefined && !(Number.isInteger(c.eotnMap) && c.eotnMap >= 0)) return `${at}: "eotnMap" should be the Eye of the North map's Master of the North points (a whole number from 0).`;
       const bad = USER_LISTS.find(k => c[k] !== undefined && c[k] !== "all" && !idList(c[k]));
