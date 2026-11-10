@@ -9,7 +9,7 @@ const SHORT = {
   "zaishen-combat": "Combat", "wanted": "Shining Blade", "nicholas-sandford": "Nicholas Sandford",
   "vanguard": "Vanguard", "nicholas-traveler": "Nicholas the Traveler", "weekly-pve": "PvE bonus", "weekly-pvp": "PvP bonus",
 };
-const SHOW_DAYS = 21, SHOW_WEEKS = 12, SHOW_FIRST = 4;
+const SHOW_DAYS = 21, SHOW_WEEKS = 12, FIRST_DAYS = 7, FIRST_WEEKS = 6;
 const DAILY_AHEAD = 91 * 86400000;  // the daily table lists matches at most three months ahead
 // each table starts with its first few rows; "Show more" opens the rest (a search always shows every match)
 const expanded = { daily: false, weekly: false };
@@ -30,15 +30,6 @@ function formats() {
 formats();
 
 const $find = $("find");
-
-const NOW = [["zaishen-mission", "Zaishen Mission"], ["zaishen-vanquish", "Zaishen Vanquish"],
-  ["zaishen-bounty", "Zaishen Bounty"], ["zaishen-combat", "Zaishen Combat"], ["wanted", "Shining Blade"],
-  ["vanguard", "Vanguard"], ["nicholas-sandford", "Sandford"], null,
-  ["nicholas-traveler", "Nicholas"], ["weekly-pve", "PvE bonus"], ["weekly-pvp", "PvP bonus"]];
-
-function renderNow() {
-  $("now").innerHTML = rotationListHTML(NOW);
-}
 
 function matches(e, ts) {
   if (!ts.length) return true;
@@ -88,12 +79,10 @@ function table(el, rotations, count, label, ahead = Infinity, head = r => left(R
 }
 
 function render() {
-  renderNow();
-  table($("daily"), DAILY, expanded.daily ? SHOW_DAYS : SHOW_FIRST, (t, i) => (i === 0 ? "Now" : fmtDay.format(t)), DAILY_AHEAD,
+  table($("daily"), DAILY, expanded.daily ? SHOW_DAYS : FIRST_DAYS, (t, i) => (i === 0 ? "Now" : fmtDay.format(t)), DAILY_AHEAD,
     r => fmtTime.format(Rotation.endsAt(r)) + (utc ? " UTC" : ""));  // the hour each column switches
-  table($("weekly"), WEEKLY, expanded.weekly ? SHOW_WEEKS : SHOW_FIRST, (t, i) => (i === 0 ? "This week" : `Week of ${fmtDay.format(t)}`));
+  table($("weekly"), WEEKLY, expanded.weekly ? SHOW_WEEKS : FIRST_WEEKS, (t, i) => (i === 0 ? "This week" : `Week of ${fmtDay.format(t)}`));
   const searching = terms($find).length > 0;
-  $("nowbox").hidden = searching;  // a search shows only its matches
   for (const b of document.querySelectorAll("[data-more]")) {
     b.hidden = searching;
     b.textContent = expanded[b.dataset.more] ? "Show less" : "Show more";
@@ -178,8 +167,11 @@ function show() {
   document.title = "GW Rotations";
   $find.value = p.get("q") || "";
   render();
-  // his map: this week's, or the week of an item clicked (?nick=<entry>), scrolled to
-  const i = p.has("nick") && NICK.entries[p.get("nick")] ? +p.get("nick") : Rotation.period(NICK) % NICK.entries.length;
+  // his map: only once an item of his is clicked (?nick=<entry>), that week's, scrolled to
+  const has = p.has("nick") && !!NICK.entries[p.get("nick")];
+  $("nickbox").hidden = $("nick").hidden = !has;
+  if (!has) { scrollNick = first = false; return; }
+  const i = +p.get("nick");
   if (+$("nick").dataset.nick !== i || !$("nick").firstChild) {
     const e = NICK.entries[i];
     $("nick-what").textContent = `· ${e.count} × ${e.item}, ${areaName(e.area)}`;
@@ -190,9 +182,9 @@ function show() {
   if (p.has("nick") && first) setTimeout(() => $("nickbox").scrollIntoView(), 100);
   scrollNick = first = false;
 }
-// the map is scrolled to for an item clicked in the Now list (or on arriving from another page's), not in the tables
+// the map is scrolled to for an item of his clicked (or on arriving from another page's)
 let scrollNick = false, first = true;
-document.addEventListener("click", e => { scrollNick = !!e.target.closest('#now a[href*="nick="]'); }, true);
+document.addEventListener("click", e => { scrollNick = !!e.target.closest('a[href*="nick="]'); }, true);
 
 $find.addEventListener("input", () => {
   history.replaceState(null, "", $find.value ? "?q=" + encodeURIComponent($find.value) : location.pathname);

@@ -465,8 +465,6 @@ button.rnd-copy:hover { color: var(--text); }
 .t-l { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
 .t-n { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .t-n a { color: var(--muted); }
-.r-nowlist { max-width: 1100px; }
-.r-nowlist .t-row { grid-template-columns: 130px minmax(0, 1.3fr) 58px minmax(0, 1fr); }
 
 /* quests */
 .q-tabs { display: flex; gap: 4px; margin: 4px 0 12px; border-bottom: 1px solid var(--line); }
@@ -1007,7 +1005,7 @@ a.hchip { text-decoration: none; }
 }
 @media (max-width: 600px) {
   /* rotation summaries: drop "then: …" so the current entry shows in full */
-  .t-row, .r-nowlist .t-row { grid-template-columns: 96px minmax(0, 1fr) 58px; }
+  .t-row { grid-template-columns: 96px minmax(0, 1fr) 58px; }
   .t-n { display: none; }
 }
 
