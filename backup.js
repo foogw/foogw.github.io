@@ -4,14 +4,37 @@
    reset. (The characters and accounts are on My Characters.) */
 const els = { text: $("u-text"), status: $("u-status"), submit: $("u-submit"), reset: $("u-reset") };
 const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
-const modes = vs => `${vs.filter(v => v & 1).length} NM, ${vs.filter(v => v & 2).length} HM`;
-const charCounts = c => `${plural(c.elites.length, "elite")} captured · missions ${modes(modeProgress(c, "missions"))} · dungeons ${modes(modeProgress(c, "dungeons"))}`;
-// one line for the accounts and characters, one for each character, then one for the rest (o as the pages see it, x
-// the rest as kept)
-const extrasLine = x => [x.builderBuilds && plural(x.builderBuilds.length, "saved build"), x.guides && `${plural(Object.keys(x.guides).length, "guide")} with steps ticked or a calculator set`,
-  x.settings && `Rotations in ${x.settings.eventsUtc ? "UTC" : "your time"}`].filter(Boolean).join(" · ");
-const summary = (o, x = {}) => [`${plural(o.accounts?.length || 1, "account")}, ${plural(o.chars.length, "character")}`, ...o.chars.map(c => `${c.name}: ${charCounts(c)}`),
-  extrasLine(x)].filter(Boolean).join("\n");
+// a backup in short: its accounts and characters (o as the pages see it), and its format's version when older than this one
+const facts = o => ({ accounts: o.accounts?.length || 1, characters: o.chars.length });
+const older = x => { const v = x.v ?? 1; return v < USER_VERSION ? `Format version ${v}, made ${USER_VERSION} once it's used.` : ""; };
+const summary = o => { const f = facts(o); return `${plural(f.accounts, "account")}, ${plural(f.characters, "character")}`; };
+// the progress as it's kept now, and as it would be with a backup used (o as the pages see it, raw as pasted): in this
+// version, with the rest (saved builds, guides, settings) the backup's where it has them, else kept as they are
+const EXTRAS = ["builderBuilds", "guides", "settings"];
+const keptNow = () => ({ ...userToKept(User.data()), ...extrasKept() });
+const keptWith = (o, raw) => { const x = extrasKept(); for (const k of EXTRAS) if (raw[k] !== undefined) x[k] = raw[k]; return { ...userToKept(o), ...x }; };
+// the rows added and removed, laid out, from one to the other (a longest common run of rows)
+function rowsDiff(a, b) {
+  const A = pretty(a).split("\n"), B = pretty(b).split("\n"), n = A.length, m = B.length;
+  let prev = new Array(m + 1).fill(0);
+  for (let i = 1; i <= n; i++) {
+    const cur = new Array(m + 1).fill(0);
+    for (let j = 1; j <= m; j++) cur[j] = A[i - 1] === B[j - 1] ? prev[j - 1] + 1 : Math.max(prev[j], cur[j - 1]);
+    prev = cur;
+  }
+  return { added: m - prev[m], removed: n - prev[m] };
+}
+// what using a backup does, said the same on the page and in the question before it's used: only what differs, as it
+// is → as it would be
+function restoreSays(o, raw) {
+  if (User.broken()) return [`Your saved progress, which can't be read, becomes: ${summary(o)}`, older(raw)].filter(Boolean).join("\n");
+  const fa = facts(User.data()), fb = facts(o), d = rowsDiff(keptNow(), keptWith(o, raw));
+  const lines = Object.keys(fa).filter(k => fa[k] !== fb[k]).map(k => `${k[0].toUpperCase()}${k.slice(1)}: ${fa[k]} → ${fb[k]}`);
+  lines.push(`Rows, laid out: ${d.added} added, ${d.removed} removed`);
+  return [...lines, older(raw)].filter(Boolean).join("\n");
+}
+// a backup that's the progress saved now, in whatever layout
+const sameAsNow = (o, raw) => !User.broken() && JSON.stringify(keptNow()) === JSON.stringify(keptWith(o, raw));
 // JSON laid out to read: each key on its line, indented, but a list of plain values (ids, codes) on one line
 const pretty = (v, ind = "") => {
   if (Array.isArray(v) && v.some(x => x && typeof x === "object"))
@@ -65,9 +88,10 @@ function check() {
   if (err) return status(`This isn't valid: ${err}`, "bad");
   const x = o;
   o = userFromKept(o);
-  if (broken && !kept) return status(`Valid: ${summary(o, x)}\nCopy or download your saved progress first, to use this in its place.`, "ok");
+  if (sameAsNow(o, x)) return status("This is your saved progress: nothing to change.");
+  if (broken && !kept) return status(`Valid. ${restoreSays(o, x)}\nCopy or download your saved progress first, to use this in its place.`, "ok");
   els.submit.disabled = false;
-  status(`Valid: ${summary(o, x)}`, "ok");
+  status(`Valid. ${restoreSays(o, x)}`, "ok");
 }
 els.text.addEventListener("input", check);
 
@@ -99,8 +123,7 @@ els.submit.addEventListener("click", () => {
   const raw = JSON.parse(els.text.value.trim()), broken = User.broken();
   if (userCheck(raw) || broken && !kept) return;
   const o = userFromKept(raw);
-  const was = broken ? "your saved progress, which can't be read" : summary(User.data(), extrasKept());
-  if (!confirm(`This replaces all the progress saved in this browser:\n\n${was}\n\nwith this:\n\n${summary(o, raw)}\n\nContinue?`)) return;
+  if (!confirm(`This replaces all the progress saved in this browser.\n\n${restoreSays(o, raw)}\n\nContinue?`)) return;
   if (broken) User.reset();
   User.save(o, true);
   extrasApply(raw);
