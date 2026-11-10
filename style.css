@@ -448,18 +448,23 @@ button.rnd-copy:hover { color: var(--text); }
 .rnd-bar { display: flex; flex-wrap: wrap; gap: 3px; }
 .rnd-ic { width: 30px; height: 30px; border-radius: 3px; display: block; }
 .rnd-map small { display: block; margin-bottom: 6px; }
-.rnd-again { background: none; border: 0; padding: 0; color: var(--accent); font: inherit; cursor: pointer; }
+.rnd-maps { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 20px; }
+.rnd-map { min-width: 0; }
+.rnd-maps .gmap figcaption { display: none; }  /* (the home page's maps: no Darkness or Hide markers) */
+#rnd-nick .nways { display: none; }  /* (the home page's Nicholas map: the ways drawn, their lengths left to Rotations) */
+.rnd-again { background: none; border: 0; padding: 0; color: var(--accent); font: inherit; cursor: pointer; user-select: none; }
+.rnd-paren { text-transform: none; letter-spacing: 0; font-weight: 500; font-size: 13px; color: var(--muted); }
 .r-more { display: block; margin: 6px 0 0; font-size: 13px; }
 .r-left { color: color-mix(in srgb, var(--muted) 60%, var(--bg, #000)); font-weight: 400; white-space: nowrap; }
 .r-more[hidden] { display: none; }
 .r-table td.r-hit { background: color-mix(in srgb, var(--accent) 28%, transparent); box-shadow: inset 3px 0 0 var(--accent);
   color: var(--text); font-weight: 600; }
 .today { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 4px 12px; font-size: 13px; }
-.t-row { display: grid; grid-template-columns: 76px minmax(0, 1.3fr) 58px minmax(0, 1fr); gap: 10px; padding: 4px 0; border-bottom: 1px solid var(--line); }
+.t-row { display: grid; grid-template-columns: 92px minmax(0, 1.3fr) 58px minmax(0, 1fr); gap: 10px; padding: 4px 0; border-bottom: 1px solid var(--line); }
 .t-row:last-child { border-bottom: 0; }
 .t-sep { border-top: 1px solid color-mix(in srgb, var(--muted) 70%, transparent); margin: 4px 0; }
 .t-row:has(+ .t-sep) { border-bottom: 0; }
-.t-k { color: var(--muted); }
+.t-k { color: var(--muted); white-space: nowrap; }
 .t-v { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .t-v .dim { font-weight: 400; }
 .t-l { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }

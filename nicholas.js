@@ -43,7 +43,8 @@ const nickLegend = ways => ways.map(w => `<span style="--c:${w.color}">${esc(ARE
   ? walkText(walkLength(w.pts)) : "no way found"}</span>`).join("")
   || '<span class="dim">No outpost to walk to him from yet.</span>';
 
-async function nickMap(el, i) {
+// (opts: mapHTML's, over the Rotations page's)
+async function nickMap(el, i, opts = {}) {
   const e = NICK.entries[i];
   el.dataset.nick = i;
   if (!e?.at) { el.innerHTML = '<p class="dim">His spot that week isn\'t known yet.</p>'; return; }
@@ -52,7 +53,7 @@ async function nickMap(el, i) {
   if (+el.dataset.nick !== i) return;  // another week asked for meanwhile
   const box = el.querySelector(".nmap");
   box.innerHTML = mapHTML([...lit], { height: 520, town: here, spots: [{ x: e.at[0], y: e.at[1], name: "Nicholas the Traveler" }],
-    note: 'This is mostly generated. Found a mistake? <a href="contact">Please tell me</a>' });
+    note: 'This is mostly generated. Found a mistake? <a href="contact">Please tell me</a>', ...opts });
   await initMaps(box);
   const view = box.querySelector(".gmap")?.mapView;
   if (!view) return;

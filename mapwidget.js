@@ -193,10 +193,11 @@ const missionsIn = id => Object.entries(data("GW_MISSION_MAPS")?.missions || {})
 // level: a dungeon level instead of areas, {name, walk (its cell's game/walk file), rings (ground added to it), area: [x0, y0, ...] (or [[outline], [hole], ...]) the part of
 // ground lit (or none: all of it), spots, portals: [{at, name}] (named on hover)} (data/depths.js)
 // crop: [x0, y0, x1, y1] the part of the map to show, in its pixels, instead of all the ground lit
-function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null, spots = null, note = "", level = null, crop = null } = {}) {
+// aspect: its width over its height, the part shown widened (or made taller) to it: maps side by side, the same height
+function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null, spots = null, note = "", level = null, crop = null, aspect = null } = {}) {
   ids = [...new Set(ids.map(Number))];
   if (!ids.length && !self && !level) return "";
-  return `<figure class="gmap" data-ids="${ids.join(",")}"${self ? ` data-self="${self}"` : ""}${town ? ` data-town="${[town].flat().join(",")}"` : ""}${spots ? ` data-spots="${esc(JSON.stringify(spots))}"` : ""}${level ? ` data-level="${esc(JSON.stringify(level))}"` : ""}${crop ? ` data-crop="${crop.join(",")}"` : ""} data-h="${height}">
+  return `<figure class="gmap" data-ids="${ids.join(",")}"${self ? ` data-self="${self}"` : ""}${town ? ` data-town="${[town].flat().join(",")}"` : ""}${spots ? ` data-spots="${esc(JSON.stringify(spots))}"` : ""}${level ? ` data-level="${esc(JSON.stringify(level))}"` : ""}${crop ? ` data-crop="${crop.join(",")}"` : ""}${aspect ? ` data-aspect="${aspect}"` : ""} data-h="${height}">
     <div class="gmap-win" tabindex="0" role="img"><canvas></canvas></div>
     <figcaption><label>Darkness <input type="range" min="0" max="100" value="66"></label>${note && `
       <span class="gmap-note">${note}</span>`}
@@ -239,6 +240,13 @@ async function initMap(fig) {
   if (!box) { fig.remove(); return; }
   const pad = Math.max(40, 0.08 * Math.max(box[2] - box[0], box[3] - box[1])), S = MAP_SETS[set];
   box = [Math.max(0, box[0] - pad), Math.max(0, box[1] - pad), Math.min(S.w, box[2] + pad), Math.min(S.h, box[3] + pad)];
+  // (to the aspect asked: the short side grown about its middle, kept within the map where it fits)
+  if (fig.dataset.aspect) {
+    const a = +fig.dataset.aspect, grow = (i, by, max) => { const lo = Math.min(Math.max(0, box[i] - by / 2), Math.max(0, max - (box[i + 2] - box[i] + by)));
+      box[i + 2] = lo + box[i + 2] - box[i] + by; box[i] = lo; };
+    if ((box[2] - box[0]) / (box[3] - box[1]) < a) grow(0, a * (box[3] - box[1]) - (box[2] - box[0]), S.w);
+    else grow(1, (box[2] - box[0]) / a - (box[3] - box[1]), S.h);
+  }
   const bw = box[2] - box[0], bh = box[3] - box[1], maxH = +fig.dataset.h;
   const win = fig.querySelector(".gmap-win"), cv = win.querySelector("canvas"), ctx = cv.getContext("2d");
   win.style.aspectRatio = `${bw} / ${bh}`;

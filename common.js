@@ -412,11 +412,12 @@ function entryHTML(e) {
   if (e.item) return `${e.count} × ${e.at ? `<a href="rotations${query({ nick: ROTATIONS["nicholas-traveler"].entries.indexOf(e) })}">${esc(e.item)}</a>` : esc(e.item)}`;
   return esc(entryName(e));
 }
-// where an entry takes you: a bounty's area, then the region and campaign
+// where an entry takes you: a bounty's area and the campaign; else the region and campaign
 function entryWhere(e) {
   const l = AREAS[e.area || e.mission];
   if (!l) return "";
-  const parts = [(e.creature || e.item) && l.name !== entryName(e) && l.name, regionOf(l)?.name, CAMPAIGNS[campaignOf(l)]].filter(Boolean);
+  const at = (e.creature || e.item) && l.name !== entryName(e) && l.name;
+  const parts = [at, !at && regionOf(l)?.name, CAMPAIGNS[campaignOf(l)]].filter(Boolean);
   return ` <span class="dim">· ${parts.map(esc).join(" · ")}</span>`;
 }
 // when a daily rotation (Zaishen Mission, Zaishen Vanquish) is next on what is(entry) picks, or how long the current
