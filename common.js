@@ -544,7 +544,7 @@ const readOnly = () => { try { return localStorage.getItem(READ_ONLY_KEY) === "1
 /* The site's question (in place of the browser's confirm and alert): a title, its details (text, its lines kept; or
    html), Cancel and the action's own button (danger: in red), the one focused at first doing it on Enter; Escape is
    Cancel, a click outside does nothing. A promise of true (the action) or false; one at a time (another asked meanwhile:
-   false). With no cancel, it's a notice: its one button. */
+   false). With no cancel, it's a notice: its one button, and a click outside closes it too (false). */
 let asking = null;
 function ask({ title, body = "", html = "", ok = "OK", cancel = "Cancel", danger = false, focus = "ok", tone = "" }) {
   if (asking) return Promise.resolve(false);
@@ -555,7 +555,12 @@ function ask({ title, body = "", html = "", ok = "OK", cancel = "Cancel", danger
   document.body.append(d);
   return asking = new Promise(res => {
     const done = v => { d.close(); d.remove(); asking = null; back?.focus?.(); res(v); };
-    d.addEventListener("click", e => { const b = e.target.closest("[data-ask]"); if (b) done(b.dataset.ask === "1"); });
+    d.addEventListener("click", e => {
+      const b = e.target.closest("[data-ask]"), r = d.getBoundingClientRect();
+      if (b) done(b.dataset.ask === "1");
+      // (outside it: the backdrop, which is the dialog's own)
+      else if (!cancel && e.target === d && (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom)) done(false);
+    });
     d.addEventListener("cancel", e => { e.preventDefault(); done(false); });
     d.showModal();
     d.querySelector(focus === "cancel" && cancel ? '[data-ask="0"]' : '[data-ask="1"]').focus();
@@ -570,6 +575,24 @@ function readOnlyBlocks() {
     machine or browser.</p><p class="dim">To change things here anyway, turn read-only off on the <a href="backup">Backup</a> page.</p>` });
   return true;
 }
+/* In read-only mode, the fields that change what a backup keeps (names, the Edit tab, readings, ages, titles, a
+   character's builds, the guides' steps and cap rows) can't be entered: a click says it's read-only, the cursor
+   never gets in (tabbing in moves on), and they look it. The buttons say so themselves, when clicked; the ones that
+   would ask first (Reforged Coins taken, a delete) say it before asking. */
+const RO_LOCKED = ".u-name input, .u-acct-row input, #ch-edit input, #ch-edit select, #build-code, #motn-points, .my-tick input, input[data-age], input[data-step], input[data-cap-row]";
+const RO_ASKING = "[data-coins], [data-build-delete], [data-delete], [data-delete-account]";
+const roLocked = e => readOnly() && e.target.closest?.(RO_LOCKED);
+document.addEventListener("pointerdown", e => { if (roLocked(e)) e.preventDefault(); }, true);
+document.addEventListener("click", e => { if (!roLocked(e) && !(readOnly() && e.target.closest?.(RO_ASKING))) return;
+  e.preventDefault(); e.stopImmediatePropagation(); readOnlyBlocks(); }, true);
+document.addEventListener("focusin", e => { if (roLocked(e)) e.target.blur(); }, true);
+// (how they look: set again when read-only is turned on or off, here or in another tab)
+const roLook = () => { let s = document.getElementById("ro-look");
+  if (!readOnly()) return s?.remove();
+  if (!s) { s = document.createElement("style"); s.id = "ro-look"; document.head.append(s); }
+  s.textContent = `:is(${RO_LOCKED}) { cursor: not-allowed; opacity: .6; }`; };
+roLook();
+addEventListener("storage", roLook);
 const USER_NOTE_MAX = 100;  // a character's note, at most
 /* Kept in this browser apart from the characters, and in a backup with them (the Backup page): the Builder's saved
    builds, the guides' steps ticked and faction cap calculators, and the Rotations page's UTC switch. In a backup, each
