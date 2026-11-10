@@ -33,15 +33,15 @@
       const [lo, hi] = c.bornBetween.map(Date.parse);
       // down to a minute, it's known: nothing more to check
       const done = hi - lo <= 6e4, [unit, word] = unitOf(lo, hi), said = n => `${n} ${word}${n === 1 ? "" : "s"}`;
-      // where a month (a day, under two months old: ageTick) ticks over for a reading now: inside the range, it splits it
-      const tick = ageTick(lo, hi, now), b = now - Math.floor((now - lo) / tick) * tick, side = b > lo && b < hi ? Math.min(b - lo, hi - b) : 0;
+      // where a month (a day, under two months old: ageTick) ticks over for a reading now: inside the range, it splits it (ageAt)
+      const tick = ageTick(lo, hi, now), { side, rising } = ageAt(c.bornBetween, now);
       // a reading helps from when that tick enters the range (now, while it's inside), and halves it when the tick is at the middle, next
       const mid = (lo + hi) / 2, best = mid + Math.ceil((now - mid) / tick) * tick, start = side ? now : lo + Math.ceil((now - lo) / tick) * tick;
       const cut = Math.round(100 * side / (hi - lo));
       const name = `<td class="dim">${esc(acct(c))}</td><td><a class="n" href="characters" data-go="${c.id}"><img src="${profImg(c.profession || 0)}" alt="">${esc(c.name)}</a></td>`;
       const add = done ? `<span class="dim known">Known to the minute</span>` : `<input type="text" class="xp-age" data-age="${c.id}" maxlength="12" placeholder="X ${tick === DAY ? "days" : "months"}" aria-label="What /age says for ${esc(c.name)}"><button type="button" class="u-btn" data-age-add="${c.id}">Add</button>`;
       const html = `<tr>${name}<td>${Math.floor(lo / DAY) === Math.floor(hi / DAY) ? fmtDob.format(lo) : ageSaid(now - mid)}</td><td class="num">${done ? "" : said(Math.max(1, Math.ceil((hi - lo) / unit)))}</td>
-        <td class="dim">${done ? "" : inSaid(best - now, best)}</td><td class="dim">${done ? "" : side ? (cut ? `<span class="now">Now</span> (${cut}%)<span class="arr">${b < mid ? "⭡" : "⭣"}</span>` : `<span class="now">Soon</span>`) : inSaid(start - now, start)}</td><td class="add">${add}</td></tr>`;
+        <td class="dim">${done ? "" : inSaid(best - now, best)}</td><td class="dim">${done ? "" : side ? (cut ? `<span class="now">Now</span> (${cut}%)<span class="arr">${rising ? "⭡" : "⭣"}</span>` : `<span class="now">Soon</span>`) : inSaid(start - now, start)}</td><td class="add">${add}</td></tr>`;
       // what each column sorts by (known to the minute: last on the checks, either way); a check helping now, the most it cuts first
       return { id: c.id, html, mid, done, key: { acct: c.account ?? 1, name: c.name.toLowerCase(), age: now - mid, range: hi - lo, best, start: start - cut } };
     });

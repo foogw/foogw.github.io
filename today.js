@@ -66,9 +66,8 @@ function draw() {
     const a = ageAt(c.bornBetween, t);
     if (a.done) return [];
     if (a.word === "day") return [...Array(25).keys()].some(h => cutAt(c, day0 + h * 36e5) >= 1 / 3) ? [[c, null]] : [];
-    // (a check helps till the age's tick, b, passes the range's latest end)
-    const b = t - Math.floor((t - a.lo) / ageTick(a.lo, a.hi, t)) * ageTick(a.lo, a.hi, t);
-    return a.side ? [[c, t + a.hi - b]] : [];
+    // (a check helps till the age's tick passes the range's latest end: no end for a range longer than a tick)
+    return a.side ? [[c, Number.isFinite(a.end) ? a.end : null]] : [];
   }) : [];
   $("td-bday").innerHTML = !ok ? `<p>${none}</p>` : bdays.length
     // (each to its Edit tab, where its age is narrowed)

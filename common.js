@@ -376,17 +376,22 @@ function bonusPills(bonus, o, cs) {
   return [...chars, ...accts];
 }
 // a character's age range at a moment (its "bornBetween", narrowed by /age readings): the unit it's said in (days while it
-// covers more than two dates, then hours, then minutes), and what a reading then takes off for sure (the smaller side
-// where a month, or a day for a young one, ticks over inside it). A month: a twelfth of the game's 365-day year
+// covers more than two dates, then hours, then minutes), and what a reading then takes off for sure (all but the largest
+// piece left between the ticks of a month, or a day for a young one, inside it; a range longer than a tick always has one
+// inside), till when (end: never, for a range longer than a tick), and whether the tick nearest its middle is still
+// rising to it. A month: a twelfth of the game's 365-day year
 const AGE_DAY = 864e5, AGE_MO = 365 / 12 * AGE_DAY;
 // what /age ticks by at t: whole days for a character under two months old, then whole months
 const ageTick = (lo, hi, t) => (t - (lo + hi) / 2 < 2 * AGE_MO ? AGE_DAY : AGE_MO);
 function ageAt(made, t = Date.now()) {
   const [lo, hi] = made.map(Date.parse), dates = Math.floor(hi / AGE_DAY) - Math.floor(lo / AGE_DAY) + 1, tick = ageTick(lo, hi, t);
   const [unit, word] = dates > 2 ? [AGE_DAY, "day"] : hi - lo >= 36e5 ? [36e5, "hour"] : [6e4, "minute"];
-  const b = t - Math.floor((t - lo) / tick) * tick, side = b > lo && b < hi ? Math.min(b - lo, hi - b) : 0;
-  const mid = (lo + hi) / 2;
+  // (f: the first tick inside, n: how many more; the pieces between them)
+  const b = t - Math.floor((t - lo) / tick) * tick, f = b > lo ? b : b + tick, n = f < hi ? Math.ceil((hi - f) / tick) - 1 : 0;
+  const side = f < hi ? hi - lo - Math.max(f - lo, hi - f - n * tick, n ? tick : 0) : 0;
+  const mid = (lo + hi) / 2, d = (((t - mid) % tick) + tick) % tick;
   return { lo, hi, dates, unit, word, side, mid, done: hi - lo <= 6e4, next: mid + Math.ceil((t - mid) / tick) * tick,
+    end: hi - lo > tick ? Infinity : side ? t + hi - f : t, rising: d > tick / 2,
     said: n => `${n} ${word}${n === 1 ? "" : "s"}` };
 }
 function bonusMark(id) {
