@@ -50,11 +50,11 @@ VIEWS.mission = (() => {
       m.outpost !== m.id && [14, 17].includes(area(m)?.type) && ["Mission area", LINK.area(m.id)],
       heroes.length && ["Required hero", heroes.map(heroChip).join(" and ")],
     ].filter(Boolean);
-    const notes = [leftNote(`mission:${m.id}`), zaishenNote("zaishen-mission", e => e.mission === m.id), missionWhereNote(m.id)].filter(Boolean);
+    const notes = [zaishenNote("zaishen-mission", e => e.mission === m.id), missionWhereNote(m.id)].filter(Boolean);
     const steps = QUESTDATA?.storylines?.find(s => (s.nodes || []).some(n => n.mission === m.id) || (s.parts || []).some(p => p.steps.some(n => n.mission === m.id)));
     return `<p class="back"><a href="missions">← All missions</a></p>
       <div class="sp-head" style="--pc:var(${CAMP_COLOR[camp(m)]})">
-        <div class="sp-title"><h2>${esc(m.name)}${hasModes(m) ? doneTicks("missions", m.id, undefined, "Done in") : ""}</h2><div class="sp-sub">${sub}</div></div>
+        <div class="sp-title"><h2>${esc(m.name)}${hasModes(m) ? doneTicks("missions", m.id, undefined, "Done in") : ""}</h2><div class="sp-sub">${sub}</div>${hasModes(m) ? wannabeNeeds("mission", m.id) : ""}</div>
         ${party(m) ? `<div class="lstats"><span class="lstat"><small>Party</small><b>${party(m)}</b></span></div>` : ""}
       </div>
       ${notes.length ? `<ul class="lnotes">${notes.map(noteLi).join("")}</ul>` : ""}

@@ -299,25 +299,8 @@ function vanqMark(id) {
   const tip = `${esc(User.char().name)} hasn't vanquished this area yet`;
   return `<sup class="u-miss" tabindex="0" data-tip="${tip}" aria-label="${tip}">§</sup>`;
 }
-// the same as a sentence, for the mission's, the dungeon's or the area's page ("" when done, or no progress is kept):
-// what's left to do, "mission:<id>", "dungeon:<id>" or "vanq:<id>"; leftNote gives it in a span that follows the page's ticks, its list item hidden while it
-// says nothing
-const LEFT = {
-  mission: id => hasModes(MISSIONS[id]),
-  dungeon: isTickedDungeon,
-  vanq: id => !!AREAS[id]?.foes,
-};
-function leftText(key) {
-  const [kind, id] = key.split(":");
-  if (!LEFT[kind]?.(id) || !userNamed()) return "";
-  const who = `<b>${esc(User.char().name)}</b>`;
-  if (kind === "vanq") return User.vanquished(id) ? "" : `${who} hasn't vanquished this area yet.`;
-  const d = User.done(kind + "s", id), left = [[1, "normal"], [2, "hard"]].filter(([b]) => !(d & b)).map(([, m]) => m);
-  return left.length ? `${who} hasn't completed this ${kind} in ${left.join(" or ")} mode.` : "";
-}
-const leftNote = key => (LEFT[key.split(":")[0]]?.(key.split(":")[1]) && userNamed() ? `<span data-left-note="${key}">${leftText(key)}</span>` : "");
-// a list item that says nothing (yet) is hidden
-const noteLi = n => `<li${/^<span data-left-note="[\w:]+"><\/span>$/.test(n) ? " hidden" : ""}>${n}</li>`;
+// a page's note as a list item
+const noteLi = n => `<li>${n}</li>`;
 // [data-tip]: its text in a tooltip at once, above it (below near the top of the window), on hover or keyboard focus
 {
   let tip = null;
@@ -336,12 +319,6 @@ const noteLi = n => `<li${/^<span data-left-note="[\w:]+"><\/span>$/.test(n) ? "
   }
   addEventListener("scroll", hide, true);
 }
-addEventListener("userchange", () => {
-  for (const s of document.querySelectorAll("[data-left-note]")) {
-    s.innerHTML = leftText(s.dataset.leftNote);
-    if (s.parentElement.tagName === "LI") s.parentElement.hidden = !s.innerHTML;
-  }
-});
 // the weekly PvE bonuses that double a title's points, and those titles (Faction Support: Luxon's only, the one
 // farmed; not Extra Luck's); the titles the picked character, or its account, hasn't maxed, said of a bonus
 // (titleKept, mytitles.js)
@@ -359,15 +336,36 @@ function bonusNeeds(id, c, o, scope = null) {
 // a character as a pill linking to My Characters (with it picked: data-go, handled below), a note inside it
 const charPill = (c, x = "") => `<a class="c-pill" href="characters" data-go="${c.id}"><img src="${profImg(c.profession || 0)}" alt="">${esc(c.name)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</a>`;
 document.addEventListener("click", e => { const a = e.target.closest?.("[data-go]"); if (a && typeof User !== "undefined") User.pick(+a.dataset.go); });
-// a Zaishen daily's characters still needing it, of cs, [character, note] each: a mission not done in NM or HM (said
-// which), an area not vanquished, a dungeon not done; null when the daily isn't one tracked
+// what a character still needs of a thing, said short ("" when nothing): a mission or dungeon not done in NM or HM (said
+// which), an area not vanquished, an elite not captured
+const modesLeft = (c, part, id) => { const d = c[part][id] || 0; return [!(d & 1) && "NM", !(d & 2) && "HM"].filter(Boolean).join(", "); };
+const NEEDS = {
+  mission: (c, id) => modesLeft(c, "missions", id),
+  dungeon: (c, id) => modesLeft(c, "dungeons", id),
+  vanquish: (c, id) => ((c.vanquished || []).includes(id) ? "" : " "),
+  elite: (c, id) => ((c.elites || []).includes(+id) ? "" : " "),
+};
+// a Zaishen daily's characters still needing it, of cs, [character, note] each: a mission (NM, HM), an area to vanquish,
+// a bounty's dungeon (NM, HM) and its boss's elite; null when the daily isn't one tracked
 function dailyNeeds(key, e, cs) {
-  const modesLeft = (c, part, id) => { const d = c[part][id] || 0; return [!(d & 1) && "NM", !(d & 2) && "HM"].filter(Boolean).join(", "); };
-  const f = key === "zaishen-mission" ? hasModes(MISSIONS[e.mission]) && (c => modesLeft(c, "missions", e.mission))
-    : key === "zaishen-vanquish" ? AREAS[e.area]?.foes && (c => !(c.vanquished || []).includes(e.area) && " ")
-    : key === "zaishen-bounty" ? e.area && isTickedDungeon(e.area) && (c => modesLeft(c, "dungeons", e.area)) : null;
+  const els = key === "zaishen-bounty" && e.creature ? (CREATURES[e.creature]?.elites || []).filter(id => SKILLS[id]?.elite) : [];
+  const dgn = key === "zaishen-bounty" && e.area && isTickedDungeon(e.area);
+  const f = key === "zaishen-mission" ? hasModes(MISSIONS[e.mission]) && (c => NEEDS.mission(c, e.mission))
+    : key === "zaishen-vanquish" ? AREAS[e.area]?.foes && (c => NEEDS.vanquish(c, e.area))
+    : key === "zaishen-bounty" && (dgn || els.length) ? c => [dgn && NEEDS.dungeon(c, e.area), els.some(id => NEEDS.elite(c, id)) && "elite"].filter(Boolean).join(", ") : null;
   return f ? cs.map(c => [c, f(c)]).filter(([, x]) => x).map(([c, x]) => [c, x.trim()]) : null;
 }
+// the wannabe GWAMMs (not pre-Searing, nor hidden), in the order kept: null with no progress kept
+function wannabes() {
+  if (User.stored() == null || User.broken()) return null;
+  return User.data().chars.filter(c => c.aim === "gwamm" && !c.hidden && !(c.modes || []).includes("presearing"));
+}
+// on a mission's, area's, dungeon's or boss's page: the wannabe GWAMMs still needing it (kind: of NEEDS), as pills, in
+// a slot drawn again as the progress changes (a tick there, or in another tab)
+const wannabePills = (kind, id) => { const who = (wannabes() || []).map(c => [c, NEEDS[kind](c, id)]).filter(([, x]) => x);
+  return who.length ? `<span class="dim">Wannabe GWAMMs still needing it:</span> ${who.map(([c, x]) => charPill(c, x.trim())).join("")}` : ""; };
+const wannabeNeeds = (kind, id) => `<p class="wb-needs" data-wb="${kind}:${id}">${wannabePills(kind, id)}</p>`;
+addEventListener("userchange", () => { for (const p of document.querySelectorAll("[data-wb]")) { const [k, id] = p.dataset.wb.split(":"); p.innerHTML = wannabePills(k, +id); } });
 // a weekly bonus's pills: the characters of cs, then the accounts, whose titles it helps, each with those titles
 function bonusPills(bonus, o, cs) {
   const left = x => x[0].replace(/^.* hasn't maxed the /, "").replace(/ titles?$/, "");
@@ -526,7 +524,9 @@ function recruitHTML(h) {
    the character is bound to (and our pre-Searing mark), of USER_MODES, gender: "m" or "f" (for how the site speaks of it,
    left out when not set), hidden: true when kept out of My Characters' list (left out when shown), heroes: [hero ids
    recruited] (or "all"), builds: [skill template codes saved, in the order shown], campaign: the one it was made in (1 Prophecies, 2 Factions, 3
-   Nightfall), note: the player's one line about it, retired: true when no longer played (left out of the Today page's suggestions), bornBetween: [the earliest, the latest]
+   Nightfall), note: the player's one line about it, aim: "gwamm" (a wannabe GWAMM: the Zaishen dailies and the pages of what it
+   still needs list it) or "retired" (no longer played: left out of the Today page's suggestions), left out when played as
+   usual (from before, still read: retired: true, as aim "retired"), bornBetween: [the earliest, the latest]
    time it can have been made, narrowed by the ages /age gave (My Characters' Edit), eotnMap: the percent of the Eye of the North map
    explored, as worked out on My Characters from Master of the North's points, xp, played, playedOutside: its experience,
    hours played and hours played outside, each the last typed in (My Characters' Edit), a whole number, and when: [amount, "2026-11-10T13:16Z"]}]}]}, the accounts in the order shown.
@@ -684,7 +684,7 @@ const USER_ALL = {
   dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
 };
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
-  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap", "xp", "played", "playedOutside"] };
+  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap", "xp", "played", "playedOutside", "aim"] };
 // a character's readings typed in on its Edit tab, each kept with when: [amount, time]
 const USER_READINGS = ["xp", "played", "playedOutside"];
 // an amount said back: round ones short (12.5m, 340k, 1b: to a tenth of the unit), the others in full with commas (12,345)
@@ -696,6 +696,8 @@ const userFlat = o => (o.v !== 3 ? o : { v: 2, chars: o.accounts.flatMap(a => a.
   accounts: o.accounts.map(({ chars, ...a }) => a) });
 // the optional game modes (Guild Wars Reforged): a character bound to one wears its badge beside its name; and our own
 // "pre-Searing", a character that stays in pre-Searing Ascalon, with the Tapestry Shred as its badge
+// what a character is played for (its "aim"): played as usual when none
+const USER_AIMS = { "": "Playing", gwamm: "Wannabe GWAMM", retired: "Retired" };
 const USER_MODES = { presearing: "Pre-Searing: stays in pre-Searing Ascalon", melandru: "Melandru's Accord", dhuum: "Dhuum's Covenant" };
 // a pre-Searing character's own titles: the only ones it can work on there (Kind of a Big Deal, Drunkard, Sweet Tooth,
 // Party Animal, Survivor, Legendary Defender of Ascalon); its account's all the same
@@ -743,7 +745,7 @@ function userFromKept(o) {
     if (k.campaign) c.campaign = k.campaign;
     if (k.note) c.note = k.note;
     if (k.bornBetween) c.bornBetween = [...k.bornBetween];
-    if (k.retired) c.retired = true;
+    if (k.aim) c.aim = k.aim; else if (k.retired) c.aim = "retired";
     if (k.eotnMap !== undefined) c.eotnMap = k.eotnMap;
     for (const r of USER_READINGS) if (k[r]) c[r] = [...k[r]];
     return c;
@@ -775,7 +777,7 @@ function userToKept(o) {
     if (c.campaign) k.campaign = c.campaign;
     if (c.note?.trim()) k.note = c.note.trim();
     if (c.bornBetween) k.bornBetween = c.bornBetween;
-    if (c.retired) k.retired = true;
+    if (c.aim) k.aim = c.aim;
     if (c.eotnMap !== undefined) k.eotnMap = c.eotnMap;
     for (const r of USER_READINGS) if (c[r]) k[r] = c[r];
     return k;
@@ -871,6 +873,7 @@ function userCheck(o) {
       if (c.heroes !== undefined && c.heroes !== "all" && !idList(c.heroes)) return `${at}: "heroes" should be "all" or a list of hero ids, each once.`;
       if (c.note !== undefined && !(typeof c.note === "string" && c.note.length <= USER_NOTE_MAX && !/\n/.test(c.note))) return `${at}: "note" should be one line, at most ${USER_NOTE_MAX} characters.`;
       if (c.retired !== undefined && c.retired !== true) return `${at}: "retired" should be true (or left out).`;
+      if (c.aim !== undefined && !(c.aim && USER_AIMS[c.aim])) return `${at}: "aim" should be "gwamm" or "retired" (or left out).`;
       const r = c.bornBetween;
       if (r !== undefined && !(Array.isArray(r) && r.length === 2 && r.every(t => typeof t === "string" && !isNaN(Date.parse(t))) && Date.parse(r[0]) <= Date.parse(r[1])))
         return `${at}: "bornBetween" should be [the earliest, the latest] time it can have been made.`;

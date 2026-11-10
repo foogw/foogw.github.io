@@ -1342,7 +1342,7 @@ a.hchip { text-decoration: none; }
 .ch-hero:disabled { opacity: .35; cursor: default; }
 .ch-hero.got { color: var(--text); border-color: color-mix(in srgb, var(--loc-exp) 55%, var(--line)); background: color-mix(in srgb, var(--loc-exp) 14%, var(--panel)); }
 .ch-edit-row { margin-top: 0; }
-.ch-edit-camp { display: inline-flex; align-items: center; gap: 8px; margin-left: 10px; font-size: 14px; color: var(--muted); }
+.ch-edit-camp, .ch-edit-aim { display: inline-flex; align-items: center; gap: 8px; margin-left: 10px; font-size: 14px; color: var(--muted); }
 .ch-edit-hr { margin: 18px 0 14px; border: 0; border-top: 1px solid var(--line); }
 .ch-edit-age { margin-top: 0; font-size: 14px; color: var(--muted); }
 .ch-edit-age label { display: inline-flex; align-items: center; gap: 8px; margin-right: 8px; }
@@ -1357,11 +1357,10 @@ a.hchip { text-decoration: none; }
 .ch-edit-read .bad { color: var(--sac); transition: opacity .4s; }
 .ch-edit-read .bad.gone { opacity: 0; }
 .ch-edit-read input { width: 120px; font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; }
-.ch-edit-retired { display: inline-flex; align-items: center; gap: 6px; margin-left: 14px; font-size: 14px; cursor: pointer; }
 .ch-edit-note { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; color: var(--muted); }
 .ch-edit-note input { flex: 1; max-width: 640px; font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; }
 .ch-edit-note .dim { font-size: 12px; min-width: 60px; }
-.ch-edit-camp select { font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; }
+.ch-edit-camp select, .ch-edit-aim select { font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; }
 .ch-build-add { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 12px; }
 .ch-build-add input { flex: 1 1 260px; max-width: 420px; padding: 5px 8px; font: inherit; font-family: ui-monospace, monospace; font-size: 13px; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; }
 .ch-builds { list-style: none; margin: 0; padding: 0; }
@@ -1438,7 +1437,9 @@ a.hchip { text-decoration: none; }
 /* a character as a pill (charPill, common.js), what it needs inside it */
 .c-pill { display: inline-flex; align-items: center; gap: 4px; margin: 0 4px 4px 0; padding: 1px 8px 1px 4px; border: 1px solid var(--line); border-radius: 999px; color: var(--text); text-decoration: none; font-size: 13px; white-space: nowrap; }
 a.c-pill:hover { border-color: var(--accent); }
-.c-pill.more { opacity: .6; border-style: dashed; }  /* (one shown though it hasn't passed the list's bar) */
+.td-hint { margin: 6px 0 0; font-size: 13px; }
+.wb-needs { margin: 8px 0 0; font-size: 13px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
+.wb-needs:empty { display: none; }
 .c-pill img { width: 16px; height: 16px; }
 .c-pill .dim { margin-left: 4px; font-size: 12px; }
 /* the Today page */

@@ -57,7 +57,7 @@ VIEWS.skill = (() => {
     return `<p class="back"><a href="skills">← All skills</a></p>
       <div class="sp-head${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}">
         <img class="sp-icon" src="img/skills/${s.id}.jpg" alt="" onerror="this.remove()">
-        <div class="sp-title"><h2>${esc(s.name)}${tags}${s.elite && !s.pvp_only ? eliteTick(s.id, undefined, "Captured") : ""}</h2><div class="sp-sub">${sub}</div></div>
+        <div class="sp-title"><h2>${esc(s.name)}${tags}${s.elite && !s.pvp_only ? eliteTick(s.id, undefined, "Captured") : ""}</h2><div class="sp-sub">${sub}</div>${s.elite && !s.pvp_only ? wannabeNeeds("elite", s.id) : ""}</div>
         <div class="lstats">${stats.map(([k, v, c]) => `<span class="lstat"><small>${k}</small><b class="${c || ""}">${esc(v)}</b></span>`).join("")}</div>
       </div>
       <div class="lgrid">

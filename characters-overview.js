@@ -1,7 +1,7 @@
 "use strict";
 /* The Characters overview page: every character, a row each, by account in the saved order (or by a column, its header
    clicked: again, the other way): who it is, its birthday as far as it's known, the titles it has maxed,
-   its experience and hours played as last typed in, retired or hidden. More columns to come. */
+   its experience and hours played as last typed in, its aim (playing, a wannabe GWAMM, retired). More columns to come. */
 {
   const DAY = 864e5;
   const fmtDay = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
@@ -24,9 +24,7 @@
     ["xp", "Experience", "As last typed in on its Edit tab (hover: when)", "num"], ["played", "Hours played", "As last typed in on its Edit tab (hover: when)", "num"],
     ["playedOutside", "Hours outside", "Hours played outside, as last typed in on its Edit tab (hover: when)", "num"],
     ["outsidePct", "Outside %", "Of the hours played, the share played outside", "num"],
-    ["status", "Status", "Retired: no longer played, left out of the Today page's suggestions. Hidden: kept out of the Characters tab's list"]];
-  // retired, hidden, both, or neither
-  const status = c => [c.retired && "Retired", c.hidden && "Hidden"].filter(Boolean).join(", ");
+    ["aim", "Aim", "What it's played for, picked on its Edit tab. Wannabe GWAMM: the Zaishen dailies and the pages of what it still needs list it. Retired: no longer played, left out of the Today page's suggestions"]];
   // the share of its hours played outside, once both are typed in
   const outsidePct = c => (c.played && c.playedOutside ? 100 * c.playedOutside[0] / c.played[0] : NaN);
   // a reading typed in on the Edit tab: its amount as there (amountSaid: 12.5m, 12,345), when in the tip
@@ -45,9 +43,9 @@
         <td${bd === "?" ? ' class="dim" title="Not known closely enough yet: add what /age says on its Edit tab"' : ""}>${bd}</td>
         <td class="num"><span class="u-gwamm" data-rank="${kbd}" style="font-weight: 600" title="Kind of a Big Deal rank ${kbd}">${maxed}</span></td>
         <td class="num">${reading(c, "xp")}</td><td class="num">${reading(c, "played")}</td><td class="num">${reading(c, "playedOutside")}</td>
-        <td class="num">${Number.isNaN(outsidePct(c)) ? '<span class="dim" title="Needs both hours typed in on its Edit tab">?</span>' : `${Math.round(outsidePct(c))}%`}</td><td>${status(c)}</td></tr>`;
+        <td class="num">${Number.isNaN(outsidePct(c)) ? '<span class="dim" title="Needs both hours typed in on its Edit tab">?</span>' : `${Math.round(outsidePct(c))}%`}</td><td>${USER_AIMS[c.aim || ""]}</td></tr>`;
       return { id: c.id, i, html, key: { acct: [o.accounts.indexOf(acctOf(c)), i], name: c.name.toLowerCase(), made: made || 9, modes: -(c.modes || []).length,
-        bday: bdKey, titles: maxed, status: (c.retired ? 0 : 2) + (c.hidden ? 0 : 1),
+        bday: bdKey, titles: maxed, aim: { gwamm: 0, retired: 2 }[c.aim] ?? 1,
         // (not typed in: last, either way)
         ...Object.fromEntries(USER_READINGS.map(k => [k, c[k] ? c[k][0] : NaN])), outsidePct: outsidePct(c) } };
     });

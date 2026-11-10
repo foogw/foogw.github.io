@@ -18,14 +18,6 @@ const fmtWhen = new Intl.DateTimeFormat(undefined, { weekday: "short", day: "num
 let T = Date.now();
 const row = (label, e, rest = "", key = null) => `<tr><td>${label}${key && ROTATIONS[key] ? `<small class="td-left">${timeLeft(Rotation.endsAt(ROTATIONS[key], T) - T)}</small>` : ""}</td>
   <td class="e">${entryHTML(e)}${entryWhere(e)}</td><td>${rest}</td></tr>`;
-// the characters a Zaishen daily is shown for: the ones that do that kind of thing, 3 at least done (missions in HM,
-// areas vanquished, dungeons in HM)
-const hmCount = (c, part, is) => Object.entries(c[part] || {}).filter(([id, d]) => d & 2 && is(id)).length;
-const ACTIVE = {
-  "zaishen-mission": c => hmCount(c, "missions", id => hasModes(MISSIONS[id])) >= 3,
-  "zaishen-vanquish": c => (c.vanquished || []).length >= 3,
-  "zaishen-bounty": c => hmCount(c, "dungeons", isTickedDungeon) >= 3,
-};
 function draw() {
   const t = moment(), picked = args().has("d") || args().has("h"), today = ymd(t) === ymd(Date.now());
   T = t;
@@ -37,20 +29,20 @@ function draw() {
   $("td-when").textContent = picked ? `Showing ${fmtWhen.format(t)}, as if it were now` : "";
   const at = key => Rotation.current(ROTATIONS[key], t);
   const ok = User.stored() != null && !User.broken(), o = ok ? User.data() : null;
-  // (the characters still played: not hidden nor marked no longer played)
-  const played = c => !c.hidden && !c.retired;
+  // (the characters still played: not hidden nor retired)
+  const played = c => !c.hidden && c.aim !== "retired";
   const cs = ok ? byImportance(o.chars.filter(c => played(c) && !(c.modes || []).includes("presearing")), o) : [];
   const none = '<span class="dim">No characters yet: see <a href="characters">My Characters</a>.</span>';
-  // the Zaishen dailies, each with who still needs it
+  // the Zaishen dailies, each with the wannabe GWAMMs still needing it (none marked: how to)
+  const wb = cs.filter(c => c.aim === "gwamm"), unmarked = ok && !wb.length;
   // (and the Vanguard quest, for the pre-Searing characters not yet Legendary Defenders of Ascalon)
   const pres = ok ? byImportance(o.chars.filter(c => played(c) && (c.modes || []).includes("presearing") && titleRankOf(TITLES[21], c, o) < 1), o) : [];
   const vanguard = row("Vanguard", at("vanguard"), !ok ? none : pres.length ? pres.map(c => charPill(c)).join("") : '<span class="dim">No one</span>', "vanguard");
   $("td-zaishen").innerHTML = `<table class="td-t"><tbody>${[["zaishen-mission", "Mission"], ["zaishen-vanquish", "Vanquish"], ["zaishen-bounty", "Bounty"]].map(([key, label]) => {
-    // (fewer than 3 that pass the bar: made up to 3 with the next in line that need it all the same, dimmer)
-    const e = at(key), all = ok ? dailyNeeds(key, e, cs) : null, who = all && all.filter(([c]) => ACTIVE[key](c));
-    if (who && who.length < 3) who.push(...all.filter(([c]) => !ACTIVE[key](c)).slice(0, 3 - who.length).map(([c, x]) => [c, x, true]));
-    return row(label, e, !ok ? none : !who ? '<span class="dim">Nothing to track</span>' : who.length ? who.map(([c, x, more]) => more ? charPill(c, x).replace('class="c-pill"', 'class="c-pill more"') : charPill(c, x)).join("") : '<span class="dim">No one</span>', key);
-  }).join("")}${vanguard}</tbody></table>`;
+    const e = at(key), who = ok ? dailyNeeds(key, e, wb) : null;
+    return row(label, e, !ok ? none : !who ? '<span class="dim">Nothing to track</span>' : unmarked ? '<span class="dim">—</span>'
+      : who.length ? who.map(([c, x]) => charPill(c, x)).join("") : '<span class="dim">No one</span>', key);
+  }).join("")}${vanguard}</tbody></table>${unmarked ? `<p class="dim td-hint">No wannabe GWAMM yet: mark the characters going for it on their <a href="characters?tab=edit">Edit tab</a>, and their missions, vanquishes and bounties show here.</p>` : ""}`;
   // the other dailies
   $("td-other").innerHTML = `<table class="td-t"><tbody>${[["zaishen-combat", "Combat"], ["wanted", "Shining Blade"], ["nicholas-sandford", "Sandford"]]
     .filter(([key]) => ROTATIONS[key]).map(([key, label]) => row(label, at(key), "", key)).join("")}</tbody></table>`;

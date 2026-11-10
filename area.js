@@ -53,8 +53,7 @@ VIEWS.area = (() => {
     const same = l.terrain ? Object.values(AREAS).filter(x => x !== l && x.type !== 14 && x.type !== 17 && x.terrain === l.terrain && x.set === l.set) : [];
     const from = l.from || [];
     const notes = [
-      // what the picked character has left to do here, and when the Zaishen dailies are next here, first
-      l.foes && leftNote(`vanq:${l.id}`),
+      // when the Zaishen dailies are next here, first
       zaishenNote("zaishen-vanquish", e => e.area === l.id && !e.creature),
       zaishenNote("zaishen-mission", e => e.mission === l.id),
       missions.length && `This outpost is where ${listText(missions.map(m => the(m.id) + LINK.mission(m.id)))} mission${missions.length > 1 ? "s start" : " starts"}.`,
@@ -96,7 +95,7 @@ VIEWS.area = (() => {
     return `
       <p class="back"><a href="areas${query({ c })}">← All ${campaignName(c)} areas</a></p>
       <div class="lhead ${kind(l)}">
-        <div><h2>${esc(l.name)}${l.foes ? vanqTick(l.id, undefined, "Vanquished") : ""}</h2><div class="lsub">${typeTag(l)} <span>${esc(regionOf(l)?.name)} · ${campaignName(c)}</span></div></div>
+        <div><h2>${esc(l.name)}${l.foes ? vanqTick(l.id, undefined, "Vanquished") : ""}</h2><div class="lsub">${typeTag(l)} <span>${esc(regionOf(l)?.name)} · ${campaignName(c)}</span></div>${l.foes ? wannabeNeeds("vanquish", l.id) : ""}</div>
         ${stats ? `<div class="lstats">${stats}</div>` : ""}
       </div>
       ${notesHTML(l)}

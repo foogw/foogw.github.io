@@ -295,7 +295,7 @@ $("ch-edit").addEventListener("keydown", e => { if (e.target.id === "age-months"
 
 // the campaign it was made in, picked in the Edit tab; and its note, saved once it's left (or Enter), its length counted
 $("ch-edit").addEventListener("change", e => {
-  if (e.target.id === "edit-retired") editChar(c => { if (e.target.checked) c.retired = true; else delete c.retired; });
+  if (e.target.id === "edit-aim") editChar(c => { if (e.target.value) c.aim = e.target.value; else delete c.aim; });
   if (e.target.id === "edit-campaign") editChar(c => { const v = +e.target.value; if (v) c.campaign = v; else delete c.campaign; });
   if (e.target.id === "edit-note") editChar(c => { const v = e.target.value.trim(); if (v) c.note = v; else delete c.note; });
 });
@@ -436,9 +436,13 @@ function statsHTML(c) {
 // the campaign it was made in, to pick (on the Edit tab's row, after its gender)
 const campPick = c => `<label class="ch-edit-camp">Made in <select id="edit-campaign"${fixedCampaign(c) ? ` disabled title="${PROF_CAMPAIGN[c.profession] ? `A ${PROFS[c.profession]} can only be made in ${CAMPAIGNS[PROF_CAMPAIGN[c.profession]]}` : "A pre-Searing character is a Prophecies one"}"` : ""}>${[[0, "Not set"], [1, "Prophecies"], [2, "Factions"], [3, "Nightfall"]].map(([v, n]) =>
   `<option value="${v}"${(madeIn(c) || 0) === v ? " selected" : ""}>${n}</option>`).join("")}</select></label>`;
+// what it's played for, to pick (after the campaign): as usual, a wannabe GWAMM (the Zaishen dailies and the pages of
+// what it still needs list it), or retired (left out of the Today page's suggestions)
+const aimPick = c => `<label class="ch-edit-aim" title="Wannabe GWAMM: the Today page's Zaishen dailies and the pages of what it still needs list it. Retired: no longer played, left out of the Today page's suggestions">Aim <select id="edit-aim">${Object.entries(USER_AIMS).map(([v, n]) =>
+  `<option value="${v}"${(c.aim || "") === v ? " selected" : ""}>${n}</option>`).join("")}</select></label>`;
 const charRow = (o, c, cur, tab = false) => { const sib = o.chars.filter(x => x.account === c.account), hid = !!c.hidden, one = o.chars.length < 2, lone = sib.length < 2;
   return `<tr class="${[c === cur && "cur", hid && "u-hid"].filter(Boolean).join(" ")}" data-id="${c.id}">
-    <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}${genderBtn(c)}${tab ? campPick(c) + `<label class="ch-edit-retired" title="No longer played: left out of the Today page's suggestions"><input type="checkbox" id="edit-retired"${c.retired ? " checked" : ""}> Retired <span class="dim">(no suggestions)</span></label>` : ""}</div></td>
+    <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}${genderBtn(c)}${tab ? campPick(c) + aimPick(c) : ""}</div></td>
     <td>${tab ? "" : `<button type="button" class="u-btn u-show" data-hide aria-pressed="${hid}" title="${hid ? "Hidden from the view: show it" : "Hide it from the view"}">${hid ? "Show" : "Hide"}</button>`}${moveBtns(lone, lone)}${tab ? "" : `<span class="u-slot"><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></span>`}</td></tr>`; };
 function manageHTML(o, cur, many) {
   const folded = new Set(acctFolds()), row = c => charRow(o, c, cur);
@@ -500,7 +504,7 @@ const rowAccount = (o, el) => o.accounts.find(a => a.id === +el.closest("tr").da
 // the Edit list's handlers, and the Edit tab's (its one row)
 const onEdit = (type, f) => { els.list.addEventListener(type, f); $("ch-edit").addEventListener(type, f); };
 onEdit("change", e => {
-  if (!e.target.closest("tr") || ["edit-campaign", "edit-retired"].includes(e.target.id)) return;  // (not a row's name: the Edit tab's campaign, retired)
+  if (!e.target.closest("tr") || ["edit-campaign", "edit-aim"].includes(e.target.id)) return;  // (not a row's name: the Edit tab's campaign, aim)
   const o = User.data();
   // an account's new name (none: its number)
   if (e.target.closest(".u-acct")) {

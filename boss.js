@@ -18,7 +18,7 @@ VIEWS.boss = (() => {
         <div class="lside">
           <section class="lbox"><h4>Elite to capture</h4>${b._elites.length ? b._elites.map(s => `<div class="bp-skill">
             ${LINK.skill(s.id).replace("sk-ic sm", "sk-ic")}${eliteTick(s.id, undefined, "Captured")}<span class="dim">${PROFS[s.profession]} · ${esc(ATTRIBUTES[s.attribute] || "")}</span>
-            <p class="bp-desc">${richText(s.concise || s.description)}</p></div>`).join("") : '<p class="dim">None.</p>'}</section>
+            <p class="bp-desc">${richText(s.concise || s.description)}</p>${wannabeNeeds("elite", s.id)}</div>`).join("") : '<p class="dim">None.</p>'}</section>
         </div>
         <div class="lside">
           <section class="lbox"><h4>Where</h4><ul class="lrows">${b._where.map(i =>
