@@ -18,7 +18,7 @@
   // while nothing is saved yet, as characters.js opens it)
   const saved = (() => { try { return localStorage.getItem("gw-user") != null; } catch { return false; } })();
   const v = new URLSearchParams(location.search).get("view");
-  let view = ["about", "edit"].includes(v) ? v : saved ? null : "about";
+  let view = ["about", "edit"].includes(v) ? v : v === "chars" || saved ? null : "about";
   const isCurrent = href => page === "characters" && href.startsWith("characters") && !href.includes("-") ? (view ? href.endsWith(`=${view}`) : href === "characters")
     : href === page;
   const link = (href, name, cls = "", label = "") => `<a${cls ? ` class="${cls}"` : ""} href="${href}"${label ? ` aria-label="${label}" title="${label}"` : ""}${isCurrent(href) ? ' aria-current="page"' : ""}>${name}</a>`;

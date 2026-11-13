@@ -713,6 +713,6 @@ $("u-new-account").addEventListener("click", () => {
   els.list.querySelector(`tr[data-account="${id}"] input[type=text]`)?.focus();
 });
 
-// changed in another tab
-addEventListener("userchange", render);
+// changed in another tab (all of it taken off there, Backup's reset: About again, as for nothing saved)
+addEventListener("userchange", () => { if (User.stored() == null && view === "chars") return setView("about"); render(); });
 render();
