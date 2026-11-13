@@ -201,11 +201,15 @@ function fuzzyScore(name, tokens) {
   return score - name.length;
 }
 
-/* An attribute's group is folded while it has no points; clicking a heading overrides that until the
-   attribute's points change. Title and no-attribute groups start open. */
+/* The primary profession's attribute groups start open, as does the no-attribute group; the secondary's are folded
+   while they have no points, and the title-track groups are folded; clicking a heading overrides that until the
+   attribute's points change. */
 const groupOverride = new Map(); // group key -> folded
-const groupShut = (s, k) => (groupOverride.has(k) ? groupOverride.get(k)
-  : tier(s) === 0 && ATTR_ID[s.attribute] !== undefined && !((state.ranks[ATTR_ID[s.attribute]] || 0) + (state.bonus[ATTR_ID[s.attribute]] || 0)));
+const groupShut = (s, k) => { if (groupOverride.has(k)) return groupOverride.get(k);
+  const a = ATTR_ID[s.attribute], t = tier(s);
+  if (t === 1) return true;
+  if (t !== 0 || a === undefined) return false;
+  return !(PROF_ATTRS[state.primary] || []).includes(a) && !((state.ranks[a] || 0) + (state.bonus[a] || 0)); };
 const tier = s => (s.attribute === "No attribute" ? 2 : / rank$/.test(s.attribute) ? 1 : 0);
 
 // the type list offers the types of the chosen professions' own skills, as on the skills page; common and
