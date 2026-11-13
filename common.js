@@ -752,6 +752,15 @@ const USER_ALL_V3 = { ...USER_ALL, missions: USER_ALL.missions.filter(id => id !
 const allOf = (k, v = 3) => (v < 3 ? USER_ALL : USER_ALL_V3)[k.replace(/[NH]M$/, "")];
 const newUserChar = (id, account = 1) => ({ id, name: `Char${id}`, account, elites: [], vanquished: [], missions: {}, dungeons: {} });
 // what's kept (version 1, 2 or 3, checked) as the pages see it
+// In the top bar's menu by default: while the record names no one (progress from before the flag, or every tick taken
+// off), the first three characters shown, in their order; once anyone is marked, only those. A new character is marked
+// on creation while under three are (characters.js)
+function menuDefault(o) {
+  if (o.chars.some(c => c.inMenu)) return o;
+  let n = 0;
+  for (const c of o.chars) if (!c.hidden && n < 3) { c.inMenu = true; n++; }
+  return o;
+}
 function userFromKept(o) {
   const v = o.v;
   o = userFlat(o);
@@ -782,7 +791,7 @@ function userFromKept(o) {
     for (const r of USER_READINGS) if (k[r]) c[r] = [...k[r]];
     return c;
   });
-  return userNormalize({ v: 2, chars, accounts: (o.accounts || []).map(a => ({ ...a })) });
+  return menuDefault(userNormalize({ v: 2, chars, accounts: (o.accounts || []).map(a => ({ ...a })) }));
 }
 // the pages' progress as it's kept (version 3): each list sorted, "all" when it holds every id, left out when empty;
 // the characters under their accounts

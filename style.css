@@ -208,6 +208,9 @@ nav.pages a[aria-current=page] { color: var(--text); }
 .gchar img { width: 18px; height: 18px; border-radius: 4px; }
 .gchar:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--text); }
 .gchar.cur { color: var(--text); } .gchar.cur::after { content: "✓"; margin-left: auto; color: var(--accent); font-size: 12px; }
+.gpic { width: 16px; height: 16px; border-radius: 4px; margin-right: 6px; }
+.gpick[hidden] { display: none; }
+.gpick .gmenu a { display: flex; }
 .gsep { border-top: 1px solid var(--line); margin: 4px 6px; }
 @media (hover: hover) { .grp:hover .gmenu, .grp:focus-within .gmenu { display: flex; } }
 .grp.open .gmenu { display: flex; }
@@ -1045,8 +1048,9 @@ a.hchip { text-decoration: none; }
   header.top { flex-wrap: nowrap; gap: 2px 14px; padding: 8px 0 6px; margin-bottom: 10px; align-items: center; }
   nav.pages { flex: 1 1 auto; gap: 14px; }
   nav.pages .grp { display: none; }
-  nav.pages .grp:has(.hdr-char) { display: block; }  /* (the character stays in the bar; its tabs are on the sheet) */
-  nav.pages .grp:has(.hdr-char) .gchev, nav.pages .grp:has(.hdr-char) .gmenu { display: none; }
+  nav.pages .grp.gpick:not([hidden]) { display: block; }  /* (the picked character stays in the bar; the picks are on the sheet) */
+  nav.pages .grp.gpick .gchev, nav.pages .grp.gpick .gmenu { display: none; }
+  .sheet .gpick .gchar { padding-left: 0; }
   nav.pages a { font-size: 12px; white-space: nowrap; }
   header.top > .hdr-link { display: none; }
   .burger { display: inline-flex; flex-direction: column; justify-content: center; gap: 4px; width: 36px; height: 32px; padding: 0 8px; margin-left: auto; background: none; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }

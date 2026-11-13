@@ -2,7 +2,7 @@
 /* The top bar, the same on every page: each page has an empty <header class="top"> with this script right after it,
    so adding or changing a link is done here only. Today (the front page, a house), then three groups, each a link to its landing page
    with a menu of its pages (open on hover or focus; on a touch screen the first tap opens it, the second follows the
-   link), then My Characters (by the picked character's name) with its tabs as a menu; the small links at the right. On a phone the groups
+   link), then My Characters with its tabs as a menu, then (once there is a character) the picked character with the ones marked In the menu to pick from; the small links at the right. On a phone the groups
    fold into one menu button that opens a full-screen list. The page's own link and its group are marked current. */
 {
   const HOME = '<svg class="home-ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h5v-6h3v6h5V9.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -24,13 +24,17 @@
   };
   const header = document.currentScript.previousElementSibling;
   const CHAR = [["characters", "Characters"], ["characters-overview", "Overview"], ["characters-birthdays", "Birthdays"]];
-  const charGroup = () => `<div class="grp${CHAR.some(([h]) => isCurrent(h)) ? " cur" : ""}"><a class="gt hdr-char" href="characters"${CHAR.some(([h]) => isCurrent(h)) ? ' aria-current="page"' : ""} aria-haspopup="true">My Characters<span class="gchev" aria-hidden="true"></span></a>
-      <div class="gmenu" role="menu">${CHAR.map(([h, n]) => link(h, n)).join("")}<div class="gchars"></div></div></div>`;
-  header.innerHTML = `<nav class="pages">${link("./", HOME + "Today", "hdr-home")}${GROUPS.map(group).join("")}${charGroup()}</nav>
+  const charGroup = () => group(["My Characters", "characters", CHAR]);
+  // the picked character, a menu of its own at the bar's end once there is a character: the ones marked In the menu to
+  // pick from (the picked one ticked), and the way to the Edit tab; its title opens the character's page
+  const pickedGroup = () => `<div class="grp gpick" hidden><a class="gt hdr-char" href="characters" aria-haspopup="true"><img class="gpic" src="img/prof/Any.png" alt=""><span></span><span class="gchev" aria-hidden="true"></span></a>
+      <div class="gmenu" role="menu"><div class="gchars"></div><div class="gsep"></div><a href="characters?tab=edit">Edit…</a></div></div>`;
+  header.innerHTML = `<nav class="pages">${link("./", HOME + "Today", "hdr-home")}${GROUPS.map(group).join("")}${charGroup()}${pickedGroup()}</nav>
     <button type="button" class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     ${SMALL.map(([h, n], i) => link(h, n, i ? "hdr-link" : "hdr-link push")).join("")}
     <div class="sheet" hidden>${GROUPS.map(([name, landing, pages]) => `<div class="sheet-g"><a class="sheet-t" href="${landing}">${name}</a>${pages.map(([h, n]) => link(h, n)).join("")}</div>`).join("")}
-      <div class="sheet-g"><a class="sheet-t hdr-char" href="characters">My Characters</a>${CHAR.map(([h, n]) => link(h, n)).join("")}</div>
+      <div class="sheet-g"><a class="sheet-t" href="characters">My Characters</a>${CHAR.map(([h, n]) => link(h, n)).join("")}</div>
+      <div class="sheet-g gpick" hidden><a class="sheet-t hdr-char" href="characters"><span></span></a><div class="gchars"></div></div>
       <div class="sheet-g"><a class="sheet-t" href="./">Today</a>${SMALL.map(([h, n]) => link(h, n)).join("")}</div></div>`;
   // the menus: open on hover or focus by CSS; on a touch screen (no hover) the first tap on a group's name opens its
   // menu and the second follows the link; a tap elsewhere or Escape closes
@@ -50,6 +54,8 @@
       const o = JSON.parse(localStorage.getItem("gw-user")), id = +localStorage.getItem("gw-user-char");
       // (version 3 keeps the characters under their accounts, version 2 in one list)
       const chars = o?.chars ?? o?.accounts?.flatMap(a => a.chars || []) ?? [];
+      // (in the menu by default, while no one is marked: the first three shown; as common.js's menuDefault)
+      if (!chars.some(c => c.inMenu)) { let n = 0; for (const c of chars) if (!c.hidden && n < 3) { c.inMenu = true; n++; } }
       return { chars, cur: chars.find(c => c.id === id) ?? chars[0] };
     } catch { return { chars: [], cur: null }; }
   };
@@ -59,12 +65,18 @@
     const { chars, cur } = readChars(), list = chars.filter(c => c.inMenu && !c.hidden);
     const esc = t => String(t).replace(/[&<>"]/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[x]);
     const items = list.map(c => `<button type="button" class="gchar${c === cur ? " cur" : ""}" data-pick="${c.id}"><img src="img/prof/${PROF_PIC[c.profession] || "Any"}.png" alt="">${esc(c.name)}</button>`).join("");
-    for (const g of header.querySelectorAll(".gchars")) g.innerHTML = list.length ? '<div class="gsep"></div>' + items : "";
+    for (const g of header.querySelectorAll(".gchars")) g.innerHTML = items;
   };
   header.addEventListener("click", e => { const b = e.target.closest("[data-pick]"); if (!b) return; e.preventDefault();
     if (typeof User !== "undefined") User.pick(+b.dataset.pick); else { try { localStorage.setItem("gw-user-char", b.dataset.pick); } catch { /* storage blocked */ } }
     showChar(); });
-  const showChar = () => { for (const a of header.querySelectorAll(".hdr-char")) { const n = charName(); a.firstChild.textContent = n ?? "My Characters"; a.title = "My Characters"; a.classList.toggle("named", !!n); } showMenuChars(); };
+  const showChar = () => {
+    const { chars, cur } = readChars(), n = charName();
+    for (const g of header.querySelectorAll(".gpick")) g.hidden = !chars.length;
+    for (const a of header.querySelectorAll(".hdr-char")) { a.querySelector("span").textContent = n ?? (cur ? cur.name : ""); a.title = "The character picked: its page"; a.classList.toggle("named", !!n);
+      const pic = a.querySelector(".gpic"); if (pic) pic.src = `img/prof/${PROF_PIC[cur?.profession] || "Any"}.png`; }
+    showMenuChars();
+  };
   showChar();
   globalThis.headerChar = showChar;
   addEventListener("storage", showChar);  // (another tab)

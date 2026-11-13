@@ -442,10 +442,11 @@ const campPick = c => `<label class="ch-edit-camp">Made in <select id="edit-camp
 const aimPick = c => `<label class="ch-edit-aim" title="Wannabe GWAMM: the front page's Zaishen dailies and the pages of what it still needs list it. Retired: no longer played, left out of the front page's suggestions">Aim <select id="edit-aim">${Object.entries(USER_AIMS).map(([v, n]) =>
   `<option value="${v}"${(c.aim || "") === v ? " selected" : ""}>${n}</option>`).join("")}</select></label>`;
 // listed in the top bar's character menu, to pick from there (after the aim)
-const menuPick = c => `<label class="ch-edit-menu" title="Listed in the top bar's character menu, to pick it from any page"><input type="checkbox" id="edit-inmenu"${c.inMenu ? " checked" : ""}> In the menu</label>`;
+// (on the Edit list, one per row: by the row's character, data-inmenu; on the Edit tab, the one shown: edit-inmenu)
+const menuPick = (c, rowId = null) => `<label class="ch-edit-menu" title="Listed in the top bar's character menu, to pick it from any page"><input type="checkbox" ${rowId != null ? `data-inmenu="${rowId}"` : 'id="edit-inmenu"'}${c.inMenu ? " checked" : ""}> In the menu</label>`;
 const charRow = (o, c, cur, tab = false) => { const sib = o.chars.filter(x => x.account === c.account), hid = !!c.hidden, one = o.chars.length < 2, lone = sib.length < 2;
   return `<tr class="${[c === cur && "cur", hid && "u-hid"].filter(Boolean).join(" ")}" data-id="${c.id}">
-    <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}${genderBtn(c)}${tab ? campPick(c) + aimPick(c) + menuPick(c) : ""}</div></td>
+    <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}${genderBtn(c)}${tab ? campPick(c) + aimPick(c) + menuPick(c) : menuPick(c, c.id)}</div></td>
     <td>${tab ? "" : `<button type="button" class="u-btn u-show" data-hide aria-pressed="${hid}" title="${hid ? "Hidden from the view: show it" : "Hide it from the view"}">${hid ? "Show" : "Hide"}</button>`}${moveBtns(lone, lone)}${tab ? "" : `<span class="u-slot"><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></span>`}</td></tr>`; };
 function manageHTML(o, cur, many) {
   const folded = new Set(acctFolds()), row = c => charRow(o, c, cur);
@@ -510,6 +511,7 @@ const rowAccount = (o, el) => o.accounts.find(a => a.id === +el.closest("tr").da
 // the Edit list's handlers, and the Edit tab's (its one row)
 const onEdit = (type, f) => { els.list.addEventListener(type, f); $("ch-edit").addEventListener(type, f); };
 onEdit("change", e => {
+  if (e.target.dataset.inmenu) { const o = User.data(), c = o.chars.find(x => x.id === +e.target.dataset.inmenu); if (c) { if (e.target.checked) c.inMenu = true; else delete c.inMenu; User.save(o); } return; }
   if (!e.target.closest("tr") || ["edit-campaign", "edit-aim", "edit-inmenu"].includes(e.target.id)) return;  // (not a row's name: the Edit tab's campaign, aim)
   const o = User.data();
   // an account's new name (none: its number)
@@ -608,6 +610,7 @@ onEdit("click", async e => {
 // account it's added to)
 function newChar(account = User.char().account) {
   const o = User.data(), c = newUserChar(Math.max(...o.chars.map(c => c.id)) + 1, account);
+  if (o.chars.filter(x => x.inMenu).length < 3) c.inMenu = true;  // (in the top bar's menu by default, while under three are)
   o.chars.push(c);
   if (!User.save(o)) return;  // (read-only)
   User.pick(c.id); render();
