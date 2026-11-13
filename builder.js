@@ -59,7 +59,7 @@ function applyCode(code) {
   state.primary = t.professions[0];
   state.secondary = t.professions[1];
   state.ranks = Object.fromEntries(t.attributes.map(a => [a.id, Math.min(a.rank, 12)]));
-  state.bar = t.skills.map(id => (SKILL.has(id) ? id : 0));
+  state.bar = t.skills.slice();  // (a skill the site lacks keeps its id: an empty slot here, kept in the code)
   // show the bar's elite first, if it has one
   state.selected = state.bar.find(id => SKILL.get(id)?.elite) || state.bar.find(Boolean) || null;
 }
@@ -91,7 +91,7 @@ function describe(s) {
 
 /* ---------- rendering ---------- */
 const icon = (s, cls = "") => s
-  ? `<span class="sk-icon ${cls}${s.elite ? " elite" : ""}" style="--pc:${profColor(s.profession)}" data-tip="${s.id}" aria-label="${esc(s.name)}"><img src="img/skills/${s.id}.jpg" alt="" loading="lazy" onerror="this.remove()"><span class="sk-fallback">${esc(s.name)}</span></span>`
+  ? `<span class="sk-icon ${cls}${s.elite ? " elite" : ""}" style="--pc:${profColor(s.profession)}" data-skill="${s.id}" aria-label="${esc(s.name)}"><img src="img/skills/${s.id}.jpg" alt="" loading="lazy" onerror="this.remove()"><span class="sk-fallback">${esc(s.name)}</span></span>`
   : `<span class="sk-icon empty ${cls}"></span>`;
 
 function renderProfs() {
@@ -520,7 +520,7 @@ tip.hidden = true;
 document.body.append(tip);
 function hideTip() { tip.hidden = true; }
 document.addEventListener("mouseover", e => {
-  const el = e.target.closest("[data-tip]");
+  const el = e.target.closest("[data-skill]");
   if (!el || el.closest(".b-tip, .b-detail")) return hideTip();
   const s = SKILL.get(+el.dataset.tip);
   if (!s) return hideTip();

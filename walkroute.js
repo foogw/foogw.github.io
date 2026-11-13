@@ -2,7 +2,8 @@
 
 /* The way on foot between two spots on a map, worked out in the browser: the areas' walkable shapes
    (game/walk/<map id>.json) drawn into one grid, joined at the portals between them, and searched for the shortest
-   walk that keeps off the edges. walkGrid(ids) builds the grid, and walkRoute(grid, from, to) gives the way as a
+   walk that keeps off the edges. walkGrid(ids) builds the grid (null when none of the areas has ground; the route
+   functions then give null), and walkRoute(grid, from, to) gives the way as a
    short polyline in the map's pixels, or null; a null in it is a portal crossed to an area that doesn't touch this
    one on the map (walkLines splits the way there). */
 // our own fixes to the ground (data/routing.js): walls, paths, crossings, teleporters, and portals on an area's own map, by map id
@@ -16,7 +17,9 @@ const WALK_WALL = 8;     // grid cells from an edge within which a step costs mo
 async function walkGrid(ids, given = {}) {
   // all the ground there is: an outpost's town too
   const walks = (await Promise.all(ids.map(id => given[id] || loadWalk(id)))).map((w, i) => w && { id: ids[i], rings: [...w.rings, ...(w.town || [])], walls: [...(ROUTING?.walls[ids[i]] || []), ...(w.walls || [])], paths: ROUTING?.paths?.[ids[i]], cross: ROUTING?.cross[ids[i]], teleports: ROUTING?.teleports?.[ids[i]] }).filter(Boolean);
-  const [x0, y0, x1, y1] = ringsBox(walks);
+  const box = ringsBox(walks);
+  if (!box) return null;  // (no ground at all: no grid, and no way on it)
+  const [x0, y0, x1, y1] = box;
   const W = Math.ceil((x1 - x0) / WALK_S) + 2, H = Math.ceil((y1 - y0) / WALK_S) + 2;
   const c = document.createElement("canvas"); c.width = W; c.height = H;
   const g = c.getContext("2d");
@@ -248,6 +251,7 @@ function walkSimplify(pts, eps = 2) {
 
 // from: a map point, or { at, area }: a point to start on that area's ground (walkFrom gives one)
 function walkRoute(grid, from, [tx, ty]) {
+  if (!grid) return null;
   const [fx, fy] = Array.isArray(from) ? from : from.at, a = walkSnap(grid, fx, fy, from.area), b = walkSnap(grid, tx, ty);
   const way = a >= 0 && b >= 0 ? walkSearch(grid, a, b) : null;
   return way && walkLines([[fx, fy], ...way, [tx, ty]]).map(l => walkSimplify(l)).flatMap((l, k) => (k ? [null, ...l] : l));
@@ -275,6 +279,7 @@ function walkFrom(grid, id, ids) {
 }
 // the shortest way from an area (by any of its portals) to a point, or null
 function walkWay(grid, id, ids, to) {
+  if (!grid) return null;
   let best = null;
   for (const s of walkFrom(grid, id, ids)) {
     const pts = walkRoute(grid, s, to);

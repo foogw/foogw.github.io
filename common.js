@@ -130,7 +130,7 @@ const LINK = {
   mission: (id, label) => (MISSIONS[id] ? `<a href="${HREF.mission(id)}">${esc(label ?? MISSIONS[id].name)}</a>` : LINK.area(id, label)),
   quest: (id, label) => (QUESTS[id] ? `<a href="${HREF.quest(id)}">${esc(label ?? QUESTS[id].name)}</a>` : esc(label ?? "")),
   hero: (id, label) => (HEROES[id] ? `<a href="${HREF.hero(id)}">${esc(label ?? HEROES[id].name)}</a>` : esc(label ?? "")),
-  boss: (id, label) => `<a href="${HREF.boss(id)}">${esc(label ?? CREATURES[id]?.name)}</a>`,
+  boss: (id, label) => (CREATURES[id] ? `<a href="${HREF.boss(id)}">${esc(label ?? CREATURES[id].name)}</a>` : esc(label ?? "")),
   skill: (id, icon = true, label) => {
     const s = SKILLS[id];
     return s ? `<a class="skill-link${s.elite ? " elite" : ""}" href="${HREF.skill(id)}" style="--pc:${profVar(s.profession)}">${icon ? skillIcon(id, "sk-ic sm") : ""}${esc(label ?? s.name)}</a>` : esc(label ?? "");

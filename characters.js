@@ -490,8 +490,11 @@ document.addEventListener("click", e => {
 document.addEventListener("click", async e => {
   const b = e.target.closest("[data-coins]");
   if (!b || User.broken()) return;
-  const o = User.data(), a = o.accounts.find(x => x.id === +b.dataset.coins);
-  if (!a || !await ask({ title: `Took ${accountName(a)}'s Reforged Coins from the Purveyor?`, ok: "Took them" })) return;
+  const a0 = User.data().accounts.find(x => x.id === +b.dataset.coins);
+  if (!a0 || !await ask({ title: `Took ${accountName(a0)}'s Reforged Coins from the Purveyor?`, ok: "Took them" })) return;
+  // (read again after the dialog: another tab may have changed things meanwhile)
+  const o = User.data(), a = o.accounts.find(x => x.id === a0.id);
+  if (!a) return render();
   a.reforgedCoinClock = new Date().toISOString().slice(0, 16) + "Z";
   User.save(o); render();
 });
@@ -580,14 +583,18 @@ onEdit("click", async e => {
   }
   if (e.target.closest("[data-new-char]")) return newChar(+e.target.closest("tr").dataset.account);
   if (e.target.closest("[data-delete-account]")) {
-    const o = User.data(), a = rowAccount(o, e.target);
-    if (o.chars.some(c => c.account === a.id) || !await ask({ title: `Delete the account "${accountName(a)}"?`, body: "And its account titles. This can't be undone.", ok: "Delete", danger: true, focus: "cancel" })) return;
-    o.accounts = o.accounts.filter(x => x !== a);
+    const a0 = rowAccount(User.data(), e.target);
+    if (!a0 || User.data().chars.some(c => c.account === a0.id) || !await ask({ title: `Delete the account "${accountName(a0)}"?`, body: "And its account titles. This can't be undone.", ok: "Delete", danger: true, focus: "cancel" })) return;
+    const o = User.data();  // (read again after the dialog)
+    if (o.chars.some(c => c.account === a0.id)) return render();
+    o.accounts = o.accounts.filter(x => x.id !== a0.id);
     User.save(o); return render();
   }
   if (!e.target.closest("[data-delete]")) return;
-  const o = User.data(), c = rowChar(o, e.target);
-  if (o.chars.length < 2 || !await ask({ title: `Delete "${c.name}"?`, body: `And all its progress (${charCounts(c)}). This can't be undone.`, ok: "Delete", danger: true, focus: "cancel" })) return;
+  const c0 = rowChar(User.data(), e.target);
+  if (!c0 || User.data().chars.length < 2 || !await ask({ title: `Delete "${c0.name}"?`, body: `And all its progress (${charCounts(c0)}). This can't be undone.`, ok: "Delete", danger: true, focus: "cancel" })) return;
+  const o = User.data(), c = o.chars.find(x => x.id === c0.id);  // (read again after the dialog)
+  if (!c || o.chars.length < 2) return render();
   const shown = User.char(o) === c;
   o.chars = o.chars.filter(x => x !== c);
   User.save(o);

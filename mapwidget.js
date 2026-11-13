@@ -318,7 +318,8 @@ async function initMap(fig) {
     show([x - fx * w, y - fy * h, x - fx * w + w, y - fy * h + h]);
   }, { passive: false });
   let grab = null;
-  win.addEventListener("pointerdown", e => { grab = { x: e.clientX, y: e.clientY, cur }; mv.dragged = false; });
+  win.addEventListener("pointerdown", e => { grab = { x: e.clientX, y: e.clientY, cur }; mv.dragged = false; try { win.setPointerCapture(e.pointerId); } catch { /* not a pointer */ } });
+  for (const ev of ["pointerup", "pointercancel"]) win.addEventListener(ev, () => { grab = null; });
   win.addEventListener("pointermove", e => {
     if (!grab || cur[2] - cur[0] >= bw) return;  // nothing to move about when all of it shows
     const dx = e.clientX - grab.x, dy = e.clientY - grab.y;
@@ -327,7 +328,6 @@ async function initMap(fig) {
     const k = (cur[2] - cur[0]) / win.clientWidth, [x0, y0, x1, y1] = grab.cur;
     show([x0 - dx * k, y0 - dy * k, x1 - dx * k, y1 - dy * k]);
   });
-  window.addEventListener("pointerup", () => { grab = null; });
   // a portal's name on hover: the areas it joins
   win.addEventListener("mousemove", e => {
     const r = win.getBoundingClientRect(), k = (cur[2] - cur[0]) / r.width;

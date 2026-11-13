@@ -52,7 +52,7 @@ function dungeonWhere(b, i) {
 }
 // one area's map of a boss's spots. With an elite to capture, the ways to it: to one spot, from every outpost near
 // enough (up to half again the shortest walk); to several, each from the outpost nearest to it
-async function bossMap(el, b, ss) {
+async function bossMap(el, b, ss, live = () => true) {
   const area = ss[0][0], box = el.querySelector(".nmap"), many = ss.length > 1;
   const spots = ss.map((s, k) => ({ x: s[1], y: s[2], name: many ? String(k + 1) : b.name }));
   const cell = depthsLevel(area, ss[0][1], ss[0][2]);
@@ -68,6 +68,7 @@ async function bossMap(el, b, ss) {
   const { around, outposts } = spotOutposts(area);
   const ids = [...new Set([area, ...around.filter(walkable)])];
   const grid = await walkGrid(ids.filter(id => id === area || walkable(id)));
+  if (!live() || !grid) { if (live()) { box.innerHTML = mapHTML([area], { height: 560, spots, note }); await initMaps(box); } return; }
   // (outposts on another map, as for an area with a map of its own: from its portal to them on its map)
   const off = [...new Set((AREAS[area].exits || []).filter(x => x.at && isOutpost(AREAS[x.to]) && WALK_SET.get(x.to) !== WALK_SET.get(area)).map(x => x.to))];
   const offWay = (id, to) => (AREAS[area].exits || []).filter(x => x.to === id && x.at).map(x => walkRoute(grid, { at: x.at, area }, to)).filter(Boolean).sort((p, q) => walkLength(p) - walkLength(q))[0] || null;
@@ -88,6 +89,7 @@ async function bossMap(el, b, ss) {
   if (!ways.length) legend = `<span class="dim">${from.length ? "No way found from the outposts near it." : "No outpost near it to walk from."}</span>`;
   // light its area, the outposts walked from and the areas the ways cross
   const walks = await Promise.all(ids.map(loadWalk)), cv = document.createElement("canvas").getContext("2d");
+  if (!live()) return;
   const here = [...new Set(ways.map(w => w.id))].filter(id => WALK_SET.get(id) === WALK_SET.get(area)), lit = new Set([area, ...here]);
   for (const w of ways) for (const l of walkLines(w.pts)) for (let k = 1; k < l.length; k++)
     for (let t = 0; t < 1; t += 0.1) {
@@ -129,6 +131,6 @@ VIEWS.boss = (() => {
       </div>`;
   }
   // the maps, once on the page: each drawn with its spots and the ways to them
-  function after(el, b) { el.querySelectorAll(".bmap").forEach(m => bossMap(m, b, spotSets(b)[+m.dataset.k])); }
+  function after(el, b) { const live = () => el.dataset.at === `boss=${b.id}`; el.querySelectorAll(".bmap").forEach(m => bossMap(m, b, spotSets(b)[+m.dataset.k], live)); }
   return { find: id => bossTable().get(+id), title: b => b.name, html, after };
 })();

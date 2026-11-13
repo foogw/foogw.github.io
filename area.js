@@ -112,7 +112,7 @@ VIEWS.area = (() => {
     const s = el.querySelector("[data-same]");
     if (s) Promise.all([l.id, ...s.dataset.same.split(",")].map(loadWalk)).then(([w, ...ws]) => {
       const ids = s.dataset.same.split(",").filter((id, i) => ground(w) && ground(ws[i]) === ground(w));
-      if (!ids.length) return;
+      if (!ids.length || el.dataset.at !== `area=${l.id}`) return;
       s.outerHTML = `The same ground as ${listText(ids.map(id => areaLink(+id)))}.`;
       el.querySelector(".lnotes li[hidden]")?.removeAttribute("hidden");
     });
