@@ -1010,7 +1010,7 @@ const modeProgress = (c, part) => Object.entries(c[part]).filter(([id]) => part 
 // the done filter: "1" not done in NM, "2" not done in HM, "a" not done in one of them or both
 const missing = (v = 0, mode) => (mode === "a" ? (v & 3) !== 3 : !(v & +mode));
 const doneTicks = (part, id, v = User.done(part, id), label = "") => { return `<span class="uticks" data-part="${part}" data-id="${id}">${label ? `<span class="ulabel">${label}</span>` : ""}${[[1, "NM", "Normal mode"], [2, "HM", "Hard mode"]].map(([b, l, t]) =>
-  `<button type="button" class="utick" data-mode="${b}" aria-pressed="${!!(v & b)}" title="Done in ${t}">${l}</button>`).join("")}</span>`; };
+  `<button type="button" class="utick" data-mode="${b}" aria-pressed="${!!(v & b)}" title="Done in ${t}: click to change">${label ? '<span class="ubox"></span>' : ""}${l}</button>`).join("")}</span>`; };
 // a tick column's title: on hover (or focus), Check all and Uncheck all (for NM and HM each, where it has both), for
 // the ticks in the rows shown (the list named by its data-bulk-list), after an are-you-sure
 const bulkMenu = (list, modes = false) => ` <span class="bulk-menu" data-bulk-list="${list}">${(modes

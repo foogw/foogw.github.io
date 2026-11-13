@@ -54,11 +54,17 @@ VIEWS.mission = (() => {
       m.leads_to?.length && ["Leads to", m.leads_to.map(whereLink).join(", ")],
       // where it starts, and where it's played when that's an area of its own (Factions, Nightfall)
       outpost(m) && ["Outpost", LINK.area(m.outpost)],
-      m.outpost !== m.id && [14, 17].includes(area(m)?.type) && ["Mission area", LINK.area(m.id)],
+      m.outpost !== m.id && [14, 17].includes(area(m)?.type) && ["Played in", `${LINK.area(m.id)} <span class="dim">(the area's page)</span>`],
       heroes.length && ["Required hero", heroes.map(heroChip).join(" and ")],
     ].filter(Boolean);
     const notes = [zaishenNote("zaishen-mission", e => e.mission === m.id), missionWhereNote(m.id)].filter(Boolean);
     const steps = QUESTDATA?.storylines?.find(s => (s.nodes || []).some(n => n.mission === m.id) || (s.parts || []).some(p => p.steps.some(n => n.mission === m.id)));
+    // (the storyline's order fills in what the mission's own fields don't say: the step before and after)
+    if (steps) { const key = n => (n.mission != null ? `m${n.mission}` : `q${n.quest}`), k = `m${m.id}`, es = (steps.edges || []).map(([a, b]) => [key(a), key(b)]);
+      const link = x => (x[0] === "m" ? LINK.mission(+x.slice(1)) : LINK.quest(+x.slice(1)));
+      const prev = es.filter(e => e[1] === k).map(e => e[0]), next = es.filter(e => e[0] === k).map(e => e[1]);
+      if (prev.length && !story.some(([t]) => t === "After")) story.unshift(["After", prev.map(link).join(", ")]);
+      if (next.length && !story.some(([t]) => t === "Leads to")) story.splice(story.findIndex(([t]) => t === "After") + 1, 0, ["Leads to", next.map(link).join(", ")]); }
     return `<p class="back"><a href="missions">← All missions</a></p>
       <div class="sp-head" style="--pc:var(${CAMP_COLOR[camp(m)]})">
         <div class="sp-title"><h2>${esc(m.name)}${hasModes(m) ? doneTicks("missions", m.id, undefined, "Done in") : ""}</h2><div class="sp-sub">${sub}</div>${hasModes(m) ? wannabeNeeds("mission", m.id) : ""}</div>
