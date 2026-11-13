@@ -33,7 +33,7 @@
     : `<span title="${fmtAt.format(Date.parse(c[k][1]))}">${amountSaid(c[k][0])}</span>`;
   let sortBy = "acct", sortDir = 1, prev = [];
   function render() {
-    if (User.stored() == null || User.broken()) { $("ov").innerHTML = `<p class="dim pg-empty">No characters yet: add them on the <a href="characters">Characters</a> tab.</p>`; return; }
+    if (User.stored() == null || User.broken()) { $("ov").innerHTML = `<p class="dim pg-empty">No characters yet: add them on the <a href="characters?view=edit">Edit</a> tab, or try a mock one on <a href="characters?view=about">About</a>.</p>`; return; }
     const o = User.data(), acctOf = c => o.accounts.find(a => a.id === c.account) || { id: c.account };
     const rows = o.chars.map((c, i) => {
       const [bd, bdKey] = bday(c), made = madeIn(c), maxed = titlesMaxed(c, o), kbd = titleRankOf(TITLES[10], c, o);

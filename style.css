@@ -1443,7 +1443,14 @@ a.hchip { text-decoration: none; }
 .ch-stat.done b { color: var(--loc-exp); }
 .ch-manage-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .ch-manage { max-width: 860px; }
-.ch-page[hidden], .ch-manage[hidden] { display: none; }
+.ch-page[hidden], .ch-manage[hidden], .ch-about[hidden] { display: none; }
+/* the About tab: the text, then the mock character to try with, in a box */
+.ch-about { max-width: 760px; }
+.ch-about-text ul { padding-left: 22px; }
+.ch-about-text li { margin: 6px 0; }
+.ch-about-try { margin-top: 18px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.ch-about-try .r-h { margin-top: 0; }
+.ch-about-try .u-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0; }
 @media (max-width: 800px) {
   .ch-page { grid-template-columns: 1fr; gap: 14px; }
   .ch-side { position: static; max-height: none; }

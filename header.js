@@ -14,8 +14,10 @@
   ];
   const SMALL = [["about", "About"], ["thanks", "Thanks"], ["contact", "Contact"], ["license", "License"], ["backup", "Backup"]];
   const page = location.pathname.match(/([\w-]*?)(\.html)?$/)[1].replace(/^index$/, "") || "./";
-  // (My Characters' other tabs, characters-overview and characters-birthdays, mark it current too)
-  const isCurrent = href => href === page || (href === "characters" && page.startsWith("characters-"));
+  const view = new URLSearchParams(location.search).get("view");
+  // (on My Characters, the view shown: characters?view=edit marks Edit, not Characters)
+  const isCurrent = href => page === "characters" && href.startsWith("characters") && !href.includes("-") ? (view ? href.endsWith(`=${view}`) : href === "characters")
+    : href === page;
   const link = (href, name, cls = "", label = "") => `<a${cls ? ` class="${cls}"` : ""} href="${href}"${label ? ` aria-label="${label}" title="${label}"` : ""}${isCurrent(href) ? ' aria-current="page"' : ""}>${name}</a>`;
   const group = ([name, landing, pages]) => {
     const inGroup = pages.some(([h]) => isCurrent(h)) || isCurrent(landing);
@@ -23,12 +25,12 @@
       <div class="gmenu" role="menu">${pages.map(([h, n]) => link(h, n)).join("")}</div></div>`;
   };
   const header = document.currentScript.previousElementSibling;
-  const CHAR = [["characters", "Characters"], ["characters-overview", "Overview"], ["characters-birthdays", "Birthdays"]];
+  const CHAR = [["characters?view=about", "About"], ["characters", "Characters"], ["characters?view=edit", "Edit"], ["characters-overview", "Overview"], ["characters-birthdays", "Birthdays"]];
   const charGroup = () => group(["My Characters", "characters", CHAR]);
   // the picked character, a menu of its own at the bar's end once there is a character: the ones marked In the menu to
   // pick from (the picked one ticked), and the way to the Edit tab; its title opens the character's page
   const pickedGroup = () => `<div class="grp gpick" hidden><a class="gt hdr-char" href="characters" aria-haspopup="true"><img class="gpic" src="img/prof/Any.png" alt=""><span></span><span class="gchev" aria-hidden="true"></span></a>
-      <div class="gmenu" role="menu"><div class="gchars"></div><div class="gsep"></div><a href="characters?tab=edit">Edit…</a></div></div>`;
+      <div class="gmenu" role="menu"><div class="gchars"></div><div class="gsep"></div><a href="characters?view=edit">Edit…</a></div></div>`;
   header.innerHTML = `<nav class="pages">${link("./", HOME + "Today", "hdr-home")}${GROUPS.map(group).join("")}${charGroup()}${pickedGroup()}</nav>
     <button type="button" class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     ${SMALL.map(([h, n], i) => link(h, n, i ? "hdr-link" : "hdr-link push")).join("")}

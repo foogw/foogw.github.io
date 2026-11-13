@@ -27,7 +27,7 @@
     ["best", "Best check (50%)", "When a reading of /age halves the range (the age it says ticks over at its middle)", "chk"],
     ["start", "Can check", "When a reading of /age starts to narrow the range (the age it says ticks over inside it); now, how much of it a reading cuts off at least: ⭡ still rising to the best check, ⭣ past it", "chk"]];
   function render() {
-    if (User.stored() == null || User.broken()) { $("bd").innerHTML = `<p class="dim pg-empty">No characters yet: add them on the <a href="characters">Characters</a> tab.</p>`; return; }
+    if (User.stored() == null || User.broken()) { $("bd").innerHTML = `<p class="dim pg-empty">No characters yet: add them on the <a href="characters?view=edit">Edit</a> tab, or try a mock one on <a href="characters?view=about">About</a>.</p>`; return; }
     const o = User.data(), acct = c => accountName(o.accounts.find(a => a.id === c.account) || { id: c.account });
     const now = Date.now(), rows = o.chars.filter(c => c.bornBetween).map(c => {
       const [lo, hi] = c.bornBetween.map(Date.parse);

@@ -53,8 +53,10 @@ const drawTabs = (o = User.data(), cur = User.char(o)) => {
       placeholder="A line about ${esc(cur.name)}: its role, what it's farming…" autocomplete="off"><span class="dim" id="edit-note-n">${(cur.note || "").length} / ${USER_NOTE_MAX}</span></label>
     ${ageHTML(cur)}${readingsHTML(cur)}`;
 };
-// managing or not, not kept: the page opens on the view, or managing while nothing is saved yet, to name the character
-let manage = User.stored() == null;
+// the page's view, one of its tabs: About (what characters are for, a mock one to try), Characters (the one picked), Edit (the
+// list to change); from the address (characters?view=edit), else Characters, or About while nothing is saved yet
+const PAGE_VIEWS = ["about", "chars", "edit"];
+let view = (() => { const v = new URLSearchParams(location.search).get("view"); return PAGE_VIEWS.includes(v) ? v : User.stored() == null ? "about" : "chars"; })();
 // the titles below draw again (titles.js, once it's in): the character picked, its account, may have changed
 const redrawTitles = () => typeof draw === "function" && draw();
 
@@ -420,7 +422,7 @@ function cardHTML(o, c) {
       <img class="ch-prof" src="${profImg(c.profession || 0)}" alt="${c.profession ? PROFS[c.profession] : "No profession"}">
       <div class="ch-who"><h2>${esc(c.name)}</h2><div class="dim">${[bigDeal(c, o), allHeroes(c) && `<span class="ch-says">Recruiter of Heroes</span>`, lit(c)].filter(Boolean).join(" · ")}</div></div>
     </section>
-    ${unnamed(c) ? `<p class="ch-hint">Give this character its name and profession: <button type="button" class="link" data-manage="1">Edit</button>.</p>` : ""}
+    ${c.mock ? `<p class="ch-hint">A mock character, made up to try the site with: take it off on <a href="characters?view=about">About</a>.</p>` : unnamed(c) ? `<p class="ch-hint">Give this character its name and profession: <a class="link" href="characters?view=edit">Edit</a>.</p>` : ""}
 `;
 }
 // its progress by subject, each count a link to what's left (under the titles' heading, titles.js)
@@ -460,12 +462,92 @@ function manageHTML(o, cur, many) {
   const foot = a => `<tr class="u-acct-foot" data-account="${a.id}"><td colspan="2"><button type="button" class="u-btn" data-new-char>New character</button></td></tr>`;
   return many ? o.accounts.map(a => head(a) + (folded.has(a.id) ? "" : o.chars.filter(c => c.account === a.id).map(row).join("") + foot(a))).join("") : o.chars.map(row).join("");
 }
+/* ---------- the About tab ---------- */
+// what characters give, in short, and a mock character to try it all with: made up at random (name, profession, gender,
+// progress, a creation day), flagged mock so it can be taken off here; the page then shows it
+const MOCK_FIRST = ["Aldric", "Mira", "Teodor", "Sabela", "Korin", "Yllis", "Dagny", "Ruven", "Ilsa", "Haron", "Nessa", "Brannoc"];
+const MOCK_LAST = ["Stormcaller", "Ashwalker", "Silverleaf", "Duskbane", "Emberhold", "Greywind", "Thornvale", "of the Dunes", "Frostmantle", "Nightsong"];
+const rnd = n => Math.floor(Math.random() * n), pick = xs => xs[rnd(xs.length)];
+const sample = (xs, share) => { const n = Math.round(xs.length * share), a = [...xs]; for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n).sort((x, y) => x - y); };
+const between = (lo, hi) => lo + Math.random() * (hi - lo);
+function mockChar(o) {
+  const c = newUserChar(Math.max(0, ...o.chars.map(c => c.id)) + 1, User.char(o)?.account ?? o.accounts[0].id);
+  c.mock = true; c.name = `${pick(MOCK_FIRST)} ${pick(MOCK_LAST)}`; c.profession = 1 + rnd(10); c.gender = pick(["m", "f"]);
+  if (!PROF_CAMP[c.profession]) c.campaign = 1 + rnd(3);
+  c.aim = "gwamm";
+  const done = between(0.15, 0.7);
+  c.elites = sample(USER_ALL.elites, done * between(0.4, 0.9));
+  c.vanquished = sample(USER_ALL.vanquished, done * between(0.2, 0.8));
+  const mNM = sample(USER_ALL_V3.missions, done), mHM = sample(mNM, between(0.2, 0.7));
+  const dNM = sample(USER_ALL_V3.dungeons, done * between(0.5, 1.2) > 1 ? 1 : done), dHM = sample(dNM, between(0, 0.6));
+  c.missions = {}; for (const id of mNM) c.missions[id] = mHM.includes(id) ? 3 : 1;
+  c.dungeons = {}; for (const id of dNM) c.dungeons[id] = dHM.includes(id) ? 3 : 1;
+  c.heroes = sample(USER_ALL_V3.heroes, done * between(0.6, 1.4) > 1 ? 1 : done);
+  // its own titles, each maxed half the time: Drunkard, Sweet Tooth, Party Animal, the three Cartographers and Survivor
+  // are maxed or not at all (the Titles tab ticks them); Sunspear, Lightbringer and the four reputations may sit at a lower
+  // rank instead (stepped there). The derived ones are left out
+  c.titles = {};
+  const tmax = id => TITLES[id].max ?? TITLES[id].ranks.length;
+  for (const id of [7, 34, 43, 1, 2, 18, 9]) if (Math.random() < 0.5) c.titles[id] = tmax(id);
+  for (const id of [17, 20, 38, 39, 40, 41]) { const r = Math.random() < 0.5 ? tmax(id) : rnd(tmax(id)); if (r) c.titles[id] = r; }
+  // created on some day of 2006 to 2012 (the day known, as from one early /age reading)
+  const born = Date.UTC(2006 + rnd(7), rnd(12), 1 + rnd(28), 8 + rnd(10));
+  c.bornBetween = [isoMin(born), isoMin(born + 3 * 36e5)];
+  if (o.chars.filter(x => x.inMenu).length < 3) c.inMenu = true;
+  return c;
+}
+function aboutHTML(o) {
+  const mocks = User.stored() == null ? [] : o.chars.filter(c => c.mock);
+  return `<div class="ch-about-text">
+    <p><a href="characters?view=edit">Add a character</a>, then:</p>
+    <ul>
+      <li><b>Tick off</b> its title ranks, elites, missions and dungeons in NM and HM, vanquishes — <b>and see</b> how far it is from completing each title, and from GWAMM, with lists of what's still missing.</li>
+      <li><b>Set its aim</b> to GWAMM — <b>and the site points out</b> what it still needs, wherever that is: an elite on a skill or boss page, a mission, an area to vanquish, a Zaishen daily or bonus week on the <a href="./">front page</a> and <a href="rotations">Rotations</a>.</li>
+      <li><b>Note</b> what /age says, its XP, its heroes and builds — <b>and see</b> what it could do next, today's dailies and events worth its while, and all your characters side by side.</li>
+      <li><b>Add</b> its account — <b>and keep</b> account titles and Reforged Coins across its characters; a top-bar menu switches characters from any page.</li>
+    </ul>
+    <p>Kept in this browser only (<a href="backup">Backup</a> moves it).</p>
+  </div>
+  <div class="ch-about-try">
+    <h3 class="r-h">Try it with a mock character</h3>
+    <p class="dim">Made-up name and progress; take it off here any time.</p>
+    <div class="u-row"><button type="button" class="u-btn" id="mock-new">Make a mock character</button>
+      ${mocks.length ? `<button type="button" class="u-btn danger" id="mock-off">Take off the mock ${mocks.length === 1 ? "character" : `characters (${mocks.length})`}</button>` : ""}</div>
+    <p>Or add your own on the <a href="characters?view=edit">Edit</a> tab.</p>
+  </div>`;
+}
+$("ch-about").addEventListener("click", async e => {
+  if (e.target.id === "mock-new") {
+    if (User.broken()) return;
+    const o = User.data();
+    if (User.stored() == null) o.chars = [];  // (the default Char1 of nothing saved yet: the mock instead)
+    const c = mockChar(o);
+    o.chars.push(c);
+    if (!User.save(o)) return;  // (read-only)
+    User.pick(c.id);
+    setView("chars");
+  } else if (e.target.id === "mock-off") {
+    const n = User.data().chars.filter(c => c.mock).length;
+    if (!n || !await ask({ title: `Take off the mock ${n === 1 ? "character" : "characters"}?`, body: "Made-up progress only; your own characters stay.", ok: "Take off", danger: true, focus: "cancel" })) return;
+    const o = User.data();  // (read again after the dialog)
+    o.chars = o.chars.filter(c => !c.mock);
+    if (!o.chars.length) { User.reset(); view = "about"; return render(); }  // (nothing of yours: a fresh start)
+    if (!User.save(o)) return;
+    if (!o.chars.some(c => c.id === User.char(o)?.id)) User.pick(o.chars[0].id);
+    render();
+  }
+});
+// the one shown, marked among the page's tabs
+const markView = () => { for (const a of document.querySelectorAll(".pg-tabs a")) { const v = a.getAttribute("href").replace(/^characters\??(view=)?/, "") || "chars"; if (PAGE_VIEWS.includes(v)) a.toggleAttribute("aria-current", v === view); } };
 function render() {
   const broken = User.broken(), o = User.data(), cur = User.char(o), many = o.accounts.length > 1;
+  markView();
   $("u-broken").hidden = !broken;
-  $("ch-view").hidden = broken || manage;
-  $("ch-manage").hidden = broken || !manage;
-  if (manage) {
+  $("ch-about").hidden = view !== "about";
+  $("ch-view").hidden = broken || view !== "chars";
+  $("ch-manage").hidden = broken || view !== "edit";
+  if (view === "about") $("ch-about").innerHTML = aboutHTML(o);
+  else if (view === "edit") {
     $("u-new").hidden = many;
     els.list.innerHTML = manageHTML(o, cur, many);
   } else {
@@ -478,11 +560,10 @@ function render() {
     drawTabs(o, cur);
   }
 }
-const setManage = on => { manage = on; render(); scrollTo(0, 0); };
-// picking a character (its name at the left, or the menu), managing or done, a tab, an account folded
+// a view picked by code (a mock made): shown, and the address says so
+const setView = v => { view = v; history.replaceState(null, "", v === "chars" ? location.pathname : `${location.pathname}?view=${v}`); render(); scrollTo(0, 0); };
+// picking a character (its name at the left, or the menu), a tab, an account folded
 document.addEventListener("click", e => {
-  const m = e.target.closest("[data-manage]");
-  if (m) return setManage(m.dataset.manage === "1");
   const tb = e.target.closest("[data-tab]");
   if (tb) { tab = tb.dataset.tab; try { localStorage.setItem(TAB, tab); } catch { /* storage blocked */ } return drawTabs(); }
   const p = e.target.closest("[data-pick]");
@@ -503,7 +584,7 @@ document.addEventListener("click", async e => {
   User.save(o); render();
 });
 // (the coins counted again as the day turns)
-setInterval(() => { if (!manage && !User.broken()) { const o = User.data(); $("ch-list").innerHTML = sideHTML(o, User.char(o), o.accounts.length > 1); } }, 60000);
+setInterval(() => { if (view === "chars" && !User.broken()) { const o = User.data(); $("ch-list").innerHTML = sideHTML(o, User.char(o), o.accounts.length > 1); } }, 60000);
 $("ch-select").addEventListener("change", e => { User.pick(+e.target.value); render(); });
 /* ---------- characters ---------- */
 const rowChar = (o, el) => o.chars.find(c => c.id === +el.closest("tr").dataset.id);
@@ -614,6 +695,7 @@ function newChar(account = User.char().account) {
   o.chars.push(c);
   if (!User.save(o)) return;  // (read-only)
   User.pick(c.id); render();
+  if (view !== "edit") return;
   els.list.querySelector(`tr[data-id="${c.id}"] input[type=text]`).select();
 }
 $("u-new").addEventListener("click", () => newChar());

@@ -546,7 +546,7 @@ function recruitHTML(h) {
    name, profession: its primary (1 Warrior ... 10 Dervish), elites: [skill ids captured], vanquished: [area ids],
    missionsNM, missionsHM, dungeonsNM, dungeonsHM: [ids done in that mode], titles: {title id: rank}, modes: the optional game modes
    the character is bound to (and our pre-Searing mark), of USER_MODES, gender: "m" or "f" (for how the site speaks of it,
-   left out when not set), hidden: true when kept out of My Characters' list (left out when shown), inMenu: true when listed in the top bar's character menu, to pick from (left out otherwise), heroes: [hero ids
+   left out when not set), hidden: true when kept out of My Characters' list (left out when shown), inMenu: true when listed in the top bar's character menu, to pick from (left out otherwise), mock: true for a made-up character from My Characters' About tab, to try the site with (left out otherwise), heroes: [hero ids
    recruited] (or "all"), builds: [skill template codes saved, in the order shown], campaign: the one it was made in (1 Prophecies, 2 Factions, 3
    Nightfall), note: the player's one line about it, aim: "gwamm" (a wannabe GWAMM: the Zaishen dailies and the pages of what it
    still needs list it) or "retired" (no longer played: left out of the Today page's suggestions), left out when played as
@@ -715,7 +715,7 @@ const USER_ALL = {
   dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
 };
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
-  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "inMenu", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap", "xp", "played", "playedOutside", "aim"] };
+  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "inMenu", "mock", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap", "xp", "played", "playedOutside", "aim"] };
 // a character's readings typed in on its Edit tab, each kept with when: [amount, time]
 const USER_READINGS = ["xp", "played", "playedOutside"];
 // an amount said back: round ones short (12.5m, 340k, 1b: to a tenth of the unit), the others in full with commas (12,345)
@@ -771,6 +771,7 @@ function userFromKept(o) {
     if (k.gender) c.gender = k.gender;
     if (k.hidden) c.hidden = true;
     if (k.inMenu) c.inMenu = true;
+    if (k.mock) c.mock = true;
     if (o.v === 1) Object.assign(c, { elites: k.elites, vanquished: k.vanquished || [], missions: k.missions, dungeons: k.dungeons });
     else {
       const list = key => (k[key] === "all" ? [...allOf(key, v)] : k[key] || []);
@@ -803,6 +804,7 @@ function userToKept(o) {
     if (c.gender) k.gender = c.gender;
     if (c.hidden) k.hidden = true;
     if (c.inMenu) k.inMenu = true;
+    if (c.mock) k.mock = true;
     const lists = { elites: c.elites, vanquished: c.vanquished || [] };
     // (a mission or dungeon with no ticks, as Urgoz's Warren, Destruction's Depths or the Piken Square ones, isn't kept)
     for (const part of ["missions", "dungeons"]) for (const [m, b] of [["NM", 1], ["HM", 2]])
@@ -913,6 +915,7 @@ function userCheck(o) {
       if (c.gender !== undefined && !["m", "f"].includes(c.gender)) return `${at}: "gender" should be "m" or "f".`;
       if (c.hidden !== undefined && c.hidden !== true) return `${at}: "hidden" should be true (or left out).`;
       if (c.inMenu !== undefined && c.inMenu !== true) return `${at}: "inMenu" should be true (or left out).`;
+      if (c.mock !== undefined && c.mock !== true) return `${at}: "mock" should be true (or left out).`;
       if (c.heroes !== undefined && c.heroes !== "all" && !idList(c.heroes)) return `${at}: "heroes" should be "all" or a list of hero ids, each once.`;
       if (c.note !== undefined && !(typeof c.note === "string" && c.note.length <= USER_NOTE_MAX && !/\n/.test(c.note))) return `${at}: "note" should be one line, at most ${USER_NOTE_MAX} characters.`;
       if (c.retired !== undefined && c.retired !== true) return `${at}: "retired" should be true (or left out).`;
