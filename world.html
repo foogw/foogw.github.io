@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>GW World</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top"></header><script src="header.js"></script>
+  <div class="page-title"><h1>The world</h1><p>Where things are: the places of all four campaigns, what is played in them and how they join up.</p></div>
+  <div class="portal" id="portal"></div>
+  <footer class="site-footer"><a href="about">About</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · <a href="license">License &amp; credits</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+<script src="game/ground.js"></script>
+<script src="game/missions.js"></script>
+<script src="game/quests.js"></script>
+<script src="game/maps.js"></script>
+<script src="data/depths.js"></script>
+<script>
+"use strict";
+/* The World portal: one box per page of the group, saying what you do there, with a figure or two from the data. */
+{
+  const A = Object.values(GW_GROUND.areas), M = Object.values(GW_MISSIONS.missions), Q = Object.values(GW_QUESTS.quests);
+  const n = x => x.toLocaleString("en");
+  const explorable = A.filter(a => a.type === 2).length, outposts = A.filter(a => [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 19].includes(a.type)).length;
+  const BOXES = [
+    ["areas", "Areas", "Every place: its exits around it by compass, its map with the bosses standing in it, its quests and services, and the vanquish to tick off.", `${n(explorable)} explorable areas · ${n(outposts)} outposts and towns`],
+    ["missions", "Missions", "Each mission's objectives and bonus, rewards, bosses with their elites, foes and allies, and the map it is played on; done in normal and hard mode, per character.", `${n(M.filter(m => m.kind === "story").length)} story missions · ${n(M.length)} in all`],
+    ["quests", "Quests", "Who gives each quest and where, its objectives and rewards, the skills it teaches, and what it leads to.", `${n(Q.length)} quests · ${n(Q.filter(q => q.skills?.length).length)} teach skills`],
+    ["dungeons", "Dungeons", "The Eye of the North dungeons level by level: the way from the nearest outpost to the entrance, each level's map and path, keys, locks and bosses, and the Zaishen Bounty's day.", `${n(Object.keys(GW_DEPTHS.dungeons).length)} dungeons mapped`],
+    ["maps", "Maps", "The continents and the places with maps of their own, with the walkable ground drawn on them; find a place, see what is next to it.", `${n(Object.keys(GW_MAPS.sets).length)} maps`],
+    ["storylines", "Storylines", "Each campaign's story as a chain of missions and the quests between them: what comes after what, and where you are in it.", `${n((GW_QUESTS.storylines || []).length)} campaigns`],
+  ];
+  document.getElementById("portal").innerHTML = BOXES.map(([href, name, what, figure]) => `<a class="pbox" href="${href}"><h2>${name}</h2><p>${what}</p><small>${figure}</small></a>`).join("");
+}
+</script>
+</body>
+</html>

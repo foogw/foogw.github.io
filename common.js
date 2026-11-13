@@ -292,22 +292,42 @@ const userNamed = () => { if (User.stored() == null || User.broken()) return fal
 // nor the Piken Square ones)
 const isTickedDungeon = id => USER_ALL_V3.dungeons.includes(+id);
 // a mission or dungeon ("missions" or "dungeons") the picked character hasn't completed: † in normal mode, ‡ in hard mode
-function modeMarks(part, id) {
-  if (!(part === "missions" ? hasModes(MISSIONS[id]) : isTickedDungeon(id)) || !userNamed()) return "";
-  // (a dungeon by its name: its marks are on a bounty, named for its boss)
-  const c = User.char(), d = User.done(part, id), what = part === "missions" ? "this mission" : esc(areaName(id));
-  return [[1, "†", "NM"], [2, "‡", "HM"]].filter(([b]) => !(d & b))
-    .map(([, m, mode]) => `<sup class="u-miss" tabindex="0" data-tip="${esc(c.name)} hasn't completed ${what} in ${mode}" aria-label="${esc(c.name)} hasn't completed ${what} in ${mode}">${m}</sup>`).join("");
+/* A thing a wannabe GWAMM still needs (a mission or dungeon not done in NM or HM, an area not vanquished, a boss's elite
+   not captured, a bonus week's titles not maxed): its link styled so (class todo), with who needs it and what on hover.
+   Nothing when no character is marked a wannabe. need(kind, id) gives the hover text, or "". */
+function need(kind, id) {
+  const cs = wannabes(); if (!cs?.length) return [];
+  if (kind === "bonus") { const o = User.data(); return cs.map(c => [c, bonusNeeds(id, c, o).map(x => x.replace(/^.* hasn't maxed the /, "").replace(/ titles?$/, "")).join("; ")]).filter(([, x]) => x); }
+  // (a need said short: "NM, HM" for a mission or dungeon; vanquish and elite needs have no words, " ")
+  return cs.map(c => [c, NEEDS[kind](c, id)]).filter(([, x]) => x).map(([c, x]) => [c, x.trim()]);
 }
-const missionMarks = id => modeMarks("missions", id);
-// an area with foes to vanquish the picked character hasn't vanquished: §
-function vanqMark(id) {
-  if (!AREAS[id]?.foes || !userNamed() || User.vanquished(id)) return "";
-  const tip = `${esc(User.char().name)} hasn't vanquished this area yet`;
-  return `<sup class="u-miss" tabindex="0" data-tip="${tip}" aria-label="${tip}">§</sup>`;
-}
+// the hover card's rows: each wannabe with its profession and what it still needs, kept on the link (data-todo)
+const todoRows = rows => esc(JSON.stringify(rows.map(([c, x]) => [c.name, c.profession || 0, x])));
+// a link, styled as a thing to do when a wannabe needs it, with the card on hover
+const todoLink = (html, kind, id) => { const rows = need(kind, id); return rows.length ? html.replace(/^<a /, `<a class="todo" data-todo="${todoRows(rows)}" `) : html; };
+const missionMarks = () => "", vanqMark = () => "", modeMarks = () => "", bonusMark = () => "";  // (gone: the styling above)
 // a page's note as a list item
 const noteLi = n => `<li>${n}</li>`;
+// [data-todo]: a card below the pointer, "Wannabe GWAMMs still need this:", a row per character with its profession
+{
+  let card = null;
+  const show = (el, e) => {
+    card ??= Object.assign(document.createElement("div"), { className: "todo-card", role: "tooltip" });
+    if (!card.isConnected) document.body.append(card);
+    let rows = []; try { rows = JSON.parse(el.dataset.todo); } catch { /* none */ }
+    card.innerHTML = `<b>Wannabe GWAMMs still need this</b>${rows.map(([n, p, x]) => `<div><img src="${profImg(p)}" alt="">${esc(n)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</div>`).join("")}`;
+    card.hidden = false;
+    const r = el.getBoundingClientRect(), w = card.offsetWidth, h = card.offsetHeight, x = e?.clientX ?? r.left + r.width / 2;
+    card.style.left = `${Math.max(4, Math.min(innerWidth - w - 4, x - 16))}px`;
+    card.style.top = `${r.bottom + 8 + h > innerHeight ? r.top - h - 8 : r.bottom + 8}px`;
+  };
+  const hide = () => { if (card) card.hidden = true; };
+  addEventListener("mouseover", e => { const el = e.target.closest?.("[data-todo]"); if (el) show(el, e); });
+  addEventListener("focusin", e => { const el = e.target.closest?.("[data-todo]"); if (el) show(el); });
+  addEventListener("mouseout", e => { if (e.target.closest?.("[data-todo]")) hide(); });
+  addEventListener("focusout", e => { if (e.target.closest?.("[data-todo]")) hide(); });
+  addEventListener("scroll", hide, true);
+}
 // [data-tip]: its text in a tooltip at once, above it (below near the top of the window), on hover or keyboard focus
 {
   let tip = null;
@@ -401,21 +421,16 @@ function ageAt(made, t = Date.now()) {
     end: hi - lo > tick ? Infinity : side ? t + hi - f : t, rising: d > tick / 2,
     said: n => `${n} ${word}${n === 1 ? "" : "s"}` };
 }
-function bonusMark(id) {
-  if (!userNamed()) return "";
-  const o = User.data(), says = bonusNeeds(id, User.char(o), o);
-  if (!says.length) return "";
-  const tip = esc(says.join("; "));
-  return `<sup class="u-miss" tabindex="0" data-tip="${tip}" aria-label="${tip}">¶</sup>`;
-}
 function entryHTML(e) {
-  if (e.mission) return LINK.mission(e.mission) + missionMarks(e.mission);
-  if (e.area && !e.creature && !e.item) return LINK.area(e.area) + vanqMark(e.area);
-  if (e.bonus) return `<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>${bonusMark(e.bonus)}`;
-  // a bounty at the end of a dungeon: a link to the dungeon, and its marks
-  // a bounty's boss: a link to its page (and a dungeon's marks, where it is at a dungeon's end)
-  if (e.creature && bossTable().has(+e.creature)) return LINK.boss(e.creature, entryName(e)) + (e.area && isTickedDungeon(e.area) ? modeMarks("dungeons", e.area) : "");
-  if (e.creature && e.area && isTickedDungeon(e.area)) return `<a href="${HREF.dungeon(e.area)}" title="${esc(areaName(e.area))}">${esc(entryName(e))}</a>` + modeMarks("dungeons", e.area);
+  if (e.mission) return hasModes(MISSIONS[e.mission]) ? todoLink(LINK.mission(e.mission), "mission", e.mission) : LINK.mission(e.mission);
+  if (e.area && !e.creature && !e.item) return AREAS[e.area]?.foes ? todoLink(LINK.area(e.area), "vanquish", e.area) : LINK.area(e.area);
+  if (e.bonus) return todoLink(`<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`, "bonus", e.bonus);
+  // a bounty's boss: a link to its page, a thing to do while a wannabe lacks its elite or its dungeon
+  if (e.creature && bossTable().has(+e.creature)) { const els = (CREATURES[e.creature]?.elites || []).filter(x => SKILLS[x]?.elite), dgn = e.area && isTickedDungeon(e.area);
+    const by = new Map(); for (const [c, x] of [...(dgn ? need("dungeon", e.area) : []), ...els.flatMap(x => need("elite", x).map(([c]) => [c, "elite"]))]) by.set(c, [...(by.get(c) || []), x].filter(Boolean).join(", "));
+    const rows = [...by].map(([c, x]) => [c, x]);
+    return rows.length ? LINK.boss(e.creature, entryName(e)).replace(/^<a /, `<a class="todo" data-todo="${todoRows(rows)}" `) : LINK.boss(e.creature, entryName(e)); }
+  if (e.creature && e.area && isTickedDungeon(e.area)) return todoLink(`<a href="${HREF.dungeon(e.area)}" title="${esc(areaName(e.area))}">${esc(entryName(e))}</a>`, "dungeon", e.area);
   if (e.quest) return LINK.quest(e.quest);
   // Nicholas the Traveler's item: his map that week, at the foot of the Rotations page
   if (e.item) return `${e.count} × ${e.at ? `<a href="rotations${query({ nick: ROTATIONS["nicholas-traveler"].entries.indexOf(e) })}">${esc(e.item)}</a>` : esc(e.item)}`;
@@ -456,8 +471,8 @@ function timeLeft(ms) {
 function rotationListHTML(rows, now = Date.now()) {
   return rows.map(row => {
     if (!row) return '<div class="t-sep"></div>';
-    const [key, title] = row, r = ROTATIONS[key], k = Rotation.period(r, now);
-    return `<div class="t-row"><span class="t-k">${title}</span><span class="t-v">${entryHTML(Rotation.entry(r, k))}${entryWhere(Rotation.entry(r, k))}</span>`
+    const [key, title] = row, r = ROTATIONS[key], k = Rotation.period(r, now), e = Rotation.entry(r, k);
+    return `<div class="t-row"><span class="t-k">${title}</span><span class="t-v">${entryHTML(e)}${entryWhere(e)}</span>`
       + `<span class="t-l">${timeLeft(Rotation.endsAt(r, now) - now)}</span><span class="t-n">Then: ${entryHTML(Rotation.entry(r, k + 1))}</span></div>`;
   }).join("");
 }
@@ -531,7 +546,7 @@ function recruitHTML(h) {
    name, profession: its primary (1 Warrior ... 10 Dervish), elites: [skill ids captured], vanquished: [area ids],
    missionsNM, missionsHM, dungeonsNM, dungeonsHM: [ids done in that mode], titles: {title id: rank}, modes: the optional game modes
    the character is bound to (and our pre-Searing mark), of USER_MODES, gender: "m" or "f" (for how the site speaks of it,
-   left out when not set), hidden: true when kept out of My Characters' list (left out when shown), heroes: [hero ids
+   left out when not set), hidden: true when kept out of My Characters' list (left out when shown), inMenu: true when listed in the top bar's character menu, to pick from (left out otherwise), heroes: [hero ids
    recruited] (or "all"), builds: [skill template codes saved, in the order shown], campaign: the one it was made in (1 Prophecies, 2 Factions, 3
    Nightfall), note: the player's one line about it, aim: "gwamm" (a wannabe GWAMM: the Zaishen dailies and the pages of what it
    still needs list it) or "retired" (no longer played: left out of the Today page's suggestions), left out when played as
@@ -700,7 +715,7 @@ const USER_ALL = {
   dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
 };
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
-  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap", "xp", "played", "playedOutside", "aim"] };
+  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "inMenu", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap", "xp", "played", "playedOutside", "aim"] };
 // a character's readings typed in on its Edit tab, each kept with when: [amount, time]
 const USER_READINGS = ["xp", "played", "playedOutside"];
 // an amount said back: round ones short (12.5m, 340k, 1b: to a tenth of the unit), the others in full with commas (12,345)
@@ -746,6 +761,7 @@ function userFromKept(o) {
     if (k.modes?.length) c.modes = [...k.modes];
     if (k.gender) c.gender = k.gender;
     if (k.hidden) c.hidden = true;
+    if (k.inMenu) c.inMenu = true;
     if (o.v === 1) Object.assign(c, { elites: k.elites, vanquished: k.vanquished || [], missions: k.missions, dungeons: k.dungeons });
     else {
       const list = key => (k[key] === "all" ? [...allOf(key, v)] : k[key] || []);
@@ -777,6 +793,7 @@ function userToKept(o) {
     if (c.modes?.length) k.modes = Object.keys(USER_MODES).filter(m => c.modes.includes(m));
     if (c.gender) k.gender = c.gender;
     if (c.hidden) k.hidden = true;
+    if (c.inMenu) k.inMenu = true;
     const lists = { elites: c.elites, vanquished: c.vanquished || [] };
     // (a mission or dungeon with no ticks, as Urgoz's Warren, Destruction's Depths or the Piken Square ones, isn't kept)
     for (const part of ["missions", "dungeons"]) for (const [m, b] of [["NM", 1], ["HM", 2]])
@@ -886,6 +903,7 @@ function userCheck(o) {
       if (c.modes !== undefined && !(Array.isArray(c.modes) && c.modes.every(m => USER_MODES[m]) && new Set(c.modes).size === c.modes.length)) return `${at}: "modes" should list game modes of ${Object.keys(USER_MODES).join(", ")}, each once.`;
       if (c.gender !== undefined && !["m", "f"].includes(c.gender)) return `${at}: "gender" should be "m" or "f".`;
       if (c.hidden !== undefined && c.hidden !== true) return `${at}: "hidden" should be true (or left out).`;
+      if (c.inMenu !== undefined && c.inMenu !== true) return `${at}: "inMenu" should be true (or left out).`;
       if (c.heroes !== undefined && c.heroes !== "all" && !idList(c.heroes)) return `${at}: "heroes" should be "all" or a list of hero ids, each once.`;
       if (c.note !== undefined && !(typeof c.note === "string" && c.note.length <= USER_NOTE_MAX && !/\n/.test(c.note))) return `${at}: "note" should be one line, at most ${USER_NOTE_MAX} characters.`;
       if (c.retired !== undefined && c.retired !== true) return `${at}: "retired" should be true (or left out).`;
@@ -936,7 +954,8 @@ const User = {
     let id = null; try { id = +localStorage.getItem(USER_CHAR_KEY); } catch { /* storage blocked */ }
     return o.chars.find(c => c.id === id) || o.chars[0];
   },
-  pick(id) { try { localStorage.setItem(USER_CHAR_KEY, id); } catch { /* storage blocked */ } userSeen = userRaw(); globalThis.headerChar?.(); },
+  // (the ticks on the page follow the character picked; userchange tells the pages drawing more from it)
+  pick(id) { try { localStorage.setItem(USER_CHAR_KEY, id); } catch { /* storage blocked */ } userSeen = null; userSync(); globalThis.headerChar?.(); },
   captured(id) { return User.char().elites.includes(+id); },
   vanquished(id) { return (User.char().vanquished || []).includes(+id); },
   // the shown character's account

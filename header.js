@@ -1,39 +1,77 @@
 "use strict";
 /* The top bar, the same on every page: each page has an empty <header class="top"> with this script right after it,
-   so adding or changing a link is done here only. The page's own link is marked current. */
+   so adding or changing a link is done here only. Today (the front page, a house), then three groups, each a link to its landing page
+   with a menu of its pages (open on hover or focus; on a touch screen the first tap opens it, the second follows the
+   link), then My Characters (by the picked character's name) with its tabs as a menu; the small links at the right. On a phone the groups
+   fold into one menu button that opens a full-screen list. The page's own link and its group are marked current. */
 {
-  // (the front page by a house icon)
   const HOME = '<svg class="home-ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h5v-6h3v6h5V9.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  const PAGES = [["./", HOME, "Home"], ["rotations", "Rotations"], ["guides", "Guides"], ["storylines", "Storylines"], ["areas", "Areas"],
-    ["missions", "Missions"], ["quests", "Quests"], ["dungeons", "Dungeons"], ["maps", "Maps"], ["skills", "Skills"], ["bosses", "Bosses"],
-    ["heroes", "Heroes"], ["armor", "Armor"], ["builds", "Builds"], ["builder", "Builder"], ["titles", "Titles"], ["characters", "My Characters"]];
+  // each group: its name, its landing page, its pages
+  const GROUPS = [
+    ["Play", "rotations", [["rotations", "Rotations"], ["guides", "Guides"], ["builds", "Builds"], ["builder", "Builder"]]],
+    ["World", "world", [["areas", "Areas"], ["missions", "Missions"], ["quests", "Quests"], ["dungeons", "Dungeons"], ["maps", "Maps"], ["storylines", "Storylines"]]],
+    ["Compendium", "things", [["skills", "Skills"], ["bosses", "Bosses"], ["heroes", "Heroes"], ["armor", "Armor"], ["titles", "Titles"]]],
+  ];
   const SMALL = [["about", "About"], ["thanks", "Thanks"], ["contact", "Contact"], ["license", "License"], ["backup", "Backup"]];
   const page = location.pathname.match(/([\w-]*?)(\.html)?$/)[1].replace(/^index$/, "") || "./";
   // (My Characters' other tabs, characters-overview and characters-birthdays, mark it current too)
-  const link = ([href, name, label], cls = "") => `<a${cls ? ` class="${cls}"` : ""} href="${href}"${label ? ` aria-label="${label}" title="${label}"` : ""}${href === page || href === "characters" && page.startsWith("characters-") ? ' aria-current="page"' : ""}>${name}</a>`;
-  document.currentScript.previousElementSibling.innerHTML = `<nav class="pages">${PAGES.map(p => link(p, p[0] === "characters" ? "hdr-char" : "")).join("")}</nav>`
-    + SMALL.map((p, i) => link(p, i ? "hdr-link" : "hdr-link push")).join("");
+  const isCurrent = href => href === page || (href === "characters" && page.startsWith("characters-"));
+  const link = (href, name, cls = "", label = "") => `<a${cls ? ` class="${cls}"` : ""} href="${href}"${label ? ` aria-label="${label}" title="${label}"` : ""}${isCurrent(href) ? ' aria-current="page"' : ""}>${name}</a>`;
+  const group = ([name, landing, pages]) => {
+    const inGroup = pages.some(([h]) => isCurrent(h)) || isCurrent(landing);
+    return `<div class="grp${inGroup ? " cur" : ""}"><a class="gt" href="${landing}"${inGroup ? ' aria-current="page"' : ""} aria-haspopup="true">${name}<span class="gchev" aria-hidden="true"></span></a>
+      <div class="gmenu" role="menu">${pages.map(([h, n]) => link(h, n)).join("")}</div></div>`;
+  };
+  const header = document.currentScript.previousElementSibling;
+  const CHAR = [["characters", "Characters"], ["characters-overview", "Overview"], ["characters-birthdays", "Birthdays"]];
+  const charGroup = () => `<div class="grp${CHAR.some(([h]) => isCurrent(h)) ? " cur" : ""}"><a class="gt hdr-char" href="characters"${CHAR.some(([h]) => isCurrent(h)) ? ' aria-current="page"' : ""} aria-haspopup="true">My Characters<span class="gchev" aria-hidden="true"></span></a>
+      <div class="gmenu" role="menu">${CHAR.map(([h, n]) => link(h, n)).join("")}<div class="gchars"></div></div></div>`;
+  header.innerHTML = `<nav class="pages">${link("./", HOME + "Today", "hdr-home")}${GROUPS.map(group).join("")}${charGroup()}</nav>
+    <button type="button" class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    ${SMALL.map(([h, n], i) => link(h, n, i ? "hdr-link" : "hdr-link push")).join("")}
+    <div class="sheet" hidden>${GROUPS.map(([name, landing, pages]) => `<div class="sheet-g"><a class="sheet-t" href="${landing}">${name}</a>${pages.map(([h, n]) => link(h, n)).join("")}</div>`).join("")}
+      <div class="sheet-g"><a class="sheet-t hdr-char" href="characters">My Characters</a>${CHAR.map(([h, n]) => link(h, n)).join("")}</div>
+      <div class="sheet-g"><a class="sheet-t" href="./">Today</a>${SMALL.map(([h, n]) => link(h, n)).join("")}</div></div>`;
+  // the menus: open on hover or focus by CSS; on a touch screen (no hover) the first tap on a group's name opens its
+  // menu and the second follows the link; a tap elsewhere or Escape closes
+  const touch = matchMedia("(hover: none)").matches;
+  header.addEventListener("click", e => {
+    const gt = e.target.closest(".gt"), grp = gt?.closest(".grp");
+    if (gt && touch && !grp.classList.contains("open")) { e.preventDefault(); header.querySelectorAll(".grp.open").forEach(g => g !== grp && g.classList.remove("open")); grp.classList.add("open"); return; }
+    if (e.target.closest(".burger")) { const b = e.target.closest(".burger"), on = header.classList.toggle("sheet-open"); b.setAttribute("aria-expanded", on); header.querySelector(".sheet").hidden = !on; document.body.classList.toggle("no-scroll", on); }
+  });
+  document.addEventListener("click", e => { if (!e.target.closest(".grp")) header.querySelectorAll(".grp.open").forEach(g => g.classList.remove("open")); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { header.querySelectorAll(".grp.open").forEach(g => g.classList.remove("open")); if (header.classList.contains("sheet-open")) header.querySelector(".burger").click(); } });
   // My Characters by the picked character's name, once it has one of its own (not the default Char<id>): read from the
   // progress kept in this browser (common.js's User; this script runs before it), and again when it changes
-  const charName = () => {
+  const PROF_PIC = ["Any", "Warrior", "Ranger", "Monk", "Necromancer", "Mesmer", "Elementalist", "Assassin", "Ritualist", "Paragon", "Dervish"];
+  const readChars = () => {
     try {
       const o = JSON.parse(localStorage.getItem("gw-user")), id = +localStorage.getItem("gw-user-char");
       // (version 3 keeps the characters under their accounts, version 2 in one list)
       const chars = o?.chars ?? o?.accounts?.flatMap(a => a.chars || []) ?? [];
-      const c = chars.find(c => c.id === id) ?? chars[0];
-      const n = typeof c?.name === "string" ? c.name.trim() : "";
-      return n && n !== `Char${c.id}` ? n : null;
-    } catch { return null; }
+      return { chars, cur: chars.find(c => c.id === id) ?? chars[0] };
+    } catch { return { chars: [], cur: null }; }
   };
-  const nav = document.currentScript.previousElementSibling;
-  const showChar = () => { for (const a of nav.querySelectorAll(".hdr-char")) { const n = charName(); a.textContent = n ?? "My Characters"; a.title = "My Characters"; a.classList.toggle("named", !!n); } };
+  const charName = () => { const c = readChars().cur, n = typeof c?.name === "string" ? c.name.trim() : ""; return n && n !== `Char${c.id}` ? n : null; };
+  // the characters marked "In the menu" (their Edit tab), the picked one marked: a click picks it, and the pages redraw
+  const showMenuChars = () => {
+    const { chars, cur } = readChars(), list = chars.filter(c => c.inMenu && !c.hidden);
+    const esc = t => String(t).replace(/[&<>"]/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[x]);
+    const items = list.map(c => `<button type="button" class="gchar${c === cur ? " cur" : ""}" data-pick="${c.id}"><img src="img/prof/${PROF_PIC[c.profession] || "Any"}.png" alt="">${esc(c.name)}</button>`).join("");
+    for (const g of header.querySelectorAll(".gchars")) g.innerHTML = list.length ? '<div class="gsep"></div>' + items : "";
+  };
+  header.addEventListener("click", e => { const b = e.target.closest("[data-pick]"); if (!b) return; e.preventDefault();
+    if (typeof User !== "undefined") User.pick(+b.dataset.pick); else { try { localStorage.setItem("gw-user-char", b.dataset.pick); } catch { /* storage blocked */ } }
+    showChar(); });
+  const showChar = () => { for (const a of header.querySelectorAll(".hdr-char")) { const n = charName(); a.firstChild.textContent = n ?? "My Characters"; a.title = "My Characters"; a.classList.toggle("named", !!n); } showMenuChars(); };
   showChar();
   globalThis.headerChar = showChar;
   addEventListener("storage", showChar);  // (another tab)
   // Backup with a * while this browser's progress is read-only (set on that page: common.js's READ_ONLY_KEY)
   const showReadOnly = () => {
     let ro = false; try { ro = localStorage.getItem("gw-read-only") === "1"; } catch { /* storage blocked */ }
-    for (const a of nav.querySelectorAll('a[href="backup"]')) { a.textContent = ro ? "Backup*" : "Backup"; a.title = ro ? "Backup (read-only mode is on)" : ""; }
+    for (const a of header.querySelectorAll('a[href="backup"]')) { a.textContent = ro ? "Backup*" : "Backup"; a.title = ro ? "Backup (read-only mode is on)" : ""; }
   };
   showReadOnly();
   globalThis.headerReadOnly = showReadOnly;

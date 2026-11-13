@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>GW Compendium</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top"></header><script src="header.js"></script>
+  <div class="page-title"><h1>Compendium</h1><p>What there is to know and collect: skills and the bosses to capture them from, heroes, armor and titles.</p></div>
+  <div class="portal" id="portal"></div>
+  <footer class="site-footer"><a href="about">About</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · <a href="license">License &amp; credits</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+<script src="game/skills.js"></script>
+<script src="game/creatures.js"></script>
+<script src="game/heroes.js"></script>
+<script src="game/armor.js"></script>
+<script src="game/titles.js"></script>
+<script src="data/bosses.js"></script>
+<script>
+"use strict";
+/* The Compendium portal: one box per page of the group, saying what you do there, with a figure or two from the data. */
+{
+  const S = Object.values(GW_SKILLS.skills), n = x => x.toLocaleString("en");
+  const bosses = Object.values(GW_CREATURES.creatures).filter(c => c.elites?.length).length, spots = Object.keys(GW_BOSS_SPOTS.spots).length;
+  const BOXES = [
+    ["skills", "Skills", "Every skill with its numbers and description, where it is learnt or captured, and the elites still to capture, per character.", `${n(S.filter(s => !s.pvp_only && !/\(PvP\)$/.test(s.name)).length)} skills · ${n(S.filter(s => s.elite && !/\(PvP\)$/.test(s.name)).length)} elites`],
+    ["bosses", "Bosses", "Each boss, the elite to capture from it, and where it stands: on the map of each area it is in, with the walk from the nearest outposts.", `${n(spots)} bosses placed on their maps · ${n(bosses)} with an elite`],
+    ["heroes", "Heroes", "The heroes, how each is recruited, and a build for each.", `${n(Object.keys(GW_HEROES.heroes).length)} heroes`],
+    ["armor", "Armor", "Armor sets by profession and campaign, what they cost to craft and where.", `${n(Object.keys(GW_ARMOR.armor).length)} sets · ${n(Object.keys(GW_ARMOR.materials).length)} materials`],
+    ["titles", "Titles", "Every title and its ranks, what earns them, and how far each character is along them.", `${n(Object.keys(GW_TITLES.titles).length)} titles`],
+  ];
+  document.getElementById("portal").innerHTML = BOXES.map(([href, name, what, figure]) => `<a class="pbox" href="${href}"><h2>${name}</h2><p>${what}</p><small>${figure}</small></a>`).join("");
+}
+</script>
+</body>
+</html>
