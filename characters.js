@@ -433,7 +433,8 @@ function statsHTML(c) {
   return progress(c).map(([, tiles]) => `<div class="ch-stats">${tiles.map(([k, have, of, href]) => `<a class="ch-stat ${have >= of ? "done" : have ? "some" : "none"}" href="${href}" title="${have >= of ? "All done" : "See what's left"}">
       <span class="ch-sk">${k}</span><span><b>${have}</b> <span class="dim">/ ${of}</span></span></a>`).join("")}</div>`).join("");
 }
-// the list to manage, by account: with one account, just its characters; with more, each account as a heading (its name
+// the list to manage, by account: the account as a heading (its name to rename, its bell; with one account only that), its characters
+// under it; with more, each account as a heading (its name
 // to rename, a delete while it has no characters, chevrons to reorder) with a new character after its last; a character
 // stays on the account it was made on, and chevrons move it among the account's characters: the saved order is the shown
 // order
@@ -455,15 +456,16 @@ const charRow = (o, c, cur, tab = false) => { const sib = o.chars.filter(x => x.
     <td>${tab ? "" : `<button type="button" class="u-btn u-show" data-hide aria-pressed="${hid}" title="${hid ? "Hidden from the view: show it" : "Hide it from the view"}">${hid ? "Show" : "Hide"}</button>`}${moveBtns(lone, lone)}${tab ? "" : `<span class="u-slot${one || !hid ? " u-why" : ""}" ${one || !hid ? `data-tip="${one ? "The last character can't be deleted" : "Hide a character before deleting it, so it isn't done by mistake"}" tabindex="0"` : ""}><button type="button" class="u-btn danger" data-delete${one || !hid ? " disabled" : ""}>Delete</button></span>`}</td></tr>`; };
 function manageHTML(o, cur, many) {
   const folded = new Set(acctFolds()), row = c => charRow(o, c, cur);
+  // (with one account, its row too, for its name and bell, but no folding, moving or deleting)
   const head = a => `<tr class="u-acct" data-account="${a.id}"><td colspan="2"><div class="u-acct-row">
-      <button type="button" class="u-fold" data-fold-account="${a.id}" aria-expanded="${!folded.has(a.id)}" aria-label="${folded.has(a.id) ? "Show" : "Hide"} its characters"></button>
+      ${many ? `<button type="button" class="u-fold" data-fold-account="${a.id}" aria-expanded="${!folded.has(a.id)}" aria-label="${folded.has(a.id) ? "Show" : "Hide"} its characters"></button>` : ""}
       <input type="text" maxlength="40" value="${esc(a.name || "")}" placeholder="${esc(accountName(a))}" aria-label="Account name">
       <span class="u-n" title="Characters">${o.chars.filter(c => c.account === a.id).length}</span>
       <button type="button" class="u-bell" data-bell aria-pressed="${a.reforgedCoinClock !== undefined}" title="${a.reforgedCoinClock !== undefined ? "Has the bell: its Reforged Coins counted (click if it hasn't)" : "Has the bell? Click to count its Reforged Coins"}">${BELL}</button>
-      <span class="u-acct-right">${moveBtns(o.accounts[0] === a, o.accounts[o.accounts.length - 1] === a)}<span class="u-slot">${o.chars.some(c => c.account === a.id) ? "" : `<button type="button" class="u-btn danger" data-delete-account>Delete account</button>`}</span></span></div></td></tr>`;
+      ${many ? `<span class="u-acct-right">${moveBtns(o.accounts[0] === a, o.accounts[o.accounts.length - 1] === a)}<span class="u-slot">${o.chars.some(c => c.account === a.id) ? "" : `<button type="button" class="u-btn danger" data-delete-account>Delete account</button>`}</span></span>` : ""}</div></td></tr>`;
   // after an account's characters: a new one on it
   const foot = a => `<tr class="u-acct-foot" data-account="${a.id}"><td colspan="2"><button type="button" class="u-btn" data-new-char>New character</button></td></tr>`;
-  return many ? o.accounts.map(a => head(a) + (folded.has(a.id) ? "" : o.chars.filter(c => c.account === a.id).map(row).join("") + foot(a))).join("") : o.chars.map(row).join("");
+  return many ? o.accounts.map(a => head(a) + (folded.has(a.id) ? "" : o.chars.filter(c => c.account === a.id).map(row).join("") + foot(a))).join("") : head(o.accounts[0]) + o.chars.map(row).join("");
 }
 /* ---------- the About tab ---------- */
 // what characters give, in short, and a mock character to try it all with: made up at random (name, profession, gender,
