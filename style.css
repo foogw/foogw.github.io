@@ -715,6 +715,9 @@ button.rnd-copy:hover { color: var(--text); }
 @media (max-width: 560px) { .loctable .c-party { display: none; } }
 @media (max-width: 400px) { .loctable .c-type { display: none; } }
 .lside { display: grid; gap: 14px; min-width: 0; }
+/* a boss's maps, one per area, under its elite and where: the page's full width */
+.bmaps { display: grid; gap: 18px; margin-top: 18px; }
+.bmaps .nways { margin-bottom: 0; }
 .lbox, .lexits { padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .ltype { --c: var(--loc-out); font-size: 11px; font-weight: 600; border-radius: 4px; padding: 1px 6px; white-space: nowrap;
   color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 45%, var(--line)); }

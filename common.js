@@ -230,19 +230,26 @@ document.addEventListener("click", e => {
   });
 });
 
-/* Every boss: a creature a mission or an area names as a boss, or one an elite is captured from, with where it is;
+/* Every boss: a creature a mission or an area names as a boss, one an elite is captured from, or one whose spots we
+   know (data/bosses.js), with where it is;
    made the first time it's asked for */
 let BOSS;
 function bossTable() {
   if (BOSS) return BOSS;
   BOSS = new Map();
-  const bossOf = id => BOSS.get(id) || BOSS.set(id, Object.assign(CREATURES[id], { where: new Set(), levels: new Set(), elites: new Set(CREATURES[id].elites || []) })).get(id);
+  const bossOf = id => BOSS.get(id) || BOSS.set(id, Object.assign(CREATURES[id], { id, where: new Set(), levels: new Set(), elites: new Set(CREATURES[id].elites || []) })).get(id);
   for (const s of Object.values(SKILLS)) for (const a of s.acquisition || []) if (a.capture && CREATURES[a.capture]) {
     const b = bossOf(a.capture);
     if (s.elite) b.elites.add(s.id);
     if (a.area != null) b.where.add(a.area);
   }
   for (const l of Object.values(AREAS)) for (const id of l.bosses || []) if (CREATURES[id]) bossOf(id).where.add(l.id);
+  // the Zaishen bounties' and the Wanted targets, where the bounty sends you (a dungeon: the boss at its end)
+  for (const r of CALENDAR?.rotations || []) if (["zaishen-bounty", "wanted"].includes(r.key)) for (const e of r.entries) if (CREATURES[e.creature]) {
+    const b = bossOf(e.creature); if (e.area != null && (AREAS[e.area] || MISSIONS[e.area])) b.where.add(e.area);
+  }
+  // ours: the bosses whose spots we know (data/bosses.js), in the areas the spots are in
+  for (const [id, ss] of Object.entries(data("GW_BOSS_SPOTS")?.spots || {})) if (CREATURES[id]) for (const [a] of ss) bossOf(+id).where.add(a);
   for (const m of Object.values(MISSIONS)) for (const x of m.bosses || []) if (CREATURES[x.creature]) {
     const b = bossOf(x.creature);
     b.where.add(m.id);
@@ -406,6 +413,8 @@ function entryHTML(e) {
   if (e.area && !e.creature && !e.item) return LINK.area(e.area) + vanqMark(e.area);
   if (e.bonus) return `<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>${bonusMark(e.bonus)}`;
   // a bounty at the end of a dungeon: a link to the dungeon, and its marks
+  // a bounty's boss: a link to its page (and a dungeon's marks, where it is at a dungeon's end)
+  if (e.creature && bossTable().has(+e.creature)) return LINK.boss(e.creature, entryName(e)) + (e.area && isTickedDungeon(e.area) ? modeMarks("dungeons", e.area) : "");
   if (e.creature && e.area && isTickedDungeon(e.area)) return `<a href="${HREF.dungeon(e.area)}" title="${esc(areaName(e.area))}">${esc(entryName(e))}</a>` + modeMarks("dungeons", e.area);
   if (e.quest) return LINK.quest(e.quest);
   // Nicholas the Traveler's item: his map that week, at the foot of the Rotations page
