@@ -192,6 +192,7 @@ const GW_MAPS = {
     {"set": 109, "areas": [605], "at": [0, 1152], "w": 512, "h": 512, "img": "img/tiles/under/109-605.webp"},
     {"set": 109, "areas": [606], "at": [1152, 0], "w": 512, "h": 512, "img": "img/tiles/under/109-606.webp"},
     {"set": 109, "areas": [607], "at": [0, 1152], "w": 512, "h": 512, "img": "img/tiles/under/109-607.webp"},
+    {"set": 109, "areas": [608], "at": [576, 1152], "w": 512, "h": 512, "img": "img/tiles/under/109-608.webp"},
     {"set": 109, "areas": [609], "at": [0, 0], "w": 512, "h": 512, "img": "img/tiles/under/109-609.webp"},
     {"set": 109, "areas": [612], "at": [0, 1152], "w": 512, "h": 512, "img": "img/tiles/under/109-612.webp"},
     {"set": 109, "areas": [613], "at": [1152, 0], "w": 512, "h": 512, "img": "img/tiles/under/109-613.webp"},

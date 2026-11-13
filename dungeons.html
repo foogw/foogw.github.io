@@ -41,7 +41,7 @@ const rows = dungeons.map(l => ({ l, book: DEPTHS[l.id]?.book, levels: DEPTHS[l.
 // the columns: [key, label, sort value (missing ones last), cell]
 const last = v => (v == null || v === "" ? Infinity : v);
 const COLS = [
-  ["book", "#", r => last(r.book), r => r.book ?? ""],
+  ["book", "#", r => last(r.book), r => r.book ?? '<span class="dim" title="Not in the Master Dungeon Guide">—</span>'],
   ["name", "Dungeon", r => r.l.name, r => `<a href="${HREF.dungeon(r.l.id)}">${esc(r.l.name)}</a>`],
   ["region", "Region", r => r.region, r => `<span class="dim">${esc(r.region)}</span>`],
   ["levels", "Levels", r => last(r.levels || null), r => r.levels || ""],
@@ -49,7 +49,7 @@ const COLS = [
   ["from", "Entered from", r => areaName(r.from[0]) || "~", r => r.from.map(i => LINK.area(i)).join(", ")],
   ["bounty", "Bounty", r => last(r.bounty), r => (r.bounty == null ? "" : r.bounty === 0 ? "<b>Today</b>" : inDays(r.bounty))],
   // done in normal and hard mode, as ticked for the character picked on My Characters
-  ["done", "Done", r => prog[r.l.id] || 0, r => (isTickedDungeon(r.l.id) ? doneTicks("dungeons", r.l.id, prog[r.l.id] || 0) : "")],
+  ["done", "Done", r => prog[r.l.id] || 0, r => (isTickedDungeon(r.l.id) ? doneTicks("dungeons", r.l.id, prog[r.l.id] || 0) : '<span class="dim" title="Not counted by the Master of the North title">—</span>')],
 ];
 const NUM = new Set(["book", "levels", "bounty"]);
 const state = { sort: args().get("sort")?.replace(/^-/, "") || "book", desc: args().get("sort")?.startsWith("-") || false };

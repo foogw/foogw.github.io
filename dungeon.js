@@ -30,9 +30,10 @@ VIEWS.dungeon = (() => {
   }
 
   // the Zaishen Bounty on the dungeon's boss: the next day it's up (or today)
+  const fmtBountyDay = new Intl.DateTimeFormat(undefined, { weekday: "short", day: "numeric", month: "short" });
   function bounty(id) {
     const b = bountyAt(id);
-    return b ? `Zaishen Bounty on ${bossLink(entryName(b.entry))}: <b>${inDays(b.days)}</b>, then every ${b.every} days.` : "";
+    return b ? `Zaishen Bounty on ${bossLink(entryName(b.entry))}: <b>${inDays(b.days)}</b>${b.days ? ` (${fmtBountyDay.format(Date.now() + b.days * 864e5)})` : ""}, then every ${b.every} days.` : "";
   }
 
 
@@ -47,14 +48,24 @@ VIEWS.dungeon = (() => {
     const to = !g ? "" : downs.length > 1 ? `down one of its ${downs.length} stairs` : g[0] === "down" ? `down to ${esc(levelName(d, i + 1))}` : g[0] === "goal" ? `to ${esc(g[3])}` : `to the boss, ${bossLink(g[3])}`;
     const ways = v.marks.filter(m => m[0] === "portal" || m[0] === "down");
     const steps = stops(v).map(m => m[3]), sights = v.marks.filter(m => ["npc", "spot", "wall"].includes(m[0])).map(m => m[3]);
+    const bosses = levelBosses(d, v);
     const others = ways.filter(m => m[0] === "portal" && m !== a).map(m => LINK.area(m[3]));
     return row(i + 1, esc(levelName(d, i)), `
       <p class="dgroute">${from && to ? `${from} → ${to}` : '<span class="dim">Where you arrive and where it leads aren\'t marked yet.</span>'}</p>
       <p class="dgway" data-way="${i}"></p>
       ${steps.length ? `<p><small class="dim">Steps</small></p><ol class="dgsteps">${steps.map(t => `<li>${esc(t)}</li>`).join("")}<li>${g?.[0] === "down" ? `Down to ${esc(levelName(d, i + 1))}` : g?.[0] === "goal" ? esc(g[3]) : g ? `Kill ${esc(g[3])}` : ""}</li></ol>` : ""}
+      ${bosses.length ? `<p><small class="dim">Bosses on this level</small><br>${bosses.map(id => LINK.boss(id)).join(" · ")}</p>` : ""}
       ${sights.length ? `<p><small class="dim">Also here</small><br>${sights.map(esc).join(" · ")}</p>` : ""}
       ${others.length ? `<p><small class="dim">Also a way out</small><br>${others.join(" · ")}</p>` : ""}`,
       levelMap(d, i));
+  }
+  // the bosses whose spots (data/bosses.js) lie on the level: on its cell and inside its outline (or on its own walk file)
+  function levelBosses(d, v) {
+    const spots = data("GW_BOSS_SPOTS")?.spots || {}, ring = v.area && (Array.isArray(v.area[0]) ? v.area[0] : v.area);
+    const inside = (x, y) => { if (!ring) return v.walk != null; let ins = false; for (let i = 0, j = ring.length - 2; i < ring.length; j = i, i += 2)
+      if ((ring[i + 1] > y) !== (ring[j + 1] > y) && x < ((ring[j] - ring[i]) * (y - ring[i + 1])) / (ring[j + 1] - ring[i + 1]) + ring[i]) ins = !ins; return ins; };
+    return Object.entries(spots).filter(([id, ss]) => CREATURES[id] && ss.some(s => (s[0] === d.id || s[0] === v.map) && inside(s[1], s[2]))).map(([id]) => +id)
+      .sort((a, b) => cmpStr(CREATURES[a].name, CREATURES[b].name));
   }
   // a level's map: its ground, its ways out, the steps on it by their number in the list (and more spots: [{x, y, name}])
   function levelMap(d, i, { height = 340, more = [] } = {}) {
@@ -96,6 +107,7 @@ VIEWS.dungeon = (() => {
         return `Quest: ${LINK.quest(q.id)}${gs.length ? `, from ${esc([...new Set(gs.map(n => n.name))].join(", "))}${k > 0 ? ` on ${esc(levelName(d, k))}` : ""}` : ""}.`;
       }),
       ...outposts.map(o => `Entered straight from ${LINK.area(o)}.`),
+      d.levels.length ? `The paths drawn on the levels are worked out on the map's ground and are unchecked: one may go through a wall or a closed passage.` : "",
     ].filter(Boolean);
     const there = ins.map(e => row("", `Getting there: ${LINK.area(e.area)}`, `
       <p class="dgroute">${e.outposts.length ? `From ${listText(e.outposts.map(o => LINK.area(o)))} to the entrance` : "The entrance"}</p>
@@ -104,7 +116,7 @@ VIEWS.dungeon = (() => {
       <p class="back"><a href="dungeons">← All dungeons</a></p>
       <div class="lhead exp">
         <div><h2>${esc(l.name)}${isTickedDungeon(d.id) ? doneTicks("dungeons", d.id, undefined, "Done in") : ""}</h2><div class="lsub"><span class="ltype t${l.type} dgn">Dungeon</span> <span>${esc(regionOf(l)?.name)}</span></div>${isTickedDungeon(d.id) ? wannabeNeeds("dungeon", d.id) : ""}</div>
-        <div class="lstats"><span class="lstat"><small>Levels</small><b>${d.levels.length || l.levels || "?"}</b></span>${l.party ? `<span class="lstat"><small>Party</small><b>${l.party}</b></span>` : ""}<span class="lstat dgtotal" hidden><small>Distance, compass ranges</small><b></b></span></div>
+        <div class="lstats"><span class="lstat"><small>Levels</small><b>${d.levels.length || l.levels || "?"}</b></span>${l.party ? `<span class="lstat"><small>Party</small><b>${l.party}</b></span>` : ""}<span class="lstat dgtotal" hidden><small>Walk, all levels</small><b></b></span></div>
       </div>
       ${notes.length ? `<ul class="lnotes">${notes.map(noteLi).join("")}</ul>` : ""}
       <div class="llinks">${wikiLink(l.wiki)}</div>
@@ -118,7 +130,6 @@ VIEWS.dungeon = (() => {
   const loadGround = walk => GROUND.get(walk) || GROUND.set(walk, fetch(`game/walk/${walk}.json`).then(r => r.json()).catch(() => null)).get(walk);
   // draw a way on a row's map and say how long it is; its length, or 0
   // (a level's way is worked out on its whole cell's ground, which knows nothing of the level's own walls and doors)
-  const UNCHECKED = `<br><small class="dim">This path is unchecked and might go through walls or closed passages.</small>`;
   async function show(p, pts, what, note = "") {
     const view = await viewOf(p.closest(".dgrow").querySelector(".gmap"));
     if (pts && view) { view.ways = [...view.ways, { lines: walkLines(pts), color: WAY }]; view.draw(); }
@@ -151,16 +162,16 @@ VIEWS.dungeon = (() => {
         // each in a colour of its own, its stairs named on the map by it
         const COLORS = [WAY, "#ffb347", "#c58bff", "#7ee08a", "#ff6b8b"], col = k => COLORS[k % COLORS.length];
         if (view) { view.ways = all.map((pts, k) => pts && { lines: walkLines(pts), color: col(k) }).filter(Boolean); view.draw(); }
-        p.innerHTML = `<small class="dim">Distance down each stairs</small><br>${all.map((pts, k) => `<span class="dgleg" style="--c:${col(k)}">${downs[k][3] ? `To ${esc(levelName(d, d.levels.findIndex(x => x.map === downs[k][3])))}: ` : ""}${pts ? walkText(walkLength(pts)) : "no way found"}</span>`).join("<br>")}${UNCHECKED}`;
+        p.innerHTML = `<small class="dim">Distance down each stairs</small><br>${all.map((pts, k) => `<span class="dgleg" style="--c:${col(k)}">${downs[k][3] ? `To ${esc(levelName(d, d.levels.findIndex(x => x.map === downs[k][3])))}: ` : ""}${pts ? walkText(walkLength(pts)) : "no way found"}</span>`).join("<br>")}`;
         continue;
       }
       const pts = await levelWay(v, i);
       if (!live()) return;
-      total += await show(p, pts, "Distance", UNCHECKED);
+      total += await show(p, pts, "Distance");
     }
     const t = el.querySelector(".dgtotal");
     if (t && total && !d.levels.some(v => v.name))  // (branches, as Slavers' Exile's, have no one total)
-      { t.hidden = false; t.querySelector("b").textContent = compassRanges(total); t.title = `From the outpost to the end: ${walkText(total)}`; }
+      { t.hidden = false; t.querySelector("b").textContent = walkText(total); t.title = "From the outpost to the end, every level's path added up"; }
   }
   // any dungeon has a page; its levels where data/depths.js has them
   const dungeonOf = id => (isDungeon(AREAS[id]) ? { id: +id, levels: DEPTHS?.dungeons?.[id]?.levels || [] } : null);
