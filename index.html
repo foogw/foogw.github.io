@@ -323,7 +323,11 @@ function route() {
     return;
   }
   $("view").dataset.at = `${k}=${p.get(k)}`;
-  $("view").innerHTML = x ? v.html(x) : `<p class="back"><a href="./">← Home</a></p><p class="dim">There's no ${esc(k)} ${esc(p.get(k))}.</p>`;
+  // (nothing by that id: say so, with a search and the way to the list of that kind)
+  const LISTS = { area: "areas", mission: "missions", quest: "quests", boss: "bosses", skill: "skills", dungeon: "dungeons", title: "titles", hero: "heroes", nick: "rotations" };
+  $("view").innerHTML = x ? v.html(x) : `<p class="back"><a href="./">← Home</a></p><p class="dim">There's no ${esc(k)} ${esc(p.get(k))}.</p>
+    <form class="nf" action="./"><input type="search" name="q" placeholder="Search for it by name: skills, areas, missions, quests, bosses…" autofocus></form>
+    ${LISTS[k] ? `<p><a href="${LISTS[k]}">All ${LISTS[k]} →</a></p>` : ""}`;
   if (x) { initMaps($("view")); v.after?.($("view"), x); }
   document.title = x ? `${v.title(x)} · GW` : TITLE;
   window.scrollTo(0, 0);

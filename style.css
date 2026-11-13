@@ -763,6 +763,7 @@ button.rnd-copy:hover { color: var(--text); }
 .lrows li > .dim { font-size: 12px; text-align: right; }
 .lbosses li > .dim { display: flex; align-items: center; gap: 3px; } .lbosses .tag { margin-left: 6px; }
 .lhint { margin: 10px 0 0; font-size: 12px; }
+.nf input { width: min(100%, 560px); font: inherit; font-size: 15px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); color: var(--text); margin: 6px 0 10px; }
 .lquests .qsk { display: flex; flex-wrap: wrap; gap: 2px; margin-left: auto; justify-content: flex-end; }
 .lquests .qsk .sk-ic.sm { margin: 0; }
 @media (max-width: 860px) {
