@@ -32,18 +32,6 @@
   .more { color: var(--muted); font-size: 13px; padding: 6px 12px; display: block; }
   .quick { display: flex; flex-wrap: wrap; gap: 6px; }
   .quick a { text-decoration: none; }
-  .tpl-bar { display: flex; gap: 8px; align-items: center; margin: 12px 0 4px; flex-wrap: wrap; }
-  .tpl-bar input {
-    flex: 1 1 320px; background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 6px;
-    padding: 8px 10px; font: inherit; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px;
-  }
-  .tpl-bar input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
-  .tpl-bar button {
-    background: var(--panel-2); color: var(--text); border: 1px solid var(--line); border-radius: 6px;
-    padding: 8px 12px; font: inherit; cursor: pointer;
-  }
-  .tpl-bar button:hover { border-color: var(--accent); }
-  .tpl-msg { color: var(--sac); font-size: 12px; }
   .ev-card { padding: 8px 12px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 6px 6px 0; }
   .ev-card b a { color: var(--text); }
   .ev-card .ev-when { color: var(--muted); font-size: 13px; margin-left: 2px; }
@@ -59,27 +47,22 @@
 
   <div class="hero">
     <h1>Guild Wars Today</h1>
-    <p>Today's quests, builds, maps, skills and more…</p>
+    <p>The day's dailies and what your characters can do with them; search for anything, or paste a skill template code.</p>
   </div>
 
   <div class="gsearch">
-    <input type="search" id="q" placeholder="Search Nick items, skills, missions, areas or quests — e.g. mursaat token, energy surge, thirsty, fow…" autocomplete="off" autofocus>
+    <input type="search" id="q" placeholder="Search skills, missions, areas, quests, bosses, Nick items — or paste a template code" autocomplete="off" autofocus>
   </div>
   <div class="results" id="results"></div>
 
   <div class="sections" id="sections">
+    <div class="td-bar"><span class="td-mini" id="td-pick"><button type="button" class="link" id="td-now" hidden>back to now</button><input type="date" id="td-date" title="Look at another day" aria-label="Look at another day"></span></div>
     <div id="ev-now"></div>
-    <h2><a href="today">Today</a> <a class="h-more" href="rotations">Full rotations →</a></h2>
+    <h2 id="td-h2">Today <a class="h-more" href="rotations">Full rotations →</a></h2>
     <div class="today" id="today"></div>
+    <div class="bday" id="td-bday" hidden></div>
     <div id="ev-next"></div>
     <div class="rnd-maps" id="rnd-maps"></div>
-    <h2><span>Something random <span class="rnd-paren">(<button class="rnd-again" id="rnd-again" type="button">reroll</button>)</span></span> <a class="h-more" href="builds">All builds →</a></h2>
-    <div class="rnd" id="rnd"></div>
-    <form class="tpl-bar" id="tpl-form">
-      <input type="text" id="tpl" placeholder="See a template — paste a skill template code" autocomplete="off" spellcheck="false">
-      <button type="submit">Open in builder</button>
-      <span class="tpl-msg" id="tpl-msg"></span>
-    </form>
   </div>
   <div id="view" class="ent" hidden></div>
   <footer class="site-footer"><a href="about">About</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · <a href="license">License &amp; credits</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
@@ -133,47 +116,55 @@ const STORY = new Set((QUESTDATA.storylines || []).flatMap(s => [...(s.nodes || 
 
 // "Something random": today's Zaishen Vanquish on its map, beside this week's Nicholas the Traveler on his (the ways to
 // him drawn, their lengths left to the Rotations page), then a player build and a hero build from the Builds page
-const pick = ids => BUILDS.get(ids[Math.floor(Math.random() * ids.length)]);
-function buildCardHTML(title, b) {
-  if (!b) return "";
-  let bar = null;
-  try { bar = TemplateCode.decode(b.code); } catch { /* an unreadable code shows no bar */ }
-  const profs = bar ? bar.professions.filter(Boolean) : [];
-  return `<div class="rnd-card" style="--pc:${profVar(profs[0] || 0)}"><a href="${buildHref(b.id)}">
-    <small>${title}</small><span class="rnd-bar">${(bar?.skills || []).filter(Boolean).map(id => skillIcon(id, "rnd-ic")).join("")}</span>
-    <b>${esc(b.name)}</b><span class="dim">${esc(profs.map(p => PROFS[p]).join(" / ") || "Any profession")}</span></a>
-    <button class="bd-copyp rnd-copy" type="button" data-copy="${esc(b.code)}" title="Copy its template code" aria-label="Copy ${esc(b.name)}'s template code">${COPY_ICON}</button></div>`;
-}
-// the moment the front page shows: now, or a day given in the address (?d=2026-11-25, at this time of day; not offered on
-// the page), its clock running on from there
-const NOW = (() => { const m = (args().get("d") || "").match(/^(\d{4})-(\d{2})-(\d{2})$/), now = new Date();
+// the moment the front page shows: now, or a day picked (in the address: ?d=2026-11-25, at this time of day), its clock
+// running on from there
+const NOW = () => { const m = (args().get("d") || "").match(/^(\d{4})-(\d{2})-(\d{2})$/), now = new Date();
   const off = m ? new Date(+m[1], +m[2] - 1, +m[3], now.getHours(), now.getMinutes(), now.getSeconds()) - now : 0;
-  return () => Date.now() + (isNaN(off) ? 0 : off); })();
+  return Date.now() + (isNaN(off) ? 0 : off); };
 // (the two maps' width over height, so they're the same height side by side)
 const RND_ASPECT = 4 / 3;
-function renderRandom() {
+function renderMaps() {
   const vq = Rotation.current(ROTATIONS["zaishen-vanquish"], NOW())?.area, nick = ROTATIONS["nicholas-traveler"], n = Rotation.current(nick, NOW());
   const maps = [AREAS[vq]?.set != null && `<div class="rnd-map"><small>Today's Zaishen Vanquish: ${LINK.area(vq)}</small>${mapHTML([vq], { aspect: RND_ASPECT })}</div>`,
     n?.at && AREAS[n.area]?.set != null && `<div class="rnd-map"><small>This week's Nicholas: <a href="rotations${query({ nick: nick.entries.indexOf(n) })}">${n.count} × ${esc(n.item)}</a>, ${LINK.area(n.area)}</small><div id="rnd-nick"></div></div>`].filter(Boolean);
   $("rnd-maps").innerHTML = maps.join("");
-  $("rnd").innerHTML = `<div class="rnd-builds" id="rnd-builds"></div>`;
-  renderBuilds();
   initMaps($("rnd-maps"));
   // (his map with the ways to him, as on the Rotations page)
   if ($("rnd-nick")) nickMap($("rnd-nick"), nick.entries.indexOf(n), { aspect: RND_ASPECT, note: "" });
 }
-// the two builds, picked again (reroll, in the heading): the maps stay
-function renderBuilds() {
-  $("rnd-builds").innerHTML = buildCardHTML("Player build", pick(BUILDDATA.players)) + buildCardHTML("Hero build", pick(BUILDDATA.singles));
-}
-document.addEventListener("click", e => { if (e.target.id === "rnd-again") renderBuilds(); });
 
 const TODAY = [["zaishen-mission", "Mission"], ["zaishen-vanquish", "Vanquish"], ["zaishen-bounty", "Bounty"], ["zaishen-combat", "Combat"],
   ["wanted", "Shining Blade"], ["nicholas-sandford", "Sandford"], ["vanguard", "Vanguard"], null, ["weekly-pve", "PvE bonus"], ["weekly-pvp", "PvP bonus"],
   ["nicholas-traveler", "Nicholas"]];
-const renderToday = () => { $("today").innerHTML = rotationListHTML(TODAY, NOW()); };
+// Today: the day's rotations (the marks on each entry are the picked character's, as everywhere), and the characters
+// whose age a check of /age that day narrows: a range still in days, when a check at some hour of the day cuts a third
+// of it at least; one down to hours or minutes, whenever a check cuts it at all, with the time left to check
+const played = c => !c.hidden && c.aim !== "retired";
+function renderToday() {
+  const t = NOW(), ok = User.stored() != null && !User.broken(), o = ok ? User.data() : null;
+  $("today").innerHTML = rotationListHTML(TODAY, t);
+  const day0 = new Date(t).setHours(0, 0, 0, 0), cutAt = (c, at) => { const a = ageAt(c.bornBetween, at); return a.side / (a.hi - a.lo); };
+  const bdays = ok ? byImportance(o.chars.filter(c => c.bornBetween && played(c)), o).flatMap(c => {
+    const a = ageAt(c.bornBetween, t);
+    if (a.done) return [];
+    if (a.word === "day") return [...Array(25).keys()].some(h => cutAt(c, day0 + h * 36e5) >= 1 / 3) ? [[c, null]] : [];
+    return a.side ? [[c, Number.isFinite(a.end) ? a.end : null]] : [];
+  }) : [];
+  $("td-bday").hidden = !bdays.length;
+  $("td-bday").innerHTML = bdays.length ? `<span class="t-k"><a href="characters-birthdays">Birthdays worth checking</a></span>${bdays.map(([c, end]) => { const p = charPill(c).replace('href="characters"', 'href="characters?tab=edit"');
+    return end == null ? p : p.replace(/<\/a>$/, `<span class="dim" data-end="${end}">${leftSaid(end - t)}</span></a>`); }).join("")}` : "";
+  $("td-date").value = ymd(t); $("td-now").hidden = !args().has("d");
+}
+const leftSaid = ms => { const s = Math.max(0, Math.floor(ms / 1000)), h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, x = String(s % 60).padStart(2, "0");
+  return `${h ? `${h}:${String(m).padStart(2, "0")}` : m}:${x} left`; };
 renderToday();
 setInterval(renderToday, 30000);
+// (the birthday countdowns tick each second)
+setInterval(() => { for (const e of $("td-bday").querySelectorAll("[data-end]")) { const left = +e.dataset.end - NOW(); if (left <= 0) e.closest(".c-pill").remove(); else e.textContent = leftSaid(left); } }, 1000);
+// another day picked (kept in the address, ?d=2026-11-20): the day's rotations, events and maps drawn for it
+const pickDay = d => { const p = new URLSearchParams(location.search); if (d) p.set("d", d); else p.delete("d"); history.replaceState(null, "", location.pathname + (p.size ? "?" + p : "")); renderToday(); renderEvents(); renderMaps(); };
+$("td-date").addEventListener("change", () => pickDay($("td-date").value));
+$("td-now").addEventListener("click", () => pickDay(""));
 // the picked character or its progress changed (in another tab): today's marks drawn again
 addEventListener("userchange", renderToday);
 
@@ -194,7 +185,7 @@ function renderEvents() {
 }
 renderEvents();
 setInterval(renderEvents, 60000);
-renderRandom();
+renderMaps();
 
 // the site's own pages, found by name or by what they hold
 const PAGES = [
@@ -215,20 +206,6 @@ const PAGES = [
   ["License & credits", "license", "Sources and licenses", "license credits copyright"],
 ].map(([name, href, about, words]) => ({ name, href, about, _k: fold(`${name} ${words}`) }));
 
-// "See a template": a valid code opens in the builder
-function openTemplate() {
-  const code = $("tpl").value.trim().replace(/^.*#code=/, "");
-  if (!code) return;
-  try {
-    TemplateCode.decode(code);
-    location.href = "builder?code=" + encodeURIComponent(code);
-  } catch (e) {
-    $("tpl-msg").textContent = "That isn't a skill template code.";
-  }
-}
-$("tpl-form").addEventListener("submit", e => { e.preventDefault(); openTemplate(); });
-$("tpl").addEventListener("paste", () => setTimeout(openTemplate, 0));
-$("tpl").addEventListener("input", () => { $("tpl-msg").textContent = ""; });
 
 const LIMIT = 8;
 // a date later than this year shows its year (Nicholas the Traveler's items come round only every few years)
@@ -270,8 +247,12 @@ function section(title, items, render, moreHref) {
     + (items.length > LIMIT && moreHref ? `<a class="more" href="${moreHref}">Show all ${items.length} →</a>` : "");
 }
 
+// a skill template code in the search (typed, pasted, or a builder link holding one): the Builder, with it
+const templateIn = q => { const code = q.trim().replace(/^.*[#?&]code=/, ""); if (!/^[A-Za-z0-9+/=]{8,}$/.test(code)) return null; try { TemplateCode.decode(code); return code; } catch { return null; } };
 function render() {
-  const q = $("q").value, r = search(q);
+  const q = $("q").value, code = templateIn(q);
+  if (code) { location.href = "builder?code=" + encodeURIComponent(code); return; }
+  const r = search(q);
   $("sections").hidden = !!r;
   if (!r) { $("results").innerHTML = ""; return; }
   const qs = encodeURIComponent(q);
