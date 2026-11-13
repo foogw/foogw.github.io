@@ -1272,7 +1272,7 @@ a.hchip { text-decoration: none; }
 .u-acct-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .u-acct-right { margin-left: auto; display: inline-flex; gap: 0; align-items: center; }
 .u-move { display: inline-flex; gap: 2px; margin-right: 48px; vertical-align: middle; }
-.u-gender { margin-left: 8px; padding: 2px 8px; font: inherit; font-size: 12px; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; white-space: nowrap; }
+.u-gender { margin-left: 8px; padding: 2px 8px; min-width: 66px; text-align: center; font: inherit; font-size: 12px; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; white-space: nowrap; }  /* (as wide as "He / She", so what follows lines up) */
 .u-gender.unset { color: var(--muted); }
 .u-gender:hover { border-color: var(--accent); }
 .u-show { min-width: 58px; margin-right: 10px; vertical-align: middle; }
