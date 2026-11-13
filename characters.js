@@ -1,8 +1,10 @@
 "use strict";
 /* My Characters: the accounts and characters whose progress the site keeps in this browser (User, in common.js). At the
    left, the characters to pick from (the one picked is the one the whole site shows the ticks of); at the right, the one
-   picked: its card, its progress and its titles (titles.js). Edit (managing, in the code) swaps both for the list to change: names,
-   professions, game modes, genders, order, the ones hidden from the view, new ones and deletes. */
+   picked: its card, its progress and its titles (titles.js). That is the Characters tab; the page's other views (view, in the
+   code, from the address: characters?view=edit) are About, what characters give and a mock one to try with, where a
+   newcomer lands, and Edit, the list to change: names, professions, game modes, genders, order, the ones hidden from the
+   view, new ones and deletes. */
 const els = { list: $("u-list") };
 const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
 const modes = vs => `${vs.filter(v => v & 1).length} NM, ${vs.filter(v => v & 2).length} HM`;
@@ -44,7 +46,7 @@ let view = (() => { const v = new URLSearchParams(location.search).get("view"); 
 // a tab asked for in the address (characters?tab=edit, from Today's birthdays): picked, kept, and taken off the address
 // (the view, if any, stays in it)
 { const q = new URLSearchParams(location.search), t = q.get("tab");
-  if (TABS.some(x => x[0] === t)) { tab = t; try { localStorage.setItem(TAB, t); } catch { /* storage blocked */ } q.delete("tab"); history.replaceState(null, "", location.pathname + (q.size ? `?${q}` : "")); } }
+  if (TABS.some(x => x[0] === t)) { tab = t; try { localStorage.setItem(TAB, t); } catch { /* storage blocked */ } q.delete("tab"); history.replaceState(null, "", location.pathname + (q.toString() ? `?${q}` : "")); } }
 // the tabs, and the one shown drawn (only it: the others are drawn when picked)
 const drawTabs = (o = User.data(), cur = User.char(o)) => {
   $("ch-tabs").innerHTML = TABS.map(([k, label]) => `<button type="button" role="tab" data-tab="${k}" aria-selected="${k === tab}">${label}</button>`).join("");
@@ -474,7 +476,7 @@ const between = (lo, hi) => lo + Math.random() * (hi - lo);
 function mockChar(o) {
   const c = newUserChar(Math.max(0, ...o.chars.map(c => c.id)) + 1, User.char(o)?.account ?? o.accounts[0].id);
   c.mock = true; c.name = `${pick(MOCK_FIRST)} ${pick(MOCK_LAST)}`; c.profession = 1 + rnd(10); c.gender = pick(["m", "f"]);
-  if (!PROF_CAMP[c.profession]) c.campaign = 1 + rnd(3);
+  if (!fixedCampaign(c)) c.campaign = 1 + rnd(3);
   c.aim = "gwamm";
   const done = between(0.15, 0.7);
   c.elites = sample(USER_ALL.elites, done * between(0.4, 0.9));
@@ -488,11 +490,13 @@ function mockChar(o) {
   // are maxed or not at all (the Titles tab ticks them); Sunspear, Lightbringer and the four reputations may sit at a lower
   // rank instead (stepped there). The derived ones are left out
   c.titles = {};
-  const tmax = id => TITLES[id].max ?? TITLES[id].ranks.length;
+  const tmax = id => titleMax(TITLES[id]);
   for (const id of [7, 34, 43, 1, 2, 18, 9]) if (Math.random() < 0.5) c.titles[id] = tmax(id);
   for (const id of [17, 20, 38, 39, 40, 41]) { const r = Math.random() < 0.5 ? tmax(id) : rnd(tmax(id)); if (r) c.titles[id] = r; }
-  // created on some day of 2006 to 2012 (the day known, as from one early /age reading)
-  const born = Date.UTC(2006 + rnd(7), rnd(12), 1 + rnd(28), 8 + rnd(10));
+  // created on some day from its campaign's release (Prophecies April 2005, Factions April 2006, Nightfall October 2006)
+  // to the end of 2012 (the day known, as from one early /age reading)
+  const from = [0, Date.UTC(2005, 3, 28), Date.UTC(2006, 3, 28), Date.UTC(2006, 9, 27)][madeIn(c)];
+  const born = Math.floor(between(from, Date.UTC(2013, 0, 1)) / 864e5) * 864e5 + (8 + rnd(10)) * 36e5;
   c.bornBetween = [isoMin(born), isoMin(born + 3 * 36e5)];
   if (o.chars.filter(x => x.inMenu).length < 3) c.inMenu = true;
   return c;
@@ -528,7 +532,7 @@ $("ch-about").addEventListener("click", async e => {
   }
 });
 // the one shown, marked among the page's tabs
-const markView = () => { for (const a of document.querySelectorAll(".pg-tabs a")) { const v = a.getAttribute("href").replace(/^characters\??(view=)?/, "") || "chars"; if (PAGE_VIEWS.includes(v)) a.toggleAttribute("aria-current", v === view); } };
+const markView = () => { for (const a of document.querySelectorAll(".pg-tabs a")) { const v = a.getAttribute("href").replace(/^characters\??(view=)?/, "") || "chars"; if (PAGE_VIEWS.includes(v)) { if (v === view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); } } };
 function render() {
   const broken = User.broken(), o = User.data(), cur = User.char(o), many = o.accounts.length > 1;
   markView();
@@ -551,7 +555,7 @@ function render() {
   }
 }
 // a view picked by code (a mock made): shown, and the address says so
-const setView = v => { view = v; history.replaceState(null, "", v === "chars" ? location.pathname : `${location.pathname}?view=${v}`); render(); scrollTo(0, 0); };
+const setView = v => { view = v; history.replaceState(null, "", v === "chars" ? location.pathname : `${location.pathname}?view=${v}`); globalThis.headerView?.(v); render(); scrollTo(0, 0); };
 // picking a character (its name at the left, or the menu), a tab, an account folded
 document.addEventListener("click", e => {
   const tb = e.target.closest("[data-tab]");
@@ -668,12 +672,19 @@ onEdit("click", async e => {
   }
   if (!e.target.closest("[data-delete]")) return;
   const c0 = rowChar(User.data(), e.target);
-  const last = c0 && User.data().chars.length < 2;
-  if (!c0 || !c0.hidden || (last && !c0.mock) || !await ask({ title: `Delete "${c0.name}"?`, body: last ? "The mock character was all there is: a fresh start." : `And all its progress (${charCounts(c0)}). This can't be undone.`, ok: "Delete", danger: true, focus: "cancel" })) return;
+  const o0 = User.data(), last = c0 && o0.chars.length < 2;
+  const acctKept = o => o.accounts.length > 1 || o.accounts.some(a => a.name || a.reforgedCoinClock !== undefined || Object.keys(a.titles || {}).length);
+  const lastSaid = last && (acctKept(o0) ? "The mock character was the only one: a blank character takes its place, your accounts stay." : "The mock character was all there is: a fresh start.");
+  if (!c0 || !c0.hidden || (last && !c0.mock) || !await ask({ title: `Delete "${c0.name}"?`, body: lastSaid || `And all its progress (${charCounts(c0)}). This can't be undone.`, ok: "Delete", danger: true, focus: "cancel" })) return;
   const o = User.data(), c = o.chars.find(x => x.id === c0.id);  // (read again after the dialog)
   if (!c || !c.hidden || (o.chars.length < 2 && !c.mock)) return render();
-  // (the last one, a mock: nothing of yours is kept yet, so the record goes, and the page opens on About again)
-  if (o.chars.length < 2) { User.reset(); return setView("about"); }
+  // (the last one, a mock: with the accounts untouched, nothing of yours is kept, so the record goes and the page opens on
+  // About again; with an account named, titled, counting coins, or a second one, a blank character takes the mock's place)
+  if (o.chars.length < 2) {
+    if (!acctKept(o)) { User.reset(); return setView("about"); }
+    o.chars = [newUserChar(c.id + 1, c.account)];
+    User.save(o); User.pick(o.chars[0].id); return render();
+  }
   const shown = User.char(o) === c;
   o.chars = o.chars.filter(x => x !== c);
   User.save(o);
@@ -688,7 +699,6 @@ function newChar(account = User.char().account) {
   o.chars.push(c);
   if (!User.save(o)) return;  // (read-only)
   User.pick(c.id); render();
-  if (view !== "edit") return;
   els.list.querySelector(`tr[data-id="${c.id}"] input[type=text]`).select();
 }
 $("u-new").addEventListener("click", () => newChar());

@@ -1452,6 +1452,7 @@ a.hchip { text-decoration: none; }
 .ch-about-try .u-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0; }
 @media (max-width: 800px) {
   .ch-page { grid-template-columns: 1fr; gap: 14px; }
+  .pg-tabs a { padding: 8px 10px; font-size: 15px; }  /* (five tabs across a phone) */
   .ch-side { position: static; max-height: none; }
   .ch-groups, .ch-side-foot { display: none; }
   .ch-tabs button { padding: 8px 9px; }

@@ -16,8 +16,9 @@
   const page = location.pathname.match(/([\w-]*?)(\.html)?$/)[1].replace(/^index$/, "") || "./";
   // (on My Characters, the view shown: characters?view=edit marks Edit, not Characters; with no view in the address, About
   // while nothing is saved yet, as characters.js opens it)
-  const saved = (() => { try { return localStorage.getItem("gw-user") != null; } catch { return true; } })();
-  const v = new URLSearchParams(location.search).get("view"), view = ["about", "edit"].includes(v) ? v : saved ? null : "about";
+  const saved = (() => { try { return localStorage.getItem("gw-user") != null; } catch { return false; } })();
+  const v = new URLSearchParams(location.search).get("view");
+  let view = ["about", "edit"].includes(v) ? v : saved ? null : "about";
   const isCurrent = href => page === "characters" && href.startsWith("characters") && !href.includes("-") ? (view ? href.endsWith(`=${view}`) : href === "characters")
     : href === page;
   const link = (href, name, cls = "", label = "") => `<a${cls ? ` class="${cls}"` : ""} href="${href}"${label ? ` aria-label="${label}" title="${label}"` : ""}${isCurrent(href) ? ' aria-current="page"' : ""}>${name}</a>`;
@@ -83,6 +84,9 @@
   };
   showChar();
   globalThis.headerChar = showChar;
+  // the view My Characters moved to in the page (a mock made, the last one deleted): its links marked again
+  globalThis.headerView = v => { view = v === "chars" ? null : v;
+    for (const a of header.querySelectorAll('a[href^="characters"]:not([href*="-"])')) { if (isCurrent(a.getAttribute("href"))) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); } };
   addEventListener("storage", showChar);  // (another tab)
   // Backup with a * while this browser's progress is read-only (set on that page: common.js's READ_ONLY_KEY)
   const showReadOnly = () => {
