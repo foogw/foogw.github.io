@@ -18,9 +18,10 @@ const els = { name: $("f-name"), text: $("f-text"), prof: $("f-prof"), attr: $("
 const state = { profs: new Set(), sort: "", desc: false };
 
 function costHTML(s) {
-  return [s.energy && `<span class="c-e" title="Energy">${s.energy}</span>`, s.adrenaline && `<span class="c-a" title="Adrenaline (strikes)">${s.adrenaline}</span>`,
-    s.sacrifice && `<span class="c-s" title="Health sacrifice">${s.sacrifice}%</span>`, s.upkeep && `<span class="c-u" title="Upkeep">${s.upkeep}</span>`,
-    s.overcast && `<span class="c-o" title="Overcast / exhaustion">${s.overcast}</span>`].filter(Boolean).join("");
+  // (each cost says what it is on hover)
+  return [s.energy && `<span class="c-e" title="${s.energy} energy">${s.energy}</span>`, s.adrenaline && `<span class="c-a" title="${s.adrenaline} adrenaline (strikes to charge)">${s.adrenaline}</span>`,
+    s.sacrifice && `<span class="c-s" title="${s.sacrifice}% of max health sacrificed">${s.sacrifice}%</span>`, s.upkeep && `<span class="c-u" title="Upkeep: ${s.upkeep} energy regeneration while kept up">${s.upkeep}</span>`,
+    s.overcast && `<span class="c-o" title="${s.overcast} overcast (exhaustion)">${s.overcast}</span>`].filter(Boolean).join("");
 }
 const costValue = s => s.energy || s.adrenaline * 2 || s.sacrifice / 2 || 0;
 
@@ -90,8 +91,8 @@ function rowHTML(s, f) {
     <div class="cell dim col-attr">${esc(attrName(s))}</div>
     <div class="cell dim col-type">${esc(s.label || "")}</div>
     <div class="costs">${costHTML(s)}</div>
-    <div class="num col-act">${secs(s.activation)}</div>
-    <div class="num col-rech">${s.recharge || ""}</div>
+    <div class="num col-act">${secs(s.activation) || `<span class="dim" title="${/attack/i.test(s.label || "") ? "At the weapon's attack speed" : "Instant"}">–</span>`}</div>
+    <div class="num col-rech">${s.recharge || '<span class="dim" title="No recharge">–</span>'}</div>
     <div class="dim col-camp">${CAMP_SHORT[s.campaign]}</div>
     <div class="desc">${desc}</div>
     <div class="col-tick">${s.elite && !s.pvp_only ? eliteTick(s.id, f.got.has(s.id)) : ""}</div>
