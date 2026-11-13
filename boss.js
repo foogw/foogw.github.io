@@ -5,11 +5,15 @@
 const BOSS_SPOTS = data("GW_BOSS_SPOTS")?.spots || {};
 // ours: the bosses there only during a quest, by creature id: quest ids (or names)
 const BOSS_ONLY = data("GW_BOSS_SPOTS")?.only || {};
+// ours: the bosses at all their spots at once (several of them), by creature id
+const BOSS_TOGETHER = new Set(data("GW_BOSS_SPOTS")?.together || []);
+const spotsText = (id, n) => (BOSS_TOGETHER.has(+id) ? `${n} of them, one at each place, all there at once` : `${n} places it may be at, one at a time`);
 const onlyDuring = b => (BOSS_ONLY[b.id] || []).map(q => (typeof q === "number" ? LINK.quest(q) : esc(q)));
 // a boss's spots by area, each a map of its own: [[[area, x, y], ...], ...]
 // (an area's version a quest makes, "(War in Kryta)", a map of its own: the boss is there only then)
-const spotSets = b => Object.values((BOSS_SPOTS[b.id] || []).reduce((o, s) => ((o[s[0] + "|" + (s[3] || "")] ||= []).push(s), o), {}));
-const spotTitle = ss => areaName(ss[0][0]) + (ss[0][3] ? ` (${ss[0][3]})` : "");
+// (a dungeon's levels, each a map of its own)
+const spotSets = b => Object.values((BOSS_SPOTS[b.id] || []).reduce((o, s) => ((o[s[0] + "|" + (s[3] || "") + "|" + (depthsLevel(s[0], s[1], s[2])?.key || "")] ||= []).push(s), o), {}));
+const spotTitle = ss => { const l = depthsLevel(ss[0][0], ss[0][1], ss[0][2]); return areaName(ss[0][0]) + (ss[0][3] ? ` (${ss[0][3]})` : "") + (l?.n ? `, level ${l.n}` : ""); };
 // the outposts to walk from: those within two portals of the area, on its map
 function spotOutposts(area) {
   const set = WALK_SET.get(area);
@@ -17,12 +21,48 @@ function spotOutposts(area) {
   for (let d = 0; d < 2; d++) edge = edge.flatMap(i => (AREAS[i]?.exits || []).map(x => x.to)).filter(i => !seen.has(i) && seen.add(i));
   return { around: [...seen].filter(i => WALK_SET.get(i) === set), outposts: [...seen].filter(i => isOutpost(AREAS[i]) && WALK_SET.get(i) === set) };
 }
+// a spot on the Depths of Tyria (data/depths.js: 3 x 3 cells of 512 pixels, 64 apart) away from its area's own ground:
+// a dungeon's level holding it (its number, its cell's walk file and outline), or for another area, the cell, or null
+const DEPTHS = data("GW_DEPTHS");
+const cellOf = (x, y) => `${["top", "middle", "bottom"][Math.floor(y / 576)]} ${["left", "middle", "right"][Math.floor(x / 576)]}`;
+function inRing(r, x, y) {
+  let ins = false;
+  for (let i = 0, j = r.length - 2; i < r.length; j = i, i += 2)
+    if ((r[i + 1] > y) !== (r[j + 1] > y) && x < ((r[j] - r[i]) * (y - r[i + 1])) / (r[j + 1] - r[i + 1]) + r[i]) ins = !ins;
+  return ins;
+}
+function depthsLevel(area, x, y) {
+  const cell = cellOf(x, y), walk = DEPTHS?.cells?.[cell], d = DEPTHS?.dungeons?.[area];
+  if (walk == null) return null;
+  if (d) {
+    const lvs = d.levels.map((l, k) => ({ ...l, n: k + 1 })).filter(l => l.cell === cell);
+    const lv = lvs.find(l => l.area && inRing(Array.isArray(l.area[0]) ? l.area[0] : l.area, x, y)) || lvs[0];
+    if (lv) return { walk, area: lv.area, n: lv.n, key: cell, map: lv.map };
+    // (a dungeon with no levels marked yet, Secret Lair of the Snowmen: the cell its spot is on)
+    if (d.levels.length) return null;
+  }
+  if (!d && WALK_SET.get(area) !== 109 || walk === area) return null;
+  const c = Math.floor(x / 576) * 576, r = Math.floor(y / 576) * 576;
+  return { walk, area: [c, r, c + 512, r, c + 512, r + 512, c, r + 512], n: null, key: cell, map: area };
+}
+// where in a dungeon: on the levels its spots are on, else at its end (the boss a bounty sends you to)
+function dungeonWhere(b, i) {
+  const ns = [...new Set((BOSS_SPOTS[b.id] || []).filter(s => s[0] === i).map(s => depthsLevel(i, s[1], s[2])?.n).filter(Boolean))].sort();
+  return ns.length ? `Dungeon, level ${listText(ns.map(String))}` : "Dungeon: at its end";
+}
 // one area's map of a boss's spots. With an elite to capture, the ways to it: to one spot, from every outpost near
 // enough (up to half again the shortest walk); to several, each from the outpost nearest to it
 async function bossMap(el, b, ss) {
   const area = ss[0][0], box = el.querySelector(".nmap"), many = ss.length > 1;
   const spots = ss.map((s, k) => ({ x: s[1], y: s[2], name: many ? String(k + 1) : b.name }));
-  const note = [ss[0][3] && `Only in ${esc(spotTitle(ss))}, the version of the area the quest makes`, !ss[0][3] && onlyDuring(b).length && `Only during the quest ${listText(onlyDuring(b))}`, many && `${ss.length} places it may be at, one at a time`].filter(Boolean).join(" · ");
+  const cell = depthsLevel(area, ss[0][1], ss[0][2]);
+  const note = [ss[0][3] && `Only in ${esc(spotTitle(ss))}, the version of the area the quest makes`, !ss[0][3] && onlyDuring(b).length && `Only during the quest ${listText(onlyDuring(b))}`, many && spotsText(b.id, ss.length),
+    cell && !cell.n && !DEPTHS?.dungeons?.[area] && "On another of its levels"].filter(Boolean).join(" · ");
+  // (a mission played on another area's ground (data/missionmaps.js): its window there; another level of an area on
+  // the Depths of Tyria: that level's cell. Their spots only)
+  const level = missionMapHTML(area, areaName(area), { height: 560, spots, note });
+  if (level) { box.innerHTML = level; return initMaps(box); }
+  if (cell) { box.innerHTML = mapHTML([], { height: 560, spots, note, level: { name: spotTitle(ss), map: cell.map, walk: cell.walk, area: cell.area } }); return initMaps(box); }
   // (no elite to capture, or a mission's ground (played, not walked to): its spots only)
   if (!b._elites.length || isOutpost(AREAS[area])) { box.innerHTML = mapHTML([area], { height: 560, spots, note }); return initMaps(box); }
   const { around, outposts } = spotOutposts(area);
@@ -79,7 +119,10 @@ VIEWS.boss = (() => {
           ${LINK.skill(s.id).replace("sk-ic sm", "sk-ic")}${eliteTick(s.id, undefined, "Captured")}<span class="dim">${PROFS[s.profession]} · ${esc(ATTRIBUTES[s.attribute] || "")}</span>
           <p class="bp-desc">${richText(s.concise || s.description)}</p>${wannabeNeeds("elite", s.id)}</div>`).join("")}</section>` : ""}
         <section class="lbox"><h4>Where</h4><ul class="lrows">${b._where.map(i => { const n = (BOSS_SPOTS[b.id] || []).filter(s => s[0] === i).length;
-          return `<li>${whereLink(i)}<span class="dim">${MISSIONS[i] ? "Mission" : isDungeon(AREAS[i]) ? "Dungeon: at its end" : esc(TYPE_LABEL[AREAS[i]?.type] || "")}${n > 1 ? ` · ${n} spots` : ""}</span></li>`; }).join("")}</ul>${onlyDuring(b).length ? `<p class="dim">Only there during the quest ${listText(onlyDuring(b))}.</p>` : ""}</section>
+          // (the version of the area a quest makes, "War in Kryta": named here too, as on its map)
+          const vs = [...new Set((BOSS_SPOTS[b.id] || []).filter(s => s[0] === i && s[3]).map(s => s[3]))];
+          const only = vs.length && (BOSS_SPOTS[b.id] || []).every(s => s[0] !== i || s[3]);
+          return `<li>${whereLink(i)}<span class="dim">${vs.length ? `${esc(listText(vs))}${only ? " only" : ""} · ` : ""}${MISSIONS[i] ? "Mission" : isDungeon(AREAS[i]) ? dungeonWhere(b, i) : esc(TYPE_LABEL[AREAS[i]?.type] || "")}${n > 1 ? ` · ${n} spots` : ""}</span></li>`; }).join("")}</ul>${onlyDuring(b).length ? `<p class="dim">Only there during the quest ${listText(onlyDuring(b))}.</p>` : ""}</section>
       </div>
       <div class="bmaps">${BOSS_SPOTS[b.id] ? spotSets(b).map((ss, k) => `<section class="lbox bmap" data-k="${k}"><h4>${esc(spotTitle(ss))}</h4><div class="nmap"></div><div class="nways"></div></section>`).join("")
         : bossMaps(b) || mapHTML(b._where.filter(i => AREAS[i]))}</div>

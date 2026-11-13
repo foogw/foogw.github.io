@@ -2114,7 +2114,14 @@ const GW_CREATURES = {
     "102110": {"name": "Ziinjuu Life Crawler", "profession": 3},
     "102111": {"name": "Zu Jin the Quick", "profession": 2},
     "102112": {"name": "Zwack Ramble", "profession": 5},
-    "102113": {"name": "Zyd Pointedbeak", "profession": 3}
+    "102113": {"name": "Zyd Pointedbeak", "profession": 3},
+    "102114": {"name": "King Frozenwind", "profession": 3, "elites": [164]},
+    "102115": {"name": "Brohn Stoneheart", "profession": 3, "elites": [269]},
+    "102116": {"name": "Galigord Stonestrike", "profession": 6},
+    "102117": {"name": "Gordac Fleshweaver", "profession": 4},
+    "102118": {"name": "Lieutenant Mahgma", "profession": 1, "elites": [375]},
+    "102119": {"name": "Runar Brimstone", "profession": 6},
+    "102120": {"name": "Villnar Painforge", "profession": 4}
   },
   "npcs_": "Placed creatures with a job, keyed by our numbers (the game has no id for a placement). area: map id, or region when the area isn't known. roles: what they do.",
   "npcs": {

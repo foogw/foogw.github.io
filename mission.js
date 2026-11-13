@@ -35,7 +35,14 @@ VIEWS.mission = (() => {
     }
     return `<table class="npcs">${html}</table>`;
   }
-  const missionMap = m => missionMapHTML(m.id, m.name) || mapHTML([m.id]);
+  // its map, with where its bosses stand in it (data/bosses.js: the spots filed under the mission). A boss with several
+  // places (one at a time): its dots unnamed, and named under the map
+  function missionMap(m) {
+    const all = Object.entries(data("GW_BOSS_SPOTS")?.spots || {}).map(([c, ss]) => [c, CREATURES[c]?.name.replace(/\s*\(boss\)$/, "") || "", ss.filter(s => s[0] === m.id && !s[3])]).filter(([, , ss]) => ss.length);
+    const spots = all.flatMap(([, name, ss]) => ss.map(s => ({ x: s[1], y: s[2], name: ss.length > 1 ? "" : name })));
+    const note = all.filter(([, , ss]) => ss.length > 1).map(([c, name, ss]) => `${esc(name)}: ${spotsText(c, ss.length)}`).join(" · ");
+    return missionMapHTML(m.id, m.name, { spots, note }) || mapHTML([m.id], { spots, note });
+  }
   function html(m) {
     const sub = [m.label && `Mission ${m.label}`, m.kind === "pvp" ? "PvP" : CAMPAIGNS[camp(m)], REGIONS[regionId(m)]?.name, m.kind !== "story" && KINDS[m.kind]].filter(Boolean).map(esc).join(" · ");
     const before = ALL.filter(x => (x.leads_to || []).includes(m.outpost ?? m.id));
