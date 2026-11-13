@@ -12,7 +12,7 @@ const onlyDuring = b => (BOSS_ONLY[b.id] || []).map(q => (typeof q === "number" 
 // a boss's spots by area, each a map of its own: [[[area, x, y], ...], ...]
 // (an area's version a quest makes, "(War in Kryta)", a map of its own: the boss is there only then)
 // (a dungeon's levels, each a map of its own)
-const spotSets = b => Object.values((BOSS_SPOTS[b.id] || []).reduce((o, s) => ((o[s[0] + "|" + (s[3] || "") + "|" + (depthsLevel(s[0], s[1], s[2])?.key || "")] ||= []).push(s), o), {}));
+const spotSets = b => Object.values((BOSS_SPOTS[b.id] || []).reduce((o, s) => { const l = depthsLevel(s[0], s[1], s[2]); return ((o[s[0] + "|" + (s[3] || "") + "|" + (l ? l.map ?? l.key : "")] ||= []).push(s), o); }, {}));
 const spotTitle = ss => { const l = depthsLevel(ss[0][0], ss[0][1], ss[0][2]); return areaName(ss[0][0]) + (ss[0][3] ? ` (${ss[0][3]})` : "") + (l?.n ? `, level ${l.n}` : ""); };
 // the outposts to walk from: those within two portals of the area, on its map
 function spotOutposts(area) {
