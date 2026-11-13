@@ -37,9 +37,14 @@ const shownChars = (o, cur) => { const hs = new Set(hiddenIds(o)); return o.char
 // browser (first Titles)
 const TABS = [["titles", "Titles", "title"], ["next", "What's next", "ch-next"], ["heroes", "Heroes", "ch-heroes"], ["builds", "Builds", "ch-builds"], ["edit", "Edit", "ch-edit"]], TAB = "chars.tab";
 let tab = (() => { try { const t = localStorage.getItem(TAB); return TABS.some(x => x[0] === t) ? t : "titles"; } catch { return "titles"; } })();
+// the page's view, one of its tabs: About (what characters are for, a mock one to try), Characters (the one picked), Edit (the
+// list to change); from the address (characters?view=edit), else Characters, or About while nothing is saved yet
+const PAGE_VIEWS = ["about", "chars", "edit"];
+let view = (() => { const v = new URLSearchParams(location.search).get("view"); return PAGE_VIEWS.includes(v) ? v : User.stored() == null ? "about" : "chars"; })();
 // a tab asked for in the address (characters?tab=edit, from Today's birthdays): picked, kept, and taken off the address
-{ const t = new URLSearchParams(location.search).get("tab");
-  if (TABS.some(x => x[0] === t)) { tab = t; try { localStorage.setItem(TAB, t); } catch { /* storage blocked */ } history.replaceState(null, "", location.pathname); } }
+// (the view, if any, stays in it)
+{ const q = new URLSearchParams(location.search), t = q.get("tab");
+  if (TABS.some(x => x[0] === t)) { tab = t; try { localStorage.setItem(TAB, t); } catch { /* storage blocked */ } q.delete("tab"); history.replaceState(null, "", location.pathname + (q.size ? `?${q}` : "")); } }
 // the tabs, and the one shown drawn (only it: the others are drawn when picked)
 const drawTabs = (o = User.data(), cur = User.char(o)) => {
   $("ch-tabs").innerHTML = TABS.map(([k, label]) => `<button type="button" role="tab" data-tab="${k}" aria-selected="${k === tab}">${label}</button>`).join("");
@@ -53,10 +58,6 @@ const drawTabs = (o = User.data(), cur = User.char(o)) => {
       placeholder="A line about ${esc(cur.name)}: its role, what it's farming…" autocomplete="off"><span class="dim" id="edit-note-n">${(cur.note || "").length} / ${USER_NOTE_MAX}</span></label>
     ${ageHTML(cur)}${readingsHTML(cur)}`;
 };
-// the page's view, one of its tabs: About (what characters are for, a mock one to try), Characters (the one picked), Edit (the
-// list to change); from the address (characters?view=edit), else Characters, or About while nothing is saved yet
-const PAGE_VIEWS = ["about", "chars", "edit"];
-let view = (() => { const v = new URLSearchParams(location.search).get("view"); return PAGE_VIEWS.includes(v) ? v : User.stored() == null ? "about" : "chars"; })();
 // the titles below draw again (titles.js, once it's in): the character picked, its account, may have changed
 const redrawTitles = () => typeof draw === "function" && draw();
 
@@ -422,7 +423,7 @@ function cardHTML(o, c) {
       <img class="ch-prof" src="${profImg(c.profession || 0)}" alt="${c.profession ? PROFS[c.profession] : "No profession"}">
       <div class="ch-who"><h2>${esc(c.name)}</h2><div class="dim">${[bigDeal(c, o), allHeroes(c) && `<span class="ch-says">Recruiter of Heroes</span>`, lit(c)].filter(Boolean).join(" · ")}</div></div>
     </section>
-    ${c.mock ? `<p class="ch-hint">A mock character, made up to try the site with: take it off on <a href="characters?view=about">About</a>.</p>` : unnamed(c) ? `<p class="ch-hint">Give this character its name and profession: <a class="link" href="characters?view=edit">Edit</a>.</p>` : ""}
+    ${c.mock ? `<p class="ch-hint">A mock character, made up to try the site with. Delete it as any character: on <a href="characters?view=edit">Edit</a>, hide it, then Delete.</p>` : unnamed(c) ? `<p class="ch-hint">Give this character its name and profession: <a class="link" href="characters?view=edit">Edit</a>.</p>` : ""}
 `;
 }
 // its progress by subject, each count a link to what's left (under the titles' heading, titles.js)
@@ -446,7 +447,7 @@ const aimPick = c => `<label class="ch-edit-aim" title="Wannabe GWAMM: the front
 // listed in the top bar's character menu, to pick from there (after the aim)
 // (on the Edit list, one per row: by the row's character, data-inmenu; on the Edit tab, the one shown: edit-inmenu)
 const menuPick = (c, rowId = null) => `<label class="ch-edit-menu" title="Listed in the top bar's character menu, to pick it from any page"><input type="checkbox" ${rowId != null ? `data-inmenu="${rowId}"` : 'id="edit-inmenu"'}${c.inMenu ? " checked" : ""}> In the menu</label>`;
-const charRow = (o, c, cur, tab = false) => { const sib = o.chars.filter(x => x.account === c.account), hid = !!c.hidden, one = o.chars.length < 2, lone = sib.length < 2;
+const charRow = (o, c, cur, tab = false) => { const sib = o.chars.filter(x => x.account === c.account), hid = !!c.hidden, one = o.chars.length < 2 && !c.mock, lone = sib.length < 2;
   return `<tr class="${[c === cur && "cur", hid && "u-hid"].filter(Boolean).join(" ")}" data-id="${c.id}">
     <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}${genderBtn(c)}${tab ? campPick(c) + aimPick(c) + menuPick(c) : menuPick(c, c.id)}</div></td>
     <td>${tab ? "" : `<button type="button" class="u-btn u-show" data-hide aria-pressed="${hid}" title="${hid ? "Hidden from the view: show it" : "Hide it from the view"}">${hid ? "Show" : "Hide"}</button>`}${moveBtns(lone, lone)}${tab ? "" : `<span class="u-slot${one || !hid ? " u-why" : ""}" ${one || !hid ? `data-tip="${one ? "The last character can't be deleted" : "Hide a character before deleting it, so it isn't done by mistake"}" tabindex="0"` : ""}><button type="button" class="u-btn danger" data-delete${one || !hid ? " disabled" : ""}>Delete</button></span>`}</td></tr>`; };
@@ -464,7 +465,7 @@ function manageHTML(o, cur, many) {
 }
 /* ---------- the About tab ---------- */
 // what characters give, in short, and a mock character to try it all with: made up at random (name, profession, gender,
-// progress, a creation day), flagged mock so it can be taken off here; the page then shows it
+// progress, a creation day), flagged mock so its card says so; deleted as any character. The page then shows it
 const MOCK_FIRST = ["Aldric", "Mira", "Teodor", "Sabela", "Korin", "Yllis", "Dagny", "Ruven", "Ilsa", "Haron", "Nessa", "Brannoc"];
 const MOCK_LAST = ["Stormcaller", "Ashwalker", "Silverleaf", "Duskbane", "Emberhold", "Greywind", "Thornvale", "of the Dunes", "Frostmantle", "Nightsong"];
 const rnd = n => Math.floor(Math.random() * n), pick = xs => xs[rnd(xs.length)];
@@ -479,10 +480,10 @@ function mockChar(o) {
   c.elites = sample(USER_ALL.elites, done * between(0.4, 0.9));
   c.vanquished = sample(USER_ALL.vanquished, done * between(0.2, 0.8));
   const mNM = sample(USER_ALL_V3.missions, done), mHM = sample(mNM, between(0.2, 0.7));
-  const dNM = sample(USER_ALL_V3.dungeons, done * between(0.5, 1.2) > 1 ? 1 : done), dHM = sample(dNM, between(0, 0.6));
+  const dNM = sample(USER_ALL_V3.dungeons, Math.min(1, done * between(0.5, 1.2))), dHM = sample(dNM, between(0, 0.6));
   c.missions = {}; for (const id of mNM) c.missions[id] = mHM.includes(id) ? 3 : 1;
   c.dungeons = {}; for (const id of dNM) c.dungeons[id] = dHM.includes(id) ? 3 : 1;
-  c.heroes = sample(USER_ALL_V3.heroes, done * between(0.6, 1.4) > 1 ? 1 : done);
+  c.heroes = sample(USER_ALL_V3.heroes, Math.min(1, done * between(0.6, 1.4)));
   // its own titles, each maxed half the time: Drunkard, Sweet Tooth, Party Animal, the three Cartographers and Survivor
   // are maxed or not at all (the Titles tab ticks them); Sunspear, Lightbringer and the four reputations may sit at a lower
   // rank instead (stepped there). The derived ones are left out
@@ -496,8 +497,7 @@ function mockChar(o) {
   if (o.chars.filter(x => x.inMenu).length < 3) c.inMenu = true;
   return c;
 }
-function aboutHTML(o) {
-  const mocks = User.stored() == null ? [] : o.chars.filter(c => c.mock);
+function aboutHTML() {
   return `<div class="ch-about-text">
     <p><a href="characters?view=edit">Add a character</a>, then:</p>
     <ul>
@@ -510,15 +510,14 @@ function aboutHTML(o) {
   </div>
   <div class="ch-about-try">
     <h3 class="r-h">Try it with a mock character</h3>
-    <p class="dim">Made-up name and progress; take it off here any time.</p>
-    <div class="u-row"><button type="button" class="u-btn" id="mock-new">Make a mock character</button>
-      ${mocks.length ? `<button type="button" class="u-btn danger" id="mock-off">Take off the mock ${mocks.length === 1 ? "character" : `characters (${mocks.length})`}</button>` : ""}</div>
+    <p class="dim">Made-up name and progress; deleted as any character, on Edit.</p>
+    <div class="u-row"><button type="button" class="u-btn" id="mock-new">Make a mock character</button></div>
     <p>Or add your own on the <a href="characters?view=edit">Edit</a> tab.</p>
   </div>`;
 }
 $("ch-about").addEventListener("click", async e => {
   if (e.target.id === "mock-new") {
-    if (User.broken()) return;
+    if (User.broken()) return askBroken();
     const o = User.data();
     if (User.stored() == null) o.chars = [];  // (the default Char1 of nothing saved yet: the mock instead)
     const c = mockChar(o);
@@ -526,15 +525,6 @@ $("ch-about").addEventListener("click", async e => {
     if (!User.save(o)) return;  // (read-only)
     User.pick(c.id);
     setView("chars");
-  } else if (e.target.id === "mock-off") {
-    const n = User.data().chars.filter(c => c.mock).length;
-    if (!n || !await ask({ title: `Take off the mock ${n === 1 ? "character" : "characters"}?`, body: "Made-up progress only; your own characters stay.", ok: "Take off", danger: true, focus: "cancel" })) return;
-    const o = User.data();  // (read again after the dialog)
-    o.chars = o.chars.filter(c => !c.mock);
-    if (!o.chars.length) { User.reset(); view = "about"; return render(); }  // (nothing of yours: a fresh start)
-    if (!User.save(o)) return;
-    if (!o.chars.some(c => c.id === User.char(o)?.id)) User.pick(o.chars[0].id);
-    render();
   }
 });
 // the one shown, marked among the page's tabs
@@ -546,7 +536,7 @@ function render() {
   $("ch-about").hidden = view !== "about";
   $("ch-view").hidden = broken || view !== "chars";
   $("ch-manage").hidden = broken || view !== "edit";
-  if (view === "about") $("ch-about").innerHTML = aboutHTML(o);
+  if (view === "about") $("ch-about").innerHTML = aboutHTML();
   else if (view === "edit") {
     $("u-new").hidden = many;
     els.list.innerHTML = manageHTML(o, cur, many);
@@ -678,13 +668,16 @@ onEdit("click", async e => {
   }
   if (!e.target.closest("[data-delete]")) return;
   const c0 = rowChar(User.data(), e.target);
-  if (!c0 || !c0.hidden || User.data().chars.length < 2 || !await ask({ title: `Delete "${c0.name}"?`, body: `And all its progress (${charCounts(c0)}). This can't be undone.`, ok: "Delete", danger: true, focus: "cancel" })) return;
+  const last = c0 && User.data().chars.length < 2;
+  if (!c0 || !c0.hidden || (last && !c0.mock) || !await ask({ title: `Delete "${c0.name}"?`, body: last ? "The mock character was all there is: a fresh start." : `And all its progress (${charCounts(c0)}). This can't be undone.`, ok: "Delete", danger: true, focus: "cancel" })) return;
   const o = User.data(), c = o.chars.find(x => x.id === c0.id);  // (read again after the dialog)
-  if (!c || !c.hidden || o.chars.length < 2) return render();
+  if (!c || !c.hidden || (o.chars.length < 2 && !c.mock)) return render();
+  // (the last one, a mock: nothing of yours is kept yet, so the record goes, and the page opens on About again)
+  if (o.chars.length < 2) { User.reset(); return setView("about"); }
   const shown = User.char(o) === c;
   o.chars = o.chars.filter(x => x !== c);
   User.save(o);
-  if (shown) User.pick(o.chars[0].id);
+  if (shown) User.pick((o.chars.find(x => !x.hidden) || o.chars[0]).id);
   render();
 });
 // a new character is named by its id (Char2), to be renamed in its row; it's on the account of the one shown (or the

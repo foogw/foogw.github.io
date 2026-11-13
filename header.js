@@ -14,8 +14,10 @@
   ];
   const SMALL = [["about", "About"], ["thanks", "Thanks"], ["contact", "Contact"], ["license", "License"], ["backup", "Backup"]];
   const page = location.pathname.match(/([\w-]*?)(\.html)?$/)[1].replace(/^index$/, "") || "./";
-  const view = new URLSearchParams(location.search).get("view");
-  // (on My Characters, the view shown: characters?view=edit marks Edit, not Characters)
+  // (on My Characters, the view shown: characters?view=edit marks Edit, not Characters; with no view in the address, About
+  // while nothing is saved yet, as characters.js opens it)
+  const saved = (() => { try { return localStorage.getItem("gw-user") != null; } catch { return true; } })();
+  const v = new URLSearchParams(location.search).get("view"), view = ["about", "edit"].includes(v) ? v : saved ? null : "about";
   const isCurrent = href => page === "characters" && href.startsWith("characters") && !href.includes("-") ? (view ? href.endsWith(`=${view}`) : href === "characters")
     : href === page;
   const link = (href, name, cls = "", label = "") => `<a${cls ? ` class="${cls}"` : ""} href="${href}"${label ? ` aria-label="${label}" title="${label}"` : ""}${isCurrent(href) ? ' aria-current="page"' : ""}>${name}</a>`;

@@ -1441,7 +1441,6 @@ a.hchip { text-decoration: none; }
 .ch-sk { font-size: 12px; color: var(--muted); }
 .ch-stat b { font-size: 16px; font-variant-numeric: tabular-nums; }
 .ch-stat.done b { color: var(--loc-exp); }
-.ch-manage-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .ch-manage { max-width: 860px; }
 .ch-page[hidden], .ch-manage[hidden], .ch-about[hidden] { display: none; }
 /* the About tab: the text, then the mock character to try with, in a box */
