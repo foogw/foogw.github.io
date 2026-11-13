@@ -579,6 +579,13 @@ function ask({ title, body = "", html = "", ok = "OK", cancel = "Cancel", danger
   });
 }
 // saved progress that can't be read: said, with the way to the Backup page
+// the browser wouldn't keep the progress (storage blocked, private window, or full): told once per page
+let saveFailedSaid = false;
+function saveFailed() {
+  if (saveFailedSaid) return; saveFailedSaid = true;
+  ask({ title: "This change couldn't be saved.", tone: "ro", cancel: "", html: `<p>The browser refused to keep it: storage may be blocked (a private window, or site data turned off) or full.</p>
+    <p class="dim">Nothing you tick here will be kept until that changes. Your earlier progress is untouched; the <a href="backup">Backup</a> page can copy it out.</p>` });
+}
 const askBroken = async () => { if (await ask({ title: "Your saved progress can't be read", body: "So it can't be changed here. Open the Backup page to see it?", ok: "Open Backup" })) location.href = "backup"; };
 // the notice, once at a time; true when read-only (the change to be dropped)
 function readOnlyBlocks() {
@@ -913,9 +920,11 @@ const User = {
     return userNormalize({ v: 2, chars: [newUserChar(1)] });
   },
   // (read-only: refused, with the notice; force: loading a backup, which a read-only copy is made by)
+  // (storage blocked or full: nothing kept, said once, and false back so no page says it saved)
   save(o, force = false) {
     if (User.broken() || (!force && readOnlyBlocks())) return false;
-    try { localStorage.setItem(USER_KEY, JSON.stringify(userToKept(userNormalize(o)))); } catch { /* storage blocked */ }
+    try { localStorage.setItem(USER_KEY, JSON.stringify(userToKept(userNormalize(o)))); }
+    catch { saveFailed(); return false; }
     userSeen = userRaw();
     globalThis.headerChar?.();
     return true;
