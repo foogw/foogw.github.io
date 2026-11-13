@@ -3345,7 +3345,7 @@ const GW_SKILLS = {
       "concise": "Elite Enchantment Spell. (20...44 seconds.) Foes who hit allies in the area with melee become Diseased (3...15 seconds); this ally is immune to Disease.",
       "acquisition": [
         {"capture": 100273, "area": 121},
-        {"capture": 101607, "area": 205},
+        {"capture": 100232, "area": 205},
         {"capture": 100164, "area": 268},
         {"capture": 100404, "area": 384}
       ]
@@ -4508,7 +4508,8 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Spell. Target foe and all adjacent foes are struck for 16...80 shadow damage. You steal up to 8...40 Health from each struck foe who is suffering from a hex.",
       "concise": "Elite Spell. Deals 16...80 damage to target and adjacent foes. Steal 8...40 Health from each hexed foe.",
-      "acquisition": [{"capture": 100125}, {"capture": 101641, "area": 400}]
+      "acquisition": [
+        {"capture": 101478},{"capture": 100125}, {"capture": 101641, "area": 400}]
     },
     "152": {
       "name": "Taste of Death",
@@ -4871,6 +4872,7 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 25...60 seconds, you are attuned to Air, Fire, Water, and Earth and gain +1...2 to these attributes. You gain 1 Energy plus 50% of the base Energy cost of the skill each time you use magic associated with any of these elements.",
       "concise": "Elite Enchantment Spell. (25...60 seconds.) Your elemental attributes are increased by +1...2. You gain 1 plus 50% of the base Energy cost of any Air, Fire, Water, and Earth Magic skills you use.",
       "acquisition": [
+        {"capture": 102114, "area": 72},
         {"capture": 100279, "area": 121},
         {"capture": 101643, "area": 839},
         {"capture": 100058, "area": 241},
@@ -6235,6 +6237,15 @@ const GW_SKILLS = {
       "activation": 1,
       "aftercast": 0.75,
       "recharge": 5,
+      "acquisition": [
+        {"capture": 100454, "area": 553},
+        {"capture": 100441, "area": 241},
+        {"capture": 100361, "area": 93},
+        {"capture": 100361, "area": 95},
+        {"capture": 100177, "area": 94},
+        {"capture": 100091, "area": 468},
+        {"capture": 100047, "area": 482}
+      ],
       "description": "Elite Hex Spell. Target foe takes 10...60 cold damage. If you have more Energy than target foe, that foe suffers an additional 10...60 cold damage and moves 90% slower for 1...5 seconds.",
       "concise": "Elite Hex Spell. Deals 10...60 cold damage. If you have more Energy than target foe, deals +10...60 cold damage and causes 90% slower movement (1...5 seconds)."
     },
@@ -6773,7 +6784,8 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Hex Spell. For 10 seconds, target foe and all foes adjacent to your target take 5...25 damage each second. Foes using attack skills are Blinded for 3 seconds. This hex ends if you use a skill that targets this foe.",
       "concise": "Elite Hex Spell. (10 seconds.) Deals 5...25 damage each second to target and adjacent foes. Inflicts Blindness on foes using attack skills. Ends if you use a skill that targets this foe.",
-      "acquisition": [{"capture": 100483, "area": 95}, {"capture": 100360, "area": 93}]
+      "acquisition": [
+        {"capture": 100385, "area": 26},{"capture": 100483, "area": 95}, {"capture": 100360, "area": 93}]
     },
     "228": {
       "name": "Thunderclap",
@@ -7998,6 +8010,7 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 10 seconds, whenever target ally would take damage, that ally is healed for that amount instead, maximum 6...60. All your Protection Prayers are disabled for 5 seconds.",
       "concise": "Elite Enchantment Spell. (10 seconds.) Converts incoming damage to healing (maximum 6...60). All your Protection Prayers are disabled (5 seconds).",
       "acquisition": [
+        {"capture": 102115, "area": 190},
         {"capture": 100145, "area": 98},
         {"capture": 100955, "area": 23},
         {"capture": 101688, "area": 190},
@@ -11295,6 +11308,7 @@ const GW_SKILLS = {
       "description": "Elite Stance. For 5...11 seconds, if you are wielding a hammer, you attack 33% faster, you gain +40 armor, and your attack skills interrupt foes when they hit.",
       "concise": "Elite Stance. (5...11 seconds.) You attack 33% faster, you gain +40 armor, and your attack skills interrupt actions. No effect unless you have a hammer equipped.",
       "acquisition": [
+        {"capture": 102118, "area": 704},
         {"capture": 100900, "area": 24},
         {"capture": 101733, "area": 190},
         {"capture": 100157, "area": 191},
@@ -11444,6 +11458,7 @@ const GW_SKILLS = {
       "description": "Elite Skill. For 15 seconds, whenever you attack with a sword, all adjacent foes take 10...35 slashing damage.",
       "concise": "Elite Skill. (15 seconds.) Deals 10...35 slashing damage to all adjacent foes whenever you attack with a sword.",
       "acquisition": [
+        {"capture": 101407},
         {"capture": 101739, "area": 64},
         {"capture": 100362, "area": 220},
         {"capture": 100362, "area": 256},
@@ -13998,6 +14013,9 @@ const GW_SKILLS = {
       "activation": 1,
       "aftercast": 0.75,
       "recharge": 10,
+      "acquisition": [
+        {"capture": 100259, "area": 465}
+      ],
       "description": "Elite Hex Spell. For 5...25 seconds, target foe suffers from -1...5 Health degeneration, and enchantments and stances on that foe expire 20...60% faster. All of your non-Assassin skills are disabled for 5 seconds.",
       "concise": "Elite Hex Spell. (5...25 seconds.) Causes -1...5 Health degeneration. Enchantments and stances expire 20...60% faster on target foe. Disables your non-Assassin skills (5 seconds)."
     },
@@ -14088,6 +14106,7 @@ const GW_SKILLS = {
       "description": "Elite Hex Spell. For 2...6 seconds, all of target foe's attributes are set to 0.",
       "concise": "Elite Hex Spell. (2...6 seconds.) Target foe's attributes are 0.",
       "acquisition": [
+        {"capture": 101265},
         {"capture": 101332, "area": 217},
         {"capture": 100289, "area": 225},
         {"capture": 100289, "area": 233}
@@ -15408,6 +15427,11 @@ const GW_SKILLS = {
       "description": "Elite Enchantment Spell. For 5...21 seconds, you cannot be the target of enemy spells, and you gain 5 damage reduction for each Assassin enchantment on you. You cannot deal more than 5...25 damage with a single skill or attack.",
       "concise": "Elite Enchantment Spell. (5...21 seconds.) Enemy spells cannot target you. Gain 5 damage reduction for each Assassin enchantment on you. You cannot deal more than 5...25 damage with a single skill or attack.",
       "acquisition": [
+        {"capture": 100374, "area": 256},
+        {"capture": 100374, "area": 220},
+        {"capture": 100373, "area": 256},
+        {"capture": 100373, "area": 862},
+        {"capture": 100373, "area": 220},
         {"capture": 100372, "area": 215},
         {"capture": 100769, "area": 222},
         {"capture": 100861, "area": 274},
@@ -16545,7 +16569,9 @@ const GW_SKILLS = {
       "description": "Elite Spell. Target foe and all nearby foes are struck with Searing Flames. Foes already on fire when this skill is cast are struck for 10...100 fire damage. Foes not already on fire begin Burning for 1...7 seconds.",
       "concise": "Elite Spell. Hits foes near your target. Deals 10...100 fire damage to foes already Burning. Inflicts Burning condition (1...7 seconds) to foes not Burning.",
       "acquisition": [
-        {"capture": 101787, "area": 386},
+        {"capture": 100296, "area": 402},
+        {"capture": 100296, "area": 413},
+        {"capture": 100447, "area": 386},
         {"capture": 100139, "area": 399},
         {"capture": 100315, "area": 651}
       ]
@@ -18546,6 +18572,7 @@ const GW_SKILLS = {
       "description": "Elite Off-Hand Attack. Must follow a lead attack. If this attack hits, target foe is Dazed and Blinded for 1...10 seconds, and if target foe is casting a spell, that foe is interrupted.",
       "concise": "Elite Off-Hand Attack. Interrupts a spell. Inflicts Dazed and Blindness conditions (1...10 seconds). Must follow a lead attack.",
       "acquisition": [
+        {"capture": 100242, "area": 200},
         {"capture": 101793, "area": 58},
         {"capture": 100333, "area": 220},
         {"capture": 100333, "area": 203}
@@ -18650,7 +18677,8 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Axe Attack. Attack target foe and adjacent foes. Each attack that hits deals +10...40 damage.",
       "concise": "Elite Axe Attack. Deals +10...40 damage. Also hits adjacent foes.",
-      "acquisition": [{"capture": 100055, "area": 240}]
+      "acquisition": [
+        {"capture": 100387, "area": 788},{"capture": 100055, "area": 240}]
     },
     "993": {
       "name": "Enraged Smash",
@@ -18674,6 +18702,7 @@ const GW_SKILLS = {
       "description": "Elite Hammer Attack. If Enraged Smash hits, you gain 1...4 strikes of adrenaline. If you hit a moving foe, you strike for +10...40 damage, and your target is knocked down.",
       "concise": "Elite Hammer Attack. Gives you 1...4 strikes of adrenaline if you hit. Deals +10...40 damage and causes knockdown if your target was moving.",
       "acquisition": [
+        {"capture": 100320, "area": 232},
         {"capture": 100318, "area": 215},
         {"capture": 100768, "area": 222},
         {"capture": 100855, "area": 274},
@@ -21025,6 +21054,11 @@ const GW_SKILLS = {
       "description": "Elite Bow Attack. You shoot a broad head arrow that moves slower than normal. If it hits, target foe is Dazed for 5...20 seconds, and if target foe is casting a spell that spell is interrupted.",
       "concise": "Elite Bow Attack. Slow-moving arrow. Interrupts a spell. Inflicts Dazed condition (5...20 seconds).",
       "acquisition": [
+        {"capture": 101403},
+        {"capture": 100364, "area": 256},
+        {"capture": 100364, "area": 220},
+        {"capture": 100363, "area": 256},
+        {"capture": 100363, "area": 220},
         {"capture": 101804, "area": 264},
         {"capture": 100856, "area": 274},
         {"capture": 100657, "area": 219},
@@ -21307,6 +21341,9 @@ const GW_SKILLS = {
       "activation": 1,
       "aftercast": 0.75,
       "recharge": 8,
+      "acquisition": [
+        {"capture": 100123, "area": 195}
+      ],
       "description": "Elite Spell. Target foe and all nearby foes take 10...65 lightning damage. If you are within earshot of a spirit or holding a bundle item, you gain 10 Energy.",
       "concise": "Elite Spell. Deals 10...65 lightning damage to target and nearby foes. You gain 10 Energy if you are within earshot of a spirit or holding a bundle item."
     },
@@ -21403,6 +21440,9 @@ const GW_SKILLS = {
       "activation": 1.5,
       "aftercast": 0.75,
       "recharge": 30,
+      "acquisition": [
+        {"capture": 100124, "area": 195}
+      ],
       "description": "Elite Item Spell. Hold Songkai's ashes for up to 45 seconds. While you hold her ashes, your spells and binding rituals cost -5...50% of the base Energy to cast.",
       "concise": "Elite Item Spell. (45 seconds.) Your spells and binding rituals cost -5...50% of the base Energy."
     },
@@ -21863,7 +21903,10 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Elite Signet. Create 3 level 1...12 spirits. These spirits deal 5...20 damage with attacks and die after 60 seconds.",
       "concise": "Elite Signet. Creates 3 level 1...12 spirits (60 second lifespan). These spirits deal 5...20 damage with attacks.",
-      "acquisition": [{"capture": 100134, "area": 210}]
+      "acquisition": [
+        {"capture": 100189, "area": 400},
+        {"capture": 100189, "area": 239},
+        {"capture": 100189, "area": 274},{"capture": 100134, "area": 210}]
     },
     "1240": {
       "name": "Soul Twisting",
@@ -28230,6 +28273,7 @@ const GW_SKILLS = {
       "description": "Elite Spell. Target foe is struck for 15...60 fire damage. If you have more Energy than target foe, you gain 1...8 Energy.",
       "concise": "Elite Spell. Deals 15...60 fire damage. You gain 1...8 Energy if you have more Energy than target foe.",
       "acquisition": [
+        {"capture": 100072, "area": 647},
         {"capture": 100101, "area": 472},
         {"capture": 100048, "area": 482},
         {"capture": 101497, "area": 560}
