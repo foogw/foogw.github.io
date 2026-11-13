@@ -237,10 +237,10 @@ let BOSS;
 function bossTable() {
   if (BOSS) return BOSS;
   BOSS = new Map();
-  const bossOf = id => BOSS.get(id) || BOSS.set(id, Object.assign(CREATURES[id], { id, where: new Set(), levels: new Set(), elites: new Set(CREATURES[id].elites || []) })).get(id);
+  const bossOf = id => BOSS.get(id) || BOSS.set(id, Object.assign(CREATURES[id], { id, where: new Set(), levels: new Set(), _eliteIds: new Set(CREATURES[id].elites || []) })).get(id);
   for (const s of Object.values(SKILLS)) for (const a of s.acquisition || []) if (a.capture && CREATURES[a.capture]) {
     const b = bossOf(a.capture);
-    if (s.elite) b.elites.add(s.id);
+    if (s.elite) b._eliteIds.add(s.id);
     if (a.area != null) b.where.add(a.area);
   }
   for (const l of Object.values(AREAS)) for (const id of l.bosses || []) if (CREATURES[id]) bossOf(id).where.add(l.id);
@@ -257,8 +257,8 @@ function bossTable() {
   }
   for (const b of BOSS.values()) {
     // without a profession of its own, a boss is taken to be of its elite's
-    b.prof = b.profession || [...b.elites].map(id => SKILLS[id]?.profession).find(Boolean) || 0;
-    b._elites = [...b.elites].map(id => SKILLS[id]).filter(s => s?.elite).sort((x, y) => cmpStr(x.name, y.name));
+    b.prof = b.profession || [...b._eliteIds].map(id => SKILLS[id]?.profession).find(Boolean) || 0;
+    b._elites = [...b._eliteIds].map(id => SKILLS[id]).filter(s => s?.elite).sort((x, y) => cmpStr(x.name, y.name));
     b._where = [...b.where].filter(i => AREAS[i] || MISSIONS[i]).sort((x, y) => cmpStr(areaName(x), areaName(y)));
     b.camps = new Set(b._where.map(i => campaignOf(AREAS[i]) ?? missionCampaign(MISSIONS[i])).filter(c => c != null));
     b._k = fold([b.name, ...b._elites.map(s => s.name), ...b._where.map(areaName)].join(" | "));
