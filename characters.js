@@ -447,7 +447,7 @@ const menuPick = (c, rowId = null) => `<label class="ch-edit-menu" title="Listed
 const charRow = (o, c, cur, tab = false) => { const sib = o.chars.filter(x => x.account === c.account), hid = !!c.hidden, one = o.chars.length < 2, lone = sib.length < 2;
   return `<tr class="${[c === cur && "cur", hid && "u-hid"].filter(Boolean).join(" ")}" data-id="${c.id}">
     <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}${genderBtn(c)}${tab ? campPick(c) + aimPick(c) + menuPick(c) : menuPick(c, c.id)}</div></td>
-    <td>${tab ? "" : `<button type="button" class="u-btn u-show" data-hide aria-pressed="${hid}" title="${hid ? "Hidden from the view: show it" : "Hide it from the view"}">${hid ? "Show" : "Hide"}</button>`}${moveBtns(lone, lone)}${tab ? "" : `<span class="u-slot"><button type="button" class="u-btn danger" data-delete${one ? " disabled" : ""}>Delete</button></span>`}</td></tr>`; };
+    <td>${tab ? "" : `<button type="button" class="u-btn u-show" data-hide aria-pressed="${hid}" title="${hid ? "Hidden from the view: show it" : "Hide it from the view"}">${hid ? "Show" : "Hide"}</button>`}${moveBtns(lone, lone)}${tab ? "" : `<span class="u-slot${one || !hid ? " u-why" : ""}" ${one || !hid ? `data-tip="${one ? "The last character can't be deleted" : "Hide a character before deleting it, so it isn't done by mistake"}" tabindex="0"` : ""}><button type="button" class="u-btn danger" data-delete${one || !hid ? " disabled" : ""}>Delete</button></span>`}</td></tr>`; };
 function manageHTML(o, cur, many) {
   const folded = new Set(acctFolds()), row = c => charRow(o, c, cur);
   const head = a => `<tr class="u-acct" data-account="${a.id}"><td colspan="2"><div class="u-acct-row">
@@ -597,9 +597,9 @@ onEdit("click", async e => {
   }
   if (!e.target.closest("[data-delete]")) return;
   const c0 = rowChar(User.data(), e.target);
-  if (!c0 || User.data().chars.length < 2 || !await ask({ title: `Delete "${c0.name}"?`, body: `And all its progress (${charCounts(c0)}). This can't be undone.`, ok: "Delete", danger: true, focus: "cancel" })) return;
+  if (!c0 || !c0.hidden || User.data().chars.length < 2 || !await ask({ title: `Delete "${c0.name}"?`, body: `And all its progress (${charCounts(c0)}). This can't be undone.`, ok: "Delete", danger: true, focus: "cancel" })) return;
   const o = User.data(), c = o.chars.find(x => x.id === c0.id);  // (read again after the dialog)
-  if (!c || o.chars.length < 2) return render();
+  if (!c || !c.hidden || o.chars.length < 2) return render();
   const shown = User.char(o) === c;
   o.chars = o.chars.filter(x => x !== c);
   User.save(o);

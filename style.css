@@ -1321,6 +1321,7 @@ a.hchip { text-decoration: none; }
 .u-btn[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
 .u-btn:hover:not(:disabled) { border-color: var(--accent); }
 .u-btn:disabled { opacity: 0.45; cursor: default; }
+.u-why { cursor: help; } .u-why .u-btn:disabled { pointer-events: none; }  /* (the hover lands on the slot, which says why) */
 .u-btn.danger:hover:not(:disabled) { border-color: var(--sac); }
 .u-text { width: min(1200px, calc(100vw - 32px)); min-height: 70vh; font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text); background: var(--panel);
   border: 1px solid var(--line); border-radius: 8px; padding: 10px; resize: vertical; }
