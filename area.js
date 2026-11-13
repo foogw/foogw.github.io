@@ -80,16 +80,25 @@ VIEWS.area = (() => {
     const roles = new Map();  // one row per service, with every NPC who offers it
     for (const n of Object.values(NPCS)) if (n.area === l.id) for (const r of n.roles || []) if (r !== "quests") roles.set(r, [...(roles.get(r) || []), n.name]);
     const services = [...roles].map(([k, v]) => `<li><span>${esc(k[0].toUpperCase() + k.slice(1))}</span><span class="dim">${esc(v.join(", "))}</span></li>`).join("");
-    const bosses = (l.bosses || []).map(i => CREATURES[i]).filter(Boolean).flatMap(c => (c.elites || []).filter(e => SKILLS[e])
-      .map(e => `<li>${LINK.skill(e)}${LINK.boss(c.id).replace("<a ", '<a class="dim" ')}</li>`)).join("");
+    // the bosses here: the ones the area lists and the ones standing here (data/bosses.js), with their elites; each
+    // spot on the map, named by its boss (a version of the area a quest makes, "War in Kryta", said on the row)
+    const SPOTS = data("GW_BOSS_SPOTS")?.spots || {}, ONLY = data("GW_BOSS_SPOTS")?.only || {};
+    const hereSpots = id => (SPOTS[id] || []).filter(s => s[0] === l.id);
+    const bossIds = [...new Set([...(l.bosses || []), ...Object.keys(SPOTS).filter(id => hereSpots(id).length).map(Number)])].filter(id => CREATURES[id])
+      .sort((a, b) => cmpStr(CREATURES[a].name, CREATURES[b].name));
+    const bossRows = bossIds.map(id => { const c = CREATURES[id], ss = hereSpots(id), vs = [...new Set(ss.map(s => s[3]).filter(Boolean))];
+      const els = (c.elites || []).filter(e => SKILLS[e]).map(e => `<a href="${HREF.skill(e)}" title="${esc(SKILLS[e].name)}">${skillIcon(e, "sk-ic sm")}</a>`).join("");
+      const when = vs.length ? `<span class="tag" title="Only in the version of the area the quest makes">${esc(vs.join(", "))}</span>` : ONLY[id]?.length ? `<span class="tag" title="Only during a quest">Quest</span>` : "";
+      return `<li><span>${LINK.boss(id)}${when}</span><span class="dim">${els}${ss.length > 1 ? ` <span title="Places it may be at, one at a time">×${ss.length}</span>` : ""}${!ss.length ? ' <span title="No place on the map yet">no spot</span>' : ""}</span></li>`; }).join("");
+    const bossSpots = bossIds.flatMap(id => hereSpots(id).map(s => ({ x: s[1], y: s[2], name: CREATURES[id].name })));
+    const bosses = bossRows;
     const quests = questsAt(l.id);
     const questRows = quests.map(q => `<li><span>${LINK.quest(q.id)}${q.travel != null ? ` <span class="tag" title="Takes you to ${campaignName(q.travel)}">To ${CAMP_SHORT[q.travel]}</span>`
       : q.type !== "secondary" ? ` <span class="tag">${esc(q.type[0].toUpperCase() + q.type.slice(1))}</span>` : STORY.has(q.id) ? ' <span class="tag" title="A secondary quest the campaign\'s storyline goes through">Story</span>' : ""}</span>${
       q.skills?.length ? `<span class="qsk">${q.skills.filter(id => SKILLS[id]).map(id => `<a href="${HREF.skill(id)}" title="${esc(SKILLS[id].name)}">${skillIcon(id, "sk-ic sm")}</a>`).join("")}</span>` : ""}</li>`).join("");
     // a mission's own area (not its outpost) is drawn where the mission is played, where we marked it
-    const side = ([14, 17].includes(l.type) && missionMapHTML(l.id, l.name)) || mapHTML(shownAreas(l), { self: isOutpost(l) ? l.id : null, town: isOutpost(l) ? l.id : null })
+    const side = ([14, 17].includes(l.type) && missionMapHTML(l.id, l.name, { spots: bossSpots })) || mapHTML(shownAreas(l), { self: isOutpost(l) ? l.id : null, town: isOutpost(l) ? l.id : null, spots: bossSpots })
       + box("Services", services && `<ul class="lrows">${services}</ul>`)
-      + box("Elite skills to capture", bosses && `<ul class="lrows">${bosses}</ul>`)
       + box(`Quests <span class="dim">${quests.length || ""}</span>`, questRows && `<ul class="lrows lquests">${questRows}</ul>`);
     const c = campaignOf(l);
     return `
@@ -101,7 +110,8 @@ VIEWS.area = (() => {
       ${notesHTML(l)}
       <div class="llinks">${wikiLink(l.wiki)}</div>
       <div class="lgrid">
-        <section class="lexits"><h4>Exits</h4><div class="exits">${exitsHTML(l, l.at)}</div></section>
+        <div class="lside"><section class="lexits"><h4>Exits</h4><div class="exits">${exitsHTML(l, l.at)}</div></section>
+        ${box(`Bosses <span class="dim">${bossIds.length || ""}</span>`, bosses && `<ul class="lrows lbosses">${bosses}</ul><p class="dim lhint">Each stands where its name is on the map; the icons are the elites to capture from it.</p>`)}</div>
         <div class="lside">${side}</div>
       </div>`;
   }

@@ -743,7 +743,7 @@ button.rnd-copy:hover { color: var(--text); }
 .compass .cell.none { border: 1px dashed color-mix(in srgb, var(--line) 70%, transparent); border-radius: 8px; }
 .compass .cell.none::after { content: attr(data-dir); position: absolute; inset: 0; display: grid; place-items: center; font-size: 11px; color: color-mix(in srgb, var(--muted) 50%, transparent); }
 .compass .cell.here { min-width: 0; place-items: center; text-align: center; border-radius: 50%; aspect-ratio: auto; padding: 10px;
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 16%, transparent), transparent); }
+  background: color-mix(in srgb, var(--accent) 7%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
 .compass .cell.here span { font-weight: 700; font-size: 14px; overflow-wrap: anywhere; max-width: 100%; }
 .xcard { --c: var(--loc-out); position: relative; min-width: 0; overflow-wrap: anywhere; padding: 8px 10px; border-radius: 8px; background: var(--bg);
   border: 1px solid var(--line); border-left: 3px solid var(--c); font-size: 14px; }
@@ -761,6 +761,8 @@ button.rnd-copy:hover { color: var(--text); }
 .lrows li { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 10px; padding: 6px 0; border-top: 1px solid var(--line); }
 .lrows li:first-child { border-top: 0; padding-top: 0; }
 .lrows li > .dim { font-size: 12px; text-align: right; }
+.lbosses li > .dim { display: flex; align-items: center; gap: 3px; } .lbosses .tag { margin-left: 6px; }
+.lhint { margin: 10px 0 0; font-size: 12px; }
 .lquests .qsk { display: flex; flex-wrap: wrap; gap: 2px; margin-left: auto; justify-content: flex-end; }
 .lquests .qsk .sk-ic.sm { margin: 0; }
 @media (max-width: 860px) {
