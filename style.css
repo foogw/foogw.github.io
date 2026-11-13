@@ -229,10 +229,10 @@ nav.pages a[aria-current=page] { color: var(--text); }
 .u-pre .u-pre-note { display: block; }
 /* a link to a thing a wannabe GWAMM still needs (common.js need): the accent, underlined dotted; who and what on hover */
 a.todo { color: var(--todo); text-decoration-style: dotted; text-underline-offset: 3px; cursor: help; }
-.todo-card { position: fixed; z-index: 50; min-width: 200px; max-width: min(360px, calc(100vw - 8px)); padding: 10px 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; pointer-events: none;
+.todo-card { position: fixed; z-index: 50; min-width: 200px; max-width: min(520px, calc(100vw - 8px)); padding: 10px 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; pointer-events: none;
   background: var(--panel); color: var(--text); border: 1px solid var(--line); box-shadow: 0 8px 24px rgba(0, 0, 0, .35); }
 .todo-card b { display: block; font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
-.todo-card div { display: flex; align-items: center; gap: 8px; padding: 2px 0; }
+.todo-card div { display: flex; align-items: center; gap: 8px; padding: 2px 0; white-space: nowrap; }
 .todo-card img { width: 18px; height: 18px; border-radius: 4px; }
 .todo-card .dim { margin-left: auto; padding-left: 12px; font-size: 12px; }
 /* a [data-tip]'s tooltip, shown at once (the browser's own, from a title, waits a second): one for the page, common.js */
