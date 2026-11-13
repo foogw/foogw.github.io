@@ -22,7 +22,8 @@ to GuildWiki.de and this site, under the same license.
 ## Guild Wars Wiki (English) — GNU FDL 1.2
 
 The storyline order and mission numbers for Prophecies, Factions and Nightfall come from the
-[Guild Wars Wiki](https://wiki.guildwars.com)'s "List of <campaign> missions and primary quests" pages,
+[Guild Wars Wiki](https://wiki.guildwars.com)'s "List of <campaign> missions and primary quests" pages, and the
+quests' objectives and reward items (game/quests.js) from their pages there,
 © Guild Wars Wiki contributors, licensed under the
 [GNU Free Documentation License 1.2](https://www.gnu.org/licenses/old-licenses/fdl-1.2.html). Archived copies
 from the Wayback Machine were used.
