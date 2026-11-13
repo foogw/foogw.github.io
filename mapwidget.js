@@ -41,6 +41,14 @@ function ringsBox(walks) {
   return x0 < x1 ? [x0, y0, x1, y1] : null;
 }
 const TILES = new Map();
+// the underground pictures (game/maps.js under): a cave drawn over the continent's surface, for maps showing its area
+const MAP_UNDER = data("GW_MAPS")?.under || [], UNDER_IMG = new Map();
+function underImg(u, onLoad) {
+  let t = UNDER_IMG.get(u.img);
+  if (!t) { t = { img: new Image(), ok: false, waiting: new Set() }; t.img.onload = () => { t.ok = true; for (const f of t.waiting) f(); t.waiting.clear(); }; t.img.src = u.img; UNDER_IMG.set(u.img, t); }
+  if (!t.ok && onLoad) t.waiting.add(onLoad);
+  return t.ok ? t.img : null;
+}
 // a tile's picture once loaded (or null while loading, or off the map); onLoad redraws. Tiles cover the whole map:
 // level 1 a tile per 256 map pixels, level 0 a tile per 1024
 function tile(set, z, x, y, onLoad) {
@@ -118,7 +126,7 @@ function drawMark(g, kind, x, y, scale = 1, name = "", self = false) {
 
 const veil = document.createElement("canvas");
 /* One view of a map set onto a canvas. v: { set, zoom (CSS px per map pixel), x, y (CSS px of the map's corner),
-   dpr, ground(ctx, z): draws over the tiles, lit: Path2D of the ground to keep bright (or null: all bright), clip: Path2D
+   dpr, under: underground pictures drawn over the tiles (game/maps.js under), ground(ctx, z): draws over the tiles, lit: Path2D of the ground to keep bright (or null: all bright), clip: Path2D
    the lit ground and its outlines are kept within (or none), dark (0-1), outlines: [[Path2D, color, width]],
    marks: [{ x, y, kind, name, self }], portals: [[x, y]], ways: [{ lines: [[[x, y], ...]], color }] (drawn under the
    portals and marks), redraw }. */
@@ -136,6 +144,7 @@ function paintMap(ctx, v) {
     // whole device pixels, so neighbouring tiles meet without a seam
     if (img) { const x = Math.round(v.x * d + tx * s), y = Math.round(v.y * d + ty * s); ctx.drawImage(img, x, y, Math.round(v.x * d + (tx + 1) * s) - x, Math.round(v.y * d + (ty + 1) * s) - y); }
   }
+  for (const u of v.under || []) { const img = underImg(u, v.redraw); if (img) ctx.drawImage(img, v.x * d + u.at[0] * z, v.y * d + u.at[1] * z, u.w * z, u.h * z); }
   const T = [z, 0, 0, z, v.x * d, v.y * d];
   if (v.lit && v.dark > 0) {
     if (veil.width !== W || veil.height !== H) { veil.width = W; veil.height = H; }
@@ -176,7 +185,7 @@ function missionMapHTML(id, name, opts = {}) {
   const b = data("GW_MISSION_MAPS")?.missions?.[id];
   if (!b) return "";
   const [x0, y0, x1, y1] = b.box || [];
-  return mapHTML([], { ...opts, level: { name, walk: b.walk, rings: b.rings, area: b.area || [x0, y0, x1, y0, x1, y1, x0, y1] } });
+  return mapHTML([], { ...opts, level: { name, map: +id, walk: b.walk, rings: b.rings, area: b.area || [x0, y0, x1, y0, x1, y1, x0, y1] } });
 }
 // where a mission (or its copy) is played, when that's another area's place: a sentence, or ""
 function missionWhereNote(id) {
@@ -190,7 +199,7 @@ const missionsIn = id => Object.entries(data("GW_MISSION_MAPS")?.missions || {})
 // town: an outpost (or a list) whose own town to light (where its mission's ground shares its map id), not the mission's ground
 // spots: points of the map to mark, [{x, y, name}] in its pixels (where an NPC stands), shown even with markers hidden
 // note: HTML under the map, between its controls
-// level: a dungeon level instead of areas, {name, walk (its cell's game/walk file), rings (ground added to it), area: [x0, y0, ...] (or [[outline], [hole], ...]) the part of
+// level: a dungeon level instead of areas, {name, map (its map id: its own picture, game/maps.js under), walk (its cell's game/walk file), rings (ground added to it), area: [x0, y0, ...] (or [[outline], [hole], ...]) the part of
 // ground lit (or none: all of it), spots, portals: [{at, name}] (named on hover)} (data/depths.js)
 // crop: [x0, y0, x1, y1] the part of the map to show, in its pixels, instead of all the ground lit
 // aspect: its width over its height, the part shown widened (or made taller) to it: maps side by side, the same height
@@ -255,6 +264,7 @@ async function initMap(fig) {
   const slider = fig.querySelector("input[type=range]"), nomarks = fig.querySelector(".gmap-nomarks");
   const path = lit.length ? walkPath(lit) : null, clip = area && walkPath(area);
   const marks = level ? [] : nearMarks(set, ids, self, box);
+  const under = MAP_UNDER.filter(u => u.set === set && [self, ...ids, level?.map].some(i => i != null && u.areas.includes(+i)));
   const spots = JSON.parse(fig.dataset.spots || "[]").map(p => ({ ...p, kind: "spot" }));
   const portals = [], joins = new Map();  // joins: each portal's areas, by "x,y", for its name on hover
   // the game's portals, and those we placed where it has none (data/routing.js, on pages that load it)
@@ -279,7 +289,7 @@ async function initMap(fig) {
     const cw = cur[2] - cur[0], ch = cur[3] - cur[1], zoom = win.clientWidth / cw;
     links.forEach((a, i) => { a.style.left = `${(100 * (marks[i].x - cur[0]) / cw).toFixed(2)}%`; a.style.top = `${(100 * (marks[i].y - cur[1]) / ch).toFixed(2)}%`; });
     win.classList.toggle("nomarks", nomarks.checked);
-    paintMap(ctx, { set, zoom, x: -cur[0] * zoom, y: -cur[1] * zoom, dpr: d, lit: path, clip, dark: slider.value / 100,
+    paintMap(ctx, { set, zoom, x: -cur[0] * zoom, y: -cur[1] * zoom, dpr: d, lit: path, clip, dark: slider.value / 100, under,
       outlines: path ? [[path, MAP_RING, 1.2, 0.8 * slider.value / 100]] : [], portals, marks: [...(nomarks.checked ? [] : marks), ...spots], ways: mv.ways,
       redraw: () => { raf ||= requestAnimationFrame(draw); } });
   };

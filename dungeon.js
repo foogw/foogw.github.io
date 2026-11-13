@@ -59,7 +59,7 @@ VIEWS.dungeon = (() => {
   // a level's map: its ground, its ways out, the steps on it by their number in the list (and more spots: [{x, y, name}])
   function levelMap(d, i, { height = 340, more = [] } = {}) {
     const v = d.levels[i], ways = v.marks.filter(m => m[0] === "portal" || m[0] === "down");
-    const level = { name: levelName(d, i), walk: (v.walk ?? DEPTHS.cells[v.cell]), area: v.area,
+    const level = { name: levelName(d, i), map: v.map, walk: (v.walk ?? DEPTHS.cells[v.cell]), area: v.area,
       portals: ways.map(m => ({ at: [m[1], m[2]], name: m[0] === "down" ? (m[3] ? levelName(d, d.levels.findIndex(x => x.map === m[3])) : v.marks.filter(x => x[0] === "down").length > 1 ? "Stairs down" : levelName(d, i + 1)) : AREAS[m[3]]?.name || "" })) };
     const spots = v.marks.filter(m => !ways.includes(m)).map(m => ({ x: m[1], y: m[2],
       name: m[0] === "start" ? "Arrive" : STOP.includes(m[0]) ? `${stops(v).indexOf(m) + 1}. ${m[3]}` : m[3] }));
