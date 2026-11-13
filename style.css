@@ -993,12 +993,10 @@ a.hchip { text-decoration: none; }
 .bd-note { font-size: 13px; margin: 8px 0 0; }
 .bd-sprofs { margin: -2px 0 10px; }
 
-/* phones: the page links scroll sideways in one row, the small links sit on a line below */
+/* phones: the page links wrap into rows, all in view (no sideways scrolling); the small links sit on a line below */
 @media (max-width: 760px) {
   header.top { flex-wrap: wrap; gap: 2px 14px; padding: 8px 0 6px; margin-bottom: 10px; }
-  nav.pages { flex: 1 1 100%; gap: 16px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px;
-    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
-  nav.pages::-webkit-scrollbar { display: none; }
+  nav.pages { flex: 1 1 100%; flex-wrap: wrap; gap: 4px 12px; overflow: visible; padding-bottom: 2px; }
   nav.pages a { font-size: 11px; white-space: nowrap; }
   .hdr-link.push { margin-left: 0; }
   .hdr-link { font-size: 11px; }
