@@ -5848,7 +5848,7 @@ const GW_GROUND = {
       "set": 0,
       "at": [6280, 2400],
       "terrain": 288299,
-      "exits": [{"to": 499, "at": [6312, 2422]}, {"to": 646, "at": [6292, 2334]}],
+      "exits": [{"to": 499, "at": [6312, 2422]}, {"to": 646, "at": [6245, 2378]}],
       "wiki": {"en": "Eye of the North (outpost)", "de": "Auge des Nordens"}
     },
     "643": {
@@ -5896,7 +5896,7 @@ const GW_GROUND = {
       "set": 0,
       "at": [6226, 2350],
       "terrain": 288299,
-      "exits": [{"to": 642, "at": [6292, 2334]}],
+      "exits": [{"to": 642, "at": [6245, 2378]}],
       "wiki": {"en": "Hall of Monuments", "de": "Halle der Monumente"}
     },
     "647": {
