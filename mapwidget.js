@@ -207,7 +207,7 @@ function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null, spots = nu
   ids = [...new Set(ids.map(Number))];
   if (!ids.length && !self && !level) return "";
   return `<figure class="gmap" data-ids="${ids.join(",")}"${self ? ` data-self="${self}"` : ""}${town ? ` data-town="${[town].flat().join(",")}"` : ""}${spots ? ` data-spots="${esc(JSON.stringify(spots))}"` : ""}${level ? ` data-level="${esc(JSON.stringify(level))}"` : ""}${crop ? ` data-crop="${crop.join(",")}"` : ""}${aspect ? ` data-aspect="${aspect}"` : ""} data-h="${height}">
-    <div class="gmap-win" tabindex="0" role="img"><canvas></canvas></div>
+    <div class="gmap-win" tabindex="0" role="img" style="height: ${height}px"><canvas></canvas></div>
     <figcaption><label>Darkness <input type="range" min="0" max="100" value="66"></label>${note && `
       <span class="gmap-note">${note}</span>`}
       <label title="Outposts, mission outposts and dungeons"><input type="checkbox" class="gmap-nomarks"${hideMarks() ? " checked" : ""}> Hide markers</label></figcaption>
@@ -258,6 +258,7 @@ async function initMap(fig) {
   }
   const bw = box[2] - box[0], bh = box[3] - box[1], maxH = +fig.dataset.h;
   const win = fig.querySelector(".gmap-win"), cv = win.querySelector("canvas"), ctx = cv.getContext("2d");
+  win.style.height = "";  // (its place held at the map's height until now, so a reload finds the page its size and keeps its scroll)
   win.style.aspectRatio = `${bw} / ${bh}`;
   win.style.width = `min(100%, ${Math.round(maxH * bw / bh)}px)`;
   win.setAttribute("aria-label", `${level?.name || ids.map(areaName).join(", ") || areaName(self)}: where you can walk`);

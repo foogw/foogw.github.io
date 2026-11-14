@@ -51,7 +51,7 @@
   </div>
 
   <div class="gsearch">
-    <input type="search" id="q" placeholder="Search skills, missions, areas, quests, bosses, Nick items — or paste a template code" autocomplete="off" autofocus>
+    <input type="search" id="q" placeholder="Search skills, missions, areas, quests, bosses, Nick items — or paste a template code" autocomplete="off">
   </div>
   <div class="results" id="results"></div>
 
@@ -285,7 +285,7 @@ document.addEventListener("keydown", e => {
 });
 
 // a game thing's own page (./?area=146, ./?skill=1234, …): the home page gives way to it
-function route() {
+function route(e) {
   // a dungeon's old area link: its own page now
   if (isDungeon(AREAS[args().get("area")])) history.replaceState(null, "", HREF.dungeon(args().get("area")));
   // and the other way: a dungeon link to one of its levels (or a quest area the game types as a dungeon) is its area page
@@ -301,6 +301,9 @@ function route() {
     document.title = TITLE;
     $("q").value = p.get("q") || "";
     render();
+    // (the search box focused on arriving, from here and not by autofocus: with that attribute in the page Chrome
+    // doesn't restore the scroll on a reload, even on a thing's page where the box is hidden)
+    if (!e) $("q").focus({ preventScroll: true });
     return;
   }
   $("view").dataset.at = `${k}=${p.get(k)}`;
@@ -311,7 +314,8 @@ function route() {
     ${LISTS[k] ? `<p><a href="${LISTS[k]}">All ${LISTS[k]} →</a></p>` : ""}`;
   if (x) { initMaps($("view")); v.after?.($("view"), x); }
   document.title = x ? `${v.title(x)} · GW` : TITLE;
-  window.scrollTo(0, 0);
+  // (to the top on a link followed in place; a reload or a step back keeps the browser's own place in the page)
+  if (e?.type === "route") window.scrollTo(0, 0);
 }
 const TITLE = document.title;
 route();
