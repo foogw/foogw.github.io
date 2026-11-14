@@ -13,19 +13,25 @@ const capturedIn = camp => once("cap" + camp, () => Object.entries(SKILLS).filte
 const storyIn = camp => once("story" + camp, () => Object.values(MISSIONS).filter(m => m.kind === "story" && AREAS[m.id]?.campaign === camp).map(m => m.id));
 // the areas of a campaign to vanquish (those with foes to kill for it)
 const vanquishIn = camp => once("vanq" + camp, () => Object.values(AREAS).filter(l => l.foes && l.campaign === camp).map(l => l.id));
-// the derived titles: [title id, (c, o) => [have, need, unit]]; a title is reached when have >= need
+// the derived titles: [title id, (c, o) => [have, need, unit, left]]; a title is reached when have >= need; left is
+// what its list of things still to do holds (My Characters' Titles tab links it while there is something), which can
+// outlast the title: a campaign's Skill Hunter needs fewer elites than it counts
+const uncaptured = (c, camps) => { const got = new Set(c.elites); return [...new Set(camps.flatMap(capturedIn))].filter(s => !got.has(s)).length; };
 const DERIVED_TITLES = new Map([
-  ...[[24, 1, 90], [26, 2, 120], [28, 3, 140]].map(([id, camp, need]) => [id, c => { const got = new Set(c.elites); return [capturedIn(camp).filter(s => got.has(s)).length, need, "elites"]; }]),
+  ...[[24, 1, 90], [26, 2, 120], [28, 3, 140]].map(([id, camp, need]) => [id, c => { const got = new Set(c.elites), all = capturedIn(camp); return [all.filter(s => got.has(s)).length, need, "elites", uncaptured(c, [camp])]; }]),
   ...[[13, 1, 25, 1], [14, 2, 13, 1], [19, 3, 20, 1], [35, 1, 25, 2], [36, 2, 13, 2], [37, 3, 20, 2]].map(([id, camp, need, mode]) =>
-    [id, c => [storyIn(camp).filter(m => (c.missions[m] || 0) & mode).length, need, `missions in ${mode === 1 ? "NM" : "HM"}`]]),
+    [id, c => { const n = storyIn(camp).filter(m => (c.missions[m] || 0) & mode).length; return [n, need, `missions in ${mode === 1 ? "NM" : "HM"}`, storyIn(camp).length - n]; }]),
   ...[[25, 1], [27, 2], [29, 3]].map(([id, camp]) => [id, c => {
-    const got = new Set(c.vanquished), all = vanquishIn(camp);
-    return [all.filter(l => got.has(l)).length, all.length, "areas vanquished"];
+    const got = new Set(c.vanquished), all = vanquishIn(camp), n = all.filter(l => got.has(l)).length;
+    return [n, all.length, "areas vanquished", all.length - n];
   }]),
-  ...[[32, [24, 26, 28]], [30, [1, 2, 18]], [33, [25, 27, 29]]].map(([id, of]) =>
-    [id, (c, o) => [of.filter(x => titleMaxed(x, c, o)).length, 3, "campaigns"]]),
-  // Legendary Guardian: the three Protector titles (NM) and the three Guardian ones (HM)
-  [31, (c, o) => [[13, 14, 19, 35, 36, 37].filter(x => titleMaxed(x, c, o)).length, 6, "titles"]],
+  // the Legendary ones: their list is the three campaigns' together (Core elites once)
+  [32, (c, o) => [[24, 26, 28].filter(x => titleMaxed(x, c, o)).length, 3, "campaigns", uncaptured(c, [1, 2, 3])]],
+  [30, (c, o) => [[1, 2, 18].filter(x => titleMaxed(x, c, o)).length, 3, "campaigns"]],
+  [33, (c, o) => { const got = new Set(c.vanquished), all = [1, 2, 3].flatMap(vanquishIn); return [[25, 27, 29].filter(x => titleMaxed(x, c, o)).length, 3, "campaigns", all.filter(l => !got.has(l)).length]; }],
+  // Legendary Guardian: the three Protector titles (NM) and the three Guardian ones (HM); its list, the missions missing
+  // in either mode
+  [31, (c, o) => [[13, 14, 19, 35, 36, 37].filter(x => titleMaxed(x, c, o)).length, 6, "titles", [1, 2, 3].flatMap(storyIn).filter(m => ((c.missions[m] || 0) & 3) !== 3).length]],
 ]);
 // Master of the North's points: 5 an EotN mission in NM and 10 in HM, 10 a dungeon in NM and 20 in HM, 15 an area
 // vanquished, from the character's ticks; and 1 a percent of the Eye of the North map explored, worked out on My

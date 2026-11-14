@@ -64,7 +64,9 @@ function mineHTML() {
     const status = na ? `<span class="dim" tabindex="0" data-tip="Only a character made in Prophecies can be a Legendary Defender of Ascalon">N/A</span>` : r >= max ? `<b class="my-max">Max</b>` : r ? `Rank ${r} of ${max}` : `<span class="dim">—</span>`;
     // (more than needed, as a campaign's Skill Hunter counting the Core elites, said as x / x)
     const count = d && `${d[0]} / ${Math.max(d[0], d[1])} ${d[2]}`;
-    const how = d ? (LEFT_LIST[t.id] ? `<a href="${LEFT_LIST[t.id]}">${count}</a>` : count) : big ? `${titlesMaxed(c, o)} titles maxed` : t.id === 42 ? motnHow(c) : GUIDE_ROW[t.id] && !pre ? `<a href="guides?${GUIDE_ROW[t.id][0]}">${GUIDE_ROW[t.id][1]}</a>` : luckHow(t.id, c, o);
+    // (the count a link to the list of what's left while that holds something, even past the title's max: a campaign's
+    // Skill Hunter needs fewer elites than there are; the guide said while the title isn't maxed)
+    const how = d ? (LEFT_LIST[t.id] && (d[3] ?? d[1] - d[0]) > 0 ? `<a href="${LEFT_LIST[t.id]}">${count}</a>` : count) : big ? `${titlesMaxed(c, o)} titles maxed` : t.id === 42 ? motnHow(c) : GUIDE_ROW[t.id] && !pre && r < max ? `<a href="guides?${GUIDE_ROW[t.id][0]}">${GUIDE_ROW[t.id][1]}</a>` : luckHow(t.id, c, o);
     const input = t.id === 42 ? `<input type="number" class="calc-in my-pts" id="motn-points" min="0" placeholder="Points" aria-label="Master of the North points the game shows" value="${motnTicked(c) + Math.max(0, c.eotnMap ?? 0)}">`
       : d || big || na ? ""
       : STEPPED.has(t.id) ? `<span class="my-step"><button type="button" data-step="-1" data-title="${t.id}" aria-label="Rank down"${r ? "" : " disabled"}>▼</button>`
