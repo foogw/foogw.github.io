@@ -44,14 +44,15 @@
         <td class="num"><span class="u-gwamm" data-rank="${kbd}" style="font-weight: 600" title="Kind of a Big Deal rank ${kbd}">${maxed}</span></td>
         <td class="num">${reading(c, "xp")}</td><td class="num">${reading(c, "played")}</td><td class="num">${reading(c, "playedOutside")}</td>
         <td class="num">${Number.isNaN(outsidePct(c)) ? '<span class="dim" title="Needs both hours typed in on its Edit tab">?</span>' : `${Math.round(outsidePct(c))}%`}</td><td>${USER_AIMS[c.aim || ""]}</td></tr>`;
-      return { id: c.id, i, html, key: { acct: [o.accounts.indexOf(acctOf(c)), i], name: c.name.toLowerCase(), made: made || 9, modes: -(c.modes || []).length,
+      return { id: c.id, i, html, key: { acct: o.accounts.indexOf(acctOf(c)), name: c.name.toLowerCase(), made: made || 9, modes: -(c.modes || []).length,
         bday: bdKey, titles: maxed, aim: { gwamm: 0, retired: 2 }[c.aim] ?? 1,
         // (not typed in: last, either way)
         ...Object.fromEntries(USER_READINGS.map(k => [k, c[k] ? c[k][0] : NaN])), outsidePct: outsidePct(c) } };
     });
-    // (ties left in the order they were in)
+    // (ties left in the order they were in, so sorting by account keeps the sort before it within each account; at
+    // first, the saved order)
     const was = x => { const j = prev.indexOf(x.id); return j < 0 ? x.i : j; };
-    const cmp = (a, b) => Array.isArray(a) ? a[0] - b[0] || a[1] - b[1] : a < b ? -1 : a > b ? 1 : 0;
+    const cmp = (a, b) => a < b ? -1 : a > b ? 1 : 0;
     const none = x => Number.isNaN(x.key[sortBy]);
     rows.sort((a, b) => none(a) - none(b) || cmp(a.key[sortBy], b.key[sortBy]) * sortDir || was(a) - was(b));
     prev = rows.map(x => x.id);
