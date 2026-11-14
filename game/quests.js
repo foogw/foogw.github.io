@@ -1,11 +1,10 @@
 const GW_QUESTS = {
-  "quests_": "Kept by hand. Keys are game quest ids; 100000 and up are ours until the game's is known. givers: npcs, one per area it is given (their area and region come from there); campaign and region only when there is no giver. travel: the campaign it takes you to. event: the yearly event (calendar.js) it belongs to. requires, next: quests; requires_missions, next_missions: missions; requires_other: requirements that aren't quests. missions: missions it belongs to. skills: skill ids. wiki: its page on each wiki, {en, de} (as areas).",
+  "quests_": "Kept by hand. Keys are game quest ids; 100000 and up are ours until the game's is known. givers: npcs, one per area it is given (their area and region come from there); campaign and region only when there is no giver. travel: the campaign it takes you to. event: the yearly event (calendar.js) it belongs to. requires, next: quests; requires_missions, next_missions: missions; requires_other: requirements that aren't quests. missions: missions it belongs to. dungeon: the dungeon (area) it sends you into, when its giver stands outside it. skills: skill ids. wiki: its page on each wiki, {en, de} (as areas).",
   "quests": {
     "917": {
       "name": "The Last Hierophant",
       "type": "secondary",
-      "campaign": 4,
-      "region": 18,
+      "givers": [843],
       "xp": 15000,
       "gold": 2750,
       "objectives": [
@@ -5226,6 +5225,7 @@ const GW_QUESTS = {
     },
     "100372": {
       "name": "Heart of the Shiverpeaks",
+      "dungeon": 607,
       "type": "primary",
       "givers": [442],
       "xp": 2000,
@@ -5404,6 +5404,7 @@ const GW_QUESTS = {
     },
     "100384": {
       "name": "Lost Treasure of King Hundar",
+      "dungeon": 701,
       "type": "secondary",
       "givers": [380],
       "xp": 2500,
@@ -18787,6 +18788,7 @@ const GW_QUESTS = {
     },
     "101258": {
       "name": "The Dreamer and the Zealot",
+      "dungeon": 879,
       "type": "secondary",
       "givers": [346],
       "xp": 500,
@@ -19330,6 +19332,7 @@ const GW_QUESTS = {
     },
     "101300": {
       "name": "The Scourge Beneath",
+      "dungeon": 780,
       "type": "secondary",
       "givers": [399],
       "xp": 250,

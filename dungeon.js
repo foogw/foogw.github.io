@@ -99,12 +99,14 @@ VIEWS.dungeon = (() => {
   function html(d) {
     const l = AREAS[d.id], ins = entrances(l);
     const outposts = [...new Set((l.exits || []).map(e => e.to))].filter(i => isOutpost(AREAS[i]));  // its portal is in the outpost
-    const quests = [...new Set([d.id, ...d.levels.map(v => v.map)])].flatMap(questsAt);
+    // its quests: the ones given inside it, and the one that sends you into it from outside (the quest's dungeon)
+    const inside = [...new Set([d.id, ...d.levels.map(v => v.map)])];
+    const quests = [...new Set([...inside.flatMap(questsAt), ...Object.values(QUESTS).filter(q => q.dungeon === d.id)])];
     const notes = [
       bounty(d.id),
       ...quests.map(q => {
-        const gs = questGivers(q), k = d.levels.findIndex(v => v.map === gs[0]?.area && v.map !== d.id);
-        return `Quest: ${LINK.quest(q.id)}${gs.length ? `, from ${esc([...new Set(gs.map(n => n.name))].join(", "))}${k > 0 ? ` on ${esc(levelName(d, k))}` : ""}` : ""}.`;
+        const gs = questGivers(q), k = d.levels.findIndex(v => v.map === gs[0]?.area && v.map !== d.id), out = gs[0]?.area && !inside.includes(gs[0].area);
+        return `Quest: ${LINK.quest(q.id)}${gs.length ? `, from ${esc([...new Set(gs.map(n => n.name))].join(", "))}${out ? ` in ${LINK.area(gs[0].area)}` : k > 0 ? ` on ${esc(levelName(d, k))}` : ""}` : ""}.`;
       }),
       ...outposts.map(o => `Entered straight from ${LINK.area(o)}.`),
       d.levels.length ? `The paths drawn on the levels are worked out on the map's ground and are unchecked: one may go through a wall or a closed passage.` : "",

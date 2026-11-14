@@ -31,6 +31,7 @@ VIEWS.quest = (() => {
         ...(q.requires_missions || []).map(whereLink), ...(q.requires_other || []).map(esc)].join(", ")],
       q.next?.length && ["Leads to", q.next.map(i => LINK.quest(i)).join(", ")],
       (q.missions?.length || q.next_missions?.length) && ["Opens mission", [...(q.missions || []), ...(q.next_missions || [])].map(whereLink).join(", ")],
+      q.dungeon && ["Dungeon", LINK.area(q.dungeon)],
       q.travel != null && ["Takes you to", CAMPAIGNS[q.travel]],
       q.event && ["Event", `<a href="events">${esc(EVENTS[q.event]?.name)}</a>`],
     ].filter(Boolean);

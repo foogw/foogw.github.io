@@ -2961,6 +2961,7 @@ const GW_CREATURES = {
     "839": {"name": "Burreh", "area": 436, "roles": ["armor crafter"]},
     "840": {"name": "Pasu", "area": 515, "roles": ["armor crafter"]},
     "841": {"name": "Sulee", "area": 516, "roles": ["armor crafter"]},
-    "842": {"name": "Sol Pyrrhus", "area": 63, "roles": ["armor crafter"]}
+    "842": {"name": "Sol Pyrrhus", "area": 63, "roles": ["armor crafter"]},
+    "843": {"name": "Veth the Storyteller", "area": 577, "roles": ["quests"]}
   }
 };
