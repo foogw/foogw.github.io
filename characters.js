@@ -453,7 +453,7 @@ const menuPick = (c, rowId = null) => `<label class="ch-edit-menu" title="Listed
 const charRow = (o, c, cur, tab = false) => { const sib = o.chars.filter(x => x.account === c.account), hid = !!c.hidden, one = o.chars.length < 2 && !c.mock, lone = sib.length < 2;
   return `<tr class="${[c === cur && "cur", hid && "u-hid"].filter(Boolean).join(" ")}" data-id="${c.id}">
     <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}${genderBtn(c)}${tab ? campPick(c) + aimPick(c) + menuPick(c) : menuPick(c, c.id)}</div></td>
-    <td>${tab ? "" : `<button type="button" class="u-btn u-show" data-hide aria-pressed="${hid}" title="${hid ? "Hidden from the view: show it" : "Hide it from the view"}">${hid ? "Show" : "Hide"}</button>`}${moveBtns(lone, lone)}${tab ? "" : `<span class="u-slot${one || !hid ? " u-why" : ""}" ${one || !hid ? `data-tip="${one ? "The last character can't be deleted" : "Hide a character before deleting it, so it isn't done by mistake"}" tabindex="0"` : ""}><button type="button" class="u-btn danger" data-delete${one || !hid ? " disabled" : ""}>Delete</button></span>`}</td></tr>`; };
+    <td>${tab ? "" : `<a class="u-open" href="characters" data-open title="Its page on the Characters tab, to tick off its progress">Open${CHEV("M6 3l5 5-5 5")}</a><button type="button" class="u-btn u-show" data-hide aria-pressed="${hid}" title="${hid ? "Hidden from the view: show it" : "Hide it from the view"}">${hid ? "Show" : "Hide"}</button>`}${moveBtns(lone, lone)}${tab ? "" : `<span class="u-slot${one || !hid ? " u-why" : ""}" ${one || !hid ? `data-tip="${one ? "The last character can't be deleted" : "Hide a character before deleting it, so it isn't done by mistake"}" tabindex="0"` : ""}><button type="button" class="u-btn danger" data-delete${one || !hid ? " disabled" : ""}>Delete</button></span>`}</td></tr>`; };
 function manageHTML(o, cur, many) {
   const folded = new Set(acctFolds()), row = c => charRow(o, c, cur);
   // (with one account, its row too, for its name and bell, but no folding, moving or deleting)
@@ -564,6 +564,9 @@ document.addEventListener("click", e => {
   if (tb) { tab = tb.dataset.tab; try { localStorage.setItem(TAB, tab); } catch { /* storage blocked */ } return drawTabs(); }
   const p = e.target.closest("[data-pick]");
   if (p) { User.pick(+p.dataset.pick); return render(); }
+  // (Edit's table: the character opened on the Characters tab)
+  const op = e.target.closest("[data-open]");
+  if (op) { e.preventDefault(); User.pick(+op.closest("tr").dataset.id); return setView("chars"); }
   const f = e.target.closest("[data-fold-account]");
   if (f) { foldAccount(+f.dataset.foldAccount); return render(); }
 });
