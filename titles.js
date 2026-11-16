@@ -55,8 +55,9 @@ document.addEventListener("change", e => {
   if (map !== null && map < 0) $("motn-how").textContent = motnHow({ ...User.char(), eotnMap: map });
 });
 function mineHTML() {
-  const o = User.data(), c = User.char(o), pre = (c.modes || []).includes("presearing");
-  const list = MY_ORDER.map(id => TITLES[id]).filter(t => t && (!pre || t.scope === "account" || PRE_TITLES.has(t.id)));
+  const o = User.data(), c = User.char(o), pre = (c.modes || []).includes("presearing"), mel = isMelandru(c);
+  // (a Melandru's Accord character: its own titles only, the account's not being for it)
+  const list = MY_ORDER.map(id => TITLES[id]).filter(t => t && (!pre || t.scope === "account" || PRE_TITLES.has(t.id)) && !(mel && t.scope === "account"));
   const section = (label, ts) => (ts.length ? `<h3 class="my-h">${label}</h3><table class="my-titles"><tbody>${ts.map(t => {
     const r = titleRankOf(t, c, o), max = titleMax(t), d = DERIVED_TITLES.get(t.id)?.(c, o), big = t.id === 10;
     // Legendary Defender of Ascalon, for a character made in Factions or Nightfall: not to be had (N/A, no tick)
@@ -66,7 +67,7 @@ function mineHTML() {
     const count = d && `${d[0]} / ${Math.max(d[0], d[1])} ${d[2]}`;
     // (the count a link to the list of what's left while that holds something, even past the title's max: a campaign's
     // Skill Hunter needs fewer elites than there are; the guide said while the title isn't maxed)
-    const how = d ? (LEFT_LIST[t.id] && (d[3] ?? d[1] - d[0]) > 0 ? `<a href="${LEFT_LIST[t.id]}">${count}</a>` : count) : big ? `${titlesMaxed(c, o)} titles maxed` : t.id === 42 ? motnHow(c) : GUIDE_ROW[t.id] && !pre && r < max ? `<a href="guides?${GUIDE_ROW[t.id][0]}">${GUIDE_ROW[t.id][1]}</a>` : luckHow(t.id, c, o);
+    const how = d ? (LEFT_LIST[t.id] && (d[3] ?? d[1] - d[0]) > 0 ? `<a href="${LEFT_LIST[t.id]}">${count}</a>` : count) : big ? `${titlesMaxed(c, o)} titles maxed${melMaxedNote(c, o) ? ` <span class="my-ast" tabindex="0" data-tip="${esc(melMaxedNote(c, o))}">*</span>` : ""}` : t.id === 42 ? motnHow(c) : GUIDE_ROW[t.id] && !pre && r < max ? `<a href="guides?${GUIDE_ROW[t.id][0]}">${GUIDE_ROW[t.id][1]}</a>` : luckHow(t.id, c, o);
     const input = t.id === 42 ? `<input type="number" class="calc-in my-pts" id="motn-points" min="0" placeholder="Points" aria-label="Master of the North points the game shows" value="${motnTicked(c) + Math.max(0, c.eotnMap ?? 0)}">`
       : d || big || na ? ""
       : STEPPED.has(t.id) ? `<span class="my-step"><button type="button" data-step="-1" data-title="${t.id}" aria-label="Rank down"${r ? "" : " disabled"}>▼</button>`
@@ -82,7 +83,8 @@ function mineHTML() {
   // the progress boxes (characters.js) first: not for a pre-Searing character
   return `${typeof statsHTML === "function" && !pre ? statsHTML(c) : ""}<section class="t-panel my" style="--c:var(--accent)">
     ${section("Character titles", of("character", false))}${section("Character titles, PvP", of("character", true))}
-    ${section(`Account titles: ${esc(accountName(acct))}, shared by its characters`, of("account", false))}${section("Account titles, PvP", of("account", true))}
+    ${mel ? `<h3 class="my-h">Account titles: ${esc(accountName(acct))}</h3><p class="dim my-mel">Not for a Melandru's Accord character: it can't show them or have their effects, and Kind of a Big Deal doesn't count them. Its account's other characters keep them.</p>`
+      : section(`Account titles: ${esc(accountName(acct))}, shared by its characters`, of("account", false)) + section("Account titles, PvP", of("account", true))}
   </section>`;
 }
 const lockedOut = () => User.broken() && (askBroken(), true);

@@ -54,17 +54,29 @@ function titleKept(t, c, o) {
   const holder = t.scope === "account" ? (o.accounts || []).find(a => a.id === (c.account ?? 1)) : c;
   return holder?.titles?.[t.id] || 0;
 }
-// the other titles maxed, that Kind of a Big Deal counts
-// (kept per character, worked out again only when what titles go by changed: its ticks, titles, map explored, its
-// account's titles; not its name, order, modes, heroes or builds)
+// a Melandru's Accord character: it can't show its account's titles or have their effects, and Kind of a Big Deal
+// doesn't count them (wiki, Melandru's Accord)
+const isMelandru = c => (c.modes || []).includes("melandru");
+// the other titles maxed, that Kind of a Big Deal counts: for a Melandru's Accord character, its own only
+// (kept per character, worked out again only when what titles go by changed: its ticks, titles, map explored, modes,
+// its account's titles; not its name, order, heroes or builds)
 const MAXED = new Map();
 function titlesMaxed(c, o) {
-  const sig = JSON.stringify([c.elites, c.vanquished, c.missions, c.dungeons, c.titles, c.eotnMap, o.accounts.find(a => a.id === c.account)?.titles]);
+  const sig = JSON.stringify([c.elites, c.vanquished, c.missions, c.dungeons, c.titles, c.eotnMap, c.modes, o.accounts.find(a => a.id === c.account)?.titles]);
   const was = MAXED.get(c.id);
   if (was?.sig === sig) return was.n;
-  const n = Object.values(TITLES).filter(x => x.id !== 10 && titleMaxed(x.id, c, o)).length;
+  const n = Object.values(TITLES).filter(x => x.id !== 10 && !(isMelandru(c) && x.scope === "account") && titleMaxed(x.id, c, o)).length;
   MAXED.set(c.id, { sig, n });
   return n;
+}
+// the account titles maxed, that Kind of a Big Deal doesn't count for a Melandru's Accord character
+const accountTitlesMaxed = (c, o) => Object.values(TITLES).filter(x => x.id !== 10 && x.scope === "account" && titleMaxed(x.id, c, o)).length;
+// what to say by a Melandru's Accord character's count when the game's Hero panel may show another (the wiki's bug
+// note: the account's titles may count there for a while), or ""
+function melMaxedNote(c, o) {
+  if (!isMelandru(c)) return "";
+  const own = titlesMaxed(c, o), acct = accountTitlesMaxed(c, o);
+  return acct > own ? `The game may show more. Its account has ${acct} account title${acct === 1 ? "" : "s"} maxed, not counted under Melandru's Accord, but the game's Hero panel may count them for a while (a known bug).` : "";
 }
 // a title's rank: worked out, or as kept; Kind of a Big Deal: a rank for every 5 other titles maxed
 // a character's importance: the titles it has maxed (Kind of a Big Deal's count); characters most important first, the
