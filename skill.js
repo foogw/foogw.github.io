@@ -54,6 +54,8 @@ VIEWS.skill = (() => {
       s.recharge && ["Recharge", `${s.recharge}s`]].filter(Boolean);
     const title = s.title && titleOf(s);
     const used = USED_IN.get(s.id) || [];
+    // the easiest capture(s) we picked (data/captures.js), each with its map and way
+    const captures = s.elite && !s.pvp_only ? CAPTURES[s.id] || [] : [];
     return `<p class="back"><a href="skills">← All skills</a></p>
       <div class="sp-head${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}">
         <img class="sp-icon" src="img/skills/${s.id}.jpg" alt="" onerror="this.remove()">
@@ -72,7 +74,10 @@ VIEWS.skill = (() => {
         </div>
         <div class="lside"><section class="lbox"><h4>How to get it</h4>${acquisitionHTML(s)}</section></div>
       </div>
+      ${captures.length ? `<div class="bmaps">${captures.map((c, k) => `<section class="lbox bmap" data-k="${k}"><h4>${captures.length > 1 ? `#${k + 1} ` : ""}${LINK.boss(c.boss)} <span class="dim">· ${whereLink(c.area)}${c.from ? ` · from ${whereLink(c.from)}` : MISSIONS[c.area] ? " · in the mission" : isDungeon(AREAS[c.area]) ? " · in the dungeon" : ""}${whenText(c.boss) ? ` · ${whenText(c.boss)}` : ""}</span></h4><div class="nmap"></div><div class="nways"></div></section>`).join("")}</div>` : ""}
       <p class="llinks"><a href="builder?add=${s.id}">Add to builder →</a><span class="dim">Skill ID ${s.id}</span></p>`;
   }
-  return { find: id => SKILLS[id], title: s => s.name, html };
+  // the capture maps, once on the page
+  function after(el, s) { const live = () => el.dataset.at === `skill=${s.id}`; el.querySelectorAll(".bmap").forEach(m => captureMap(m, (CAPTURES[s.id] || [])[+m.dataset.k], live)); }
+  return { find: id => SKILLS[id], title: s => s.name, html, after };
 })();

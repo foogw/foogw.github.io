@@ -233,6 +233,7 @@ async function main() {
   rule("areas shown only with Show all", "area", all(F["data/areas"]?.hidden || {}).map(([k, ids]) => [`hidden ${k}`, ids]));
   say();
   head("data/missionmaps.js");
+  head("data/captures.js");
   rule("mission map: a mission's area (or its copy's)", "area", Object.keys(F["data/missionmaps"]?.missions || {}).map(k => [`mission map ${k}`, k]));
   rule("mission map: in", "area", all(F["data/missionmaps"]?.missions).map(([k, v]) => [`mission map ${k}`, v.in]));
   rule("mission map: walk", "walk", all(F["data/missionmaps"]?.missions).map(([k, v]) => [`mission map ${k}`, v.walk]));
