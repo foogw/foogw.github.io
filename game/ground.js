@@ -2359,7 +2359,7 @@ const GW_GROUND = {
       "set": 2,
       "terrain": 154676,
       "exits": [
-        {"to": 388, "at": [3893, 2614]},
+        {"to": 388, "at": [3827, 2653]},
         {"to": 77, "at": [3561, 2698]},
         {"to": 129, "at": [3893, 3086]},
         {"to": 349, "at": [3609, 3070]}
@@ -3256,7 +3256,7 @@ const GW_GROUND = {
       "set": 2,
       "at": [3912, 2550],
       "terrain": 155164,
-      "exits": [{"to": 388, "at": [3899, 2538]}],
+      "exits": [{"to": 388, "at": [3893, 2614]}],
       "order": 34.5,
       "wiki": {"en": "Fort Aspenwood (Kurzick)", "de": "Fort Espenwald (Kurzick)"}
     },
@@ -3891,7 +3891,7 @@ const GW_GROUND = {
       "set": 2,
       "at": [3882, 2640],
       "terrain": 155164,
-      "exits": [{"to": 210, "at": [3893, 2614]}, {"to": 294, "at": [3899, 2538]}],
+      "exits": [{"to": 210, "at": [3827, 2653]}, {"to": 294, "at": [3893, 2614]}],
       "order": 34.5,
       "wiki": {"en": "Aspenwood Gate (Kurzick)", "de": "Espenwald-Tor (Kurzick)"}
     },
