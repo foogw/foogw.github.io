@@ -19,7 +19,7 @@ const rangesText = p => (p.ranges != null ? `${p.ranges} r` : p.kind === "missio
 // what else to know of a pick: a loop, a patrol, several places, a dungeon's level, the wiki's conditions
 function pickNote(p) {
   return [p.loop && `walks a loop, ${LOOP_WAYS[p.loop] || p.loop}`, p.patrol && `${p.patrol} spots close together`, p.places && `one of ${p.places} places, all walked`,
-    p.kind === "dungeon" && `level ${p.level}`, whenText(p.boss)].filter(Boolean).join(" · ");
+    p.kind === "dungeon" && `level ${p.level}`, whenText(p.boss, p.area)].filter(Boolean).join(" · ");
 }
 const rows = ELITES.map(s => ({ s, picks: CAPS[s.id], best: CAPS[s.id][0], diff: diffOf(CAPS[s.id][0]) }));
 

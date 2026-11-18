@@ -256,7 +256,8 @@ async function main() {
   rule("capture: from", "area", all(CP.captures).map(([k, ps]) => [`capture ${k}`, ps.map(p => p.from)]));
   rule("capture: the boss has a spot in the area", "boss spot", all(CP.captures).map(([k, ps]) => [`capture ${k}`, ps.map(p => `${p.boss}@${p.area}`)]));
   rule("capture conditions: boss", "creature", Object.keys(CP.when || {}).map(k => [`when ${k}`, k]));
-  rule("capture conditions: quests", "quest", all(CP.when).map(([k, w]) => [`when ${k}`, Object.values(w).flat()]));
+  rule("capture conditions: quests", "quest", all(CP.when).map(([k, w]) => [`when ${k}`, Object.entries(w).filter(([q]) => q !== "area").flatMap(([, v]) => v)]));
+  rule("capture conditions: area", "area", all(CP.when).filter(([, w]) => w.area).map(([k, w]) => [`when ${k}`, w.area]));
   say();
   head("data/depths.js, routing.js");
   rule("dungeon (its map)", "area", Object.keys(DE.dungeons || {}).map(k => [`dungeon ${k}`, k]));

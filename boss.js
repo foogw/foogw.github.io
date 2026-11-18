@@ -39,7 +39,7 @@ const onlyDuring = (b, area) => onlyQuests(b, area).map(q => (typeof q === "numb
 const spotSets = b => Object.values((BOSS_SPOTS[b.id] || []).reduce((o, s) => { const l = depthsLevel(s[0], s[1], s[2]); return ((o[s[0] + "|" + (s[3] || "") + "|" + (l ? l.map ?? l.key : "")] ||= []).push(s), o); }, {}));
 // the terms it is there under, for a heading: only during a quest (data/bosses.js only), or the wiki's condition on a
 // capture worth it all the same (data/captures.js when)
-const spotWhen = (b, ss) => { const q = ss[0][3] ? [] : onlyDuring(b, ss[0][0]); return q.length ? ` <span class="dim">· only during ${listText(q)}</span>` : whenText(b.id) ? ` <span class="dim">· ${whenText(b.id)}</span>` : ""; };
+const spotWhen = (b, ss) => { const q = ss[0][3] ? [] : onlyDuring(b, ss[0][0]); return q.length ? ` <span class="dim">· only during ${listText(q)}</span>` : whenText(b.id, ss[0][0]) ? ` <span class="dim">· ${whenText(b.id, ss[0][0])}</span>` : ""; };
 const spotTitle = ss => { const l = depthsLevel(ss[0][0], ss[0][1], ss[0][2]); return areaName(ss[0][0]) + (ss[0][3] ? ` (${ss[0][3]})` : "") + (l?.n ? `, level ${l.n}` : ""); };
 // the outposts to walk from: those within two portals of the area, on its map
 function spotOutposts(area) {
@@ -90,7 +90,7 @@ async function bossMap(el, b, ss, live = () => true, opts = {}) {
   const spots = ss.filter((s, k) => k % every === 0).map(s => ({ x: s[1], y: s[2], name: numbered ? String(ss.indexOf(s) + 1) : ss.indexOf(s) ? "" : b.name }));
   const cell = depthsLevel(area, ss[0][1], ss[0][2]);
   // (the terms it is there under: under the map, and the first line of the ways' legend)
-  const when = (ss[0][3] ? [] : onlyDuring(b, area)).length ? `Only during the quest ${listText(onlyDuring(b, area))}` : whenText(b.id) ? whenText(b.id)[0].toUpperCase() + whenText(b.id).slice(1) : "";
+  const when = (ss[0][3] ? [] : onlyDuring(b, area)).length ? `Only during the quest ${listText(onlyDuring(b, area))}` : whenText(b.id, area) ? whenText(b.id, area)[0].toUpperCase() + whenText(b.id, area).slice(1) : "";
   const setWays = html => { el.querySelector(".nways").innerHTML = (when ? `<span class="dim">${when}</span>` : "") + html; };
   const note = [ss[0][3] && `Only in ${esc(spotTitle(ss))}, the version of the area the quest makes`, when, many && spotsText(b.id, ss.length, patrol),
     cell && !cell.n && !DEPTHS?.dungeons?.[area] && "On another of its levels"].filter(Boolean).join(" · ");
@@ -212,9 +212,9 @@ async function bossMap(el, b, ss, live = () => true, opts = {}) {
 }
 // an elite's picked capture (data/captures.js): the boss's spots in that area, walked from its one start
 const CAPTURES = data("GW_CAPTURES")?.captures || {}, CAPTURE_WHEN = data("GW_CAPTURES")?.when || {};
-const whenText = id => { const w = CAPTURE_WHEN[id]; if (!w) return "";
+const whenText = (id, area) => { const w = CAPTURE_WHEN[id]; if (!w || (w.area && area != null && +w.area !== +area)) return "";
   const q = ids => listText(ids.map(id => LINK.quest(id)));
-  return [w.only && `only during ${q(w.only)}`, w.before && `before completing ${q(w.before)}`, w.during && `during ${q(w.during)}`, w.after && `after completing ${q(w.after)}`].filter(Boolean).join(", or ");
+  return [w.only && `only during ${q(w.only)}`, w.not && `not during ${q(w.not)}`, w.before && `before completing ${q(w.before)}`, w.during && `during ${q(w.during)}`, w.after && `after completing ${q(w.after)}`].filter(Boolean).join(", or ");
 };
 function captureMap(el, c, live) {
   const b = bossTable().get(c.boss), ss = (BOSS_SPOTS[c.boss] || []).filter(s => s[0] === c.area && !s[3]);
@@ -243,7 +243,7 @@ VIEWS.boss = (() => {
           // (the version of the area a quest makes, "War in Kryta": named here too, as on its map)
           const vs = [...new Set((BOSS_SPOTS[b.id] || []).filter(s => s[0] === i && s[3]).map(s => s[3]))];
           const only = vs.length && (BOSS_SPOTS[b.id] || []).every(s => s[0] !== i || s[3]);
-          const when = (only ? [] : onlyDuring(b, i)).length ? ` · only during ${listText(onlyDuring(b, i))}` : whenText(b.id) ? ` · ${whenText(b.id)}` : "";
+          const when = (only ? [] : onlyDuring(b, i)).length ? ` · only during ${listText(onlyDuring(b, i))}` : whenText(b.id, i) ? ` · ${whenText(b.id, i)}` : "";
           return `<li>${whereLink(i)}<span class="dim">${vs.length ? `${esc(listText(vs))}${only ? " only" : ""} · ` : ""}${MISSIONS[i] ? "Mission" : isDungeon(AREAS[i]) ? dungeonWhere(b, i) : esc(TYPE_LABEL[AREAS[i]?.type] || "")}${n > 1 ? ` · ${n} spots` : ""}${when}</span></li>`; }).join("")}</ul></section>
       </div>
       <div class="bmaps">${BOSS_SPOTS[b.id] ? spotSets(b).map((ss, k) => `<section class="lbox bmap" data-k="${k}"><h4>${esc(spotTitle(ss))}${spotWhen(b, ss)}</h4><div class="nmap"></div><div class="nways"></div></section>`).join("")

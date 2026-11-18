@@ -78,7 +78,7 @@ VIEWS.skill = (() => {
         </div>
         <div class="lside"><section class="lbox"><h4>How to get it</h4>${acquisitionHTML(s)}</section></div>
       </div>
-      ${captures.length ? `<div class="bmaps">${captures.map((c, k) => `<section class="lbox bmap" data-k="${k}"><h4>${captures.length > 1 ? `#${k + 1} ` : ""}${LINK.boss(c.boss)} <span class="dim">· ${whereLink(c.area)}${c.from ? ` · from ${whereLink(c.from)}` : MISSIONS[c.area] ? " · in the mission" : isDungeon(AREAS[c.area]) ? " · in the dungeon" : ""}${whenText(c.boss) ? ` · ${whenText(c.boss)}` : ""}</span></h4><div class="nmap"></div><div class="nways"></div></section>`).map((h, k) => k === 1 ? `<details class="bmore"><summary>More options: ${captures.length - 1} other spot${captures.length > 2 ? "s" : ""}</summary>${h}` : h).join("")}${captures.length > 1 ? "</details>" : ""}</div>` : ""}
+      ${captures.length ? `<div class="bmaps">${captures.map((c, k) => `<section class="lbox bmap" data-k="${k}"><h4>${captures.length > 1 ? `#${k + 1} ` : ""}${LINK.boss(c.boss)} <span class="dim">· ${whereLink(c.area)}${c.from ? ` · from ${whereLink(c.from)}` : MISSIONS[c.area] ? " · in the mission" : isDungeon(AREAS[c.area]) ? " · in the dungeon" : ""}${whenText(c.boss, c.area) ? ` · ${whenText(c.boss, c.area)}` : ""}</span></h4><div class="nmap"></div><div class="nways"></div></section>`).map((h, k) => k === 1 ? `<details class="bmore"><summary>More options: ${captures.length - 1} other spot${captures.length > 2 ? "s" : ""}</summary>${h}` : h).join("")}${captures.length > 1 ? "</details>" : ""}</div>` : ""}
       <p class="llinks"><a href="builder?add=${s.id}">Add to builder →</a><span class="dim">Skill ID ${s.id}</span></p>`;
   }
   // the capture maps, once on the page
