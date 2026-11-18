@@ -37,7 +37,7 @@
 
 * { box-sizing: border-box; }
 /* always show the page scrollbar, so pages of any length line up and nothing shifts between them */
-html { overflow-y: scroll; }
+html { overflow-y: scroll; overflow-x: hidden; }  /* (the top bar's full-width strip reaches past the sides; no sideways scrolling for it) */
 body {
   margin: 0; background: var(--bg); color: var(--text);
   font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
