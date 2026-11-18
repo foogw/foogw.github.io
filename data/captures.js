@@ -78,7 +78,7 @@ const GW_CAPTURES = {
     "389": [{"boss": 100222, "area": 96, "from": 156, "kind": "walk", "ranges": 30.0, "places": 6}],
     "393": [{"boss": 100116, "area": 513, "from": 643, "kind": "walk", "ranges": 5.5, "loop": "ccw"}, {"boss": 100306, "area": 501, "from": 640, "kind": "walk", "ranges": 12.0}],
     "395": [{"boss": 100120, "area": 195, "from": 349, "kind": "walk", "ranges": 2.4}, {"boss": 100095, "area": 470, "from": 494, "kind": "walk", "ranges": 2.5}, {"boss": 100307, "area": 501, "from": 640, "kind": "walk", "ranges": 6.7}],
-    "397": [{"boss": 100268, "area": 121, "from": 35, "kind": "walk", "ranges": 0.7, "loop": "ccw"}, {"boss": 100402, "area": 384, "from": 425, "kind": "walk", "ranges": 2.3}],
+    "397": [{"boss": 100402, "area": 384, "from": 425, "kind": "walk", "ranges": 2.3}, {"boss": 100268, "area": 121, "from": 35, "kind": "walk", "ranges": 0.7, "loop": "ccw"}, {"boss": 100327, "area": 203, "from": 279, "kind": "walk", "ranges": 4.9}, {"boss": 100230, "area": 205, "from": 130, "kind": "walk", "ranges": 5.2}],
     "404": [{"boss": 100480, "area": 95, "from": 158, "kind": "walk", "ranges": 8.4, "places": 4}, {"boss": 100354, "area": 26, "from": 20, "kind": "walk", "ranges": 14.0, "places": 5}],
     "405": [{"boss": 101747, "area": 94, "from": 23, "kind": "walk", "ranges": 16.0, "places": 4}],
     "409": [{"boss": 100337, "area": 91, "from": 206, "kind": "walk", "ranges": 24.0, "places": 3}],
