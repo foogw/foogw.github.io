@@ -63,7 +63,9 @@ const shown = () => {
     && (!els.diff.value || r.diff === els.diff.value) && (!els.kind.value || r.best.kind === els.kind.value)
     && (!els.cap.checked || !got.has(r.s.id)));
   const far = p => (p.ranges == null ? 99 : p.ranges) + (p.kind === "walk" ? 0 : 50);
+  const rank = { easy: 0, medium: 1, hard: 2 };
   const by = { close: (a, b) => far(a.best) - far(b.best) || cmpStr(a.s.name, b.s.name), name: (a, b) => cmpStr(a.s.name, b.s.name),
+    hard: (a, b) => rank[b.diff] - rank[a.diff] || far(b.best) - far(a.best) || cmpStr(a.s.name, b.s.name),
     prof: (a, b) => a.s.profession - b.s.profession || cmpStr(a.s.name, b.s.name), area: (a, b) => cmpStr(areaName(a.best.area), areaName(b.best.area)) || far(a.best) - far(b.best) }[els.sort.value] || (() => 0);
   // (Later: put off for now, to the end)
   return list.sort((a, b) => (state.later.has(a.s.id) - state.later.has(b.s.id)) || by(a, b));
