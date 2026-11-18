@@ -1548,3 +1548,56 @@ a.c-pill:hover { border-color: var(--accent); }
 .ask-danger { color: #fff; background: var(--sac); border-color: var(--sac); }
 .ask.ro { border-color: var(--adren); }
 .ask.ro > b { color: var(--adren); }
+
+/* ---------- Elite captures (captures.html) ---------- */
+.cap-summary { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: 12px 0 10px; }
+.cap-summary .cap-who { font-size: 15px; }
+.cap-summary .lstats { display: flex; flex-wrap: wrap; gap: 8px; }
+.cap-summary .lstat.done { border-color: var(--loc-exp); }
+.cap-summary .lstat small:last-child { color: var(--muted); text-transform: none; letter-spacing: 0; }
+.cap-tabs { margin-top: 12px; }
+.cap-nav { display: flex; align-items: center; gap: 10px; margin: 12px 0 0; }
+.cap-nav .cap-keys { margin-left: auto; font-size: 12px; }
+.cap-card .sp-desc { margin: 6px 0 0; font-size: 14px; }
+.cap-card h2 a { color: inherit; text-decoration: none; }
+.cap-card h2 a:hover { text-decoration: underline; }
+.cap-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+.cap-actions .utick { font-size: 14px; padding: 8px 14px 8px 10px; }
+.cap-maps { margin-top: 14px; }
+.cap-also { margin: 10px 0 0; font-size: 14px; line-height: 1.8; }
+.cap-also a { text-decoration: none; white-space: nowrap; }
+.cap-also a:hover { text-decoration: underline; }
+.cap-trip h3 .bulk-menu { margin-left: 8px; }
+.cap-tablewrap { overflow-x: auto; margin-top: 10px; }
+.cap-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.cap-table td { padding: 8px 10px; border-top: 1px solid var(--line); vertical-align: middle; }
+.cap-table tr:first-child td { border-top: 0; }
+.cap-table .cap-way { color: var(--muted); }
+.cap-table .cap-way div + div { margin-top: 3px; }
+.cap-table .cap-tick, .cap-table td:last-child { white-space: nowrap; text-align: right; }
+.cap-table .cap-open > td { padding: 0 0 14px; background: var(--panel); }
+.cap-skill { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+.cap-skill span { display: grid; }
+.cap-skill small { color: var(--muted); font-size: 12px; }
+.cap-skill:hover b { text-decoration: underline; }
+.cap-n { color: var(--muted); font-size: 12px; }
+.cap-diff.easy { color: var(--loc-exp); border-color: var(--loc-exp); }
+.cap-diff.medium { color: var(--accent); border-color: var(--accent); }
+.cap-diff.hard { color: var(--loc-pvp); border-color: var(--loc-pvp); }
+.cap-map[aria-pressed="true"] { border-color: var(--accent); }
+.cap-trip { margin-top: 18px; }
+.cap-trip h3 { margin: 0 0 4px; font-size: 16px; }
+@media (max-width: 720px) {
+  .cap-actions { margin-left: 0; width: 100%; }
+  /* (the table as cards: a row a box, its cells stacked, the tick and map side by side at the bottom) */
+  .cap-table, .cap-table tbody, .cap-table tr, .cap-table td { display: block; }
+  .cap-table tr { padding: 10px 0; border-top: 1px solid var(--line); }
+  .cap-table tr:first-child { border-top: 0; }
+  .cap-table td { padding: 2px 0; border-top: 0; }
+  .cap-table td:nth-child(3), .cap-table .cap-tick, .cap-table td:last-child { display: inline-block; text-align: left; margin: 6px 10px 0 0; }
+  .cap-table .cap-open > td { padding: 0 0 10px; }
+}
+.bmore { display: contents; }
+.bmore > summary { cursor: pointer; color: var(--dim); list-style: none; padding: 4px 0; }
+.bmore > summary::before { content: "▸ "; } .bmore[open] > summary::before { content: "▾ "; }
+.bmore:not([open]) > .bmap { display: none; }

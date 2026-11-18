@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elite captures · GW</title>
+<link rel="icon" href="favicon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="captures">
+<div class="wrap">
+  <header class="top"></header><script src="header.js"></script>
+  <div class="page-title"><h1>Elite captures</h1><p>The easiest capture of every elite the character picked is missing, with the way there</p></div>
+
+  <div id="cap-summary" class="cap-summary"></div>
+  <div class="filters" id="filters">
+    <div class="frow">
+      <div class="profs" id="f-prof"></div>
+      <div class="profs" id="f-camp" title="Campaign: click for one, Ctrl/Cmd-click to add; Core counts for every Skill Hunter title"></div>
+    </div>
+    <div class="frow">
+      <select id="f-diff"><option value="">Any difficulty</option><option value="easy">Easy: a sure spawn, close to the start</option><option value="medium">Medium: a longer walk, or a boss on a loop</option><option value="hard">Hard: several places, a mission or a dungeon</option></select>
+      <select id="f-kind"><option value="">Any way</option><option value="walk">Walked from an outpost</option><option value="mission">In a mission</option><option value="dungeon">In a dungeon</option></select>
+      <select id="f-sort"><option value="close">Closest first</option><option value="name">By name</option><option value="prof">By profession</option><option value="area">By area</option></select>
+      <label class="chk u-char"><input type="checkbox" id="f-cap" checked> Hide captured</label>
+      <button class="reset" id="reset">Reset</button>
+      <span class="count" id="count"></span>
+    </div>
+  </div>
+  <nav class="pg-tabs cap-tabs"><a href="captures?view=next" data-view="next">Next</a><a href="captures?view=list" data-view="list">List</a><a href="captures?view=trips" data-view="trips">By outpost</a></nav>
+  <div id="cap-main" class="ent"></div>
+  <p class="u-pre-note dim" hidden></p>
+
+  <footer class="site-footer"><a href="about">About</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · <a href="license">License &amp; credits</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="game/skills.js"></script>
+<script src="game/heroes.js"></script>
+<script src="game/titles.js"></script>
+<script src="game/missions.js"></script>
+<script src="game/ground.js"></script>
+<script src="game/maps.js"></script>
+<script src="game/quests.js"></script>
+<script src="game/creatures.js"></script>
+<script src="data/bosses.js"></script>
+<script src="data/depths.js"></script>
+<script src="data/routing.js"></script>
+<script src="data/aliases.js"></script>
+<script src="data/missionmaps.js"></script>
+<script src="data/captures.js"></script>
+<script src="common.js"></script>
+<script src="mapwidget.js"></script>
+<script src="walkroute.js"></script>
+<script src="nicholas.js"></script>
+<script src="dungeon.js"></script>
+<script src="boss.js"></script>
+<script src="mytitles.js"></script>
+<script src="captures.js"></script>
+</body>
+</html>

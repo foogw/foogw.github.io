@@ -74,10 +74,13 @@ VIEWS.skill = (() => {
         </div>
         <div class="lside"><section class="lbox"><h4>How to get it</h4>${acquisitionHTML(s)}</section></div>
       </div>
-      ${captures.length ? `<div class="bmaps">${captures.map((c, k) => `<section class="lbox bmap" data-k="${k}"><h4>${captures.length > 1 ? `#${k + 1} ` : ""}${LINK.boss(c.boss)} <span class="dim">· ${whereLink(c.area)}${c.from ? ` · from ${whereLink(c.from)}` : MISSIONS[c.area] ? " · in the mission" : isDungeon(AREAS[c.area]) ? " · in the dungeon" : ""}${whenText(c.boss) ? ` · ${whenText(c.boss)}` : ""}</span></h4><div class="nmap"></div><div class="nways"></div></section>`).join("")}</div>` : ""}
+      ${captures.length ? `<div class="bmaps">${captures.map((c, k) => `<section class="lbox bmap" data-k="${k}"><h4>${captures.length > 1 ? `#${k + 1} ` : ""}${LINK.boss(c.boss)} <span class="dim">· ${whereLink(c.area)}${c.from ? ` · from ${whereLink(c.from)}` : MISSIONS[c.area] ? " · in the mission" : isDungeon(AREAS[c.area]) ? " · in the dungeon" : ""}${whenText(c.boss) ? ` · ${whenText(c.boss)}` : ""}</span></h4><div class="nmap"></div><div class="nways"></div></section>`).map((h, k) => k === 1 ? `<details class="bmore"><summary>More options: ${captures.length - 1} other spot${captures.length > 2 ? "s" : ""}</summary>${h}` : h).join("")}${captures.length > 1 ? "</details>" : ""}</div>` : ""}
       <p class="llinks"><a href="builder?add=${s.id}">Add to builder →</a><span class="dim">Skill ID ${s.id}</span></p>`;
   }
   // the capture maps, once on the page
-  function after(el, s) { const live = () => el.dataset.at === `skill=${s.id}`; el.querySelectorAll(".bmap").forEach(m => captureMap(m, (CAPTURES[s.id] || [])[+m.dataset.k], live)); }
+  // the maps: the first pick's at once, the folded ones when opened (a hidden map has no size to draw to)
+  function after(el, s) { const live = () => el.dataset.at === `skill=${s.id}`;
+    const draw = root => root.querySelectorAll(".bmap:not([data-drawn])").forEach(m => { if (m.closest("details:not([open])")) return; m.dataset.drawn = "1"; captureMap(m, (CAPTURES[s.id] || [])[+m.dataset.k], live); });
+    draw(el); el.querySelector(".bmore")?.addEventListener("toggle", e => draw(e.target)); }
   return { find: id => SKILLS[id], title: s => s.name, html, after };
 })();

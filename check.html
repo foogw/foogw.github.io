@@ -19,7 +19,7 @@
    Open it as /check on the local server or the published site. */
 
 const GAME = ["ground", "maps", "missions", "creatures", "quests", "skills", "heroes", "titles", "armor", "calendar"];
-const DATA = ["calendar", "guides", "builds", "aliases", "depths", "routing", "nicholas", "areas", "missionmaps"];
+const DATA = ["calendar", "guides", "builds", "aliases", "depths", "routing", "nicholas", "areas", "missionmaps", "bosses", "captures"];
 
 const out = document.getElementById("out");
 const say = (t = "") => { out.textContent += t + "\n"; };
@@ -110,6 +110,7 @@ async function main() {
     rotation: Object.fromEntries((CA.rotations || []).map(r => [r.key, r])),
     build: Object.fromEntries((BU.builds || []).map(b => [b.id, b])), guide: Object.fromEntries(guides.map(g => [g.id, g])),
     walk: Object.fromEntries(walkIds.map(id => [id, 1])), "depths cell": DE.cells,
+    "boss spot": Object.fromEntries(Object.entries(F["data/bosses"]?.spots || {}).flatMap(([b, ss]) => ss.map(sp => [`${b}@${sp[0]}`, 1]))),
     "nicholas week": Object.fromEntries((CA.rotations || []).find(r => r.key === "nicholas-traveler")?.entries.map((e, i) => [i, e]) || []),
     "creature name": Object.fromEntries(Object.values(CR.creatures || {}).map(c => [c.name, c])),
   };
@@ -233,10 +234,29 @@ async function main() {
   rule("areas shown only with Show all", "area", all(F["data/areas"]?.hidden || {}).map(([k, ids]) => [`hidden ${k}`, ids]));
   say();
   head("data/missionmaps.js");
-  head("data/captures.js");
   rule("mission map: a mission's area (or its copy's)", "area", Object.keys(F["data/missionmaps"]?.missions || {}).map(k => [`mission map ${k}`, k]));
   rule("mission map: in", "area", all(F["data/missionmaps"]?.missions).map(([k, v]) => [`mission map ${k}`, v.in]));
   rule("mission map: walk", "walk", all(F["data/missionmaps"]?.missions).map(([k, v]) => [`mission map ${k}`, v.walk]));
+  rule("mission starts: the mission's map", "area", Object.keys(F["data/missionmaps"]?.starts || {}).map(k => [`start ${k}`, k]));
+  say();
+  head("data/bosses.js");
+  const BO = F["data/bosses"] || {};
+  rule("boss spots: the boss", "creature", Object.keys(BO.spots || {}).map(k => [`boss ${k}`, k]));
+  rule("boss spots: the area", "area", all(BO.spots).map(([k, ss]) => [`boss ${k}`, ss.map(sp => sp[0])]));
+  rule("quest-only bosses", "creature", Object.keys(BO.only || {}).map(k => [`only ${k}`, k]));
+  rule("quest-only bosses: the quests", "quest", all(BO.only).map(([k, q]) => [`only ${k}`, (Array.isArray(q) ? q : Object.values(q).flat()).filter(x => typeof x === "number")]));
+  rule("quest-only bosses: the areas", "area", all(BO.only).map(([k, q]) => [`only ${k}`, Array.isArray(q) ? [] : Object.keys(q)]));
+  rule("bosses together, patrols", "creature", [...(BO.together || []).map(id => ["together", id]), ...Object.keys(BO.patrols || {}).map(k => ["patrols", k])]);
+  say();
+  head("data/captures.js");
+  const CP = F["data/captures"] || {};
+  rule("capture: the elite", "skill", Object.keys(CP.captures || {}).map(k => [`capture ${k}`, k]));
+  rule("capture: boss", "creature", all(CP.captures).map(([k, ps]) => [`capture ${k}`, ps.map(p => p.boss)]));
+  rule("capture: area", "area", all(CP.captures).map(([k, ps]) => [`capture ${k}`, ps.map(p => p.area)]));
+  rule("capture: from", "area", all(CP.captures).map(([k, ps]) => [`capture ${k}`, ps.map(p => p.from)]));
+  rule("capture: the boss has a spot in the area", "boss spot", all(CP.captures).map(([k, ps]) => [`capture ${k}`, ps.map(p => `${p.boss}@${p.area}`)]));
+  rule("capture conditions: boss", "creature", Object.keys(CP.when || {}).map(k => [`when ${k}`, k]));
+  rule("capture conditions: quests", "quest", all(CP.when).map(([k, w]) => [`when ${k}`, Object.values(w).flat()]));
   say();
   head("data/depths.js, routing.js");
   rule("dungeon (its map)", "area", Object.keys(DE.dungeons || {}).map(k => [`dungeon ${k}`, k]));

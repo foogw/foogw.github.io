@@ -8,7 +8,7 @@
   const HOME = '<svg class="home-ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h5v-6h3v6h5V9.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   // each group: its name, its landing page, its pages
   const GROUPS = [
-    ["Play", "rotations", [["rotations", "Rotations"], ["guides", "Guides"], ["builds", "Builds"], ["builder", "Builder"]]],
+    ["Play", "rotations", [["rotations", "Rotations"], ["guides", "Guides"], ["captures", "Captures"], ["builds", "Builds"], ["builder", "Builder"]]],
     ["World", "world", [["areas", "Areas"], ["missions", "Missions"], ["quests", "Quests"], ["dungeons", "Dungeons"], ["maps", "Maps"], ["storylines", "Storylines"]]],
     ["Compendium", "things", [["skills", "Skills"], ["bosses", "Bosses"], ["heroes", "Heroes"], ["armor", "Armor"], ["titles", "Titles"]]],
   ];
