@@ -1,9 +1,8 @@
 "use strict";
 /* Elite captures: for the character picked (User, common.js), the elites it hasn't captured, each with the easiest
    capture we picked (data/captures.js): the boss, where, the start to walk from and how far, drawn on the boss's map
-   with the way there (captureMap, boss.js). Three views: Next (one elite at a time, as a run to do, with its maps),
-   List (all of them, a map on demand) and By outpost (grouped by the start, to take several in one trip). The
-   filters and the view live in the address (captures?view=list&camp=1…). Needs mytitles.js for the Skill Hunter
+   with the way there (captureMap, boss.js). Two views: Next (one elite at a time, as a run to do, with its maps) and
+   List (all of them, a map on demand). The filters and the view live in the address (captures?view=list&camp=1…). Needs mytitles.js for the Skill Hunter
    counts. */
 
 const CAPS = data("GW_CAPTURES")?.captures || {};
@@ -33,7 +32,7 @@ els.camp.innerHTML = [0, 1, 2, 3].map(c => `<button class="prof-chip" data-v="${
 chipToggle(els.camp, state.camps, () => save());
 function read() {
   const a = args();
-  state.view = ["next", "list", "trips"].includes(a.get("view")) ? a.get("view") : "next";
+  state.view = ["next", "list"].includes(a.get("view")) ? a.get("view") : "next";
   // (the same Set the chips hold: refilled, never replaced)
   state.profs.clear(); for (const p of (a.get("prof") || "").split(",").filter(Boolean)) state.profs.add(p); syncChips(els.prof, state.profs);
   state.camps.clear(); for (const c of (a.get("camp") || "").split(",").filter(Boolean)) state.camps.add(c); syncChips(els.camp, state.camps);
@@ -130,15 +129,6 @@ const rowHTML = r => `<tr data-id="${r.s.id}"><td>${skillCell(r.s)}</td><td clas
   <td>${diffTag(r.diff)}</td><td class="cap-tick">${eliteTick(r.s.id, undefined, "Captured")}</td><td><button type="button" class="chip cap-map" data-map="${r.s.id}">map</button></td></tr>`;
 const tableHTML = list => `<div class="cap-tablewrap"><table class="cap-table"><tbody>${list.map(rowHTML).join("")}</tbody></table></div>`;
 function listHTML(list) { return list.length ? tableHTML(list) : `<div class="empty">Nothing here with these filters.</div>`; }
-// by the start of the best pick: the outposts with the most to capture first
-function tripsHTML(list) {
-  if (!list.length) return `<div class="empty">Nothing here with these filters.</div>`;
-  const groups = new Map();
-  for (const r of list) { const p = r.best, k = p.from ? `o${p.from}` : `${p.kind}${p.area}`; (groups.get(k) || groups.set(k, { p, rows: [] }).get(k)).rows.push(r); }
-  const gs = [...groups.values()].sort((a, b) => b.rows.length - a.rows.length || cmpStr(startName(a.p), startName(b.p)));
-  const starts = gs.filter(g => g.p.from).length, played = gs.length - starts;
-  return `<p class="cap-sum dim">${plural(list.length, "elite")} from ${plural(starts, "start")}${played ? ` and ${played} played up to (missions, dungeons)` : ""}: the starts with the most to capture first.</p>` + gs.map((g, k) => `<section class="cap-trip" id="trip-${k}"><h3>${g.p.from ? `From ${whereLink(g.p.from)}` : `In ${startLink(g.p)}`} <span class="dim">· ${plural(g.rows.length, "elite")}${g.p.from ? `, the farthest ${rangesText([...g.rows].sort((a, b) => (b.best.ranges || 0) - (a.best.ranges || 0))[0].best) || "unmeasured"}` : ""}</span>${g.rows.length > 1 ? bulkMenu(`#trip-${k}`) : ""} <button type="button" class="chip cap-allmaps" data-allmaps="trip-${k}">all maps</button></h3>${tableHTML(g.rows)}</section>`).join("");
-}
 
 function render() {
   read();
@@ -150,7 +140,7 @@ function render() {
   els.summary.innerHTML = summaryHTML();
   const list = shown();
   els.count.textContent = `${list.length} of ${rows.length}`;
-  els.main.innerHTML = state.view === "next" ? nextHTML(list) : state.view === "list" ? listHTML(list) : tripsHTML(list);
+  els.main.innerHTML = state.view === "next" ? nextHTML(list) : listHTML(list);
   if (state.view === "next") drawMaps(els.main);
 }
 onRoute(render);
@@ -158,8 +148,7 @@ onRoute(render);
 addEventListener("userchange", render);
 // a tick: the page follows (after the site's own handler has saved it); the list's map opens under its row
 els.main.addEventListener("click", e => {
-  const step = e.target.closest("[data-step]"), later = e.target.closest("[data-later]"), map = e.target.closest("[data-map]"), jump = e.target.closest("[data-jump]"), allmaps = e.target.closest("[data-allmaps]");
-  if (allmaps) { for (const b of document.getElementById(allmaps.dataset.allmaps).querySelectorAll('[data-map][aria-pressed="true"], [data-map]:not([aria-pressed])')) if (b.getAttribute("aria-pressed") !== "true") b.click(); return; }
+  const step = e.target.closest("[data-step]"), later = e.target.closest("[data-later]"), map = e.target.closest("[data-map]"), jump = e.target.closest("[data-jump]");
   if (jump) { e.preventDefault(); state.at = Math.max(0, shown().findIndex(x => x.s.id === +jump.dataset.jump)); return save(false); }
   if (e.target.closest(".utick")) return setTimeout(render, 0);
   if (step) { const n = shown().length; state.at = (state.at + +step.dataset.step + n) % n; return save(); }

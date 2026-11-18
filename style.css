@@ -1567,7 +1567,6 @@ a.c-pill:hover { border-color: var(--accent); }
 .cap-also { margin: 10px 0 0; font-size: 14px; line-height: 1.8; }
 .cap-also a { text-decoration: none; white-space: nowrap; }
 .cap-also a:hover { text-decoration: underline; }
-.cap-trip h3 .bulk-menu { margin-left: 8px; }
 .cap-tablewrap { overflow-x: auto; margin-top: 10px; }
 .cap-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .cap-table td { padding: 8px 10px; border-top: 1px solid var(--line); vertical-align: middle; }
@@ -1585,8 +1584,6 @@ a.c-pill:hover { border-color: var(--accent); }
 .cap-diff.medium { color: var(--accent); border-color: var(--accent); }
 .cap-diff.hard { color: var(--loc-pvp); border-color: var(--loc-pvp); }
 .cap-map[aria-pressed="true"] { border-color: var(--accent); }
-.cap-trip { margin-top: 18px; }
-.cap-trip h3 { margin: 0 0 4px; font-size: 16px; }
 @media (max-width: 720px) {
   .cap-actions { margin-left: 0; width: 100%; }
   /* (the table as cards: a row a box, its cells stacked, the tick and map side by side at the bottom) */
