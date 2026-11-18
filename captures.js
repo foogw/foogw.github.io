@@ -70,7 +70,7 @@ const shown = () => {
 };
 
 // the character and its Skill Hunter counts: Core elites count for all three campaigns
-const ALL_ELITES = [...new Set([1, 2, 3].flatMap(capturedIn))];
+const ALL_ELITES = capturableElites();
 const missingOf = c => { const got = new Set(c.elites); return ALL_ELITES.filter(id => !got.has(id)).length; };
 const charKept = () => User.stored() != null && !User.broken();
 // a character with every elite: nothing to capture, so none of the page; the other characters still at it instead

@@ -70,7 +70,7 @@ searchKeys(els.text, update);
 function matches(s, f) {
   return (f.pvp || !s.pvp_only) && f.name.every(t => s._name.includes(t)) && f.text.every(t => s._text.includes(t))
     && inProfs(s) && (!f.attr || attrKey(s) === f.attr) && typeMatches(s, f.type) && (f.camp === "" || s.campaign === parseInt(f.camp) || f.camp.endsWith("c") && s.campaign === 0)
-    && (!f.elite || s.elite) && (!f.cap || s.elite && !s.pvp_only && !f.got.has(s.id)) && (!f.src || (f.src === "title" ? s.title : s._sources.has(f.src)));
+    && (!f.elite || s.elite) && (!f.cap || isCapturable(s) && !f.got.has(s.id)) && (!f.src || (f.src === "title" ? s.title : s._sources.has(f.src)));
 }
 const byProf = (a, b) => (a.profession || 99) - (b.profession || 99) || cmpStr(attrName(a), attrName(b)) || cmpStr(a.name, b.name);
 const SORTS = {
@@ -95,7 +95,7 @@ function rowHTML(s, f) {
     <div class="num col-rech">${s.recharge || '<span class="dim" title="No recharge">–</span>'}</div>
     <div class="dim col-camp">${CAMP_SHORT[s.campaign]}</div>
     <div class="desc">${desc}</div>
-    <div class="col-tick">${s.elite && !s.pvp_only ? eliteTick(s.id, f.got.has(s.id)) : ""}</div>
+    <div class="col-tick">${isCapturable(s) ? eliteTick(s.id, f.got.has(s.id)) : ""}</div>
   </a>`;
 }
 

@@ -555,7 +555,8 @@ function recruitHTML(h) {
    explored, as worked out on My Characters from Master of the North's points, xp, played, playedOutside: its experience,
    hours played and hours played outside, each the last typed in (My Characters' Edit), a whole number, and when: [amount, "2026-11-10T13:16Z"]}]}]}, the accounts in the order shown.
    A list may be "all": every id in USER_ALL_V3 (frozen: should the game ever have more, they'd come with a
-   new version). An empty list, or a title not reached, is left out. Version 1 (from before), still read: no "all", and
+   new version; the one change, 2026-11-18: the elites are the 300 there are to capture, the Eye of the North's three
+   blessings no longer among them nor kept). An empty list, or a title not reached, is left out. Version 1 (from before), still read: no "all", and
    missions and dungeons as {<id>: done}, done 1 normal mode, 2 hard mode, 3 both; with no "account": account 1.
    Version 2 (from before), still read: "all" as USER_ALL, the same characters in one list, {v: 2, chars: [{..., account: its account's
    id}], accounts: [{id, name, titles}]}.
@@ -743,11 +744,13 @@ const canRecruit = c => ((c.modes || []).includes("presearing") ? PRE_HEROES.map
 const PRE_TITLES = new Set([10, 7, 34, 43, 9, 21]);
 const isPreSearing = c => (c.modes || []).includes("presearing");
 const USER_LISTS = ["elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM"];
-// what "all" stands for in version 3: the same, but the dungeons are the 18 ticked (the Eye of the North's with Secret
+// what "all" stands for in version 3: the same, but the elites are the 300 there are to capture (not the Eye of the
+// North's blessings, Ursan, Volfen and Raven: title skills, taken from no boss, counted by no Skill Hunter title; kept
+// before 2026-11-18, dropped when read), the dungeons are the 18 ticked (the Eye of the North's with Secret
 // Lair of the Snowmen; not Destruction's Depths, a mission, nor the Piken Square ones), the missions are the 69 story
 // ones (not Urgoz's Warren and The Deep), and the heroes are every one;
 // frozen, as USER_ALL is
-const USER_ALL_V3 = { ...USER_ALL, missions: USER_ALL.missions.filter(id => id !== 266 && id !== 307), dungeons: [560, 570, 573, 576, 577, 578, 581, 584, 604, 607, 612, 615, 617, 628, 630, 635, 701, 704],
+const USER_ALL_V3 = { ...USER_ALL, elites: USER_ALL.elites.filter(id => ![2374, 2379, 2384].includes(id)), missions: USER_ALL.missions.filter(id => id !== 266 && id !== 307), dungeons: [560, 570, 573, 576, 577, 578, 581, 584, 604, 607, 612, 615, 617, 628, 630, 635, 701, 704],
   heroes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 36, 37, 38, 39] };
 const allOf = (k, v = 3) => (v < 3 ? USER_ALL : USER_ALL_V3)[k.replace(/[NH]M$/, "")];
 const newUserChar = (id, account = 1) => ({ id, name: `Char${id}`, account, elites: [], vanquished: [], missions: {}, dungeons: {} });
@@ -772,10 +775,11 @@ function userFromKept(o) {
     if (k.hidden) c.hidden = true;
     if (k.inMenu) c.inMenu = true;
     if (k.mock) c.mock = true;
-    if (o.v === 1) Object.assign(c, { elites: k.elites, vanquished: k.vanquished || [], missions: k.missions, dungeons: k.dungeons });
+    if (o.v === 1) Object.assign(c, { elites: k.elites.filter(id => USER_ALL_V3.elites.includes(id)), vanquished: k.vanquished || [], missions: k.missions, dungeons: k.dungeons });
     else {
       const list = key => (k[key] === "all" ? [...allOf(key, v)] : k[key] || []);
-      Object.assign(c, { elites: list("elites"), vanquished: list("vanquished") });
+      // (elites not in "all" any more, the blessings: dropped)
+      Object.assign(c, { elites: list("elites").filter(id => USER_ALL_V3.elites.includes(id)), vanquished: list("vanquished") });
       for (const part of ["missions", "dungeons"]) {
         c[part] = {};
         for (const [m, b] of [["NM", 1], ["HM", 2]]) for (const id of list(part + m)) c[part][id] = (c[part][id] || 0) | b;
@@ -805,7 +809,7 @@ function userToKept(o) {
     if (c.hidden) k.hidden = true;
     if (c.inMenu) k.inMenu = true;
     if (c.mock) k.mock = true;
-    const lists = { elites: c.elites, vanquished: c.vanquished || [] };
+    const lists = { elites: c.elites.filter(id => USER_ALL_V3.elites.includes(id)), vanquished: c.vanquished || [] };
     // (a mission or dungeon with no ticks, as Urgoz's Warren, Destruction's Depths or the Piken Square ones, isn't kept)
     for (const part of ["missions", "dungeons"]) for (const [m, b] of [["NM", 1], ["HM", 2]])
       lists[part + m] = Object.entries(c[part]).filter(([id, v]) => v & b && USER_ALL_V3[part].includes(+id)).map(([id]) => +id);
@@ -1028,6 +1032,10 @@ addEventListener("storage", e => { if (e.key === USER_KEY || e.key === USER_CHAR
 addEventListener("focus", userSync);
 addEventListener("pageshow", userSync);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) userSync(); });
+// an elite there is to capture: not a PvP version, nor the Eye of the North's blessings (Ursan, Volfen, Raven: title
+// skills, taken from no boss, counted by no Skill Hunter title). The 300 the elite pages, the captures and the counts go by
+const isCapturable = s => !!s && !!s.elite && !s.pvp_only && s.campaign !== 4;
+let CAPTURABLE = null; const capturableElites = () => (CAPTURABLE ??= Object.keys(SKILLS).filter(id => isCapturable(SKILLS[id])).map(Number));
 // the ticks: an elite captured, a mission or dungeon done in normal and hard mode
 // (a list passes what it knows already: reading the progress for each row is slow)
 const eliteTick = (id, on = User.captured(id), label = "") => `<button type="button" class="utick${label ? "" : " ck"}" data-elite="${id}" aria-pressed="${on}" title="Captured">${label ? `<span class="ubox"></span>${label}` : "✓"}</button>`;

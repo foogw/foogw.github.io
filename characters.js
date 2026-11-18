@@ -111,7 +111,7 @@ function progress(c) {
   const ms = ticked.filter(id => !eotn(id)), ems = ticked.filter(eotn);
   const vs = USER_ALL.vanquished.filter(id => !eotn(id)), evs = USER_ALL.vanquished.filter(eotn);
   return [["Prophecies, Factions, Nightfall", [
-      ["Elites captured", has(USER_ALL.elites, el), USER_ALL.elites.length, "skills?cap=1"],
+      ["Elites captured", has(capturableElites(), el), capturableElites().length, "skills?cap=1"],
       ["Missions in NM", mode("missions", ms, 1), ms.length, "missions?c=1,2,3&d=1"],
       ["Missions in HM", mode("missions", ms, 2), ms.length, "missions?c=1,2,3&d=2"],
       ["Areas vanquished", has(vs, vq), vs.length, "areas?c=1,2,3&v=n"]]],
@@ -481,7 +481,7 @@ function mockChar(o) {
   if (!fixedCampaign(c)) c.campaign = 1 + rnd(3);
   c.aim = "gwamm";
   const done = between(0.15, 0.7);
-  c.elites = sample(USER_ALL.elites, done * between(0.4, 0.9));
+  c.elites = sample(capturableElites(), done * between(0.4, 0.9));
   c.vanquished = sample(USER_ALL.vanquished, done * between(0.2, 0.8));
   const mNM = sample(USER_ALL_V3.missions, done), mHM = sample(mNM, between(0.2, 0.7));
   const dNM = sample(USER_ALL_V3.dungeons, Math.min(1, done * between(0.5, 1.2))), dHM = sample(dNM, between(0, 0.6));
