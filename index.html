@@ -106,8 +106,8 @@ const SKILL_LIST = Object.values(SKILLS).filter(s => !s.pvp_only);
 const MISSION_LIST = Object.values(MISSIONS);
 const AREA_LIST = Object.values(AREAS).filter(l => !isPvP(l) && l.type !== 14 && l.type !== 17);
 const QUEST_LIST = Object.values(QUESTS);
-// every boss a mission names, with the mission
-const BOSS_LIST = MISSION_LIST.flatMap(m => (m.bosses || []).map(b => ({ c: CREATURES[b.creature], m }))).filter(x => x.c);
+// every boss (bossTable, common.js: the elites' captures, the areas' and missions' bosses, our spots), with where it is
+const BOSS_LIST = [...bossTable().values()].map(c => ({ c, where: [...c.where].map(i => MISSIONS[i]?.name || AREAS[i]?.name).filter(Boolean).slice(0, 3).join(", ") }));
 for (const s of SKILL_LIST) s._k = fold(`${s.name} ${aliasText("skills", s.id)}`);
 for (const m of MISSION_LIST) m._k = fold(`${m.name} ${aliasText("areas", m.id)} ${aliasText("areas", m.outpost)}`);
 for (const l of AREA_LIST) l._k = fold(`${l.name} ${aliasText("areas", l.id)}`);
@@ -268,8 +268,8 @@ function render() {
       `${CAMPAIGNS[campaignOf(l)] || ""} · ${esc(regionOf(l)?.name || "")}`, esc(TYPE_LABEL[l.type] || "")), "areas") +
     section("Quests", r.quests, x => hit(STORY.has(x.id) ? profVar(0) : "var(--q-skill)", HREF.quest(x.id), `<span class="t">${highlight(x.name, r.ts)}</span>`,
       `${CAMPAIGNS[questCampaign(x)]} · ${esc(questRegion(x)?.name || "")}`, STORY.has(x.id) ? "Story quest" : x.skills?.length ? "Skill quest" : `${esc(x.type)} quest`), `quests?q=${qs}`) +
-    section("Bosses", r.bosses, ({ c, m }) => hit(profVar(c.profession), HREF.boss(c.id), `<span class="t">${highlight(c.name, r.ts)}</span>`,
-      esc(m.name), esc((c.elites || []).map(e => SKILLS[e]?.name).filter(Boolean).join(", "))), `bosses?q=${qs}`) +
+    section("Bosses", r.bosses, ({ c, where }) => hit(profVar(c.prof || c.profession), HREF.boss(c.id), `<span class="t">${highlight(c.name, r.ts)}</span>`,
+      esc(where), esc((c.elites || []).map(e => SKILLS[e]?.name).filter(Boolean).join(", "))), `bosses?q=${qs}`) +
     section("Rotations", r.rotations, ({ r: rot, e, i, at }) => hit("var(--accent)", `rotations${query({ q: entryName(e) })}`,
       `<span class="t">${e.count ? `${e.count} × ` : ""}${highlight(entryName(e), r.ts)}</span>`, `${esc(rot.title)}${e.creature && e.area ? ` · ${esc(areaName(e.area))}` : ""}`,
       i ? `next ${fmtNext.format(at)}` : "now")) ||
