@@ -30,6 +30,12 @@
     <p class="dim">The easy Zaishen Missions around the next Anniversary Celebration: the last three before it, to take their
       quests ahead; the rest, to do any time during it; and the ones that come up during it, to wait for.</p>
     <div id="xp-anniv"></div>
+    <!-- (a testing aid: on a site served by address, not by name) -->
+    <div id="xp-bd" hidden>
+      <h2>Birthdays</h2>
+      <p class="dim">Forget every character's range it was made in, to try the Birthdays page from scratch. Only here, on a site reached by its address.</p>
+      <button type="button" class="u-btn" id="xp-bd-reset">Reset all birthdays</button>
+    </div>
   </div>
   <footer class="site-footer"><a href="about">About</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · <a href="license">License &amp; credits</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
@@ -68,6 +74,21 @@
   }
 }
 
+/* ---------- birthdays reset ---------- */
+// every character's bornBetween dropped: shown only when the site is reached by an IP address, and asked about first
+{
+  const ip = /^(\d{1,3}(\.\d{1,3}){3}|\[?[0-9a-f]*:[0-9a-f:]*\]?)$/i.test(location.hostname);  // (v4, or v6 with its colons)
+  if (ip && !User.broken()) {
+    $("xp-bd").hidden = false;
+    $("xp-bd-reset").addEventListener("click", async () => {
+      const o = User.data(), n = o.chars.filter(c => c.bornBetween).length;
+      if (!n) return ask({ title: "No character has a range to forget.", cancel: "" });
+      if (!await ask({ title: `Forget when all ${n} character${n === 1 ? "" : "s"} ${n === 1 ? "was" : "were"} made?`, body: "Every /age reading added so far goes with it. This can't be undone.", ok: "Forget", danger: true, focus: "cancel" })) return;
+      for (const c of o.chars) delete c.bornBetween;
+      User.save(o); ask({ title: `Done: ${n} range${n === 1 ? "" : "s"} forgotten.`, cancel: "" });
+    });
+  }
+}
 </script>
 </body>
 </html>
