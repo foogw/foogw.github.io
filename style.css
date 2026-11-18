@@ -1601,3 +1601,6 @@ a.c-pill:hover { border-color: var(--accent); }
 .bmore > summary { cursor: pointer; color: var(--dim); list-style: none; padding: 4px 0; }
 .bmore > summary::before { content: "▸ "; } .bmore[open] > summary::before { content: "▾ "; }
 .bmore:not([open]) > .bmap { display: none; }
+.captures .filters[hidden], .captures .cap-tabs[hidden], .captures #cap-main[hidden] { display: none; }  /* (a character with every elite: none of it shown) */
+.cap-summary .cap-done { flex-basis: 100%; }  /* (all captured: the characters still at it on a line of their own) */
+.cap-summary .cap-alldone { font-size: 20px; margin: 10px 0 18px; }  .cap-done p { margin: 6px 0; }
