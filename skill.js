@@ -26,6 +26,8 @@ VIEWS.skill = (() => {
 
   // how to get it: grouped by way, then by campaign
   function acquisitionHTML(s) {
+    // (a PvP version: unlocked on the account as its PvE skill is, or bought with Balthazar faction)
+    if (s.pvp_only) return `<p>Unlocked for the account by learning ${s.pvp_version && SKILLS[s.pvp_version] ? `<a href="${HREF.skill(s.pvp_version)}">${esc(SKILLS[s.pvp_version].name)}</a>` : "the PvE version"} on any character, or bought with Balthazar faction from a Priest of Balthazar.</p>`;
     if (!s.acquisition?.length) return '<p class="dim">No acquisition data.</p>';
     const groups = new Map();
     for (const a of s.acquisition) {
@@ -45,7 +47,9 @@ VIEWS.skill = (() => {
 
   function html(s) {
     const chip = (id, label) => SKILLS[id] ? `<a class="chip" href="${HREF.skill(id)}" style="border-left:3px solid ${profVar(SKILLS[id].profession)}">${esc(label || SKILLS[id].name)}</a>` : "";
-    const versions = [s.pvp_version ? chip(s.pvp_version, "PvP version") : "", PVE_OF.has(s.id) ? chip(PVE_OF.get(s.id), "PvE version") : ""].join("");
+    // (the other version: pvp_version points each way, the PvE skill at its PvP one and back; one note, not two chips)
+    const other = s.pvp_version && SKILLS[s.pvp_version];
+    const versions = other ? `<p class="dim">${s.pvp_only ? `The PvP version of <a href="${HREF.skill(s.pvp_version)}">${esc(other.name)}</a>.` : `This skill also has a <a href="${HREF.skill(s.pvp_version)}">PvP version</a>.`}</p>` : "";
     const related = (s.related_ids || []).map(id => chip(id)).join("");
     const sub = [s.profession ? PROFS[s.profession] : "Common", attrName(s), s.label + (s.touch ? " (touch)" : ""), CAMPAIGNS[s.campaign]].map(esc).join(" · ");
     const tags = [s.elite && "Elite", s.pvp_only && "PvP only", s.title && "PvE only"].filter(Boolean).map(t => `<span class="tag">${t}</span>`).join("");
@@ -70,7 +74,7 @@ VIEWS.skill = (() => {
           ${used.length ? `<section class="lbox"><h4>Used in builds</h4><ul class="lrows">${used.map(u => u.team.single
             ? `<li><a href="${buildHref(u.build.id)}">${esc(u.build.name)}</a><span class="dim">${u.team.single}</span></li>`
             : `<li><a href="${buildHref(u.team.id)}">${esc(u.team.name)}</a><span class="dim">${esc(u.build.name)}${u.n > 1 ? ` ×${u.n}` : ""}</span></li>`).join("")}</ul></section>` : ""}
-          ${versions || related ? `<section class="lbox">${versions ? `<h4>Versions</h4><div class="chips">${versions}</div>` : ""}${related ? `<h4>Related skills</h4><div class="chips">${related}</div>` : ""}</section>` : ""}
+          ${versions || related ? `<section class="lbox">${versions ? `<h4>Versions</h4>${versions}` : ""}${related ? `<h4>Related skills</h4><div class="chips">${related}</div>` : ""}</section>` : ""}
         </div>
         <div class="lside"><section class="lbox"><h4>How to get it</h4>${acquisitionHTML(s)}</section></div>
       </div>
