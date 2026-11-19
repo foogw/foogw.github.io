@@ -102,8 +102,10 @@ const MARK = "Marked by hand", TICKS = "From your ticks";
 const CHECKLIST = [
   // (the two attribute quests of the campaign it was made in; none named while that isn't set)
   { id: "attr", name: "200 attribute points", mark: true, how: c => { const m = madeIn(c), q = ATTR_QUESTS[m]; return q ? `both ${CAMPAIGNS[m]} attribute quests, ${LINK.quest(q[0])} and ${LINK.quest(q[1])}` : "both attribute quests of its campaign"; } },
-  ...[[1, "Prophecies"], [2, "Factions"], [3, "Nightfall"], [4, "Eye of the North"]].map(([camp, name]) => ({ id: `camp${camp}`, name: `${name} completed`,
-    known: c => !!((c.missions[LAST[camp]] || 0) & 3), how: () => `${LINK.mission(LAST[camp])} done, in either mode` })),
+  // (known from the last mission's tick, which means its bonus; a campaign finished without the bonus is marked by hand)
+  ...[[1, "Prophecies", "prophecies"], [2, "Factions", "factions"], [3, "Nightfall", "nightfall"], [4, "Eye of the North", "eotn"]].map(([camp, name, id]) => ({ id, name: `${name} completed`, mark: true,
+    known: c => !!((c.missions[LAST[camp]] || 0) & 3),
+    how: c => (((c.missions[LAST[camp]] || 0) & 3) ? `${LINK.mission(LAST[camp])} ticked` : `yours to mark; known once ${LINK.mission(LAST[camp])} is ticked, in either mode`) })),
   { id: "wik", name: "War in Kryta completed", mark: true, known: c => (c.heroes || []).includes(17),
     how: c => ((c.heroes || []).includes(17) ? `${LINK.hero(17)} recruited: Hearts of the North done, which follows it` : `yours to mark; known once ${LINK.hero(17)} is recruited (Hearts of the North, which follows it)`) },
   // (Keiran Thackeray joins at its end, The Wedding: known from him, one for one)
