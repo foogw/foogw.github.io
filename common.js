@@ -544,9 +544,11 @@ function entryHTML(e) {
   if (e.mission) return hasModes(MISSIONS[e.mission]) ? quickLink(LINK.mission(e.mission), "mission", e.mission) : LINK.mission(e.mission);
   if (e.area && !e.creature && !e.item) return AREAS[e.area]?.foes ? quickLink(LINK.area(e.area), "vanquish", e.area) : LINK.area(e.area);
   if (e.bonus) return todoLink(`<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`, "bonus", e.bonus);
-  // a bounty's boss: a link to its page, a thing to do while a wannabe lacks its elite or its dungeon
+  // a bounty's boss: a link to its page, a thing to do while a wannabe lacks its elite, its dungeon or (an elite area)
+  // the Checklist's clear
   if (e.creature && bossTable().has(+e.creature)) { const els = (CREATURES[e.creature]?.elites || []).filter(x => SKILLS[x]?.elite), dgn = e.area && isTickedDungeon(e.area);
-    const by = new Map(); for (const [c, x] of [...(dgn ? need("dungeon", e.area) : []), ...els.flatMap(x => need("elite", x).map(([c]) => [c, "elite"]))]) by.set(c, [...(by.get(c) || []), x].filter(Boolean).join(", "));
+    const chk = e.area && typeof CHECK_AREAS !== "undefined" ? CHECK_AREAS[e.area] : null;
+    const by = new Map(); for (const [c, x] of [...(dgn ? need("dungeon", e.area) : []), ...(chk ? need("check", chk).map(([c]) => [c, "clear"]) : []), ...els.flatMap(x => need("elite", x).map(([c]) => [c, "elite"]))]) by.set(c, [...(by.get(c) || []), x].filter(Boolean).join(", "));
     const rows = [...by].map(([c, x]) => [c, x]);
     return rows.length ? LINK.boss(e.creature, entryName(e)).replace(/^<a /, `<a class="todo" data-todo="${todoRows(rows)}" `) : LINK.boss(e.creature, entryName(e)); }
   if (e.creature && e.area && isTickedDungeon(e.area)) return todoLink(`<a href="${HREF.dungeon(e.area)}" title="${esc(areaName(e.area))}">${esc(entryName(e))}</a>`, "dungeon", e.area);
