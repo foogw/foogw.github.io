@@ -308,24 +308,27 @@ const todoLink = (html, kind, id) => { const rows = need(kind, id); return rows.
 const missionMarks = () => "", vanqMark = () => "", modeMarks = () => "", bonusMark = () => "";  // (gone: the styling above)
 // a page's note as a list item
 const noteLi = n => `<li>${n}</li>`;
-// [data-todo]: a card below the pointer, "Wannabe GWAMMs still need this:", a row per character with its profession
+// [data-todo] (or [data-free]): a card below the pointer, "Wannabe GWAMMs still need this:", a row per character with
+// its profession; then "1-kill Zaishen vanquish for your N Canthan characters" (Zen Daijun)
 {
   let card = null;
   const show = (el, e) => {
     card ??= Object.assign(document.createElement("div"), { className: "todo-card", role: "tooltip" });
     if (!card.isConnected) document.body.append(card);
     let rows = []; try { rows = JSON.parse(el.dataset.todo); } catch { /* none */ }
-    card.innerHTML = `<b>Wannabe GWAMMs still need this</b>${rows.map(([n, p, x]) => `<div><img src="${profImg(p)}" alt="">${esc(n)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</div>`).join("")}`;
+    const free = +el.dataset.free || 0;
+    card.innerHTML = (rows.length ? `<b>Wannabe GWAMMs still need this</b>${rows.map(([n, p, x]) => `<div><img src="${profImg(p)}" alt="">${esc(n)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</div>`).join("")}` : "")
+      + (free ? `<b class="free">1-kill Zaishen vanquish for your ${free === 1 ? "Canthan character" : `${free} Canthan characters`}</b>` : "");
     card.hidden = false;
     const r = el.getBoundingClientRect(), w = card.offsetWidth, h = card.offsetHeight, x = e?.clientX ?? r.left + r.width / 2;
     card.style.left = `${Math.max(4, Math.min(innerWidth - w - 4, x - 16))}px`;
     card.style.top = `${r.bottom + 8 + h > innerHeight ? r.top - h - 8 : r.bottom + 8}px`;
   };
   const hide = () => { if (card) card.hidden = true; };
-  addEventListener("mouseover", e => { const el = e.target.closest?.("[data-todo]"); if (el) show(el, e); });
-  addEventListener("focusin", e => { const el = e.target.closest?.("[data-todo]"); if (el) show(el); });
-  addEventListener("mouseout", e => { if (e.target.closest?.("[data-todo]")) hide(); });
-  addEventListener("focusout", e => { if (e.target.closest?.("[data-todo]")) hide(); });
+  addEventListener("mouseover", e => { const el = e.target.closest?.("[data-todo], [data-free]"); if (el) show(el, e); });
+  addEventListener("focusin", e => { const el = e.target.closest?.("[data-todo], [data-free]"); if (el) show(el); });
+  addEventListener("mouseout", e => { if (e.target.closest?.("[data-todo], [data-free]")) hide(); });
+  addEventListener("focusout", e => { if (e.target.closest?.("[data-todo], [data-free]")) hide(); });
   addEventListener("scroll", hide, true);
 }
 // [data-tip]: its text in a tooltip at once, above it (below near the top of the window), on hover or keyboard focus
@@ -396,7 +399,14 @@ function wannabes() {
 const wannabePills = (kind, id) => { const who = (wannabes() || []).map(c => [c, NEEDS[kind](c, id)]).filter(([, x]) => x);
   return who.length ? `<span class="dim">Wannabe GWAMMs still needing it:</span> ${who.map(([c, x]) => charPill(c, x.trim())).join("")}` : ""; };
 const wannabeNeeds = (kind, id) => `<p class="wb-needs" data-wb="${kind}:${id}">${wannabePills(kind, id)}</p>`;
-addEventListener("userchange", () => { for (const p of document.querySelectorAll("[data-wb]")) { const [k, id] = p.dataset.wb.split(":"); p.innerHTML = wannabePills(k, k === "check" ? id : +id); } });
+addEventListener("userchange", () => { for (const p of document.querySelectorAll("[data-wb]")) { const [k, id] = p.dataset.wb.split(":"); p.innerHTML = wannabePills(k, k === "check" ? id : +id); }
+});
+// Zen Daijun (the explorable area, 246): a party of Canthan characters vanquishes it by killing or charming one animal (An
+// Unwelcome Guest done, Winds of Change not under way). In the rotation lists, its hover card says so, with your Canthan
+// characters (not pre-Searing, nor hidden, whatever they aim at, vanquished it or not) counted, not named
+const FREE_VANQ = { 246: true };
+const freeCount = id => (!FREE_VANQ[id] || User.stored() == null || User.broken() ? 0
+  : User.data().chars.filter(c => madeIn(c) === 2 && !c.hidden && !(c.modes || []).includes("presearing")).length);
 // a weekly bonus's pills: the characters of cs, then the accounts, whose titles it helps, each with those titles
 function bonusPills(bonus, o, cs) {
   const left = x => x[0].replace(/^.* hasn't maxed the /, "").replace(/ titles?$/, "");
@@ -525,7 +535,9 @@ function ageBirthday(lo, hi, t = Date.now()) {
 }
 function entryHTML(e) {
   if (e.mission) return hasModes(MISSIONS[e.mission]) ? todoLink(LINK.mission(e.mission), "mission", e.mission) : LINK.mission(e.mission);
-  if (e.area && !e.creature && !e.item) return AREAS[e.area]?.foes ? todoLink(LINK.area(e.area), "vanquish", e.area) : LINK.area(e.area);
+  if (e.area && !e.creature && !e.item) { if (!AREAS[e.area]?.foes) return LINK.area(e.area);
+    // (Zen Daijun: the card tells it's free for Canthans, naming yours, with or without a wannabe needing it)
+    const free = freeCount(e.area); return free ? todoLink(LINK.area(e.area), "vanquish", e.area).replace(/^<a (class="todo" )?/, `<a class="todo" data-free="${free}" `) : todoLink(LINK.area(e.area), "vanquish", e.area); }
   if (e.bonus) return todoLink(`<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`, "bonus", e.bonus);
   // a bounty's boss: a link to its page, a thing to do while a wannabe lacks its elite or its dungeon
   if (e.creature && bossTable().has(+e.creature)) { const els = (CREATURES[e.creature]?.elites || []).filter(x => SKILLS[x]?.elite), dgn = e.area && isTickedDungeon(e.area);
