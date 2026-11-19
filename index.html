@@ -151,9 +151,13 @@ function renderToday() {
     if (a.word === "day") return [...Array(25).keys()].some(h => cutAt(c, day0 + h * 36e5) >= 1 / 3) ? [[c, null]] : [];
     return a.side ? [[c, Number.isFinite(a.end) ? a.end : null]] : [];
   }) : [];
-  $("td-bday").hidden = !bdays.length;
-  $("td-bday").innerHTML = bdays.length ? `<span class="t-k"><a href="characters-birthdays">Birthdays worth checking</a></span>${bdays.map(([c, end]) => { const p = charPill(c).replace('href="characters"', 'href="characters?tab=edit"');
-    return end == null ? p : p.replace(/<\/a>$/, `<span class="dim" data-end="${end}">${leftSaid(end - t)}</span></a>`); }).join("")}` : "";
+  // (and the birthdays falling due within the week: the present to collect, from when to when as far as the range tells)
+  const soon = ok ? byImportance(o.chars.filter(c => c.bornBetween && played(c)), o).map(c => [c, ageBirthday(...c.bornBetween.map(Date.parse), t)]).filter(([, b]) => b.from - t < 7 * 864e5).sort((x, y) => x[1].from - y[1].from) : [];
+  const days = ms => Math.max(0, Math.round(ms / 864e5));
+  $("td-bday").hidden = !bdays.length && !soon.length;
+  $("td-bday").innerHTML = (bdays.length ? `<span class="t-k"><a href="characters-birthdays">Birthdays worth checking</a></span>${bdays.map(([c, end]) => { const p = charPill(c).replace('href="characters"', 'href="characters?tab=edit"');
+    return end == null ? p : p.replace(/<\/a>$/, `<span class="dim" data-end="${end}">${leftSaid(end - t)}</span></a>`); }).join("")}` : "")
+    + (soon.length ? `${bdays.length ? "<br>" : ""}<span class="t-k"><a href="characters-birthdays">Birthdays coming</a></span>${soon.map(([c, b]) => charPill(c, b.now ? `due, by ${days(b.to - t) ? `${days(b.to - t)}d` : "today"}` : days(b.from - t) === days(b.to - t) ? `in ${days(b.from - t) || "<1"}d` : `in ${days(b.from - t)}–${days(b.to - t)}d`).replace('href="characters"', 'href="characters-birthdays"')).join("")}` : "");
   $("td-date").value = ymd(t); $("td-now").hidden = !args().has("d");
 }
 const leftSaid = ms => { const s = Math.max(0, Math.floor(ms / 1000)), h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, x = String(s % 60).padStart(2, "0");

@@ -1601,3 +1601,10 @@ a.c-pill:hover { border-color: var(--accent); }
 .captures .filters[hidden], .captures .cap-tabs[hidden], .captures #cap-main[hidden] { display: none; }  /* (a character with every elite: none of it shown) */
 .cap-summary .cap-done { flex-basis: 100%; }  /* (all captured: the characters still at it on a line of their own) */
 .cap-summary .cap-alldone { font-size: 20px; margin: 10px 0 18px; }  .cap-done p { margin: 6px 0; }
+/* the /age reading controls (ageAddHTML, common.js): a reading's button is held to set it, a fill running across it meanwhile */
+.age-box { width: 110px; font: inherit; font-size: 13px; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; margin-right: 6px; }
+.age-hold { position: relative; overflow: hidden; }
+.age-hold::after { content: ""; position: absolute; inset: 0; width: 0; background: color-mix(in srgb, var(--accent) 40%, transparent); pointer-events: none; }
+.age-hold.holding::after { width: 100%; transition: width .8s linear; }
+.age-undo { margin-left: 8px; }
+.age-known { padding: 5px 0; border: 1px solid transparent; display: inline-block; }  /* (as tall as a button: a row keeps its height) */

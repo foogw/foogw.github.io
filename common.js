@@ -402,24 +402,122 @@ function bonusPills(bonus, o, cs) {
     .map(([a, x]) => `<span class="c-pill">${esc(accountName(a))}<span class="dim">${esc(left(x))}</span></span>`);
   return [...chars, ...accts];
 }
-// a character's age range at a moment (its "bornBetween", narrowed by /age readings): the unit it's said in (days while it
-// covers more than two dates, then hours, then minutes), and what a reading then takes off for sure (all but the largest
-// piece left between the ticks of a month, or a day for a young one, inside it; a range longer than a tick always has one
-// inside), till when (end: never, for a range longer than a tick), and whether the tick nearest its middle is still
-// rising to it. A month: a twelfth of the game's 365-day year
-const AGE_DAY = 864e5, AGE_MO = 365 / 12 * AGE_DAY;
-// what /age ticks by at t: whole days for a character under two months old, then whole months
-const ageTick = (lo, hi, t) => (t - (lo + hi) / 2 < 2 * AGE_MO ? AGE_DAY : AGE_MO);
+/* A character's age, from what /age says. /age gives the age in whole days while the character is under two months
+   old (two twelfths of the game's 365-day year: 60 days 20 hours), then in whole months: a reading of N at time t puts
+   its making in [t − (N+1) units, t − N units], clipped to the ages that unit is used for. Only the range it can have
+   been made in is kept ("bornBetween", to the second), each reading narrowing it to the piece it names. Its birthdays:
+   every 365 days. */
+const AGE_DAY = 864e5, AGE_MO = 365 / 12 * AGE_DAY, AGE_TWO = 2 * AGE_MO, AGE_YEAR = 365 * AGE_DAY;
+// what /age can say at t for a character made somewhere in [lo, hi]: each reading (n in unit u: d days, m months) with
+// the piece of the range it would leave (over a second: the ends are kept to the second), the youngest first. A range
+// across the two-month mark gives both kinds, "60 days" and "2 months"
+function ageReadings(lo, hi, t) {
+  const out = [], add = (n, u, a, b) => { a = Math.max(a, lo); b = Math.min(b, hi); if (b - a > 1000) out.push({ n, u, lo: a, hi: b }); };
+  const dLo = Math.max(lo, t - AGE_TWO);
+  if (hi > dLo) for (let n = Math.floor((t - hi) / AGE_DAY); n <= Math.floor((t - dLo) / AGE_DAY); n++) add(n, "d", Math.max(t - (n + 1) * AGE_DAY, t - AGE_TWO), t - n * AGE_DAY);
+  const mHi = Math.min(hi, t - AGE_TWO);
+  if (mHi > lo) for (let n = Math.floor((t - mHi) / AGE_MO); n <= Math.floor((t - lo) / AGE_MO); n++) add(n, "m", t - (n + 1) * AGE_MO, Math.min(t - n * AGE_MO, t - AGE_TWO));
+  return out.sort((a, b) => b.lo - a.lo);
+}
+const ageReadingSaid = r => `${r.n} ${r.u === "d" ? "day" : "month"}${r.n === 1 ? "" : "s"}`;
+// the readings' boundaries move with time: one is at a character made X before now, X a whole day (under two months),
+// the two-month mark, or a whole month. The next X past an age a: when a boundary reaches a character of that age
+const ageNextX = a => (a < AGE_TWO ? Math.min((Math.floor(a / AGE_DAY) + 1) * AGE_DAY, AGE_TWO) : (Math.floor(a / AGE_MO) + 1) * AGE_MO);
+// a reading of n in unit u at t, on a range (none: any time up to t): the range it leaves, [lo, hi] to the second (the
+// earliest end down, the latest up), or null when /age couldn't say that now
+function ageNarrow(made, n, u, t = Date.now()) {
+  const [lo, hi] = made ? made.map(Date.parse) : [t - 40 * AGE_YEAR, t];
+  const v = ageReadings(lo, hi, t).find(v => v.n === n && v.u === u);
+  return v && [Math.floor(v.lo / 1000) * 1000, Math.ceil(v.hi / 1000) * 1000];
+}
+const ageIso = t => new Date(t).toISOString().slice(0, 19) + "Z";
+// a character's range at a moment: the unit it's said in (days while it covers more than two dates, then hours, then
+// minutes) and said(n); its readings now; inside: a boundary within it, so a reading narrows it now, by side at least
+// (the range less the largest piece); next: when a boundary is at its middle (the best check; past, when one inside
+// has gone by it); start: when a reading starts to help (now, while inside); end: till when the one inside helps
+// (never, with more than one); rising: the boundary nearest the middle still short of it; done: known to the minute
 function ageAt(made, t = Date.now()) {
-  const [lo, hi] = made.map(Date.parse), dates = Math.floor(hi / AGE_DAY) - Math.floor(lo / AGE_DAY) + 1, tick = ageTick(lo, hi, t);
+  const [lo, hi] = made.map(Date.parse), dates = Math.floor(hi / AGE_DAY) - Math.floor(lo / AGE_DAY) + 1, mid = (lo + hi) / 2;
   const [unit, word] = dates > 2 ? [AGE_DAY, "day"] : hi - lo >= 36e5 ? [36e5, "hour"] : [6e4, "minute"];
-  // (f: the first tick inside, n: how many more; the pieces between them)
-  const b = t - Math.floor((t - lo) / tick) * tick, f = b > lo ? b : b + tick, n = f < hi ? Math.ceil((hi - f) / tick) - 1 : 0;
-  const side = f < hi ? hi - lo - Math.max(f - lo, hi - f - n * tick, n ? tick : 0) : 0;
-  const mid = (lo + hi) / 2, d = (((t - mid) % tick) + tick) % tick;
-  return { lo, hi, dates, unit, word, side, mid, done: hi - lo <= 6e4, next: mid + Math.ceil((t - mid) / tick) * tick,
-    end: hi - lo > tick ? Infinity : side ? t + hi - f : t, rising: d > tick / 2,
+  const readings = ageReadings(lo, hi, t), inside = readings.length > 1;
+  const side = inside ? hi - lo - Math.max(...readings.map(v => v.hi - v.lo)) : 0;
+  const near = readings.slice(1).map(v => v.hi).sort((a, b) => Math.abs(a - mid) - Math.abs(b - mid))[0];
+  // (a boundary within a second of the latest-made end is reaching it now: the second the ends are kept to)
+  const start = inside ? t : lo + ageNextX(t - lo - 1000);
+  return { lo, hi, dates, unit, word, mid, readings, inside, side, done: hi - lo <= 6e4, rising: inside && near < mid,
+    next: inside ? t + (mid - near) : start + (mid - lo), start,
+    end: readings.length > 2 ? Infinity : inside ? t + (hi - near) : t,
     said: n => `${n} ${word}${n === 1 ? "" : "s"}` };
+}
+/* The /age reading controls for a character (the Birthdays page's last column, the Edit tab's age box): what /age can
+   say now, a button each when a few (held for a moment to set it, so a stray click does nothing), a box to type in
+   when many (a wide range, or none yet); "nothing to learn yet" with one; "Known to the minute" once there. A reading
+   set can be undone for five minutes (this page only, not kept). The handlers below serve every page. */
+const AGE_UNDO_FOR = 5 * 6e4, ageUndo = new Map();  // by character id: { made: the range before, until, said }
+function ageAddHTML(c, t = Date.now()) {
+  const u = ageUndo.get(c.id); if (u && u.until <= t) ageUndo.delete(c.id);
+  const box = ph => `<input type="text" class="age-box" data-age="${c.id}" maxlength="12" placeholder="${ph}" aria-label="What /age says for ${esc(c.name)}"><button type="button" class="u-btn" data-age-add="${c.id}">Add</button>`;
+  let main;
+  if (!c.bornBetween) main = box("79 months");
+  else {
+    const [lo, hi] = c.bornBetween.map(Date.parse), vals = ageReadings(lo, hi, t);
+    main = hi - lo <= 6e4 ? `<span class="dim age-known">Known to the minute</span>`
+      : vals.length === 1 ? `<span class="dim age-known">/age says ${ageReadingSaid(vals[0])}: nothing to learn yet</span>`
+      : vals.length <= 4 ? `<span class="dim">/age says</span> ${vals.map(v => `<button type="button" class="u-btn age-hold" data-age-set="${c.id}:${v.n}:${v.u}" title="Hold to set it">${ageReadingSaid(v)}</button>`).join("")}`
+      : box(`X ${t - (lo + hi) / 2 < AGE_TWO ? "days" : "months"}`);
+  }
+  return main + (u && u.until > t ? ` <button type="button" class="u-btn age-undo" data-age-undo="${c.id}" title="Back to the range before ${esc(u.said)}: for ${Math.ceil((u.until - t) / 6e4)} min">Undo</button>` : "");
+}
+// a reading of n in unit u for character id: the range narrowed (the one before kept, to undo); one /age couldn't say
+// now refused (the box told). The pages redraw on userchange
+function ageSet(id, n, u, box) {
+  if (User.broken()) return;
+  const t = Date.now(), o = User.data(), c = o.chars.find(x => x.id === id), r = ageNarrow(c.bornBetween, n, u, t);
+  if (!r) { if (box) { box.value = ""; box.placeholder = "Doesn't fit: check again"; } return; }
+  ageUndo.set(id, { made: c.bornBetween, until: t + AGE_UNDO_FOR, said: ageReadingSaid({ n, u }) });
+  c.bornBetween = r.map(ageIso);
+  if (User.save(o)) dispatchEvent(new Event("userchange"));
+}
+// (a reading's button is held for a moment: a fill shows the wait; let go early, or move off, and nothing happens. The
+// keyboard holds Enter or Space the same way. ageHolding: for a page refreshing in place, to leave the button be)
+let ageHold = null;
+const ageHolding = () => !!ageHold;
+const ageHoldEnd = () => { if (!ageHold) return; clearTimeout(ageHold.timer); ageHold.btn.classList.remove("holding"); ageHold = null; };
+const ageHoldStart = btn => {
+  if (ageHold || User.broken()) return;
+  const [id, n, u] = btn.dataset.ageSet.split(":");
+  btn.classList.add("holding");
+  ageHold = { btn, timer: setTimeout(() => { ageHoldEnd(); ageSet(+id, +n, u); }, 800) };
+};
+document.addEventListener("pointerdown", e => { const btn = e.target.closest?.("[data-age-set]"); if (btn && e.button === 0) { e.preventDefault(); ageHoldStart(btn); } });
+for (const ev of ["pointerup", "pointercancel"]) document.addEventListener(ev, ageHoldEnd);
+document.addEventListener("pointerout", e => { if (ageHold && e.target === ageHold.btn) ageHoldEnd(); });
+document.addEventListener("keydown", e => {
+  const btn = e.target.closest?.("[data-age-set]");
+  if (btn && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); if (!e.repeat) ageHoldStart(btn); }
+  else if (e.target.matches?.("[data-age]") && e.key === "Enter") document.querySelector(`[data-age-add="${e.target.dataset.age}"]`)?.click();
+});
+document.addEventListener("keyup", e => { if (ageHold && (e.key === "Enter" || e.key === " ")) ageHoldEnd(); });
+addEventListener("blur", ageHoldEnd);
+// a reading typed ("79", "79 months", "12 days"), and an undo
+document.addEventListener("click", e => {
+  const add = e.target.closest?.("[data-age-add]"), un = e.target.closest?.("[data-age-undo]");
+  if (add) {
+    const box = document.querySelector(`[data-age="${add.dataset.ageAdd}"]`), m = box?.value.trim().toLowerCase().match(/^(\d+)\s*(d|days?|m|mo|months?)?$/);
+    if (!m) return box?.focus();
+    ageSet(+add.dataset.ageAdd, +m[1], m[2]?.startsWith("d") ? "d" : "m", box);
+  } else if (un && !User.broken()) {
+    const id = +un.dataset.ageUndo, u = ageUndo.get(id); if (!u) return;
+    const o = User.data(), c = o.chars.find(x => x.id === id);
+    c.bornBetween = u.made; ageUndo.delete(id);
+    if (User.save(o)) dispatchEvent(new Event("userchange"));
+  }
+});
+// the next birthday of a character made in [lo, hi], at t: between from and to; now, when some of the range has had it
+// already (it is falling due); years: which one
+function ageBirthday(lo, hi, t = Date.now()) {
+  const kHi = Math.floor((t - hi) / AGE_YEAR) + 1, kLo = Math.floor((t - lo) / AGE_YEAR) + 1;
+  return kLo === kHi ? { from: lo + kHi * AGE_YEAR, to: hi + kHi * AGE_YEAR, now: false, years: kHi } : { from: t, to: hi + kHi * AGE_YEAR, now: true, years: kHi };
 }
 function entryHTML(e) {
   if (e.mission) return hasModes(MISSIONS[e.mission]) ? todoLink(LINK.mission(e.mission), "mission", e.mission) : LINK.mission(e.mission);

@@ -248,55 +248,41 @@ function nextHTML(o, c) {
    after t − (N+1) months and no later than t − N months. Only that range is kept ("bornBetween"), each reading narrowing it;
    a reading helps only while a month could tick over within it (the window: the range moved on by whole months), so
    the tab says when to check next, best halfway through, till it's down to a day. Its birthdays: every 365 days. */
-const AGE_MONTH = 365 / 12 * 864e5, AGE_YEAR = 365 * 864e5;
 // (dates as the game's servers count them, UTC: one it can have been made on, a whole UTC day)
 const fmtAgeDay = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 const ageDates = (lo, hi) => Math.floor(hi / 864e5) - Math.floor(lo / 864e5) + 1;
 const fmtAgeTime = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
 const isoMin = t => new Date(t).toISOString().slice(0, 16) + "Z";
-// the window for a reading now or next: [opens, closes, best], k whole ticks on from the range (days for a character
-// under two months old, else months: ageTick)
-function ageWindow(lo, hi, now = Date.now()) {
-  const tick = ageTick(lo, hi, now);
-  let k = Math.floor((now - lo) / tick);
-  if (now >= hi + k * tick) k++;
-  return [lo + k * tick, hi + k * tick, (lo + hi) / 2 + k * tick];
-}
 function ageHTML(c) {
   // first what's known of it, then how to know more
+  const now = Date.now();
   let known = `We have no idea of ${esc(c.name)}'s age yet.`, next = "Type in how old /age says it is: \"79 months\", or \"12 days\" for a young one.";
   if (c.bornBetween) {
-    const [lo, hi] = c.bornBetween.map(Date.parse), now = Date.now();
+    const [lo, hi] = c.bornBetween.map(Date.parse);
     if (ageDates(lo, hi) === 1) {
       const mid = (lo + hi) / 2, years = Math.floor((now - mid) / AGE_YEAR), bday = mid + (years + 1) * AGE_YEAR;
       known = `${esc(c.name)} was created on ${fmtAgeDay.format(lo)}: ${years} year${years === 1 ? "" : "s"} old, next birthday ${fmtAgeDay.format(bday)} (${(years + 1) * 12} months).`;
       next = "";
     } else {
-      const [a, b, best] = ageWindow(lo, hi, now);
+      const a = ageAt(c.bornBetween, now);
       known = `${esc(c.name)} was created between ${fmtAgeDay.format(lo)} and ${fmtAgeDay.format(hi)}.`;
-      // (best halfway through the window; "now" only once that's passed: a reading just after the last tells little)
-      next = now >= best ? `<b>Check now</b>: a reading till ${fmtAgeTime.format(b)} narrows it.`
-        : `<b>Next check</b>: best ${fmtAgeTime.format(best)}, or any time from ${fmtAgeTime.format(Math.min(best, Math.max(a, now + 864e5)))} till ${fmtAgeTime.format(b)}.`;
+      // (a boundary inside the range: a reading narrows it now, best when the boundary is at the middle; else from when
+      // the next one reaches it)
+      next = a.inside ? `<b>Check now</b>: a reading ${Number.isFinite(a.end) ? `till ${fmtAgeTime.format(a.end)}` : "any time"} narrows it${now < a.next ? `, best ${fmtAgeTime.format(a.next)}` : ""}.`
+        : `<b>Next check</b>: from ${fmtAgeTime.format(a.start)}, best ${fmtAgeTime.format(a.next)}.`;
     }
   }
+  // (the reading controls as on the Birthdays page: buttons held to set, or a box; undo. Refreshed each second below:
+  // what /age can say moves with time)
   return `<hr class="ch-edit-hr"><div class="ch-edit-age"><p class="ch-age-known">${known}</p>
-    ${next ? `<label>Age <input type="text" maxlength="12" id="age-months" placeholder="79 months" aria-label="What /age says: months, or days"></label>
-    <button type="button" class="u-btn" id="age-add">Add reading</button>` : ""}
+    ${next ? `<span class="ch-age-add">${ageAddHTML(c, now)}</span>` : ""}
     <span class="dim ch-age-say" id="age-say">${next}</span></div>`;
 }
-// a reading: the range narrowed (one that doesn't fit what's known is refused)
-$("ch-edit").addEventListener("click", e => {
-  if (e.target.id !== "age-add") return;
-  // ("79", "79 months", "12 days", "12d": months unless it says days)
-  const m = $("age-months").value.trim().toLowerCase().match(/^(\d+)\s*(d|days?|m|mo|months?)?$/), now = Date.now();
-  if (!m) return $("age-months").focus();
-  const n = +m[1], unit = m[2]?.startsWith("d") ? 864e5 : AGE_MONTH;
-  const lo = now - (n + 1) * unit, hi = now - n * unit, cur = User.char();
-  const [a, b] = cur.bornBetween ? cur.bornBetween.map(Date.parse) : [-Infinity, Infinity], nlo = Math.max(lo, a), nhi = Math.min(hi, b);
-  if (nlo > nhi) { $("age-say").textContent = `${$("age-months").value.trim()} doesn't fit what earlier readings said: check /age again.`; return; }
-  editChar(c => { c.bornBetween = [isoMin(nlo), isoMin(nhi)]; });
-});
-$("ch-edit").addEventListener("keydown", e => { if (e.target.id === "age-months" && e.key === "Enter") $("age-add").click(); });
+// (the age box's readings refreshed in place each second, as on the Birthdays page; not while one is held or typed in)
+setInterval(() => {
+  const el = document.querySelector(".ch-age-add"); if (!el || ageHolding() || el.querySelector(".age-box") === document.activeElement) return;
+  const h = ageAddHTML(User.char()); if (el.innerHTML !== h) el.innerHTML = h;
+}, 1000);
 
 // the campaign it was made in, picked in the Edit tab; and its note, saved once it's left (or Enter), its length counted
 $("ch-edit").addEventListener("change", e => {
