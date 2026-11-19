@@ -823,8 +823,7 @@ const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles"
 // the Checklist tab's items a character marks done by hand (the others it works out from the ticks): their ids
 const USER_CHECKS = ["skills", "outposts", "wik", "uw", "fow", "sf", "deep", "urgoz", "doa", "attr",
   // (a pre-Searing character's: mytitles.js PRE_CHECKLIST)
-  "pouch", "charrbags", "eqpack", "headgear", "vigor", "rune-weapon", "rune-str", "rune-tact", "rune-abs", "rune-marks", "rune-exp", "rune-bm",
-  "rune-smite", "rune-heal", "rune-dv", "rune-death", "rune-sr", "rune-dom", "rune-fc", "rune-fire", "rune-es"];
+  "pouch", "charrbags", "eqpack", "headgear", "vigor", "runes"];
 // a character's readings typed in on its Edit tab, each kept with when: [amount, time]
 const USER_READINGS = ["xp", "played", "playedOutside"];
 // an amount said back: round ones short (12.5m, 340k, 1b: to a tenth of the unit), the others in full with commas (12,345)

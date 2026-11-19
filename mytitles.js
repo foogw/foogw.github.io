@@ -91,19 +91,17 @@ function titleRankOf(t, c, o) {
 }
 function titleMaxed(id, c, o) { const t = TITLES[id]; return !!t && titleRankOf(t, c, o) >= titleMax(t); }
 
-/* ---------- the Checklist tab's items (My Characters' Checklist; counted on the Overview) ----------
-   each: id; name; known: (c) => done, from the ticks (with no mark, a fact; with mark too, a fact when it holds, yours
-   to mark otherwise); needs: (c) => why it can't be marked yet, or ""; mark: it can be marked (its id in USER_CHECKS,
-   kept on the character as checks); how: (c) => where the answer comes from */
+/* ---------- the Checklist tab's items (My Characters' Checklist; counted on the Overview) ---------- */
 const ATTR_QUESTS = { 1: [101164, 101270], 2: [100605, 100485], 3: [100985, 100984] };  // each campaign's two attribute point quests
 const LAST = { 1: 124, 2: 271, 3: 528, 4: 673 };  // each campaign's last mission: Hell's Precipice, Imperial Sanctum, Abaddon's Gate, A Time for Heroes
 const MARK = "Marked by hand", TICKS = "From your ticks";
-// each item: known: (c) => done, from the ticks (an item with it and no mark is a fact; with mark too, a fact when it
-// holds, yours to mark otherwise); needs: (c) => why it can't be marked yet, or ""; mark: it can be marked (its id in
-// USER_CHECKS); how: where the answer comes from
+// each item: id; name; known: (c) => done, from the ticks (an item with it and no mark is a fact; with mark too, a fact
+// when it holds, yours to mark otherwise); needs: (c) => why it can't be marked yet, or ""; mark: it can be marked (its
+// id in USER_CHECKS, kept on the character as checks); hero: its mark is that hero's tick; how: (c) => where the answer
+// comes from
 const CHECKLIST = [
   // (the two attribute quests of the campaign it was made in; none named while that isn't set)
-  { id: "attr", name: "200 attribute points", mark: true, how: c => { const q = ATTR_QUESTS[c.campaign]; return q ? `both ${CAMPAIGNS[c.campaign]} attribute quests, ${LINK.quest(q[0])} and ${LINK.quest(q[1])}` : "both attribute quests of its campaign"; } },
+  { id: "attr", name: "200 attribute points", mark: true, how: c => { const m = madeIn(c), q = ATTR_QUESTS[m]; return q ? `both ${CAMPAIGNS[m]} attribute quests, ${LINK.quest(q[0])} and ${LINK.quest(q[1])}` : "both attribute quests of its campaign"; } },
   ...[[1, "Prophecies"], [2, "Factions"], [3, "Nightfall"], [4, "Eye of the North"]].map(([camp, name]) => ({ id: `camp${camp}`, name: `${name} completed`,
     known: c => !!((c.missions[LAST[camp]] || 0) & 3), how: () => `${LINK.mission(LAST[camp])} done, in either mode` })),
   { id: "wik", name: "War in Kryta completed", mark: true, known: c => (c.heroes || []).includes(17),
@@ -121,30 +119,30 @@ const CHECKLIST = [
   { id: "urgoz", name: "Urgoz's Warren cleared", mark: true, how: () => LINK.mission(266) },
   { id: "doa", name: "Domain of Anguish cleared, Mallyx beaten", mark: true, how: () => LINK.area(474) },
   { id: "outposts", name: "All outposts", mark: true, how: () => "every outpost visited (every map travel unlocked)" },
-  { id: "skills", name: "All skills", mark: true, needs: c => { const n = capturableElites().filter(id => !c.elites.includes(id)).length; return n ? `${n} elite${n === 1 ? "" : "s"} still to capture` : ""; },
+  { id: "skills", name: "All skills", mark: true, needs: c => { const n = capturableElites().filter(id => !(c.elites || []).includes(id)).length; return n ? `${n} elite${n === 1 ? "" : "s"} still to capture` : ""; },
     how: () => `once every elite is captured (<a href="captures">Elite captures</a>), the rest is yours to say` },
   { id: "heroes", name: "All heroes recruited", known: c => USER_ALL_V3.heroes.every(h => (c.heroes || []).includes(h)),
     // (the missing ones named, three at most; the rest on the Heroes tab)
     how: c => { const left = USER_ALL_V3.heroes.filter(h => !(c.heroes || []).includes(h));
       return left.length ? `still to recruit: ${left.slice(0, 3).map(h => LINK.hero(h)).join(", ")}${left.length > 3 ? ` and <a href="characters?tab=heroes">${left.length - 3} more</a>` : ""}` : "every hero, as ticked on the Heroes tab"; } },
 ];
-// a pre-Searing character's own list, all marked by hand: the bags and pack, the collector headgear, the runes of
-// its primary profession (prof: 1 Warrior, 2 Ranger, 3 Monk, 4 Necromancer, 5 Mesmer, 6 Elementalist)
+// a pre-Searing character's own list, all marked by hand: the bags and pack, the collector headgear, the Rune of
+// Vigor and the minor runes of its primary profession, every attribute's (PRE_RUNES, by profession: 1 Warrior, 2 Ranger,
+// 3 Monk, 4 Necromancer, 5 Mesmer, 6 Elementalist), one item, how saying which
+const PRE_RUNES = { 1: ["Strength", "Axe Mastery", "Hammer Mastery", "Swordsmanship", "Tactics", "Absorption"], 2: ["Expertise", "Beast Mastery", "Marksmanship", "Wilderness Survival"],
+  3: ["Divine Favor", "Healing Prayers", "Smiting Prayers", "Protection Prayers"], 4: ["Soul Reaping", "Blood Magic", "Curses", "Death Magic"],
+  5: ["Fast Casting", "Domination Magic", "Illusion Magic", "Inspiration Magic"], 6: ["Energy Storage", "Air Magic", "Earth Magic", "Fire Magic", "Water Magic"] };
 const PRE_CHECKLIST = [
   { id: "pouch", name: "Belt pouch" }, { id: "charrbags", name: "Two Charr bags" }, { id: "eqpack", name: "Equipment pack" },
-  { id: "headgear", name: "Collector headgear" }, { id: "vigor", name: "Rune of Vigor" },
-  { id: "rune-weapon", name: "Rune of weapon mastery (axe, hammer or sword)", prof: 1 }, { id: "rune-str", name: "Rune of Strength", prof: 1 },
-  { id: "rune-tact", name: "Rune of Tactics", prof: 1 }, { id: "rune-abs", name: "Rune of Absorption", prof: 1 },
-  { id: "rune-marks", name: "Rune of Marksmanship", prof: 2 }, { id: "rune-exp", name: "Rune of Expertise", prof: 2 }, { id: "rune-bm", name: "Rune of Beast Mastery", prof: 2 },
-  { id: "rune-smite", name: "Rune of Smiting Prayers", prof: 3 }, { id: "rune-heal", name: "Rune of Healing Prayers", prof: 3 }, { id: "rune-dv", name: "Rune of Divine Favor", prof: 3 },
-  { id: "rune-death", name: "Rune of Death Magic", prof: 4 }, { id: "rune-sr", name: "Rune of Soul Reaping", prof: 4 },
-  { id: "rune-dom", name: "Rune of Domination Magic", prof: 5 }, { id: "rune-fc", name: "Rune of Fast Casting", prof: 5 },
-  { id: "rune-fire", name: "Rune of Fire Magic", prof: 6 }, { id: "rune-es", name: "Rune of Energy Storage", prof: 6 },
-].map(i => ({ ...i, mark: true, how: () => "" }));
-// the items for a character: a pre-Searing one's own (its profession's runes among them), else the list above
-const checklistFor = c => (isPreSearing(c) ? PRE_CHECKLIST.filter(i => !i.prof || i.prof === c.profession) : CHECKLIST);
-// an item done by a character: by its ticks, or by its mark
-const checkDone = (c, i) => !!((i.known && i.known(c)) || (i.mark && (c.checks || []).includes(i.id)));
+  { id: "headgear", name: "Collector headgear" }, { id: "outposts", name: "All outposts" },
+  // (Devona: the mark is the hero's tick, as on the Heroes tab)
+  { id: "devona", name: "Devona recruited", hero: 38 },
+  { id: "vigor", name: "Rune of Vigor" }, { id: "runes", name: "Profession runes", how: c => (PRE_RUNES[c.profession] || []).join(", ") },
+].map(i => ({ how: () => "", ...i, mark: true }));
+// the items for a character: a pre-Searing one's own, else the list above
+const checklistFor = c => (isPreSearing(c) ? PRE_CHECKLIST : CHECKLIST);
+// an item done by a character: by its ticks, or by its mark (a hero's: the hero recruited)
+const checkDone = (c, i) => !!((i.known && i.known(c)) || (i.hero ? (c.heroes || []).includes(i.hero) : i.mark && (c.checks || []).includes(i.id)));
 // how many of its items a character has
 const checklistDone = c => checklistFor(c).filter(i => checkDone(c, i)).length;
 // the elite areas with a checklist item, by area id: the Underworld, the Fissure of Woe, Sorrow's Furnace, the Deep,

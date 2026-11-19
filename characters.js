@@ -346,11 +346,11 @@ $("ch-edit").addEventListener("keydown", e => { if (e.target.dataset?.reading &&
    Change); some are simply marked by hand (the elite areas cleared, the 200 attribute points). The marks are kept on
    the character (checks, common.js). */
 function checklistHTML(c) {
-  const items = checklistFor(c), marked = new Set(c.checks || []), done = checklistDone(c);
+  const items = checklistFor(c), done = checklistDone(c);
   // one line each: its tick (a fact from the ticks, a mark to make, or locked until the ticks allow), its name, and where
   // the answer comes from
   return `<p class="ck-who dim">${done} of ${items.length} done${isPreSearing(c) ? ", in pre-Searing" : ""}</p><ul class="ck-list">${items.map(i => {
-    const fact = i.known && i.known(c), need = !fact && i.needs ? i.needs(c) : "", on = fact || marked.has(i.id);
+    const fact = i.known && i.known(c), need = !fact && i.needs ? i.needs(c) : "", on = checkDone(c, i);
     const tick = fact ? `<span class="utick ck-fact" aria-pressed="true" title="${TICKS}">✓</span>`
       : !i.mark ? `<span class="utick ck-fact" aria-pressed="false" title="${TICKS}"></span>`
       : need ? `<span class="utick ck-locked" aria-disabled="true" title="${esc(need)}">·</span>`
@@ -364,7 +364,11 @@ $("ch-check").addEventListener("click", e => {
   const b = e.target.closest("[data-check]");
   if (!b || e.target.closest("a")) return;
   const id = b.dataset.check;
-  editChar(c => { const s = new Set(c.checks || []); if (s.has(id)) s.delete(id); else s.add(id); c.checks = USER_CHECKS.filter(x => s.has(x)); if (!c.checks.length) delete c.checks; });
+  editChar(c => {
+    // (a hero's: the hero ticked or unticked, as on the Heroes tab)
+    const hero = checklistFor(c).find(i => i.id === id)?.hero;
+    if (hero) { const hs = new Set(c.heroes || []); if (hs.has(hero)) hs.delete(hero); else hs.add(hero); if (hs.size) c.heroes = [...hs]; else delete c.heroes; return; }
+    const s = new Set(c.checks || []); if (s.has(id)) s.delete(id); else s.add(id); c.checks = USER_CHECKS.filter(x => s.has(x)); if (!c.checks.length) delete c.checks; });
 });
 
 /* ---------- heroes and builds tabs ---------- */
