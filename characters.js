@@ -37,7 +37,8 @@ try {
 const shownChars = (o, cur) => { const hs = new Set(hiddenIds(o)); return o.chars.filter(c => c === cur || !hs.has(c.id)); };
 // the picked character's tabs, [key, label, its panel]: the one shown, the same for every character, kept in this
 // browser (first Titles)
-const TABS = [["titles", "Titles", "title"], ["next", "What's next", "ch-next"], ["heroes", "Heroes", "ch-heroes"], ["builds", "Builds", "ch-builds"], ["edit", "Edit", "ch-edit"]], TAB = "chars.tab";
+// (what it has: Titles, Checklist; what to do: What's next; what it brings: Heroes, Builds; then Edit)
+const TABS = [["titles", "Titles", "title"], ["check", "Checklist", "ch-check"], ["next", "What's next", "ch-next"], ["heroes", "Heroes", "ch-heroes"], ["builds", "Builds", "ch-builds"], ["edit", "Edit", "ch-edit"]], TAB = "chars.tab";
 let tab = (() => { try { const t = localStorage.getItem(TAB); return TABS.some(x => x[0] === t) ? t : "titles"; } catch { return "titles"; } })();
 // the page's view, one of its tabs: About (what characters are for, a mock one to try), Characters (the one picked), Edit (the
 // list to change); from the address (characters?view=edit), else Characters, or About while nothing is saved yet
@@ -55,6 +56,7 @@ const drawTabs = (o = User.data(), cur = User.char(o)) => {
   else if (tab === "next") $("ch-next").innerHTML = nextHTML(o, cur);
   else if (tab === "heroes") $("ch-heroes").innerHTML = heroesHTML(cur);
   else if (tab === "builds") $("ch-builds").innerHTML = buildsHTML(cur);
+  else if (tab === "check") $("ch-check").innerHTML = checklistHTML(cur);
   else $("ch-edit").innerHTML = `<table class="u-chars ch-edit-row"><tbody>${charRow(o, cur, null, true)}</tbody></table>
     <label class="ch-edit-note">Note <input type="text" id="edit-note" maxlength="${USER_NOTE_MAX}" value="${esc(cur.note || "")}"
       placeholder="A line about ${esc(cur.name)}: its role, what it's farming…" autocomplete="off"><span class="dim" id="edit-note-n">${(cur.note || "").length} / ${USER_NOTE_MAX}</span></label>
@@ -196,7 +198,8 @@ function nextHTML(o, c) {
   const both = (part, id) => ((c[part][id] || 0) & 3) === 3, vq = new Set(c.vanquished || []);
   const needs = [["zaishen-mission", "Mission", e => hasModes(MISSIONS[e.mission]) && !both("missions", e.mission)],
     ["zaishen-vanquish", "Vanquish", e => AREAS[e.area]?.foes && !vq.has(e.area)],
-    ["zaishen-bounty", "Bounty", e => e.area && isTickedDungeon(e.area) && !both("dungeons", e.area)]];
+    // (a bounty's dungeon not done in both modes, or its elite area not cleared: the Checklist's item)
+    ["zaishen-bounty", "Bounty", e => e.area && ((isTickedDungeon(e.area) && !both("dungeons", e.area)) || (CHECK_AREAS[e.area] && NEEDS.check(c, CHECK_AREAS[e.area])))]];
   const rw = ROTATIONS["weekly-pve"], w0 = Rotation.period(rw);
   // the next weeks whose bonus helps a title of the character's (or of its account's) not maxed
   const bonusRows = scope => { const out = [];
@@ -336,6 +339,33 @@ $("ch-edit").addEventListener("change", e => {
   e.target.value = c[k] ? amountSaid(c[k][0]) : "";
 });
 $("ch-edit").addEventListener("keydown", e => { if (e.target.dataset?.reading && e.key === "Enter") e.target.blur(); });
+
+/* ---------- checklist tab ----------
+   The character's milestones. Some are known from its ticks (a campaign done, every hero recruited); some are marked by
+   hand once the ticks allow it, or known from a hero recruited at the end of the storyline (War in Kryta, Winds of
+   Change); some are simply marked by hand (the elite areas cleared, the 200 attribute points). The marks are kept on
+   the character (checks, common.js). */
+function checklistHTML(c) {
+  const items = checklistFor(c), marked = new Set(c.checks || []), done = checklistDone(c);
+  // one line each: its tick (a fact from the ticks, a mark to make, or locked until the ticks allow), its name, and where
+  // the answer comes from
+  return `<p class="ck-who dim">${done} of ${items.length} done${isPreSearing(c) ? ", in pre-Searing" : ""}</p><ul class="ck-list">${items.map(i => {
+    const fact = i.known && i.known(c), need = !fact && i.needs ? i.needs(c) : "", on = fact || marked.has(i.id);
+    const tick = fact ? `<span class="utick ck-fact" aria-pressed="true" title="${TICKS}">✓</span>`
+      : !i.mark ? `<span class="utick ck-fact" aria-pressed="false" title="${TICKS}"></span>`
+      : need ? `<span class="utick ck-locked" aria-disabled="true" title="${esc(need)}">·</span>`
+      : `<button type="button" class="utick ck" aria-pressed="${on}" title="${MARK}">✓</button>`;
+    // (a mark to make: the whole line takes the click, but a link in it)
+    const markable = i.mark && !fact && !need;
+    return `<li class="${on ? "on" : ""}${need ? " locked" : ""}${markable ? " ck-mark" : ""}"${markable ? ` data-check="${i.id}"` : ""}>${tick}<span class="ck-name">${esc(i.name)}</span><span class="dim ck-how">${need ? `needs ${esc(need)}` : i.how(c)}</span></li>`; }).join("")}</ul>`;
+}
+// a mark: on or off, kept on the character
+$("ch-check").addEventListener("click", e => {
+  const b = e.target.closest("[data-check]");
+  if (!b || e.target.closest("a")) return;
+  const id = b.dataset.check;
+  editChar(c => { const s = new Set(c.checks || []); if (s.has(id)) s.delete(id); else s.add(id); c.checks = USER_CHECKS.filter(x => s.has(x)); if (!c.checks.length) delete c.checks; });
+});
 
 /* ---------- heroes and builds tabs ---------- */
 // every hero recruited

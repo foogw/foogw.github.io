@@ -371,15 +371,19 @@ const NEEDS = {
   dungeon: (c, id) => modesLeft(c, "dungeons", id),
   vanquish: (c, id) => ((c.vanquished || []).includes(id) ? "" : " "),
   elite: (c, id) => ((c.elites || []).includes(+id) ? "" : " "),
+  // a Checklist item (mytitles.js), by its id: an elite area not cleared
+  check: (c, id) => { const i = typeof CHECKLIST !== "undefined" && CHECKLIST.find(x => x.id === id); return !i || checkDone(c, i) ? "" : " "; },
 };
 // a Zaishen daily's characters still needing it, of cs, [character, note] each: a mission (NM, HM), an area to vanquish,
 // a bounty's dungeon (NM, HM) and its boss's elite; null when the daily isn't one tracked
 function dailyNeeds(key, e, cs) {
   const els = key === "zaishen-bounty" && e.creature ? (CREATURES[e.creature]?.elites || []).filter(id => SKILLS[id]?.elite) : [];
   const dgn = key === "zaishen-bounty" && e.area && isTickedDungeon(e.area);
+  // (a bounty in an elite area: the area to clear, the Checklist's item)
+  const chk = key === "zaishen-bounty" && e.area && typeof CHECK_AREAS !== "undefined" ? CHECK_AREAS[e.area] : null;
   const f = key === "zaishen-mission" ? hasModes(MISSIONS[e.mission]) && (c => NEEDS.mission(c, e.mission))
     : key === "zaishen-vanquish" ? AREAS[e.area]?.foes && (c => NEEDS.vanquish(c, e.area))
-    : key === "zaishen-bounty" && (dgn || els.length) ? c => [dgn && NEEDS.dungeon(c, e.area), els.some(id => NEEDS.elite(c, id)) && "elite"].filter(Boolean).join(", ") : null;
+    : key === "zaishen-bounty" && (dgn || chk || els.length) ? c => [dgn && NEEDS.dungeon(c, e.area), chk && NEEDS.check(c, chk) && "clear", els.some(id => NEEDS.elite(c, id)) && "elite"].filter(Boolean).join(", ") : null;
   return f ? cs.map(c => [c, f(c)]).filter(([, x]) => x).map(([c, x]) => [c, x.trim()]) : null;
 }
 // the wannabe GWAMMs (not pre-Searing, nor hidden), in the order kept: null with no progress kept
@@ -392,7 +396,7 @@ function wannabes() {
 const wannabePills = (kind, id) => { const who = (wannabes() || []).map(c => [c, NEEDS[kind](c, id)]).filter(([, x]) => x);
   return who.length ? `<span class="dim">Wannabe GWAMMs still needing it:</span> ${who.map(([c, x]) => charPill(c, x.trim())).join("")}` : ""; };
 const wannabeNeeds = (kind, id) => `<p class="wb-needs" data-wb="${kind}:${id}">${wannabePills(kind, id)}</p>`;
-addEventListener("userchange", () => { for (const p of document.querySelectorAll("[data-wb]")) { const [k, id] = p.dataset.wb.split(":"); p.innerHTML = wannabePills(k, +id); } });
+addEventListener("userchange", () => { for (const p of document.querySelectorAll("[data-wb]")) { const [k, id] = p.dataset.wb.split(":"); p.innerHTML = wannabePills(k, k === "check" ? id : +id); } });
 // a weekly bonus's pills: the characters of cs, then the accounts, whose titles it helps, each with those titles
 function bonusPills(bonus, o, cs) {
   const left = x => x[0].replace(/^.* hasn't maxed the /, "").replace(/ titles?$/, "");
@@ -651,7 +655,8 @@ function recruitHTML(h) {
    usual (from before, still read: retired: true, as aim "retired"), bornBetween: [the earliest, the latest]
    time it can have been made, narrowed by the ages /age gave (My Characters' Edit), eotnMap: the percent of the Eye of the North map
    explored, as worked out on My Characters from Master of the North's points, xp, played, playedOutside: its experience,
-   hours played and hours played outside, each the last typed in (My Characters' Edit), a whole number, and when: [amount, "2026-11-10T13:16Z"]}]}]}, the accounts in the order shown.
+   hours played and hours played outside, each the last typed in (My Characters' Edit), a whole number, and when: [amount, "2026-11-10T13:16Z"],
+   checks: [the Checklist tab's items marked done by hand, of USER_CHECKS; left out when none]}]}]}, the accounts in the order shown.
    A list may be "all": every id in USER_ALL_V3 (frozen: should the game ever have more, they'd come with a
    new version; the one change, 2026-11-18: the elites are the 300 there are to capture, the Eye of the North's three
    blessings no longer among them nor kept). An empty list, or a title not reached, is left out. Version 1 (from before), still read: no "all", and
@@ -814,7 +819,12 @@ const USER_ALL = {
   dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
 };
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
-  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "inMenu", "mock", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap", "xp", "played", "playedOutside", "aim"] };
+  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "inMenu", "mock", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap", "xp", "played", "playedOutside", "aim", "checks"] };
+// the Checklist tab's items a character marks done by hand (the others it works out from the ticks): their ids
+const USER_CHECKS = ["skills", "outposts", "wik", "uw", "fow", "sf", "deep", "urgoz", "doa", "attr",
+  // (a pre-Searing character's: mytitles.js PRE_CHECKLIST)
+  "pouch", "charrbags", "eqpack", "headgear", "vigor", "rune-weapon", "rune-str", "rune-tact", "rune-abs", "rune-marks", "rune-exp", "rune-bm",
+  "rune-smite", "rune-heal", "rune-dv", "rune-death", "rune-sr", "rune-dom", "rune-fc", "rune-fire", "rune-es"];
 // a character's readings typed in on its Edit tab, each kept with when: [amount, time]
 const USER_READINGS = ["xp", "played", "playedOutside"];
 // an amount said back: round ones short (12.5m, 340k, 1b: to a tenth of the unit), the others in full with commas (12,345)
@@ -892,6 +902,7 @@ function userFromKept(o) {
     if (k.aim) c.aim = k.aim; else if (k.retired) c.aim = "retired";
     if (k.eotnMap !== undefined) c.eotnMap = k.eotnMap;
     for (const r of USER_READINGS) if (k[r]) c[r] = [...k[r]];
+    if (k.checks) c.checks = k.checks.filter(x => USER_CHECKS.includes(x));
     return c;
   });
   return menuDefault(userNormalize({ v: 2, chars, accounts: (o.accounts || []).map(a => ({ ...a })) }));
@@ -926,6 +937,7 @@ function userToKept(o) {
     if (c.aim) k.aim = c.aim;
     if (c.eotnMap !== undefined) k.eotnMap = c.eotnMap;
     for (const r of USER_READINGS) if (c[r]) k[r] = c[r];
+    if (c.checks?.length) k.checks = USER_CHECKS.filter(x => c.checks.includes(x));
     return k;
   });
   return { v: 3, accounts: o.accounts.map(a => ({ ...a, chars: chars.filter((k, i) => (o.chars[i].account ?? 1) === a.id) })) };
@@ -1032,6 +1044,7 @@ function userCheck(o) {
       if (badR) return `${at}: "${badR}" should be [the amount (a whole number from 1), when it was typed in].`;
       if (c.played && c.playedOutside && c.playedOutside[0] > c.played[0]) return `${at}: "playedOutside" should be no more hours than "played".`;
       if (c.eotnMap !== undefined && !(Number.isInteger(c.eotnMap) && c.eotnMap >= 0)) return `${at}: "eotnMap" should be the Eye of the North map's Master of the North points (a whole number from 0).`;
+      if (c.checks !== undefined && !(Array.isArray(c.checks) && c.checks.every(x => USER_CHECKS.includes(x)) && new Set(c.checks).size === c.checks.length)) return `${at}: "checks" should list Checklist items of ${USER_CHECKS.join(", ")}, each once.`;
       const bad = USER_LISTS.find(k => c[k] !== undefined && c[k] !== "all" && !idList(c[k]));
       if (bad) return `${at}: "${bad}" should be "all" or a list of ids, each once.`;
     }
@@ -1180,7 +1193,7 @@ document.addEventListener("click", async e => {
 // a tick is clicked: before the row it may sit in (a link, or a row that opens) sees the click
 document.addEventListener("click", e => {
   const b = e.target.closest(".utick");
-  if (!b) return;
+  if (!b || b.closest(".ck-list")) return;  // (the Checklist tab's ticks are its own)
   e.preventDefault(); e.stopPropagation();
   if (User.broken()) return askBroken();
   if (readOnlyBlocks()) return;

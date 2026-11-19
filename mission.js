@@ -67,7 +67,7 @@ VIEWS.mission = (() => {
       if (next.length && !story.some(([t]) => t === "Leads to")) story.splice(story.findIndex(([t]) => t === "After") + 1, 0, ["Leads to", next.map(link).join(", ")]); }
     return `<p class="back"><a href="missions">← All missions</a></p>
       <div class="sp-head" style="--pc:var(${CAMP_COLOR[camp(m)]})">
-        <div class="sp-title"><h2>${esc(m.name)}${hasModes(m) ? doneTicks("missions", m.id, undefined, "Done in") : ""}</h2><div class="sp-sub">${sub}</div>${hasModes(m) ? wannabeNeeds("mission", m.id) : ""}</div>
+        <div class="sp-title"><h2>${esc(m.name)}${hasModes(m) ? doneTicks("missions", m.id, undefined, "Done in") : ""}</h2><div class="sp-sub">${sub}</div>${hasModes(m) ? wannabeNeeds("mission", m.id) : ""}${CHECK_AREAS[m.id] ? wannabeNeeds("check", CHECK_AREAS[m.id]) : ""}</div>
         ${party(m) ? `<div class="lstats"><span class="lstat"><small>Party</small><b>${party(m)}</b></span></div>` : ""}
       </div>
       ${notes.length ? `<ul class="lnotes">${notes.map(noteLi).join("")}</ul>` : ""}

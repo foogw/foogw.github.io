@@ -1608,3 +1608,19 @@ a.c-pill:hover { border-color: var(--accent); }
 .age-hold.holding::after { width: 100%; transition: width .8s linear; }
 .age-undo { margin-left: 8px; }
 .age-known { padding: 5px 0; border: 1px solid transparent; display: inline-block; }  /* (as tall as a button: a row keeps its height) */
+/* the Checklist tab (characters.js): the character's milestones, one line each with its tick */
+.ck-who { margin: 0 0 6px; }
+.ck-list { list-style: none; margin: 0; padding: 0; }
+.ck-list li { display: flex; align-items: center; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.ck-list li:last-child { border-bottom: 0; }
+.ck-list .utick { flex: 0 0 auto; width: 22px; height: 22px; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; }
+.ck-list .ck-fact { cursor: default; }
+.ck-list .ck-locked { color: var(--muted); cursor: not-allowed; }
+.ck-name { font-weight: 600; white-space: nowrap; }
+.ck-list li.ck-mark { cursor: pointer; }
+.ck-list li.ck-mark:hover .ck-name { color: var(--accent); }
+.ck-list li.on .ck-name { color: var(--loc-exp); }
+.ck-list li.locked .ck-name { color: var(--muted); }
+.ck-how { font-size: 13px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ck-list li:hover .ck-how { white-space: normal; }
+.u-pre .ck-list .utick { display: inline-flex; }  /* (a pre-Searing character has a checklist of its own: its ticks stay) */

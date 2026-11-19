@@ -21,6 +21,7 @@
     ["modes", "Modes", "The game modes it's bound to: pre-Searing, Melandru's Accord, Dhuum's Covenant"],
     ["bday", "Birthday", "The day it was made (UTC), or the month or year, as far as its age tells"],
     ["titles", "Titles maxed", "The titles it has maxed, that Kind of a Big Deal counts (coloured by its rank)", "num"],
+    ["checks", "Checklist", "Its Checklist tab's items done, by its ticks or marked by hand", "num"],
     ["xp", "Experience", "As last typed in on its Edit tab (hover: when)", "num"], ["played", "Hours played", "As last typed in on its Edit tab (hover: when)", "num"],
     ["playedOutside", "Hours outside", "Hours played outside, as last typed in on its Edit tab (hover: when)", "num"],
     ["outsidePct", "Outside %", "Of the hours played, the share played outside", "num"],
@@ -42,10 +43,11 @@
         <td>${made ? esc(CAMPAIGNS[made]) : '<span class="dim" title="Not set: pick it on its Edit tab">?</span>'}</td><td>${lit(c)}</td>
         <td${bd === "?" ? ' class="dim" title="Not known closely enough yet: add what /age says on its Edit tab"' : ""}>${bd}</td>
         <td class="num"><span class="u-gwamm" data-rank="${kbd}" style="font-weight: 600" title="Kind of a Big Deal rank ${kbd}">${maxed}</span></td>
+        <td class="num">${checklistDone(c)} <span class="dim">/ ${checklistFor(c).length}</span></td>
         <td class="num">${reading(c, "xp")}</td><td class="num">${reading(c, "played")}</td><td class="num">${reading(c, "playedOutside")}</td>
         <td class="num">${Number.isNaN(outsidePct(c)) ? '<span class="dim" title="Needs both hours typed in on its Edit tab">?</span>' : `${Math.round(outsidePct(c))}%`}</td><td>${USER_AIMS[c.aim || ""]}</td></tr>`;
       return { id: c.id, i, html, key: { acct: o.accounts.indexOf(acctOf(c)), name: c.name.toLowerCase(), made: made || 9, modes: -(c.modes || []).length,
-        bday: bdKey, titles: maxed, aim: { gwamm: 0, retired: 2 }[c.aim] ?? 1,
+        bday: bdKey, titles: maxed, checks: checklistDone(c), aim: { gwamm: 0, retired: 2 }[c.aim] ?? 1,
         // (not typed in: last, either way)
         ...Object.fromEntries(USER_READINGS.map(k => [k, c[k] ? c[k][0] : NaN])), outsidePct: outsidePct(c) } };
     });
