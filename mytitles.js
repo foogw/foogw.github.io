@@ -110,15 +110,12 @@ const CHECKLIST = [
     how: c => (((c.missions[LAST[camp]] || 0) & 3) ? `${LINK.mission(LAST[camp])} ticked` : `mark it, or tick ${LINK.mission(LAST[camp])} (either mode)`) })),
   { id: "wik", name: "War in Kryta completed", mark: true, known: c => (c.heroes || []).includes(17),
     how: c => ((c.heroes || []).includes(17) ? `${LINK.hero(17)} recruited (Hearts of the North, after it, done)` : `mark it, or recruit ${LINK.hero(17)} (Hearts of the North, after it)`) },
-  // (Keiran Thackeray joins at its end, The Wedding: known from him, one for one)
-  { id: "hotn", name: "Hearts of the North completed", known: c => (c.heroes || []).includes(17),
-    how: c => ((c.heroes || []).includes(17) ? `${LINK.hero(17)} recruited: he joins at its end` : `${LINK.hero(17)} recruited, at its end`) },
-  // (its normal-mode chain: Miku joins at its end, one for one)
-  { id: "woc", name: "Winds of Change completed, normal mode", known: c => (c.heroes || []).includes(36),
-    how: c => ((c.heroes || []).includes(36) ? `${LINK.hero(36)} recruited: she joins at its end` : `${LINK.hero(36)} recruited, at its end`) },
-  // (its hard-mode chain: Zei Ri joins at its end, one for one)
-  { id: "wochm", name: "Winds of Change completed, hard mode", known: c => (c.heroes || []).includes(37),
-    how: c => ((c.heroes || []).includes(37) ? `${LINK.hero(37)} recruited: he joins at its end` : `${LINK.hero(37)} recruited, at its end`) },
+  // (Hearts of the North: Keiran joins at its end, The Wedding; the mark is his tick, as on the Heroes tab)
+  { id: "hotn", name: "Hearts of the North completed", hero: 17, mark: true, how: () => `${LINK.hero(17)}'s tick: he joins at its end, The Wedding` },
+  // (Winds of Change: Miku joins at the end of the normal-mode chain, Zei Ri at the hard-mode one's; the marks are their ticks)
+  { id: "woc", name: "Winds of Change completed in NM", hero: 36, mark: true, known: c => (c.heroes || []).includes(37),
+    how: () => `${LINK.hero(36)}'s tick: she joins at its end` },
+  { id: "wochm", name: "Winds of Change completed in HM", hero: 37, mark: true, how: () => `${LINK.hero(37)}'s tick: he joins at its end` },
   { id: "uw", name: "The Underworld cleared", mark: true, how: () => LINK.area(72) },
   { id: "fow", name: "The Fissure of Woe cleared", mark: true, how: () => LINK.area(34) },
   { id: "sf", name: "Sorrow's Furnace cleared", mark: true, how: () => LINK.area(190) },
@@ -143,10 +140,11 @@ const PRE_RUNES = { 1: ["Strength", "Axe Mastery", "Hammer Mastery", "Swordsmans
   3: ["Divine Favor", "Healing Prayers", "Smiting Prayers", "Protection Prayers"], 4: ["Soul Reaping", "Blood Magic", "Curses", "Death Magic"],
   5: ["Fast Casting", "Domination Magic", "Illusion Magic", "Inspiration Magic"], 6: ["Energy Storage", "Air Magic", "Earth Magic", "Fire Magic", "Water Magic"] };
 const PRE_CHECKLIST = [
+  { id: "outposts", name: "All outposts" },
   { id: "pouch", name: "Belt pouch" }, { id: "charrbags", name: "Two Charr bags" }, { id: "eqpack", name: "Equipment pack" },
-  { id: "headgear", name: "Collector headgear" }, { id: "outposts", name: "All outposts" },
   // (Devona: the mark is the hero's tick, as on the Heroes tab)
   { id: "devona", name: "Devona recruited", hero: 38 },
+  { id: "headgear", name: "Collector headgear" },
   { id: "vigor", name: "Rune of Vigor" }, { id: "runes", name: "Profession runes", how: c => (PRE_RUNES[c.profession] || []).join(", ") },
   // (the goal itself, level 20: the mark is the title's tick, as on the Titles tab)
   { id: "ldoa", name: "Legendary Defender of Ascalon", title: 21, how: () => `level 20 reached; the same tick as on the <a href="characters?tab=titles">Titles tab</a>` },
