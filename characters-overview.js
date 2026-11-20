@@ -1,7 +1,7 @@
 "use strict";
 /* The Characters overview page: every character, a row each, by account in the saved order (or by a column, its header
    clicked: again, the other way): who it is, its birthday as far as it's known, the titles it has maxed,
-   its experience and hours played as last typed in, its aim (playing, a wannabe GWAMM, retired). More columns to come. */
+   its experience and hours as last typed in, its aim (playing, a wannabe GWAMM, retired). More columns to come. */
 {
   const DAY = 864e5;
   const fmtDay = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
@@ -22,9 +22,8 @@
     ["bday", "Birthday", "The day it was made (UTC), or the month or year, as far as its age tells"],
     ["titles", "Titles maxed", "The titles it has maxed, that Kind of a Big Deal counts (coloured by its rank)", "num"],
     ["checks", "Checklist", "Its Checklist tab's items done, by its ticks or marked by hand", "num"],
-    ["xp", "Experience", "As last typed in on its Edit tab (hover: when)", "num"], ["played", "Hours played", "As last typed in on its Edit tab (hover: when)", "num"],
-    ["playedOutside", "Hours outside", "Hours played outside, as last typed in on its Edit tab (hover: when)", "num"],
-    ["outsidePct", "Outside %", "Of the hours played, the share played outside", "num"],
+    ["xp", "Experience", "As last typed in on its Edit tab (hover: when)", "num"],
+    ["hours", "Hours outside / played", "Hours played outside and in all, as last typed in on its Edit tab, and the share outside; sorted by the share", "num"],
     ["aim", "Aim", "What it's played for, picked on its Edit tab. Wannabe GWAMM: the Zaishen dailies and the pages of what it still needs list it. Retired: no longer played, left out of the Today page's suggestions"]];
   // the share of its hours played outside, once both are typed in
   const outsidePct = c => (c.played && c.playedOutside ? 100 * c.playedOutside[0] / c.played[0] : NaN);
@@ -32,24 +31,28 @@
   const fmtAt = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", year: "numeric" });
   const reading = (c, k) => !c[k] ? '<span class="dim" title="Not typed in yet: on its Edit tab">?</span>'
     : `<span title="${fmtAt.format(Date.parse(c[k][1]))}">${amountSaid(c[k][0])}</span>`;
+  // the hours: outside / played (xx%), each ? until typed in
+  const hours = c => `${reading(c, "playedOutside")} <span class="dim">/</span> ${reading(c, "played")}${Number.isNaN(outsidePct(c)) ? "" : ` <span class="dim">(${Math.round(outsidePct(c))}%)</span>`}`;
+  // a birthday's colour: a gradient over the characters' known birthdays, oldest to newest
+  const bdColor = (mid, lo, hi) => (Number.isNaN(mid) || hi === lo ? "" : ` style="color: color-mix(in oklab, var(--gw6) ${Math.round(100 * (mid - lo) / (hi - lo))}%, var(--gw3))"`);
   let sortBy = "acct", sortDir = 1, prev = [];
   function render() {
     if (User.stored() == null || User.broken()) { $("ov").innerHTML = `<p class="dim pg-empty">No characters yet: add them on the <a href="characters?view=edit">Edit</a> tab, or try a mock one on <a href="characters?view=about">About</a>.</p>`; return; }
     const o = User.data(), acctOf = c => o.accounts.find(a => a.id === c.account) || { id: c.account };
+    const mids = o.chars.map(c => bday(c)[1]).filter(x => !Number.isNaN(x)), bdLo = Math.min(...mids), bdHi = Math.max(...mids);
     const rows = o.chars.map((c, i) => {
-      const [bd, bdKey] = bday(c), made = madeIn(c), maxed = titlesMaxed(c, o), kbd = titleRankOf(TITLES[10], c, o);
+      const [bd, bdKey] = bday(c), made = madeIn(c), maxed = titlesMaxed(c, o), kbd = titleRankOf(TITLES[10], c, o), done = checklistDone(c), total = checklistFor(c).length;
       const html = `<tr><td class="dim">${esc(accountName(acctOf(c)))}</td>
         <td><a class="n" href="characters" data-go="${c.id}"><img src="${profImg(c.profession || 0)}" alt="">${esc(c.name)}</a></td>
-        <td>${made ? esc(CAMPAIGNS[made]) : '<span class="dim" title="Not set: pick it on its Edit tab">?</span>'}</td><td>${lit(c)}</td>
-        <td${bd === "?" ? ' class="dim" title="Not known closely enough yet: add what /age says on its Edit tab"' : ""}>${bd}</td>
+        <td>${made ? `<span style="color: var(${CAMP_COLOR[made]})">${esc(CAMPAIGNS[made])}</span>` : '<span class="dim" title="Not set: pick it on its Edit tab">?</span>'}</td><td>${lit(c)}</td>
+        <td${bd === "?" ? ' class="dim" title="Not known closely enough yet: add what /age says on its Edit tab"' : bdColor(bdKey, bdLo, bdHi)}>${bd}</td>
         <td class="num"><span class="u-gwamm" data-rank="${kbd}" style="font-weight: 600" title="Kind of a Big Deal rank ${kbd}">${maxed}</span></td>
-        <td class="num">${checklistDone(c)} <span class="dim">/ ${checklistFor(c).length}</span></td>
-        <td class="num">${reading(c, "xp")}</td><td class="num">${reading(c, "played")}</td><td class="num">${reading(c, "playedOutside")}</td>
-        <td class="num">${Number.isNaN(outsidePct(c)) ? '<span class="dim" title="Needs both hours typed in on its Edit tab">?</span>' : `${Math.round(outsidePct(c))}%`}</td><td>${USER_AIMS[c.aim || ""]}</td></tr>`;
+        <td class="num"><span class="u-gwamm" data-rank="${Math.round(6 * done / total)}" style="font-weight: 600">${done}</span> <span class="dim">/ ${total}</span></td>
+        <td class="num">${reading(c, "xp")}</td><td class="num">${hours(c)}</td><td>${USER_AIMS[c.aim || ""]}</td></tr>`;
       return { id: c.id, i, html, key: { acct: o.accounts.indexOf(acctOf(c)), name: c.name.toLowerCase(), made: made || 9, modes: -(c.modes || []).length,
-        bday: bdKey, titles: maxed, checks: checklistDone(c), aim: { gwamm: 0, retired: 2 }[c.aim] ?? 1,
+        bday: bdKey, titles: maxed, checks: done, aim: { gwamm: 0, retired: 2 }[c.aim] ?? 1,
         // (not typed in: last, either way)
-        ...Object.fromEntries(USER_READINGS.map(k => [k, c[k] ? c[k][0] : NaN])), outsidePct: outsidePct(c) } };
+        xp: c.xp ? c.xp[0] : NaN, hours: outsidePct(c) } };
     });
     // (ties left in the order they were in, so sorting by account keeps the sort before it within each account; at
     // first, the saved order)
@@ -66,7 +69,7 @@
     const h = e.target.closest("[data-sort]");
     if (!h) return;
     const k = h.dataset.sort;
-    sortDir = sortBy === k ? -sortDir : ["titles", "outsidePct", ...USER_READINGS].includes(k) ? -1 : 1;
+    sortDir = sortBy === k ? -sortDir : ["titles", "checks", "xp", "hours"].includes(k) ? -1 : 1;
     sortBy = k;
     render();
   });
