@@ -37,8 +37,8 @@ try {
 const shownChars = (o, cur) => { const hs = new Set(hiddenIds(o)); return o.chars.filter(c => c === cur || !hs.has(c.id)); };
 // the picked character's tabs, [key, label, its panel]: the one shown, the same for every character, kept in this
 // browser (first Titles)
-// (what it has: Titles, Checklist; what to do: What's next; what it brings: Heroes, Builds; then Edit)
-const TABS = [["titles", "Titles", "title"], ["check", "Checklist", "ch-check"], ["next", "What's next", "ch-next"], ["heroes", "Heroes", "ch-heroes"], ["builds", "Builds", "ch-builds"], ["edit", "Edit", "ch-edit"]], TAB = "chars.tab";
+// (what it has: Titles, Checklist; what it brings: Heroes, Builds; what to do: What's next; then Edit)
+const TABS = [["titles", "Titles", "title"], ["check", "Checklist", "ch-check"], ["heroes", "Heroes", "ch-heroes"], ["builds", "Builds", "ch-builds"], ["next", "What's next", "ch-next"], ["edit", "Edit", "ch-edit"]], TAB = "chars.tab";
 let tab = (() => { try { const t = localStorage.getItem(TAB); return TABS.some(x => x[0] === t) ? t : "titles"; } catch { return "titles"; } })();
 // the page's view, one of its tabs: About (what characters are for, a mock one to try), Characters (the one picked), Edit (the
 // list to change); from the address (characters?view=edit), else Characters, or About while nothing is saved yet
