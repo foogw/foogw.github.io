@@ -143,10 +143,12 @@ function sideHTML(o, cur, many) {
     <img src="${profImg(c.profession || 0)}" alt=""><span class="ch-iname">${esc(c.name)}</span>${lit(c)}
     <span class="ch-ig u-gwamm" data-rank="${titleRankOf(TITLES[10], c, o)}" title="Kind of a Big Deal: titles maxed">${titlesMaxed(c, o)}</span></button></li>`;
   const list = cs => `<ul class="ch-list">${cs.map(item).join("")}</ul>`, chars = shownChars(o, cur);
+  // (a + at the account's right: a new character on it, opened on its Edit tab)
+  const plus = a => `<button type="button" class="ch-plus" data-new-on="${a.id}" title="New character on ${esc(accountName(a))}" aria-label="New character on ${esc(accountName(a))}">+</button>`;
   // an account with all its characters hidden is left out
   return many ? o.accounts.map(a => { const cs = chars.filter(c => c.account === a.id), open = !folded.has(a.id);
     if (!cs.length) return "";
-    return `<div class="ch-acct"><div class="ch-acct-row"><button type="button" class="ch-acct-h" data-fold-account="${a.id}" aria-expanded="${open}">${esc(accountName(a))}</button>${coinsPill(a)}</div>${open ? list(cs) : ""}</div>`; }).join("")
+    return `<div class="ch-acct"><div class="ch-acct-row"><button type="button" class="ch-acct-h" data-fold-account="${a.id}" aria-expanded="${open}">${esc(accountName(a))}</button>${coinsPill(a)}${plus(a)}</div>${open ? list(cs) : ""}</div>`; }).join("")
     : (coinsPill(o.accounts[0]) ? `<div class="ch-acct-row ch-acct-one"><span class="dim">Reforged Coins</span>${coinsPill(o.accounts[0])}</div>` : "") + list(chars);
 }
 const selectHTML = (o, cur, many) => {
@@ -607,6 +609,9 @@ document.addEventListener("click", e => {
   if (op) { e.preventDefault(); User.pick(+op.closest("tr").dataset.id); return setView("chars"); }
   const f = e.target.closest("[data-fold-account]");
   if (f) { foldAccount(+f.dataset.foldAccount); return render(); }
+  // (the sidebar's +: a new character on that account, its Edit tab open for the questions)
+  const np = e.target.closest("[data-new-on]");
+  if (np) { tab = "edit"; try { localStorage.setItem(TAB, tab); } catch { /* storage blocked */ } return newChar(+np.dataset.newOn); }
 });
 // coins taken: counted again from now (after asking)
 document.addEventListener("click", async e => {
@@ -742,7 +747,7 @@ function newChar(account = User.char().account) {
   o.chars.push(c);
   if (!User.save(o)) return;  // (read-only)
   User.pick(c.id); render();
-  els.list.querySelector(`tr[data-id="${c.id}"] input[type=text]`).select();
+  (els.list.querySelector(`tr[data-id="${c.id}"] input[type=text]`) || $("ch-edit").querySelector(`tr[data-id="${c.id}"] input[type=text]`))?.select();
 }
 $("u-new").addEventListener("click", () => newChar());
 // a new account, with no characters yet

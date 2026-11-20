@@ -1510,6 +1510,8 @@ tr[data-id] .u-move { margin-right: 14px; }  /* (a character row: Open, the arro
 .u-bell[aria-pressed="true"] { opacity: 1; filter: none; }
 .ch-acct-row { display: flex; align-items: center; gap: 6px; }
 .ch-acct-row .ch-acct-h { flex: 1; }
+.ch-plus { all: unset; cursor: pointer; width: 22px; text-align: center; color: var(--muted); font-size: 17px; line-height: 1; border-radius: 4px; }
+.ch-plus:hover, .ch-plus:focus-visible { color: var(--text); background: var(--panel-2); }
 .ch-acct-one { justify-content: space-between; padding: 4px 6px 6px; font-size: 13px; }
 .ch-coins { flex: none; display: inline-flex; gap: 1px; padding: 1px 4px; background: none; border: 1px solid transparent; border-radius: 999px; cursor: pointer; }
 .ch-coins img { width: 18px; height: 18px; display: block; }
