@@ -392,7 +392,6 @@ $("ch-check").addEventListener("click", e => {
 
 /* ---------- heroes and builds tabs ---------- */
 // every hero recruited
-const allHeroes = c => { const got = new Set(c.heroes || []); return Object.values(HEROES).every(h => got.has(h.id)); };
 // the heroes it has recruited, each a button to tick, by profession (Razah, of none, last); all ticked or none at once
 // the heroes a character can recruit: a pre-Searing one, only Devona (the others shown, but not to tick; what's saved
 // is left as it is)
@@ -462,7 +461,7 @@ $("ch-builds").addEventListener("click", async e => {
 function cardHTML(o, c) {
   return `<section class="ch-card">
       <img class="ch-prof" src="${profImg(c.profession || 0)}" alt="${c.profession ? PROFS[c.profession] : "No profession"}">
-      <div class="ch-who"><h2>${esc(c.name)}</h2><div class="dim">${[bigDeal(c, o), allHeroes(c) && `<span class="ch-says">Recruiter of Heroes</span>`, lit(c)].filter(Boolean).join(" · ")}</div></div>
+      <div class="ch-who"><h2>${esc(c.name)}</h2><div class="dim">${[bigDeal(c, o), lit(c)].filter(Boolean).join(" · ")}</div></div>
     </section>
     ${c.mock ? `<p class="ch-hint">A mock character, made up to try the site with. Delete it as any character: on <a href="characters?view=edit">Edit</a>, hide it, then Delete.</p>` : unnamed(c) ? `<p class="ch-hint">Give this character its name and profession: <a class="link" href="characters?view=edit">Edit</a>.</p>` : ""}
 `;
