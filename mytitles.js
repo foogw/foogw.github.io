@@ -107,15 +107,18 @@ const CHECKLIST = [
   // (known from the last mission's tick, which means its bonus; a campaign finished without the bonus is marked by hand)
   ...[[1, "Prophecies", "prophecies"], [2, "Factions", "factions"], [3, "Nightfall", "nightfall"], [4, "Eye of the North", "eotn"]].map(([camp, name, id]) => ({ id, name: `${name} completed`, mark: true,
     known: c => !!((c.missions[LAST[camp]] || 0) & 3),
-    how: c => (((c.missions[LAST[camp]] || 0) & 3) ? `${LINK.mission(LAST[camp])} ticked` : `yours to mark; known once ${LINK.mission(LAST[camp])} is ticked, in either mode`) })),
+    how: c => (((c.missions[LAST[camp]] || 0) & 3) ? `${LINK.mission(LAST[camp])} ticked` : `mark it, or tick ${LINK.mission(LAST[camp])} (either mode)`) })),
   { id: "wik", name: "War in Kryta completed", mark: true, known: c => (c.heroes || []).includes(17),
-    how: c => ((c.heroes || []).includes(17) ? `${LINK.hero(17)} recruited: Hearts of the North done, which follows it` : `yours to mark; known once ${LINK.hero(17)} is recruited (Hearts of the North, which follows it)`) },
+    how: c => ((c.heroes || []).includes(17) ? `${LINK.hero(17)} recruited (Hearts of the North, after it, done)` : `mark it, or recruit ${LINK.hero(17)} (Hearts of the North, after it)`) },
   // (Keiran Thackeray joins at its end, The Wedding: known from him, one for one)
   { id: "hotn", name: "Hearts of the North completed", known: c => (c.heroes || []).includes(17),
     how: c => ((c.heroes || []).includes(17) ? `${LINK.hero(17)} recruited: he joins at its end` : `${LINK.hero(17)} recruited, at its end`) },
-  // (completed means its hard-mode chain too, and Zei Ri joins at the end of that: known from him, one for one)
-  { id: "woc", name: "Winds of Change completed", known: c => (c.heroes || []).includes(37),
-    how: c => ((c.heroes || []).includes(37) ? `${LINK.hero(37)} recruited: he joins at its hard-mode end` : `${LINK.hero(37)} recruited, at its hard-mode end`) },
+  // (its normal-mode chain: Miku joins at its end, one for one)
+  { id: "woc", name: "Winds of Change completed, normal mode", known: c => (c.heroes || []).includes(36),
+    how: c => ((c.heroes || []).includes(36) ? `${LINK.hero(36)} recruited: she joins at its end` : `${LINK.hero(36)} recruited, at its end`) },
+  // (its hard-mode chain: Zei Ri joins at its end, one for one)
+  { id: "wochm", name: "Winds of Change completed, hard mode", known: c => (c.heroes || []).includes(37),
+    how: c => ((c.heroes || []).includes(37) ? `${LINK.hero(37)} recruited: he joins at its end` : `${LINK.hero(37)} recruited, at its end`) },
   { id: "uw", name: "The Underworld cleared", mark: true, how: () => LINK.area(72) },
   { id: "fow", name: "The Fissure of Woe cleared", mark: true, how: () => LINK.area(34) },
   { id: "sf", name: "Sorrow's Furnace cleared", mark: true, how: () => LINK.area(190) },
@@ -124,7 +127,7 @@ const CHECKLIST = [
   { id: "doa", name: "Domain of Anguish cleared, Mallyx beaten", mark: true, how: () => LINK.area(474) },
   { id: "outposts", name: "All outposts", mark: true, how: () => "every outpost visited (every map travel unlocked)" },
   { id: "skills", name: "All skills", mark: true, needs: c => { const n = capturableElites().filter(id => !(c.elites || []).includes(id)).length; return n ? `${n} elite${n === 1 ? "" : "s"} still to capture` : ""; },
-    how: () => `once every elite is captured (<a href="captures">Elite captures</a>), the rest is yours to say` },
+    how: () => `mark it once every elite is captured (<a href="captures">Elite captures</a>) and the rest bought` },
   { id: "heroes", name: "All heroes recruited", known: c => USER_ALL_V3.heroes.every(h => (c.heroes || []).includes(h)),
     // (the missing ones named, three at most; the rest on the Heroes tab)
     how: c => { const left = USER_ALL_V3.heroes.filter(h => !(c.heroes || []).includes(h));
