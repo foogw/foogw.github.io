@@ -27,10 +27,12 @@
   const two = n => String(n).padStart(2, "0");
   const clock = ms => { const s = Math.max(0, Math.round(ms / 1000)), h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60; return h ? `${h}:${two(m)}` : `0:${two(m)}:${two(s % 60)}`; };
   const stretch = ms => (ms >= DAY ? `${Math.round(ms / DAY)}d` : ms < 6e5 ? `<span class="soon">${clock(ms)}</span>` : clock(ms));
-  // the check: the best one ahead and how long a reading helps for, "20d, 10d"; one helping now, "Now, 3:12" with
-  // what's left of it (the tip: when the best check is, and how much of the range a reading cuts off now at least)
+  // the check: the best one ahead and how long a reading helps for, "20d, 10d"; one helping now, "Now, 3:12 (34%⭡)", the arrow raised
+  // with what's left of it and how far through it is, rising to the best check at 50%, falling after (the tip: when the
+  // best check is, and how much of the range a reading cuts off now at least)
   const checkSaid = (a, now, best) => a.inside
-    ? `<span title="Best check ${fmtWhen.format(best)}; a reading now cuts off ${Math.round(100 * a.side / (a.hi - a.lo)) || "<1"}% at least"><span class="now">Now</span>, ${a.end === Infinity ? "∞" : stretch(a.end - now)}</span>`
+    ? `<span title="Best check ${fmtWhen.format(best)}; a reading now cuts off ${Math.round(100 * a.side / (a.hi - a.lo)) || "<1"}% at least"><span class="now">Now</span>, ${a.end === Infinity ? "∞"
+      : `${stretch(a.end - now)} (${Math.round(100 * (1 - (a.end - now) / (a.hi - a.lo)))}%<sup class="arr">${a.rising ? "⭡" : "⭣"}</sup>)`}</span>`
     : `<span title="Best check ${fmtWhen.format(best)}; readings help from ${fmtWhen.format(a.start)}">${stretch(best - now)}, ${stretch(a.hi - a.lo)}</span>`;
   // the rows' order: by a column (its header clicked: again, the other way), set when the page loads (as kept, by
   // account) and when a header is clicked, then kept as ages are added (a new character last); by the check column,
