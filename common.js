@@ -125,11 +125,14 @@ const storylineHref = (c, more) => `storylines?${STORYLINE[c]}${more ? "&" + new
 // a thing's page there: VIEWS[key] = { find(id), title(x), html(x), after(el, x) }, from area.js, mission.js and the rest
 const VIEWS = {};
 const skillIcon = (id, cls = "sk-ic") => `<img class="${cls}" src="img/skills/${id}.jpg" alt="" loading="lazy" onerror="this.remove()">`;
+// a hero as players call it in running text: its short name where it has one (MoW, Keiran), else its name
+const heroShort = h => h.short || h.name;
 const LINK = {
   area: (id, label) => (AREAS[id] ? `<a href="${HREF.area(id)}">${esc(label ?? AREAS[id].name)}</a>` : esc(label ?? "")),
   mission: (id, label) => (MISSIONS[id] ? `<a href="${HREF.mission(id)}">${esc(label ?? MISSIONS[id].name)}</a>` : LINK.area(id, label)),
   quest: (id, label) => (QUESTS[id] ? `<a href="${HREF.quest(id)}">${esc(label ?? QUESTS[id].name)}</a>` : esc(label ?? "")),
-  hero: (id, label) => (HEROES[id] ? `<a href="${HREF.hero(id)}">${esc(label ?? HEROES[id].name)}</a>` : esc(label ?? "")),
+  // (a hero in running text goes by its short name; label for the full one)
+  hero: (id, label) => (HEROES[id] ? `<a href="${HREF.hero(id)}">${esc(label ?? heroShort(HEROES[id]))}</a>` : esc(label ?? "")),
   boss: (id, label) => (CREATURES[id] ? `<a href="${HREF.boss(id)}">${esc(label ?? CREATURES[id].name)}</a>` : esc(label ?? "")),
   skill: (id, icon = true, label) => {
     const s = SKILLS[id];

@@ -1,5 +1,5 @@
 const GW_HEROES = {
-  "heroes_": "Kept by hand. Keys are the game's hero ids. recruit_steps: the quests or missions on the way.",
+  "heroes_": "Kept by hand. Keys are the game's hero ids. short: how players call the hero in running text, where it isn't the name (MoW, Keiran). recruit_steps: the quests or missions on the way.",
   "heroes": {
     "1": {
       "name": "Norgu",
@@ -29,6 +29,7 @@ const GW_HEROES = {
     },
     "4": {
       "name": "Master of Whispers",
+      "short": "MoW",
       "profession": 4,
       "campaigns": [3],
       "region": 12,
@@ -38,6 +39,7 @@ const GW_HEROES = {
     },
     "5": {
       "name": "Acolyte Jin",
+      "short": "Jin",
       "profession": 2,
       "campaigns": [3],
       "region": 15,
@@ -63,6 +65,7 @@ const GW_HEROES = {
     },
     "8": {
       "name": "Acolyte Sousuke",
+      "short": "Sousuke",
       "profession": 6,
       "campaigns": [3],
       "region": 15,
@@ -80,6 +83,7 @@ const GW_HEROES = {
     },
     "10": {
       "name": "Zhed Shadowhoof",
+      "short": "Zhed",
       "profession": 6,
       "campaigns": [3],
       "region": 12,
@@ -88,6 +92,7 @@ const GW_HEROES = {
     },
     "11": {
       "name": "General Morgahn",
+      "short": "Morgahn",
       "profession": 9,
       "campaigns": [3],
       "region": 13,
@@ -96,6 +101,7 @@ const GW_HEROES = {
     },
     "12": {
       "name": "Margrid the Sly",
+      "short": "Margrid",
       "profession": 2,
       "campaigns": [3],
       "region": 12,
@@ -129,6 +135,7 @@ const GW_HEROES = {
     },
     "16": {
       "name": "M.O.X.",
+      "short": "MOX",
       "profession": 10,
       "campaigns": [1, 2, 3],
       "recruit": "Talk to M.O.X. in North Kryta Province, Bukdek Byway or Plains of Jarin",
@@ -136,6 +143,7 @@ const GW_HEROES = {
     },
     "17": {
       "name": "Keiran Thackeray",
+      "short": "Keiran",
       "profession": 9,
       "campaigns": [1, 4],
       "region": 19,
@@ -152,6 +160,7 @@ const GW_HEROES = {
     },
     "19": {
       "name": "Pyre Fierceshot",
+      "short": "Pyre",
       "profession": 2,
       "campaigns": [4],
       "region": 20,
@@ -216,6 +225,7 @@ const GW_HEROES = {
     },
     "27": {
       "name": "Ogden Stonehealer",
+      "short": "Ogden",
       "profession": 3,
       "campaigns": [4],
       "region": 19,
@@ -255,6 +265,7 @@ const GW_HEROES = {
     },
     "39": {
       "name": "Ghost of Althea",
+      "short": "Althea",
       "profession": 5,
       "campaigns": [1],
       "region": 2,

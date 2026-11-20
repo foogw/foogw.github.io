@@ -22,7 +22,7 @@ const stepHeroes = k => { const s = stepOf(k); return ((s.mission || s.quest)?.h
 const heroBadge = (k, style = "") => {
   const hs = stepHeroes(k);
   return hs.length ? `<span class="qn-hero" style="${style}" title="Required hero: ${esc(hs.map(h => h.name).join(" and "))}">${hs.map(h =>
-    `<img src="${profImg(h.profession)}" alt="">${esc(h.name.split(" ")[0])}`).join(" + ")}</span>` : "";
+    `<img src="${profImg(h.profession)}" alt="">${esc(heroShort(h))}`).join(" + ")}</span>` : "";
 };
 const questProfs = q => [...new Set((q.skills || []).map(id => SKILLS[id]?.profession))].filter(p => p);
 const stepLink = k => { const s = stepOf(k); return s.quest ? LINK.quest(s.quest.id) : s.mission ? whereLink(s.mission.id) : ""; };
