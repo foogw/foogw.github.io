@@ -57,7 +57,7 @@ const drawTabs = (o = User.data(), cur = User.char(o)) => {
   else if (tab === "heroes") $("ch-heroes").innerHTML = heroesHTML(cur);
   else if (tab === "builds") $("ch-builds").innerHTML = buildsHTML(cur);
   else if (tab === "check") $("ch-check").innerHTML = checklistHTML(cur);
-  else $("ch-edit").innerHTML = `<table class="u-chars ch-edit-row"><tbody>${charRow(o, cur, null, true)}</tbody></table>
+  else $("ch-edit").innerHTML = `${questionsHTML(cur)}<table class="u-chars ch-edit-row"><tbody>${charRow(o, cur, null, true)}</tbody></table>
     <label class="ch-edit-note">Note <input type="text" id="edit-note" maxlength="${USER_NOTE_MAX}" value="${esc(cur.note || "")}"
       placeholder="A line about ${esc(cur.name)}: its role, what it's farming…" autocomplete="off"><span class="dim" id="edit-note-n">${(cur.note || "").length} / ${USER_NOTE_MAX}</span></label>
     ${ageHTML(cur)}${readingsHTML(cur)}`;
@@ -287,6 +287,22 @@ setInterval(() => {
   const h = ageAddHTML(User.char()); if (el.innerHTML !== h) el.innerHTML = h;
 }, 1000);
 
+/* The questions above the row: the row's own details not answered yet (its profession; where it was made), each with
+   its answers as buttons ([label, write, disabled]); gone once answered. */
+function questions(c) {
+  const q = [];
+  if (!c.profession) q.push(["prof", "Its profession?", Object.entries(PROFS).filter(([p]) => +p).map(([p, n]) => [n, x => { x.profession = +p; }])]);
+  // (asked until answered, even where the profession or pre-Searing fixes it: then only that answer can be given)
+  if (!c.campaign) { const fixed = fixedCampaign(c); q.push(["camp", "Where was it made?", [1, 2, 3].map(k => [CAMPAIGNS[k], x => { x.campaign = k; }, fixed && fixed !== k])]); }
+  return q;
+}
+const questionsHTML = c => { const qs = questions(c); return qs.length ? `<ul class="ch-qs ch-qs-top">${qs.map(([id, text, answers]) =>
+  `<li><span>${text}</span><span class="ch-qa">${answers.map(([label, , off], i) => `<button type="button" class="u-btn" data-q="${id}" data-answer="${i}"${off ? " disabled" : ""}>${esc(label)}</button>`).join("")}</span></li>`).join("")}</ul>` : ""; };
+$("ch-edit").addEventListener("click", e => {
+  const b = e.target.closest("[data-q]"); if (!b) return;
+  const q = questions(User.char()).find(x => x[0] === b.dataset.q); if (!q) return render();
+  editChar(q[2][+b.dataset.answer][1]);
+});
 // the campaign it was made in, picked in the Edit tab; and its note, saved once it's left (or Enter), its length counted
 $("ch-edit").addEventListener("change", e => {
   if (e.target.id === "edit-aim") editChar(c => { if (e.target.value) c.aim = e.target.value; else delete c.aim; });

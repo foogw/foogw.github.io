@@ -1409,6 +1409,9 @@ tr[data-id] .u-move { margin-right: 14px; }  /* (a character row: Open, the arro
 .ch-hero:hover:not(:disabled) { border-color: var(--accent); }
 .ch-hero:disabled { opacity: .35; cursor: default; }
 .ch-hero.got { color: var(--text); border-color: color-mix(in srgb, var(--loc-exp) 55%, var(--line)); background: color-mix(in srgb, var(--loc-exp) 14%, var(--panel)); }
+/* the Edit tab's questions above the row: what the row can't show yet, each with its answers as buttons */
+.ch-qs { list-style: none; margin: 10px 0 0; padding: 0; } .ch-qs li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 14px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); margin-top: 6px; }
+.ch-qs-top { margin: 0 0 12px; } .ch-qa { display: flex; flex-wrap: wrap; gap: 6px; } .ch-qa .u-btn { text-decoration: none; }
 .ch-edit-row { margin-top: 0; }
 .ch-edit-camp, .ch-edit-aim, .ch-edit-menu { display: inline-flex; align-items: center; gap: 8px; margin-left: 10px; font-size: 14px; color: var(--muted); }
 .ch-edit-menu input { margin: 0; }
