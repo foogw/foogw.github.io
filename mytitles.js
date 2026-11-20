@@ -97,7 +97,7 @@ const LAST = { 1: 124, 2: 271, 3: 528, 4: 673 };  // each campaign's last missio
 const MARK = "Marked by hand", TICKS = "From your ticks";
 // each item: id; name; known: (c) => done, from the ticks (an item with it and no mark is a fact; with mark too, a fact
 // when it holds, yours to mark otherwise); needs: (c) => why it can't be marked yet, or ""; mark: it can be marked (its
-// id in USER_CHECKS, kept on the character as checks); hero: its mark is that hero's tick; how: (c) => where the answer
+// id in USER_CHECKS, kept on the character as checks); hero: its mark is that hero's tick; title: its mark is that title's tick; how: (c) => where the answer
 // comes from
 const CHECKLIST = [
   // (the two attribute quests of the campaign it was made in; none named while that isn't set)
@@ -129,6 +129,9 @@ const CHECKLIST = [
     // (the missing ones named, three at most; the rest on the Heroes tab)
     how: c => { const left = USER_ALL_V3.heroes.filter(h => !(c.heroes || []).includes(h));
       return left.length ? `still to recruit: ${left.slice(0, 3).map(h => LINK.hero(h)).join(", ")}${left.length > 3 ? ` and <a href="characters?tab=heroes">${left.length - 3} more</a>` : ""}` : "every hero, as ticked on the Heroes tab"; } },
+  // (the goal itself: Kind of a Big Deal's last rank, 30 other titles maxed, as worked out on the Titles tab)
+  { id: "gwamm", name: "God Walking Amongst Mere Mortals", known: c => titleMaxed(10, c, User.data()),
+    how: c => { const n = titlesMaxed(c, User.data()); return n >= 30 ? "30 titles maxed, as worked out on the Titles tab" : `${n} of 30 titles maxed, as worked out on the <a href="characters?tab=titles">Titles tab</a>`; } },
 ];
 // a pre-Searing character's own list, all marked by hand: the bags and pack, the collector headgear, the Rune of
 // Vigor and the minor runes of its primary profession, every attribute's (PRE_RUNES, by profession: 1 Warrior, 2 Ranger,
@@ -142,11 +145,13 @@ const PRE_CHECKLIST = [
   // (Devona: the mark is the hero's tick, as on the Heroes tab)
   { id: "devona", name: "Devona recruited", hero: 38 },
   { id: "vigor", name: "Rune of Vigor" }, { id: "runes", name: "Profession runes", how: c => (PRE_RUNES[c.profession] || []).join(", ") },
+  // (the goal itself, level 20: the mark is the title's tick, as on the Titles tab)
+  { id: "ldoa", name: "Legendary Defender of Ascalon", title: 21, how: () => `level 20 reached; the same tick as on the <a href="characters?tab=titles">Titles tab</a>` },
 ].map(i => ({ how: () => "", ...i, mark: true }));
 // the items for a character: a pre-Searing one's own, else the list above
 const checklistFor = c => (isPreSearing(c) ? PRE_CHECKLIST : CHECKLIST);
-// an item done by a character: by its ticks, or by its mark (a hero's: the hero recruited)
-const checkDone = (c, i) => !!((i.known && i.known(c)) || (i.hero ? (c.heroes || []).includes(i.hero) : i.mark && (c.checks || []).includes(i.id)));
+// an item done by a character: by its ticks, or by its mark (a hero's: the hero recruited; a title's: the title maxed)
+const checkDone = (c, i) => !!((i.known && i.known(c)) || (i.hero ? (c.heroes || []).includes(i.hero) : i.title ? titleMaxed(i.title, c, User.data()) : i.mark && (c.checks || []).includes(i.id)));
 // how many of its items a character has
 const checklistDone = c => checklistFor(c).filter(i => checkDone(c, i)).length;
 // the elite areas with a checklist item, by area id: the Underworld, the Fissure of Woe, Sorrow's Furnace, the Deep,

@@ -367,7 +367,9 @@ $("ch-check").addEventListener("click", e => {
   const id = b.dataset.check;
   editChar(c => {
     // (a hero's: the hero ticked or unticked, as on the Heroes tab)
-    const hero = checklistFor(c).find(i => i.id === id)?.hero;
+    const item = checklistFor(c).find(i => i.id === id), hero = item?.hero;
+    // (a title's: the title's rank, as on the Titles tab)
+    if (item?.title) { const t = TITLES[item.title]; c.titles = c.titles || {}; if (c.titles[t.id] >= titleMax(t)) delete c.titles[t.id]; else c.titles[t.id] = titleMax(t); if (!Object.keys(c.titles).length) delete c.titles; return; }
     if (hero) { const hs = new Set(c.heroes || []); if (hs.has(hero)) hs.delete(hero); else hs.add(hero); if (hs.size) c.heroes = [...hs]; else delete c.heroes; return; }
     const s = new Set(c.checks || []); if (s.has(id)) s.delete(id); else s.add(id); c.checks = USER_CHECKS.filter(x => s.has(x)); if (!c.checks.length) delete c.checks; });
 });
