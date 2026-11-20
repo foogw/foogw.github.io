@@ -22,18 +22,20 @@
   const fmtDayTime = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit" });
   const madeSaid = (lo, hi) => hi - lo <= 6e4 ? fmtDayTime.format(lo)
     : new Date(lo).toDateString() === new Date(hi).toDateString() ? `<span title="${fmtDayTime.format(lo)} – ${fmtDayTime.format(hi)}">${fmtDay.format(lo)}</span>` : "";
-  // a stretch of time: "20d" from a day on, else a clock, "5:04" or "0:04"
+  // a stretch of time: "20d" from a day on, else a clock, "5:04", with seconds under an hour, "0:04:09"; under ten
+  // minutes, in red
   const two = n => String(n).padStart(2, "0");
-  const clock = ms => { const m = Math.max(0, Math.round(ms / 6e4)); return `${Math.floor(m / 60)}:${two(m % 60)}`; };
-  const stretch = ms => (ms >= DAY ? `${Math.round(ms / DAY)}d` : clock(ms));
+  const clock = ms => { const s = Math.max(0, Math.round(ms / 1000)), h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60; return h ? `${h}:${two(m)}` : `0:${two(m)}:${two(s % 60)}`; };
+  const stretch = ms => (ms >= DAY ? `${Math.round(ms / DAY)}d` : ms < 6e5 ? `<span class="soon">${clock(ms)}</span>` : clock(ms));
   // the check: the best one ahead and how long a reading helps for, "20d, 10d"; one helping now, "Now, 3:12" with
   // what's left of it (the tip: when the best check is, and how much of the range a reading cuts off now at least)
   const checkSaid = (a, now, best) => a.inside
     ? `<span title="Best check ${fmtWhen.format(best)}; a reading now cuts off ${Math.round(100 * a.side / (a.hi - a.lo)) || "<1"}% at least"><span class="now">Now</span>, ${a.end === Infinity ? "∞" : stretch(a.end - now)}</span>`
     : `<span title="Best check ${fmtWhen.format(best)}; readings help from ${fmtWhen.format(a.start)}">${stretch(best - now)}, ${stretch(a.hi - a.lo)}</span>`;
-  // the rows' order: by a column (its header clicked: again, the other way), set when the page loads (oldest first) and
-  // when a header is clicked, then kept as ages are added (a new character last); by a check column, redone each minute
-  let order = null, prev = [], sortBy = "age", sortDir = -1;
+  // the rows' order: by a column (its header clicked: again, the other way), set when the page loads (as kept, by
+  // account) and when a header is clicked, then kept as ages are added (a new character last); by the check column,
+  // redone each minute
+  let order = null, prev = [], sortBy = "acct", sortDir = 1;
   const COLS = [["acct", "Account"], ["name", "Character"], ["age", "Age", "How old it is: ~ when the range leaves a doubt"],
     ["created", "Created", "When it was made (your time), once known to the day; with the time once known to the minute"],
     ["range", "Range", "How long the time it can have been made in still is (rounded up): days, then hours, then minutes", "num"],
@@ -53,7 +55,7 @@
     return { age: `<span${ageColor(mid)}>${ageSaid(lo, hi, now)}</span>`, created: madeSaid(lo, hi),
       range: done ? "" : a.said(Math.max(1, Math.ceil((hi - lo) / a.unit))),
       check: done ? "" : checkSaid(a, now, best),
-      add, key: { acct: r.acct ?? 1, name: r.name.toLowerCase(), age: now - mid, created: lo, range: hi - lo, check: a.inside ? a.end - now : 1e15 + best - now } };
+      add, key: { acct: r.acctAt, name: r.name.toLowerCase(), age: now - mid, created: lo, range: hi - lo, check: a.inside ? a.end - now : 1e15 + best - now } };
   }
   const FIELDS = ["age", "created", "range", "check", "add"];
   // the live cells refreshed in place: only those whose text changed (a box being typed in, or a button being held, stays)
@@ -75,7 +77,7 @@
   function reorder(fresh = false) {
     if (fresh || !order) {
       const last = sortBy === "check", was = x => { const i = (fresh ? order : prev).indexOf(x.id); return i < 0 ? 1e9 : i; };
-      shown.sort((a, b) => (last && a.done !== b.done ? a.done - b.done : 0) || (a.key[sortBy] < b.key[sortBy] ? -sortDir : a.key[sortBy] > b.key[sortBy] ? sortDir : 0) || was(a) - was(b) || a.mid - b.mid);
+      shown.sort((a, b) => (last && a.done !== b.done ? a.done - b.done : 0) || (a.key[sortBy] < b.key[sortBy] ? -sortDir : a.key[sortBy] > b.key[sortBy] ? sortDir : 0) || was(a) - was(b) || a.i - b.i);
       order = shown.map(x => x.id);
     } else { const at = x => { const i = order.indexOf(x.id); return i < 0 ? order.length : i; }; shown.sort((a, b) => at(a) - at(b)); }
     const body = $("bd").querySelector("tbody");
@@ -88,8 +90,8 @@
     bdLo = Math.min(...mids); bdHi = Math.max(...mids);
     const now = Date.now(), rows = o.chars.filter(c => c.bornBetween).map(c => {
       const [lo, hi] = c.bornBetween.map(Date.parse);
-      // down to a minute, it's known: nothing more to check
-      const r = { id: c.id, c, name: c.name, acct: c.account, made: c.bornBetween, lo, hi, done: hi - lo <= 6e4, mid: (lo + hi) / 2, was: {} };
+      // down to a minute, it's known: nothing more to check (i: its place as kept, the order at first and the last tie-break)
+      const r = { id: c.id, i: o.chars.indexOf(c), c, name: c.name, acct: c.account, acctAt: o.accounts.findIndex(a => a.id === c.account), made: c.bornBetween, lo, hi, done: hi - lo <= 6e4, mid: (lo + hi) / 2, was: {} };
       r.key = cells(r, now).key;
       r.html = `<tr data-id="${c.id}"><td class="dim">${esc(acct(c))}</td><td><a class="n" href="characters" data-go="${c.id}"><img src="${profImg(c.profession || 0)}" alt="">${esc(c.name)}</a></td>
         <td data-f="age"></td><td class="dim" data-f="created"></td><td class="num" data-f="range"></td><td class="dim" data-f="check"></td><td class="add" data-f="add"></td></tr>`;
