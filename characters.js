@@ -361,8 +361,9 @@ function checklistHTML(c) {
 }
 // a mark: on or off, kept on the character
 $("ch-check").addEventListener("click", e => {
+  // (not a link, nor text being selected to copy)
   const b = e.target.closest("[data-check]");
-  if (!b || e.target.closest("a")) return;
+  if (!b || e.target.closest("a") || getSelection().toString()) return;
   const id = b.dataset.check;
   editChar(c => {
     // (a hero's: the hero ticked or unticked, as on the Heroes tab)
