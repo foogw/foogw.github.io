@@ -840,7 +840,7 @@ const USER_ALL = {
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
   2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "inMenu", "mock", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap", "xp", "played", "playedOutside", "aim", "checks"] };
 // the Checklist tab's items a character marks done by hand (the others it works out from the ticks): their ids
-const USER_CHECKS = ["skills", "outposts", "wik", "uw", "fow", "sf", "deep", "urgoz", "doa", "attr", "prophecies", "factions", "nightfall", "eotn",
+const USER_CHECKS = ["skills", "outposts", "wik", "uw", "fow", "sf", "deep", "urgoz", "doa", "attr", "ports", "prophecies", "factions", "nightfall", "eotn",
   // (a pre-Searing character's: mytitles.js PRE_CHECKLIST)
   "pouch", "charrbags", "eqpack", "headgear", "vigor", "runes"];
 // a character's readings typed in on its Edit tab, each kept with when: [amount, time]

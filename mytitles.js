@@ -102,6 +102,8 @@ const MARK = "Marked by hand", TICKS = "From your ticks";
 const CHECKLIST = [
   // (the two attribute quests of the campaign it was made in; none named while that isn't set)
   { id: "attr", name: "200 attribute points", mark: true, how: c => { const m = madeIn(c), q = ATTR_QUESTS[m]; return q ? `both ${CAMPAIGNS[m]} attribute quests, ${LINK.quest(q[0])} and ${LINK.quest(q[1])}` : "both attribute quests of its campaign"; } },
+  // (the three port towns, one a campaign: a character past them can sail anywhere)
+  { id: "ports", name: "All port towns unlocked", mark: true, how: () => `${LINK.area(55)}, ${LINK.area(194)} and ${LINK.area(449, "Kamadan")}` },
   // (known from the last mission's tick, which means its bonus; a campaign finished without the bonus is marked by hand)
   ...[[1, "Prophecies", "prophecies"], [2, "Factions", "factions"], [3, "Nightfall", "nightfall"], [4, "Eye of the North", "eotn"]].map(([camp, name, id]) => ({ id, name: `${name} completed`, mark: true,
     known: c => !!((c.missions[LAST[camp]] || 0) & 3),

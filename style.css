@@ -1627,3 +1627,38 @@ a.c-pill:hover { border-color: var(--accent); }
 .ck-how { font-size: 13px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ck-list li:hover .ck-how { white-space: normal; }
 .u-pre .ck-list .utick { display: inline-flex; }  /* (a pre-Searing character has a checklist of its own: its ticks stay) */
+
+/* the GWAMM route (gwamm.html) */
+.gw-goals { margin: 10px 0 18px; } .gw-goals .lstats { display: flex; flex-wrap: wrap; gap: 8px; } .gw-goals .lstat.done { border-color: var(--loc-exp); }
+.gw-goal { margin: 10px 0 0; font-size: 15px; }
+.gw-main h2 { margin: 18px 0 6px; } .gw-main h3 { margin: 18px 0 6px; font-size: 16px; } .gw-main h3 .dim { font-weight: 400; font-size: 13px; }
+.gw-sub { margin: 8px 0 2px; font-size: 13px; }
+.gw-list { list-style: none; margin: 0; padding: 0; } .gw-list > li { padding: 6px 0; border-top: 1px solid var(--line); } .gw-list > li:first-child { border-top: 0; }
+.gw-list .gw-either > ul { list-style: none; margin: 0; padding: 0 0 0 14px; } .gw-list .gw-either > ul > li { padding: 4px 0; }
+.gw-list li.gw-card { margin: 6px 0; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-2); }
+.gw-list li.gw-card:first-child { border-top: 1px solid var(--line); }
+.gw-card > b { font-size: 15px; }
+.gw-card .gw-with { margin: 4px 0 0; }
+.gw-with > .gw-rec { display: block; } .gw-rec b { color: var(--accent); }
+.gw-with { margin: 2px 0 0 18px; font-size: 13px; }
+.gw-with > span { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; padding: 1px 0; }
+.gw-with .skill-link { margin-right: 6px; }
+.gw-with .skill-link img, .gw-caps img { width: 18px; height: 18px; vertical-align: middle; }
+.gw-book { color: var(--muted); }
+.gw-z { font-size: 13px; }
+.gw-heroes-list { list-style: none; margin: 0; padding: 0; } .gw-heroes-list li { display: flex; align-items: center; gap: 8px; padding: 3px 0; } .gw-heroes-list img { width: 18px; height: 18px; }
+.gw-heroes-list .dim { font-size: 13px; }
+.gw-btns { margin: 12px 0 4px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.gw-btn { font: inherit; font-weight: 600; color: var(--text); background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 7px 14px; cursor: pointer; }
+.gw-btn:hover { border-color: var(--accent); color: var(--accent); }
+.gw-then { margin-top: 14px; }
+.gw-tier + .gw-tier { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.gw-heroes-list li { align-items: flex-start; } .gw-heroes-list li > div { min-width: 0; }
+.gw-path { margin: 4px 0 0 0; font-size: 13px; } .gw-path > li { padding: 2px 0; border: 0; } .gw-path .gw-either > ul { padding-left: 10px; }
+.gw-paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 6px 24px; }
+.gw-path-col h3 { margin-top: 8px; }
+.gw-wait { margin-top: 18px; }
+.gw-main section + section { margin-top: 10px; }
+.gw-gwamm { font-size: 17px; color: var(--loc-exp); }
+.gw-about { margin-top: 34px; padding-top: 14px; border-top: 1px solid var(--line); } .gw-about h2 { font-size: 17px; margin: 0 0 8px; }
+.gw-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 6px 22px; } .gw-cols h3 { font-size: 14px; margin: 6px 0 2px; } .gw-cols p { margin: 0; font-size: 14px; }
