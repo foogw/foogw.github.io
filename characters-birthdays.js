@@ -26,14 +26,30 @@
   // minutes, in red
   const two = n => String(n).padStart(2, "0");
   const clock = ms => { const s = Math.max(0, Math.round(ms / 1000)), h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60; return h ? `${h}:${two(m)}` : `0:${two(m)}:${two(s % 60)}`; };
-  const stretch = ms => (ms >= DAY ? `${Math.round(ms / DAY)}d` : ms < 6e5 ? `<span class="soon">${clock(ms)}</span>` : clock(ms));
-  // the check: the best one ahead and how long a reading helps for, "20d, 10d"; one helping now, "Now, 3:12 (34%⭡)", the arrow raised
-  // with what's left of it and how far through it is, rising to the best check at 50%, falling after (the tip: when the
-  // best check is, and how much of the range a reading cuts off now at least)
-  const checkSaid = (a, now, best) => a.inside
-    ? `<span title="Best check ${fmtWhen.format(best)}; a reading now cuts off ${Math.round(100 * a.side / (a.hi - a.lo)) || "<1"}% at least"><span class="now">Now</span>, ${a.end === Infinity ? "∞"
-      : `${stretch(a.end - now)} (${Math.round(100 * (1 - (a.end - now) / (a.hi - a.lo)))}%<sup class="arr">${a.rising ? "⭡" : "⭣"}</sup>)`}</span>`
-    : `<span title="Best check ${fmtWhen.format(best)}; readings help from ${fmtWhen.format(a.start)}">${stretch(best - now)}, ${stretch(a.hi - a.lo)}</span>`;
+  // (a clock keeps a fixed width, so the cell doesn't move as it counts down)
+  const stretch = ms => (ms >= DAY ? `${Math.round(ms / DAY)}d` : `<span class="clk${ms < 36e5 ? " clk-s" : ""}${ms < 6e5 ? " soon" : ""}">${clock(ms)}</span>`);
+  // a window's length: "6d", "3h", "40m"
+  const length = ms => (ms >= DAY ? `${Math.round(ms / DAY)}d` : ms >= 36e5 ? `${Math.round(ms / 36e5)}h` : `${Math.max(1, Math.round(ms / 6e4))}m`);
+  // the check, one sentence: "3h window opens in 13:14", or "3h window is open now for 0:38:59 (64%⭣)" with what's left
+  // of it and how far through it is, rising to the best check at 50%, falling after, the arrow raised (the tip: when the
+  // best check is, and how much of the range a reading cuts off now at least); then its reason for standing out, if it does
+  const checkSaid = (a, now, best, why) => (a.inside
+    ? `<span title="Best check ${fmtWhen.format(best)}; a reading now cuts off ${Math.round(100 * a.side / (a.hi - a.lo)) || "<1"}% at least">${length(a.hi - a.lo)} window <span class="now">is open now</span>${a.end === Infinity ? ""
+      : ` for ${stretch(a.end - now)} (${Math.round(100 * (1 - (a.end - now) / (a.hi - a.lo)))}%<sup class="arr">${a.rising ? "⭡" : "⭣"}</sup>)`}</span>`
+    : `<span title="Best check ${fmtWhen.format(best)}; readings help from ${fmtWhen.format(a.start)}">${length(a.hi - a.lo)} window opens in ${stretch(a.start - now)}</span>`)
+    + (why ? ` <span class="why why-${why.split(" ")[0]}">${why}</span>` : "");
+  // the opportunity a check is, for the column's order: [tier, within it], the reason named for the tiers that stand
+  // out. A short window (under a day) past its best check and still cutting something comes first (the sooner it
+  // closes the higher): an hour's delay costs a lot there, nothing on a window of weeks; then a check cutting a quarter
+  // or more now (the more the higher); then a short window opening within a day (the sooner the higher); then the
+  // other open windows by what's left, the other checks by their best time
+  function opportunity(a, now, best) {
+    const cut = a.side / (a.hi - a.lo), left = a.end - now, window = a.hi - a.lo, soon = a.start - now;
+    if (a.inside && window <= DAY && !a.rising && cut >= 0.05) return [0, left, "closing"];
+    if (a.inside && cut >= 0.25) return [1, -cut, "worth it"];
+    if (!a.inside && soon <= DAY && window <= DAY) return [2, soon, "short window soon"];
+    return a.inside ? [3, left, ""] : [4, best - now, ""];
+  }
   // the rows' order: by a column (its header clicked: again, the other way), set when the page loads (as kept, by
   // account) and when a header is clicked, then kept as ages are added (a new character last); by the check column,
   // redone each minute
@@ -41,7 +57,7 @@
   const COLS = [["acct", "Account"], ["name", "Character"], ["age", "Age", "How old it is: ~ when the range leaves a doubt"],
     ["created", "Created", "When it was made (your time), once known to the day; with the time once known to the minute"],
     ["range", "Range", "How long the time it can have been made in still is (rounded up): days, then hours, then minutes", "num"],
-    ["check", "Best check, duration", "In how long a reading of /age halves the range, and for how long readings help; Now: one helps already, with what's left of that", "chk"]];
+    ["check", "Check window", "How long readings of /age help for, and when: opening in so long, or open now with what's left and how far through (the best check at 50%). Sorted by opportunity: short windows (under a day) past their best check and closing, then checks cutting a quarter or more, then short windows opening within a day, then the rest by time", "chk"]];
   // the rows shown, by character id: what the second-by-second refresh works from
   let shown = [];
   // an age's colour, as on the Overview: a gradient over the characters shown, oldest to newest (one character: none)
@@ -51,13 +67,12 @@
   function cells(r, now) {
     const { lo, hi, done } = r, a = ageAt(r.made, now), mid = (lo + hi) / 2;
     // (the best check is when a boundary is at the middle, the next time if the one inside has passed it)
-    const best = a.next >= now ? a.next : mid + ageNextX(now - mid);
+    const best = a.next >= now ? a.next : mid + ageNextX(now - mid), [tier, within, why] = opportunity(a, now, best);
     const add = ageAddHTML(r.c, now);
-    // (sorted: the checks helping now first, the soonest to end first; then by the best check ahead)
     return { age: `<span${ageColor(mid)}>${ageSaid(lo, hi, now)}</span>`, created: madeSaid(lo, hi),
       range: done ? "" : a.said(Math.max(1, Math.ceil((hi - lo) / a.unit))),
-      check: done ? "" : checkSaid(a, now, best),
-      add, key: { acct: r.acctAt, name: r.name.toLowerCase(), age: now - mid, created: lo, range: hi - lo, check: a.inside ? a.end - now : 1e15 + best - now } };
+      check: done ? "" : checkSaid(a, now, best, why),
+      add, key: { acct: r.acctAt, name: r.name.toLowerCase(), age: now - mid, created: lo, range: hi - lo, check: tier * 1e15 + within } };
   }
   const FIELDS = ["age", "created", "range", "check", "add"];
   // the live cells refreshed in place: only those whose text changed (a box being typed in, or a button being held, stays)
@@ -72,14 +87,18 @@
         r.was[f] = c[f]; r.el.querySelector(`[data-f="${f}"]`).innerHTML = c[f];
       }
     }
-    // (sorted by a column that moves with time: the rows put in order again each minute, moved, not redrawn)
+    // (sorted by the check column, which moves with time: the rows put in order again each minute, moved, not redrawn)
     if (sortBy === "check" && now - lastSort >= 6e4 && !ageHolding()) { lastSort = now; reorder(true); }
   }
-  // the rows in order: by the sort column (ties as they were), or as kept (order); the table's rows moved to match
+  // the rows in order: as kept (by account), or by the column clicked (ties as they were); the check column by
+  // opportunity, its stand-outs first; clicked again, the whole table the other way round; the table's rows moved to match
   function reorder(fresh = false) {
     if (fresh || !order) {
       const last = sortBy === "check", was = x => { const i = (fresh ? order : prev).indexOf(x.id); return i < 0 ? 1e9 : i; };
-      shown.sort((a, b) => (last && a.done !== b.done ? a.done - b.done : 0) || (a.key[sortBy] < b.key[sortBy] ? -sortDir : a.key[sortBy] > b.key[sortBy] ? sortDir : 0) || was(a) - was(b) || a.i - b.i);
+      // (by account: the kept order outright; by a column: ties as they were)
+      shown.sort((a, b) => sortBy === "acct" ? a.i - b.i
+        : (last && a.done !== b.done ? a.done - b.done : 0) || (a.key[sortBy] < b.key[sortBy] ? -1 : a.key[sortBy] > b.key[sortBy] ? 1 : 0) || was(a) - was(b) || a.i - b.i);
+      if (sortDir < 0) shown.reverse();  // (the other way: the whole table turned round, ties and all)
       order = shown.map(x => x.id);
     } else { const at = x => { const i = order.indexOf(x.id); return i < 0 ? order.length : i; }; shown.sort((a, b) => at(a) - at(b)); }
     const body = $("bd").querySelector("tbody");
@@ -112,8 +131,9 @@
   document.addEventListener("click", e => {
     const h = e.target.closest("[data-sort]");
     if (!h) return;
-    // (age: oldest first)
-    sortDir = sortBy === h.dataset.sort ? -sortDir : h.dataset.sort === "age" ? -1 : 1;
+    // (the same column again: the whole table turned round, as it stands; age: oldest first)
+    if (sortBy === h.dataset.sort && order) { sortDir = -sortDir; order.reverse(); return render(); }
+    sortDir = h.dataset.sort === "age" ? -1 : 1;
     sortBy = h.dataset.sort;
     prev = order || [];
     order = null;

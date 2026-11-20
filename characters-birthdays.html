@@ -19,7 +19,14 @@
   .xp-bd .now { color: var(--accent); }
   .xp-bd .soon { color: var(--sac); }
   .xp-bd .arr { font-weight: 200; font-size: 10px; }
-  .xp-bd .chk { width: 200px; }
+  .xp-bd .why { font-size: 12px; color: var(--muted); }
+  .xp-bd .why-closing { color: var(--sac); font-weight: 600; }
+  .xp-bd .why-worth { color: var(--todo); }
+  .xp-bd .why-short { color: var(--energy); }
+  .xp-bd .chk { width: 340px; }
+  .xp-bd td[data-f="check"] { font-variant-numeric: tabular-nums; }
+  .xp-bd .clk { display: inline-block; min-width: 5ch; }  /* h:mm; with seconds under an hour, 0:mm:ss */
+  .xp-bd .clk-s { min-width: 7ch; }
   .xp-bd th button { all: unset; cursor: pointer; }
   .xp-bd th button:hover { color: var(--text); }
   .xp-bd .add { display: flex; gap: 6px; align-items: center; }
