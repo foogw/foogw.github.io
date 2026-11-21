@@ -1,8 +1,10 @@
 "use strict";
 /* The GWAMM route (gwamm; Guides › Tools): what the picked character should do next on an efficient way to God Walking
    Amongst Mere Mortals, in phases. First the port towns (its own campaign's missions up to its port, then the boats);
-   then the heroes of the meta team, the easiest first, with the missions that lead to each; then the three campaigns
-   side by side, the next mission of each, with hard mode and the vanquishes on the Zaishen days. Every mission with its
+   then the heroes of the meta team, the easiest first, with the missions that lead to each; then the next mission of
+   each campaign, one in normal mode and one in hard mode (the one left whose Zaishen day comes first), and the next three Zaishen
+   vanquishes; then all the vanquishes, the maps, the elites left, and the Eye of the North's dungeons and reputations with
+   topping up the titles the route left short. Every mission with its
    bonus, capturing the elites there and mapping on the way, the right storybook on you. Worked out from the character's
    ticks and marks (My Characters), nothing kept here. */
 {
@@ -84,19 +86,27 @@
     return miss.length ? `<span class="gw-caps">🎯 cap ${miss.map(e => LINK.skill(e)).join(" ")}</span>` : "";
   };
   // mapping: what the mission itself shows; the explorables around are vanquished later, on their Zaishen days
-  const groundHTML = () => `<span class="gw-map">🗺 map what you can on the way</span>`;
-  // the bonus: Prophecies names it (the flagged objective), Factions and Nightfall have the Master's reward, the Eye of the North none
-  const bonusHTML = x => { const camp = missionCampaign(x.m), b = (x.m.objectives || []).filter(o => o[2]).map(o => o[1]);
-    return camp === 4 ? "" : `<span class="gw-bonus">⭐ ${b.length ? `bonus: ${esc(b.join(" "))}` : camp === 1 ? "with the bonus" : "Master's reward"}</span>`; };
+  // (not in the Eye of the North: no Cartographer title there)
+  const groundHTML = x => (missionCampaign(x.m) === 4 ? "" : `<span class="gw-map">🧭 map what you can on the way</span>`);
+  // the bonus: Prophecies names it (the flagged objective); Factions and Nightfall have the Master's reward, said with
+  // what earns it (rewards.tiers.master, by time or a count kept alive) or the flagged objective; the Eye of the North none
+  const masterSaid = r => { const t = r?.tiers?.master; if (!t) return "";
+    if (r.by === "time") return t.startsWith("<") ? `under ${t.slice(1).trim()}` : t.startsWith("≤") ? `${t.slice(1).trim()} or less` : t;
+    return `${t} ${r.by}`; };
+  const bonusHTML = x => { const camp = missionCampaign(x.m), b = (x.m.objectives || []).filter(o => o[2]).map(o => o[1]), m = masterSaid(x.m.rewards);
+    return camp === 4 ? "" : `<span class="gw-bonus">⭐ ${camp === 1 ? (b.length ? `bonus: ${esc(b.join(" "))}` : "with the bonus") : `Master's reward${m || b.length ? `: ${esc(m || b.join(" "))}` : ""}`}</span>`; };
 
   // the next Zaishen day of a mission (0: today), from its rotation
   const zDays = (r, is) => { if (!r) return null; const n = r.entries.length, k = Rotation.period(r); for (let i = 0; i < n; i++) if (is(Rotation.entry(r, k + i))) return i; return null; };
 
   /* ---------- the lines: a card with what matters there, or the bare name ---------- */
-  // rec (once the heroes are there): the mode to do it in and, in hard mode, its Zaishen day (normal mode is done in order, any day)
-  const missionLine = (c, x, hard = false, bare = false, rec = null) => bare ? `<li><b>${LINK.mission(x.id)}</b></li>`
-    : `<li class="gw-card"><b>${LINK.mission(x.id)}</b><div class="gw-with">${[rec ? `<span class="gw-rec"><b>${hard ? "hard" : "normal"} mode</b></span>` : "", rec && hard && zText(x.id) ? `<span class="gw-z">📅 ${zText(x.id)}</span>` : "", hard ? "" : bonusHTML(x), bookNote(x.id, hard), elitesHTML(c, x.id, x.m.outpost), groundHTML()].filter(Boolean).join("")}</div></li>`;
-  const groupLines = (c, gs, hard = false, bare = false, rec = null) => gs.map(g => (g.length > 1 ? `<li class="gw-either"><span class="dim">either</span><ul>${g.map(x => missionLine(c, x, hard, bare, rec)).join("")}</ul></li>` : missionLine(c, g[0], hard, bare, rec))).join("");
+  // every card names the mode to do it in, with its NM / HM ticks (the shared ones, common.js: the page draws again on
+  // "userchange"), so a mission is marked done here; in hard mode its Zaishen day too (the bare lines, the missions on
+  // the way to a hero, have no ticks: the hero's Recruited tick is the mark there)
+  const ticks = (c, x) => doneTicks("missions", x.id, c.missions[x.id] || 0);
+  const missionLine = (c, x, hard = false, bare = false) => bare ? `<li class="gw-bare"><b>${LINK.mission(x.id)}</b></li>`
+    : `<li class="gw-card"><div class="gw-card-head"><b>${LINK.mission(x.id)}</b>${ticks(c, x)}</div><div class="gw-with">${[`<span class="gw-rec"><b>${hard ? "hard" : "normal"} mode</b></span>`, hard && zText(x.id) ? `<span class="gw-z">📅 ${zText(x.id)}</span>` : "", hard ? "" : bonusHTML(x), bookNote(x.id, hard), elitesHTML(c, x.id, x.m.outpost), groundHTML(x)].filter(Boolean).join("")}</div></li>`;
+  const groupLines = (c, gs, hard = false, bare = false) => gs.map(g => (g.length > 1 ? `<li class="gw-either"><span class="dim">either</span><ul>${g.map(x => missionLine(c, x, hard, bare)).join("")}</ul></li>` : missionLine(c, g[0], hard, bare))).join("");
 
   /* ---------- phase 0: the campaign it was made in ---------- */
   const campaignHTML = c => `<section><h2>Where was ${esc(c.name)} made?</h2><p class="dim">The route starts from there. Pick it here or on its <a href="characters?tab=edit">Edit</a> tab.</p>
@@ -105,7 +115,10 @@
   /* ---------- phase 1: the port towns ---------- */
   function portsHTML(c) {
     const camp = madeIn(c), before = left(c, camp).filter(x => x.order <= PORT[camp]), next = groups(before, 1);
-    return `<section><h2>Reach the port towns</h2><p class="dim">${LINK.area(55)}, ${LINK.area(194)} and ${LINK.area(449, "Kamadan")}: ${esc(CAMPAIGNS[camp])}'s missions up to ${LINK.area(PORT_TOWN[camp])}, then the other two by boat. Every mission with its bonus, capturing the elites there and mapping on the way.</p>
+    // (a Tyrian can be run to Lion's Arch; a Canthan or an Elonian plays to its port: the ferry wants Zen Daijun done, the
+    // ship Consulate Docks)
+    const way = camp === 1 ? `either a run to ${LINK.area(55)} or ${esc(CAMPAIGNS[camp])}'s missions up to it` : `${esc(CAMPAIGNS[camp])}'s missions up to ${LINK.area(PORT_TOWN[camp])}`;
+    return `<section><h2>Reach the port towns</h2><p class="dim">${LINK.area(55)}, ${LINK.area(194)} and ${LINK.area(449, "Kamadan")}: ${way}, then the other two by boat. Playing the missions: each with its bonus, capturing the elites there and mapping on the way.</p>
       ${next.length ? `<ul class="gw-list">${groupLines(c, next)}</ul>` : `<p class="dim">The missions to ${LINK.area(PORT_TOWN[camp])} are done: the boats are left.</p>`}
       <div class="gw-btns"><button type="button" class="gw-btn" data-check="ports">Reached all port towns</button> <span class="dim">(the Checklist's mark)</span></div>
       <p class="dim gw-then">Then: the meta team's heroes, then the three campaigns side by side.</p></section>`;
@@ -116,52 +129,117 @@
     const team = teamOf(c), short = new Set(team.filter(t => t.have < t.need).map(t => t.prof)), got = new Set(c.heroes || []);
     const want = h => !got.has(h) && (h === RAZAH ? short.size > 0 : short.has(HEROES[h].profession));
     const line = h => { const w = WAYS[h], ms = w.camp ? groups(left(c, w.camp).filter(x => x.order <= w.upto), 99) : [];
-      return `<li><img src="${profImg(HEROES[h].profession)}" alt=""><div><b>${LINK.hero(h)}</b>${h === RAZAH ? ' <span class="dim">any profession: whatever is short</span>' : ""} <span class="dim">${esc(w.how)}</span>${ms.length ? `<ul class="gw-list gw-path"><li class="dim gw-sub">Missions on the way</li>${groupLines(c, ms, false, true)}</ul>` : ""}</div></li>`; };
+      return `<li><img src="${profImg(HEROES[h].profession)}" alt=""><div><b>${LINK.hero(h)}</b>${heroTick(h, false, "Recruited")}${h === RAZAH ? ' <span class="dim">any profession: whatever is short</span>' : ""} <span class="dim">${esc(w.how)}</span>${ms.length ? `<ul class="gw-list gw-path"><li class="dim gw-sub">Missions on the way</li>${groupLines(c, ms, false, true)}</ul>` : ""}</div></li>`; };
     const tiers = TIERS.map(t => t.filter(want)).filter(t => t.length);
     return `<section><h2>Get the heroes</h2><p class="dim">The meta team: three Mesmers, two Necromancers, a Ritualist, ${teamCount(c)} of 6 so far. The easiest first; Razah fills whatever stays short. No hard mode until they're all there.</p>
       ${tiers.map(t => `<ul class="gw-heroes-list gw-tier">${t.map(line).join("")}</ul>`).join("")}
-      <p class="dim gw-then">Then: the three campaigns side by side, hard mode and the vanquishes on the Zaishen days.</p></section>`;
+      <p class="dim gw-then">Then: the next mission of each campaign, in normal and hard mode, and the vanquishes on the Zaishen days.</p></section>`;
   }
 
   /* ---------- phase 3: the three paths, the vanquishes ---------- */
-  // a campaign's next missions: in normal mode the first in order not done; in hard mode (the team there, the campaign
-  // finished) the one done in normal mode, so the character can get there, whose Zaishen day comes first
+  // a campaign's next missions, one in each mode: in normal mode the first in order not done, a foreigner from its entry
+  // to the end and only then the ones before the entry; in hard mode (the team there) the one left whose Zaishen day
+  // comes first, whatever its normal-mode tick
   const Z_MISSION = ROTATIONS["zaishen-mission"];
   const zOf = id => zDays(Z_MISSION, e => e.mission === id);
   const zText = id => { const d = zOf(id); return d === null ? "" : d === 0 ? "Zaishen mission <b>today</b>" : `Zaishen mission in ${d} day${d === 1 ? "" : "s"}`; };
   function pathsHTML(c) {
     const parts = [], ready = teamReady(c);
     for (const camp of [1, 2, 3, 4]) {
-      const from = camp === madeIn(c) || camp === 4 ? 0 : ENTRY[camp];
-      const nmNext = groups(left(c, camp), 1)[0] || null;
-      const hmNext = ready && hmOpen(c, camp) ? (STORY[camp] || []).filter(x => nm(c, x.id) && !hm(c, x.id)).sort((a, b) => (zOf(a.id) ?? 999) - (zOf(b.id) ?? 999))[0] || null : null;
-      const start = camp !== madeIn(c) && camp !== 4 ? (STORY[camp] || []).filter(x => !nm(c, x.id) && x.order < from) : [];
-      if (!nmNext && !hmNext && !start.length) continue;
-      parts.push(`<div class="gw-path-col"><h3>${esc(CAMPAIGNS[camp])}</h3><ul class="gw-list">${nmNext ? groupLines(c, [nmNext], false, false, true) : ""}${hmNext ? missionLine(c, hmNext, true, false, true) : ""}</ul>${start.length ? `<p class="dim gw-sub">From the start, left behind</p><ul class="gw-list">${groupLines(c, groups(start, 1), false, false, true)}</ul>` : ""}</div>`);
+      const from = camp === madeIn(c) || camp === 4 ? 0 : ENTRY[camp], undone = (STORY[camp] || []).filter(x => !nm(c, x.id));
+      const nmNext = groups(undone.filter(x => x.order >= from), 1)[0] || groups(undone.filter(x => x.order < from), 1)[0] || null;
+      // (hard mode: the one left whose Zaishen day comes first, whatever its normal-mode tick)
+      const hmNext = ready && hmOpen(c, camp) ? (STORY[camp] || []).filter(x => !hm(c, x.id) && zOf(x.id) !== null).sort((a, b) => zOf(a.id) - zOf(b.id))[0] || null : null;
+      // (a campaign done in both modes keeps its column, saying so)
+      const done = !nmNext && !(STORY[camp] || []).some(x => !hm(c, x.id));
+      parts.push(`<div class="gw-path-col"><h3>${esc(CAMPAIGNS[camp])}${done ? ' <span class="dim">done</span>' : ""}</h3>${done ? `<p class="dim">Every mission done in both modes.</p>` : `<ul class="gw-list">${nmNext ? groupLines(c, [nmNext]) : ""}${hmNext ? missionLine(c, hmNext, true) : ""}</ul>`}</div>`);
     }
-    return parts.length ? `<section><h2>Next missions</h2><p class="dim">The next of each campaign, in normal mode and, once the campaign is finished, in hard mode on its Zaishen day if it comes soon.</p><div class="gw-paths">${parts.join("")}</div></section>` : "";
+    return parts.length ? `<section><h2>Next missions</h2><p class="dim">The next of each campaign in normal mode, and in hard mode the one left whose Zaishen day comes first.</p><div class="gw-paths">${parts.join("")}</div></section>` : "";
   }
-  // hard mode, by the Zaishen rotations: what's left, the entries whose day has just passed first (they're the farthest
-  // from coming round again)
-  // hard mode is open in a campaign once its last mission is done (LAST, mytitles.js)
-  const hmOpen = (c, camp) => !!camp && nm(c, LAST[camp]);
-  const daysSince = (r, i) => { const n = r.entries.length, k = Rotation.period(r); return (((k - i) % n) + n) % n; };
-  const zWhen = (x, n) => `<span class="dim gw-z">Zaishen day ${x.since === 0 ? "today" : `${x.since} day${x.since === 1 ? "" : "s"} ago`}, next in ${n - x.since} days</span>`;
-  const zSorted = (r, keep) => r.entries.map((e, i) => ({ e, i })).filter(({ e }) => keep(e)).map(x => ({ ...x, since: daysSince(r, x.i) })).sort((a, b) => a.since - b.since).slice(0, 6);
+  // the vanquishes: the next three Zaishen days (today first) whose area is left, in a campaign open in hard mode
+  // hard mode is taken as open everywhere: it unlocks for the whole account once any character has finished the campaign,
+  // and a GWAMM's account has
+  const hmOpen = (c, camp) => !!camp;
+  const zWhen = d => `<span class="dim gw-z">Zaishen day ${d === 0 ? "<b>today</b>" : d === 1 ? "tomorrow" : `in ${d} days`}</span>`;
+  const zNext = (r, keep, n = 3) => { const out = [], k = Rotation.period(r); for (let i = 0; i < r.entries.length && out.length < n; i++) { const e = Rotation.entry(r, k + i); if (keep(e)) out.push({ e, d: i }); } return out; };
+  // stage 4: the next three Zaishen days; stage 5 (every mission done): all left in the three campaigns, a column each,
+  // the Zaishen days first in their order, then the areas with no Zaishen day; each with its tick (the Eye of the North's
+  // areas count for no Vanquisher title: they come with its reputations, stage 8)
+  const vanqLeft = (c, camps = [1, 2, 3]) => { const vq = new Set(c.vanquished || []); return Object.entries(AREAS).filter(([id, a]) => a.foes && !vq.has(+id) && camps.includes(campaignOf(a))).map(([id]) => +id); };
+  const vanqRow = (c, id, when) => `<li class="gw-bare"><b>${LINK.area(id)}</b>${vanqTick(id, false)}${when}<div class="gw-with">${elitesHTML(c, id, null)}</div></li>`;
+  // the areas left, the Zaishen days first in their order: [id, when]
+  const vanqOrder = (c, ids) => { const r = ROTATIONS["zaishen-vanquish"], left = new Set(ids);
+    const zs = zNext(r, e => left.has(e.area), Infinity), seen = new Set(zs.map(x => x.e.area));
+    return [...zs.map(x => [x.e.area, zWhen(x.d)]), ...ids.filter(id => !seen.has(id)).sort((a, b) => cmpStr(AREAS[a].name, AREAS[b].name)).map(id => [id, `<span class="dim gw-z">no Zaishen day</span>`])]; };
   function vanqHTML(c) {
-    const r = ROTATIONS["zaishen-vanquish"], vq = new Set(c.vanquished || []);
-    const vs = zSorted(r, e => e.area && AREAS[e.area]?.foes && !vq.has(e.area) && hmOpen(c, campaignOf(AREAS[e.area])));
-    return vs.length ? `<section><h2>Next vanquishes</h2><p class="dim">On the Zaishen days, the ones just passed first; map as you go.</p><ul class="gw-list">${vs.map(x => `<li><b>${LINK.area(x.e.area)}</b> ${zWhen(x, r.entries.length)}<div class="gw-with">${elitesHTML(c, x.e.area, null)}</div></li>`).join("")}</ul></section>` : "";
+    const vq = new Set(c.vanquished || []), r = ROTATIONS["zaishen-vanquish"];
+    const zs = zNext(r, e => e.area && AREAS[e.area]?.foes && !vq.has(e.area) && hmOpen(c, campaignOf(AREAS[e.area])));
+    return zs.length ? `<section><h2>Next vanquishes</h2><p class="dim">The next three Zaishen days; map as you go.</p><ul class="gw-list">${zs.map(x => vanqRow(c, x.e.area, zWhen(x.d))).join("")}</ul></section>` : "";
   }
+  function vanqAllHTML(c) {
+    // (a campaign with none left: its column says so)
+    const cols = [1, 2, 3].map(camp => { const ids = vanqLeft(c, [camp]); return `<div class="gw-path-col"><h3>${esc(CAMPAIGNS[camp])} <span class="dim">${ids.length ? ids.length : "done"}</span></h3>${ids.length ? `<ul class="gw-list">${vanqOrder(c, ids).map(([id, when]) => vanqRow(c, id, when)).join("")}</ul>` : `<p class="dim">Every area vanquished.</p>`}</div>`; }).join("");
+    return `<section><h2>Vanquishes</h2><p class="dim">${vanqLeft(c).length} left, by Zaishen day; capture and map as you go.</p><div class="gw-paths">${cols}</div></section>`;
+  }
+
+  /* ---------- stages 6 to 8: what the missions and vanquishes leave ---------- */
+  const rankOf = (id, c, o) => titleRankOf(TITLES[id], c, o), maxOf = id => titleMax(TITLES[id]);
+  // (a title with a page of its own is linked to it; the others to the Titles tab, where their rank is set)
+  const titleHref = id => (TITLES[id].ranks ? HREF.title(id) : "characters?tab=titles");
+  const titleLine = (id, c, o, note = "") => { const r = rankOf(id, c, o), m = maxOf(id);
+    return `<li class="gw-bare${r >= m ? " done" : ""}"><b><a href="${titleHref(id)}">${esc(TITLES[id].name)}</a></b> <span class="dim">rank ${r} of ${m}${note ? ` · ${note}` : ""}</span></li>`; };
+  const titlesLeft = (ids, c, o) => ids.filter(id => rankOf(id, c, o) < maxOf(id));
+  // stage 6: the three continents' maps, what the missions and vanquishes left unmapped
+  const CARTO = [1, 2, 18];
+  const cartoHTML = (c, o) => `<section><h2>Cartography</h2><p class="dim">Each continent's Cartographer is at 100% of its map: the missions and vanquishes have shown you most of it. Tick the ranks on <a href="characters?tab=titles">My Characters</a> as they come.</p>
+    <ul class="gw-list">${CARTO.map(id => titleLine(id, c, o)).join("")}</ul></section>`;
+  // stage 7: the elites left, the easiest capture first (data/captures.js: the pick ranked first, closest from its
+  // start), the rest on the Elite captures tool
+  const CAPS = data("GW_CAPTURES")?.captures || {};
+  const far = p => (p.ranges == null ? 99 : p.ranges) + (p.kind === "walk" ? 0 : 50);
+  function huntHTML(c, o) {
+    const got = new Set(c.elites), left = capturableElites().filter(id => !got.has(id));
+    const easy = left.filter(id => CAPS[id]).sort((a, b) => far(CAPS[a][0]) - far(CAPS[b][0]) || cmpStr(SKILLS[a].name, SKILLS[b].name)).slice(0, 3);
+    const line = id => { const p = CAPS[id][0]; return `<li class="gw-bare"><b>${LINK.skill(id)}</b>${eliteTick(id, false)}<span class="dim">${LINK.boss(p.boss)} · ${LINK.area(p.area)}${p.from ? ` · from ${LINK.area(p.from)}` : p.kind === "mission" ? " · in the mission" : " · in the dungeon"}${p.ranges != null ? ` · ${p.ranges} r` : ""}</span></li>`; };
+    return `<section><h2>Elite captures</h2><p class="dim">${left.length} elite${left.length === 1 ? "" : "s"} left; the easiest first, the whole list with maps on <a href="captures">Elite captures</a>.</p>
+      <ul class="gw-list">${easy.map(line).join("")}</ul>
+      <ul class="gw-list">${titlesLeft([24, 26, 28, 32], c, o).map(id => titleLine(id, c, o)).join("")}</ul></section>`;
+  }
+  // stage 8: Master of the North alone: the dungeons in hard mode, each on its Zaishen Bounty day
+  // stage 9, topping up: the four reputations (the Eye of the North's vanquishes, for what they bring) and whatever other
+  // character title isn't at its top (Sunspear, Lightbringer, Survivor, the consumables)
+  // (Survivor: a stretch of 1,337,500 experience without a death, any time; the greatest stretch counts, so a death
+  // only starts a new one)
+  const NORTH = [38, 39, 40, 41], REST = [17, 20, 9, 7, 34, 43];
+  function northHTML(c, o) {
+    const r = ROTATIONS["zaishen-bounty"], left = USER_ALL_V3.dungeons.filter(id => !((c.dungeons[id] || 0) & 2));
+    const bounty = new Map(zNext(r, e => e.area && left.includes(e.area), Infinity).map(x => [x.e.area, x.d]));
+    const dgs = [...left].sort((a, b) => (bounty.get(a) ?? 999) - (bounty.get(b) ?? 999) || cmpStr(AREAS[a].name, AREAS[b].name));
+    return `<section><h2>Master of the North</h2><p class="dim">The Eye of the North's dungeons in hard mode, on their Zaishen Bounty days.</p>
+      ${dgs.length ? `<ul class="gw-list">${dgs.map(id => `<li class="gw-bare"><b>${LINK.area(id)}</b>${doneTicks("dungeons", id, c.dungeons[id] || 0)}${bounty.has(id) ? zWhen(bounty.get(id)).replace("Zaishen day", "Zaishen Bounty") : ""}</li>`).join("")}</ul>` : ""}
+      <ul class="gw-list">${titleLine(42, c, o)}</ul></section>`;
+  }
+  function restHTML(c, o) {
+    const vqs = vanqLeft(c, [4]), ids = [...titlesLeft(NORTH, c, o), ...titlesLeft(REST, c, o)];
+    return `<section><h2>Topping up</h2><p class="dim">What the route left short: reputation past what its missions and vanquishes gave, a death-free stretch, the consumables.</p>
+      ${vqs.length ? `<h3>The Eye of the North's vanquishes <span class="dim">${vqs.length}</span></h3><ul class="gw-list">${vanqOrder(c, vqs).map(([id, when]) => vanqRow(c, id, when)).join("")}</ul>` : ""}
+      <ul class="gw-list">${ids.map(id => titleLine(id, c, o, id === 9 ? `1,337,500 experience without a death; <a href="guides?gom">the Gate of Madness AFK farm</a> is a safe one` : "")).join("")}</ul></section>`;
+  }
+  const stageLeft = { missions: c => Object.values(STORY).flat().some(x => !nm(c, x.id) || !hm(c, x.id)), vanq: c => vanqLeft(c).length > 0,
+    carto: (c, o) => titlesLeft(CARTO, c, o).length > 0, hunt: c => c.elites.length < capturableElites().length,
+    north: (c, o) => titlesLeft([42], c, o).length > 0, rest: (c, o) => titlesLeft([...NORTH, ...REST], c, o).length > 0 || vanqLeft(c, [4]).length > 0 };
+
   /* ---------- the page ---------- */
-  const stat = (k, v, done, href) => `<${href ? `a href="${href}"` : "span"} class="lstat${done ? " done" : ""}"><small>${k}</small><b>${v}</b></${href ? "a" : "span"}>`;
+  const stat = (k, v, done, href, sub = "") => `<${href ? `a href="${href}"` : "span"} class="lstat${done ? " done" : ""}"><small>${k}</small><b>${v}</b>${sub ? `<small class="lstat-sub">${esc(sub)}</small>` : ""}</${href ? "a" : "span"}>`;
   const isGwamm = (c, o) => titleRankOf(TITLES[10], c, o) >= 6;
   function goalsHTML(c, o) {
     const team = teamOf(c), ready = teamReady(c), all = Object.values(STORY).flat(), n = all.length;
     const nmDone = all.filter(x => nm(c, x.id)).length, hmDone = all.filter(x => hm(c, x.id)).length, vqAll = Object.values(AREAS).filter(a => a.foes).length;
     const goal = isGwamm(c, o) ? `<p class="gw-goal gw-gwamm">🏆 ${esc(c.name)} is a God Walking Amongst Mere Mortals. Below, whatever is left beyond the title.</p>`
       : `<p class="gw-goal">${!ports(c) ? "First: the three port towns, to reach every campaign." : ready ? "The meta hero team is ready: hard mode is open." : `Main goal: the meta hero team, ${team.map(t => `${t.have} of ${t.need} ${PROFS[t.prof]}${t.need === 1 ? "" : "s"}`).join(", ")}. Until then, normal mode.`}</p>`;
-    return `${goal}<div class="lstats">${stat("Port towns", ports(c) ? "reached" : "to reach", ports(c))}${stat("Hero team", ready ? "ready" : `${teamCount(c)} / 6`, ready)}${stat("Missions", `${nmDone} / ${n}`, nmDone === n)}${stat("Hard mode", `${hmDone} / ${n}`, hmDone === n)}${stat("Vanquishes", `${(c.vanquished || []).length} / ${vqAll}`, (c.vanquished || []).length >= vqAll)}${stat("Elites", `${c.elites.length} / ${capturableElites().length}`, c.elites.length >= capturableElites().length)}${stat("Checklist", `${checklistDone(c)} / ${checklistFor(c).length}`, checklistDone(c) === checklistFor(c).length, "characters?tab=check")}</div>`;
+    // (the count toward the title: the other titles maxed, 30 for the sixth rank, and the rank's name held now)
+    const maxed = titlesMaxed(c, o), rank = titleRankOf(TITLES[10], c, o), held = rank ? TITLES[10].rank_names[rank - 1] : "no title yet";
+    return `${goal}<div class="lstats">${stat("Titles maxed", `${maxed} / 30`, maxed >= 30, "characters?tab=titles", held)}${stat("Port towns", ports(c) ? "reached" : "to reach", ports(c))}${stat("Hero team", ready ? "ready" : `${teamCount(c)} / 6`, ready)}${stat("Missions", `${nmDone} / ${n}`, nmDone === n)}${stat("Hard mode", `${hmDone} / ${n}`, hmDone === n)}${stat("Vanquishes", `${(c.vanquished || []).length} / ${vqAll}`, (c.vanquished || []).length >= vqAll)}${stat("Elites", `${c.elites.length} / ${capturableElites().length}`, c.elites.length >= capturableElites().length)}${stat("Checklist", `${checklistDone(c)} / ${checklistFor(c).length}`, checklistDone(c) === checklistFor(c).length, "characters?tab=check")}</div>`;
   }
   function render() {
     if (!ckUser()) { els.who.innerHTML = ""; els.goals.innerHTML = ""; els.main.innerHTML = `<p class="dim pg-empty">Your saved progress can't be read: see the <a href="backup">Backup</a> page to keep a copy of it and fix it.</p>`; return; }
@@ -171,14 +249,16 @@
     els.who.innerHTML = `<span class="cap-who">For ${charPill(c)}</span> <span class="dim">${others.length ? `or ${others.map(x => `<button type="button" class="link" data-pick="${x.id}">${esc(x.name)}</button>`).join(", ")}; anyone else in the top bar` : "pick another in the top bar"}</span>`;
     // (a pre-Searing character: Legendary Defender of Ascalon, then the Searing, or staying)
     if (isPreSearing(c)) { const ldoa = !!(c.titles || {})[21];
-      els.goals.innerHTML = `<p class="gw-goal">${ldoa ? `${esc(c.name)} is a Legendary Defender of Ascalon: what's left is the Searing, or staying.` : `Main goal: <a href="${HREF.title(21)}">Legendary Defender of Ascalon</a>, level 20 in pre-Searing; then the Searing, or staying.`}</p>
+      els.goals.innerHTML = `<p class="gw-goal">${ldoa ? `${esc(c.name)} is a Legendary Defender of Ascalon: what's left is the Searing, or staying.` : `Main goal: <a href="${titleHref(21)}">Legendary Defender of Ascalon</a>, level 20 in pre-Searing; then the Searing, or staying.`}</p>
         <div class="lstats">${stat("Legendary Defender of Ascalon", ldoa ? "done" : "level 20 to reach", ldoa)}</div>`;
       els.main.innerHTML = `<h2>Next things to do</h2><p class="dim">${ldoa ? "The Searing, when it's time: the route starts after it." : "Level 20 in pre-Searing: the Charr at the wall, the Vanguard quests, the Nicholas Sandford gifts."}</p>`; return; }
     els.goals.innerHTML = goalsHTML(c, o);
-    // the phase it's in: the campaign to pick, the port towns, the heroes, then the paths with hard mode and the vanquishes
+    // the stage it's in: the campaign to pick, the port towns, the heroes, the missions (with the next vanquishes), all
+    // the vanquishes, the maps, the elites, then Master of the North and the topping up
     const html = !madeIn(c) ? campaignHTML(c) : !ports(c) ? portsHTML(c) : !teamReady(c) ? heroesHTML2(c)
-      : pathsHTML(c) + vanqHTML(c);
-    els.main.innerHTML = html || `<p class="dim">Nothing left on the route.</p>`;
+      : stageLeft.missions(c) ? pathsHTML(c) + vanqHTML(c) : stageLeft.vanq(c) ? vanqAllHTML(c) : stageLeft.carto(c, o) ? cartoHTML(c, o)
+      : stageLeft.hunt(c) ? huntHTML(c, o) : stageLeft.north(c, o) ? northHTML(c, o) : stageLeft.rest(c, o) ? restHTML(c, o) : "";
+    els.main.innerHTML = html || `<p class="dim">Nothing left on the route: every title it covers is at its top.</p>`;
   }
   // another wannabe picked: the page is its now (the top bar follows)
   els.who.addEventListener("click", e => { const b = e.target.closest("[data-pick]"); if (b) { User.pick(+b.dataset.pick); render(); } });
