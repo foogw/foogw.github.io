@@ -5,7 +5,7 @@
 VIEWS.hero = (() => {
   const campNames = h => h.campaigns.map(c => CAMPAIGNS[c]);
 
-  // the tick: recruited by the character picked (a pre-Searing one can recruit only Devona and the Ghost of Althea)
+  // the tick: recruited by the character picked (a pre-Searing one can recruit only Devona: PRE_HEROES, common.js)
   const recruitTick = h => (!User.broken() && canRecruit(User.char()).some(x => x.id === h.id) ? `<div class="hp-tick">${heroTick(h.id, undefined, "Recruited")}</div>` : "");
   function html(h) {
     const alts = (h.alternative_to || []).map(i => HEROES[i]).filter(Boolean);

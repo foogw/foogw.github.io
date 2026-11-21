@@ -149,7 +149,7 @@
       const from = camp === madeIn(c) || camp === 4 ? 0 : ENTRY[camp], undone = (STORY[camp] || []).filter(x => !nm(c, x.id));
       const nmNext = groups(undone.filter(x => x.order >= from), 1)[0] || groups(undone.filter(x => x.order < from), 1)[0] || null;
       // (hard mode: the one left whose Zaishen day comes first, whatever its normal-mode tick)
-      const hmNext = ready && hmOpen(c, camp) ? (STORY[camp] || []).filter(x => !hm(c, x.id) && zOf(x.id) !== null).sort((a, b) => zOf(a.id) - zOf(b.id))[0] || null : null;
+      const hmNext = ready && hmOpen(c, camp) ? (STORY[camp] || []).map(x => [x, zOf(x.id)]).filter(([x, d]) => !hm(c, x.id) && d !== null).sort((a, b) => a[1] - b[1])[0]?.[0] || null : null;
       // (a campaign done in both modes keeps its column, saying so)
       const done = !nmNext && !(STORY[camp] || []).some(x => !hm(c, x.id));
       parts.push(`<div class="gw-path-col"><h3>${esc(CAMPAIGNS[camp])}${done ? ' <span class="dim">done</span>' : ""}</h3>${done ? `<p class="dim">Every mission done in both modes.</p>` : `<ul class="gw-list">${nmNext ? groupLines(c, [nmNext]) : ""}${hmNext ? missionLine(c, hmNext, true) : ""}</ul>`}</div>`);
@@ -165,7 +165,7 @@
   // stage 4: the next three Zaishen days; stage 5 (every mission done): all left in the three campaigns, a column each,
   // the Zaishen days first in their order, then the areas with no Zaishen day; each with its tick (the Eye of the North's
   // areas count for no Vanquisher title: they come with its reputations, stage 8)
-  const vanqLeft = (c, camps = [1, 2, 3]) => { const vq = new Set(c.vanquished || []); return Object.entries(AREAS).filter(([id, a]) => a.foes && !vq.has(+id) && camps.includes(campaignOf(a))).map(([id]) => +id); };
+  const vanqLeft = (c, camps = [1, 2, 3]) => { const vq = new Set(c.vanquished || []); return camps.flatMap(vanquishIn).filter(id => !vq.has(id)); };  // (vanquishIn: mytitles.js)
   const vanqRow = (c, id, when) => `<li class="gw-bare"><b>${LINK.area(id)}</b>${vanqTick(id, false)}${when}<div class="gw-with">${elitesHTML(c, id, null)}</div></li>`;
   // the areas left, the Zaishen days first in their order: [id, when]
   const vanqOrder = (c, ids) => { const r = ROTATIONS["zaishen-vanquish"], left = new Set(ids);
@@ -173,7 +173,8 @@
     return [...zs.map(x => [x.e.area, zWhen(x.d)]), ...ids.filter(id => !seen.has(id)).sort((a, b) => cmpStr(AREAS[a].name, AREAS[b].name)).map(id => [id, `<span class="dim gw-z">no Zaishen day</span>`])]; };
   function vanqHTML(c) {
     const vq = new Set(c.vanquished || []), r = ROTATIONS["zaishen-vanquish"];
-    const zs = zNext(r, e => e.area && AREAS[e.area]?.foes && !vq.has(e.area) && hmOpen(c, campaignOf(AREAS[e.area])));
+    // (the three campaigns' areas: the Eye of the North's count for no Vanquisher title)
+    const zs = zNext(r, e => e.area && AREAS[e.area]?.foes && !vq.has(e.area) && [1, 2, 3].includes(campaignOf(AREAS[e.area])));
     return zs.length ? `<section><h2>Next vanquishes</h2><p class="dim">The next three Zaishen days; map as you go.</p><ul class="gw-list">${zs.map(x => vanqRow(c, x.e.area, zWhen(x.d))).join("")}</ul></section>` : "";
   }
   function vanqAllHTML(c) {
@@ -184,8 +185,8 @@
 
   /* ---------- stages 6 to 8: what the missions and vanquishes leave ---------- */
   const rankOf = (id, c, o) => titleRankOf(TITLES[id], c, o), maxOf = id => titleMax(TITLES[id]);
-  // (a title with a page of its own is linked to it; the others to the Titles tab, where their rank is set)
-  const titleHref = id => (TITLES[id].ranks ? HREF.title(id) : "characters?tab=titles");
+  // (every title here links to the Titles tab, where its rank is set: the title pages say nothing to do)
+  const titleHref = () => "characters?tab=titles";
   const titleLine = (id, c, o, note = "") => { const r = rankOf(id, c, o), m = maxOf(id);
     return `<li class="gw-bare${r >= m ? " done" : ""}"><b><a href="${titleHref(id)}">${esc(TITLES[id].name)}</a></b> <span class="dim">rank ${r} of ${m}${note ? ` · ${note}` : ""}</span></li>`; };
   const titlesLeft = (ids, c, o) => ids.filter(id => rankOf(id, c, o) < maxOf(id));
@@ -205,7 +206,7 @@
       <ul class="gw-list">${easy.map(line).join("")}</ul>
       <ul class="gw-list">${titlesLeft([24, 26, 28, 32], c, o).map(id => titleLine(id, c, o)).join("")}</ul></section>`;
   }
-  // stage 8: Master of the North alone: the dungeons in hard mode, each on its Zaishen Bounty day
+  // stage 8: Master of the North alone, while dungeons are left: each in hard mode, on its Zaishen Bounty day
   // stage 9, topping up: the four reputations (the Eye of the North's vanquishes, for what they bring) and whatever other
   // character title isn't at its top (Sunspear, Lightbringer, Survivor, the consumables)
   // (Survivor: a stretch of 1,337,500 experience without a death, any time; the greatest stretch counts, so a death
@@ -220,14 +221,16 @@
       <ul class="gw-list">${titleLine(42, c, o)}</ul></section>`;
   }
   function restHTML(c, o) {
-    const vqs = vanqLeft(c, [4]), ids = [...titlesLeft(NORTH, c, o), ...titlesLeft(REST, c, o)];
+    // (Master of the North here too when its dungeons are done and the map keeps it short: the map's share is typed on
+    // the Titles tab)
+    const vqs = vanqLeft(c, [4]), ids = [...titlesLeft([42, ...NORTH], c, o), ...titlesLeft(REST, c, o)];
     return `<section><h2>Topping up</h2><p class="dim">What the route left short: reputation past what its missions and vanquishes gave, a death-free stretch, the consumables.</p>
       ${vqs.length ? `<h3>The Eye of the North's vanquishes <span class="dim">${vqs.length}</span></h3><ul class="gw-list">${vanqOrder(c, vqs).map(([id, when]) => vanqRow(c, id, when)).join("")}</ul>` : ""}
       <ul class="gw-list">${ids.map(id => titleLine(id, c, o, id === 9 ? `1,337,500 experience without a death; <a href="guides?gom">the Gate of Madness AFK farm</a> is a safe one` : "")).join("")}</ul></section>`;
   }
   const stageLeft = { missions: c => Object.values(STORY).flat().some(x => !nm(c, x.id) || !hm(c, x.id)), vanq: c => vanqLeft(c).length > 0,
     carto: (c, o) => titlesLeft(CARTO, c, o).length > 0, hunt: c => c.elites.length < capturableElites().length,
-    north: (c, o) => titlesLeft([42], c, o).length > 0, rest: (c, o) => titlesLeft([...NORTH, ...REST], c, o).length > 0 || vanqLeft(c, [4]).length > 0 };
+    north: c => USER_ALL_V3.dungeons.some(id => !((c.dungeons[id] || 0) & 2)), rest: (c, o) => titlesLeft([42, ...NORTH, ...REST], c, o).length > 0 || vanqLeft(c, [4]).length > 0 };
 
   /* ---------- the page ---------- */
   const stat = (k, v, done, href, sub = "") => `<${href ? `a href="${href}"` : "span"} class="lstat${done ? " done" : ""}"><small>${k}</small><b>${v}</b>${sub ? `<small class="lstat-sub">${esc(sub)}</small>` : ""}</${href ? "a" : "span"}>`;
