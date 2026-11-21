@@ -6207,7 +6207,7 @@ const GW_GROUND = {
       "name": "Forsaken Tunnels",
       "type": 18,
       "region": 18,
-      "campaign": 1,
+      "campaign": 0,
       "party": 4,
       "set": 100,
       "exits": [
@@ -6467,9 +6467,9 @@ const GW_GROUND = {
       "exits": [{"to": 102}],
       "wiki": {"en": "Tunnels of the Forsaken"}
     },
-    "880": {"name": "Tunnels of the Forsaken: Level 2", "type": 18, "region": 2, "campaign": 0, "party": 4},
-    "881": {"name": "Tunnels of the Forsaken: Level 3", "type": 18, "region": 2, "campaign": 0, "party": 4},
-    "882": {"name": "Tunnels of the Forsaken: Level 4", "type": 18, "region": 2, "campaign": 0, "party": 4},
+    "880": {"name": "Tunnels of the Forsaken: Level 2", "type": 18, "region": 2, "campaign": 1, "party": 4},
+    "881": {"name": "Tunnels of the Forsaken: Level 3", "type": 18, "region": 2, "campaign": 1, "party": 4},
+    "882": {"name": "Tunnels of the Forsaken: Level 4", "type": 18, "region": 2, "campaign": 1, "party": 4},
     "883": {"name": "Unnamed area 883", "type": 13, "region": 27, "campaign": 6, "party": 4},
     "884": {"name": "Unnamed area 884", "type": 18, "region": 27, "campaign": 6, "party": 4},
     "885": {"name": "Unnamed area 885", "type": 18, "region": 27, "campaign": 6, "party": 4},
