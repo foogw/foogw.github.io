@@ -295,8 +295,9 @@ const userNamed = () => { if (User.broken()) return false; const c = User.char()
 // nor the Piken Square ones)
 const isTickedDungeon = id => USER_ALL_V3.dungeons.includes(+id);
 // a mission or dungeon ("missions" or "dungeons") the picked character hasn't completed: † in normal mode, ‡ in hard mode
-/* A thing a wannabe GWAMM still needs (a mission or dungeon not done in NM or HM, an area not vanquished, a boss's elite
-   not captured, a bonus week's titles not maxed): its link styled so (class todo), with who needs it and what on hover.
+/* A thing a wannabe GWAMM still needs (a mission or dungeon not done in NM or HM, an area not vanquished, a bonus
+   week's titles not maxed; not an elite: those are captured on the way): its link styled so (class todo), with who
+   needs it and what on hover.
    Nothing when no character is marked a wannabe. need(kind, id) gives the hover text, or "". */
 function need(kind, id) {
   const cs = wannabes(); if (!cs?.length) return [];
@@ -381,15 +382,15 @@ const NEEDS = {
   check: (c, id) => { const i = typeof CHECKLIST !== "undefined" && CHECKLIST.find(x => x.id === id); return !i || checkDone(c, i) ? "" : " "; },
 };
 // a Zaishen daily's characters still needing it, of cs, [character, note] each: a mission (NM, HM), an area to vanquish,
-// a bounty's dungeon (NM, HM) and its boss's elite; null when the daily isn't one tracked
+// a bounty's dungeon (NM, HM) or elite area to clear (its boss's elite isn't a need: elites are captured on the way);
+// null when the daily isn't one tracked
 function dailyNeeds(key, e, cs) {
-  const els = key === "zaishen-bounty" && e.creature ? (CREATURES[e.creature]?.elites || []).filter(id => SKILLS[id]?.elite) : [];
   const dgn = key === "zaishen-bounty" && e.area && isTickedDungeon(e.area);
   // (a bounty in an elite area: the area to clear, the Checklist's item)
   const chk = key === "zaishen-bounty" && e.area && typeof CHECK_AREAS !== "undefined" ? CHECK_AREAS[e.area] : null;
   const f = key === "zaishen-mission" ? hasModes(MISSIONS[e.mission]) && (c => NEEDS.mission(c, e.mission))
     : key === "zaishen-vanquish" ? AREAS[e.area]?.foes && (c => NEEDS.vanquish(c, e.area))
-    : key === "zaishen-bounty" && (dgn || chk || els.length) ? c => [dgn && NEEDS.dungeon(c, e.area), chk && NEEDS.check(c, chk) && "clear", els.some(id => NEEDS.elite(c, id)) && "elite"].filter(Boolean).join(", ") : null;
+    : key === "zaishen-bounty" && (dgn || chk) ? c => [dgn && NEEDS.dungeon(c, e.area), chk && NEEDS.check(c, chk) && "clear"].filter(Boolean).join(", ") : null;
   return f ? cs.map(c => [c, f(c)]).filter(([, x]) => x).map(([c, x]) => [c, x.trim()]) : null;
 }
 // the wannabe GWAMMs (not pre-Searing, nor hidden), in the order kept: null with no progress kept
@@ -547,11 +548,11 @@ function entryHTML(e) {
   if (e.mission) return hasModes(MISSIONS[e.mission]) ? quickLink(LINK.mission(e.mission), "mission", e.mission) : LINK.mission(e.mission);
   if (e.area && !e.creature && !e.item) return AREAS[e.area]?.foes ? quickLink(LINK.area(e.area), "vanquish", e.area) : LINK.area(e.area);
   if (e.bonus) return todoLink(`<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`, "bonus", e.bonus);
-  // a bounty's boss: a link to its page, a thing to do while a wannabe lacks its elite, its dungeon or (an elite area)
-  // the Checklist's clear
-  if (e.creature && bossTable().has(+e.creature)) { const els = (CREATURES[e.creature]?.elites || []).filter(x => SKILLS[x]?.elite), dgn = e.area && isTickedDungeon(e.area);
+  // a bounty's boss: a link to its page, a thing to do while a wannabe lacks its dungeon or (an elite area) the
+  // Checklist's clear (not its elite: those are captured on the way)
+  if (e.creature && bossTable().has(+e.creature)) { const dgn = e.area && isTickedDungeon(e.area);
     const chk = e.area && typeof CHECK_AREAS !== "undefined" ? CHECK_AREAS[e.area] : null;
-    const by = new Map(); for (const [c, x] of [...(dgn ? need("dungeon", e.area) : []), ...(chk ? need("check", chk).map(([c]) => [c, "clear"]) : []), ...els.flatMap(x => need("elite", x).map(([c]) => [c, "elite"]))]) by.set(c, [...(by.get(c) || []), x].filter(Boolean).join(", "));
+    const by = new Map(); for (const [c, x] of [...(dgn ? need("dungeon", e.area) : []), ...(chk ? need("check", chk).map(([c]) => [c, "clear"]) : [])]) by.set(c, [...(by.get(c) || []), x].filter(Boolean).join(", "));
     const rows = [...by].map(([c, x]) => [c, x]);
     return rows.length ? LINK.boss(e.creature, entryName(e)).replace(/^<a /, `<a class="todo" data-todo="${todoRows(rows)}" `) : LINK.boss(e.creature, entryName(e)); }
   if (e.creature && e.area && isTickedDungeon(e.area)) return todoLink(`<a href="${HREF.dungeon(e.area)}" title="${esc(areaName(e.area))}">${esc(entryName(e))}</a>`, "dungeon", e.area);

@@ -238,7 +238,7 @@ VIEWS.boss = (() => {
       <div class="lgrid${b._elites.length ? "" : " solo"}">
         ${b._elites.length ? `<section class="lbox"><h4>Elite to capture</h4>${b._elites.map(s => `<div class="bp-skill">
           ${LINK.skill(s.id).replace("sk-ic sm", "sk-ic")}${eliteTick(s.id, undefined, "Captured")}<span class="dim">${PROFS[s.profession]} · ${esc(ATTRIBUTES[s.attribute] || "")}</span>
-          <p class="bp-desc">${richText(s.concise || s.description)}</p>${wannabeNeeds("elite", s.id)}</div>`).join("")}</section>` : ""}
+          <p class="bp-desc">${richText(s.concise || s.description)}</p></div>`).join("")}</section>` : ""}
         <section class="lbox"><h4>Where</h4><ul class="lrows">${b._where.map(i => { const n = (BOSS_SPOTS[b.id] || []).filter(s => s[0] === i).length;
           // (the version of the area a quest makes, "War in Kryta": named here too, as on its map)
           const vs = [...new Set((BOSS_SPOTS[b.id] || []).filter(s => s[0] === i && s[3]).map(s => s[3]))];
