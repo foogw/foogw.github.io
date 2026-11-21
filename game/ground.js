@@ -6207,7 +6207,7 @@ const GW_GROUND = {
       "name": "Forsaken Tunnels",
       "type": 18,
       "region": 18,
-      "campaign": 0,
+      "campaign": 1,
       "party": 4,
       "set": 100,
       "exits": [
@@ -6460,7 +6460,7 @@ const GW_GROUND = {
       "name": "Tunnels of the Forsaken",
       "type": 18,
       "region": 2,
-      "campaign": 0,
+      "campaign": 1,
       "party": 4,
       "set": 0,
       "at": [6850, 4370],

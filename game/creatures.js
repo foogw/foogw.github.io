@@ -2660,6 +2660,7 @@ const GW_CREATURES = {
     "538": {"name": "Vael", "area": 651, "roles": ["quests"]},
     "539": {"name": "Town Crier", "area": 148, "roles": ["quests"]},
     "540": {"name": "Ghost of Althea", "area": 102, "roles": ["quests"]},
+    "844": {"name": "Ghost of Althea", "area": 879, "roles": ["quests"]},
     "541": {"name": "Elementalist Aziure", "area": 33, "roles": ["quests"]},
     "542": {"name": "Howland the Elementalist", "area": 146, "roles": ["quests"]},
     "543": {"name": "Royal Food Taster Rendu", "area": 414, "roles": ["quests"]},

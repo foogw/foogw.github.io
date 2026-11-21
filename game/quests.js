@@ -17262,7 +17262,7 @@ const GW_QUESTS = {
     "101148": {
       "name": "Elegy for Those Left Behind",
       "type": "secondary",
-      "givers": [540, 346],
+      "givers": [540],
       "xp": 500,
       "gold": 100,
       "requires": [101110],
@@ -18790,7 +18790,7 @@ const GW_QUESTS = {
       "name": "The Dreamer and the Zealot",
       "dungeon": 879,
       "type": "secondary",
-      "givers": [346],
+      "givers": [844],
       "xp": 500,
       "gold": 100,
       "requires": [101256],
