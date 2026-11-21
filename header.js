@@ -57,7 +57,9 @@
   const PROF_PIC = ["Any", "Warrior", "Ranger", "Monk", "Necromancer", "Mesmer", "Elementalist", "Assassin", "Ritualist", "Paragon", "Dervish"];
   const readChars = () => {
     try {
-      const o = JSON.parse(localStorage.getItem("gw-user")), id = +localStorage.getItem("gw-user-char");
+      // (nothing saved: the starter examples, once common.js is here to make them; this script runs first, and is called
+      // again by common.js)
+      const o = JSON.parse(localStorage.getItem("gw-user")) ?? globalThis.starterProgress?.() ?? null, id = +localStorage.getItem("gw-user-char");
       // (version 3 keeps the characters under their accounts, version 2 in one list)
       const chars = o?.chars ?? o?.accounts?.flatMap(a => a.chars || []) ?? [];
       // (in the menu by default, while no one is marked: the first three shown; as common.js's menuDefault)

@@ -465,7 +465,7 @@ function cardHTML(o, c) {
       <img class="ch-prof" src="${profImg(c.profession || 0)}" alt="${c.profession ? PROFS[c.profession] : "No profession"}">
       <div class="ch-who"><h2>${esc(c.name)}</h2><div class="dim">${[bigDeal(c, o), lit(c)].filter(Boolean).join(" · ")}</div></div>
     </section>
-    ${c.example ? `<p class="ch-hint ch-example">An example character, made up to show the site with. Hold a button: <button type="button" class="u-btn u-hold" id="ex-keep" data-hold="1000" title="Hold a second: it's yours from now on">Keep it as mine</button><button type="button" class="u-btn u-hold danger" id="ex-delete" data-hold="2000" title="Hold 2 seconds: it goes, with its progress">Delete it</button></p>` : unnamed(c) ? `<p class="ch-hint">Give this character its name and profession: <button type="button" class="link" data-tab="edit">Edit</button>.</p>` : ""}
+    ${c.example ? `<p class="ch-hint ch-example">An example character, made up to show the site with. Hold a button: <button type="button" class="u-btn u-hold" id="ex-keep" data-hold="1000" title="Hold a second: it's yours from now on">Keep it as mine</button><button type="button" class="u-btn u-hold danger" id="ex-delete" data-hold="2000" title="Hold 2 seconds: it goes, with its progress">Delete it</button>${o.chars.filter(x => x.example).length > 1 ? `<button type="button" class="u-btn u-hold danger" id="ex-delete-all" data-hold="3000" title="Hold 3 seconds: every example character goes">Delete all ${o.chars.filter(x => x.example).length} examples</button>` : ""}</p>` : unnamed(c) ? `<p class="ch-hint">Give this character its name and profession: <button type="button" class="link" data-tab="edit" data-focus-name>Edit</button>.</p>` : ""}
 `;
 }
 // its progress by subject, each count a link to what's left (under the titles' heading, titles.js)
@@ -592,6 +592,7 @@ function render() {
     // (an example character's card: kept as the player's own, or deleted, each on a hold)
     if ($("ex-keep")) holdToAct($("ex-keep"), () => { if (User.broken()) return askBroken(); editChar(c => { delete c.example; }); });
     if ($("ex-delete")) holdToAct($("ex-delete"), () => { if (User.broken()) return askBroken(); removeChar(User.char().id); });
+    if ($("ex-delete-all")) holdToAct($("ex-delete-all"), () => { if (User.broken()) return askBroken(); removeExamples(); });
     drawTabs(o, cur);
   }
 }
@@ -600,7 +601,10 @@ const setView = v => { view = v; history.replaceState(null, "", v === "chars" ? 
 // picking a character (its name at the left, or the menu), a tab, an account folded
 document.addEventListener("click", e => {
   const tb = e.target.closest("[data-tab]");
-  if (tb) { tab = tb.dataset.tab; try { localStorage.setItem(TAB, tab); } catch { /* storage blocked */ } return drawTabs(); }
+  if (tb) { tab = tb.dataset.tab; try { localStorage.setItem(TAB, tab); } catch { /* storage blocked */ } drawTabs();
+    // (the card's hint: the Edit tab open, and the name box focused and selected, already there or not)
+    if (tb.dataset.focusName != null) { const i = $("ch-edit").querySelector("tr[data-id] input[type=text]"); i?.focus(); i?.select(); }
+    return; }
   const p = e.target.closest("[data-pick]");
   if (p) { User.pick(+p.dataset.pick); return render(); }
   // (Edit's table: the character opened on the Characters tab)
@@ -739,7 +743,10 @@ function removeChar(id, hidden = false) {
   const o = User.data(), c = o.chars.find(x => x.id === id);
   if (!c || (hidden && !c.hidden) || (o.chars.length < 2 && !c.example)) return render();
   if (o.chars.length < 2) {
-    if (!acctKept(o)) { User.reset(); return render(); }  // (nothing of yours left: the starter examples again)
+    // (the starter's last example, never saved: a blank account and character saved; nothing of yours left: a reset,
+    // which shows the starter again)
+    if (User.stored() == null) { o.accounts = [{ id: 1 }]; o.chars = [newUserChar(1, 1)]; User.save(o); User.pick(1); return render(); }
+    if (!acctKept(o)) { User.reset(); return render(); }
     o.chars = [newUserChar(c.id + 1, c.account)];
     User.save(o); User.pick(o.chars[0].id); return render();
   }
@@ -748,6 +755,18 @@ function removeChar(id, hidden = false) {
   User.save(o);
   if (shown) User.pick((o.chars.find(x => !x.hidden) || o.chars[0]).id);
   render();
+}
+// every example character deleted at once (none left: as the last one's deletion, a blank character; the starter,
+// never saved: its accounts go too, one blank account and character saved in their place)
+function removeExamples() {
+  const o = User.data(), kept = o.chars.filter(c => !c.example);
+  if (!kept.length) {
+    if (User.stored() == null) { o.accounts = [{ id: 1 }]; kept.push(newUserChar(1, 1)); }
+    else if (!acctKept(o)) { User.reset(); return render(); }
+    else kept.push(newUserChar(Math.max(...o.chars.map(c => c.id)) + 1, o.accounts[0].id));
+  }
+  o.chars = kept;
+  User.save(o); User.pick((kept.find(c => !c.hidden) || kept[0]).id); render();
 }
 // a new character, on the account it's added to (or the shown one's), with the name given, or named by its id (Char2)
 // to be renamed in its row

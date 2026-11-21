@@ -2,7 +2,8 @@
 /* An example of saved progress, to try the site with (the Dev page applies it): three accounts and ten characters, one
    of every kind the site shows: a finished wannabe GWAMM, one halfway, pre-Searing permanents (Melandru's Accord too), a
    Dhuum's Covenant one, a retired one hidden from the list, a plain player, a character just made with nothing filled in,
-   and an account of alts made up at random, as the About tab's example character is; account titles and the bell, with
+   and an account of alts made up at random, as the About tab's example character is; four in the top bar's menu, the
+   wannabes among them far apart in progress; account titles and the bell, with
    coins waiting, taken lately, or no bell; notes, builds and readings. Every character is flagged example, so its card says so.
    Everything dated is made for now, exampleProgress(now): the ages are ranges as /age readings leave them (a first reading
    long ago, then the ones given, by how many days ago), some found so the Birthdays page has a window closing, one just
@@ -63,12 +64,13 @@ function exampleProgress(now = Date.now()) {
     { id: 4, name: "Old Grumble", account: 1, profession: 1, gender: "m", campaign: 2, aim: "retired", hidden: true, elites: first(all.elites, 40), vanquished: first(all.vanquished, 12),
       missionsNM: fa, missionsHM: [], dungeonsNM: [], dungeonsHM: [], heroes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], titles: { 14: 1, 2: 3, 9: 1 }, checks: ["factions"],
       bornBetween: closing, xp: [2100000, at], played: [600, at], playedOutside: [50, at] },
-    // the Dhuum's Covenant one, just begun; young, one day-reading: a day-wide range
-    { id: 5, name: "Dhuum Walker", account: 1, profession: 8, campaign: 2, modes: ["dhuum"], elites: first(all.elites, 6), vanquished: [], missionsNM: first(fa, 3), missionsHM: [], dungeonsNM: [], dungeonsHM: [],
+    // the Dhuum's Covenant one, just begun, a wannabe too; young, one day-reading: a day-wide range
+    { id: 5, name: "Dhuum Walker", account: 1, profession: 8, campaign: 2, modes: ["dhuum"], aim: "gwamm", inMenu: true, elites: first(all.elites, 6), vanquished: [], missionsNM: first(fa, 3), missionsHM: [], dungeonsNM: [], dungeonsHM: [],
       heroes: [], titles: { 9: 3 }, note: "No deaths yet", bornBetween: range(12.3, [3.4]), played: [38, at] },
-    // the second account: a plain player (a window of hours just opened), and a character just made, nothing filled in
-    // (the list ends here; the third account's alts are made up below)
-    { id: 6, name: "Brother Quill", account: 2, profession: 3, gender: "m", campaign: 1, inMenu: true, elites: first(all.elites, 90), vanquished: first(all.vanquished, 30), missionsNM: [...pro, ...first(eotn, 8)], missionsHM: first(pro, 6),
+    // the second account: a wannabe with Tyria done and little else (a window of hours just opened), and a character
+    // just made, nothing filled in (the list ends here; the third account's alts are made up below)
+    // (the wannabes in the menu differ in what they've done, so the Zaishen notices change with the one picked)
+    { id: 6, name: "Brother Quill", account: 2, profession: 3, gender: "m", campaign: 1, aim: "gwamm", inMenu: true, elites: first(all.elites, 90), vanquished: first(all.vanquished, 30), missionsNM: [...pro, ...first(eotn, 8)], missionsHM: first(pro, 6),
       dungeonsNM: first(all.dungeons, 14), dungeonsHM: first(all.dungeons, 3), heroes: [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 36, 37], titles: { 1: 5, 13: 1, 35: 1, 38: 8, 39: 7, 40: 8, 41: 9, 42: 3, 20: 2, 17: 3 },
       checks: ["prophecies", "eotn", "attr", "ports"], builds: ["OwUT0Y4+GRj2oM6uvpayEEAA"], bornBetween: rising, xp: [15300000, at], played: [2300, at], playedOutside: [900, at] },
     { id: 7, name: "Char7", account: 2, elites: [], vanquished: [], missionsNM: [], missionsHM: [], dungeonsNM: [], dungeonsHM: [] },

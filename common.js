@@ -424,7 +424,7 @@ const QUICK = {
 };
 const quickNote = (kind, id) => QUICK[kind][id]?.() || "";
 // a to-do link with the note: marked whether or not a wannabe needs it
-const quickLink = (html, kind, id) => { const q = quickNote(kind, id); return q ? todoLink(html, kind, id).replace(/^<a (class="todo" )?/, `<a class="todo" data-note="${esc(q)}" `) : todoLink(html, kind, id); };
+const quickLink = (html, kind, id) => { const q = quickNote(kind, id), t = todoLink(html, kind, id); return q ? t.replace(/^<a (class="[^"]*" )?/, (m, c) => `<a class="${c ? c.slice(7, -2) : "todo"}" data-note="${esc(q)}" `) : t; };
 // a weekly bonus's pills: the characters of cs, then the accounts, whose titles it helps, each with those titles
 function bonusPills(bonus, o, cs) {
   const left = x => x[0].replace(/^.* hasn't maxed the /, "").replace(/ titles?$/, "");
@@ -1100,7 +1100,8 @@ function userCheck(o) {
 const userRaw = () => { try { return `${localStorage.getItem(USER_KEY)}|${localStorage.getItem(USER_CHAR_KEY)}`; } catch { return ""; } };
 /* The starter: what a newcomer sees before anything is saved, so the feature shows itself: two accounts, four example
    characters (flagged example, so their cards say so and offer to keep or delete them), with progress of every kind, made
-   for now (the ages as /age readings leave them, the coins). In the backup's shape (v3). */
+   for now (the ages as /age readings leave them, the coins); three in the top bar's menu, wannabes far apart in progress,
+   so the marks on the pages change with the one picked. In the backup's shape (v3). */
 function starterProgress(now = Date.now()) {
   const D = 864e5, iso = t => new Date(t).toISOString().slice(0, 19) + "Z", all = USER_ALL_V3, first = (xs, n) => xs.slice(0, n);
   const says = (T, t) => { const a = t - T; return a < AGE_TWO ? [Math.floor(a / AGE_DAY), "d"] : [Math.floor(a / AGE_MO), "m"]; };
@@ -1113,12 +1114,12 @@ function starterProgress(now = Date.now()) {
         missionsNM: [...pro, ...fa], missionsHM: first(pro, 12), dungeonsNM: first(all.dungeons, 8), dungeonsHM: first(all.dungeons, 2), heroes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
         titles: { 1: 6, 2: 4, 7: 2, 9: 3, 17: 10, 20: 8, 38: 7, 39: 6, 40: 8, 41: 7, 13: 1, 14: 1, 25: 1, 35: 1 }, checks: ["attr", "ports", "prophecies", "factions", "wik"],
         builds: ["OAhjUwG6IPnB6CHpuUxk9UFoGA"], note: "An example: a wannabe GWAMM halfway there", bornBetween: range(3 * 365 + 40, [900, 400, 31]), xp: [12400000, at], played: [2100, at], playedOutside: [800, at] },
-      { id: 2, name: "My example Warrior", profession: 1, gender: "m", campaign: 2, inMenu: true, example: true, elites: first(all.elites, 30), vanquished: [], missionsNM: fa, missionsHM: [], dungeonsNM: [], dungeonsHM: [],
+      { id: 2, name: "My example Warrior", profession: 1, gender: "m", campaign: 2, aim: "gwamm", inMenu: true, example: true, elites: first(all.elites, 30), vanquished: [], missionsNM: fa, missionsHM: [], dungeonsNM: [], dungeonsHM: [],
         heroes: [13, 14, 15, 16], titles: { 14: 1, 2: 3, 9: 1 }, checks: ["factions"], note: "An example: Cantha done, nothing else yet", bornBetween: range(400, [200, 3.4]), played: [310, at], playedOutside: [20, at] },
       { id: 3, name: "My example Perma", profession: 5, gender: "f", modes: ["presearing"], example: true, elites: [], vanquished: [], missionsNM: [], missionsHM: [], dungeonsNM: [], dungeonsHM: [], heroes: [38],
         titles: { 21: 1, 34: 1 }, checks: ["outposts", "pouch", "charrbags"], note: "An example: stays in pre-Searing Ascalon", bornBetween: range(70.2, [40.3, 2.7]), played: [95, at], playedOutside: [95, at] } ] },
     { id: 2, name: "My other account", chars: [
-      { id: 4, name: "My example Ranger", profession: 2, campaign: 3, inMenu: true, example: true, elites: first(all.elites, 8), vanquished: [], missionsNM: first(nf, 5), missionsHM: [], dungeonsNM: [], dungeonsHM: [], heroes: [1, 2, 3, 6],
+      { id: 4, name: "My example Ranger", profession: 2, campaign: 3, aim: "gwamm", inMenu: true, example: true, elites: first(all.elites, 8), vanquished: [], missionsNM: first(nf, 5), missionsHM: [], dungeonsNM: [], dungeonsHM: [], heroes: [1, 2, 3, 6],
         titles: { 17: 4, 9: 3 }, note: "An example: just started in Elona", bornBetween: range(25.4, [20.2, 1.8]), xp: [320000, at], played: [60, at], playedOutside: [2, at] } ] } ] };
 }
 /* A button held for a moment to act (its data-hold: the milliseconds), so nothing goes by a stray click: the fill creeps
@@ -1221,6 +1222,8 @@ addEventListener("storage", e => { if (e.key === USER_KEY || e.key === USER_CHAR
 addEventListener("focus", userSync);
 addEventListener("pageshow", userSync);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) userSync(); });
+// (the top bar drew its character menu before this script: again now, so the starter examples show there too)
+globalThis.headerChar?.();
 // an elite there is to capture: not a PvP version, nor the Eye of the North's blessings (Ursan, Volfen, Raven: title
 // skills, taken from no boss, counted by no Skill Hunter title). The 300 the elite pages, the captures and the counts go by
 const isCapturable = s => !!s && !!s.elite && !s.pvp_only && s.campaign !== 4;

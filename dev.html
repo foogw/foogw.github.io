@@ -13,6 +13,8 @@
   .dev h2 { font-size: 16px; margin: 32px 0 6px; }
   .dev-test { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0; }
   .dev-said { margin: 8px 0; min-height: 1.4em; }
+  .dev-lbl { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  .dev-lbl-danger { color: var(--sac); }
 </style>
 </head>
 <body>
@@ -80,27 +82,20 @@
       try { localStorage.removeItem(USER_CHAR_KEY); } catch { /* storage blocked */ }
       said(`Done: the example is your progress now, ${ex.accounts.length} accounts, ${ex.accounts.reduce((n, a) => n + a.chars.length, 0)} characters, its dates set for today.`);
     });
-    hold($("dev-bd"), () => {
-      if (User.broken()) return said("The saved progress can't be read: see Backup.");
-      const o = User.data(), n = o.chars.filter(c => c.bornBetween).length;
-      if (!n) return said("No character has a range to forget.");
-      for (const c of o.chars) delete c.bornBetween;
-      User.save(o); said(`Done: ${n} range${n === 1 ? "" : "s"} forgotten.`);
-    });
     hold($("dev-clear"), () => {
       // (everything of the site's in this browser: the progress, the picked character, settings, marks, the lot; the
       // stash stays, being this page's own)
       let n = 0;
       try { const stash = localStorage.getItem(STASH); n = localStorage.length - (stash ? 1 : 0); localStorage.clear(); if (stash) localStorage.setItem(STASH, stash); } catch { /* storage blocked */ }
       said(`Done: ${n} item${n === 1 ? "" : "s"} cleared. The site starts afresh.`);
-      dispatchEvent(new Event("userchange"));
+      dispatchEvent(new Event("userchange")); globalThis.headerChar?.();
       showStash();
     });
     // the stash: the progress as kept, with the picked character, and when; one only
     const STASH = "gw-dev-stash";
     const fmt = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
     const stashed = () => { try { return JSON.parse(localStorage.getItem(STASH)); } catch { return null; } };
-    const showStash = () => { const st = stashed(); $("dev-stash-apply").disabled = !st;
+    const showStash = () => { const st = stashed(); $("dev-stash-apply").hidden = !st; $("dev-stash-lbl").classList.toggle("dev-lbl-danger", !!st);
       $("dev-stash-said").textContent = st ? `Stashed ${fmt.format(st.at)}: ${st.accounts} account${st.accounts === 1 ? "" : "s"}, ${st.chars} character${st.chars === 1 ? "" : "s"}` : "Nothing stashed"; };
     hold($("dev-stash"), () => {
       const raw = User.stored();
@@ -112,7 +107,7 @@
     hold($("dev-stash-apply"), () => {
       const st = stashed(); if (!st) return said("Nothing stashed.");
       try { localStorage.setItem(USER_KEY, st.raw); if (st.char) localStorage.setItem(USER_CHAR_KEY, st.char); else localStorage.removeItem(USER_CHAR_KEY); } catch { return said("The browser wouldn't keep it."); }
-      dispatchEvent(new Event("userchange"));
+      dispatchEvent(new Event("userchange")); globalThis.headerChar?.();
       said(`Done: the stash of ${fmt.format(st.at)} is your progress now.`);
     });
     showStash();
