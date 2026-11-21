@@ -697,17 +697,20 @@ const readOnly = () => { try { return localStorage.getItem(READ_ONLY_KEY) === "1
 /* The site's question (in place of the browser's confirm and alert): a title, its details (text, its lines kept; or
    html), Cancel and the action's own button (danger: in red), the one focused at first doing it on Enter; Escape is
    Cancel, a click outside does nothing. A promise of true (the action) or false; one at a time (another asked meanwhile:
-   false). With no cancel, it's a notice: its one button, and a click outside closes it too (false). */
+   false). With no cancel, it's a notice: its one button, and a click outside closes it too (false). With input
+   ({placeholder, maxlength, value}), a text box, focused, Enter doing the action: a promise of what was typed, trimmed
+   (or null for Cancel). */
 let asking = null;
-function ask({ title, body = "", html = "", ok = "OK", cancel = "Cancel", danger = false, focus = "ok", tone = "" }) {
-  if (asking) return Promise.resolve(false);
+function ask({ title, body = "", html = "", ok = "OK", cancel = "Cancel", danger = false, focus = "ok", tone = "", input = null }) {
+  if (asking) return Promise.resolve(input ? null : false);
   const back = document.activeElement, d = document.createElement("dialog");
   d.className = `ask${tone ? ` ${tone}` : ""}`;
   d.setAttribute("aria-labelledby", "ask-t");
-  d.innerHTML = `<b id="ask-t">${esc(title)}</b>${body ? `<p class="ask-body">${esc(body)}</p>` : ""}${html}<div class="ask-btns">${cancel ? `<button type="button" class="u-btn" data-ask="0">${esc(cancel)}</button>` : ""}<button type="button" class="u-btn${danger ? " ask-danger" : ""}" data-ask="1">${esc(ok)}</button></div>`;
+  const box = input ? `<input type="text" class="ask-input" maxlength="${input.maxlength || 40}" placeholder="${esc(input.placeholder || "")}" value="${esc(input.value || "")}" aria-label="${esc(input.placeholder || title)}">` : "";
+  d.innerHTML = `<b id="ask-t">${esc(title)}</b>${body ? `<p class="ask-body">${esc(body)}</p>` : ""}${html}${box}<div class="ask-btns">${cancel ? `<button type="button" class="u-btn" data-ask="0">${esc(cancel)}</button>` : ""}<button type="button" class="u-btn${danger ? " ask-danger" : ""}" data-ask="1">${esc(ok)}</button></div>`;
   document.body.append(d);
   return asking = new Promise(res => {
-    const done = v => { d.close(); d.remove(); asking = null; back?.focus?.(); res(v); };
+    const done = v => { const typed = input ? d.querySelector(".ask-input").value.trim() : null; d.close(); d.remove(); asking = null; back?.focus?.(); res(input ? (v ? typed : null) : v); };
     d.addEventListener("click", e => {
       const b = e.target.closest("[data-ask]"), r = d.getBoundingClientRect();
       if (b) done(b.dataset.ask === "1");
@@ -715,8 +718,9 @@ function ask({ title, body = "", html = "", ok = "OK", cancel = "Cancel", danger
       else if (!cancel && e.target === d && (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom)) done(false);
     });
     d.addEventListener("cancel", e => { e.preventDefault(); done(false); });
+    if (input) d.querySelector(".ask-input").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); done(true); } });
     d.showModal();
-    d.querySelector(focus === "cancel" && cancel ? '[data-ask="0"]' : '[data-ask="1"]').focus();
+    (input ? d.querySelector(".ask-input") : d.querySelector(focus === "cancel" && cancel ? '[data-ask="0"]' : '[data-ask="1"]')).focus();
   });
 }
 // saved progress that can't be read: said, with the way to the Backup page

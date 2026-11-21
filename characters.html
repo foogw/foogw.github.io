@@ -12,19 +12,30 @@
 <div class="wrap">
   <header class="top"></header><script src="header.js"></script>
   <div class="page-title"><h1>My Characters</h1><p>Each of your characters: its progress and titles, what to do next, its heroes and builds</p></div>
-  <!-- My Characters' pages, as tabs under its title: what characters are for (About, where a newcomer lands), the characters one
-       by one, the list to edit, all of them at a glance, their birthdays. About, Characters and Edit are this page's views
-       (characters.js marks the one shown) -->
-  <nav class="pg-tabs"><a href="characters?view=about">About</a><a href="characters">Characters</a><a href="characters?view=edit">Edit</a><a href="characters-overview">Overview</a><a href="characters-birthdays">Birthdays</a></nav>
+  <!-- My Characters' pages, as tabs under its title: what characters are for (About, where a newcomer lands), the accounts,
+       the characters one by one, all of them at a glance, their birthdays. About, Accounts and Characters are this page's
+       views (characters.js marks the one shown) -->
+  <nav class="pg-tabs"><a href="characters?view=about">About</a><a href="characters?view=accounts">Accounts</a><a href="characters">Characters</a><a href="characters-overview">Overview</a><a href="characters-birthdays">Birthdays</a></nav>
   <div class="u-broken" id="u-broken" hidden>
     <b>Your saved progress is broken: the site can't read it.</b> See the <a href="backup">Backup</a> page to keep a copy of it and fix it.
   </div>
-  <!-- About: what characters give, and a mock one to try it with (characters.js draws it) -->
+  <!-- About: what characters give, and an example one to try it with (characters.js draws it) -->
   <section class="ch-about" id="ch-about" hidden></section>
-  <!-- the characters to pick from at the left, the one picked at the right; or, on the Edit tab, the list to change -->
+  <!-- Accounts: each a row to name, give the bell, move and delete (characters.js draws them) -->
+  <section class="ch-accounts" id="ch-accounts" hidden>
+    <h2 class="r-h">Accounts</h2>
+    <p class="dim">Each account holds its characters, its account titles (shared by them, ticked on a character's Titles tab) and its
+      Reforged Coins, counted once it has the bell. Name it here; a new character goes on an account from the + by its name on
+      Characters. An account is deleted once it has no characters. All of it is kept in this browser only: see <a href="backup">Backup</a>.</p>
+    <table class="u-chars">
+      <tbody id="u-accts"></tbody>
+    </table>
+    <div class="u-row u-right"><button type="button" class="u-btn" id="u-new-account">New account</button></div>
+  </section>
+  <!-- the characters to pick from at the left, the one picked at the right -->
   <div class="ch-page" id="ch-view">
     <aside class="ch-side">
-      <div class="ch-side-head"><h2>Characters</h2><a class="link" href="characters?view=edit">Edit</a></div>
+      <div class="ch-side-head"><h2>Characters</h2></div>
       <select class="ch-select" id="ch-select" aria-label="Character"></select>
       <div class="ch-coins-phone" id="ch-coins-phone"></div>
       <div class="ch-groups" id="ch-list"></div>
@@ -32,7 +43,8 @@
     </aside>
     <div class="ch-main">
       <div id="ch-card"></div>
-      <!-- the character's tabs: its titles (titles.js), what's next for it, its heroes, its builds, and its own row to change (as Edit's) -->
+      <!-- the character's tabs: its titles (titles.js), its checklist, its heroes, its builds, what's next for it, and Edit: its row
+           to change, its note, age and readings -->
       <div class="ch-tabs" id="ch-tabs" role="tablist"></div>
       <div id="title" role="tabpanel"></div>
       <div id="ch-check" role="tabpanel" hidden></div>
@@ -42,17 +54,6 @@
       <div id="ch-edit" role="tabpanel" hidden></div>
     </div>
   </div>
-  <section class="ch-manage" id="ch-manage" hidden>
-    <h2 class="r-h">Edit characters</h2>
-    <p class="dim">Name your characters, set their profession, game modes and gender (He / She), reorder them, hide them from the view and delete the hidden ones; accounts too (click an
-      account's name to rename it). Account titles are kept on the account, shared by its characters. All of it is kept in
-      this browser only: see <a href="backup">Backup</a> to keep a copy or move it to another browser.</p>
-    <table class="u-chars">
-      <tbody id="u-list"></tbody>
-    </table>
-    <div class="u-row u-right"><button type="button" class="u-btn" id="u-new">New character</button></div>
-    <div class="u-row u-right"><button type="button" class="u-btn" id="u-new-account">New account</button></div>
-  </section>
 
   <footer class="site-footer"><a href="about">About</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · <a href="license">License &amp; credits</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>

@@ -164,7 +164,7 @@
     return `${goal}<div class="lstats">${stat("Port towns", ports(c) ? "reached" : "to reach", ports(c))}${stat("Hero team", ready ? "ready" : `${teamCount(c)} / 6`, ready)}${stat("Missions", `${nmDone} / ${n}`, nmDone === n)}${stat("Hard mode", `${hmDone} / ${n}`, hmDone === n)}${stat("Vanquishes", `${(c.vanquished || []).length} / ${vqAll}`, (c.vanquished || []).length >= vqAll)}${stat("Elites", `${c.elites.length} / ${capturableElites().length}`, c.elites.length >= capturableElites().length)}${stat("Checklist", `${checklistDone(c)} / ${checklistFor(c).length}`, checklistDone(c) === checklistFor(c).length, "characters?tab=check")}</div>`;
   }
   function render() {
-    if (!ckUser()) { els.who.innerHTML = ""; els.goals.innerHTML = ""; els.main.innerHTML = `<p class="dim pg-empty">No characters yet: add them on the <a href="characters?view=edit">Edit</a> tab of My Characters, or try a mock one on <a href="characters?view=about">About</a>.</p>`; return; }
+    if (!ckUser()) { els.who.innerHTML = ""; els.goals.innerHTML = ""; els.main.innerHTML = `<p class="dim pg-empty">No characters yet: add them on the <a href="characters">Characters</a> tab of My Characters, or try a mock one on <a href="characters?view=about">About</a>.</p>`; return; }
     const o = User.data(), c = User.char(o);
     // (the other wannabe GWAMMs to pick here; anyone else in the top bar)
     const others = (wannabes() || []).filter(x => x.id !== c.id);

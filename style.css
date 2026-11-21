@@ -1275,13 +1275,14 @@ a.hchip { text-decoration: none; }
 .u-gender { margin-left: 8px; padding: 2px 8px; min-width: 66px; text-align: center; font: inherit; font-size: 12px; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; white-space: nowrap; }  /* (as wide as "He / She", so what follows lines up) */
 .u-gender.unset { color: var(--muted); }
 .u-gender:hover { border-color: var(--accent); }
-/* (the way to the character's page: a link, set apart from the row's Hide and Delete buttons) */
-.u-open { display: inline-flex; align-items: center; gap: 1px; margin-right: 14px; font-weight: 600; color: var(--accent); text-decoration: none; vertical-align: middle; }
-.u-open svg { width: 14px; height: 14px; } .u-open:hover { text-decoration: underline; }
-tr[data-id] .u-move { margin-right: 14px; }  /* (a character row: Open, the arrows, then Hide and Delete) */
+tr[data-id] .u-move { margin-right: 14px; }  /* (a character row: the arrows, then Hide and Delete) */
 .u-show { min-width: 58px; margin-right: 10px; vertical-align: middle; }
 .u-hid .u-name { opacity: .5; }
 /* (on the Edit tab, only its profession and name dimmed: Made in and Retired there still look as usable as they are) */
+/* (the Edit tab's row carries more than the old list's: it wraps rather than running off the panel) */
+#ch-edit .u-chars td:first-child { white-space: normal; width: auto; padding-right: 10px; }
+#ch-edit .u-chars td:last-child { width: 1%; white-space: nowrap; }
+#ch-edit .u-name { flex-wrap: wrap; row-gap: 6px; }
 #ch-edit .u-hid .u-name { opacity: 1; }
 #ch-edit .u-hid .u-name > .u-prof, #ch-edit .u-hid .u-name > input { opacity: .5; }
 .u-move button { display: grid; place-items: center; width: 22px; height: 22px; padding: 0; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; }
@@ -1448,8 +1449,8 @@ tr[data-id] .u-move { margin-right: 14px; }  /* (a character row: Open, the arro
 .ch-sk { font-size: 12px; color: var(--muted); }
 .ch-stat b { font-size: 16px; font-variant-numeric: tabular-nums; }
 .ch-stat.done b { color: var(--loc-exp); }
-.ch-manage { max-width: 860px; }
-.ch-page[hidden], .ch-manage[hidden], .ch-about[hidden] { display: none; }
+.ch-accounts { max-width: 860px; }
+.ch-page[hidden], .ch-accounts[hidden], .ch-about[hidden] { display: none; }
 /* the About tab: the text, then the mock character to try with, in a box */
 .ch-about { max-width: 760px; }
 .ch-about-text ul { padding-left: 22px; }
@@ -1512,7 +1513,6 @@ tr[data-id] .u-move { margin-right: 14px; }  /* (a character row: Open, the arro
 .ch-acct-row .ch-acct-h { flex: 1; }
 .ch-plus { all: unset; cursor: pointer; width: 22px; text-align: center; color: var(--muted); font-size: 17px; line-height: 1; border-radius: 4px; }
 .ch-plus:hover, .ch-plus:focus-visible { color: var(--text); background: var(--panel-2); }
-.ch-acct-one { justify-content: space-between; padding: 4px 6px 6px; font-size: 13px; }
 .ch-coins { flex: none; display: inline-flex; gap: 1px; padding: 1px 4px; background: none; border: 1px solid transparent; border-radius: 999px; cursor: pointer; }
 .ch-coins img { width: 18px; height: 18px; display: block; }
 .ch-coins.none img { opacity: .3; filter: grayscale(1); }
@@ -1554,6 +1554,7 @@ a.c-pill:hover { border-color: var(--accent); }
 .ask-btns { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
 .ask .u-btn:focus { outline: 2px solid var(--accent); outline-offset: 2px; }  /* (shown after a click too: Enter does the one ringed) */
 .ask-danger { color: #fff; background: var(--sac); border-color: var(--sac); }
+.ask-input { display: block; width: 100%; box-sizing: border-box; margin: 10px 0 2px; font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; }
 .ask.ro { border-color: var(--adren); }
 .ask.ro > b { color: var(--adren); }
 

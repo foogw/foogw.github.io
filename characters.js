@@ -57,7 +57,7 @@ const drawTabs = (o = User.data(), cur = User.char(o)) => {
   else if (tab === "heroes") $("ch-heroes").innerHTML = heroesHTML(cur);
   else if (tab === "builds") $("ch-builds").innerHTML = buildsHTML(cur);
   else if (tab === "check") $("ch-check").innerHTML = checklistHTML(cur);
-  else $("ch-edit").innerHTML = `${questionsHTML(cur)}<table class="u-chars ch-edit-row"><tbody>${charRow(o, cur, null, true)}</tbody></table>
+  else $("ch-edit").innerHTML = `${questionsHTML(cur)}<table class="u-chars ch-edit-row"><tbody>${charRow(o, cur, null)}</tbody></table>
     <label class="ch-edit-note">Note <input type="text" id="edit-note" maxlength="${USER_NOTE_MAX}" value="${esc(cur.note || "")}"
       placeholder="A line about ${esc(cur.name)}: its role, what it's farming…" autocomplete="off"><span class="dim" id="edit-note-n">${(cur.note || "").length} / ${USER_NOTE_MAX}</span></label>
     ${ageHTML(cur)}${readingsHTML(cur)}`;
@@ -136,8 +136,9 @@ function coinsPill(a) {
   // (a coin each, a faded one for none)
   return `<button type="button" class="ch-coins${n >= COINS.HOLD ? " full" : n ? "" : " none"}" data-coins="${a.id}" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${COIN.repeat(Math.max(1, n))}</button>`;
 }
-// the characters to pick from, by account (with one account, just its characters); and the same as a menu, on a phone
-function sideHTML(o, cur, many) {
+// the characters to pick from, by account, each account a line with its coins and a + for a new character; and the
+// same as a menu, on a phone
+function sideHTML(o, cur) {
   const folded = new Set(acctFolds());
   const item = c => `<li><button type="button" class="ch-item${c === cur ? " cur" : ""}" data-pick="${c.id}"${c === cur ? ' aria-current="true"' : ""}>
     <img src="${profImg(c.profession || 0)}" alt=""><span class="ch-iname">${esc(c.name)}</span>${lit(c)}
@@ -145,11 +146,9 @@ function sideHTML(o, cur, many) {
   const list = cs => `<ul class="ch-list">${cs.map(item).join("")}</ul>`, chars = shownChars(o, cur);
   // (a + at the account's right: a new character on it, opened on its Edit tab)
   const plus = a => `<button type="button" class="ch-plus" data-new-on="${a.id}" title="New character on ${esc(accountName(a))}" aria-label="New character on ${esc(accountName(a))}">+</button>`;
-  // an account with all its characters hidden is left out
-  return many ? o.accounts.map(a => { const cs = chars.filter(c => c.account === a.id), open = !folded.has(a.id);
-    if (!cs.length) return "";
-    return `<div class="ch-acct"><div class="ch-acct-row"><button type="button" class="ch-acct-h" data-fold-account="${a.id}" aria-expanded="${open}">${esc(accountName(a))}</button>${coinsPill(a)}${plus(a)}</div>${open ? list(cs) : ""}</div>`; }).join("")
-    : (coinsPill(o.accounts[0]) ? `<div class="ch-acct-row ch-acct-one"><span class="dim">Reforged Coins</span>${coinsPill(o.accounts[0])}</div>` : "") + list(chars);
+  // (an account with nothing to show still has its line, for its +)
+  return o.accounts.map(a => { const cs = chars.filter(c => c.account === a.id), open = !folded.has(a.id);
+    return `<div class="ch-acct"><div class="ch-acct-row"><button type="button" class="ch-acct-h" data-fold-account="${a.id}" aria-expanded="${open}">${esc(accountName(a))}</button>${coinsPill(a)}${plus(a)}</div>${open ? list(cs) : ""}</div>`; }).join("");
 }
 const selectHTML = (o, cur, many) => {
   const opt = c => `<option value="${c.id}"${c === cur ? " selected" : ""}>${esc(c.name)}</option>`, chars = shownChars(o, cur);
@@ -609,9 +608,17 @@ document.addEventListener("click", e => {
   if (op) { e.preventDefault(); User.pick(+op.closest("tr").dataset.id); return setView("chars"); }
   const f = e.target.closest("[data-fold-account]");
   if (f) { foldAccount(+f.dataset.foldAccount); return render(); }
-  // (the sidebar's +: a new character on that account, its Edit tab open for the questions)
+  // (the sidebar's +: a new character on that account, named in a dialog, its Edit tab open for the questions)
   const np = e.target.closest("[data-new-on]");
-  if (np) { tab = "edit"; try { localStorage.setItem(TAB, tab); } catch { /* storage blocked */ } return newChar(+np.dataset.newOn); }
+  if (np) {
+    const a = User.data().accounts.find(x => x.id === +np.dataset.newOn);
+    ask({ title: `New character on ${accountName(a)}`, input: { placeholder: "Its name", maxlength: 40 }, ok: "Add" }).then(name => {
+      if (name === null) return;
+      tab = "edit"; try { localStorage.setItem(TAB, tab); } catch { /* storage blocked */ }
+      newChar(+np.dataset.newOn, name);
+    });
+    return;
+  }
 });
 // coins taken: counted again from now (after asking)
 document.addEventListener("click", async e => {
@@ -632,9 +639,8 @@ $("ch-select").addEventListener("change", e => { User.pick(+e.target.value); ren
 const rowChar = (o, el) => o.chars.find(c => c.id === +el.closest("tr").dataset.id);
 const rowAccount = (o, el) => o.accounts.find(a => a.id === +el.closest("tr").dataset.account);
 // the Edit list's handlers, and the Edit tab's (its one row)
-const onEdit = (type, f) => { els.list.addEventListener(type, f); $("ch-edit").addEventListener(type, f); };
+const onEdit = (type, f) => { els.accts.addEventListener(type, f); $("ch-edit").addEventListener(type, f); };
 onEdit("change", e => {
-  if (e.target.dataset.inmenu) { const o = User.data(), c = o.chars.find(x => x.id === +e.target.dataset.inmenu); if (c) { if (e.target.checked) c.inMenu = true; else delete c.inMenu; User.save(o); } return; }
   if (!e.target.closest("tr") || ["edit-campaign", "edit-aim", "edit-inmenu"].includes(e.target.id)) return;  // (not a row's name: the Edit tab's campaign, aim)
   const o = User.data();
   // an account's new name (none: its number)
@@ -709,7 +715,6 @@ onEdit("click", async e => {
     if (set.size) c.modes = [...set]; else delete c.modes;
     User.save(o); return render();
   }
-  if (e.target.closest("[data-new-char]")) return newChar(+e.target.closest("tr").dataset.account);
   if (e.target.closest("[data-delete-account]")) {
     const a0 = rowAccount(User.data(), e.target);
     if (!a0 || User.data().chars.some(c => c.account === a0.id) || !await ask({ title: `Delete the account "${accountName(a0)}"?`, body: "And its account titles. This can't be undone.", ok: "Delete", danger: true, focus: "cancel" })) return;
@@ -738,27 +743,27 @@ onEdit("click", async e => {
   User.save(o);
   if (shown) User.pick((o.chars.find(x => !x.hidden) || o.chars[0]).id);
   render();
-});
-// a new character is named by its id (Char2), to be renamed in its row; it's on the account of the one shown (or the
-// account it's added to)
-function newChar(account = User.char().account) {
+}
+// a new character, on the account it's added to (or the shown one's), with the name given, or named by its id (Char2)
+// to be renamed in its row
+function newChar(account = User.char().account, name = "") {
   const o = User.data(), c = newUserChar(Math.max(...o.chars.map(c => c.id)) + 1, account);
+  if (name) c.name = name;
   if (o.chars.filter(x => x.inMenu).length < 3) c.inMenu = true;  // (in the top bar's menu by default, while under three are)
   o.chars.push(c);
   if (!User.save(o)) return;  // (read-only)
   User.pick(c.id); render();
-  (els.list.querySelector(`tr[data-id="${c.id}"] input[type=text]`) || $("ch-edit").querySelector(`tr[data-id="${c.id}"] input[type=text]`))?.select();
+  if (!name) $("ch-edit").querySelector(`tr[data-id="${c.id}"] input[type=text]`)?.select();
 }
-$("u-new").addEventListener("click", () => newChar());
 // a new account, with no characters yet
 $("u-new-account").addEventListener("click", () => {
   const o = User.data(), id = Math.max(...o.accounts.map(a => a.id)) + 1;
   o.accounts.push({ id });
   if (!User.save(o)) return;  // (read-only)
   render();
-  els.list.querySelector(`tr[data-account="${id}"] input[type=text]`)?.focus();
+  els.accts.querySelector(`tr[data-account="${id}"] input[type=text]`)?.focus();
 });
 
 // changed in another tab (all of it taken off there, Backup's reset: About again, as for nothing saved)
-addEventListener("userchange", () => { if (User.stored() == null && view === "chars") return setView("about"); render(); });
+addEventListener("userchange", render);
 render();
