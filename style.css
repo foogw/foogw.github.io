@@ -1472,6 +1472,7 @@ tr[data-id] .u-move { margin-right: 14px; }  /* (a character row: the arrows, th
   .ch-groups, .ch-side-foot { display: none; }
   .ch-tabs button { padding: 8px 9px; }
   .ch-coins-phone:not(:empty) { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; font-size: 13px; }
+  .ch-coins-phone .ch-plus { margin-left: auto; }
   .ch-select { display: block; width: 100%; font: inherit; color: var(--text); background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; }
   .ch-card { flex-wrap: wrap; }
 }

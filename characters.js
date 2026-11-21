@@ -587,12 +587,13 @@ function render() {
     $("ch-select").innerHTML = selectHTML(o, cur, o.accounts.length > 1);
     // (on a phone, the list hidden: the picked character's account's coins under the menu)
     const ca = o.accounts.find(a => a.id === cur.account), cp = coinsPill(ca);
-    $("ch-coins-phone").innerHTML = cp ? `<span class="dim">${esc(accountName(ca))}'s Reforged Coins</span>${cp}` : "";
+    // (on a phone, the list hidden, the + for a new character on the picked one's account sits here too)
+    $("ch-coins-phone").innerHTML = `${cp ? `<span class="dim">${esc(accountName(ca))}'s Reforged Coins</span>${cp}` : `<span></span>`}<button type="button" class="ch-plus" data-new-on="${ca.id}" title="New character on ${esc(accountName(ca))}" aria-label="New character on ${esc(accountName(ca))}">+</button>`;
     $("ch-card").innerHTML = cardHTML(o, cur);
     // (an example character's card: kept as the player's own, or deleted, each on a hold)
-    if ($("ex-keep")) holdToAct($("ex-keep"), () => { if (User.broken()) return askBroken(); editChar(c => { delete c.example; }); });
-    if ($("ex-delete")) holdToAct($("ex-delete"), () => { if (User.broken()) return askBroken(); removeChar(User.char().id); });
-    if ($("ex-delete-all")) holdToAct($("ex-delete-all"), () => { if (User.broken()) return askBroken(); removeExamples(); });
+    if ($("ex-keep")) holdToAct($("ex-keep"), () => { if (User.broken()) return askBroken(); if (readOnlyBlocks()) return; editChar(c => { delete c.example; }); });
+    if ($("ex-delete")) holdToAct($("ex-delete"), () => { if (User.broken()) return askBroken(); if (readOnlyBlocks()) return; removeChar(User.char().id); });
+    if ($("ex-delete-all")) holdToAct($("ex-delete-all"), () => { if (User.broken()) return askBroken(); if (readOnlyBlocks()) return; removeExamples(); });
     drawTabs(o, cur);
   }
 }
@@ -742,10 +743,10 @@ function removeChar(id, hidden = false) {
   if (o.chars.length < 2) {
     // (the starter's last example, never saved: a blank account and character saved; nothing of yours left: a reset,
     // which shows the starter again)
-    if (User.stored() == null) { o.accounts = [{ id: 1 }]; o.chars = [newUserChar(1, 1)]; User.save(o); User.pick(1); return render(); }
+    if (User.stored() == null) { o.accounts = [{ id: 1 }]; o.chars = [newUserChar(1, 1)]; if (User.save(o)) User.pick(1); return render(); }
     if (!acctKept(o)) { User.reset(); return render(); }
     o.chars = [newUserChar(c.id + 1, c.account)];
-    User.save(o); User.pick(o.chars[0].id); return render();
+    if (User.save(o)) User.pick(o.chars[0].id); return render();
   }
   const shown = User.char(o) === c;
   o.chars = o.chars.filter(x => x !== c);
@@ -763,7 +764,8 @@ function removeExamples() {
     else kept.push(newUserChar(Math.max(...o.chars.map(c => c.id)) + 1, o.accounts[0].id));
   }
   o.chars = kept;
-  User.save(o); User.pick((kept.find(c => !c.hidden) || kept[0]).id); render();
+  if (User.save(o)) User.pick((kept.find(c => !c.hidden) || kept[0]).id);
+  render();
 }
 // a new character, on the account it's added to (or the shown one's), with the name given, or named by its id (Char2)
 // to be renamed in its row

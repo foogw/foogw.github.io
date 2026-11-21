@@ -9,7 +9,8 @@
   const REGIONS_PL = data("GW_ANNIVERSARY")?.regions || [];
   const regionOf = id => REGIONS_PL.find(g => g.missions.includes(id));
   // under a mission: its region, and how many of the characters can enter it (done once in either mode: unlocked for them)
-  const chars = () => (User.broken() ? [] : User.data().chars);
+  // (the characters that can enter a mission: not hidden, not kept in pre-Searing)
+  const chars = () => (User.broken() ? [] : User.data().chars.filter(c => !c.hidden && !isPreSearing(c)));
   const doneBy = id => chars().filter(c => (c.missions[id] || 0) & 3).length;
   // (a region the list has twice or more: marked, since a second mission there brings no second Proof)
   const regionHTML = id => { const g = regionOf(id); if (!g) return "";
@@ -27,13 +28,13 @@
   // the foot of the side: the regions the list covers (one Proof of Legend per region, so a second mission in a region
   // adds none, though different characters may prefer different missions), and Reset once the list isn't ours
   function renderFoot() {
-    const list = annivMissions(), covered = new Set(list.map(id => regionOf(id)?.name).filter(Boolean)).size;
+    const list = known(), covered = new Set(list.map(id => regionOf(id)?.name).filter(Boolean)).size;
     $("an-reset").hidden = isAnnivDefault(list);
     $("an-side-foot").innerHTML = `<b title="One Proof of Legend per region per character: a second mission in the same region adds no Proof, though another character may find it the easier one">${covered} of ${REGIONS_PL.length} regions</b> covered, ${list.length} mission${list.length === 1 ? "" : "s"}.${isAnnivDefault(list) ? " Our picks: tick others in or out, and the list is kept with your progress." : ""}`;
   }
   // the plan at the right for the year picked
   function renderPlan() {
-    const list = annivMissions(), [a, b] = windowIn(year), ka = Rotation.period(r, +a), kb = Rotation.period(r, +b - 1);
+    const list = known(), [a, b] = windowIn(year), ka = Rotation.period(r, +a), kb = Rotation.period(r, +b - 1);
     const day = k => ({ k, e: Rotation.entry(r, k), at: Rotation.startsAt(r, k) }), easy = d => list.includes(d.e.mission);
     // (take ahead: the last three of the list to come up before the event, however far back)
     const before = [];
@@ -76,7 +77,7 @@
   // list to come up before it (their quests keep for it): on the buttons and in the plan alike
   let zm = new Map(), zmStart = 0;
   function findZM() {
-    const list = annivMissions(), [a, b] = windowIn(year), ka = Rotation.period(r, +a), kb = Rotation.period(r, +b - 1);
+    const list = known(), [a, b] = windowIn(year), ka = Rotation.period(r, +a), kb = Rotation.period(r, +b - 1);
     zm = new Map(); zmStart = +a;
     for (let k = ka; k <= kb; k++) { const d = Rotation.entry(r, k); if (!zm.has(d.mission)) zm.set(d.mission, Rotation.startsAt(r, k)); }
     let n = 0;
@@ -84,7 +85,7 @@
   }
   const zmHTML = id => (zm.has(id) ? `<sup class="an-zm" title="Zaishen Mission ${fmt.format(zm.get(id))}, ${zm.get(id) < zmStart ? "one of the last three before the event: its quest keeps for it" : "during the event"}">ZM</sup>` : "");
   function renderRegions() {
-    const list = annivMissions();
+    const list = known();
     // (the region's name with the wiki's quickest under it, the hover saying so; the others beside, in two columns)
     // (each mission a button, on when in the list, styled as the NM / HM ticks are, but its own class: the shared tick
     // handler must not take its clicks)
@@ -102,14 +103,16 @@
       Zaishen Mission rotation: the ones that come up just before the event, to take their quests ahead, the ones during it, to wait for,
       and the rest, for any day of it.`;
   }
+  // (a list from a backup may name a mission the tables don't have: left out of the page, kept as it is)
+  const known = () => annivMissions().filter(id => MISSIONS[id]);
   const render = () => { findZM(); renderLead(); renderFoot(); renderPlan(); renderRegions(); };
   $("an-year").addEventListener("change", e => { year = +e.target.value; render(); });
   document.addEventListener("click", e => {
     const tg = e.target.closest("[data-toggle]");
-    if (tg) { const id = +tg.dataset.toggle, list = annivMissions(); setAnnivMissions(list.includes(id) ? list.filter(x => x !== id) : [...list, id]); return render(); }
+    if (tg) { if (readOnlyBlocks()) return; const id = +tg.dataset.toggle, list = annivMissions(); setAnnivMissions(list.includes(id) ? list.filter(x => x !== id) : [...list, id]); return render(); }
   });
   // (Reset, held for two seconds: our list again)
-  holdToAct($("an-reset"), () => { setAnnivMissions(null); render(); });
+  holdToAct($("an-reset"), () => { if (readOnlyBlocks()) return; setAnnivMissions(null); render(); });
   if (ev && r) render();
   else $("an-plan").innerHTML = `<p class="dim">The calendar has no Anniversary Celebration or Zaishen Mission rotation to plan with.</p>`;
 }

@@ -313,7 +313,10 @@ function need(kind, id) {
 const todoRows = rows => esc(JSON.stringify(rows.map(([c, x]) => [c.name, c.profession || 0, x])));
 // a link, styled as a thing to do when a wannabe needs it, with the card on hover: in full colour when the character
 // picked needs it, muted when only other wannabes do (so the marks follow the pick, the card still naming everyone)
-const todoClass = rows => (rows.some(([c]) => c.id === User.char().id) ? "todo" : "todo todo-o");
+// (the picked character's id, read once per state of the storage: a page draws hundreds of such links)
+let pickedMemo = null;
+const pickedId = () => { const raw = userRaw(); if (pickedMemo?.raw !== raw) pickedMemo = { raw, id: User.char().id }; return pickedMemo.id; };
+const todoClass = rows => (rows.some(([c]) => c.id === pickedId()) ? "todo" : "todo todo-o");
 const todoLink = (html, kind, id) => { const rows = need(kind, id); return rows.length ? html.replace(/^<a /, `<a class="${todoClass(rows)}" data-todo="${todoRows(rows)}" `) : html; };
 const missionMarks = () => "", vanqMark = () => "", modeMarks = () => "", bonusMark = () => "";  // (gone: the styling above)
 // a page's note as a list item
@@ -1137,7 +1140,7 @@ function holdToAct(btn, f) {
     if (await ask({ title: `${btn.textContent.trim()}?`, body: btn.title || "", ok: btn.textContent.trim(), danger: btn.classList.contains("danger"), focus: "cancel" })) f(); });
 }
 let userSeen = userRaw();  // what this page last drew from
-let starterCache = null;  // the starter as the page's data, while nothing is saved
+let starterCache = null;  // the starter, as kept, while nothing is saved
 const User = {
   // what's kept, as text: null when nothing is
   stored() { try { return localStorage.getItem(USER_KEY); } catch { return null; } },
@@ -1145,10 +1148,11 @@ const User = {
   // but the Backup page's reset, once it's been copied
   broken() { const t = User.stored(); if (t == null) return false; try { return !!userCheck(JSON.parse(t)); } catch { return true; } },
   // (nothing saved yet: the starter examples, unsaved until something is changed; made once per page, since the pages
-  // ask for the data many times a draw)
+  // ask for the data many times a draw, and handed out as a fresh copy each time, as the saved data is, so a change a
+  // refused save left behind doesn't linger)
   data() {
     if (!User.broken()) try { const o = JSON.parse(User.stored()); if (o) return userFromKept(o); } catch { /* none yet */ }
-    return starterCache ??= userFromKept(starterProgress());
+    return userFromKept(starterCache ??= starterProgress());
   },
   // (read-only: refused, with the notice; force: loading a backup, which a read-only copy is made by)
   // (storage blocked or full: nothing kept, said once, and false back so no page says it saved)
