@@ -1531,6 +1531,9 @@ a.c-pill:hover { border-color: var(--accent); }
 .wb-needs { margin: 8px 0 0; font-size: 13px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
 .wb-needs:empty { display: none; }
 .todo-card b.free { color: var(--loc-exp); }
+/* (a plain note, a date say: small, no green, little padding) */
+.todo-card.plain { min-width: 0; padding: 3px 7px; border-radius: 6px; }
+.todo-card.plain b.free { color: var(--text); font-weight: 500; font-size: 12px; }
 .todo-card b:last-child { margin-bottom: 0; }
 .todo-card div + b { margin-top: 8px; }
 .c-pill img { width: 16px; height: 16px; }

@@ -22,8 +22,8 @@
   .an-side-foot { margin: 0 0 8px; font-size: 13px; }
   .an-side-foot b { color: var(--text); font-weight: 600; }
   /* a region: its name, then its missions, the quickest first, each with a tick to put it in the list */
-  .an-camps { display: grid; grid-template-columns: 1.5fr 0.8fr 1.2fr 0.9fr; gap: 8px; }
-  .an-camp-2 .an-rg { flex-direction: column; align-items: stretch; }
+  /* (the columns a little uneven, so their heights come out about even: Prophecies has the most missions per region) */
+  .an-camps { display: grid; grid-template-columns: 1.35fr 0.8fr 1.1fr 0.75fr; gap: 8px; }
   .an-camp { display: flex; flex-direction: column; gap: 8px; }
   .an-rg { padding: 6px 8px 5px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
   .an-rg h3 { margin: 0 0 3px; font-size: 12px; font-weight: 600; color: var(--muted); }
@@ -55,6 +55,8 @@
   .an-t td.an-away { white-space: nowrap; }
   .an-t td:last-child { text-align: right; width: 1%; }
   .an-t tfoot td { border-bottom: 0; padding-top: 10px; font-size: 13px; }
+  .an-t tr.an-today td { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+  .an-t tr.an-today td.an-away { color: var(--accent); font-weight: 600; }
   .an-t th { text-align: left; font-size: 15px; font-weight: 600; color: var(--text); padding: 18px 0 4px; border-bottom: 1px solid var(--line); }
   .an-t th small { display: block; font-size: 12px; font-weight: 400; color: var(--muted); }
   .an-about { margin-top: 20px; font-size: 13px; }

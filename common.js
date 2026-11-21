@@ -317,7 +317,7 @@ const missionMarks = () => "", vanqMark = () => "", modeMarks = () => "", bonusM
 // a page's note as a list item
 const noteLi = n => `<li>${n}</li>`;
 // [data-todo] (or [data-note]): a card below the pointer, "Wannabe GWAMMs still need this:", a row per character with
-// its profession; then the note in green (QUICK: a quick Zaishen daily)
+// its profession; then the note in green (QUICK: a quick Zaishen daily); with data-plain, the note alone, small and plain
 {
   let card = null;
   const show = (el, e) => {
@@ -325,6 +325,7 @@ const noteLi = n => `<li>${n}</li>`;
     if (!card.isConnected) document.body.append(card);
     let rows = []; try { rows = JSON.parse(el.dataset.todo); } catch { /* none */ }
     const note = el.dataset.note || "";
+    card.classList.toggle("plain", el.dataset.plain != null);
     card.innerHTML = (rows.length ? `<b>Wannabe GWAMMs still need this</b>${rows.map(([n, p, x]) => `<div><img src="${profImg(p)}" alt="">${esc(n)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</div>`).join("")}` : "")
       + (note ? `<b class="free">${esc(note)}</b>` : "");
     card.hidden = false;

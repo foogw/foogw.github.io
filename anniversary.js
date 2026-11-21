@@ -23,6 +23,7 @@
   const thisYear = new Date().getUTCFullYear(), YEARS = Array.from({ length: 9 }, (_, i) => thisYear - 2 + i);
   let year = Math.min(thisYear + 6, eventWindow(ev)[0].getUTCFullYear());
   const windowIn = y => eventWindow(ev, new Date(Date.UTC(y, 0, 1)));
+  const nowAt = () => Date.now();
   // the foot of the side: the regions the list covers (one Proof of Legend per region, so a second mission in a region
   // adds none, though different characters may prefer different missions), and Reset once the list isn't ours
   function renderFoot() {
@@ -40,19 +41,33 @@
     const during = [];
     for (let k = ka; k <= kb; k++) if (easy(day(k))) during.push(day(k));
     $("an-year").innerHTML = YEARS.map(y => `<option value="${y}"${y === year ? " selected" : ""}>${y}</option>`).join("");
-    const now = Date.now();
+    const now = nowAt();
     $("an-when").textContent = `${fmt.format(a)} to ${fmt.format(b)}${a <= now && now < b ? " (on now)" : b <= now ? " (past)" : ""}`;
-    // (the mission first, then its day)
-    // (a day ahead: how far, "in 20 days"; past: how long ago)
-    const away = t => { const ms = t - Date.now(); return ms >= 0 ? eventAway(ms) : `${eventAway(-ms).replace(/^in /, "")} ago`; };
-    // (the day itself on hover)
-    const rows = ds => ds.map(d => `<tr><td>${LINK.mission(d.e.mission)}${zmHTML(d.e.mission)}${regionHTML(d.e.mission)}</td><td class="dim an-away" title="${fmt.format(d.at)}">${away(d.at)}</td><td class="dim">${doneHTML(d.e.mission)}</td></tr>`).join("");
-    const rest = list.filter(id => ![...before, ...during].some(d => d.e.mission === id));
-    $("an-plan").innerHTML = list.length ? `<table class="an-t"><tbody><tr><th colspan="3">The last 3 ZMs before the event<small>Take their quests ahead</small></th></tr>${rows(before) || '<tr><td colspan="3" class="dim">None in the cycle before it</td></tr>'}
-      <tr><th colspan="3">No ZM around the event<small>Do these any time during it</small></th></tr>${rest.map(id => `<tr><td colspan="2">${LINK.mission(id)}${zmHTML(id)}${regionHTML(id)}</td><td class="dim">${doneHTML(id)}</td></tr>`).join("") || '<tr><td colspan="3" class="dim">None: every one of the list comes up before or during it</td></tr>'}
-      <tr><th colspan="3">ZMs during the event<small>Wait for them</small></th></tr>${rows(during) || '<tr><td colspan="3" class="dim">None while it runs</td></tr>'}</tbody>
+    // the days said two ways. Live, from a week before the first take-ahead day to a week after the event:
+    // "in 3 days", "next", "current", "one day ago", "2 days ago"; a day that has passed moves its mission down to the
+    // any-time section, its day still said. Otherwise, by the event: "12 days before", "day 5"
+    const DAY = 864e5, dayOf = t => Math.floor(t / DAY), live = before.length && now >= before[0].at - 7 * DAY && now <= +b + 7 * DAY;
+    const said = t => {
+      if (live) { const n = dayOf(t) - dayOf(now); return n === 0 ? "current" : n === 1 ? "next" : n === -1 ? "one day ago" : n > 0 ? `in ${n} days` : `${-n} days ago`; }
+      if (t < a) { const n = Math.round((+a - t) / DAY); return n === 1 ? "the day before" : `${n} days before`; }
+      return `day ${dayOf(t) - dayOf(+a) + 1}`;
+    };
+    // (the day itself in the site's own hover card, at once; today's row stands out)
+    const row = d => `<tr${live && dayOf(d.at) === dayOf(now) ? ' class="an-today"' : ""}><td>${LINK.mission(d.e.mission)}${zmHTML(d.e.mission)}${regionHTML(d.e.mission)}</td><td class="dim an-away" data-note="${fmt.format(d.at)}" data-plain tabindex="0">${said(d.at)}</td><td class="dim">${doneHTML(d.e.mission)}</td></tr>`;
+    const passed = d => live && dayOf(d.at) < dayOf(now);
+    const ahead = ds => ds.filter(d => !passed(d)).map(row).join("");
+    // (the any-time section: the missions with no day around the event, and, live, the ones whose day has passed)
+    const gone = [...before, ...during].filter(passed);
+    const rest = [...list.filter(id => ![...before, ...during].some(d => d.e.mission === id)).map(id => `<tr><td colspan="2">${LINK.mission(id)}${zmHTML(id)}${regionHTML(id)}</td><td class="dim">${doneHTML(id)}</td></tr>`),
+      ...gone.map(row)].join("");
+    // (a section only when it has rows; nothing picked: a word to the boxes)
+    const section = (title, sub, body) => (body ? `<tr><th colspan="3">${title}<small>${sub}</small></th></tr>${body}` : "");
+    const sections = section("The last 3 ZMs before the event", "Take their quests ahead", ahead(before))
+      + section(`No ZM around the event${gone.length ? ", or its ZM passed" : ""}`, "Do these any time during it", rest)
+      + section("ZMs during the event", "Wait for them", ahead(during));
+    $("an-plan").innerHTML = sections ? `<table class="an-t"><tbody>${sections}</tbody>
       ${chars().length ? `<tfoot><tr><td colspan="2" class="dim">Total characters with the mission unlocked</td><td class="dim" title="How many runs the list offers you during the event, if every character did every mission it can enter">${list.reduce((n, id) => n + doneBy(id), 0)}</td></tr></tfoot>` : ""}</table>`
-      : `<p class="dim">No missions in the list: add some at the left.</p>`;
+      : `<p class="dim">Nothing picked: turn missions on in the boxes at the left.</p>`;
   }
   // the side: a block per region, its missions with the wiki's quickest first, each ticked when in the list (the tick
   // adds or takes out); a region with none in the list is dimmed
@@ -73,16 +88,14 @@
     // (each mission a button, on when in the list, styled as the NM / HM ticks are, but its own class: the shared tick
     // handler must not take its clicks)
     // (ZM raised on a mission with a Zaishen day around the event; on, it fills green, the others yellow)
-    const line = (id, quick) => `<button type="button" class="an-rm ${zm.has(id) ? "an-zmy" : "an-zmn"}${quick ? " an-q" : ""}" data-toggle="${id}" aria-pressed="${list.includes(id)}" title="${zm.has(id) ? `Zaishen Mission ${fmt.format(zm.get(id))}, ${zm.get(id) < zmStart ? "one of the last three before the event: its quest keeps for it" : "during the event"}. ` : "No Zaishen day during the event. "}${quick ? "The wiki's pick, the least time taken. " : ""}${list.includes(id) ? "In the list: click to take it out" : "Click to add it to the list"}">${esc(MISSIONS[id].name)}${zmHTML(id)}</button>`;
+    const line = (id, quick) => `<button type="button" class="an-rm ${zm.has(id) ? "an-zmy" : "an-zmn"}${quick ? " an-q" : ""}" data-toggle="${id}" aria-pressed="${list.includes(id)}" title="${zm.has(id) ? `Zaishen Mission ${fmt.format(zm.get(id))}, ${zm.get(id) < zmStart ? "one of the last three before the event: its quest keeps for it" : "during the event"}. ` : "No Zaishen day during the event. "}${quick ? "The wiki's pick, the least time taken. " : ""}${list.includes(id) ? "In the list: click to take it out" : "Click to add it to the list"}">${esc(missionShort(MISSIONS[id]))}${zmHTML(id)}</button>`;
     // (a box per region: its name, the quickest, the others; a column of boxes per campaign, the Eye of the North the fourth)
     const box = g => `<div class="an-rg"><h3${g.missions.some(id => list.includes(id)) ? "" : ' class="none" title="None of its missions in the list: no Proof of Legend from it"'}>${esc(g.name)}</h3>${[g.quick, ...g.missions.filter(id => id !== g.quick)].map(id => line(id, id === g.quick)).join("")}</div>`;
-    // (the columns sized to their campaigns: Prophecies has the most missions per region, Factions and the Eye of the
-    // North the fewest, so those two are thin, Factions one mission a line)
     $("an-regions").innerHTML = `<div class="an-camps">${[1, 2, 3, 4].map(camp => `<div class="an-camp an-camp-${camp}">${REGIONS_PL.filter(g => g.campaign === camp).map(box).join("")}</div>`).join("")}</div>`;
   }
   // the lead: the next event, coming in so long or on now with so long left, and what the planner syncs
   function renderLead() {
-    const [a, b] = eventWindow(ev), now = Date.now();
+    const now = nowAt(), [a, b] = eventWindow(ev, new Date(now));
     const when = a <= now ? `<b>on now</b>, for ${eventAway(b - now).replace(/^in /, "")} more` : `<b>coming ${eventAway(a - now)}</b>`;
     $("an-lead").innerHTML = `The Anniversary Celebration is ${when}. Pick your missions, one per region; the plan at the right lines them up with the
       Zaishen Mission rotation: the ones that come up just before the event, to take their quests ahead, the ones during it, to wait for,
