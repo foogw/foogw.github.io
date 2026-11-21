@@ -105,8 +105,10 @@ $("u-copy").addEventListener("click", e => navigator.clipboard?.writeText(keptTe
 $("u-download").addEventListener("click", () => {
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([keptText()], { type: "application/json" }));
-  // (named with the day, in your own time: guild-wars-today-data-2026-11-10.json)
-  a.download = `guild-wars-today-data-${ymd()}.json`;
+  // (named with the day, in your own time, and the count of characters and accounts: guild-wars-today-data-2026-11-10-32c5a.json;
+  // broken progress, not countable, goes by the day alone)
+  const o = User.broken() ? null : User.data(), size = o ? `-${o.chars.length}c${o.accounts.length}a` : "";
+  a.download = `guild-wars-today-data-${ymd()}${size}.json`;
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   keep();
