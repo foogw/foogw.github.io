@@ -4,7 +4,7 @@
    the ones that come up while it runs, to wait for; the rest, to do on any day of it. The list is ours (ANNIV_DEFAULT, common.js)
    until changed, then the visitor's own, kept in this browser and in a backup (annivMissions): at the left, every
    region (data/anniversary.js: one Proof of Legend per region) with its missions, the wiki's quickest first, each ticked
-   into the list or out of it; the Zaishen days around the year's event marked ZM everywhere. */
+   into the list or out of it (back to ours by ticking; no reset); the Zaishen days around the year's event marked ZM everywhere. */
 {
   const REGIONS_PL = data("GW_ANNIVERSARY")?.regions || [];
   const regionOf = id => REGIONS_PL.find(g => g.missions.includes(id));
@@ -26,11 +26,10 @@
   const windowIn = y => eventWindow(ev, new Date(Date.UTC(y, 0, 1)));
   const nowAt = () => Date.now();
   // the foot of the side: the regions the list covers (one Proof of Legend per region, so a second mission in a region
-  // adds none, though different characters may prefer different missions), and Reset once the list isn't ours
+  // adds none, though different characters may prefer different missions)
   function renderFoot() {
     const list = known(), covered = new Set(list.map(id => regionOf(id)?.name).filter(Boolean)).size;
-    $("an-reset").hidden = isAnnivDefault(list);
-    $("an-side-foot").innerHTML = `<b title="One Proof of Legend per region per character: a second mission in the same region adds no Proof, though another character may find it the easier one">${covered} of ${REGIONS_PL.length} regions</b> covered, ${list.length} mission${list.length === 1 ? "" : "s"}.${isAnnivDefault(list) ? " Our picks: tick others in or out, and the list is kept with your progress." : ""}`;
+    $("an-side-foot").innerHTML = `<b title="One Proof of Legend per region per character: a second mission in the same region adds no Proof, though another character may find it the easier one">${covered} of ${REGIONS_PL.length} regions</b> covered, ${list.length} mission${list.length === 1 ? "" : "s"}. ${isAnnivDefault(list) ? "Our picks" : "Your picks"}: tick missions in or out, and the list is kept with your progress.`;
   }
   // the plan at the right for the year picked
   function renderPlan() {
@@ -111,8 +110,6 @@
     const tg = e.target.closest("[data-toggle]");
     if (tg) { if (readOnlyBlocks()) return; const id = +tg.dataset.toggle, list = annivMissions(); setAnnivMissions(list.includes(id) ? list.filter(x => x !== id) : [...list, id]); return render(); }
   });
-  // (Reset, held for two seconds: our list again)
-  holdToAct($("an-reset"), () => { if (readOnlyBlocks()) return; setAnnivMissions(null); render(); });
   if (ev && r) render();
   else $("an-plan").innerHTML = `<p class="dim">The calendar has no Anniversary Celebration or Zaishen Mission rotation to plan with.</p>`;
 }
