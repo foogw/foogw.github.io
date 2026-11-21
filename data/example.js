@@ -1,9 +1,9 @@
 "use strict";
-/* An example of saved progress, to try the site with (the Dev page applies it): three accounts and ten characters, one
+/* An example of saved progress, to try the site with (the Dev page applies it): four accounts and sixteen characters, one
    of every kind the site shows: a finished wannabe GWAMM, one halfway, pre-Searing permanents (Melandru's Accord too), a
    Dhuum's Covenant one, a retired one hidden from the list, a plain player, a character just made with nothing filled in,
-   and an account of alts made up at random, as the About tab's example character is; four in the top bar's menu, the
-   wannabes among them far apart in progress; account titles and the bell, with
+   an account of alts made up at random, as the About tab's example character is, and an account of wannabes, one at
+   each step of the GWAMM route; ten in the top bar's menu, the wannabes among them far apart in progress; account titles and the bell, with
    coins waiting, taken lately, or no bell; notes, builds and readings. Every character is flagged example, so its card says so.
    Everything dated is made for now, exampleProgress(now): the ages are ranges as /age readings leave them (a first reading
    long ago, then the ones given, by how many days ago), some found so the Birthdays page has a window closing, one just
@@ -41,6 +41,8 @@ function exampleProgress(now = Date.now()) {
   const soon = find(a => !a.inside && a.hi - a.lo <= D && a.start - now > H && a.start - now < 12 * H, H, 2 * D, range(190, [120, 5]));
   const at = iso(now - D);  // (the readings typed in yesterday)
   const nf = [556, 517, 518, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528], fa = [257, 258, 260, 261, 262, 263, 264, 267, 268, 270, 271, 204, 215];
+  const story = camp => Object.entries(MISSIONS).filter(([, m]) => m.kind === "story" && missionCampaign(m) === camp).sort((a, b) => (a[1].order ?? 99) - (b[1].order ?? 99)).map(([id]) => +id);
+  const tmax = id => TITLES[id].max ?? TITLES[id].ranks.length;  // (a title's top rank, as mytitles.js has it)
   const pro = [28, 38, 10, 11, 12, 14, 15, 16, 19, 21, 22, 23, 24, 25, 29, 30, 32, 73, 116, 117, 118, 120, 122, 123, 124], eotn = [653, 654, 655, 658, 661, 664, 665, 666, 669, 670, 673];
   const chars = [
     // the finished one: everything, GWAMM near; one reading only, a month-wide range a boundary is always in
@@ -74,6 +76,23 @@ function exampleProgress(now = Date.now()) {
       dungeonsNM: first(all.dungeons, 14), dungeonsHM: first(all.dungeons, 3), heroes: [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 36, 37], titles: { 1: 5, 13: 1, 35: 1, 38: 8, 39: 7, 40: 8, 41: 9, 42: 3, 20: 2, 17: 3 },
       checks: ["prophecies", "eotn", "attr", "ports"], builds: ["OwUT0Y4+GRj2oM6uvpayEEAA"], bornBetween: rising, xp: [15300000, at], played: [2300, at], playedOutside: [900, at] },
     { id: 7, name: "Char7", account: 2, elites: [], vanquished: [], missionsNM: [], missionsHM: [], dungeonsNM: [], dungeonsHM: [] },
+    // the fourth account: a wannabe at each step of the GWAMM route (gwamm.js), each a step from the next: made where
+    // unknown; one mission short of Lion's Arch; the meta team short of Norgu; two missions left of all; three vanquishes
+    // left of all; and all of it done, every title a rank short of its top
+    { id: 11, name: "Wannabe Fresh", account: 4, profession: 1, gender: "m", aim: "gwamm", inMenu: true, elites: [], vanquished: [], missionsNM: [], missionsHM: [], dungeonsNM: [], dungeonsHM: [], note: "Just rolled" },
+    { id: 12, name: "Wannabe Port", account: 4, profession: 3, gender: "f", campaign: 1, aim: "gwamm", inMenu: true, elites: first(all.elites, 3), vanquished: [], missionsNM: story(1).slice(0, 6), missionsHM: [], dungeonsNM: [], dungeonsHM: [],
+      heroes: [], note: "Gates of Kryta next, then the boats" },
+    { id: 13, name: "Wannabe Team", account: 4, profession: 6, gender: "m", campaign: 3, aim: "gwamm", inMenu: true, elites: first(all.elites, 20), vanquished: first(all.vanquished, 4), missionsNM: story(3).slice(0, 9), missionsHM: [], dungeonsNM: [], dungeonsHM: [],
+      heroes: [24, 39, 14, 21, 4, 25, 2, 3, 5, 6, 7, 8], checks: ["ports"], note: "Norgu left to get" },
+    { id: 14, name: "Wannabe Guardian", account: 4, profession: 5, gender: "f", campaign: 2, aim: "gwamm", inMenu: true, elites: first(all.elites, 240), vanquished: first(all.vanquished, 120), missionsNM: all.missions.filter(m => m !== 268), missionsHM: all.missions.filter(m => m !== 268 && m !== 527),
+      dungeonsNM: all.dungeons, dungeonsHM: first(all.dungeons, 10), heroes: "all", titles: { 1: 4, 2: 5, 18: 5, 17: 10, 20: 8, 9: 3, 38: 10, 39: 10, 40: 10, 41: 10, 42: 5, 7: 1, 34: 1, 43: 1 },
+      checks: ["attr", "ports", "prophecies", "nightfall", "eotn", "wik"], note: "Two missions left" },
+    { id: 15, name: "Wannabe Vanquisher", account: 4, profession: 4, gender: "m", campaign: 1, aim: "gwamm", inMenu: true, elites: all.elites.filter((_, i) => i % 40 !== 0), vanquished: all.vanquished.slice(3), missionsNM: "all", missionsHM: "all",
+      dungeonsNM: all.dungeons, dungeonsHM: all.dungeons, heroes: "all", titles: { 1: 6, 2: 6, 18: 6, 17: 10, 20: 8, 9: 3, 38: 10, 39: 10, 40: 10, 41: 10, 42: 5, 7: 2, 34: 2, 43: 2, 13: 1, 14: 1, 19: 1, 24: 1, 26: 1, 28: 1 },
+      checks: ["attr", "ports", "prophecies", "factions", "nightfall", "eotn", "wik", "uw", "fow"], note: "Three vanquishes left" },
+    { id: 16, name: "Wannabe Mortal", account: 4, profession: 8, gender: "f", campaign: 3, aim: "gwamm", inMenu: true, elites: "all", vanquished: "all", missionsNM: "all", missionsHM: "all", dungeonsNM: all.dungeons, dungeonsHM: all.dungeons, heroes: "all",
+      titles: Object.fromEntries(Object.keys(TITLES).filter(t => TITLES[t].scope === "character" && tmax(t) > 1).map(t => [t, tmax(t) - 1])),
+      checks: ["attr", "ports", "prophecies", "factions", "nightfall", "eotn", "wik", "uw", "fow", "sf", "deep", "urgoz", "doa", "outposts"], note: "Every title a rank from its top" },
   ];
   // the third account's alts, made up at random (new ones every time): an example character each, as the
   // About tab makes them: profession, gender, campaign, GWAMM as the aim, progress between a little and most of the way,
@@ -83,7 +102,6 @@ function exampleProgress(now = Date.now()) {
   // (random each time, unlike the ranges found above)
   const rand = Math.random, pick = xs => xs[Math.floor(rand() * xs.length)], between = (lo, hi) => lo + rand() * (hi - lo);
   const sample = (xs, share) => { const n = Math.round(xs.length * share), a = [...xs]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n).sort((x, y) => x - y); };
-  const tmax = id => TITLES[id].max ?? TITLES[id].ranks.length;  // (a title's top rank, as mytitles.js has it)
   const example = id => {
     const c = { id, name: `${pick(EXAMPLE_FIRST)} ${pick(EXAMPLE_LAST)}`, account: 3, profession: 1 + Math.floor(rand() * 10), gender: pick(["m", "f"]), aim: "gwamm" };
     if (!fixedCampaign(c)) c.campaign = 1 + Math.floor(rand() * 3);
@@ -106,6 +124,7 @@ function exampleProgress(now = Date.now()) {
     { id: 1, name: "Vanguard", reforgedCoinClock: 0, titles: { 0: 7, 3: 2, 4: 1, 5: 12, 6: 12, 15: 6, 16: 7, 44: 12, 45: 6, 46: 7, 22: 1, 23: 2, 47: 1 } },
     { id: 2, name: "Second Box", titles: { 5: 6, 45: 3, 46: 4, 44: 5 } },
     { id: 3, name: "Alts", reforgedCoinClock: iso(now - 36 * H) },
+    { id: 4, name: "Wannabes", titles: { 5: 12, 6: 12, 44: 12, 45: 6, 46: 7 } },
   ];
   // in the kept shape (v3): the characters under their accounts, their account key dropped
   return { v: 3, accounts: accounts.map(a => ({ ...a, chars: chars.filter(c => c.account === a.id).map(({ account, ...c }) => c) })) };
