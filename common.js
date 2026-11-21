@@ -127,9 +127,13 @@ const VIEWS = {};
 const skillIcon = (id, cls = "sk-ic") => `<img class="${cls}" src="img/skills/${id}.jpg" alt="" loading="lazy" onerror="this.remove()">`;
 // a hero as players call it in running text: its short name where it has one (MoW, Keiran), else its name
 const heroShort = h => h.short || h.name;
+// a mission as links and buttons name it: the name it's known by where the name runs too long for a line
+// (G.O.L.E.M.), else its name; and as players call it where room is tight: its short name (Vizunah, THK), else that
+const missionKnown = m => m.known || m.name;
+const missionShort = m => m.short || missionKnown(m);
 const LINK = {
   area: (id, label) => (AREAS[id] ? `<a href="${HREF.area(id)}">${esc(label ?? AREAS[id].name)}</a>` : esc(label ?? "")),
-  mission: (id, label) => (MISSIONS[id] ? `<a href="${HREF.mission(id)}">${esc(label ?? MISSIONS[id].name)}</a>` : LINK.area(id, label)),
+  mission: (id, label) => (MISSIONS[id] ? `<a href="${HREF.mission(id)}"${MISSIONS[id].known && label == null ? ` title="${esc(MISSIONS[id].name)}"` : ""}>${esc(label ?? missionKnown(MISSIONS[id]))}</a>` : LINK.area(id, label)),
   quest: (id, label) => (QUESTS[id] ? `<a href="${HREF.quest(id)}">${esc(label ?? QUESTS[id].name)}</a>` : esc(label ?? "")),
   // (a hero in running text goes by its short name; label for the full one)
   hero: (id, label) => (HEROES[id] ? `<a href="${HREF.hero(id)}">${esc(label ?? heroShort(HEROES[id]))}</a>` : esc(label ?? "")),

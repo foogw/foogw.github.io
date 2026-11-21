@@ -1,5 +1,5 @@
 const GW_MISSIONS = {
-  "missions_": "Kept by hand. Keys are the map id the mission is played on (for Prophecies, its outpost's). outpost: where you start it. leads_to: areas it unlocks. hero: heroes it gives. objectives: [depth, text, bonus?]. rewards: per mode and tier, [xp, gold, skill points, extra...]; by: what sets the tier. foes, bosses, allies: {creature, level: [normal, hard]}. wiki: its page on each wiki, {en, de} (as areas).",
+  "missions_": "Kept by hand. Keys are the map id the mission is played on (for Prophecies, its outpost's). short: how players call it where room is tight, when it isn't the name (Vizunah, THK). known: the name links and buttons show in its place, where the name runs too long for a line (G.O.L.E.M.). outpost: where you start it. leads_to: areas it unlocks. hero: heroes it gives. objectives: [depth, text, bonus?]. rewards: per mode and tier, [xp, gold, skill points, extra...]; by: what sets the tier. foes, bosses, allies: {creature, level: [normal, hard]}. wiki: its page on each wiki, {en, de} (as areas).",
   "missions": {
     "10": {
       "name": "Bloodstone Fen",
@@ -233,6 +233,7 @@ const GW_MISSIONS = {
     },
     "15": {
       "name": "D'Alessio Seaboard",
+      "short": "D'Alessio",
       "kind": "story",
       "outpost": 15,
       "order": 8,
@@ -425,6 +426,7 @@ const GW_MISSIONS = {
     },
     "21": {
       "name": "The Frost Gate",
+      "short": "Frost Gate",
       "kind": "story",
       "outpost": 21,
       "order": 6,
@@ -472,6 +474,7 @@ const GW_MISSIONS = {
     },
     "22": {
       "name": "Ice Caves of Sorrow",
+      "short": "Ice Caves",
       "kind": "story",
       "outpost": 22,
       "order": 20,
@@ -528,6 +531,7 @@ const GW_MISSIONS = {
     },
     "23": {
       "name": "Thunderhead Keep",
+      "short": "THK",
       "kind": "story",
       "outpost": 23,
       "order": 22,
@@ -602,6 +606,7 @@ const GW_MISSIONS = {
     },
     "24": {
       "name": "Iron Mines of Moladune",
+      "short": "Iron Mines",
       "kind": "story",
       "outpost": 24,
       "order": 21,
@@ -724,6 +729,7 @@ const GW_MISSIONS = {
     },
     "28": {
       "name": "The Great Northern Wall",
+      "short": "Northern Wall",
       "kind": "story",
       "outpost": 28,
       "order": 1,
@@ -829,6 +835,7 @@ const GW_MISSIONS = {
     },
     "30": {
       "name": "Ruins of Surmia",
+      "short": "Surmia",
       "kind": "story",
       "outpost": 30,
       "order": 3,
@@ -894,6 +901,7 @@ const GW_MISSIONS = {
     },
     "32": {
       "name": "Nolani Academy",
+      "short": "Nolani",
       "kind": "story",
       "outpost": 32,
       "order": 4,
@@ -1012,6 +1020,7 @@ const GW_MISSIONS = {
     },
     "73": {
       "name": "Riverside Province",
+      "short": "Riverside",
       "kind": "story",
       "outpost": 73,
       "order": 13,
@@ -1086,6 +1095,7 @@ const GW_MISSIONS = {
     "86": {"name": "Sacred Temples", "kind": "pvp", "wiki": {"en": "Sacred Temples", "de": "Geheiligte Tempel"}},
     "116": {
       "name": "Dunes of Despair",
+      "short": "Dunes",
       "kind": "story",
       "outpost": 116,
       "order": 15,
@@ -1221,6 +1231,7 @@ const GW_MISSIONS = {
     },
     "120": {
       "name": "The Dragon's Lair",
+      "short": "Dragon's Lair",
       "kind": "story",
       "outpost": 120,
       "order": 19,
@@ -1422,6 +1433,7 @@ const GW_MISSIONS = {
     },
     "204": {
       "name": "Unwaking Waters",
+      "short": "Unwaking",
       "kind": "story",
       "order": 10,
       "label": "10",
@@ -1465,6 +1477,7 @@ const GW_MISSIONS = {
     },
     "215": {
       "name": "Vizunah Square",
+      "short": "Vizunah",
       "kind": "story",
       "order": 3,
       "label": "3",
@@ -1561,6 +1574,7 @@ const GW_MISSIONS = {
     "253": {"name": "Dwayna Vs Grenth", "kind": "pvp", "wiki": {"en": "Dwayna Vs Grenth", "de": "Dwayna gg. Grenth"}},
     "257": {
       "name": "Minister Cho's Estate",
+      "short": "Cho's Estate",
       "kind": "story",
       "outpost": 214,
       "order": 1,
@@ -1650,6 +1664,7 @@ const GW_MISSIONS = {
     },
     "260": {
       "name": "Nahpui Quarter",
+      "short": "Nahpui",
       "kind": "story",
       "outpost": 216,
       "order": 4,
@@ -1688,6 +1703,7 @@ const GW_MISSIONS = {
     },
     "261": {
       "name": "Tahnnakai Temple",
+      "short": "Tahnnakai",
       "kind": "story",
       "outpost": 217,
       "order": 5,
@@ -1796,6 +1812,7 @@ const GW_MISSIONS = {
     },
     "263": {
       "name": "Boreas Seabed",
+      "short": "Boreas",
       "kind": "story",
       "outpost": 219,
       "order": 7,
@@ -1843,6 +1860,7 @@ const GW_MISSIONS = {
     },
     "264": {
       "name": "Sunjiang District",
+      "short": "Sunjiang",
       "kind": "story",
       "outpost": 220,
       "order": 8,
@@ -1931,6 +1949,7 @@ const GW_MISSIONS = {
     },
     "267": {
       "name": "The Eternal Grove",
+      "short": "Eternal Grove",
       "kind": "story",
       "outpost": 222,
       "order": 9,
@@ -1986,6 +2005,7 @@ const GW_MISSIONS = {
     },
     "268": {
       "name": "Gyala Hatchery",
+      "short": "Gyala",
       "kind": "story",
       "outpost": 224,
       "order": 9,
@@ -2040,6 +2060,7 @@ const GW_MISSIONS = {
     },
     "270": {
       "name": "Raisu Palace",
+      "short": "Raisu",
       "kind": "story",
       "outpost": 225,
       "order": 11,
@@ -2227,6 +2248,7 @@ const GW_MISSIONS = {
     },
     "427": {
       "name": "Moddok Crevice",
+      "short": "Moddok",
       "kind": "story",
       "outpost": 427,
       "order": 8,
@@ -2272,6 +2294,7 @@ const GW_MISSIONS = {
     },
     "453": {
       "name": "Venta Cemetery",
+      "short": "Venta",
       "kind": "story",
       "outpost": 421,
       "order": 5,
@@ -2312,6 +2335,7 @@ const GW_MISSIONS = {
     },
     "458": {
       "name": "Kodonur Crossroads",
+      "short": "Kodonur",
       "kind": "story",
       "outpost": 424,
       "order": 6,
@@ -2368,6 +2392,7 @@ const GW_MISSIONS = {
     },
     "459": {
       "name": "Rilohn Refuge",
+      "short": "Rilohn",
       "kind": "story",
       "outpost": 425,
       "order": 7,
@@ -2411,6 +2436,7 @@ const GW_MISSIONS = {
     },
     "460": {
       "name": "Pogahn Passage",
+      "short": "Pogahn",
       "kind": "story",
       "outpost": 426,
       "order": 7,
@@ -2483,6 +2509,7 @@ const GW_MISSIONS = {
     },
     "515": {
       "name": "Jokanur Diggings",
+      "short": "Jokanur",
       "kind": "story",
       "outpost": 491,
       "order": 2,
@@ -2522,6 +2549,7 @@ const GW_MISSIONS = {
     },
     "516": {
       "name": "Blacktide Den",
+      "short": "Blacktide",
       "kind": "story",
       "outpost": 492,
       "order": 3,
@@ -2632,6 +2660,7 @@ const GW_MISSIONS = {
     },
     "518": {
       "name": "Tihark Orchard",
+      "short": "Tihark",
       "kind": "story",
       "outpost": 428,
       "order": 9,
@@ -2704,6 +2733,7 @@ const GW_MISSIONS = {
     },
     "519": {
       "name": "Dzagonur Bastion",
+      "short": "Dzagonur",
       "kind": "story",
       "outpost": 433,
       "order": 10,
@@ -2751,6 +2781,7 @@ const GW_MISSIONS = {
     },
     "520": {
       "name": "Dasha Vestibule",
+      "short": "Dasha",
       "kind": "story",
       "outpost": 434,
       "order": 10,
@@ -2799,6 +2830,7 @@ const GW_MISSIONS = {
     },
     "521": {
       "name": "Grand Court of Sebelkeh",
+      "short": "Grand Court",
       "kind": "story",
       "outpost": 435,
       "order": 11,
@@ -2837,6 +2869,7 @@ const GW_MISSIONS = {
     },
     "522": {
       "name": "Jennur's Horde",
+      "short": "Jennur's",
       "kind": "story",
       "outpost": 476,
       "order": 12,
@@ -2881,6 +2914,7 @@ const GW_MISSIONS = {
     },
     "523": {
       "name": "Nundu Bay",
+      "short": "Nundu",
       "kind": "story",
       "outpost": 477,
       "order": 12,
@@ -2994,6 +3028,7 @@ const GW_MISSIONS = {
     },
     "525": {
       "name": "Ruins of Morah",
+      "short": "Morah",
       "kind": "story",
       "outpost": 480,
       "order": 14,
@@ -3230,6 +3265,7 @@ const GW_MISSIONS = {
     },
     "556": {
       "name": "Chahbek Village",
+      "short": "Chahbek",
       "kind": "story",
       "outpost": 544,
       "order": 1,
@@ -3273,6 +3309,7 @@ const GW_MISSIONS = {
     "598": {"name": "The Antechamber", "kind": "pvp", "wiki": {"en": "Antechamber", "de": "Die Vorkammer"}},
     "653": {
       "name": "Curse of the Nornbear",
+      "short": "Nornbear",
       "kind": "story",
       "order": 7,
       "label": "7",
@@ -3401,6 +3438,7 @@ const GW_MISSIONS = {
     },
     "658": {
       "name": "The Elusive Golemancer",
+      "short": "Elusive Golemancer",
       "kind": "story",
       "order": 2,
       "label": "2",
@@ -3472,6 +3510,8 @@ const GW_MISSIONS = {
     },
     "664": {
       "name": "Genius Operated Living Enchanted Manifestation",
+      "short": "G.O.L.E.M.",
+      "known": "G.O.L.E.M.",
       "kind": "story",
       "order": 3,
       "label": "3",
@@ -3596,6 +3636,7 @@ const GW_MISSIONS = {
     },
     "669": {
       "name": "Assault on the Stronghold",
+      "short": "Assault",
       "kind": "story",
       "order": 6,
       "label": "6",
