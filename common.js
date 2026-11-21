@@ -757,8 +757,15 @@ const USER_NOTE_MAX = 100;  // a character's note, at most
 /* Kept in this browser apart from the characters, and in a backup with them (the Backup page): the Builder's saved
    builds, the guides' steps ticked and faction cap calculators, and the Rotations page's UTC switch. In a backup, each
    part is optional: {builderBuilds: [the Builder's template codes, newest first], guides: {<guide id>: {steps: "1-5,7", cap: {rows: [the
-   raises ticked, by their row], rank}}}, settings: {eventsUtc: true | false}}. */
-const BUILDER_SAVED_KEY = "gw-builder-saved-v2", GUIDE_STEPS_KEY = id => `gw-guide-${id}`, GUIDE_CAP_KEY = id => `gw-cap-${id}`;
+   raises ticked, by their row], rank}}}, settings: {eventsUtc: true | false, annivMissions: [mission ids] (the Anniversary planner's
+   list, when it isn't ours)}}. */
+const BUILDER_SAVED_KEY = "gw-builder-saved-v2", GUIDE_STEPS_KEY = id => `gw-guide-${id}`, GUIDE_CAP_KEY = id => `gw-cap-${id}`, ANNIV_KEY = "gw-anniv-missions";
+// the Anniversary planner's list of easy Zaishen Missions: ours (The Great Northern Wall, Augury Rock, Zen Daijun,
+// Unwaking Waters, Imperial Sanctum, Chahbek Village, Ruins of Morah, A Time for Heroes), or the visitor's own
+const ANNIV_DEFAULT = [28, 38, 258, 204, 271, 556, 525, 673];
+const isAnnivDefault = ids => ids.length === ANNIV_DEFAULT.length && ids.every((id, i) => id === ANNIV_DEFAULT[i]);
+const annivMissions = () => { const v = lsGet(ANNIV_KEY); return Array.isArray(v) && v.every(Number.isInteger) ? v : ANNIV_DEFAULT; };
+const setAnnivMissions = ids => lsSet(ANNIV_KEY, ids && !isAnnivDefault(ids) ? [...new Set(ids)] : null);
 const lsGet = k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } };
 const lsSet = (k, v) => { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage blocked */ } };
 // the guides' ids before they were short names: what this browser kept under them moved to the new ones, once (kept
@@ -800,7 +807,9 @@ function extrasKept() {
   for (const [id, g] of Object.entries(guides)) if (!Object.keys(g).length) delete guides[id];
   if (Object.keys(guides).length) x.guides = Object.fromEntries(Object.entries(guides).sort(([a], [b]) => cmpStr(a, b)));
   let utc = null; try { utc = localStorage.getItem("events-utc"); } catch { /* storage blocked */ }
-  if (utc != null) x.settings = { eventsUtc: utc === "1" };
+  if (utc != null) (x.settings ||= {}).eventsUtc = utc === "1";
+  const anniv = lsGet(ANNIV_KEY);
+  if (Array.isArray(anniv) && anniv.length) (x.settings ||= {}).annivMissions = anniv;
   return x;
 }
 // a backup's parts put in this browser: each part in it replaces what's here, a part left out leaves it as it is
@@ -815,6 +824,7 @@ function extrasApply(o) {
     }
   }
   if (o.settings && "eventsUtc" in o.settings) try { localStorage.setItem("events-utc", o.settings.eventsUtc ? "1" : "0"); } catch { /* storage blocked */ }
+  if (o.settings && "annivMissions" in o.settings) setAnnivMissions(o.settings.annivMissions);
 }
 // what's wrong with them in a backup, or ""
 function extrasCheck(o) {
@@ -829,7 +839,8 @@ function extrasCheck(o) {
         return `Guide "${id}": "cap" should be {rows: [row numbers], rank}.`;
     }
   }
-  if (o.settings !== undefined && !(isObj(o.settings) && Object.entries(o.settings).every(([k, v]) => k === "eventsUtc" && typeof v === "boolean"))) return '"settings" should be {"eventsUtc": true or false}.';
+  if (o.settings !== undefined && !(isObj(o.settings) && Object.entries(o.settings).every(([k, v]) => k === "eventsUtc" ? typeof v === "boolean" : k === "annivMissions" && Array.isArray(v) && v.every(x => Number.isInteger(x) && x > 0))))
+    return '"settings" should be {"eventsUtc": true or false, "annivMissions": [mission ids]}, either or both.';
   return "";
 }
 // what "all" stands for, version 2: every elite (but PvP versions), every area with foes to vanquish, every mission with

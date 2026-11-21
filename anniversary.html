@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>GW Anniversary planner</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  /* the list at the left, the plan at the right (on a phone, the list above the plan) */
+  .an { display: grid; grid-template-columns: 300px 1fr; gap: 20px; align-items: start; padding-top: 8px; }
+  @media (max-width: 760px) { .an { grid-template-columns: 1fr; } }
+  .an-side { position: sticky; top: 12px; padding: 10px 8px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; }
+  .an-side-head { display: flex; align-items: center; justify-content: space-between; padding: 0 6px 6px; }
+  .an-side-head h2 { margin: 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .an-reset { padding: 2px 8px; font-size: 12px; }
+  .an-list { list-style: none; margin: 0; padding: 0; }
+  .an-list li { display: flex; align-items: center; gap: 6px; padding: 6px 6px 6px 10px; border-radius: 8px; }
+  .an-list li:hover { background: var(--panel-2); }
+  .an-list a { flex: 1; color: var(--text); text-decoration: none; }
+  .an-list a:hover { color: var(--accent); }
+  .an-list .an-x { all: unset; cursor: pointer; width: 22px; height: 22px; line-height: 22px; text-align: center; border-radius: 50%; color: var(--muted); }
+  .an-list .an-x:hover, .an-list .an-x:focus-visible { color: var(--text); background: var(--line); }
+  .an-empty { padding: 6px 10px; }
+  /* the search to add one: a box, the matches under it as the letters come, Enter takes the first */
+  .an-find { position: relative; margin: 2px 6px 10px; }
+  .an-find input { width: 100%; box-sizing: border-box; font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; }
+  .an-find input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .an-hits { list-style: none; margin: 4px 0 0; padding: 4px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; max-height: 260px; overflow: auto; }
+  .an-hits li button { all: unset; display: block; width: 100%; box-sizing: border-box; padding: 6px 8px; border-radius: 6px; cursor: pointer; }
+  .an-hits li button:hover, .an-hits li button:focus-visible, .an-hits li.hit button { background: var(--line); }
+  .an-hits .dim { padding: 6px 8px; }
+  .an-side-foot { margin: 8px 6px 2px; font-size: 13px; }
+  .an-tools { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; margin: 0 0 6px; }
+  .an-tools label { display: inline-flex; align-items: center; gap: 8px; }
+  .an-tools select { font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; }
+  .an-t { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .an-t td { padding: 7px 14px 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .an-t td:first-child { width: 240px; white-space: nowrap; }
+  .an-t th { text-align: left; font-size: 16px; font-weight: 600; color: var(--text); padding: 22px 0 6px; border-bottom: 1px solid var(--line); }
+  .an-about { margin-top: 24px; max-width: 760px; }
+  .an-tabs { margin: 0 8px 0 0; }
+  .an-year { margin-left: auto; font-size: 13px; }
+  .an-year select { font-size: 13px; padding: 2px 4px; }
+  .an-reg { font-size: 13px; color: var(--muted); }
+  .an-done { font-size: 13px; white-space: nowrap; }
+  .an-away { font-size: 13px; margin-left: 6px; }
+  .an-twice { color: var(--adren); }
+  .an-twice b { font-weight: 600; }
+  .an-side-foot b { color: var(--text); font-weight: 600; }
+  .an-t td:last-child { text-align: right; width: 1%; }
+  .an-t tfoot td { border-bottom: 0; padding-top: 10px; font-size: 13px; }
+  .an-rt { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .an-rt th { text-align: left; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 8px 14px 6px 0; border-bottom: 1px solid var(--line); }
+  .an-rt td { padding: 6px 14px 6px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .an-rt td:first-child { width: 190px; white-space: nowrap; font-weight: 600; }
+  .an-rt td:nth-child(2) { width: 240px; white-space: nowrap; }
+  .an-rm { display: flex; align-items: center; gap: 5px; margin: 2px 0; }
+  .an-rm .an-in { all: unset; cursor: pointer; width: 16px; height: 16px; border: 1px solid var(--line); border-radius: 4px; text-align: center; line-height: 16px; font-size: 11px; color: var(--accent); }
+  .an-rm .an-in[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 25%, transparent); border-color: var(--accent); }
+  .an-zm { font-size: 10px; font-weight: 600; color: var(--todo); margin-left: 0; }
+</style>
+</head>
+<body class="anniversary">
+<div class="wrap">
+  <header class="top"></header><script src="header.js"></script>
+  <div class="page-title"><h1>Anniversary planner</h1><p>The easy Zaishen Missions around an Anniversary Celebration: which to take ahead, which to do any time during it, which to wait for</p></div>
+  <div class="an">
+    <aside class="an-side">
+      <div class="an-side-head"><h2>Missions</h2><button type="button" class="u-btn u-hold an-reset" id="an-reset" data-hold="2000" hidden title="Hold 2 seconds: our list again">Reset</button></div>
+      <div class="an-find">
+        <input type="search" id="an-find" placeholder="Add a mission…" autocomplete="off" aria-label="Add a mission" aria-controls="an-hits">
+        <ul class="an-hits" id="an-hits" hidden></ul>
+      </div>
+      <ul class="an-list" id="an-list"></ul>
+      <p class="an-side-foot dim" id="an-side-foot"></p>
+    </aside>
+    <div class="an-main">
+      <!-- two views: the plan for a year, and the regions with their missions (one Proof of Legend per region) -->
+      <div class="an-tools">
+        <div class="ch-tabs an-tabs" role="tablist"><button type="button" role="tab" data-view="plan" aria-selected="true">Plan</button><button type="button" role="tab" data-view="regions" aria-selected="false">Regions</button></div>
+        <span class="dim" id="an-when"></span>
+        <label id="an-year-l" class="an-year dim" title="Another year's Anniversary">Year <select id="an-year" aria-label="Year"></select></label>
+      </div>
+      <div id="an-plan"></div>
+      <div id="an-regions" hidden></div>
+      <p class="dim an-about">During the Anniversary Celebration every Zaishen Mission quest pays double, and a character gets one Proof of Legend per
+        region for any mission done there, so one mission per region is worth doing, the easiest. A Zaishen quest taken from the board
+        keeps for the whole event: the easy missions that come up in the last days before it can be taken ahead and handed in once it
+        starts; the ones that come up during it are waited for; the rest of the list can be done on any day of it, with that day's quest.</p>
+    </div>
+  </div>
+  <footer class="site-footer"><a href="about">About</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · <a href="license">License &amp; credits</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="game/titles.js"></script>
+<script src="game/calendar.js"></script>
+<script src="game/ground.js"></script>
+<script src="game/missions.js"></script>
+<script src="data/anniversary.js"></script>
+<script src="common.js"></script>
+<script src="anniversary.js"></script>
+</body>
+</html>
