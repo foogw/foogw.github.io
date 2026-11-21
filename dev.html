@@ -15,6 +15,7 @@
   .dev-said { margin: 8px 0; min-height: 1.4em; }
   .dev-lbl { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
   .dev-lbl-danger { color: var(--sac); }
+  .dev-danger { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--sac); margin-left: 8px; vertical-align: middle; }
 </style>
 </head>
 <body>
@@ -35,11 +36,11 @@
       <li><a href="gwamm">GWAMM route</a>: what the character picked should do next toward God Walking Amongst Mere Mortals</li>
       <li><a href="guides?devona">Devona</a> and <a href="guides?althea">Ghost of Althea</a>: the two Reforged heroes' guides, not on the Guides page yet</li>
     </ul>
-    <!-- testing aids, on a site reached by its address only: each button held for a moment (one to three seconds, by what it
-         costs), so nothing goes by a stray click -->
-    <div id="dev-test" hidden>
-      <h2>Testing</h2>
-      <p class="dim">Hold a button to do it. Only here, on a site reached by its address.</p>
+    <!-- testing aids: each button held for a moment (one to three seconds, by what it costs), so nothing goes by a
+         stray click; they replace or clear the progress kept in this browser, so the section says so -->
+    <div id="dev-test">
+      <h2>Testing <span class="dev-danger">Danger zone</span></h2>
+      <p class="dim">Hold a button to do it. These replace or wipe the progress this browser keeps: back it up first.</p>
       <!-- what replaces the saved progress: the example, nothing, or the stash (once there is one) -->
       <div class="dev-test"><span class="dev-lbl dev-lbl-danger">Override current user data:</span>
         <button type="button" class="u-btn u-hold" id="dev-example" data-hold="2000" title="Hold 2 seconds: the example progress, its dates set for today, replaces what's saved">Apply the example</button>
@@ -66,52 +67,47 @@
 <script src="data/example.js"></script>
 <script>
 "use strict";
-/* ---------- testing aids ---------- */
-// shown on a site reached by an IP address (v4, or v6 with its colons), never on the site itself
+/* ---------- testing aids (on the site itself too, the Danger zone) ---------- */
 {
-  const ip = /^(\d{1,3}(\.\d{1,3}){3}|\[?[0-9a-f]*:[0-9a-f:]*\]?)$/i.test(location.hostname);
-  if (ip) {
-    $("dev-test").hidden = false;
-    const said = t => { $("dev-said").textContent = t; };
-    const hold = holdToAct;  // (common.js: held for its data-hold time)
-    hold($("dev-example"), () => {
-      const ex = exampleProgress(), err = userCheck(ex);
-      if (err) return said(`The example doesn't pass the check: ${err}`);
-      if (User.broken()) User.reset();
-      User.save(userFromKept(ex), true);
-      try { localStorage.removeItem(USER_CHAR_KEY); } catch { /* storage blocked */ }
-      said(`Done: the example is your progress now, ${ex.accounts.length} accounts, ${ex.accounts.reduce((n, a) => n + a.chars.length, 0)} characters, its dates set for today.`);
-    });
-    hold($("dev-clear"), () => {
-      // (everything of the site's in this browser: the progress, the picked character, settings, marks, the lot; the
-      // stash stays, being this page's own)
-      let n = 0;
-      try { const stash = localStorage.getItem(STASH); n = localStorage.length - (stash ? 1 : 0); localStorage.clear(); if (stash) localStorage.setItem(STASH, stash); } catch { /* storage blocked */ }
-      said(`Done: ${n} item${n === 1 ? "" : "s"} cleared. The site starts afresh.`);
-      dispatchEvent(new Event("userchange")); globalThis.headerChar?.();
-      showStash();
-    });
-    // the stash: the progress as kept, with the picked character, and when; one only
-    const STASH = "gw-dev-stash";
-    const fmt = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
-    const stashed = () => { try { return JSON.parse(localStorage.getItem(STASH)); } catch { return null; } };
-    const showStash = () => { const st = stashed(); $("dev-stash-apply").hidden = !st; $("dev-stash-lbl").classList.toggle("dev-lbl-danger", !!st);
-      $("dev-stash-said").textContent = st ? `Stashed ${fmt.format(st.at)}: ${st.accounts} account${st.accounts === 1 ? "" : "s"}, ${st.chars} character${st.chars === 1 ? "" : "s"}` : "Nothing stashed"; };
-    hold($("dev-stash"), () => {
-      const raw = User.stored();
-      if (raw == null) return said("Nothing is saved to stash.");
-      const o = User.broken() ? null : User.data();
-      try { localStorage.setItem(STASH, JSON.stringify({ at: Date.now(), raw, char: localStorage.getItem(USER_CHAR_KEY), accounts: o ? o.accounts.length : 0, chars: o ? o.chars.length : 0 })); } catch { return said("The browser wouldn't keep it."); }
-      said("Stashed."); showStash();
-    });
-    hold($("dev-stash-apply"), () => {
-      const st = stashed(); if (!st) return said("Nothing stashed.");
-      try { localStorage.setItem(USER_KEY, st.raw); if (st.char) localStorage.setItem(USER_CHAR_KEY, st.char); else localStorage.removeItem(USER_CHAR_KEY); } catch { return said("The browser wouldn't keep it."); }
-      dispatchEvent(new Event("userchange")); globalThis.headerChar?.();
-      said(`Done: the stash of ${fmt.format(st.at)} is your progress now.`);
-    });
+  const said = t => { $("dev-said").textContent = t; };
+  const hold = holdToAct;  // (common.js: held for its data-hold time)
+  hold($("dev-example"), () => {
+    const ex = exampleProgress(), err = userCheck(ex);
+    if (err) return said(`The example doesn't pass the check: ${err}`);
+    if (User.broken()) User.reset();
+    User.save(userFromKept(ex), true);
+    try { localStorage.removeItem(USER_CHAR_KEY); } catch { /* storage blocked */ }
+    said(`Done: the example is your progress now, ${ex.accounts.length} accounts, ${ex.accounts.reduce((n, a) => n + a.chars.length, 0)} characters, its dates set for today.`);
+  });
+  hold($("dev-clear"), () => {
+    // (everything of the site's in this browser: the progress, the picked character, settings, marks, the lot; the
+    // stash stays, being this page's own)
+    let n = 0;
+    try { const stash = localStorage.getItem(STASH); n = localStorage.length - (stash ? 1 : 0); localStorage.clear(); if (stash) localStorage.setItem(STASH, stash); } catch { /* storage blocked */ }
+    said(`Done: ${n} item${n === 1 ? "" : "s"} cleared. The site starts afresh.`);
+    dispatchEvent(new Event("userchange")); globalThis.headerChar?.();
     showStash();
-  }
+  });
+  // the stash: the progress as kept, with the picked character, and when; one only
+  const STASH = "gw-dev-stash";
+  const fmt = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
+  const stashed = () => { try { return JSON.parse(localStorage.getItem(STASH)); } catch { return null; } };
+  const showStash = () => { const st = stashed(); $("dev-stash-apply").hidden = !st; $("dev-stash-lbl").classList.toggle("dev-lbl-danger", !!st);
+    $("dev-stash-said").textContent = st ? `Stashed ${fmt.format(st.at)}: ${st.accounts} account${st.accounts === 1 ? "" : "s"}, ${st.chars} character${st.chars === 1 ? "" : "s"}` : "Nothing stashed"; };
+  hold($("dev-stash"), () => {
+    const raw = User.stored();
+    if (raw == null) return said("Nothing is saved to stash.");
+    const o = User.broken() ? null : User.data();
+    try { localStorage.setItem(STASH, JSON.stringify({ at: Date.now(), raw, char: localStorage.getItem(USER_CHAR_KEY), accounts: o ? o.accounts.length : 0, chars: o ? o.chars.length : 0 })); } catch { return said("The browser wouldn't keep it."); }
+    said("Stashed."); showStash();
+  });
+  hold($("dev-stash-apply"), () => {
+    const st = stashed(); if (!st) return said("Nothing stashed.");
+    try { localStorage.setItem(USER_KEY, st.raw); if (st.char) localStorage.setItem(USER_CHAR_KEY, st.char); else localStorage.removeItem(USER_CHAR_KEY); } catch { return said("The browser wouldn't keep it."); }
+    dispatchEvent(new Event("userchange")); globalThis.headerChar?.();
+    said(`Done: the stash of ${fmt.format(st.at)} is your progress now.`);
+  });
+  showStash();
 }
 </script>
 </body>
