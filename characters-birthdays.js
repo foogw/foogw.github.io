@@ -38,17 +38,18 @@
       : ` for ${stretch(a.end - now)} (${Math.round(100 * (1 - (a.end - now) / (a.hi - a.lo)))}%<sup class="arr">${a.rising ? "⭡" : "⭣"}</sup>)`}</span>`
     : `<span title="Best check ${fmtWhen.format(best)}; readings help from ${fmtWhen.format(a.start)}">${length(a.hi - a.lo)} window opens in ${stretch(a.start - now)}</span>`)
     + (why ? ` <span class="why why-${why.split(" ")[0]}">${why}</span>` : "");
-  // the opportunity a check is, for the column's order: [tier, within it], the reason named for the tiers that stand
-  // out. A short window (under a day) past its best check and still cutting something comes first (the sooner it
-  // closes the higher): an hour's delay costs a lot there, nothing on a window of weeks; then a check cutting a quarter
-  // or more now (the more the higher); then a short window opening within a day (the sooner the higher); then the
-  // other open windows by what's left, the other checks by their best time
-  function opportunity(a, now, best) {
-    const cut = a.side / (a.hi - a.lo), left = a.end - now, window = a.hi - a.lo, soon = a.start - now;
-    if (a.inside && window <= DAY && !a.rising && cut >= 0.05) return [0, left, "closing"];
-    if (a.inside && cut >= 0.25) return [1, -cut, "worth it"];
-    if (!a.inside && soon <= DAY && window <= DAY) return [2, soon, "short window soon"];
-    return a.inside ? [3, left, ""] : [4, best - now, ""];
+  // the order of the check column, by urgency (the sort notes): a window is "active" from 15% of the way through it to
+  // its end, and those come first, the soonest to close first; two closing within a few hours of each other, the one
+  // longer than a day first (its birthday to lock in before the birth minute), then the one nearest the target, 30% of
+  // the way. Then the ones too early to ask, by when they become active; then the windows not open, by their next
+  // target; the known-to-the-minute last. The tag names the active ones (ask) and the early ones (early)
+  const HOUR = 36e5;
+  function opportunity(a, now) {
+    const W = a.hi - a.lo, start = a.inside ? a.end - W : a.start, end = start + W, target = start + 0.3 * W, left = end - now;
+    if (a.inside && a.end === Infinity) return [0, 0, "ask"];  // (a boundary always inside: ask any time, first of all)
+    if (a.inside && now >= start + 0.15 * W) return [0, Math.floor(left / (3 * HOUR)) * 1e9 + (W > DAY ? 0 : 1e8) + Math.min(1e8 - 1, Math.abs(now - target)), "ask"];
+    if (a.inside) return [1, start + 0.15 * W - now, "early"];
+    return [2, target - now, ""];
   }
   // the rows' order: by a column (its header clicked: again, the other way), set when the page loads (as kept, by
   // account) and when a header is clicked, then kept as ages are added (a new character last); by the check column,
@@ -57,7 +58,7 @@
   const COLS = [["acct", "Account"], ["name", "Character"], ["age", "Age", "How old it is: ~ when the range leaves a doubt"],
     ["created", "Created", "When it was made (your time), once known to the day; with the time once known to the minute"],
     ["range", "Range", "How long the time it can have been made in still is (rounded up): days, then hours, then minutes", "num"],
-    ["check", "Check window", "How long readings of /age help for, and when: opening in so long, or open now with what's left and how far through (the best check at 50%). Sorted by opportunity: short windows (under a day) past their best check and closing, then checks cutting a quarter or more, then short windows opening within a day, then the rest by time", "chk"]];
+    ["check", "Check window", "How long readings of /age help for, and when: opening in so long, or open now with what's left and how far through (the best check at 50%). Sorted by urgency: the windows open and at least 15% through, the soonest to close first (then the longer one, then the nearest its 30% target); then the ones too early to ask; then the windows not open, by their next target", "chk"]];
   // the rows shown, by character id: what the second-by-second refresh works from
   let shown = [];
   // an age's colour, as on the Overview: a gradient over the characters shown, oldest to newest (one character: none)
@@ -67,7 +68,7 @@
   function cells(r, now) {
     const { lo, hi, done } = r, a = ageAt(r.made, now), mid = (lo + hi) / 2;
     // (the best check is when a boundary is at the middle, the next time if the one inside has passed it)
-    const best = a.next >= now ? a.next : mid + ageNextX(now - mid), [tier, within, why] = opportunity(a, now, best);
+    const best = a.next >= now ? a.next : mid + ageNextX(now - mid), [tier, within, why] = opportunity(a, now);
     const add = ageAddHTML(r.c, now);
     return { age: `<span${ageColor(mid)}>${ageSaid(lo, hi, now)}</span>`, created: madeSaid(lo, hi),
       range: done ? "" : a.said(Math.max(1, Math.ceil((hi - lo) / a.unit))),
