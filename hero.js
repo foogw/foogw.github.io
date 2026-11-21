@@ -5,6 +5,8 @@
 VIEWS.hero = (() => {
   const campNames = h => h.campaigns.map(c => CAMPAIGNS[c]);
 
+  // the tick: recruited by the character picked (a pre-Searing one can recruit only Devona and the Ghost of Althea)
+  const recruitTick = h => (!User.broken() && canRecruit(User.char()).some(x => x.id === h.id) ? `<div class="hp-tick">${heroTick(h.id, undefined, "Recruited")}</div>` : "");
   function html(h) {
     const alts = (h.alternative_to || []).map(i => HEROES[i]).filter(Boolean);
     const missions = Object.values(MISSIONS).filter(m => (m.hero || []).includes(h.id));
@@ -14,6 +16,7 @@ VIEWS.hero = (() => {
       <div class="sp-head" style="--pc:${profVar(h.profession)}">
         <img class="sp-icon hp-icon" src="img/prof/${profName(h)}.png" alt="">
         <div class="sp-title"><h2>${esc(h.name)}</h2><div class="sp-sub">${h.profession ? profName(h) : "Any profession"} · needs ${esc(listText(campNames(h)))}</div></div>
+        ${recruitTick(h)}
       </div>
       <div class="lgrid">
         <div class="lside">

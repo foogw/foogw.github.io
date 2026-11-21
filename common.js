@@ -1175,6 +1175,8 @@ const User = {
   pick(id) { try { localStorage.setItem(USER_CHAR_KEY, id); } catch { /* storage blocked */ } userSeen = null; userSync(); globalThis.headerChar?.(); },
   captured(id) { return User.char().elites.includes(+id); },
   vanquished(id) { return (User.char().vanquished || []).includes(+id); },
+  recruited(id) { return (User.char().heroes || []).includes(+id); },
+  setRecruited(id, on) { User.change(c => { const hs = new Set(c.heroes || []); if (on) hs.add(+id); else hs.delete(+id); if (hs.size) c.heroes = [...hs].sort((a, b) => a - b); else delete c.heroes; }); },
   // the shown character's account
   account(o = User.data()) { return o.accounts.find(a => a.id === User.char(o).account); },
   // the rank reached in a title, kept on the character or on its account (by the title's scope); 0: not reached
@@ -1225,6 +1227,7 @@ function userSync() {
   const c = User.char();
   for (const b of document.querySelectorAll(".utick[data-elite]")) b.setAttribute("aria-pressed", c.elites.includes(+b.dataset.elite));
   for (const b of document.querySelectorAll(".utick[data-vanq]")) b.setAttribute("aria-pressed", (c.vanquished || []).includes(+b.dataset.vanq));
+  for (const b of document.querySelectorAll(".utick[data-hero]")) b.setAttribute("aria-pressed", (c.heroes || []).includes(+b.dataset.hero));
   for (const g of document.querySelectorAll(".uticks")) for (const b of g.querySelectorAll(".utick")) b.setAttribute("aria-pressed", !!((c[g.dataset.part][g.dataset.id] || 0) & +b.dataset.mode));
   dispatchEvent(new Event("userchange"));
 }
@@ -1242,6 +1245,8 @@ let CAPTURABLE = null; const capturableElites = () => (CAPTURABLE ??= Object.key
 // the ticks: an elite captured, a mission or dungeon done in normal and hard mode
 // (a list passes what it knows already: reading the progress for each row is slow)
 const eliteTick = (id, on = User.captured(id), label = "") => `<button type="button" class="utick${label ? "" : " ck"}" data-elite="${id}" aria-pressed="${on}" title="Captured">${label ? `<span class="ubox"></span>${label}` : "✓"}</button>`;
+// a hero recruited (the hero's page; My Characters' Heroes tab has its own pills)
+const heroTick = (id, on = User.recruited(id), label = "") => `<button type="button" class="utick${label ? "" : " ck"}" data-hero="${id}" aria-pressed="${on}" title="Recruited">${label ? `<span class="ubox"></span>${label}` : "✓"}</button>`;
 // an area vanquished (one with foes to vanquish)
 const vanqTick = (id, on = User.vanquished(id), label = "") => `<button type="button" class="utick${label ? "" : " ck"}" data-vanq="${id}" aria-pressed="${on}" title="Vanquished">${label ? `<span class="ubox"></span>${label}` : "✓"}</button>`;
 // the missions with normal and hard mode to tick: the story ones (not the elite ones, Urgoz's Warren and The Deep, nor
@@ -1296,6 +1301,9 @@ document.addEventListener("click", e => {
   } else if (b.dataset.vanq) {
     User.setVanquishedMany([b.dataset.vanq], on);
     for (const x of document.querySelectorAll(`.utick[data-vanq="${b.dataset.vanq}"]`)) x.setAttribute("aria-pressed", on);
+  } else if (b.dataset.hero) {
+    User.setRecruited(b.dataset.hero, on);
+    for (const x of document.querySelectorAll(`.utick[data-hero="${b.dataset.hero}"]`)) x.setAttribute("aria-pressed", on);
   } else {
     const g = b.parentElement, v = User.done(g.dataset.part, g.dataset.id) ^ +b.dataset.mode;
     User.setDone(g.dataset.part, g.dataset.id, v);

@@ -225,6 +225,7 @@ nav.pages a[aria-current=page] { color: var(--text); }
 .pbox small { color: var(--muted); font-size: 12.5px; margin-top: auto; }
 /* a pre-Searing character picked (common.js): no ticks, nor the filters by progress; a line instead */
 .u-pre .col-tick, .u-pre .utick, .u-pre .uticks, .u-pre .c-vq, .u-pre .u-char { display: none; }
+.u-pre .utick[data-hero] { display: inline-flex; }  /* (a hero a pre-Searing character can recruit: its page shows the tick) */
 .u-pre-note { display: none; margin: 8px 0; }
 .u-pre .u-pre-note { display: block; }
 /* a link to a thing a wannabe GWAMM still needs (common.js need): the accent, underlined dotted; who and what on hover */
@@ -914,6 +915,7 @@ a.hchip { text-decoration: none; }
   border-radius: 10px; border: 1px solid var(--line); border-left: 4px solid var(--pc);
   background: linear-gradient(90deg, color-mix(in srgb, var(--pc) 12%, var(--panel)), var(--panel)); }
 .sp-icon { width: 64px; height: 64px; border-radius: 6px; flex: none; }
+.hp-tick { margin-left: auto; }  /* (a hero page: its Recruited tick at the head's right) */
 .sp-head.elite .sp-icon { box-shadow: 0 0 0 2px var(--elite); }
 .sp-title { flex: 1 1 260px; min-width: 0; }
 .sp-title h2 { margin: 0 0 4px; font-size: 28px; line-height: 1.15; }
