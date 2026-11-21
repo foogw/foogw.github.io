@@ -34,23 +34,23 @@
   };
   const TIERS = [[24, 14, 25], [39, 21], [1, 4], [15]];
 
-  /* ---------- the storybooks (the Guild Wars Wiki): their pages, by mission ---------- */
+  /* ---------- the storybooks (the Guild Wars Wiki): their pages, by mission ----------
+     (the hard-mode books only: Young Heroes of Tyria fills in normal mode but is left out, its rewards no title) */
   const BOOKS = [
-    { id: "yhot", name: "Young Heroes of Tyria", hm: false, from: "any loremaster: Gordon Ecker in Lion's Arch, Anja or Gorani in Kaineng Center, Captain Ahkenchu in the Sunspear Great Hall",
-      pages: [[28, 2], [29, 3], [30, 4], [32, 5], [25, 6], [21, 7], [14, 8], [257, 9], [258, 10], [556, 11], [515, 12], [516, 13]] },
-    { id: "fsp", name: "The Flameseeker Prophecies", hm: true, from: "Gordon Ecker in Lion's Arch (the hard-mode one at level 20)",
+    { id: "fsp", name: "The Flameseeker Prophecies", from: "Gordon Ecker in Lion's Arch (the hard-mode one at level 20)",
       pages: [[15, 1], [16, 2], [11, 3], [10, 4], [12, 5], [73, 6], [19, 7], [116, 8], [117, 9], [118, 10], [38, 11], [120, 12], [22, 13], [24, 14], [23, 15], [122, 16], [123, 17], [124, 18]] },
-    { id: "shiro", name: "Shiro's Return", hm: true, from: "Anja or Gorani in Kaineng Center",
+    { id: "shiro", name: "Shiro's Return", from: "Anja or Gorani in Kaineng Center",
       pages: [[215, 1], [260, 2], [261, 3], [262, 4], [263, 5], [264, 6], [267, 7], [268, 8], [204, 9], [270, 10], [271, 11]] },
-    { id: "nf", name: "Night Falls", hm: true, from: "Captain Ahkenchu in the Sunspear Great Hall, or the Source of Whispers in the Chantry of Secrets",
+    { id: "nf", name: "Night Falls", from: "Captain Ahkenchu in the Sunspear Great Hall, or the Source of Whispers in the Chantry of Secrets",
       pages: [[517, 1], [453, 2], [458, 3], [459, 4], [460, 5], [427, 6], [518, 7], [519, 8], [520, 9], [521, 10], [522, 11], [523, 12], [524, 13], [525, 14], [526, 15], [527, 16], [528, 17]] },
-    { id: "hh", name: "Hero's Handbook", hm: true, from: "Gedrel of Ascalon at the Eye of the North, Kodan or Tyr the Skaald in Gunnar's Hold, Lexx in Rata Sum",
+    { id: "hh", name: "Hero's Handbook", from: "Gedrel of Ascalon at the Eye of the North, Kodan or Tyr the Skaald in Gunnar's Hold, Lexx in Rata Sum",
       pages: [["q100424", 1], ["q100443", 2], [665, 3], [666, 4], [669, 5], ["q100389", 6], [653, 7], [655, 8], [654, 9], ["q100441", 10], [658, 11], [661, 12], [664, 13], ["q100340", 14], [670, 15], [673, 16]] },
   ];
   const BOOK_OF = new Map();  // mission id -> [book, page]
   for (const b of BOOKS) for (const [m, p] of b.pages) if (typeof m === "number") BOOK_OF.set(m, [b, p]);
-  const bookNote = (id, hm) => { const bp = BOOK_OF.get(id); if (!bp) return "";
-    const [b, p] = bp; return hm && !b.hm ? "" : `<span class="gw-book" title="From ${esc(b.from)}; forgot it: a page can be bought for 100 gold within 30 days">📖 ${esc(b.name)}${hm ? " (Hard Mode)" : ""}, page ${p}</span>`; };
+  // (a note on the hard-mode lines only: the pages fill in hard mode)
+  const bookNote = (id, hm) => { const bp = BOOK_OF.get(id); if (!bp || !hm) return "";
+    const [b, p] = bp; return `<span class="gw-book" title="From ${esc(b.from)}; forgot it: a page can be bought for 100 gold within 30 days">📖 ${esc(b.name)} (Hard Mode), page ${p}</span>`; };
 
   /* ---------- the campaigns' missions ---------- */
   const STORY = {};  // campaign -> its story missions, in order
@@ -93,9 +93,9 @@
   const zDays = (r, is) => { if (!r) return null; const n = r.entries.length, k = Rotation.period(r); for (let i = 0; i < n; i++) if (is(Rotation.entry(r, k + i))) return i; return null; };
 
   /* ---------- the lines: a card with what matters there, or the bare name ---------- */
-  // rec (once the heroes are there): the mode to do it in and its Zaishen day
+  // rec (once the heroes are there): the mode to do it in and, in hard mode, its Zaishen day (normal mode is done in order, any day)
   const missionLine = (c, x, hard = false, bare = false, rec = null) => bare ? `<li><b>${LINK.mission(x.id)}</b></li>`
-    : `<li class="gw-card"><b>${LINK.mission(x.id)}</b><div class="gw-with">${[rec ? `<span class="gw-rec"><b>${hard ? "hard" : "normal"} mode</b></span>` : "", rec && zText(x.id) ? `<span class="gw-z">📅 ${zText(x.id)}</span>` : "", hard ? "" : bonusHTML(x), bookNote(x.id, hard), elitesHTML(c, x.id, x.m.outpost), groundHTML()].filter(Boolean).join("")}</div></li>`;
+    : `<li class="gw-card"><b>${LINK.mission(x.id)}</b><div class="gw-with">${[rec ? `<span class="gw-rec"><b>${hard ? "hard" : "normal"} mode</b></span>` : "", rec && hard && zText(x.id) ? `<span class="gw-z">📅 ${zText(x.id)}</span>` : "", hard ? "" : bonusHTML(x), bookNote(x.id, hard), elitesHTML(c, x.id, x.m.outpost), groundHTML()].filter(Boolean).join("")}</div></li>`;
   const groupLines = (c, gs, hard = false, bare = false, rec = null) => gs.map(g => (g.length > 1 ? `<li class="gw-either"><span class="dim">either</span><ul>${g.map(x => missionLine(c, x, hard, bare, rec)).join("")}</ul></li>` : missionLine(c, g[0], hard, bare, rec))).join("");
 
   /* ---------- phase 0: the campaign it was made in ---------- */
@@ -139,7 +139,7 @@
       if (!nmNext && !hmNext && !start.length) continue;
       parts.push(`<div class="gw-path-col"><h3>${esc(CAMPAIGNS[camp])}</h3><ul class="gw-list">${nmNext ? groupLines(c, [nmNext], false, false, true) : ""}${hmNext ? missionLine(c, hmNext, true, false, true) : ""}</ul>${start.length ? `<p class="dim gw-sub">From the start, left behind</p><ul class="gw-list">${groupLines(c, groups(start, 1), false, false, true)}</ul>` : ""}</div>`);
     }
-    return parts.length ? `<section><h2>Next missions</h2><p class="dim">The next of each campaign, in normal mode and, once the campaign is finished, in hard mode; whichever is handy, on its Zaishen day if it comes soon.</p><div class="gw-paths">${parts.join("")}</div></section>` : "";
+    return parts.length ? `<section><h2>Next missions</h2><p class="dim">The next of each campaign, in normal mode and, once the campaign is finished, in hard mode on its Zaishen day if it comes soon.</p><div class="gw-paths">${parts.join("")}</div></section>` : "";
   }
   // hard mode, by the Zaishen rotations: what's left, the entries whose day has just passed first (they're the farthest
   // from coming round again)
