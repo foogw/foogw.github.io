@@ -1,20 +1,20 @@
 # Guild Wars Today
 
-A static Guild Wars reference site: skills, quests and missions, the skillbar builder, and the daily and
-weekly rotations. No server and no build step; open `index.html` directly or serve the folder with
-GitHub Pages.
+<https://foogw.github.io>
 
-## Layout
+A not-so-static Guild Wars site: while it is a static vanilla HTML, CSS and JavaScript site on GitHub
+Pages, it uses the current date, the game's schedule and the browser's local storage to tell you what
+matters today for your characters. The day's rotations and events; tools that work out what a character
+should do next (the easiest elite captures, the Anniversary planner, the skillbar builder and curated
+builds); guides for farms and quest runs; and a reference to the game (areas, missions, quests, dungeons,
+maps, storylines, skills, bosses, heroes, armor, titles).
 
-    *.html, style.css, common.js and one script per page             pages
-    mapwidget.js, walkroute.js                                       maps and the route finder
-    template-code.js                                                 template-code encode/decode
-    game/            the game's data, keyed by the game's ids (see each section's "_" note)
-    game/walk/       each area's walkable ground, as polygons
-    data/            the site's own content: guides, builds, search aliases
-    img/tiles/       the maps, cut into tiles; img/skills/, img/prof/: icons
+Characters' progress is ticked off on the pages and kept in the browser only, with a Backup page to save it
+to a file and load it back; with nothing saved yet, example characters show the site working.
 
-The data files are the source: edit them by hand. `../tools/check_game.py` checks every pointer.
+No build step: the folder is served as it is by GitHub Pages, at <https://foogw.github.io>. The game's data
+and the site's own content are plain files, kept by hand and checked by a script; the Dev page links the
+site's own tools and testing aids.
 
 ## License
 
