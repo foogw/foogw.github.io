@@ -311,8 +311,10 @@ function need(kind, id) {
 }
 // the hover card's rows: each wannabe with its profession and what it still needs, kept on the link (data-todo)
 const todoRows = rows => esc(JSON.stringify(rows.map(([c, x]) => [c.name, c.profession || 0, x])));
-// a link, styled as a thing to do when a wannabe needs it, with the card on hover
-const todoLink = (html, kind, id) => { const rows = need(kind, id); return rows.length ? html.replace(/^<a /, `<a class="todo" data-todo="${todoRows(rows)}" `) : html; };
+// a link, styled as a thing to do when a wannabe needs it, with the card on hover: in full colour when the character
+// picked needs it, muted when only other wannabes do (so the marks follow the pick, the card still naming everyone)
+const todoClass = rows => (rows.some(([c]) => c.id === User.char().id) ? "todo" : "todo todo-o");
+const todoLink = (html, kind, id) => { const rows = need(kind, id); return rows.length ? html.replace(/^<a /, `<a class="${todoClass(rows)}" data-todo="${todoRows(rows)}" `) : html; };
 const missionMarks = () => "", vanqMark = () => "", modeMarks = () => "", bonusMark = () => "";  // (gone: the styling above)
 // a page's note as a list item
 const noteLi = n => `<li>${n}</li>`;
@@ -559,7 +561,7 @@ function entryHTML(e) {
     const chk = e.area && typeof CHECK_AREAS !== "undefined" ? CHECK_AREAS[e.area] : null;
     const by = new Map(); for (const [c, x] of [...(dgn ? need("dungeon", e.area) : []), ...(chk ? need("check", chk).map(([c]) => [c, "clear"]) : [])]) by.set(c, [...(by.get(c) || []), x].filter(Boolean).join(", "));
     const rows = [...by].map(([c, x]) => [c, x]);
-    return rows.length ? LINK.boss(e.creature, entryName(e)).replace(/^<a /, `<a class="todo" data-todo="${todoRows(rows)}" `) : LINK.boss(e.creature, entryName(e)); }
+    return rows.length ? LINK.boss(e.creature, entryName(e)).replace(/^<a /, `<a class="${todoClass(rows)}" data-todo="${todoRows(rows)}" `) : LINK.boss(e.creature, entryName(e)); }
   if (e.creature && e.area && isTickedDungeon(e.area)) return todoLink(`<a href="${HREF.dungeon(e.area)}" title="${esc(areaName(e.area))}">${esc(entryName(e))}</a>`, "dungeon", e.area);
   if (e.quest) return LINK.quest(e.quest);
   // Nicholas the Traveler's item: his map that week, at the foot of the Rotations page
