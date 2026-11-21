@@ -142,7 +142,7 @@ const TODAY = [["zaishen-mission", "Mission"], ["zaishen-vanquish", "Vanquish"],
 // of it at least; one down to hours or minutes, whenever a check cuts it at all, with the time left to check
 const played = c => !c.hidden && c.aim !== "retired";
 function renderToday() {
-  const t = NOW(), ok = User.stored() != null && !User.broken(), o = ok ? User.data() : null;
+  const t = NOW(), ok = !User.broken(), o = ok ? User.data() : null;
   $("today").innerHTML = rotationListHTML(TODAY, t);
   const day0 = new Date(t).setHours(0, 0, 0, 0), cutAt = (c, at) => { const a = ageAt(c.bornBetween, at); return a.side / (a.hi - a.lo); };
   const bdays = ok ? byImportance(o.chars.filter(c => c.bornBetween && played(c)), o).flatMap(c => {

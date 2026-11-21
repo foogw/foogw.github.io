@@ -82,7 +82,7 @@
   };
   showChar();
   globalThis.headerChar = showChar;
-  // the view My Characters moved to in the page (a mock made, the last one deleted): its links marked again
+  // the view My Characters moved to in the page (an example made, the last one deleted): its links marked again
   globalThis.headerView = v => { view = v === "chars" ? null : v;
     for (const a of header.querySelectorAll('a[href^="characters"]:not([href*="-"])')) { if (isCurrent(a.getAttribute("href"))) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); } };
   addEventListener("storage", showChar);  // (another tab)

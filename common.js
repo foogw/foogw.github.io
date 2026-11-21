@@ -290,7 +290,7 @@ const entryName = e => (e.item || (e.creature && CREATURES[e.creature]?.name) ||
 // the marks and notes of what the picked character has left to do show only once it has a name of its own (not the
 // default Char<id>), as the top bar names it (header.js): before that, nothing says whose they'd be; nor for a
 // pre-Searing character, which has none of it to do
-const userNamed = () => { if (User.stored() == null || User.broken()) return false; const c = User.char(); return !!c?.name.trim() && c.name !== `Char${c.id}` && !isPreSearing(c); };
+const userNamed = () => { if (User.broken()) return false; const c = User.char(); return !!c?.name.trim() && c.name !== `Char${c.id}` && !isPreSearing(c); };
 // the dungeons ticked done: the Eye of the North's (Secret Lair of the Snowmen too; not Destruction's Depths, a mission,
 // nor the Piken Square ones)
 const isTickedDungeon = id => USER_ALL_V3.dungeons.includes(+id);
@@ -394,7 +394,7 @@ function dailyNeeds(key, e, cs) {
 }
 // the wannabe GWAMMs (not pre-Searing, nor hidden), in the order kept: null with no progress kept
 function wannabes() {
-  if (User.stored() == null || User.broken()) return null;
+  if (User.broken()) return null;
   return User.data().chars.filter(c => c.aim === "gwamm" && !c.hidden && !(c.modes || []).includes("presearing"));
 }
 // on a mission's, area's, dungeon's or boss's page: the wannabe GWAMMs still needing it (kind: of NEEDS), as pills, in
@@ -410,7 +410,7 @@ addEventListener("userchange", () => { for (const p of document.querySelectorAll
 // animal, so your Canthan characters (not pre-Searing, nor hidden, whatever they aim at, vanquished it or not) are counted
 const QUICK = {
   mission: { 38: () => "Quick Zaishen mission" },
-  vanquish: { 246: () => { if (User.stored() == null || User.broken()) return "";
+  vanquish: { 246: () => { if (User.broken()) return "";
     const n = User.data().chars.filter(c => madeIn(c) === 2 && !c.hidden && !(c.modes || []).includes("presearing")).length;
     return n ? `1-kill Zaishen vanquish for your ${n === 1 ? "Canthan character" : `${n} Canthan characters`}` : ""; } },
 };
@@ -670,7 +670,7 @@ function recruitHTML(h) {
    name, profession: its primary (1 Warrior ... 10 Dervish), elites: [skill ids captured], vanquished: [area ids],
    missionsNM, missionsHM, dungeonsNM, dungeonsHM: [ids done in that mode], titles: {title id: rank}, modes: the optional game modes
    the character is bound to (and our pre-Searing mark), of USER_MODES, gender: "m" or "f" (for how the site speaks of it,
-   left out when not set), hidden: true when kept out of My Characters' list (left out when shown), inMenu: true when listed in the top bar's character menu, to pick from (left out otherwise), mock: true for a made-up character from My Characters' About tab, to try the site with (left out otherwise), heroes: [hero ids
+   left out when not set), hidden: true when kept out of My Characters' list (left out when shown), inMenu: true when listed in the top bar's character menu, to pick from (left out otherwise), example: true for a made-up character (the starter ones, or one from My Characters' About tab; "mock" in older backups), to try the site with (left out otherwise), heroes: [hero ids
    recruited] (or "all"), builds: [skill template codes saved, in the order shown], campaign: the one it was made in (1 Prophecies, 2 Factions, 3
    Nightfall), note: the player's one line about it, aim: "gwamm" (a wannabe GWAMM: the Zaishen dailies and the pages of what it
    still needs list it) or "retired" (no longer played: left out of the Today page's suggestions), left out when played as
@@ -856,7 +856,7 @@ const USER_ALL = {
   dungeons: [560,570,573,576,577,578,581,584,604,607,612,615,617,628,630,635,670,704,780,879],
 };
 const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles", "account", "vanquished"],
-  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "inMenu", "mock", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap", "xp", "played", "playedOutside", "aim", "checks"] };
+  2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "inMenu", "example", "mock", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap", "xp", "played", "playedOutside", "aim", "checks"] };
 // the Checklist tab's items a character marks done by hand (the others it works out from the ticks): their ids
 const USER_CHECKS = ["skills", "outposts", "wik", "uw", "fow", "sf", "deep", "urgoz", "doa", "attr", "ports", "prophecies", "factions", "nightfall", "eotn",
   // (a pre-Searing character's: mytitles.js PRE_CHECKLIST)
@@ -918,7 +918,7 @@ function userFromKept(o) {
     if (k.gender) c.gender = k.gender;
     if (k.hidden) c.hidden = true;
     if (k.inMenu) c.inMenu = true;
-    if (k.mock) c.mock = true;
+    if (k.example || k.mock) c.example = true;
     if (o.v === 1) Object.assign(c, { elites: k.elites.filter(id => USER_ALL_V3.elites.includes(id)), vanquished: k.vanquished || [], missions: k.missions, dungeons: k.dungeons });
     else {
       const list = key => (k[key] === "all" ? [...allOf(key, v)] : k[key] || []);
@@ -953,7 +953,7 @@ function userToKept(o) {
     if (c.gender) k.gender = c.gender;
     if (c.hidden) k.hidden = true;
     if (c.inMenu) k.inMenu = true;
-    if (c.mock) k.mock = true;
+    if (c.example) k.example = true;
     const lists = { elites: c.elites.filter(id => USER_ALL_V3.elites.includes(id)), vanquished: c.vanquished || [] };
     // (a mission or dungeon with no ticks, as Urgoz's Warren, Destruction's Depths or the Piken Square ones, isn't kept)
     for (const part of ["missions", "dungeons"]) for (const [m, b] of [["NM", 1], ["HM", 2]])
@@ -1065,6 +1065,7 @@ function userCheck(o) {
       if (c.gender !== undefined && !["m", "f"].includes(c.gender)) return `${at}: "gender" should be "m" or "f".`;
       if (c.hidden !== undefined && c.hidden !== true) return `${at}: "hidden" should be true (or left out).`;
       if (c.inMenu !== undefined && c.inMenu !== true) return `${at}: "inMenu" should be true (or left out).`;
+      if (c.example !== undefined && c.example !== true) return `${at}: "example" should be true (or left out).`;
       if (c.mock !== undefined && c.mock !== true) return `${at}: "mock" should be true (or left out).`;
       if (c.heroes !== undefined && c.heroes !== "all" && !idList(c.heroes)) return `${at}: "heroes" should be "all" or a list of hero ids, each once.`;
       if (c.note !== undefined && !(typeof c.note === "string" && c.note.length <= USER_NOTE_MAX && !/\n/.test(c.note))) return `${at}: "note" should be one line, at most ${USER_NOTE_MAX} characters.`;
@@ -1089,6 +1090,38 @@ function userCheck(o) {
   return "";
 }
 const userRaw = () => { try { return `${localStorage.getItem(USER_KEY)}|${localStorage.getItem(USER_CHAR_KEY)}`; } catch { return ""; } };
+/* The starter: what a newcomer sees before anything is saved, so the feature shows itself: two accounts, four example
+   characters (flagged example, so their cards say so and offer to keep or delete them), with progress of every kind, made
+   for now (the ages as /age readings leave them, the coins). In the backup's shape (v3). */
+function starterProgress(now = Date.now()) {
+  const D = 864e5, iso = t => new Date(t).toISOString().slice(0, 19) + "Z", all = USER_ALL_V3, first = (xs, n) => xs.slice(0, n);
+  const says = (T, t) => { const a = t - T; return a < AGE_TWO ? [Math.floor(a / AGE_DAY), "d"] : [Math.floor(a / AGE_MO), "m"]; };
+  const range = (ageDays, readDays) => { const T = now - ageDays * D; let made = null; for (const d of readDays) { const t = now - d * D, [n, u] = says(T, t), r = ageNarrow(made, n, u, t); if (r) made = r.map(iso); } return made; };
+  const at = iso(now - D), nf = [556, 517, 518, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528], fa = [257, 258, 260, 261, 262, 263, 264, 267, 268, 270, 271, 204, 215];
+  const pro = [28, 38, 10, 11, 12, 14, 15, 16, 19, 21, 22, 23, 24, 25, 29, 30, 32, 73, 116, 117, 118, 120, 122, 123, 124];
+  return { v: 3, accounts: [
+    { id: 1, name: "My example account", reforgedCoinClock: 0, titles: { 5: 8, 44: 6, 45: 3, 46: 4 }, chars: [
+      { id: 1, name: "My example Necro", profession: 4, gender: "f", campaign: 1, aim: "gwamm", inMenu: true, example: true, elites: first(all.elites, 120), vanquished: first(all.vanquished, 40),
+        missionsNM: [...pro, ...fa], missionsHM: first(pro, 12), dungeonsNM: first(all.dungeons, 8), dungeonsHM: first(all.dungeons, 2), heroes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
+        titles: { 1: 6, 2: 4, 7: 2, 9: 3, 17: 10, 20: 8, 38: 7, 39: 6, 40: 8, 41: 7, 13: 1, 14: 1, 25: 1, 35: 1 }, checks: ["attr", "ports", "prophecies", "factions", "wik"],
+        builds: ["OAhjUwG6IPnB6CHpuUxk9UFoGA"], note: "An example: a wannabe GWAMM halfway there", bornBetween: range(3 * 365 + 40, [900, 400, 31]), xp: [12400000, at], played: [2100, at], playedOutside: [800, at] },
+      { id: 2, name: "My example Warrior", profession: 1, gender: "m", campaign: 2, inMenu: true, example: true, elites: first(all.elites, 30), vanquished: [], missionsNM: fa, missionsHM: [], dungeonsNM: [], dungeonsHM: [],
+        heroes: [13, 14, 15, 16], titles: { 14: 1, 2: 3, 9: 1 }, checks: ["factions"], note: "An example: Cantha done, nothing else yet", bornBetween: range(400, [200, 3.4]), played: [310, at], playedOutside: [20, at] },
+      { id: 3, name: "My example Perma", profession: 5, gender: "f", modes: ["presearing"], example: true, elites: [], vanquished: [], missionsNM: [], missionsHM: [], dungeonsNM: [], dungeonsHM: [], heroes: [38],
+        titles: { 21: 1, 34: 1 }, checks: ["outposts", "pouch", "charrbags"], note: "An example: stays in pre-Searing Ascalon", bornBetween: range(70.2, [40.3, 2.7]), played: [95, at], playedOutside: [95, at] } ] },
+    { id: 2, name: "My other account", chars: [
+      { id: 4, name: "My example Ranger", profession: 2, campaign: 3, inMenu: true, example: true, elites: first(all.elites, 8), vanquished: [], missionsNM: first(nf, 5), missionsHM: [], dungeonsNM: [], dungeonsHM: [], heroes: [1, 2, 3, 6],
+        titles: { 17: 4, 9: 3 }, note: "An example: just started in Elona", bornBetween: range(25.4, [20.2, 1.8]), xp: [320000, at], played: [60, at], playedOutside: [2, at] } ] } ] };
+}
+/* A button held for a moment to act (its data-hold: the milliseconds), so nothing goes by a stray click: the fill creeps
+   across it while held (class u-hold); let go sooner, nothing happens. */
+function holdToAct(btn, f) {
+  let timer = null;
+  const stop = () => { clearTimeout(timer); timer = null; btn.style.setProperty("--t", "0s"); btn.style.setProperty("--hold", "0%"); };
+  btn.addEventListener("pointerdown", e => { if (e.button) return; try { btn.setPointerCapture(e.pointerId); } catch { /* no such pointer: a key, a script */ }
+    btn.style.setProperty("--t", `${btn.dataset.hold}ms`); btn.style.setProperty("--hold", "100%"); timer = setTimeout(() => { stop(); f(); }, +btn.dataset.hold); });
+  for (const ev of ["pointerup", "pointercancel", "lostpointercapture"]) btn.addEventListener(ev, stop);
+}
 let userSeen = userRaw();  // what this page last drew from
 const User = {
   // what's kept, as text: null when nothing is
@@ -1096,9 +1129,10 @@ const User = {
   // kept progress that can't be read (broken, or by a newer site): the pages go without it, and nothing writes over it
   // but the Backup page's reset, once it's been copied
   broken() { const t = User.stored(); if (t == null) return false; try { return !!userCheck(JSON.parse(t)); } catch { return true; } },
+  // (nothing saved yet: the starter examples, unsaved until something is changed)
   data() {
     if (!User.broken()) try { const o = JSON.parse(User.stored()); if (o) return userFromKept(o); } catch { /* none yet */ }
-    return userNormalize({ v: 2, chars: [newUserChar(1)] });
+    return userFromKept(starterProgress());
   },
   // (read-only: refused, with the notice; force: loading a backup, which a read-only copy is made by)
   // (storage blocked or full: nothing kept, said once, and false back so no page says it saved)
@@ -1154,7 +1188,7 @@ const User = {
 };
 // a pre-Searing character picked: no missions, vanquishes or elite captures there, so the ticks and the filters by
 // progress are hidden (the page's u-pre class, style.css; its ticks kept), and a line says why (a .u-pre-note)
-const prePicked = () => User.stored() != null && !User.broken() && isPreSearing(User.char());
+const prePicked = () => !User.broken() && isPreSearing(User.char());
 function markPre() {
   const pre = prePicked();
   document.documentElement.classList.toggle("u-pre", pre);

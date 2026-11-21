@@ -7,7 +7,7 @@
    ticks and marks (My Characters), nothing kept here. */
 {
   const els = { who: $("gw-who"), goals: $("gw-goals"), main: $("gw-main") };
-  const ckUser = () => User.stored() != null && !User.broken();
+  const ckUser = () => !User.broken();
 
   /* ---------- the hero team ---------- */
   // the heroes a meta team is built from, by profession: three Mesmers, two Necromancers, a Ritualist; Razah is a

@@ -1,11 +1,12 @@
 "use strict";
 /* My Characters: the accounts and characters whose progress the site keeps in this browser (User, in common.js). At the
    left, the characters to pick from (the one picked is the one the whole site shows the ticks of); at the right, the one
-   picked: its card, its progress and its titles (titles.js). That is the Characters tab; the page's other views (view, in the
-   code, from the address: characters?view=edit) are About, what characters give and a mock one to try with, where a
-   newcomer lands, and Edit, the list to change: names, professions, game modes, genders, order, the ones hidden from the
-   view, new ones and deletes. */
-const els = { list: $("u-list") };
+   picked: its card, its progress and its titles (titles.js), and its Edit tab: its name, profession, game modes, gender,
+   campaign, aim, order, hidden from the view or deleted, its note, age and readings. That is the Characters tab;
+   the page's other views (view, in the code, from the address: characters?view=accounts) are About, what characters give
+   and an example one to try with, where a newcomer lands, and Accounts: each named, with the bell, in order, deleted once
+   empty, new ones. */
+const els = { accts: $("u-accts") };
 const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
 const modes = vs => `${vs.filter(v => v & 1).length} NM, ${vs.filter(v => v & 2).length} HM`;
 const charCounts = c => `${plural(c.elites.length, "elite")} captured · missions ${modes(modeProgress(c, "missions"))} · dungeons ${modes(modeProgress(c, "dungeons"))}`;
@@ -40,10 +41,10 @@ const shownChars = (o, cur) => { const hs = new Set(hiddenIds(o)); return o.char
 // (what it has: Titles, Checklist; what it brings: Heroes, Builds; what to do: What's next; then Edit)
 const TABS = [["titles", "Titles", "title"], ["check", "Checklist", "ch-check"], ["heroes", "Heroes", "ch-heroes"], ["builds", "Builds", "ch-builds"], ["next", "What's next", "ch-next"], ["edit", "Edit", "ch-edit"]], TAB = "chars.tab";
 let tab = (() => { try { const t = localStorage.getItem(TAB); return TABS.some(x => x[0] === t) ? t : "titles"; } catch { return "titles"; } })();
-// the page's view, one of its tabs: About (what characters are for, a mock one to try), Characters (the one picked), Edit (the
-// list to change); from the address (characters?view=edit), else Characters, or About while nothing is saved yet
-const PAGE_VIEWS = ["about", "chars", "edit"];
-let view = (() => { const v = new URLSearchParams(location.search).get("view"); return PAGE_VIEWS.includes(v) ? v : User.stored() == null ? "about" : "chars"; })();
+// the page's view, one of its tabs: About (what characters are for, an example one to try), Accounts, Characters (the one
+// picked); from the address (characters?view=accounts), else Characters (nothing saved yet: the starter examples show)
+const PAGE_VIEWS = ["about", "accounts", "chars"];
+let view = (() => { const v = new URLSearchParams(location.search).get("view"); return PAGE_VIEWS.includes(v) ? v : "chars"; })();
 // a tab asked for in the address (characters?tab=edit, from Today's birthdays): picked, kept, and taken off the address
 // (the view, if any, stays in it)
 { const q = new URLSearchParams(location.search), t = q.get("tab");
@@ -464,7 +465,7 @@ function cardHTML(o, c) {
       <img class="ch-prof" src="${profImg(c.profession || 0)}" alt="${c.profession ? PROFS[c.profession] : "No profession"}">
       <div class="ch-who"><h2>${esc(c.name)}</h2><div class="dim">${[bigDeal(c, o), lit(c)].filter(Boolean).join(" · ")}</div></div>
     </section>
-    ${c.mock ? `<p class="ch-hint">A mock character, made up to try the site with. Delete it as any character: on <a href="characters?view=edit">Edit</a>, hide it, then Delete.</p>` : unnamed(c) ? `<p class="ch-hint">Give this character its name and profession: <a class="link" href="characters?view=edit">Edit</a>.</p>` : ""}
+    ${c.example ? `<p class="ch-hint ch-example">An example character, made up to show the site with. Hold a button: <button type="button" class="u-btn u-hold" id="ex-keep" data-hold="1000" title="Hold a second: it's yours from now on">Keep it as mine</button><button type="button" class="u-btn u-hold danger" id="ex-delete" data-hold="2000" title="Hold 2 seconds: it goes, with its progress">Delete it</button></p>` : unnamed(c) ? `<p class="ch-hint">Give this character its name and profession: <button type="button" class="link" data-tab="edit">Edit</button>.</p>` : ""}
 `;
 }
 // its progress by subject, each count a link to what's left (under the titles' heading, titles.js)
@@ -487,36 +488,35 @@ const campPick = c => `<label class="ch-edit-camp">Made in <select id="edit-camp
 const aimPick = c => `<label class="ch-edit-aim" title="Wannabe GWAMM: the front page's Zaishen dailies and the pages of what it still needs list it. Retired: no longer played, left out of the front page's suggestions">Aim <select id="edit-aim">${Object.entries(USER_AIMS).map(([v, n]) =>
   `<option value="${v}"${(c.aim || "") === v ? " selected" : ""}>${n}</option>`).join("")}</select></label>`;
 // listed in the top bar's character menu, to pick from there (after the aim)
-// (on the Edit list, one per row: by the row's character, data-inmenu; on the Edit tab, the one shown: edit-inmenu)
-const menuPick = (c, rowId = null) => `<label class="ch-edit-menu" title="Listed in the top bar's character menu, to pick it from any page"><input type="checkbox" ${rowId != null ? `data-inmenu="${rowId}"` : 'id="edit-inmenu"'}${c.inMenu ? " checked" : ""}> In the menu</label>`;
-const charRow = (o, c, cur, tab = false) => { const sib = o.chars.filter(x => x.account === c.account), hid = !!c.hidden, one = o.chars.length < 2 && !c.mock, lone = sib.length < 2;
+const menuPick = c => `<label class="ch-edit-menu" title="Listed in the top bar's character menu, to pick it from any page"><input type="checkbox" id="edit-inmenu"${c.inMenu ? " checked" : ""}> In the menu</label>`;
+// the character's row on its Edit tab: its profession, name, mode badges, He / She, where it was made, its aim, the menu;
+// then its order among its account's, Hide (from the view) and Delete (once hidden)
+const charRow = (o, c, cur) => { const sib = o.chars.filter(x => x.account === c.account), hid = !!c.hidden, one = o.chars.length < 2 && !c.example, lone = sib.length < 2;
   return `<tr class="${[c === cur && "cur", hid && "u-hid"].filter(Boolean).join(" ")}" data-id="${c.id}">
-    <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}${genderBtn(c)}${tab ? campPick(c) + aimPick(c) + menuPick(c) : menuPick(c, c.id)}</div></td>
-    <td>${tab ? "" : `<a class="u-open" href="characters" data-open title="Its page on the Characters tab, to tick off its progress">Open${CHEV("M6 3l5 5-5 5")}</a>`}${moveBtns(lone, lone)}${tab ? "" : `<button type="button" class="u-btn u-show" data-hide aria-pressed="${hid}" title="${hid ? "Hidden from the view: show it" : "Hide it from the view"}">${hid ? "Show" : "Hide"}</button><span class="u-slot${one || !hid ? " u-why" : ""}" ${one || !hid ? `data-tip="${one ? "The last character can't be deleted" : "Hide a character before deleting it, so it isn't done by mistake"}" tabindex="0"` : ""}><button type="button" class="u-btn danger" data-delete${one || !hid ? " disabled" : ""}>Delete</button></span>`}</td></tr>`; };
-function manageHTML(o, cur, many) {
-  const folded = new Set(acctFolds()), row = c => charRow(o, c, cur);
-  // (with one account, its row too, for its name and bell, but no folding, moving or deleting)
-  const head = a => `<tr class="u-acct" data-account="${a.id}"><td colspan="2"><div class="u-acct-row">
-      ${many ? `<button type="button" class="u-fold" data-fold-account="${a.id}" aria-expanded="${!folded.has(a.id)}" aria-label="${folded.has(a.id) ? "Show" : "Hide"} its characters"></button>` : ""}
+    <td><div class="u-name">${profPick(c)}<input type="text" maxlength="40" value="${esc(c.name)}" aria-label="Name">${modeBadges(c)}${genderBtn(c)}${campPick(c)}${aimPick(c)}${menuPick(c)}</div></td>
+    <td>${moveBtns(lone, lone)}<button type="button" class="u-btn u-show" data-hide aria-pressed="${hid}" title="${hid ? "Hidden from the view: show it" : "Hide it from the view"}">${hid ? "Show" : "Hide"}</button><span class="u-slot${one || !hid ? " u-why" : ""}" ${one || !hid ? `data-tip="${one ? "The last character can't be deleted" : "Hide a character before deleting it, so it isn't done by mistake"}" tabindex="0"` : ""}><button type="button" class="u-btn danger" data-delete${one || !hid ? " disabled" : ""}>Delete</button></span></td></tr>`; };
+// the Accounts view: a row each, in the kept order: its name (none: its number), how many characters, the bell (its
+// Reforged Coins counted), its coins, its order, and Delete once it has no characters
+function accountsHTML(o) {
+  const many = o.accounts.length > 1;
+  return o.accounts.map(a => `<tr class="u-acct" data-account="${a.id}"><td colspan="2"><div class="u-acct-row">
       <input type="text" maxlength="40" value="${esc(a.name || "")}" placeholder="${esc(accountName(a))}" aria-label="Account name">
       <span class="u-n" title="Characters">${o.chars.filter(c => c.account === a.id).length}</span>
       <button type="button" class="u-bell" data-bell aria-pressed="${a.reforgedCoinClock !== undefined}" title="${a.reforgedCoinClock !== undefined ? "Has the bell: its Reforged Coins counted (click if it hasn't)" : "Has the bell? Click to count its Reforged Coins"}">${BELL}</button>
-      ${many ? `<span class="u-acct-right">${moveBtns(o.accounts[0] === a, o.accounts[o.accounts.length - 1] === a)}<span class="u-slot">${o.chars.some(c => c.account === a.id) ? "" : `<button type="button" class="u-btn danger" data-delete-account>Delete account</button>`}</span></span>` : ""}</div></td></tr>`;
-  // after an account's characters: a new one on it
-  const foot = a => `<tr class="u-acct-foot" data-account="${a.id}"><td colspan="2"><button type="button" class="u-btn" data-new-char>New character</button></td></tr>`;
-  return many ? o.accounts.map(a => head(a) + (folded.has(a.id) ? "" : o.chars.filter(c => c.account === a.id).map(row).join("") + foot(a))).join("") : head(o.accounts[0]) + o.chars.map(row).join("");
+      ${coinsPill(a)}
+      <span class="u-acct-right">${many ? moveBtns(o.accounts[0] === a, o.accounts[o.accounts.length - 1] === a) : ""}<span class="u-slot">${o.chars.some(c => c.account === a.id) ? "" : `<button type="button" class="u-btn danger" data-delete-account>Delete account</button>`}</span></span></div></td></tr>`).join("");
 }
 /* ---------- the About tab ---------- */
-// what characters give, in short, and a mock character to try it all with: made up at random (name, profession, gender,
-// progress, a creation day), flagged mock so its card says so; deleted as any character. The page then shows it
-const MOCK_FIRST = ["Aldric", "Mira", "Teodor", "Sabela", "Korin", "Yllis", "Dagny", "Ruven", "Ilsa", "Haron", "Nessa", "Brannoc"];
-const MOCK_LAST = ["Stormcaller", "Ashwalker", "Silverleaf", "Duskbane", "Emberhold", "Greywind", "Thornvale", "of the Dunes", "Frostmantle", "Nightsong"];
+// what characters give, in short, and an example character to try it all with: made up at random (name, profession,
+// gender, progress, a creation day), flagged example so its card says so; deleted as any character. The page then shows it
+const EXAMPLE_FIRST = ["Aldric", "Mira", "Teodor", "Sabela", "Korin", "Yllis", "Dagny", "Ruven", "Ilsa", "Haron", "Nessa", "Brannoc"];
+const EXAMPLE_LAST = ["Stormcaller", "Ashwalker", "Silverleaf", "Duskbane", "Emberhold", "Greywind", "Thornvale", "of the Dunes", "Frostmantle", "Nightsong"];
 const rnd = n => Math.floor(Math.random() * n), pick = xs => xs[rnd(xs.length)];
 const sample = (xs, share) => { const n = Math.round(xs.length * share), a = [...xs]; for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n).sort((x, y) => x - y); };
 const between = (lo, hi) => lo + Math.random() * (hi - lo);
-function mockChar(o) {
+function exampleChar(o) {
   const c = newUserChar(Math.max(0, ...o.chars.map(c => c.id)) + 1, User.char(o)?.account ?? o.accounts[0].id);
-  c.mock = true; c.name = `${pick(MOCK_FIRST)} ${pick(MOCK_LAST)}`; c.profession = 1 + rnd(10); c.gender = pick(["m", "f"]);
+  c.example = true; c.name = `${pick(EXAMPLE_FIRST)} ${pick(EXAMPLE_LAST)}`; c.profession = 1 + rnd(10); c.gender = pick(["m", "f"]);
   if (!fixedCampaign(c)) c.campaign = 1 + rnd(3);
   c.aim = "gwamm";
   const done = between(0.15, 0.7);
@@ -544,7 +544,7 @@ function mockChar(o) {
 }
 function aboutHTML() {
   return `<div class="ch-about-text">
-    <p><a href="characters?view=edit">Add a character</a>, then:</p>
+    <p><a href="characters">Add a character</a>, then:</p>
     <ul>
       <li><b>Tick off</b> its title ranks, elites, missions and dungeons in NM and HM, vanquishes — <b>and see</b> how far it is from completing each title, and from GWAMM, with lists of what's still missing.</li>
       <li><b>Set its aim</b> to GWAMM — <b>and the site points out</b> what it still needs, wherever that is: an elite on a skill or boss page, a mission, an area to vanquish, a Zaishen daily or bonus week on the <a href="./">front page</a> and <a href="rotations">Rotations</a>.</li>
@@ -554,18 +554,17 @@ function aboutHTML() {
     <p>Kept in this browser only (<a href="backup">Backup</a> moves it).</p>
   </div>
   <div class="ch-about-try">
-    <h3 class="r-h">Try it with a mock character</h3>
-    <p class="dim">Made-up name and progress; deleted as any character, on Edit.</p>
-    <div class="u-row"><button type="button" class="u-btn" id="mock-new">Make a mock character</button></div>
-    <p>Or add your own on the <a href="characters?view=edit">Edit</a> tab.</p>
+    <h3 class="r-h">Try it with an example character</h3>
+    <p class="dim">Made-up name and progress; kept as yours or deleted from its card.</p>
+    <div class="u-row"><button type="button" class="u-btn" id="example-new">Make an example character</button></div>
+    <p>Or add your own on the <a href="characters">Characters</a> tab.</p>
   </div>`;
 }
 $("ch-about").addEventListener("click", async e => {
-  if (e.target.id === "mock-new") {
+  if (e.target.id === "example-new") {
     if (User.broken()) return askBroken();
-    const o = User.data();
-    if (User.stored() == null) o.chars = [];  // (the default Char1 of nothing saved yet: the mock instead)
-    const c = mockChar(o);
+    const o = User.data();  // (nothing saved yet: the starter examples, kept along with the new one)
+    const c = exampleChar(o);
     o.chars.push(c);
     if (!User.save(o)) return;  // (read-only)
     User.pick(c.id);
@@ -575,27 +574,28 @@ $("ch-about").addEventListener("click", async e => {
 // the one shown, marked among the page's tabs
 const markView = () => { for (const a of document.querySelectorAll(".pg-tabs a")) { const v = a.getAttribute("href").replace(/^characters\??(view=)?/, "") || "chars"; if (PAGE_VIEWS.includes(v)) { if (v === view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); } } };
 function render() {
-  const broken = User.broken(), o = User.data(), cur = User.char(o), many = o.accounts.length > 1;
+  const broken = User.broken(), o = User.data(), cur = User.char(o);
   markView();
   $("u-broken").hidden = !broken;
   $("ch-about").hidden = view !== "about";
   $("ch-view").hidden = broken || view !== "chars";
-  $("ch-manage").hidden = broken || view !== "edit";
+  $("ch-accounts").hidden = broken || view !== "accounts";
   if (view === "about") $("ch-about").innerHTML = aboutHTML();
-  else if (view === "edit") {
-    $("u-new").hidden = many;
-    els.list.innerHTML = manageHTML(o, cur, many);
-  } else {
-    $("ch-list").innerHTML = sideHTML(o, cur, many);
-    $("ch-select").innerHTML = selectHTML(o, cur, many);
+  else if (view === "accounts") els.accts.innerHTML = accountsHTML(o);
+  else {
+    $("ch-list").innerHTML = sideHTML(o, cur);
+    $("ch-select").innerHTML = selectHTML(o, cur, o.accounts.length > 1);
     // (on a phone, the list hidden: the picked character's account's coins under the menu)
     const ca = o.accounts.find(a => a.id === cur.account), cp = coinsPill(ca);
     $("ch-coins-phone").innerHTML = cp ? `<span class="dim">${esc(accountName(ca))}'s Reforged Coins</span>${cp}` : "";
     $("ch-card").innerHTML = cardHTML(o, cur);
+    // (an example character's card: kept as the player's own, or deleted, each on a hold)
+    if ($("ex-keep")) holdToAct($("ex-keep"), () => { if (User.broken()) return askBroken(); editChar(c => { delete c.example; }); });
+    if ($("ex-delete")) holdToAct($("ex-delete"), () => { if (User.broken()) return askBroken(); removeChar(User.char().id); });
     drawTabs(o, cur);
   }
 }
-// a view picked by code (a mock made): shown, and the address says so
+// a view picked by code (an example made): shown, and the address says so
 const setView = v => { view = v; history.replaceState(null, "", v === "chars" ? location.pathname : `${location.pathname}?view=${v}`); globalThis.headerView?.(v); render(); scrollTo(0, 0); };
 // picking a character (its name at the left, or the menu), a tab, an account folded
 document.addEventListener("click", e => {
@@ -726,15 +726,20 @@ onEdit("click", async e => {
   if (!e.target.closest("[data-delete]")) return;
   const c0 = rowChar(User.data(), e.target);
   const o0 = User.data(), last = c0 && o0.chars.length < 2;
-  const acctKept = o => o.accounts.length > 1 || o.accounts.some(a => a.name || a.reforgedCoinClock !== undefined || Object.keys(a.titles || {}).length);
-  const lastSaid = last && (acctKept(o0) ? "The mock character was the only one: a blank character takes its place, your accounts stay." : "The mock character was all there is: a fresh start.");
-  if (!c0 || !c0.hidden || (last && !c0.mock) || !await ask({ title: `Delete "${c0.name}"?`, body: lastSaid || `And all its progress (${charCounts(c0)}). This can't be undone.`, ok: "Delete", danger: true, focus: "cancel" })) return;
-  const o = User.data(), c = o.chars.find(x => x.id === c0.id);  // (read again after the dialog)
-  if (!c || !c.hidden || (o.chars.length < 2 && !c.mock)) return render();
-  // (the last one, a mock: with the accounts untouched, nothing of yours is kept, so the record goes and the page opens on
-  // About again; with an account named, titled, counting coins, or a second one, a blank character takes the mock's place)
+  const lastSaid = last && (acctKept(o0) ? "The example character was the only one: a blank character takes its place, your accounts stay." : "The example character was all there is: a fresh start.");
+  if (!c0 || !c0.hidden || (last && !c0.example) || !await ask({ title: `Delete "${c0.name}"?`, body: lastSaid || `And all its progress (${charCounts(c0)}). This can't be undone.`, ok: "Delete", danger: true, focus: "cancel" })) return;
+  removeChar(c0.id, true);
+});
+// anything of the player's own on the accounts, that a last example character's deletion should keep
+const acctKept = o => o.accounts.length > 1 || o.accounts.some(a => a.name || a.reforgedCoinClock !== undefined || Object.keys(a.titles || {}).length);
+// a character deleted (hidden: only a hidden one, as the Edit tab's Delete asks; the card's hold button needs no hiding)
+// (the last one, an example: with the accounts untouched, nothing of yours is kept, so the record goes and the page
+// opens on About again; with an account named, titled, counting coins, or a second one, a blank character takes its place)
+function removeChar(id, hidden = false) {
+  const o = User.data(), c = o.chars.find(x => x.id === id);
+  if (!c || (hidden && !c.hidden) || (o.chars.length < 2 && !c.example)) return render();
   if (o.chars.length < 2) {
-    if (!acctKept(o)) { User.reset(); return setView("about"); }
+    if (!acctKept(o)) { User.reset(); return render(); }  // (nothing of yours left: the starter examples again)
     o.chars = [newUserChar(c.id + 1, c.account)];
     User.save(o); User.pick(o.chars[0].id); return render();
   }

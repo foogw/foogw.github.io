@@ -10,6 +10,9 @@
 <style>
   .dev { max-width: 640px; padding-top: 8px; }
   .dev li { margin: 6px 0; }
+  .dev h2 { font-size: 16px; margin: 32px 0 6px; }
+  .dev-test { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0; }
+  .dev-said { margin: 8px 0; min-height: 1.4em; }
 </style>
 </head>
 <body>
@@ -24,8 +27,91 @@
       <li><a href="experiments">Experiments</a>: ideas tried out before they get a place on the site (Coming up for you)</li>
       <li><a href="presearing-route">Pre-Searing route finder</a>: the way between two spots in Pre-Searing</li>
     </ul>
+    <!-- testing aids, on a site reached by its address only: each button held for a moment (one to three seconds, by what it
+         costs), so nothing goes by a stray click -->
+    <div id="dev-test" hidden>
+      <h2>Testing</h2>
+      <p class="dim">Hold a button to do it. Only here, on a site reached by its address.</p>
+      <div class="dev-test">
+        <button type="button" class="u-btn u-hold" id="dev-example" data-hold="2000" title="Hold 2 seconds: the example progress, its dates set for today, replaces what's saved">Apply the example progress</button>
+        <button type="button" class="u-btn u-hold" id="dev-bd" data-hold="2000" title="Hold 2 seconds: every character forgets when it was made">Reset all birthdays</button>
+        <button type="button" class="u-btn u-hold danger" id="dev-clear" data-hold="3000" title="Hold 3 seconds: everything the site keeps in this browser goes">Clear all user data</button>
+      </div>
+      <!-- one stash: the saved progress as it stands, put aside in this browser (nowhere else) and brought back -->
+      <div class="dev-test">
+        <button type="button" class="u-btn u-hold" id="dev-stash" data-hold="1000" title="Hold a second: the saved progress is put aside as it stands, in this browser only (one stash: the last one kept)">Stash</button>
+        <button type="button" class="u-btn u-hold" id="dev-stash-apply" data-hold="2000" title="Hold 2 seconds: the stash replaces what's saved">Apply the stash</button>
+        <span class="dim" id="dev-stash-said"></span>
+      </div>
+      <p class="dim dev-said" id="dev-said"></p>
+    </div>
   </div>
   <footer class="site-footer"><a href="about">About</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · <a href="license">License &amp; credits</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
+
+<script src="game/titles.js"></script>
+<script src="game/skills.js"></script>
+<script src="game/ground.js"></script>
+<script src="game/missions.js"></script>
+<script src="game/creatures.js"></script>
+<script src="common.js"></script>
+<script src="data/example.js"></script>
+<script>
+"use strict";
+/* ---------- testing aids ---------- */
+// shown on a site reached by an IP address (v4, or v6 with its colons), never on the site itself
+{
+  const ip = /^(\d{1,3}(\.\d{1,3}){3}|\[?[0-9a-f]*:[0-9a-f:]*\]?)$/i.test(location.hostname);
+  if (ip) {
+    $("dev-test").hidden = false;
+    const said = t => { $("dev-said").textContent = t; };
+    const hold = holdToAct;  // (common.js: held for its data-hold time)
+    hold($("dev-example"), () => {
+      const ex = exampleProgress(), err = userCheck(ex);
+      if (err) return said(`The example doesn't pass the check: ${err}`);
+      if (User.broken()) User.reset();
+      User.save(userFromKept(ex), true);
+      try { localStorage.removeItem(USER_CHAR_KEY); } catch { /* storage blocked */ }
+      said(`Done: the example is your progress now, ${ex.accounts.length} accounts, ${ex.accounts.reduce((n, a) => n + a.chars.length, 0)} characters, its dates set for today.`);
+    });
+    hold($("dev-bd"), () => {
+      if (User.broken()) return said("The saved progress can't be read: see Backup.");
+      const o = User.data(), n = o.chars.filter(c => c.bornBetween).length;
+      if (!n) return said("No character has a range to forget.");
+      for (const c of o.chars) delete c.bornBetween;
+      User.save(o); said(`Done: ${n} range${n === 1 ? "" : "s"} forgotten.`);
+    });
+    hold($("dev-clear"), () => {
+      // (everything of the site's in this browser: the progress, the picked character, settings, marks, the lot; the
+      // stash stays, being this page's own)
+      let n = 0;
+      try { const stash = localStorage.getItem(STASH); n = localStorage.length - (stash ? 1 : 0); localStorage.clear(); if (stash) localStorage.setItem(STASH, stash); } catch { /* storage blocked */ }
+      said(`Done: ${n} item${n === 1 ? "" : "s"} cleared. The site starts afresh.`);
+      dispatchEvent(new Event("userchange"));
+      showStash();
+    });
+    // the stash: the progress as kept, with the picked character, and when; one only
+    const STASH = "gw-dev-stash";
+    const fmt = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
+    const stashed = () => { try { return JSON.parse(localStorage.getItem(STASH)); } catch { return null; } };
+    const showStash = () => { const st = stashed(); $("dev-stash-apply").disabled = !st;
+      $("dev-stash-said").textContent = st ? `Stashed ${fmt.format(st.at)}: ${st.accounts} account${st.accounts === 1 ? "" : "s"}, ${st.chars} character${st.chars === 1 ? "" : "s"}` : "Nothing stashed"; };
+    hold($("dev-stash"), () => {
+      const raw = User.stored();
+      if (raw == null) return said("Nothing is saved to stash.");
+      const o = User.broken() ? null : User.data();
+      try { localStorage.setItem(STASH, JSON.stringify({ at: Date.now(), raw, char: localStorage.getItem(USER_CHAR_KEY), accounts: o ? o.accounts.length : 0, chars: o ? o.chars.length : 0 })); } catch { return said("The browser wouldn't keep it."); }
+      said("Stashed."); showStash();
+    });
+    hold($("dev-stash-apply"), () => {
+      const st = stashed(); if (!st) return said("Nothing stashed.");
+      try { localStorage.setItem(USER_KEY, st.raw); if (st.char) localStorage.setItem(USER_CHAR_KEY, st.char); else localStorage.removeItem(USER_CHAR_KEY); } catch { return said("The browser wouldn't keep it."); }
+      dispatchEvent(new Event("userchange"));
+      said(`Done: the stash of ${fmt.format(st.at)} is your progress now.`);
+    });
+    showStash();
+  }
+}
+</script>
 </body>
 </html>

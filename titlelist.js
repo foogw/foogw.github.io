@@ -7,7 +7,7 @@ const GROUPS = [["Skill titles", [[5, 17, 20], [38, 39, 40, 41]]], ["Character t
   ["Account titles", [t => t.group !== "skills" && t.scope === "account"]]];
 function draw() {
   const titles = Object.keys(TITLES).filter(VIEWS.title.hasPage).map(id => TITLES[id]);
-  const o = User.stored() != null && !User.broken() ? User.data() : null, c = o && User.char(o);
+  const o = !User.broken() ? User.data() : null, c = o && User.char(o);
   // a pre-Searing character: of the character titles, only the ones it can work on there
   const shown = c && isPreSearing(c) ? titles.filter(t => t.scope === "account" || PRE_TITLES.has(t.id)) : titles;
   const card = t => {

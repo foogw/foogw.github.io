@@ -24,7 +24,7 @@ VIEWS.title = (() => {
     const names = !!t.rank_names, unl = t.ranks.some(r => r.unlocks.length);
     const head = [["Rank", 1], ...(names ? [["Name", 0]] : []), [t.points_name || "Points", 1], ...(t.columns || []).map(c => [c[0], 1]), ...(unl ? [["Unlocks", 0]] : [])];
     // the picked character's rank (or its account's) marked, Luxon's too on Kurzick / Luxon's page
-    const mine = User.stored() != null && !User.broken() ? (() => { const o = User.data(), c = User.char(o);
+    const mine = !User.broken() ? (() => { const o = User.data(), c = User.char(o);
       return new Set([t.id, t.also].filter(x => TITLES[x]).map(x => titleRankOf(TITLES[x], c, o))); })() : new Set();
     const rows = t.ranks.map((r, i) => `<tr${mine.has(r.rank) ? ' class="me" title="Your rank"' : ""}><td class="num">${r.rank}</td>${names ? `<td>${esc(t.rank_names[i] || "")}</td>` : ""}<td class="num">${num(r.points)}</td>${
       r.values.map((v, i) => `<td class="num">${value(v, t.columns[i])}</td>`).join("")}${unl ? `<td class="dim">${esc(r.unlocks.join(", "))}</td>` : ""}</tr>`).join("");

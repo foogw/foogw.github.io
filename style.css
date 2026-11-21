@@ -1328,6 +1328,12 @@ tr[data-id] .u-move { margin-right: 14px; }  /* (a character row: the arrows, th
 .u-btn:disabled { opacity: 0.45; cursor: default; }
 .u-why { cursor: help; } .u-why .u-btn:disabled { pointer-events: none; }  /* (the hover lands on the slot, which says why) */
 .u-btn.danger:hover:not(:disabled) { border-color: var(--sac); }
+/* a button held for a moment to act (holdToAct, common.js): a fill creeping across it while held, as far as it got */
+.u-hold { position: relative; overflow: hidden; }
+.u-hold::before { content: ""; position: absolute; inset: 0; width: var(--hold, 0%); background: color-mix(in srgb, var(--accent) 35%, transparent); transition: width var(--t, 0s) linear; pointer-events: none; }
+.u-hold.danger::before { background: color-mix(in srgb, var(--sac) 40%, transparent); }
+/* an example character's card note, its two hold buttons beside the words */
+.ch-example { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
 .u-text { width: min(1200px, calc(100vw - 32px)); min-height: 70vh; font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text); background: var(--panel);
   border: 1px solid var(--line); border-radius: 8px; padding: 10px; resize: vertical; }
 .u-text:not(:focus) { color: color-mix(in srgb, var(--muted) 45%, var(--panel)); }
