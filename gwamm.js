@@ -100,12 +100,14 @@
   const zDays = (r, is) => { if (!r) return null; const n = r.entries.length, k = Rotation.period(r); for (let i = 0; i < n; i++) if (is(Rotation.entry(r, k + i))) return i; return null; };
 
   /* ---------- the lines: a card with what matters there, or the bare name ---------- */
-  // every card names the mode to do it in, with its NM / HM ticks (the shared ones, common.js: the page draws again on
-  // "userchange"), so a mission is marked done here; in hard mode its Zaishen day too (the bare lines, the missions on
+  // every card names the mode to do it in, with one tick for that mode (the page draws again on "userchange"), so a
+  // mission is marked done here; in hard mode its Zaishen day too (the bare lines, the missions on
   // the way to a hero, have no ticks: the hero's Recruited tick is the mark there)
-  const ticks = (c, x) => doneTicks("missions", x.id, c.missions[x.id] || 0);
+  // (one tick, for the card's mode: the shared tick's shape, so common.js's handler saves it)
+  const ticks = (c, x, hard) => { const b = hard ? 2 : 1, on = !!((c.missions[x.id] || 0) & b);
+    return `<span class="uticks" data-part="missions" data-id="${x.id}"><button type="button" class="utick" data-mode="${b}" aria-pressed="${on}" title="Done in ${hard ? "hard" : "normal"} mode: click to change"><span class="ubox"></span>Completed in ${hard ? "HM" : "NM"}</button></span>`; };
   const missionLine = (c, x, hard = false, bare = false) => bare ? `<li class="gw-bare"><b>${LINK.mission(x.id)}</b></li>`
-    : `<li class="gw-card"><div class="gw-card-head"><b>${LINK.mission(x.id)}</b>${ticks(c, x)}</div><div class="gw-with">${[`<span class="gw-rec"><b>${hard ? "hard" : "normal"} mode</b></span>`, hard && zText(x.id) ? `<span class="gw-z">📅 ${zText(x.id)}</span>` : "", hard ? "" : bonusHTML(x), bookNote(x.id, hard), elitesHTML(c, x.id, x.m.outpost), groundHTML(x)].filter(Boolean).join("")}</div></li>`;
+    : `<li class="gw-card"><div class="gw-card-head"><b>${LINK.mission(x.id)}</b>${ticks(c, x, hard)}</div><div class="gw-with">${[`<span class="gw-rec"><b>${hard ? "hard" : "normal"} mode</b></span>`, hard && zText(x.id) ? `<span class="gw-z">📅 ${zText(x.id)}</span>` : "", hard ? "" : bonusHTML(x), bookNote(x.id, hard), elitesHTML(c, x.id, x.m.outpost), groundHTML(x)].filter(Boolean).join("")}</div></li>`;
   const groupLines = (c, gs, hard = false, bare = false) => gs.map(g => (g.length > 1 ? `<li class="gw-either"><span class="dim">either</span><ul>${g.map(x => missionLine(c, x, hard, bare)).join("")}</ul></li>` : missionLine(c, g[0], hard, bare))).join("");
 
   /* ---------- phase 0: the campaign it was made in ---------- */
