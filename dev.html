@@ -25,22 +25,28 @@
       <li><a href="check">Check</a>: the game data and our data, checked</li>
       <li><a href="editor-maps">Map editor</a>: our fixes to the walkable ground, checked on Nicholas the Traveler's ways</li>
       <li><a href="experiments">Experiments</a>: ideas tried out before they get a place on the site (Coming up for you)</li>
-      <li><a href="presearing-route">Pre-Searing route finder</a>: the way between two spots in Pre-Searing</li>
+      <li><a href="presearing-route">Pre-Searing route finder</a>: the way between two spots in pre-Searing Ascalon, a showing of the walkable ground</li>
+    </ul>
+    <!-- pages that exist but aren't linked from the site yet -->
+    <h2>Work in progress</h2>
+    <ul>
+      <li><a href="gwamm">GWAMM route</a>: what the character picked should do next toward God Walking Amongst Mere Mortals</li>
+      <li><a href="guides?devona">Devona</a> and <a href="guides?althea">Ghost of Althea</a>: the two Reforged heroes' guides, not on the Guides page yet</li>
     </ul>
     <!-- testing aids, on a site reached by its address only: each button held for a moment (one to three seconds, by what it
          costs), so nothing goes by a stray click -->
     <div id="dev-test" hidden>
       <h2>Testing</h2>
       <p class="dim">Hold a button to do it. Only here, on a site reached by its address.</p>
-      <div class="dev-test">
-        <button type="button" class="u-btn u-hold" id="dev-example" data-hold="2000" title="Hold 2 seconds: the example progress, its dates set for today, replaces what's saved">Apply the example progress</button>
-        <button type="button" class="u-btn u-hold" id="dev-bd" data-hold="2000" title="Hold 2 seconds: every character forgets when it was made">Reset all birthdays</button>
-        <button type="button" class="u-btn u-hold danger" id="dev-clear" data-hold="3000" title="Hold 3 seconds: everything the site keeps in this browser goes">Clear all user data</button>
+      <!-- what replaces the saved progress: the example, nothing, or the stash (once there is one) -->
+      <div class="dev-test"><span class="dev-lbl dev-lbl-danger">Override current user data:</span>
+        <button type="button" class="u-btn u-hold" id="dev-example" data-hold="2000" title="Hold 2 seconds: the example progress, its dates set for today, replaces what's saved">Apply the example</button>
+        <button type="button" class="u-btn u-hold danger" id="dev-clear" data-hold="3000" title="Hold 3 seconds: everything the site keeps in this browser goes">Clear all</button>
+        <button type="button" class="u-btn u-hold" id="dev-stash-apply" data-hold="2000" title="Hold 2 seconds: the stash replaces what's saved" hidden>Apply the stash</button>
       </div>
       <!-- one stash: the saved progress as it stands, put aside in this browser (nowhere else) and brought back -->
-      <div class="dev-test">
-        <button type="button" class="u-btn u-hold" id="dev-stash" data-hold="1000" title="Hold a second: the saved progress is put aside as it stands, in this browser only (one stash: the last one kept)">Stash</button>
-        <button type="button" class="u-btn u-hold" id="dev-stash-apply" data-hold="2000" title="Hold 2 seconds: the stash replaces what's saved">Apply the stash</button>
+      <div class="dev-test"><span class="dev-lbl" id="dev-stash-lbl">Override stash:</span>
+        <button type="button" class="u-btn u-hold" id="dev-stash" data-hold="1000" title="Hold a second: the saved progress is put aside as it stands, in this browser only (one stash: the last one kept)">Stash current</button>
         <span class="dim" id="dev-stash-said"></span>
       </div>
       <p class="dim dev-said" id="dev-said"></p>

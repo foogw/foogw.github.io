@@ -198,9 +198,9 @@ nav.pages a[aria-current=page] { color: var(--text); }
 .grp { position: relative; }
 .grp .gt { padding: 6px 0; gap: 4px; }
 .gchev { width: 7px; height: 7px; border-right: 1.6px solid currentColor; border-bottom: 1.6px solid currentColor; transform: rotate(45deg) translateY(-2px); opacity: .7; margin-left: 2px; }
-.gmenu { display: none; position: absolute; left: -12px; top: 100%; z-index: 30; min-width: 150px; padding: 6px; flex-direction: column; gap: 1px;
+.gmenu { display: none; position: absolute; left: -12px; top: 100%; z-index: 30; min-width: 150px; width: max-content; max-width: min(360px, calc(100vw - 16px)); padding: 6px; flex-direction: column; gap: 1px;
   background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 24px rgba(0, 0, 0, .3); }
-.gmenu a { padding: 7px 12px; border-radius: 7px; font-size: 13px; font-weight: 600; }
+.gmenu a { padding: 7px 12px; border-radius: 7px; font-size: 13px; font-weight: 600; white-space: nowrap; }
 .gmenu a:hover, .gmenu a:focus { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--text); }
 .gmenu a[aria-current=page] { color: var(--accent); }
 /* the character menu: the characters to pick from (marked In the menu), then the tabs */
@@ -935,7 +935,7 @@ a.hchip { text-decoration: none; }
 .bd-ebar img.elite { box-shadow: 0 0 0 1px var(--elite); }
 .bd-entry { display: block; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--text); text-decoration: none; }
 .bd-entry:hover { border-color: var(--accent); }
-.bd-entry h3 { margin: 0 0 6px; font-size: 17px; }
+.bd-entry h3 { margin: 0 0 6px; font-size: 17px; color: var(--accent); }  /* (the World portal's gold) */
 .bd-entry p { margin: 0 0 10px; color: var(--muted); font-size: 14px; }
 .bd-entry-profs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
 .bd-entry-profs span { display: inline-flex; gap: 1px; padding: 2px 4px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); }

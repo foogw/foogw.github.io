@@ -6,11 +6,12 @@
    fold into one menu button that opens a full-screen list. The page's own link and its group are marked current. */
 {
   const HOME = '<svg class="home-ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h5v-6h3v6h5V9.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  // each group: its name, its landing page, its pages
+  // each group of the bar's menus: its name, its landing page, its pages
   const GROUPS = [
-    ["Play", "rotations", [["rotations", "Rotations"], ["guides", "Guides"], ["captures", "Captures"], ["builds", "Builds"], ["builder", "Builder"]]],
-    ["World", "world", [["areas", "Areas"], ["missions", "Missions"], ["quests", "Quests"], ["dungeons", "Dungeons"], ["maps", "Maps"], ["storylines", "Storylines"]]],
-    ["Compendium", "things", [["skills", "Skills"], ["bosses", "Bosses"], ["heroes", "Heroes"], ["armor", "Armor"], ["titles", "Titles"]]],
+    ["Tools", "tools", [["captures", "Elite captures"], ["anniversary", "Anniversary planner"], ["builds", "Builds"], ["builder", "Skillbar builder"]]],
+    // (the guides by name, in the Guides page's order, AFK, solo, then quest guides: this script runs before the data loads)
+    ["Guides", "guides", [["guides?gom", "GoM AFK XP Farm"], ["guides?zos", "Zos Shivros AFK Luxon Farm"], ["guides?drakes", "Purp Insc Chaos Axe Farm"], ["guides?spidercave", "Solo W/R FoW Spider Cave Farm"], ["guides?vaettir", "Easy 55hp Mo/A Vaettir Farm"], ["guides?augury", "Augury Rock: Beating Your Doppelganger"], ["guides?pre", "Pre-Searing Quests"], ["guides?reverie", "Wayfarer's Reverie"], ["guides?fow", "Fissure of Woe Quests"], ["guides?uw", "Underworld Quests"]]],
+    ["Game", "world", [["areas", "Areas"], ["missions", "Missions"], ["quests", "Quests"], ["dungeons", "Dungeons"], ["storylines", "Storylines"], ["maps", "Maps"], ["skills", "Skills"], ["bosses", "Bosses"], ["heroes", "Heroes"], ["armor", "Armor"], ["titles", "Titles"]]],
   ];
   const SMALL = [["about", "About"], ["thanks", "Thanks"], ["contact", "Contact"], ["license", "License"], ["backup", "Backup"]];
   const page = location.pathname.match(/([\w-]*?)(\.html)?$/)[1].replace(/^index$/, "") || "./";
@@ -32,10 +33,12 @@
   // pick from (the picked one ticked), and the way to its Edit tab; its title opens the character's page
   const pickedGroup = () => `<div class="grp gpick" hidden><a class="gt hdr-char" href="characters" aria-haspopup="true"><img class="gpic" src="img/prof/Any.png" alt=""><span></span><span class="gchev" aria-hidden="true"></span></a>
       <div class="gmenu" role="menu"><div class="gchars"></div><div class="gsep"></div><a href="characters?tab=edit">Edit…</a></div></div>`;
-  header.innerHTML = `<nav class="pages">${link("./", HOME + "Today", "hdr-home")}${GROUPS.map(group).join("")}${charGroup()}${pickedGroup()}</nav>
+  // the plain page of the bar, before the groups: the rotations
+  const PLAIN = [["rotations", "Rotations"]];
+  header.innerHTML = `<nav class="pages">${link("./", HOME + "Today", "hdr-home")}${PLAIN.map(([h, n]) => link(h, n)).join("")}${GROUPS.map(group).join("")}${charGroup()}${pickedGroup()}</nav>
     <button type="button" class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     ${SMALL.map(([h, n], i) => link(h, n, i ? "hdr-link" : "hdr-link push")).join("")}
-    <div class="sheet" hidden>${GROUPS.map(([name, landing, pages]) => `<div class="sheet-g"><a class="sheet-t" href="${landing}">${name}</a>${pages.map(([h, n]) => link(h, n)).join("")}</div>`).join("")}
+    <div class="sheet" hidden><div class="sheet-g">${PLAIN.map(([h, n]) => link(h, n)).join("")}</div>${GROUPS.map(([name, landing, pages]) => `<div class="sheet-g"><a class="sheet-t" href="${landing}">${name}</a>${pages.map(([h, n]) => link(h, n)).join("")}</div>`).join("")}
       <div class="sheet-g"><a class="sheet-t" href="characters">My Characters</a>${CHAR.map(([h, n]) => link(h, n)).join("")}</div>
       <div class="sheet-g gpick" hidden><a class="sheet-t hdr-char" href="characters"><span></span></a><div class="gchars"></div></div>
       <div class="sheet-g"><a class="sheet-t" href="./">Today</a>${SMALL.map(([h, n]) => link(h, n)).join("")}</div></div>`;

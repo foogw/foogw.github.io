@@ -249,11 +249,9 @@ const guideEntryHTML = g => `<a class="bd-entry" href="guides?${esc(g.id)}">
     <h3>${esc(g.name)}</h3><p>${esc(g.summary)}</p>
     <div class="bd-tags">${(g.tags || []).map(x => `<span class="tag">${esc(x)}</span>`).join("")}</div>
   </a>`;
-// the pages that work like a guide, with their own address
-const TOOL_ENTRIES = `<h2 class="bd-section">Tools</h2><div class="bd-index"><a class="bd-entry" href="captures"><h3>Elite captures</h3><p>Every elite your character is missing, with the easiest capture we found: the boss, the outpost to start from and the way there on the map. One at a time, as a list, or grouped by outpost.</p><div class="bd-tags"><span class="tag">Skill Hunter</span><span class="tag">Per character</span><span class="tag">Maps</span></div></a><a class="bd-entry" href="anniversary"><h3>Anniversary planner</h3><p>The easy Zaishen Missions around an Anniversary Celebration: which to take ahead, which to do any time during it, which to wait for; the regions and their quickest mission, one Proof of Legend each.</p><div class="bd-tags"><span class="tag">Event</span><span class="tag">Zaishen</span><span class="tag">Your list</span></div></a></div>`;
 function indexHTML() {
-  return TOOL_ENTRIES + GROUPS.map(([key, title]) => {
-    const gs = GUIDES.filter(g => g.group === key);
+  return GROUPS.map(([key, title]) => {
+    const gs = GUIDES.filter(g => g.group === key && !g.wip);
     return gs.length ? `<h2 class="bd-section">${title}</h2><div class="bd-index">${gs.map(guideEntryHTML).join("")}</div>` : "";
   }).join("");
 }
