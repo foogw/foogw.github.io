@@ -1686,3 +1686,4 @@ a.c-pill:hover { border-color: var(--accent); }
 .gw-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 6px 22px; } .gw-cols h3 { font-size: 14px; margin: 6px 0 2px; } .gw-cols p { margin: 0; font-size: 14px; }
 .gw-heroes-list .utick { margin: 0 6px 0 4px; vertical-align: middle; }
 .lstat .lstat-sub { text-transform: none; letter-spacing: 0; font-weight: 400; }
+.gw-wip { margin: 0 0 12px; padding: 6px 10px; font-size: 13px; color: var(--muted); border: 1px dashed var(--line); border-radius: 6px; max-width: 640px; }

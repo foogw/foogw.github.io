@@ -8,7 +8,7 @@
   const HOME = '<svg class="home-ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h5v-6h3v6h5V9.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   // each group of the bar's menus: its name, its landing page, its pages
   const GROUPS = [
-    ["Tools", "tools", [["captures", "Elite captures"], ["anniversary", "Anniversary planner"], ["builds", "Builds"], ["builder", "Skillbar builder"]]],
+    ["Tools", "tools", [["captures", "Elite captures"], ["gwamm", "GWAMM route"], ["anniversary", "Anniversary planner"], ["builds", "Builds"], ["builder", "Skillbar builder"]]],
     // (the guides by name, in the Guides page's order, AFK, solo, then quest guides: this script runs before the data loads)
     ["Guides", "guides", [["guides?gom", "GoM AFK XP Farm"], ["guides?zos", "Zos Shivros AFK Luxon Farm"], ["guides?drakes", "Purp Insc Chaos Axe Farm"], ["guides?spidercave", "Solo W/R FoW Spider Cave Farm"], ["guides?vaettir", "Easy 55hp Mo/A Vaettir Farm"], ["guides?augury", "Augury Rock: Beating Your Doppelganger"], ["guides?pre", "Pre-Searing Quests"], ["guides?reverie", "Wayfarer's Reverie"], ["guides?fow", "Fissure of Woe Quests"], ["guides?uw", "Underworld Quests"]]],
     ["Game", "world", [["areas", "Areas"], ["missions", "Missions"], ["quests", "Quests"], ["dungeons", "Dungeons"], ["storylines", "Storylines"], ["maps", "Maps"], ["skills", "Skills"], ["bosses", "Bosses"], ["heroes", "Heroes"], ["armor", "Armor"], ["titles", "Titles"]]],
