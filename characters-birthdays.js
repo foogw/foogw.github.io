@@ -106,7 +106,7 @@
     if (body) for (const r of shown) if (r.el && r.el.parentElement === body) body.append(r.el);
   }
   function render() {
-    if (User.broken()) { shown = []; $("bd").innerHTML = `<p class="dim pg-empty">No characters yet: add them on the <a href="characters">Characters</a> tab, or try a mock one on <a href="characters?view=about">About</a>.</p>`; return; }
+    if (User.broken()) { shown = []; $("bd").innerHTML = `<p class="dim pg-empty">Your saved progress can't be read: see the <a href="backup">Backup</a> page to keep a copy of it and fix it.</p>`; return; }
     const o = User.data(), acct = c => accountName(o.accounts.find(a => a.id === c.account) || { id: c.account });
     const mids = o.chars.filter(c => c.bornBetween).map(c => c.bornBetween.map(Date.parse)).map(([a, b]) => (a + b) / 2);
     bdLo = Math.min(...mids); bdHi = Math.max(...mids);

@@ -775,7 +775,7 @@ const BUILDER_SAVED_KEY = "gw-builder-saved-v2", GUIDE_STEPS_KEY = id => `gw-gui
 // the Anniversary planner's list of easy Zaishen Missions: ours (The Great Northern Wall, Augury Rock, Zen Daijun,
 // Unwaking Waters, Imperial Sanctum, Chahbek Village, Ruins of Morah, A Time for Heroes), or the visitor's own
 const ANNIV_DEFAULT = [28, 38, 258, 204, 271, 556, 525, 673];
-const isAnnivDefault = ids => ids.length === ANNIV_DEFAULT.length && ids.every((id, i) => id === ANNIV_DEFAULT[i]);
+const isAnnivDefault = ids => ids.length === ANNIV_DEFAULT.length && ANNIV_DEFAULT.every(id => ids.includes(id));  // (as a set: the order is the visitor's)
 const annivMissions = () => { const v = lsGet(ANNIV_KEY); return Array.isArray(v) && v.every(Number.isInteger) ? v : ANNIV_DEFAULT; };
 const setAnnivMissions = ids => lsSet(ANNIV_KEY, ids && !isAnnivDefault(ids) ? [...new Set(ids)] : null);
 const lsGet = k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } };
@@ -821,7 +821,7 @@ function extrasKept() {
   let utc = null; try { utc = localStorage.getItem("events-utc"); } catch { /* storage blocked */ }
   if (utc != null) (x.settings ||= {}).eventsUtc = utc === "1";
   const anniv = lsGet(ANNIV_KEY);
-  if (Array.isArray(anniv) && anniv.length) (x.settings ||= {}).annivMissions = anniv;
+  if (Array.isArray(anniv)) (x.settings ||= {}).annivMissions = anniv;  // (an empty list too: the visitor's "none")
   return x;
 }
 // a backup's parts put in this browser: each part in it replaces what's here, a part left out leaves it as it is
@@ -1123,25 +1123,32 @@ function starterProgress(now = Date.now()) {
         titles: { 17: 4, 9: 3 }, note: "An example: just started in Elona", bornBetween: range(25.4, [20.2, 1.8]), xp: [320000, at], played: [60, at], playedOutside: [2, at] } ] } ] };
 }
 /* A button held for a moment to act (its data-hold: the milliseconds), so nothing goes by a stray click: the fill creeps
-   across it while held (class u-hold); let go sooner, nothing happens. */
+   across it while held (class u-hold); let go sooner, nothing happens. From the keyboard (Enter or Space), the site's
+   question instead, with the button's text as the action. On a touch screen the long press is the hold: the browser's
+   own long-press menu is kept off. */
 function holdToAct(btn, f) {
   let timer = null;
   const stop = () => { clearTimeout(timer); timer = null; btn.style.setProperty("--t", "0s"); btn.style.setProperty("--hold", "0%"); };
   btn.addEventListener("pointerdown", e => { if (e.button) return; try { btn.setPointerCapture(e.pointerId); } catch { /* no such pointer: a key, a script */ }
     btn.style.setProperty("--t", `${btn.dataset.hold}ms`); btn.style.setProperty("--hold", "100%"); timer = setTimeout(() => { stop(); f(); }, +btn.dataset.hold); });
   for (const ev of ["pointerup", "pointercancel", "lostpointercapture"]) btn.addEventListener(ev, stop);
+  btn.addEventListener("contextmenu", e => e.preventDefault());
+  btn.addEventListener("keydown", async e => { if (e.key !== "Enter" && e.key !== " ") return; e.preventDefault();
+    if (await ask({ title: `${btn.textContent.trim()}?`, body: btn.title || "", ok: btn.textContent.trim(), danger: btn.classList.contains("danger"), focus: "cancel" })) f(); });
 }
 let userSeen = userRaw();  // what this page last drew from
+let starterCache = null;  // the starter as the page's data, while nothing is saved
 const User = {
   // what's kept, as text: null when nothing is
   stored() { try { return localStorage.getItem(USER_KEY); } catch { return null; } },
   // kept progress that can't be read (broken, or by a newer site): the pages go without it, and nothing writes over it
   // but the Backup page's reset, once it's been copied
   broken() { const t = User.stored(); if (t == null) return false; try { return !!userCheck(JSON.parse(t)); } catch { return true; } },
-  // (nothing saved yet: the starter examples, unsaved until something is changed)
+  // (nothing saved yet: the starter examples, unsaved until something is changed; made once per page, since the pages
+  // ask for the data many times a draw)
   data() {
     if (!User.broken()) try { const o = JSON.parse(User.stored()); if (o) return userFromKept(o); } catch { /* none yet */ }
-    return userFromKept(starterProgress());
+    return starterCache ??= userFromKept(starterProgress());
   },
   // (read-only: refused, with the notice; force: loading a backup, which a read-only copy is made by)
   // (storage blocked or full: nothing kept, said once, and false back so no page says it saved)

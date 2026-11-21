@@ -37,7 +37,7 @@
   const bdColor = (mid, lo, hi) => (Number.isNaN(mid) || hi === lo ? "" : ` style="color: color-mix(in oklab, var(--gw6) ${Math.round(100 * (mid - lo) / (hi - lo))}%, var(--gw3))"`);
   let sortBy = "acct", sortDir = 1, prev = [];
   function render() {
-    if (User.broken()) { $("ov").innerHTML = `<p class="dim pg-empty">No characters yet: add them on the <a href="characters">Characters</a> tab, or try a mock one on <a href="characters?view=about">About</a>.</p>`; return; }
+    if (User.broken()) { $("ov").innerHTML = `<p class="dim pg-empty">Your saved progress can't be read: see the <a href="backup">Backup</a> page to keep a copy of it and fix it.</p>`; return; }
     const o = User.data(), acctOf = c => o.accounts.find(a => a.id === c.account) || { id: c.account };
     const mids = o.chars.map(c => bday(c)[1]).filter(x => !Number.isNaN(x)), bdLo = Math.min(...mids), bdHi = Math.max(...mids);
     const rows = o.chars.map((c, i) => {

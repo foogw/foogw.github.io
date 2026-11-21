@@ -21,7 +21,7 @@
   const ev = Object.values(EVENTS).find(e => e.name === "Anniversary Celebration"), r = ROTATIONS["zaishen-mission"];
   // the years to pick: two back to six ahead; the next Anniversary's picked at first
   const thisYear = new Date().getUTCFullYear(), YEARS = Array.from({ length: 9 }, (_, i) => thisYear - 2 + i);
-  let year = Math.min(thisYear + 6, eventWindow(ev)[0].getUTCFullYear());
+  let year = ev ? Math.min(thisYear + 6, eventWindow(ev)[0].getUTCFullYear()) : thisYear;
   const windowIn = y => eventWindow(ev, new Date(Date.UTC(y, 0, 1)));
   const nowAt = () => Date.now();
   // the foot of the side: the regions the list covers (one Proof of Legend per region, so a second mission in a region
@@ -46,11 +46,12 @@
     // the days said two ways. Live, from a week before the first take-ahead day to a week after the event:
     // "in 3 days", "next", "current", "one day ago", "2 days ago"; a day that has passed moves its mission down to the
     // any-time section, its day still said. Otherwise, by the event: "12 days before", "day 5"
-    const DAY = 864e5, dayOf = t => Math.floor(t / DAY), live = before.length && now >= before[0].at - 7 * DAY && now <= +b + 7 * DAY;
+    // (a Zaishen day is a rotation period, from 16:00 UTC: the days counted by period, not by the calendar)
+    const DAY = 864e5, dayOf = t => Rotation.period(r, t), live = before.length && now >= before[0].at - 7 * DAY && now <= +b + 7 * DAY;
     const said = t => {
       if (live) { const n = dayOf(t) - dayOf(now); return n === 0 ? "current" : n === 1 ? "next" : n === -1 ? "one day ago" : n > 0 ? `in ${n} days` : `${-n} days ago`; }
       if (t < a) { const n = Math.round((+a - t) / DAY); return n === 1 ? "the day before" : `${n} days before`; }
-      return `day ${dayOf(t) - dayOf(+a) + 1}`;
+      return `day ${Math.floor((t - +a) / DAY) + 1}`;
     };
     // (the day itself in the site's own hover card, at once; today's row stands out)
     const row = d => `<tr${live && dayOf(d.at) === dayOf(now) ? ' class="an-today"' : ""}><td>${LINK.mission(d.e.mission)}${zmHTML(d.e.mission)}${regionHTML(d.e.mission)}</td><td class="dim an-away" data-note="${fmt.format(d.at)}" data-plain tabindex="0">${said(d.at)}</td><td class="dim">${doneHTML(d.e.mission)}</td></tr>`;

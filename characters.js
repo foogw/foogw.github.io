@@ -607,9 +607,6 @@ document.addEventListener("click", e => {
     return; }
   const p = e.target.closest("[data-pick]");
   if (p) { User.pick(+p.dataset.pick); return render(); }
-  // (Edit's table: the character opened on the Characters tab)
-  const op = e.target.closest("[data-open]");
-  if (op) { e.preventDefault(); User.pick(+op.closest("tr").dataset.id); return setView("chars"); }
   const f = e.target.closest("[data-fold-account]");
   if (f) { foldAccount(+f.dataset.foldAccount); return render(); }
   // (the sidebar's +: a new character on that account, named in a dialog, its Edit tab open for the questions)
