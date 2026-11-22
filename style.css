@@ -203,6 +203,8 @@ nav.pages a[aria-current=page] { color: var(--text); }
 .gmenu a { padding: 7px 12px; border-radius: 7px; font-size: 13px; font-weight: 600; white-space: nowrap; }
 .gmenu a:hover, .gmenu a:focus { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--text); }
 .gmenu a[aria-current=page] { color: var(--accent); }
+/* a menu entry for an event on now or about to be (the Wayfarer's Reverie guide) */
+.gmenu a.gev, .sheet a.gev { color: var(--loc-exp); }
 /* the character menu: the characters to pick from (marked In the menu), then the tabs */
 .gchar { display: flex; align-items: center; gap: 8px; width: 100%; white-space: nowrap; padding: 6px 12px; border: 0; border-radius: 7px; background: none; color: var(--muted); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; text-align: left; }
 .gchar img { width: 18px; height: 18px; border-radius: 4px; }
