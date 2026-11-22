@@ -297,18 +297,18 @@ async function render() {
 // the areas it shows, to the first spot, then on to each next one
 // the ways from different starts on one map, each in its own colour
 const WAYS = ["#4fd1ff", "#ff9f43", "#c56cf0", "#7bed9f"];
-// a caravan section's own stats, under its heading: its areas cleared and the wiki's foes
+// a caravan section's own stats, under its heading: its areas cleared, the wiki's foes and the time (timed, or estimated)
 const secStatsHTML = s => { const x = s.blocks.find(b => b.rows && b.total); if (!x) return "";
   const stat = (k, v, t = "") => `<span class="lstat"${t ? ` title="${esc(t)}"` : ""}><small>${k}</small><b>${v}</b></span>`;
-  return `<div class="lstats gd-secstats">${stat("Areas", x.rows.filter(r => !r.walk).length)}${stat("Foes", num(x.total.foes), "The wiki's average kills in normal mode, added up")}</div>`; };
+  return `<div class="lstats gd-secstats">${stat("Areas", x.rows.filter(r => !r.walk).length)}${stat("Foes", num(x.total.foes), "The wiki's average kills in normal mode, added up")}${x.total.time ? stat("Time", esc(x.total.time), "About 4.5 foes a minute, walking included; a strong team with consumables manages about 7") : ""}</div>`; };
 // a keyed map's rows (a caravan): one table under the map, the areas in walking order, each with its colour, the step's
-// note, the area's party size and the wiki's foes; an area only walked through says "walk"; the
+// note, the area's party size, the wiki's foes and the time, timed or estimated; an area only walked through says "walk"; the
 // picked character's vanquishes gray with their tick; the total last
 const caravanTable = (x, tints, kept, vq) => { const notes = x.notes || [];
   const row = (r, i) => { const v = vq(r.area), walk = r.walk;
-    return `<tr data-area="${r.area}"${walk ? " data-walk" : ""}${walk || v ? ' class="gray"' : ""}><td class="n">${i + 1}</td><td class="a"><i style="background:${tints[r.area]}"></i>${LINK.area(r.area)}<small>${v && !walk ? "vanquished" : ""}</small></td><td class="note">${text(r.note || "")}</td>${walk ? `<td colspan="2" class="walk">walk</td>` : `<td class="num">${r.party}</td><td class="num">${num(r.foes)}</td>`}<td class="tick">${kept && !walk && AREAS[r.area]?.foes ? vanqTick(r.area, v) : ""}</td></tr>`; };
-  return `<div class="gd-table gd-caravan"><table><thead><tr><th></th><th>Area</th><th></th><th>Party</th><th>Foes</th><th></th></tr></thead><tbody>${x.rows.map(row).join("")}</tbody>
-    ${x.total ? `<tfoot><tr><td></td><td colspan="2">All</td><td></td><td class="num">${num(x.total.foes)}</td><td></td></tr></tfoot>` : ""}</table>${notes.length ? `<p class="gd-notes dim">${notes.map(text).join(" ")}</p>` : ""}</div>`; };
+    return `<tr data-area="${r.area}"${walk ? " data-walk" : ""}${walk || v ? ' class="gray"' : ""}><td class="n">${i + 1}</td><td class="a"><i style="background:${tints[r.area]}"></i>${LINK.area(r.area)}<small>${v && !walk ? "vanquished" : ""}</small></td><td class="note">${text(r.note || "")}</td>${walk ? `<td colspan="3" class="walk">walk</td>` : `<td class="num">${r.party}</td><td class="num">${num(r.foes)}</td><td class="num">${esc(r.time || "")}</td>`}<td class="tick">${kept && !walk && AREAS[r.area]?.foes ? vanqTick(r.area, v) : ""}</td></tr>`; };
+  return `<div class="gd-table gd-caravan"><table><thead><tr><th></th><th>Area</th><th></th><th>Party</th><th>Foes</th><th>Time</th><th></th></tr></thead><tbody>${x.rows.map(row).join("")}</tbody>
+    ${x.total ? `<tfoot><tr><td></td><td colspan="2">All</td><td></td><td class="num">${num(x.total.foes)}</td><td class="num">${esc(x.total.time || "")}</td><td></td></tr></tfoot>` : ""}</table>${notes.length ? `<p class="gd-notes dim">${notes.map(text).join(" ")}</p>` : ""}</div>`; };
 // a keyed map's colours, one per area in its order (none the ways' cyan)
 const GRAY = "#8a8f98";
 const LEGEND = ["#ffd166", "#ef476f", "#06d6a0", "#f78c6b", "#c77dff", "#8ac926", "#ff9f1c", "#e0aaff", "#f9c74f", "#43aa8b", "#f94144", "#90be6d", "#f3722c", "#b5e48c"];

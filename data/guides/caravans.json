@@ -4,6 +4,9 @@
    "blocks": [
     {
      "p": "Your party size is set by the outpost you leave from, and it stays with you through every portal you walk. A caravan is one long walk from a big outpost through smaller areas, vanquishing each with the bigger party: one instance, portal to portal, never stepping into an outpost."
+    },
+    {
+     "p": "The times reckon about 4.5 foes a minute, walking included. A strong team with consumables manages about 7: one such run did the East caravan in about 6 hours."
     }
    ]
   },
@@ -182,113 +185,132 @@
        "area": 56,
        "note": "Leave by the east portal.",
        "party": 6,
-       "foes": 72
+       "foes": 72,
+       "time": "≈ 16 min"
       },
       {
        "area": 59,
        "note": "Leave by the north-east portal.",
        "party": 6,
-       "foes": 138
+       "foes": 138,
+       "time": "≈ 31 min"
       },
       {
        "area": 58,
        "note": "Leave by the north portal, past the one to the Gates of Kryta.",
        "party": 6,
-       "foes": 126
+       "foes": 126,
+       "time": "≈ 28 min"
       },
       {
        "area": 54,
        "note": "Straight through to Griffon's Mouth.",
        "party": 6,
-       "foes": 63
+       "foes": 63,
+       "time": "≈ 14 min"
       },
       {
        "area": 27,
        "note": "A short pass. Straight through.",
        "party": 6,
-       "foes": 42
+       "foes": 42,
+       "time": "≈ 9 min"
       },
       {
        "area": 100,
        "note": "Leave by the north portal.",
        "party": 6,
-       "foes": 149
+       "foes": 149,
+       "time": "≈ 33 min"
       },
       {
        "area": 89,
        "note": "Leave by the north-east portal.",
        "party": 6,
-       "foes": 137
+       "foes": 137,
+       "time": "≈ 30 min"
       },
       {
        "area": 88,
        "note": "Leave by the east portal.",
        "party": 6,
-       "foes": 160
+       "foes": 160,
+       "time": "≈ 36 min"
       },
       {
        "area": 99,
        "note": "Leave by the south portal.",
        "party": 6,
-       "foes": 155
+       "foes": 155,
+       "time": "≈ 34 min"
       },
       {
        "area": 103,
        "note": "Leave by the east portal. The first 4-party area.",
        "party": 4,
-       "foes": 50
+       "foes": 50,
+       "time": "≈ 11 min"
       },
       {
        "area": 13,
        "note": "The biggest count of the chain. Leave by the north-east portal, into the Dragon's Gullet spur.",
        "party": 4,
-       "foes": 271
+       "foes": 271,
+       "time": "≈ 60 min"
       },
       {
        "area": 106,
        "note": "Straight through to Dragon's Gullet.",
        "party": 4,
-       "foes": 96
+       "foes": 96,
+       "time": "≈ 21 min"
       },
       {
        "area": 105,
        "note": "A dead end. Walk back through the Corridor and Diessa Lowlands, both cleared, to Diessa's south-east portal.",
        "party": 4,
-       "foes": 116
+       "foes": 116,
+       "time": "≈ 26 min"
       },
       {
        "area": 102,
        "note": "Leave by the south portal.",
        "party": 4,
-       "foes": 100
+       "foes": 100,
+       "time": "≈ 22 min"
       },
       {
        "area": 33,
        "note": "Leave by the south portal, to Regent Valley.",
        "party": 4,
-       "foes": 200
+       "foes": 200,
+       "time": "≈ 44 min"
       },
       {
        "area": 101,
        "note": "Leave by the east portal.",
        "party": 4,
-       "foes": 129
+       "foes": 129,
+       "time": "≈ 29 min"
       },
       {
        "area": 104,
        "note": "Leave by the north-east portal.",
        "party": 4,
-       "foes": 135
+       "foes": 135,
+       "time": "≈ 30 min"
       },
       {
        "area": 107,
        "note": "The end of the chain.",
        "party": 4,
-       "foes": 170
+       "foes": 170,
+       "time": "≈ 38 min"
       }
      ],
      "total": {
-      "foes": 2309
+      "foes": 2309,
+      "time": "≈ 8 h 35"
      },
      "notes": [
       "Watchtower Coast is reached only from Beetletun and Divinity Coast, so no caravan gets there with 8: it is a 6-party vanquish from Beetletun."
@@ -430,59 +452,69 @@
        "area": 60,
        "note": "Leave by the west portal.",
        "party": 6,
-       "foes": 44
+       "foes": 44,
+       "time": "≈ 10 min"
       },
       {
        "area": 41,
        "note": "Leave by the west portal.",
        "party": 6,
-       "foes": 176
+       "foes": 176,
+       "time": "≈ 39 min"
       },
       {
        "area": 42,
        "note": "Leave by the west portal, to Silverwood.",
        "party": 6,
-       "foes": 53
+       "foes": 53,
+       "time": "≈ 12 min"
       },
       {
        "area": 43,
        "note": "Leave by the north portal.",
        "party": 6,
-       "foes": 185
+       "foes": 185,
+       "time": "≈ 41 min"
       },
       {
        "area": 44,
        "note": "The hub of the jungle: three portals still matter. First the north one, to Dry Top.",
        "party": 6,
-       "foes": 162
+       "foes": 162,
+       "time": "≈ 36 min"
       },
       {
        "area": 47,
        "note": "Leave by the west portal, to Tangle Root.",
        "party": 6,
-       "foes": 50
+       "foes": 50,
+       "time": "≈ 11 min"
       },
       {
        "area": 48,
        "note": "A dead end. Walk back through Dry Top to Ettin's Back, then take its west portal.",
        "party": 6,
-       "foes": 187
+       "foes": 187,
+       "time": "≈ 42 min"
       },
       {
        "area": 45,
        "note": "Leave by the west portal, to The Falls.",
        "party": 6,
-       "foes": 54
+       "foes": 54,
+       "time": "≈ 12 min"
       },
       {
        "area": 46,
        "note": "The end of the chain, a dead end.",
        "party": 6,
-       "foes": 279
+       "foes": 279,
+       "time": "≈ 62 min"
       }
      ],
      "total": {
-      "foes": 1190
+      "foes": 1190,
+      "time": "≈ 4 h 25"
      },
      "marks": [
       138
@@ -563,29 +595,34 @@
        "area": 17,
        "note": "Leave by the south portal. The west one leads to Majesty's Rest and the West caravan.",
        "party": 6,
-       "foes": 185
+       "foes": 185,
+       "time": "≈ 41 min"
       },
       {
        "area": 53,
        "note": "The hub for two dead ends: Twin Serpent Lakes first, then Stingray Strand.",
        "party": 6,
-       "foes": 64
+       "foes": 64,
+       "time": "≈ 14 min"
       },
       {
        "area": 61,
        "note": "A dead end. Walk back to Tears of the Fallen.",
        "party": 6,
-       "foes": 129
+       "foes": 129,
+       "time": "≈ 29 min"
       },
       {
        "area": 63,
        "note": "The end of the chain.",
        "party": 6,
-       "foes": 150
+       "foes": 150,
+       "time": "≈ 33 min"
       }
      ],
      "total": {
-      "foes": 528
+      "foes": 528,
+      "time": "≈ 1 h 55"
      },
      "marks": [
       138
@@ -683,47 +720,55 @@
        "area": 112,
        "note": "You arrive at the crystal portal in the south-east. Leave by the west portal.",
        "party": 6,
-       "foes": 87
+       "foes": 87,
+       "time": "≈ 19 min"
       },
       {
        "area": 111,
        "note": "Leave by the north-west portal.",
        "party": 6,
-       "foes": 207
+       "foes": 207,
+       "time": "≈ 46 min"
       },
       {
        "area": 113,
        "note": "Leave by the north portal.",
        "party": 6,
-       "foes": 214
+       "foes": 214,
+       "time": "≈ 48 min"
       },
       {
        "area": 114,
        "note": "Leave by the north-east portal.",
        "party": 6,
-       "foes": 146
+       "foes": 146,
+       "time": "≈ 32 min"
       },
       {
        "area": 110,
        "note": "Leave by the south portal, the only one left.",
        "party": 6,
-       "foes": 102
+       "foes": 102,
+       "time": "≈ 23 min"
       },
       {
        "area": 115,
        "note": "The hub of the desert, four of its portals already behind you. Leave by the east portal, to The Scar.",
        "party": 6,
-       "foes": 159
+       "foes": 159,
+       "time": "≈ 35 min"
       },
       {
        "area": 108,
        "note": "The end of the chain, a dead end.",
        "party": 6,
-       "foes": 233
+       "foes": 233,
+       "time": "≈ 52 min"
       }
      ],
      "total": {
-      "foes": 1148
+      "foes": 1148,
+      "time": "≈ 4 h 15"
      },
      "notes": [
       "The Desolation's areas on the way in take 8 from their own outposts, so they are not part of the caravan."
@@ -770,23 +815,27 @@
        "area": 91,
        "note": "Leave by the north-west portal.",
        "party": 8,
-       "foes": 300
+       "foes": 300,
+       "time": "≈ 67 min"
       },
       {
        "area": 97,
        "note": "Leave by the north portal.",
        "party": 8,
-       "foes": 106
+       "foes": 106,
+       "time": "≈ 24 min"
       },
       {
        "area": 90,
        "note": "The end of the chain. The portal at its north end is Beacon's Perch.",
        "party": 8,
-       "foes": 270
+       "foes": 270,
+       "time": "≈ 60 min"
       }
      ],
      "total": {
-      "foes": 676
+      "foes": 676,
+      "time": "≈ 2 h 30"
      },
      "aspect": 1.1,
      "height": 640
