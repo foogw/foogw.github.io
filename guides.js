@@ -75,7 +75,10 @@ function routeOf(g) {
   if (!blocks.length) return null;
   const route = blocks.flatMap(x => x.route);
   const at = new Map();  // quest -> { take, done } step numbers
+  // (_n: the step's number through the guide, what its tick is kept by; _d: the number shown, starting again in each
+  // section, so a tabbed guide counts from 1 on every tab)
   let n = 0;
+  for (const sec of g.sections) { let d = 0; for (const x of sec.blocks) if (x.route) for (const leg of x.route) for (const st of leg.steps) st._d = ++d; }
   for (const leg of route) for (const st of leg.steps) {
     st._n = ++n;
     for (const q of st.take || []) (at.get(q) || at.set(q, {}).get(q)).take ??= n;
@@ -132,7 +135,12 @@ function chipsHTML(st) {
     ...(st.go || []).map(q => questChip(q, "go")), ...done.filter(q => take.includes(q)).map(q => questChip(q, "done"))];
   return chips.length ? `<div class="gd-qchips">${chips.join("")}</div>` : "";
 }
-// a leg's header; a leg with no steps of its own runs into the next one's ("Map to X and step to Y"):
+// (map: a map block drawn inside the step, for the places its text names)
+// a step that is one quest (q: its id, or the ids of its variants, named once when they share a name, or with to: true of its first and last): titled with the quest, linked, and the icons of
+// the skills it teaches; no chips then, the title says it all (take and done still count for the stats)
+const stepTitle = st => { const qs = [st.q].flat().filter((q, i, a) => a.findIndex(x => QUESTS[x]?.name === QUESTS[q]?.name) === i), skills = [...new Set(qs.flatMap(q => QUESTS[q]?.skills || []))].filter(id => SKILLS[id]);
+  return `<h4 class="gd-step-q">${qs.map(q => LINK.quest(q)).join(` <span class="dim">${st.to ? "to" : "or"}</span> `)}${skills.map(id => `<a class="gd-step-sk" href="${HREF.skill(id)}" title="${esc(SKILLS[id].name)}">${skillIcon(id, "sk-ic sm")}</a>`).join("")}</h4>`; };
+// a leg's header (none for a leg that names no place: a plain list of steps); a leg with no steps of its own runs into the next one's ("Map to X and step to Y"):
 // stepping into an outpost, out of one into an area, or across from one area into the next
 const legArea = leg => leg.start ?? leg.map ?? leg.step ?? leg.area;
 const legName = leg => (typeof legArea(leg) === "number" ? LINK.area(legArea(leg)) : esc(legArea(leg)));  // an area may be a named part of a zone
@@ -149,10 +157,10 @@ function routeHTML(g, route) {
   return `<div class="gd-route">${stepsHead(route.flatMap(leg => leg.steps).filter(st => done.has(st._n)).length, all)}${route.map((leg, i) => {
     if (!leg.steps.length && route[i + 1]) return "";
     const prev = route[i - 1] && !route[i - 1].steps.length ? `${legHead(route[i - 1], route[i - 2])} <span class="dim">and ${legVerb(leg, route[i - 1]).toLowerCase()}</span> ${legName(leg)}` : legHead(leg, route[i - 1]);
-    return `<section class="gd-leg"><h3>${prev}</h3><ol>${leg.steps.map(st =>
+    return `<section class="gd-leg">${legArea(leg) == null ? "" : `<h3>${prev}</h3>`}<ol>${leg.steps.map(st =>
     `<li class="gd-step${done.has(st._n) ? " ticked" : ""}">
-      <label class="gd-tick"><input type="checkbox" data-step="${st._n}"${done.has(st._n) ? " checked" : ""}><span>${st._n}</span></label>
-      <div><p>${text(st.t)}</p>${chipsHTML(st)}</div>
+      <label class="gd-tick"><input type="checkbox" data-step="${st._n}"${done.has(st._n) ? " checked" : ""}><span>${st._d}</span></label>
+      <div>${st.q ? stepTitle(st) : ""}<p>${text(st.t)}</p>${st.q ? "" : chipsHTML(st)}${st.map ? blockHTML(st.map, g) : ""}</div>
     </li>`).join("")}</ol></section>`;
   }).join("")}</div>`;
 }
@@ -372,17 +380,19 @@ document.addEventListener("change", e => {
 });
 // (each route block counts its own steps: a tabbed guide has one per tab)
 const stepsCount = () => {
-  const n = document.querySelectorAll(".gd-route [data-step]:checked").length;
   for (const c of document.querySelectorAll("[data-steps-count]")) c.textContent = `${c.closest(".gd-route").querySelectorAll("[data-step]:checked").length} of ${c.dataset.all} steps ticked`;
-  for (const b of document.querySelectorAll("[data-steps-clear]")) b.hidden = !n;
+  for (const b of document.querySelectorAll("[data-steps-clear]")) b.hidden = !b.closest(".gd-route").querySelector("[data-step]:checked");
 };
-// every step unticked, after asking
+// every step of this route unticked, after asking (a tabbed guide: the tab's own; the other tabs' ticks stay)
 document.addEventListener("click", async e => {
-  if (!e.target.closest("[data-steps-clear]") || readOnlyBlocks()) return;
-  const boxes = [...document.querySelectorAll(".gd-route [data-step]:checked")];
-  if (!boxes.length || !await ask({ title: `Uncheck all ${boxes.length} steps ticked in this guide?`, ok: "Uncheck all", danger: true, focus: "cancel" })) return;
-  for (const b of boxes) { b.checked = false; b.closest(".gd-step").classList.remove("ticked"); }
-  try { localStorage.removeItem(STORE(guideId())); } catch {}
+  const clear = e.target.closest("[data-steps-clear]");
+  if (!clear || readOnlyBlocks()) return;
+  const route = clear.closest(".gd-route"), tabbed = !!document.querySelector(".gd-tabs");
+  const boxes = [...route.querySelectorAll("[data-step]:checked")];
+  if (!boxes.length || !await ask({ title: `Uncheck all ${boxes.length} steps ticked in this ${tabbed ? "tab" : "guide"}?`, ok: "Uncheck all", danger: true, focus: "cancel" })) return;
+  const id = guideId(), done = ticked(id);
+  for (const b of boxes) { b.checked = false; b.closest(".gd-step").classList.remove("ticked"); done.delete(+b.dataset.step); }
+  try { if (done.size) localStorage.setItem(STORE(id), JSON.stringify([...done])); else localStorage.removeItem(STORE(id)); } catch {}
   stepsCount();
 });
 

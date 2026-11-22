@@ -1168,6 +1168,11 @@ a.hchip { text-decoration: none; }
 .gd-step { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 4px; padding: 6px 0; border-top: 1px solid var(--line); }
 .gd-step:first-child { border-top: 0; }
 .gd .gd-step p { margin: 0; }
+/* a map inside a step (its places) */
+.gd-step .gd-map { margin: 8px 0 2px; }
+/* a step that is one quest: its name, then the icons of the skills it teaches */
+.gd .gd-leg .gd-step-q { margin: 0 0 3px; font-size: 15px; font-weight: 600; text-transform: none; letter-spacing: 0; color: var(--text); display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.gd-step-q .gd-step-sk { display: inline-flex; } .gd-step-q .gd-step-sk img { width: 22px; height: 22px; border-radius: 4px; }
 .gd-step.ticked > div { opacity: .45; }
 .gd-tick { display: flex; align-items: flex-start; gap: 6px; padding-top: 3px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; cursor: pointer; }
 .gd-tick input { margin: 2px 0 0; accent-color: var(--accent); }
