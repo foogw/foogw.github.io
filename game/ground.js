@@ -146,7 +146,7 @@ const GW_GROUND = {
         {"to": 106, "at": [6433, 3978]}
       ],
       "order": 14.5,
-      "foes": [336, 383],
+      "foes": [271, 393],
       "wiki": {"en": "Diessa Lowlands", "de": "Tiefland von Diessa"},
       "set": 0
     },
@@ -201,7 +201,7 @@ const GW_GROUND = {
       "terrain": 34039,
       "exits": [{"to": 18, "at": [2797, 4518]}, {"to": 60, "at": [2381, 4502]}, {"to": 53, "at": [2573, 4750]}],
       "order": 25.5,
-      "foes": [186, 253],
+      "foes": [185, 253],
       "wiki": {"en": "Talmark Wilderness", "de": "Talmark-Wildnis"},
       "set": 0
     },
@@ -220,7 +220,7 @@ const GW_GROUND = {
         {"to": 138, "at": [2953, 4374]}
       ],
       "order": 22.5,
-      "foes": [206, 296],
+      "foes": [206, 306],
       "wiki": {"en": "The Black Curtain", "de": "Der Schwarze Vorhang"},
       "set": 0
     },
@@ -335,7 +335,7 @@ const GW_GROUND = {
         {"to": 22, "at": [5293, 6422]}
       ],
       "order": 37.5,
-      "foes": [378, 419],
+      "foes": [375, 420],
       "bosses": [100381, 100382, 100338, 100354, 100176, 100356, 100383, 100357, 100384, 100385, 100386],
       "wiki": {"en": "Talus Chute", "de": "Talusschnelle"},
       "set": 0
@@ -348,7 +348,7 @@ const GW_GROUND = {
       "party": 6,
       "exits": [{"to": 100, "dir": "NE"}, {"to": 54, "at": [4209, 4462]}, {"to": 54, "at": [4209, 4462]}],
       "order": 20,
-      "foes": [43, 53],
+      "foes": [42, 53],
       "wiki": {"en": "Griffon's Mouth", "de": "Greifenmaul"},
       "set": 0
     },
@@ -409,7 +409,7 @@ const GW_GROUND = {
         {"to": 239, "at": [2957, 1382]}
       ],
       "order": 21.5,
-      "foes": [155, 171],
+      "foes": [153, 171],
       "bosses": [100484, 100485, 100486, 100487],
       "wiki": {"en": "Xaquang Skyway", "de": "Xaquang-Himmelsweg"}
     },
@@ -441,7 +441,7 @@ const GW_GROUND = {
         {"to": 81, "at": [7065, 4554]}
       ],
       "order": 8,
-      "foes": [200, 291],
+      "foes": [200, 312],
       "wiki": {"en": "Old Ascalon", "de": "Alt-Ascalon"},
       "set": 0
     },
@@ -539,7 +539,7 @@ const GW_GROUND = {
         {"to": 60, "at": [1902, 4449]}
       ],
       "order": 25.5,
-      "foes": [212, 292],
+      "foes": [176, 296],
       "wiki": {"en": "Sage Lands", "de": "Land der Weisen"},
       "set": 0
     },
@@ -570,7 +570,7 @@ const GW_GROUND = {
         {"to": 142, "at": [1009, 4890]}
       ],
       "order": 27.5,
-      "foes": [197, 222],
+      "foes": [185, 222],
       "wiki": {"en": "Silverwood", "de": "Silberholz"},
       "set": 0
     },
@@ -589,7 +589,7 @@ const GW_GROUND = {
         {"to": 43, "at": [893, 5070]}
       ],
       "order": 30,
-      "foes": [165, 223],
+      "foes": [162, 223],
       "wiki": {"en": "Ettin's Back", "de": "Ettinbuckel"},
       "set": 0
     },
@@ -602,7 +602,7 @@ const GW_GROUND = {
       "terrain": 40802,
       "exits": [{"to": 46, "at": [701, 5489]}, {"to": 44, "at": [853, 5334]}],
       "order": 29.5,
-      "foes": [54, 101],
+      "foes": [54, 107],
       "wiki": {"en": "Reed Bog", "de": "Schilfmoor"},
       "set": 0
     },
@@ -615,7 +615,7 @@ const GW_GROUND = {
       "terrain": 40808,
       "exits": [{"to": 45, "at": [701, 5489]}],
       "order": 29.5,
-      "foes": [283, 322],
+      "foes": [279, 327],
       "wiki": {"en": "The Falls", "de": "Die Wasserfälle"},
       "set": 0
     },
@@ -682,7 +682,7 @@ const GW_GROUND = {
       "terrain": 41192,
       "exits": [{"to": 17, "at": [2573, 4750]}, {"to": 61, "at": [2470, 4909]}, {"to": 63, "at": [2549, 4898]}],
       "order": 32.5,
-      "foes": [65, 71],
+      "foes": [64, 72],
       "wiki": {"en": "Tears of the Fallen", "de": "Tränen der Gefallenen"},
       "set": 0
     },
@@ -778,7 +778,7 @@ const GW_GROUND = {
         {"to": 57, "at": [3585, 4598]}
       ],
       "order": 22.5,
-      "foes": [140, 269],
+      "foes": [138, 269],
       "bosses": [100254],
       "wiki": {"en": "Nebo Terrace", "de": "Nebo-Terrasse"}
     },
@@ -796,7 +796,7 @@ const GW_GROUND = {
         {"to": 845}
       ],
       "order": 25.5,
-      "foes": [45, 82],
+      "foes": [44, 85],
       "wiki": {"en": "Majesty's Rest", "de": "Königsruh"},
       "set": 0
     },
@@ -988,7 +988,7 @@ const GW_GROUND = {
       "terrain": 46592,
       "exits": [{"to": 99, "at": [5581, 3497]}, {"to": 89, "at": [5045, 3398]}],
       "order": 15.5,
-      "foes": [162, 197],
+      "foes": [160, 197],
       "wiki": {"en": "Iron Horse Mine", "de": "Eisenrossmine"},
       "set": 0
     },
@@ -1006,7 +1006,7 @@ const GW_GROUND = {
         {"to": 132, "at": [4706, 3493]}
       ],
       "order": 17.5,
-      "foes": [137, 248],
+      "foes": [137, 252],
       "wiki": {"en": "Anvil Rock", "de": "Ambossstein"},
       "set": 0
     },
@@ -1019,7 +1019,7 @@ const GW_GROUND = {
       "terrain": 46594,
       "exits": [{"to": 133, "at": [4681, 4327]}, {"to": 133, "at": [4681, 4327]}, {"to": 97, "at": [4681, 5034]}],
       "order": 18.5,
-      "foes": [274, 298],
+      "foes": [270, 301],
       "bosses": [100191, 100192, 100193, 100194, 100195],
       "wiki": {"en": "Lornar's Pass", "de": "Lornarpass"},
       "set": 0
@@ -1033,7 +1033,7 @@ const GW_GROUND = {
       "terrain": 12244,
       "exits": [{"to": 155, "at": [4797, 6090]}, {"to": 191, "at": [4868, 5689]}, {"to": 97, "at": [4661, 5197]}],
       "order": 18.5,
-      "foes": [307, 419],
+      "foes": [300, 419],
       "bosses": [
         100335,
         100336,
@@ -1064,7 +1064,7 @@ const GW_GROUND = {
       "terrain": 46597,
       "exits": [{"to": 156, "at": [5309, 5366]}, {"to": 96, "at": [5489, 5258]}],
       "order": 40.5,
-      "foes": [75, 106],
+      "foes": [75, 109],
       "wiki": {"en": "Tasca's Demise", "de": "Tascas Ableben"}
     },
     "93": {
@@ -1075,7 +1075,7 @@ const GW_GROUND = {
       "party": 8,
       "exits": [{"to": 191, "at": [5258, 5557]}, {"to": 156, "at": [5289, 5409]}, {"to": 159, "at": [5490, 5841]}],
       "order": 40.5,
-      "foes": [206, 232],
+      "foes": [206, 234],
       "bosses": [100353, 100354, 100355, 100356, 100357, 100125, 100358, 100359, 100360, 100361],
       "wiki": {"en": "Spearhead Peak", "de": "Speerspitzengipfel"},
       "set": 0
@@ -1089,7 +1089,7 @@ const GW_GROUND = {
       "terrain": 46598,
       "exits": [{"to": 98, "at": [5966, 6125]}, {"to": 157, "at": [6138, 6425]}, {"to": 23, "at": [6305, 6158]}],
       "order": 41.5,
-      "foes": [191, 235],
+      "foes": [187, 235],
       "bosses": [100176, 100177],
       "wiki": {"en": "Ice Floe", "de": "Eisscholle"},
       "set": 0
@@ -1117,7 +1117,7 @@ const GW_GROUND = {
       "terrain": 46600,
       "exits": [{"to": 92, "at": [5489, 5258]}],
       "order": 40.5,
-      "foes": [180, 240],
+      "foes": [180, 241],
       "bosses": [100222, 100223, 100224, 100225, 100226, 100227, 100228],
       "wiki": {"en": "Mineral Springs", "de": "Mineralquellen"},
       "set": 0
@@ -1131,7 +1131,7 @@ const GW_GROUND = {
       "terrain": 46601,
       "exits": [{"to": 90, "at": [4681, 5034]}, {"to": 91, "at": [4661, 5197]}],
       "order": 18.5,
-      "foes": [106, 121],
+      "foes": [106, 124],
       "bosses": [100125],
       "wiki": {"en": "Dreadnought's Drift", "de": "Schreckensdrift"},
       "set": 0
@@ -1150,7 +1150,7 @@ const GW_GROUND = {
         {"to": 94, "at": [5966, 6125]}
       ],
       "order": 40.5,
-      "foes": [298, 322],
+      "foes": [298, 323],
       "bosses": [100142, 100143, 100144, 100145, 100146, 100147, 100148, 100149, 100150, 100151],
       "wiki": {"en": "Frozen Forest", "de": "Frostwald"},
       "set": 0
@@ -1188,7 +1188,7 @@ const GW_GROUND = {
         {"to": 133, "at": [4653, 4297]}
       ],
       "order": 18.5,
-      "foes": [149, 197],
+      "foes": [149, 210],
       "wiki": {"en": "Deldrimor Bowl", "de": "Deldrimor-Becken"},
       "set": 0
     },
@@ -1201,7 +1201,7 @@ const GW_GROUND = {
       "terrain": 51060,
       "exits": [{"to": 33, "at": [6989, 4810]}, {"to": 104, "at": [7421, 5033]}, {"to": 29, "at": [7401, 4910]}],
       "order": 7.5,
-      "foes": [131, 195],
+      "foes": [129, 195],
       "wiki": {"en": "Regent Valley", "de": "Regentental"},
       "set": 0
     },
@@ -1219,7 +1219,7 @@ const GW_GROUND = {
         {"to": 879, "at": [6850, 4370]}
       ],
       "order": 7.5,
-      "foes": [108, 136],
+      "foes": [100, 136],
       "wiki": {"en": "The Breach", "de": "Die Bresche"},
       "set": 0
     },
@@ -1245,7 +1245,7 @@ const GW_GROUND = {
       "terrain": 51063,
       "exits": [{"to": 107, "at": [7653, 4558]}, {"to": 131, "at": [7489, 4598]}, {"to": 101, "at": [7421, 5033]}],
       "order": 7.5,
-      "foes": [148, 233],
+      "foes": [135, 234],
       "wiki": {"en": "Pockmark Flats", "de": "Pockennarbenebene"},
       "set": 0
     },
@@ -1258,7 +1258,7 @@ const GW_GROUND = {
       "terrain": 51064,
       "exits": [{"to": 106, "at": [6577, 3846]}],
       "order": 14.5,
-      "foes": [116, 178],
+      "foes": [116, 205],
       "bosses": [100106, 100107, 100108, 100109, 100110, 100111, 100112],
       "wiki": {"en": "Dragon's Gullet", "de": "Drachenschlund"},
       "set": 0
@@ -1300,7 +1300,7 @@ const GW_GROUND = {
       "terrain": 52166,
       "exits": [{"to": 117, "at": [7434, 8365]}, {"to": 115, "at": [7073, 8286]}, {"to": 154, "at": [7125, 7945]}],
       "order": 35.5,
-      "foes": [237, 270],
+      "foes": [233, 274],
       "wiki": {"en": "The Scar", "de": "Die Narbe"},
       "set": 0
     },
@@ -1345,7 +1345,7 @@ const GW_GROUND = {
         {"to": 116, "at": [6509, 8638]}
       ],
       "order": 35.5,
-      "foes": [220, 260],
+      "foes": [207, 261],
       "wiki": {"en": "Vulture Drifts", "de": "Geierdünen"},
       "set": 0
     },
@@ -1396,7 +1396,7 @@ const GW_GROUND = {
         {"to": 110, "at": [6805, 7506]}
       ],
       "order": 36.5,
-      "foes": [157, 247],
+      "foes": [146, 255],
       "wiki": {"en": "Salt Flats", "de": "Salzebenen"},
       "set": 0
     },
@@ -1417,7 +1417,7 @@ const GW_GROUND = {
         {"to": 154, "at": [7089, 7890]}
       ],
       "order": 37,
-      "foes": [159, 175],
+      "foes": [159, 178],
       "wiki": {"en": "Skyward Reach", "de": "Himmelsspitze"},
       "set": 0
     },
@@ -1487,7 +1487,7 @@ const GW_GROUND = {
       "terrain": 55563,
       "exits": [{"to": 35, "at": [1993, 7733]}],
       "order": 43,
-      "foes": [212, 245],
+      "foes": [212, 252],
       "bosses": [
         100266,
         100267,
@@ -1764,7 +1764,7 @@ const GW_GROUND = {
       "terrain": 155167,
       "exits": [{"to": 224, "at": [4913, 2374]}, {"to": 279, "at": [4989, 2798]}, {"to": 202, "at": [5041, 2713]}],
       "order": 36.5,
-      "foes": [190, 211],
+      "foes": [183, 211],
       "bosses": [100163, 100164, 100165, 100166, 100167, 100168, 100169],
       "wiki": {"en": "Gyala Hatchery", "de": "Gyala-Brutstätte (Erforschbar)"}
     },
@@ -2174,7 +2174,7 @@ const GW_GROUND = {
       "terrain": 154527,
       "exits": [{"to": 286, "at": [3853, 3282]}, {"to": 222, "at": [3673, 3462]}, {"to": 349, "at": [3593, 3082]}],
       "order": 36.5,
-      "foes": [207, 272],
+      "foes": [207, 281],
       "bosses": [100120, 100121, 100122, 100123, 100124],
       "wiki": {"en": "Drazach Thicket", "de": "Drazachdickicht"}
     },
@@ -2207,7 +2207,7 @@ const GW_GROUND = {
         {"to": 31, "at": [3341, 1474]}
       ],
       "order": 24.5,
-      "foes": [214, 254],
+      "foes": [180, 256],
       "bosses": [100321, 100322, 100323, 100324, 100325],
       "wiki": {"en": "Shenzun Tunnels", "de": "Shenzun-Tunnel"}
     },
@@ -2245,7 +2245,7 @@ const GW_GROUND = {
         {"to": 224, "at": [4942, 2317]}
       ],
       "order": 36.5,
-      "foes": [163, 281],
+      "foes": [150, 281],
       "bosses": [100203, 100204, 100205, 100206, 100207],
       "wiki": {"en": "Maishang Hills", "de": "Maishang-Hügel"}
     },
@@ -2259,7 +2259,7 @@ const GW_GROUND = {
       "terrain": 155089,
       "exits": [{"to": 247, "at": [4213, 2150]}, {"to": 278, "at": [4209, 2321]}, {"to": 389, "at": [3949, 2431]}],
       "order": 29.5,
-      "foes": [130, 190],
+      "foes": [110, 190],
       "bosses": [100237, 100238, 100239, 100240, 100241, 100242],
       "wiki": {"en": "Mount Qinkai", "de": "Qinkai"}
     },
@@ -2273,7 +2273,7 @@ const GW_GROUND = {
       "terrain": 154590,
       "exits": [{"to": 286, "at": [3893, 3282]}, {"to": 129, "at": [3949, 3086]}, {"to": 390, "at": [4213, 2842]}],
       "order": 34.5,
-      "foes": [168, 228],
+      "foes": [157, 228],
       "bosses": [100216, 100217, 100218, 100219, 100220, 100221],
       "wiki": {"en": "Melandru's Hope", "de": "Melandrus Hoffnung"}
     },
@@ -2287,7 +2287,7 @@ const GW_GROUND = {
       "terrain": 155121,
       "exits": [{"to": 234, "at": [5345, 2934]}, {"to": 144, "at": [5041, 2713]}, {"to": 289, "at": [5065, 3102]}],
       "order": 36.5,
-      "foes": [223, 274],
+      "foes": [220, 274],
       "bosses": [100298, 100299, 100300, 100301, 100302, 100303, 100304, 100305],
       "wiki": {"en": "Rhea's Crater", "de": "Rheas Krater"}
     },
@@ -2316,7 +2316,7 @@ const GW_GROUND = {
       "terrain": 154638,
       "exits": [{"to": 287, "at": [4301, 3726]}, {"to": 130, "at": [3985, 3538]}, {"to": 298, "at": [4461, 3474]}],
       "order": 37.5,
-      "foes": [265, 314],
+      "foes": [265, 318],
       "bosses": [100229, 100230, 100231, 100232, 100233, 100234, 100235, 100236],
       "wiki": {"en": "Morostav Trail", "de": "Morostovweg"}
     },
@@ -2346,7 +2346,7 @@ const GW_GROUND = {
       "terrain": 157242,
       "exits": [{"to": 230, "at": [3793, 3922]}, {"to": 128, "at": [3881, 3726]}, {"to": 287, "at": [4258, 3777]}],
       "order": 36.5,
-      "foes": [189, 223],
+      "foes": [189, 227],
       "bosses": [100243, 100244, 100245, 100246, 100247, 100248, 100249, 100250, 100251, 100252],
       "wiki": {"en": "Mourning Veil Falls", "de": "Trauerflorfälle"}
     },
@@ -2365,7 +2365,7 @@ const GW_GROUND = {
         {"to": 349, "at": [3609, 3070]}
       ],
       "order": 34.5,
-      "foes": [232, 357],
+      "foes": [225, 357],
       "bosses": [100126, 100127, 100128, 100129, 100130, 100131, 100132, 100133, 100134],
       "wiki": {"en": "Ferndale", "de": "Farntal"}
     },
@@ -2386,7 +2386,7 @@ const GW_GROUND = {
         {"to": 348, "at": [3589, 2106]}
       ],
       "order": 29.5,
-      "foes": [140, 170],
+      "foes": [127, 175],
       "bosses": [100238, 100282, 100283, 100284],
       "wiki": {"en": "Pongmei Valley", "de": "Pongmei-Tal"}
     },
@@ -2575,7 +2575,7 @@ const GW_GROUND = {
       "terrain": 155168,
       "exits": [{"to": 277, "at": [4641, 3370]}, {"to": 298, "at": [4461, 3474]}, {"to": 297, "at": [4737, 3306]}],
       "order": 39.5,
-      "foes": [123, 153],
+      "foes": [123, 158],
       "bosses": [100448, 100449, 100450, 100451],
       "wiki": {"en": "Unwaking Waters", "de": "Verschlafene Gewässer (Erforschbar)"}
     },
@@ -2606,7 +2606,7 @@ const GW_GROUND = {
       "terrain": 157176,
       "exits": [{"to": 274, "at": [3425, 966]}, {"to": 240, "at": [3241, 922]}],
       "order": 20.5,
-      "foes": [7, 33],
+      "foes": [6, 39],
       "bosses": [100318, 100319, 100320],
       "wiki": {"en": "Shadow's Passage", "de": "Schattenpassage"}
     },
@@ -2647,7 +2647,7 @@ const GW_GROUND = {
       "terrain": 157021,
       "exits": [{"to": 249, "at": [1130, 2697]}, {"to": 236, "at": [793, 2701]}],
       "order": 5,
-      "foes": [134, 203],
+      "foes": [131, 235],
       "wiki": {"en": "Panjiang Peninsula", "de": "Panjiang-Halbinsel"}
     },
     "236": {
@@ -2660,7 +2660,7 @@ const GW_GROUND = {
       "terrain": 157048,
       "exits": [{"to": 235, "at": [793, 2701]}, {"to": 251, "at": [1017, 2306]}, {"to": 238, "at": [1037, 2449]}],
       "order": 5,
-      "foes": [90, 153],
+      "foes": [83, 153],
       "wiki": {"en": "Kinya Province", "de": "Provinz Kinya"}
     },
     "237": {
@@ -2673,7 +2673,7 @@ const GW_GROUND = {
       "terrain": 157079,
       "exits": [{"to": 196, "at": [1941, 2414]}, {"to": 213, "at": [2249, 2570]}],
       "order": 16,
-      "foes": [64, 201],
+      "foes": [158, 205],
       "wiki": {"en": "Haiju Lagoon", "de": "Haiju-Lagune"}
     },
     "238": {
@@ -2691,7 +2691,7 @@ const GW_GROUND = {
         {"to": 236, "at": [1037, 2449]}
       ],
       "order": 3,
-      "foes": [110, 150],
+      "foes": [98, 152],
       "wiki": {"en": "Sunqua Vale", "de": "Sunqua-Tal"}
     },
     "239": {
@@ -2709,7 +2709,7 @@ const GW_GROUND = {
         {"to": 31, "at": [2957, 1382]}
       ],
       "order": 22.5,
-      "foes": [82, 257],
+      "foes": [70, 271],
       "bosses": [100467, 100468, 100469, 100470],
       "wiki": {"en": "Wajjun Bazaar", "de": "Wajjun-Basar"}
     },
@@ -2730,7 +2730,7 @@ const GW_GROUND = {
         {"to": 292, "at": [3249, 1030]}
       ],
       "order": 22,
-      "foes": [60, 162],
+      "foes": [60, 228],
       "bosses": [100055, 100056, 100057, 100058, 100059],
       "wiki": {"en": "Bukdek Byway", "de": "Bukdek-Seitenweg"}
     },
@@ -2787,7 +2787,7 @@ const GW_GROUND = {
         {"to": 348, "at": [3573, 2154]}
       ],
       "order": 27.5,
-      "foes": [249, 350],
+      "foes": [245, 372],
       "bosses": [100009, 100010, 100011, 100012, 100013, 100014],
       "wiki": {"en": "Arborstone", "de": "Arborstein (Erforschbar)"}
     },
@@ -2801,7 +2801,7 @@ const GW_GROUND = {
       "terrain": 156827,
       "exits": [{"to": 214, "at": [1329, 2314]}, {"to": 251, "at": [1037, 2258]}],
       "order": 8.5,
-      "foes": [184, 244],
+      "foes": [183, 244],
       "wiki": {"en": "Minister Cho's Estate", "de": "Minister Chos Anwesen (Erforschbar)"}
     },
     "246": {
@@ -2814,7 +2814,7 @@ const GW_GROUND = {
       "terrain": 156882,
       "exits": [{"to": 250, "at": [1857, 2654]}, {"to": 213, "at": [2209, 2586]}],
       "order": 13.5,
-      "foes": [162, 204],
+      "foes": [160, 204],
       "wiki": {"en": "Zen Daijun", "de": "Zen Daijun (Erforschbar)"}
     },
     "247": {
@@ -2832,7 +2832,7 @@ const GW_GROUND = {
         {"to": 273, "at": [4421, 2166]}
       ],
       "order": 29.5,
-      "foes": [175, 238],
+      "foes": [147, 238],
       "bosses": [100050, 100051, 100052, 100053, 100054],
       "wiki": {"en": "Boreas Seabed", "de": "Boreas-Meeresgrund (Erforschbar)"}
     },
@@ -2984,7 +2984,7 @@ const GW_GROUND = {
       "terrain": 157178,
       "exits": [{"to": 284, "at": [3805, 1442]}, {"to": 217, "at": [3701, 1362]}],
       "order": 24.5,
-      "foes": [2, 131],
+      "foes": [121, 134],
       "bosses": [100380],
       "wiki": {"en": "Tahnnakai Temple", "de": "Tahnnakai-Tempel (Erforschbar)"}
     },
@@ -3665,7 +3665,7 @@ const GW_GROUND = {
         {"to": 380, "at": [3885, 2741]}
       ],
       "order": 31,
-      "foes": [272, 312],
+      "foes": [251, 312],
       "wiki": {"en": "Jahai Bluffs", "de": "Jahai-Klippen"}
     },
     "370": {"name": "Kamadan (mission)", "type": 14, "region": 15, "campaign": 3},
@@ -3687,7 +3687,7 @@ const GW_GROUND = {
         {"to": 380, "at": [3585, 2942]}
       ],
       "order": 32,
-      "foes": [263, 316],
+      "foes": [254, 330],
       "bosses": [100208, 100209, 100210, 100211, 100212, 100213, 100214, 100215],
       "wiki": {"en": "Marga Coast", "de": "Marga-Küste"}
     },
@@ -3702,7 +3702,7 @@ const GW_GROUND = {
       "terrain": 212844,
       "exits": [{"to": 421, "at": [3341, 2314]}, {"to": 554, "at": [2901, 2606]}, {"to": 436, "at": [3301, 2550]}],
       "order": 24.5,
-      "foes": [292, 326],
+      "foes": [267, 327],
       "bosses": [100375, 100376, 100377, 100378, 100379],
       "wiki": {"en": "Sunward Marches", "de": "Sonnenwärtige Sümpfe"}
     },
@@ -3717,7 +3717,7 @@ const GW_GROUND = {
       "terrain": 212976,
       "exits": [{"to": 376, "at": [4561, 3170]}],
       "order": 31.5,
-      "foes": [165, 201],
+      "foes": [153, 201],
       "bosses": [100037, 100038, 100039, 100040, 100041],
       "wiki": {"en": "Barbarous Shore", "de": "Barbarenküste"}
     },
@@ -3745,7 +3745,7 @@ const GW_GROUND = {
       "terrain": 215315,
       "exits": [{"to": 378, "at": [4597, 1977]}, {"to": 378, "at": [4597, 1977]}, {"to": 427, "at": [4662, 2273]}],
       "order": 33.5,
-      "foes": [259, 304],
+      "foes": [258, 304],
       "bosses": [100031, 100032, 100033, 100034, 100035, 100036],
       "wiki": {"en": "Bahdok Caverns", "de": "Bahdok-Höhlen"}
     },
@@ -3776,7 +3776,7 @@ const GW_GROUND = {
       "terrain": 215191,
       "exits": [{"to": 426, "at": [4082, 3160]}, {"to": 424, "at": [4259, 2732]}, {"to": 376, "at": [4489, 3145]}],
       "order": 32,
-      "foes": [229, 346],
+      "foes": [229, 268],
       "bosses": [100074, 100075, 100076, 100077, 100078, 100079],
       "wiki": {"en": "Dejarin Estate", "de": "Dejarin-Anwesen"}
     },
@@ -3798,7 +3798,7 @@ const GW_GROUND = {
         {"to": 436, "at": [3629, 2762]}
       ],
       "order": 21.5,
-      "foes": [309, 362],
+      "foes": [279, 368],
       "bosses": [100022, 100023, 100024, 100025, 100026, 100027, 100028, 100029, 100030],
       "wiki": {"en": "Arkjok Ward", "de": "Arkjok-Bastei"}
     },
@@ -3844,7 +3844,7 @@ const GW_GROUND = {
         {"to": 369, "at": [4277, 2521]}
       ],
       "order": 28.5,
-      "foes": [204, 274],
+      "foes": [200, 281],
       "bosses": [100400, 100401, 100402, 100403, 100404, 100405, 100406, 100407, 100408],
       "wiki": {"en": "The Floodplain of Mahnkelon", "de": "Die Schwemmebene von Mahnkelon"}
     },
@@ -3865,7 +3865,7 @@ const GW_GROUND = {
         {"to": 369, "at": [3698, 2281]}
       ],
       "order": 24.5,
-      "foes": [170, 246],
+      "foes": [163, 246],
       "bosses": [100443, 100444, 100445, 100446, 100447],
       "wiki": {"en": "Turai's Procession", "de": "Turais Weg"}
     },
@@ -3952,7 +3952,7 @@ const GW_GROUND = {
         {"to": 406, "at": [4493, 1774]}
       ],
       "order": 34.5,
-      "foes": [193, 229],
+      "foes": [191, 232],
       "bosses": [100488, 100489, 100490, 100491, 100492, 100493],
       "wiki": {"en": "Yatendi Canyons", "de": "Yahtendi-Schluchten"}
     },
@@ -3980,7 +3980,7 @@ const GW_GROUND = {
       "terrain": 215636,
       "exits": [{"to": 399, "at": [4085, 1202]}],
       "order": 35.5,
-      "foes": [218, 340],
+      "foes": [214, 340],
       "bosses": [100152, 100153, 100154, 100155, 100156],
       "wiki": {"en": "Garden of Seborhin", "de": "Seborhin-Garten"}
     },
@@ -3994,7 +3994,7 @@ const GW_GROUND = {
       "terrain": 216883,
       "exits": [{"to": 396, "at": [4346, 741]}, {"to": 397, "at": [3689, 934]}, {"to": 397, "at": [3985, 738]}],
       "order": 38.5,
-      "foes": [244, 248],
+      "foes": [220, 248],
       "bosses": [100170, 100171, 100172, 100173],
       "wiki": {"en": "Holdings of Chokhin", "de": "Güter von Chokhin"}
     },
@@ -4067,7 +4067,7 @@ const GW_GROUND = {
         {"to": 406, "at": [4409, 1581]}
       ],
       "order": 35.5,
-      "foes": [244, 337],
+      "foes": [243, 337],
       "bosses": [100135, 100136, 100137, 100138, 100139, 100140, 100141],
       "wiki": {"en": "Forum Highlands", "de": "Forum-Hochland"}
     },
@@ -4100,7 +4100,7 @@ const GW_GROUND = {
         {"to": 404, "at": [5161, 1222]}
       ],
       "order": 37.5,
-      "foes": [157, 211],
+      "foes": [150, 211],
       "bosses": [100294, 100295, 100296, 100297],
       "wiki": {"en": "Resplendent Makuun", "de": "Makuun die Leuchtende"}
     },
@@ -4127,7 +4127,7 @@ const GW_GROUND = {
       "terrain": 215818,
       "exits": [{"to": 402, "at": [5265, 1106]}, {"to": 402, "at": [5161, 1222]}, {"to": 433, "at": [4985, 883]}],
       "order": 39.5,
-      "foes": [165, 172],
+      "foes": [159, 176],
       "bosses": [100472, 100473, 100474, 100475, 100476, 100477, 100478],
       "wiki": {"en": "Wilderness of Bahdza", "de": "Wildnis von Bahdza"}
     },
@@ -4150,7 +4150,7 @@ const GW_GROUND = {
         {"to": 414, "at": [4490, 1294]}
       ],
       "order": 36.5,
-      "foes": [226, 257],
+      "foes": [225, 259],
       "bosses": [100460, 100461, 100462, 100463],
       "wiki": {"en": "Vehtendi Valley", "de": "Vehtendi-Tal"}
     },
@@ -4182,7 +4182,7 @@ const GW_GROUND = {
       "terrain": 212497,
       "exits": [{"to": 434}],
       "order": 39.5,
-      "foes": [194, 255],
+      "foes": [194, 257],
       "bosses": [100410, 100411, 100412, 100413, 100414, 100415],
       "wiki": {"en": "The Hidden City of Ahdashim", "de": "Verborgene Stadt von Ahdashim"}
     },
@@ -4233,7 +4233,7 @@ const GW_GROUND = {
         {"to": 434, "at": [4757, 1101]}
       ],
       "order": 39,
-      "foes": [142, 256],
+      "foes": [142, 261],
       "bosses": [100416, 100417, 100418, 100419, 100420],
       "wiki": {"en": "The Mirror of Lyss", "de": "Der Spiegel von Lyss"}
     },
@@ -4372,7 +4372,7 @@ const GW_GROUND = {
         {"to": 449, "at": [2178, 3173]}
       ],
       "order": 15,
-      "foes": [184, 218],
+      "foes": [184, 229],
       "wiki": {"en": "Plains of Jarin", "de": "Flachland von Jarin"}
     },
     "431": {
@@ -4405,7 +4405,7 @@ const GW_GROUND = {
         {"to": 483, "at": [1565, 3186]}
       ],
       "order": 7.5,
-      "foes": [115, 143],
+      "foes": [113, 201],
       "bosses": [100060, 100061, 100062, 100063, 100064],
       "wiki": {"en": "Cliffs of Dohjok", "de": "Felsen von Dohjok"}
     },
@@ -4487,7 +4487,7 @@ const GW_GROUND = {
         {"to": 398, "at": [3318, 881]}
       ],
       "order": 47.5,
-      "foes": [413, 438],
+      "foes": [326, 438],
       "bosses": [100183, 100184, 100185, 100186, 100187, 100188],
       "wiki": {"en": "Joko's Domain", "de": "Jokos Domäne"}
     },
@@ -4587,7 +4587,7 @@ const GW_GROUND = {
       "terrain": 216305,
       "exits": [{"to": 442, "at": [3129, 394]}, {"to": 439, "at": [2709, 354]}],
       "order": 49.5,
-      "foes": [176, 250],
+      "foes": [176, 277],
       "wiki": {"en": "Poisoned Outcrops", "de": "Giftige Auswüchse"}
     },
     "444": {
@@ -4600,7 +4600,7 @@ const GW_GROUND = {
       "terrain": 215929,
       "exits": [{"to": 478, "at": [3278, 1649]}, {"to": 545, "at": [2969, 1326]}],
       "order": 46.5,
-      "foes": [243, 400],
+      "foes": [237, 421],
       "bosses": [100429, 100430, 100431, 100432, 100433, 100434, 100435],
       "wiki": {"en": "The Sulfurous Wastes", "de": "Die Schwefel-Einöde"}
     },
@@ -4635,7 +4635,7 @@ const GW_GROUND = {
         {"to": 441, "at": [2785, 682]}
       ],
       "order": 48.5,
-      "foes": [294, 309],
+      "foes": [281, 326],
       "bosses": [100388, 100389, 100390, 100391],
       "wiki": {"en": "The Alkali Pan", "de": "Das Alkalibecken"}
     },
@@ -4654,7 +4654,7 @@ const GW_GROUND = {
         {"to": 112, "dir": "N"}
       ],
       "order": 36.5,
-      "foes": [191, 280],
+      "foes": [190, 201],
       "bosses": [100065, 100066, 100067, 100068],
       "wiki": {"en": "Crystal Overlook", "de": "Kristallspitze"}
     },
@@ -4915,7 +4915,7 @@ const GW_GROUND = {
       "terrain": 216337,
       "exits": [{"to": 491, "at": [1185, 3238]}, {"to": 492, "at": [1169, 3526]}],
       "order": 7.5,
-      "foes": [196, 225],
+      "foes": [196, 244],
       "wiki": {"en": "Fahranur, The First City", "de": "Fahranur, die Erste Stadt"}
     },
     "482": {
@@ -4954,7 +4954,7 @@ const GW_GROUND = {
         {"to": 491, "at": [1269, 3182]}
       ],
       "order": 7.5,
-      "foes": [230, 276],
+      "foes": [222, 276],
       "wiki": {"en": "Zehlon Reach", "de": "Zehlon-Bucht"}
     },
     "484": {
@@ -4967,7 +4967,7 @@ const GW_GROUND = {
       "terrain": 216372,
       "exits": [{"to": 492, "at": [1221, 3634]}],
       "order": 15.5,
-      "foes": [361, 624],
+      "foes": [356, 624],
       "wiki": {"en": "Lahtenda Bog", "de": "Lahtenda-Sumpf"}
     },
     "485": {
@@ -4985,7 +4985,7 @@ const GW_GROUND = {
         {"to": 572, "at": [2322, 6281]},
         {"to": 581, "at": [2717, 6257]}
       ],
-      "foes": [462, 572],
+      "foes": [375, 572],
       "bosses": [100005, 100006, 100007, 100008],
       "wiki": {"en": "Arbor Bay", "de": "Arborbucht"},
       "set": 0
@@ -5027,7 +5027,7 @@ const GW_GROUND = {
       "terrain": 216388,
       "exits": [{"to": 489, "at": [2321, 3714]}],
       "order": 7.5,
-      "foes": [227, 279],
+      "foes": [210, 281],
       "wiki": {"en": "Mehtani Keys", "de": "Mehtani-Archipel"}
     },
     "489": {
@@ -5196,7 +5196,7 @@ const GW_GROUND = {
         {"to": 572, "at": [2009, 6250]},
         {"to": 572, "at": [1958, 6161]}
       ],
-      "foes": [275, 302],
+      "foes": [260, 302],
       "bosses": [100306, 100307, 100308, 100309, 100310],
       "wiki": {"en": "Riven Earth", "de": "Zerrissene Erde"},
       "set": 0
@@ -5256,7 +5256,7 @@ const GW_GROUND = {
         {"to": 553, "at": [5420, 1998]},
         {"to": 553, "at": [5417, 1909]}
       ],
-      "foes": [367, 510],
+      "foes": [330, 527],
       "bosses": [100113, 100114, 100046, 100115, 100116, 100117, 100118, 100119],
       "wiki": {"en": "Drakkar Lake", "de": "Drakkar-See"},
       "set": 0
@@ -5344,7 +5344,7 @@ const GW_GROUND = {
         {"to": 482, "at": [6220, 1351]},
         {"to": 482, "at": [6120, 1369]}
       ],
-      "foes": [255, 281],
+      "foes": [251, 290],
       "bosses": [100179, 100180, 100181, 100182],
       "wiki": {"en": "Jaga Moraine", "de": "Jaga-Moräne"},
       "set": 0
@@ -5433,7 +5433,7 @@ const GW_GROUND = {
       "party": 8,
       "terrain": 287493,
       "exits": [{"to": 615, "at": [4362, 6150]}, {"to": 612, "at": [4353, 6698]}, {"to": 638, "at": [4125, 6646]}],
-      "foes": [281, 348],
+      "foes": [281, 353],
       "bosses": [100348, 100349, 100350, 100351, 100352],
       "wiki": {"en": "Sparkfly Swamp", "de": "Funkenschwärmersumpf"},
       "set": 0
@@ -5491,7 +5491,7 @@ const GW_GROUND = {
         {"to": 639, "at": [4564, 2470]},
         {"to": 577, "at": [4918, 2508]}
       ],
-      "foes": [270, 302],
+      "foes": [268, 308],
       "bosses": [100452, 100464, 100465, 100466],
       "wiki": {"en": "Verdant Cascades", "de": "Grüne Kaskaden"},
       "set": 0
@@ -5512,7 +5512,7 @@ const GW_GROUND = {
         {"to": 578, "at": [1257, 6154]},
         {"to": 584, "at": [1353, 6438]}
       ],
-      "foes": [373, 402],
+      "foes": [367, 409],
       "bosses": [100196, 100197, 100198, 100199, 100200, 100201, 100202],
       "wiki": {"en": "Magus Stones", "de": "Magussteine"},
       "set": 0
@@ -5547,7 +5547,7 @@ const GW_GROUND = {
         {"to": 641, "at": [2273, 6514]},
         {"to": 641, "at": [2249, 6541]}
       ],
-      "foes": [225, 336],
+      "foes": [220, 237],
       "bosses": [100000, 100001, 100002, 100003, 100004],
       "wiki": {"en": "Alcazia Tangle", "de": "Alcazia-Dickicht"},
       "set": 0
@@ -5913,7 +5913,7 @@ const GW_GROUND = {
         {"to": 651, "at": [7735, 1848]},
         {"to": 651, "at": [7746, 1761]}
       ],
-      "foes": [280, 302],
+      "foes": [278, 306],
       "bosses": [100069, 100070, 100071, 100072, 100073],
       "wiki": {"en": "Dalada Uplands", "de": "Dalada-Hochlande"},
       "set": 0
@@ -5947,7 +5947,7 @@ const GW_GROUND = {
         {"to": 651, "at": [7386, 1889]},
         {"to": 651, "at": [7262, 1881]}
       ],
-      "foes": [207, 244],
+      "foes": [189, 244],
       "wiki": {"en": "Grothmar Wardowns", "de": "Grothmar-Kriegshügel"}
     },
     "650": {
@@ -5977,7 +5977,7 @@ const GW_GROUND = {
         {"to": 573, "at": [7386, 2225]},
         {"to": 570, "at": [7802, 2225]}
       ],
-      "foes": [370, 466],
+      "foes": [370, 468],
       "bosses": [100311, 100312, 100313, 100314, 100315, 100316, 100317],
       "wiki": {"en": "Sacnoth Valley", "de": "Sacnoth-Tal"},
       "set": 0

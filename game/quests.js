@@ -2665,6 +2665,8 @@ const GW_QUESTS = {
     "100192": {
       "name": "Pilgrimage to the Hall of Heroes",
       "type": "event",
+      "xp": 5000,
+      "gold": 2005,
       "givers": [694],
       "event": 5,
       "repeatable": true,
@@ -4621,6 +4623,7 @@ const GW_QUESTS = {
     "100334": {
       "name": "A Gate Too Far",
       "type": "primary",
+      "xp": 2500,
       "givers": [249],
       "requires": [100454],
       "objectives": [
@@ -4688,6 +4691,7 @@ const GW_QUESTS = {
     "100338": {
       "name": "A Time for Heroes",
       "type": "primary",
+      "xp": 2500,
       "givers": [453],
       "objectives": [
         [0, "Defeat the Great Destroyer."]
@@ -4698,6 +4702,7 @@ const GW_QUESTS = {
     "100339": {
       "name": "Against the Charr",
       "type": "primary",
+      "xp": 2500,
       "givers": [571],
       "next": [100433],
       "objectives": [
@@ -4751,6 +4756,7 @@ const GW_QUESTS = {
     "100342": {
       "name": "Assault on the Stronghold",
       "type": "primary",
+      "xp": 2500,
       "givers": [307, 308],
       "requires": [100458],
       "objectives": [
@@ -4814,6 +4820,7 @@ const GW_QUESTS = {
     "100346": {
       "name": "Blood Washes Blood",
       "type": "primary",
+      "xp": 2500,
       "givers": [243],
       "requires": [100364],
       "objectives": [
@@ -4910,6 +4917,7 @@ const GW_QUESTS = {
     "100352": {
       "name": "Curse of the Nornbear",
       "type": "primary",
+      "xp": 2500,
       "givers": [315],
       "requires": [100450],
       "next": [100364, 100454],
@@ -4960,6 +4968,7 @@ const GW_QUESTS = {
     "100355": {
       "name": "Destruction's Depths",
       "type": "primary",
+      "xp": 2500,
       "givers": [442],
       "requires": [100372],
       "next": [100338],
@@ -4982,7 +4991,7 @@ const GW_QUESTS = {
       "name": "Destructive Research",
       "type": "secondary",
       "givers": [454],
-      "skills": [2221],
+      "skills": [2221, 2212],
       "rewards": ["150 Deldrimor reputation points"],
       "requires": [100389],
       "next": [100434],
@@ -5040,6 +5049,7 @@ const GW_QUESTS = {
       "name": "Final Round: Fight!",
       "type": "secondary",
       "givers": [273],
+      "skills": [2357, 2354, 2353],
       "rewards": ["150 Norn reputation points", "The Bison Cup", "1 Bison Championship Token"],
       "requires": [100407],
       "objectives": [
@@ -5070,6 +5080,7 @@ const GW_QUESTS = {
     "100362": {
       "name": "Finding the Bloodstone",
       "type": "primary",
+      "xp": 2500,
       "givers": [213],
       "requires": [100361],
       "next": [100368],
@@ -5166,6 +5177,7 @@ const GW_QUESTS = {
     "100368": {
       "name": "Genius Operated Living Enchanted Manifestation",
       "type": "primary",
+      "xp": 2500,
       "givers": [570],
       "requires": [100337, 100362, 100435],
       "objectives": [
@@ -5644,6 +5656,7 @@ const GW_QUESTS = {
       "name": "Prenuptial Disagreement",
       "type": "secondary",
       "givers": [318, 319],
+      "skills": [2359],
       "rewards": ["250 Norn reputation points", "Grail of Might"],
       "requires": [100345],
       "objectives": [
@@ -5657,6 +5670,7 @@ const GW_QUESTS = {
       "name": "Prenuptial Disagreement",
       "type": "secondary",
       "givers": [249, 250],
+      "skills": [2359],
       "rewards": ["250 Norn reputation points", "Grail of Might"],
       "requires": [100345],
       "objectives": [
@@ -6141,6 +6155,7 @@ const GW_QUESTS = {
     "100435": {
       "name": "The Elusive Golemancer",
       "type": "primary",
+      "xp": 2500,
       "givers": [463],
       "next": [100368],
       "missions": [664],
@@ -6269,6 +6284,7 @@ const GW_QUESTS = {
       "givers": [708, 709],
       "repeatable": true,
       "xp": 7500,
+      "gold": 1500,
       "objectives": [
         [0, "Seek the great jotun living within Darkrime Delves."],
         [0, "Find the source of the roar heard from below."],
@@ -6472,6 +6488,7 @@ const GW_QUESTS = {
     "100455": {
       "name": "Warband of Brothers",
       "type": "primary",
+      "xp": 2500,
       "campaign": 4,
       "region": 20,
       "requires": [100433],
@@ -7172,6 +7189,7 @@ const GW_QUESTS = {
     "100502": {
       "name": "Capturing the Orrian Tome",
       "type": "secondary",
+      "xp": 2500,
       "givers": [302],
       "next": [100618],
       "objectives": [
@@ -8775,7 +8793,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [657],
       "xp": 2000,
-      "skills": [1, 26, 153, 194, 281, 296, 322, 382, 793, 1247],
+      "skills": [1, 26, 153, 194, 281, 296, 322, 382, 793, 1247, 2],
       "next": [100663, 100660, 100665, 100659, 100664, 100658, 100661, 100662],
       "objectives": [
         [0, "Meet Instructor Ng at the gate."],
@@ -8926,6 +8944,7 @@ const GW_QUESTS = {
     "100618": {
       "name": "Minister's Test",
       "type": "secondary",
+      "skills": [3],
       "givers": [302],
       "xp": 2500,
       "requires": [100502],
@@ -9061,6 +9080,7 @@ const GW_QUESTS = {
     "100627": {
       "name": "Old Friends, Dark Times",
       "type": "secondary",
+      "xp": 2500,
       "givers": [196],
       "gold": 100,
       "requires": [100625],
@@ -9313,6 +9333,7 @@ const GW_QUESTS = {
     "100641": {
       "name": "Raze the Roost",
       "type": "secondary",
+      "xp": 10000,
       "campaign": 2,
       "region": 8,
       "objectives": [
@@ -10137,6 +10158,8 @@ const GW_QUESTS = {
     "100698": {
       "name": "Talon's Duel",
       "type": "primary",
+      "xp": 1000,
+      "gold": 50,
       "givers": [733],
       "profession": 1,
       "skills": [330, 348],
@@ -12266,6 +12289,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [561],
       "xp": 2500,
+      "gold": 200,
       "rewards": ["50 Lightbringer points", "Inscribed Secret"],
       "requires": [100875],
       "objectives": [
@@ -12352,6 +12376,7 @@ const GW_QUESTS = {
       "type": "instance",
       "givers": [248],
       "xp": 10000,
+      "gold": 800,
       "rewards": ["800 Lightbringer points"],
       "requires": [100839],
       "objectives": [
@@ -12438,6 +12463,7 @@ const GW_QUESTS = {
     "100846": {
       "name": "Capturing the Signet of Capture",
       "type": "secondary",
+      "skills": [3],
       "givers": [276],
       "xp": 2500,
       "gold": 200,
@@ -12515,6 +12541,7 @@ const GW_QUESTS = {
     "100851": {
       "name": "Choose Your Secondary Profession (Nightfall)",
       "type": "primary",
+      "skills": [336, 343, 351, 382, 349, 348, 411, 436, 459, 433, 392, 455, 252, 313, 277, 301, 305, 307, 85, 135, 109, 154, 143, 92, 28, 31, 68, 80, 76, 67, 197, 198, 214, 222, 172, 176, 1557, 1600, 1578, 1776, 1585, 1605, 1539, 1535, 1493, 1507, 1526, 1544],
       "givers": [649],
       "xp": 500,
       "gold": 50,
@@ -12664,6 +12691,7 @@ const GW_QUESTS = {
       "type": "instance",
       "givers": [753],
       "xp": 10000,
+      "gold": 800,
       "rewards": ["800 Lightbringer points"],
       "objectives": [
         [0, "Destroy the Deathbringer Company"],
@@ -13157,6 +13185,7 @@ const GW_QUESTS = {
       "type": "instance",
       "givers": [703],
       "xp": 10000,
+      "gold": 800,
       "rewards": ["800 Lightbringer points"],
       "objectives": [
         [0, "The Forgotten prisoners must survive."],
@@ -14521,7 +14550,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [383],
       "xp": 2000,
-      "skills": [322],
+      "skills": [322, 1, 153, 194, 281, 1490],
       "next": [100925],
       "objectives": [
         [0, "Travel to the Sunspear watch post."],
@@ -14727,56 +14756,7 @@ const GW_QUESTS = {
       "givers": [235],
       "xp": 500,
       "gold": 200,
-      "skills": [
-        28,
-        31,
-        67,
-        68,
-        76,
-        80,
-        85,
-        92,
-        109,
-        135,
-        143,
-        154,
-        172,
-        176,
-        197,
-        198,
-        214,
-        222,
-        252,
-        277,
-        301,
-        305,
-        307,
-        313,
-        336,
-        343,
-        348,
-        349,
-        351,
-        382,
-        392,
-        411,
-        433,
-        436,
-        455,
-        459,
-        1493,
-        1507,
-        1526,
-        1535,
-        1539,
-        1544,
-        1557,
-        1578,
-        1585,
-        1600,
-        1605,
-        1776
-      ],
+      "skills": [28, 31, 67, 68, 76, 80, 85, 92, 109, 135, 143, 154, 172, 176, 197, 198, 214, 222, 252, 277, 301, 305, 307, 313, 336, 343, 348, 349, 351, 382, 392, 411, 433, 436, 455, 459, 1493, 1507, 1526, 1535, 1539, 1544, 1557, 1578, 1585, 1600, 1605, 1776, 394],
       "rewards": ["5 Sunspear Promotion Points", "Battle Commendation"],
       "requires": [100917],
       "next": [100851],
@@ -15037,7 +15017,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [383],
       "xp": 2000,
-      "skills": [322],
+      "skills": [322, 1, 194, 281],
       "next": [100974],
       "missions": [556],
       "objectives": [
@@ -15115,6 +15095,7 @@ const GW_QUESTS = {
       "type": "instance",
       "givers": [432],
       "xp": 10000,
+      "gold": 500,
       "rewards": ["500 Lightbringer points"],
       "objectives": [
         [0, "Destroy all residents of the Margonite City."]
@@ -15241,6 +15222,7 @@ const GW_QUESTS = {
       "type": "instance",
       "givers": [270],
       "xp": 10000,
+      "gold": 500,
       "rewards": ["500 Lightbringer points"],
       "next": [100892],
       "objectives": [
@@ -15470,6 +15452,7 @@ const GW_QUESTS = {
       "type": "instance",
       "givers": [753],
       "xp": 10000,
+      "gold": 800,
       "rewards": ["800 Lightbringer points"],
       "requires": [101056],
       "next": [100860],
@@ -16224,7 +16207,8 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [532],
       "xp": 1000,
-      "skills": [41, 160, 275, 332, 454],
+      "gold": 200,
+      "skills": [41, 160, 275, 332, 454, 145],
       "objectives": [
         [0, "Find out what has become of Tirzah's beloved Chebar in the Salt Flats."],
         [0, "Take the silver ring to Tirzah."]
@@ -16236,6 +16220,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [451],
       "xp": 500,
+      "gold": 100,
       "missions": [11],
       "objectives": [
         [0, "Speak with Justiciar Thommis."],
@@ -16253,6 +16238,7 @@ const GW_QUESTS = {
       "givers": [297],
       "profession": 5,
       "xp": 300,
+      "gold": 50,
       "skills": [37, 42],
       "requires": [101331],
       "objectives": [
@@ -16266,6 +16252,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [485],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [0, "Find the perfect gift for Lady Althea. It must be something beautiful."],
         [0, "Give the Beautiful Feather to Captain Osric."],
@@ -16440,6 +16427,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [358],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [
           0,
@@ -16476,6 +16464,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [358],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [
           0,
@@ -16510,6 +16499,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [358],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [
           0,
@@ -16545,6 +16535,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [358],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [
           0,
@@ -16579,6 +16570,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [358],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [
           0,
@@ -16613,6 +16605,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [358],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [
           0,
@@ -16647,6 +16640,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [358],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [
           0,
@@ -16682,6 +16676,7 @@ const GW_QUESTS = {
       "givers": [522],
       "profession": 2,
       "xp": 250,
+      "gold": 50,
       "skills": [407, 432],
       "objectives": [
         [0, "Follow the ridge east until you find a plague worm. Kill all the Plague Worms in the time allotted."],
@@ -16732,6 +16727,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [623],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [0, "Find your way north of the wall. Search the road to Piken Square for Ben Wolfson."],
         [0, "Lead Ben Wolfson back to the gate."],
@@ -16742,8 +16738,10 @@ const GW_QUESTS = {
     "101109": {
       "name": "Adventure with an Ally",
       "type": "secondary",
+      "skills": [2],
       "givers": [186],
       "xp": 100,
+      "gold": 25,
       "objectives": [[0, "Return to Ascalon City. Form a party with another player."]],
       "wiki": {"en": "Adventure with an Ally", "de": "Abenteuer mit einem Verbündeten"}
     },
@@ -16780,6 +16778,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [197],
       "xp": 1000,
+      "gold": 200,
       "objectives": [
         [0, "Find Sennat Sen in Salt Flats."]
       ],
@@ -16791,6 +16790,7 @@ const GW_QUESTS = {
       "givers": [648],
       "profession": 1,
       "xp": 250,
+      "gold": 50,
       "skills": [337, 351],
       "objectives": [
         [0, "Find Old Mac's body out in the Breach."],
@@ -16838,6 +16838,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [230],
       "xp": 250,
+      "gold": 100,
       "objectives": [
         [0, "Recover the Ashford strongbox from the bandits."],
         [0, "Return the strongbox to Devona in Ashford."]
@@ -16849,6 +16850,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [795],
       "xp": 500,
+      "gold": 100,
       "requires": [101146],
       "objectives": [
         [0, "Tell Mantle Knight Karriya of Miraba's bandit problem."],
@@ -16862,6 +16864,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [231],
       "xp": 250,
+      "gold": 50,
       "next": [101120],
       "objectives": [
         [0, "Go to the Hammer Gate. Talk to Gate Guard Hollis."]
@@ -16873,6 +16876,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [232],
       "xp": 500,
+      "gold": 100,
       "requires": [101119],
       "objectives": [
         [0, "Go to Piken Square and see if Duke Barradin needs assistance."]
@@ -16897,6 +16901,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [293],
       "xp": 500,
+      "gold": 100,
       "objectives": [
         [0, "Go to Nebo Village with the Militia Weapons. Talk to Etham the Artisan and trade the weapons for blankets."],
         [0, "Take the blankets to Captain Greywind."]
@@ -16909,6 +16914,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [237],
       "xp": 2500,
+      "gold": 300,
       "skills": [66, 131, 187, 245, 368, 426],
       "requires": [101145],
       "objectives": [
@@ -16925,6 +16931,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [631],
       "xp": 250,
+      "gold": 50,
       "skills": [44, 136, 186, 240, 320, 453],
       "objectives": [
         [0, "Help Cynn and Mhenlo rescue the Merchant Caravan."],
@@ -16951,6 +16958,7 @@ const GW_QUESTS = {
       "givers": [258],
       "profession": 2,
       "xp": 500,
+      "gold": 100,
       "skills": [399, 415],
       "objectives": [
         [0, "Meet Aidan just outside of Piken Square."],
@@ -16966,6 +16974,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [255],
       "xp": 200,
+      "gold": 50,
       "objectives": [
         [0, "Follow Rurik and help him defeat the Charr."],
         [0, "Return to Prince Rurik for your reward."]
@@ -17048,6 +17057,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [209],
       "xp": 500,
+      "gold": 100,
       "next": [101130],
       "objectives": [
         [0, "Find the Ascalon census in the ruins in Old Ascalon."],
@@ -17061,6 +17071,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [687],
       "xp": 250,
+      "gold": 50,
       "skills": [133, 150],
       "next": [101203],
       "objectives": [
@@ -17104,6 +17115,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [347],
       "xp": 20000,
+      "gold": 1000,
       "next": [101276, 101139, 101135],
       "objectives": [
         [0, "Find and destroy the Titan Lord Evirso Sectus and his army in Mineral Springs."],
@@ -17170,6 +17182,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [287],
       "xp": 500,
+      "gold": 100,
       "requires": [101274],
       "missions": [28],
       "objectives": [
@@ -17193,6 +17206,7 @@ const GW_QUESTS = {
       "givers": [236],
       "profession": 5,
       "xp": 250,
+      "gold": 50,
       "skills": [27, 28],
       "objectives": [
         [0, "Head east from Foible's Fair to the woods. Destroy the skale brood."],
@@ -17223,6 +17237,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [237],
       "xp": 500,
+      "gold": 100,
       "skills": [48, 104, 216, 306, 378, 470],
       "next": [101123],
       "objectives": [
@@ -17236,6 +17251,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [422],
       "xp": 500,
+      "gold": 100,
       "next": [101118],
       "objectives": [
         [0, "Look for Lionguard Orrin at Miraba's farm."]
@@ -17294,6 +17310,7 @@ const GW_QUESTS = {
       "givers": [542],
       "profession": 6,
       "xp": 500,
+      "gold": 25,
       "skills": [180, 194],
       "objectives": [
         [0, "Kill the skale along the road southwest. Acquire a shimmering scale."],
@@ -17309,6 +17326,7 @@ const GW_QUESTS = {
       "givers": [234],
       "profession": 2,
       "xp": 200,
+      "gold": 50,
       "skills": [391, 411, 436, 446],
       "objectives": [
         [0, "Deliver a Melandru's Stalker to Nente."],
@@ -17389,6 +17407,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [451],
       "xp": 500,
+      "gold": 100,
       "skills": [10, 138, 225, 302, 334, 427],
       "objectives": [
         [0, "Find Grahm in the Sage Lands."],
@@ -17415,6 +17434,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [551],
       "xp": 500,
+      "gold": 100,
       "objectives": [
         [0, "Find the ghosts of Barris and Tamra Lefey."],
         [0, "Lead the ghosts to the gates of Ascalon City."],
@@ -17501,6 +17521,7 @@ const GW_QUESTS = {
       "type": "attribute",
       "givers": [768],
       "xp": 1500,
+      "gold": 250,
       "rewards": ["15 Attribute points"],
       "requires": [101266],
       "next": [101282],
@@ -17514,6 +17535,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [597],
       "xp": 1000,
+      "gold": 200,
       "objectives": [
         [0, "Search the Eastern Frontier and Pockmark Flats for Footman Tate and Footman Quinn. Bring them to justice."],
         [0, "Footman Tate surrendered. Lead him back to the Frontier Gate."],
@@ -17528,6 +17550,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [498],
       "xp": 250,
+      "gold": 25,
       "objectives": [[0, "Follow the road southwest from Ashford Abbey. Talk to Devona."]],
       "requires": [101378, 101150, 101190, 101197, 101200, 101213],
       "next": [101335],
@@ -17538,6 +17561,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [444],
       "xp": 500,
+      "gold": 100,
       "objectives": [
         [0, "Go to the Diessa Lowlands. Kill Garfazz Bloodfang."],
         [0, "Return to Viggo for your reward."]
@@ -17551,6 +17575,7 @@ const GW_QUESTS = {
       "givers": [617],
       "profession": 1,
       "xp": 200,
+      "gold": 50,
       "skills": [1, 321, 382, 384],
       "objectives": [
         [0, "Kill 5 Shatter or Flash Gargoyles. You have killed 0..5 gargoyles."],
@@ -17595,6 +17620,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [573],
       "xp": 1000,
+      "gold": 200,
       "skills": [14, 140, 219, 256, 363, 457],
       "objectives": [
         [0, "[0..10]/10 Minotaurs slain."],
@@ -17607,6 +17633,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [537],
       "xp": 600,
+      "gold": 100,
       "skills": [9, 116, 183, 283, 342, 402],
       "objectives": [
         [0, "Protect Archivist Ithimar from the Nightmares."],
@@ -17668,6 +17695,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [609],
       "xp": 250,
+      "gold": 50,
       "skills": [8, 108, 162, 301, 326, 406],
       "next": [101195],
       "objectives": [
@@ -17680,7 +17708,8 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [262],
       "xp": 200,
-      "skills": [80, 155, 290, 343, 398],
+      "gold": 50,
+      "skills": [80, 155, 290, 343, 398, 195],
       "requires": [101274],
       "objectives": [
         [0, "Deliver the supplies to Ellie Rigby in Ascalon City."],
@@ -17693,6 +17722,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [391],
       "xp": 400,
+      "gold": 100,
       "skills": [69, 106, 222, 310, 344, 392],
       "next": [101257],
       "objectives": [
@@ -17738,6 +17768,7 @@ const GW_QUESTS = {
       "givers": [617],
       "profession": 1,
       "xp": 300,
+      "gold": 75,
       "skills": [339, 347],
       "requires": [101194],
       "objectives": [
@@ -17751,6 +17782,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [216],
       "xp": 1000,
+      "gold": 200,
       "skills": [36, 144, 233, 271, 366, 463],
       "objectives": [
         [0, "Meet your friends in Skyward Reach."],
@@ -17787,6 +17819,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [368],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [0, "Acquire a bear pelt. Many bears can be found in Wizard's Folly."],
         [0, "Take the bear pelt to Alison the Tanner in Ashford."],
@@ -17814,8 +17847,10 @@ const GW_QUESTS = {
     "101188": {
       "name": "Malaquire's Test",
       "type": "secondary",
+      "skills": [3],
       "givers": [652],
       "xp": 500,
+      "gold": 100,
       "requires": [101206],
       "objectives": [
         [0, "Seek out a suitable target and use the Signet of Capture to gain a skill."],
@@ -17828,6 +17863,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [266],
       "xp": 500,
+      "gold": 100,
       "objectives": [
         [0, "Deliver the strongbox to Captain Greywind in the Ascalon Settlement."]
       ],
@@ -17839,6 +17875,7 @@ const GW_QUESTS = {
       "givers": [663],
       "profession": 5,
       "xp": 500,
+      "gold": 25,
       "skills": [26, 40],
       "objectives": [
         [0, "Follow the road southwest until you find Skale. Clear the road of skale."],
@@ -17853,6 +17890,7 @@ const GW_QUESTS = {
       "givers": [297],
       "profession": 5,
       "xp": 200,
+      "gold": 50,
       "skills": [24, 31, 40, 76],
       "requires": [101155],
       "objectives": [
@@ -17876,6 +17914,7 @@ const GW_QUESTS = {
       "givers": [113],
       "travel": 2,
       "xp": 1000,
+      "gold": 200,
       "next": [100780],
       "objectives": [
         [0, "Find Mhenlo in North Kryta Province to learn more about the letter he has received."],
@@ -17890,6 +17929,7 @@ const GW_QUESTS = {
       "givers": [617],
       "profession": 1,
       "xp": 250,
+      "gold": 50,
       "skills": [322, 349],
       "next": [101182],
       "objectives": [
@@ -17932,6 +17972,7 @@ const GW_QUESTS = {
       "givers": [667],
       "profession": 3,
       "xp": 500,
+      "gold": 25,
       "skills": [252, 288],
       "objectives": [
         [0, "Go southwest up the road until you find skale. Cross the river and find the missing girl Gwen."],
@@ -17967,6 +18008,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [710],
       "xp": 500,
+      "gold": 100,
       "skills": [45, 93, 172, 274, 328, 455],
       "next": [101291],
       "objectives": [
@@ -17981,6 +18023,7 @@ const GW_QUESTS = {
       "givers": [677],
       "profession": 4,
       "xp": 500,
+      "gold": 25,
       "skills": [105, 153],
       "objectives": [[0, "Go south to the river. Slay a skale so that Verata can make use of its corpse."]],
       "next": [101166],
@@ -18019,6 +18062,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [687],
       "xp": 350,
+      "gold": 75,
       "skills": [95, 99],
       "requires": [101134],
       "objectives": [
@@ -18051,6 +18095,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [239],
       "xp": 500,
+      "gold": 25,
       "objectives": [
         [
           0,
@@ -18094,6 +18139,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [476],
       "xp": 500,
+      "gold": 100,
       "next_missions": [73],
       "missions": [73],
       "objectives": [
@@ -18119,6 +18165,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [207],
       "xp": 500,
+      "gold": 25,
       "objectives": [
         [0, "Follow the road southwest from town to Ashford. Find Miller Upton and ask him to help Namar."],
         [0, "Use the honeycomb to lure the three bee swarms across the bridge."],
@@ -18131,6 +18178,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [208],
       "xp": 300,
+      "gold": 75,
       "skills": [280, 289],
       "next": [101181],
       "objectives": [
@@ -18146,6 +18194,7 @@ const GW_QUESTS = {
       "givers": [718],
       "profession": 3,
       "xp": 250,
+      "gold": 50,
       "skills": [299, 307],
       "objectives": [
         [0, "Meet Farrah Cappo in Lakeside County."],
@@ -18160,6 +18209,7 @@ const GW_QUESTS = {
       "givers": [780],
       "profession": 2,
       "xp": 500,
+      "gold": 25,
       "skills": [394, 446],
       "objectives": [[0, "Find the River Skale Queen and slay her."]],
       "next": [101166],
@@ -18182,6 +18232,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [287],
       "xp": 500,
+      "gold": 100,
       "next": [101120],
       "objectives": [
         [0, "Go from town to Old Ascalon and find the Army Recruits."],
@@ -18196,6 +18247,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [448],
       "xp": 500,
+      "gold": 100,
       "objectives": [
         [0, "Search King's Watch for Charr."],
         [0, "See Lord Darrin for your reward."]
@@ -18235,6 +18287,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [549],
       "xp": 500,
+      "gold": 100,
       "missions": [15],
       "objectives": [
         [0, "Go to North Kryta Province and follow the road to the fort in the D'Alessio Seaboard. Once there, report your presence to Mantle Knight Karriya."]
@@ -18247,6 +18300,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [293],
       "xp": 500,
+      "gold": 100,
       "objectives": [
         [0, "Head to Scoundrel's Rise east of North Kryta Province. Find the cause of the undead's westward movement."],
         [0, "Lord Timot is the source of the undead movement. Destroy him."],
@@ -18258,6 +18312,8 @@ const GW_QUESTS = {
     "101221": {
       "name": "Rise",
       "type": "primary",
+      "xp": 5000,
+      "gold": 1000,
       "campaign": 1,
       "region": 0,
       "repeatable": true,
@@ -18274,6 +18330,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [567],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [0, "Light candles on all four braziers in the catacombs to appease the angry spirits."],
         [0, "[0...4]/4 candles placed."],
@@ -18321,6 +18378,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [713],
       "xp": 500,
+      "gold": 100,
       "missions": [117, 116, 118],
       "objectives": [
         [0, "Speak to Great Ritual Priest Zahmut."]
@@ -18332,6 +18390,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [287],
       "xp": 500,
+      "gold": 100,
       "requires": [101141],
       "requires_missions": [28],
       "objectives": [
@@ -18346,6 +18405,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [541],
       "xp": 200,
+      "gold": 50,
       "skills": [175],
       "objectives": [
         [0, "0/5 Hulking Stone Elementals slain."],
@@ -18359,6 +18419,7 @@ const GW_QUESTS = {
       "givers": [365],
       "profession": 1,
       "xp": 500,
+      "gold": 100,
       "skills": [341, 356, 386],
       "objectives": [
         [0, "Proceed to the first patrol point in Traveler's Vale."],
@@ -18373,6 +18434,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [437],
       "xp": 500,
+      "gold": 500,
       "missions": [22],
       "objectives": [
         [0, "Speak with Korg the Scout."],
@@ -18484,9 +18546,11 @@ const GW_QUESTS = {
     "101236": {
       "name": "Stone Summit Beastmasters",
       "type": "secondary",
+      "skills": [450, 462, 412],
       "givers": [734],
       "profession": 2,
       "xp": 350,
+      "gold": 75,
       "objectives": [
         [0, "Track down and destroy Thorgrim Beastlasher in Iron Horse Mine."],
         [0, "Return to Artemis the Ranger for your reward."]
@@ -18542,6 +18606,7 @@ const GW_QUESTS = {
       "givers": [729],
       "travel": 3,
       "xp": 1000,
+      "gold": 200,
       "objectives": [
         [0, "Speak to Lionguard Bedo to gain entrance to Lion's Gate."],
         [0, "Speak with Kormir in Lion's Gate."],
@@ -18583,6 +18648,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [702],
       "xp": 2000,
+      "gold": 300,
       "requires": [101130],
       "objectives": [
         [0, "Go to Ascalon City and talk to Symon about getting a copy of his book."],
@@ -18630,6 +18696,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [379],
       "xp": 500,
+      "gold": 50,
       "skills": [100, 135],
       "objectives": [
         [0, "Go south and destroy the crypt fiends."],
@@ -18642,6 +18709,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [262],
       "xp": 500,
+      "gold": 100,
       "requires": [101274],
       "next": [101090],
       "objectives": [
@@ -18668,6 +18736,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [431],
       "xp": 500,
+      "gold": 100,
       "skills": [50, 117, 229, 286, 385, 424],
       "objectives": [
         [0, "Speak with Devona."],
@@ -18711,6 +18780,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [229],
       "xp": 250,
+      "gold": 50,
       "skills": [247, 248],
       "objectives": [
         [0, "Travel to the fields north of Ashford and dispatch the skeletons there."],
@@ -18734,6 +18804,7 @@ const GW_QUESTS = {
       "givers": [234],
       "profession": 2,
       "xp": 250,
+      "gold": 50,
       "skills": [439, 472],
       "next": [101255],
       "objectives": [
@@ -18747,6 +18818,7 @@ const GW_QUESTS = {
       "givers": [234],
       "profession": 2,
       "xp": 300,
+      "gold": 75,
       "skills": [425, 475],
       "requires": [101254],
       "objectives": [
@@ -18778,6 +18850,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [391],
       "xp": 500,
+      "gold": 100,
       "skills": [22, 143, 214, 242, 380, 456],
       "requires": [101179],
       "objectives": [
@@ -18824,6 +18897,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [313],
       "xp": 150,
+      "gold": 50,
       "rewards": ["2 Devourer Eggs"],
       "objectives": [
         [0, "Escort Fadden Hathorn into the Devourer cave [sic] and keep him safe while he gathers eggs."],
@@ -18849,6 +18923,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [350],
       "xp": 1000,
+      "gold": 200,
       "requires": [101271],
       "objectives": [
         [0, "Go to Prophet's Path and slay the kree minotaur."],
@@ -18862,6 +18937,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [457],
       "xp": 750,
+      "gold": 200,
       "skills": [49, 130, 234, 297, 316, 434],
       "objectives": [
         [0, "Defeat Abbot Ramoth and retrieve the Litanies of the Unseen."],
@@ -18901,6 +18977,8 @@ const GW_QUESTS = {
     "101266": {
       "name": "The Forgotten Ones",
       "type": "secondary",
+      "xp": 1000,
+      "gold": 200,
       "givers": [446],
       "skills": [72, 84, 179, 315, 345, 400],
       "next": [101164],
@@ -18959,6 +19037,7 @@ const GW_QUESTS = {
       "type": "attribute",
       "givers": [404],
       "xp": 5000,
+      "gold": 500,
       "rewards": ["15 Attribute points"],
       "objectives": [
         [0, "Enter the Frozen Forest from Iron Mines of Moladune.1"],
@@ -18973,6 +19052,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [404],
       "xp": 500,
+      "gold": 100,
       "next": [101270],
       "objectives": [
         [0, "Travel to Seeker's Passage."],
@@ -18987,6 +19067,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [440],
       "xp": 500,
+      "gold": 100,
       "skills": [32, 120, 173, 277, 357, 437],
       "objectives": [
         [0, "Go to Bergen Hot Springs and obtain a written testimony from Andar D'Leod."],
@@ -19003,6 +19084,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [269],
       "xp": 500,
+      "gold": 50,
       "objectives": [
         [0, "Purify the hunter's horn in the healing spring in Regent Valley."],
         [0, "Go to the fishing village south of the tower in Wizard's Folly and deliver the purified horn to Aidan."]
@@ -19028,6 +19110,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [373],
       "xp": 500,
+      "gold": 100,
       "next": [101274],
       "objectives": [
         [0, "Return to Ascalon City and speak to Warmaster Tydus."]
@@ -19067,6 +19150,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [285],
       "xp": 500,
+      "gold": 100,
       "skills": [61, 157, 162, 244, 360, 447],
       "objectives": [
         [0, "Find Farmer Dirk's last remaining Prize-Winning Hog and chase it back to him."],
@@ -19079,6 +19163,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [462],
       "xp": 500,
+      "gold": 100,
       "skills": [29, 103, 170, 272, 371, 464],
       "objectives": [
         [0, "Find and speak to Salma in the Temple of the Ages."],
@@ -19104,6 +19189,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [353],
       "xp": 1000,
+      "gold": 200,
       "requires_missions": [38],
       "objectives": [
         [0, "Go through Skyward Reach to Diviner's Ascent."],
@@ -19119,6 +19205,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [290],
       "xp": 1000,
+      "gold": 200,
       "skills": [46, 94, 188, 313, 367, 459],
       "requires": [101164],
       "objectives": [
@@ -19143,6 +19230,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [354],
       "xp": 1000,
+      "gold": 200,
       "requires": [101271],
       "objectives": [
         [0, "Travel through the Salt Flats to Diviner's Ascent."],
@@ -19157,6 +19245,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [355],
       "xp": 1000,
+      "gold": 200,
       "requires": [101271],
       "objectives": [
         [0, "Go to the Prophet's Path and slay the Sacred Griffon of Amnoon."],
@@ -19170,6 +19259,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [332],
       "xp": 250,
+      "gold": 50,
       "objectives": [[0, "Find the Basket of Apples. Take it to Mary Malone."]],
       "wiki": {"en": "The Orchard", "de": "Der Obstgarten"}
     },
@@ -19178,6 +19268,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [358],
       "xp": 100,
+      "gold": 100,
       "objectives": [[0, "Go to Ascalon City to speak to Sir Tydus."]],
       "requires": [101098],
       "wiki": {"en": "The Path to Glory", "de": "Der Weg zum Ruhm"}
@@ -19187,6 +19278,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [230],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [0, "Cross the river and destroy the plague devourer to get a poisonous stinger."],
         [0, "Deliver the poisonous stinger to Brother Mhenlo in Ashford Abbey."]
@@ -19211,6 +19303,7 @@ const GW_QUESTS = {
       "givers": [417],
       "profession": 4,
       "xp": 250,
+      "gold": 50,
       "skills": [115, 156],
       "objectives": [
         [0, "Enter the catacombs and destroy the Blood Fanatics."],
@@ -19224,6 +19317,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [334],
       "xp": 500,
+      "gold": 100,
       "skills": [81, 141, 207, 300, 352, 458],
       "objectives": [
         [0, "Tell Gareth Quickblade about the lost White Mantle patrol."],
@@ -19239,6 +19333,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [280],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [0, "Head to the catacombs and find Pitney's prize bird."],
         [0, "Return to Pitney for your reward."]
@@ -19273,6 +19368,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [356],
       "xp": 1000,
+      "gold": 200,
       "objectives": [
         [0, "Go to the Salt Flats and slay the Yxthoshth."],
         [0, "Return to Telius for your reward."]
@@ -19285,6 +19381,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [310],
       "xp": 1000,
+      "gold": 200,
       "objectives": [
         [0, "Deliver Farrah's message to Little Thom."],
         [0, "Tell Farrah of the death of Little Thom."]
@@ -19297,6 +19394,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [177],
       "xp": 500,
+      "gold": 100,
       "requires_missions": [32],
       "next": [101318],
       "objectives": [
@@ -19311,6 +19409,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [314],
       "xp": 250,
+      "gold": 25,
       "objectives": [
         [0, "Search for a source of devourer eggs in Lakeside County. Collect one devourer egg."],
         [0, "Return to Old Mac for your reward."]
@@ -19323,6 +19422,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [462],
       "xp": 750,
+      "gold": 200,
       "skills": [6, 85, 184, 251, 390, 408],
       "objectives": [
         [0, "Retrieve the royal scribe's papers from the Tengu in Stingray Strand."],
@@ -19366,6 +19466,7 @@ const GW_QUESTS = {
       "givers": [284],
       "profession": 4,
       "xp": 200,
+      "gold": 50,
       "skills": [83, 105, 109, 123],
       "objectives": [
         [0, "Find the Grawl that have stolen the relic. Look for them in the fields just north of the Sanitarium."],
@@ -19408,6 +19509,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [468],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [0, "Follow the road up to the wizard's tower. Destroy the Tower Golem."],
         [0, "See Elementalist Aziure for your reward."]
@@ -19474,6 +19576,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [382],
       "xp": 750,
+      "gold": 100,
       "objectives": [
         [
           0,
@@ -19488,6 +19591,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [406],
       "xp": 500,
+      "gold": 100,
       "skills": [21, 154, 208, 309, 327, 468],
       "objectives": [
         [0, "Go to the Watchtower Coast and stop the undead from reaching Beetletun."],
@@ -19500,6 +19604,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [113],
       "xp": 4000,
+      "gold": 500,
       "next": [101313],
       "objectives": [
         [0, "Seek out Galrath at the wizard's tower in Kessex Peak. Put an end to his villainy."],
@@ -19527,6 +19632,7 @@ const GW_QUESTS = {
       "givers": [279],
       "profession": 1,
       "xp": 250,
+      "gold": 50,
       "skills": [330, 336],
       "objectives": [
         [0, "Go to the duke's vineyard and kill all large aloe seeds."],
@@ -19577,6 +19683,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [352],
       "xp": 1000,
+      "gold": 200,
       "objectives": [
         [0, "Go to the Scar and slay the Orshad Chieftain."],
         [0, "Return to Agastos the Brave for your reward."]
@@ -19589,6 +19696,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [177],
       "xp": 500,
+      "gold": 100,
       "requires": [101297],
       "next_missions": [25],
       "missions": [25],
@@ -19604,6 +19712,7 @@ const GW_QUESTS = {
       "givers": [351],
       "profession": 6,
       "xp": 500,
+      "gold": 100,
       "next": [101267],
       "objectives": [
         [0, "Kill ten hulking stone elementals."],
@@ -19631,6 +19740,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [378],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [0, "Talk to Ralena Stormbringer in Foible's Fair to learn Orion's whereabouts."],
         [0, "Find Orion in Wizard's Folly and convince him to come home."],
@@ -19655,6 +19765,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [280],
       "xp": 250,
+      "gold": 50,
       "objectives": [
         [0, "Acquire a devourer egg from Fadden Hathorn in the devourer cave."],
         [0, "Take the devourer egg to Pitney in Ashford."],
@@ -19669,6 +19780,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [239],
       "xp": 250,
+      "gold": 25,
       "rewards": ["1 Skill point"],
       "objectives": [
         [
@@ -19685,6 +19797,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [670],
       "xp": 500,
+      "gold": 100,
       "requires": [101327],
       "next_missions": [14],
       "missions": [14],
@@ -19699,6 +19812,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [391],
       "xp": 500,
+      "gold": 100,
       "next": [101327],
       "objectives": [
         [0, "Eliminate the [6...0] remaining Centaur patrol[s] along the main road."],
@@ -19711,6 +19825,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [669],
       "xp": 500,
+      "gold": 100,
       "requires": [101326],
       "next": [101325],
       "objectives": [
@@ -19758,6 +19873,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [539],
       "xp": 500,
+      "gold": 25,
       "objectives": [
         [0, "Go to Lakeside County and follow the road to Ashford. Talk to Devona about the Grawl threat."],
         [0, "Go with Devona and destroy the Grawl threatening Ashford."]
@@ -19771,6 +19887,7 @@ const GW_QUESTS = {
       "givers": [297],
       "profession": 5,
       "xp": 300,
+      "gold": 75,
       "skills": [7, 77],
       "next": [101084],
       "objectives": [
@@ -19799,6 +19916,7 @@ const GW_QUESTS = {
       "givers": [188],
       "profession": 2,
       "xp": 250,
+      "gold": 50,
       "skills": [396, 431],
       "objectives": [
         [0, "Go to the falls to the west. Destroy the aloe husks until you find an aloe root."],
@@ -19823,6 +19941,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [239],
       "xp": 250,
+      "gold": 25,
       "objectives": [
         [0, "Speak with Meerak the Scribe in Ashford Abbey."],
         [0, "Deliver the message to Armin Saberlin. Use your map to travel to Ascalon City quickly."]
@@ -19851,6 +19970,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [360],
       "xp": 500,
+      "gold": 100,
       "requires": [101382],
       "missions": [12],
       "objectives": [
@@ -19937,6 +20057,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [231],
       "xp": 500,
+      "gold": 100,
       "requires": [101141],
       "objectives": [
         [0, "Go to Regent Valley. Acquire the Vanguard equipment from Gelsan."],
@@ -20325,6 +20446,7 @@ const GW_QUESTS = {
       "givers": [642],
       "profession": 6,
       "xp": 250,
+      "gold": 25,
       "objectives": [[0, "Go out the gate to Lakeside County and talk to <Trainer>."]],
       "wiki": {"en": "War Preparations", "de": "Kriegsvorbereitungen (Elementarmagier)"}
     },
@@ -20334,6 +20456,7 @@ const GW_QUESTS = {
       "givers": [642],
       "profession": 1,
       "xp": 250,
+      "gold": 25,
       "objectives": [[0, "Go out the gate to Lakeside County and talk to <Trainer>."]],
       "wiki": {"en": "War Preparations", "de": "Kriegsvorbereitungen (Krieger)"}
     },
@@ -20343,6 +20466,7 @@ const GW_QUESTS = {
       "givers": [642],
       "profession": 5,
       "xp": 250,
+      "gold": 25,
       "objectives": [[0, "Go out the gate to Lakeside County and talk to <Trainer>."]],
       "wiki": {"en": "War Preparations", "de": "Kriegsvorbereitungen (Mesmer)"}
     },
@@ -20352,6 +20476,7 @@ const GW_QUESTS = {
       "givers": [642],
       "profession": 3,
       "xp": 250,
+      "gold": 25,
       "objectives": [[0, "Go out the gate to Lakeside County and talk to <Trainer>."]],
       "wiki": {"en": "War Preparations", "de": "Kriegsvorbereitungen (Mönch)"}
     },
@@ -20361,6 +20486,7 @@ const GW_QUESTS = {
       "givers": [642],
       "profession": 4,
       "xp": 250,
+      "gold": 25,
       "objectives": [[0, "Go out the gate to Lakeside County and talk to <Trainer>."]],
       "wiki": {"en": "War Preparations", "de": "Kriegsvorbereitungen (Nekromant)"}
     },
@@ -20370,6 +20496,7 @@ const GW_QUESTS = {
       "givers": [642],
       "profession": 2,
       "xp": 250,
+      "gold": 25,
       "objectives": [[0, "Go out the gate to Lakeside County and talk to <Trainer>."]],
       "wiki": {"en": "War Preparations", "de": "Kriegsvorbereitungen (Waldläufer)"}
     },
@@ -20379,6 +20506,7 @@ const GW_QUESTS = {
       "givers": [423],
       "profession": 1,
       "xp": 500,
+      "gold": 25,
       "skills": [1, 346],
       "objectives": [
         [0, "Go southwest along the road to find the skale. Clear the river of skale."],
@@ -20392,6 +20520,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [382],
       "xp": 250,
+      "gold": 50,
       "skills": [331, 346],
       "objectives": [
         [0, "Go to Green Hills County and defeat Agnar the Foot. (Use Hammer Bash to interrupt his Rage skill.)"],
@@ -20439,6 +20568,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [360],
       "xp": 500,
+      "gold": 100,
       "requires": [101383],
       "next": [101337],
       "objectives": [
@@ -20454,6 +20584,7 @@ const GW_QUESTS = {
       "type": "primary",
       "givers": [361],
       "xp": 500,
+      "gold": 100,
       "requires_missions": [10],
       "next": [101382],
       "objectives": [
@@ -20471,6 +20602,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [782],
       "xp": 500,
+      "gold": 100,
       "objectives": [
         [0, "Travel through the Sage Lands and await the druids at the base of the waterfall."]
       ],
@@ -20504,6 +20636,95 @@ const GW_QUESTS = {
         [0, "*BONUS*: Survive for as long as possible."]
       ],
       "wiki": {"en": "You're a Mean One, Mr. Grenth", "de": "Ihr seid gemein, Herr Grenth"}
+    },
+    "101387": {
+      "name": "Trial of Zinn",
+      "type": "instance",
+      "givers": [845],
+      "repeatable": true,
+      "requires": [100332],
+      "requires_other": ["or The Knowledgeable Asura done"],
+      "objectives": [
+        [0, "Speak with Chark outside Vlox's Falls to attend the trial."]
+      ],
+      "wiki": {"en": "Trial of Zinn", "de": "Zinn vor Gericht"}
+    },
+    "101388": {
+      "name": "The Battle of Jahai",
+      "type": "instance",
+      "givers": [846, 847, 848],
+      "repeatable": true,
+      "xp": 500,
+      "rewards": ["Bonus Mission Pack: a mini-mission played from the storybook Durmand gives; done once, its Discovery and Time Attack modes open, 2,500 experience each from Durmand; Time Attack: 15 minutes or less"],
+      "objectives": [
+        [0, "Lead the mission to flank the enemy army."],
+        [0, "Find the overlook where Palawa Joko is directing the battle."],
+        [0, "Defeat Palawa Joko in single combat for the fate of Elona."]
+      ],
+      "wiki": {"en": "The Battle of Jahai", "de": "Die Schlacht von Jahai"}
+    },
+    "101389": {
+      "name": "The Rise of the White Mantle",
+      "type": "instance",
+      "givers": [846, 847, 848],
+      "repeatable": true,
+      "xp": 500,
+      "rewards": ["Bonus Mission Pack: a mini-mission played from the storybook Durmand gives; done once, its Discovery and Time Attack modes open, 2,500 experience each from Durmand"],
+      "objectives": [
+        [0, "Defend the village."],
+        [0, "Allow families to say goodbye."],
+        [0, "Gather at the gate when ready."],
+        [0, "Find and kill the Charr leaders at the back of the main camp without alerting the entire army."],
+        [0, "Survive Charr retribution. You have triumphed against [0..4] of 4 warbands."]
+      ],
+      "wiki": {"en": "The Rise of the White Mantle", "de": "Der Aufstieg des Weißen Mantels"}
+    },
+    "101390": {
+      "name": "The Tengu Accords",
+      "type": "instance",
+      "givers": [846, 847, 848],
+      "repeatable": true,
+      "xp": 500,
+      "rewards": ["Bonus Mission Pack: a mini-mission played from the storybook Durmand gives; done once, its Discovery and Time Attack modes open, 2,500 experience each from Durmand"],
+      "objectives": [
+        [0, "Speak to each delegate before peace negotiations commence."],
+        [0, "Talk to Minister Wona when you are ready to begin the summit."],
+        [0, "Protect the Tengu delegates."],
+        [0, "Find the conniving Minister Wona and slay him for his betrayal."],
+        [0, "Defeat Captain Sunpu of the elite guard."],
+        [0, "Defeat Yuri the Hand, elite Assassin."],
+        [0, "Defeat Master Riyo, dojo headmaster."]
+      ],
+      "wiki": {"en": "The Tengu Accords", "de": "Das Friedensabkommen mit den Tengu"}
+    },
+    "101391": {
+      "name": "The Flight North",
+      "type": "instance",
+      "givers": [846, 847, 848],
+      "repeatable": true,
+      "xp": 500,
+      "rewards": ["Bonus Mission Pack: a mini-mission played from the storybook Durmand gives; done once, its Discovery and Time Attack modes open, 2,500 experience each from Durmand; Time Attack: under 10 minutes"],
+      "objectives": [
+        [0, "Escape from the Charr prison camp."],
+        [0, "Find a way to defeat the siege devourer."],
+        [0, "Navigate the underground ruins and find an exit."],
+        [0, "Reach the foothills of the distant mountain."],
+        [0, "Be wary of Charr patrols."]
+      ],
+      "wiki": {"en": "The Flight North", "de": "Die Flucht nach Norden"}
+    },
+    "101392": {
+      "name": "Final Round, Championship Edition: Fight!",
+      "type": "secondary",
+      "givers": [273],
+      "repeatable": true,
+      "requires": [100360],
+      "rewards": ["1 Bison Championship Token"],
+      "objectives": [
+        [0, "Defeat your final opponent to claim victory in the Norn fighting tournament."],
+        [0, "See Magni the Bison for your reward."]
+      ],
+      "wiki": {"en": "Final Round, Championship Edition: Fight!"}
     }
   },
   "storylines_": "Each campaign's story flow: nodes ({mission} or {quest}, with the English wiki's rank; kind \"attribute\" for an attribute quest) and edges [from, to, inferred?]. Eye of the North instead has parts, one per storyline, of steps in rows.",

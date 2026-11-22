@@ -1,5 +1,5 @@
 const GW_MISSIONS = {
-  "missions_": "Kept by hand. Keys are the map id the mission is played on (for Prophecies, its outpost's). short: how players call it where room is tight, when it isn't the name (Vizunah, THK). known: the name links and buttons show in its place, where the name runs too long for a line (G.O.L.E.M.). outpost: where you start it. leads_to: areas it unlocks. hero: heroes it gives. objectives: [depth, text, bonus?]. rewards: per mode and tier, [xp, gold, skill points, extra...]; by: what sets the tier. foes, bosses, allies: {creature, level: [normal, hard]}. wiki: its page on each wiki, {en, de} (as areas).",
+  "missions_": "Kept by hand. Keys are the map id the mission is played on (for Prophecies, its outpost's). short: how players call it where room is tight, when it isn't the name (Vizunah, THK). known: the name links and buttons show in its place, where the name runs too long for a line (G.O.L.E.M.). outpost: where you start it. leads_to: areas it unlocks. hero: heroes it gives. objectives: [depth, text, bonus?]. rewards: per mode and tier, [xp, gold, skill points, extra...]; by: what sets the tier; tiers: what each tier takes (tiers_hard: in hard mode, where it differs). foes, bosses, allies: {creature, level: [normal, hard]}. wiki: its page on each wiki, {en, de} (as areas).",
   "missions": {
     "10": {
       "name": "Bloodstone Fen",
@@ -1010,6 +1010,7 @@ const GW_MISSIONS = {
         "hard": {"mission": [3000, 500, 1], "bonus": [2000, 500, 1]}
       },
       "allies": [{"creature": 100940}, {"creature": 100941}, {"creature": 100942}],
+      "foes": [{"creature": 102122, "level": [20, 30]}],
       "wiki": {"en": "Augury Rock", "de": "Fels der Weissagung (Mission)"}
     },
     "72": {
@@ -1447,9 +1448,10 @@ const GW_MISSIONS = {
       ],
       "rewards": {
         "by": "time",
+        "extra": ["Kurzick or Luxon faction"],
         "tiers": {"standard": "> 20 min", "expert": "15 - 20 min", "master": "< 15 min"},
-        "normal": {"standard": [1000, 100, 1], "expert": [1500, 150, 1], "master": [2000, 200, 1]},
-        "hard": {"standard": [1000, 200, 1], "expert": [2000, 300, 1], "master": [3000, 500, 1]}
+        "normal": {"standard": [1000, 100, 1, 1000], "expert": [1500, 150, 1, 1000], "master": [2000, 200, 1, 1000]},
+        "hard": {"standard": [1000, 200, 1, 1000], "expert": [2000, 300, 1, 1000], "master": [3000, 500, 1, 1000]}
       },
       "foes": [
         {"creature": 100759, "level": [24, 26]},
@@ -1493,7 +1495,8 @@ const GW_MISSIONS = {
       ],
       "rewards": {
         "by": "time",
-        "tiers": {"standard": "> 40 min", "expert": "35 - 40 min", "master": "< 35 min"},
+        "tiers": {"standard": "> 30 min", "expert": "25 - 30 min", "master": "< 25 min"},
+        "tiers_hard": {"standard": "> 40 min", "expert": "35 - 40 min", "master": "< 35 min"},
         "normal": {"standard": [1000, 100, 1], "expert": [1500, 150, 1], "master": [2000, 200, 1]},
         "hard": {"standard": [1000, 200, 1], "expert": [2000, 300, 1], "master": [3000, 500, 1]}
       },
@@ -1631,7 +1634,7 @@ const GW_MISSIONS = {
       ],
       "rewards": {
         "by": "time",
-        "tiers": {"standard": "> 25 min", "expert": "20-25 min", "master": "< 20 min"},
+        "tiers": {"standard": "> 25 min", "expert": "20 - 25 min", "master": "< 20 min"},
         "normal": {"standard": [1000, 100, 1], "expert": [1500, 150, 1], "master": [2000, 200, 1]},
         "hard": {"standard": [1000, 200, 1], "expert": [2000, 300, 1], "master": [3000, 500, 1]}
       },
@@ -1679,7 +1682,8 @@ const GW_MISSIONS = {
       ],
       "rewards": {
         "by": "time",
-        "tiers": {"standard": "> 45 min", "expert": "40 - 45 min", "master": "< 40 min"},
+        "tiers": {"standard": "> 30 min", "expert": "25 - 30 min", "master": "< 25 min"},
+        "tiers_hard": {"standard": "> 45 min", "expert": "40 - 45 min", "master": "< 40 min"},
         "normal": {"standard": [1000, 100, 1], "expert": [1500, 150, 1], "master": [2000, 200, 1]},
         "hard": {"standard": [1000, 200, 1], "expert": [2000, 300, 1], "master": [3000, 500, 1]}
       },
@@ -1717,7 +1721,8 @@ const GW_MISSIONS = {
       ],
       "rewards": {
         "by": "time",
-        "tiers": {"standard": "> 35 min", "expert": "30 - 35 min", "master": "< 30 min"},
+        "tiers": {"standard": "> 25 min", "expert": "20 - 25 min", "master": "< 20 min"},
+        "tiers_hard": {"standard": "> 35 min", "expert": "30 - 35 min", "master": "< 30 min"},
         "normal": {"standard": [1000, 100, 1], "expert": [1500, 150, 1], "master": [2000, 200, 1]},
         "hard": {"standard": [1000, 200, 1], "expert": [2000, 300, 1], "master": [3000, 500, 1]}
       },
@@ -1771,9 +1776,10 @@ const GW_MISSIONS = {
       ],
       "rewards": {
         "by": "time",
+        "extra": ["Kurzick faction"],
         "tiers": {"standard": "> 35 min", "expert": "30 - 35 min", "master": "< 30 min"},
-        "normal": {"standard": [1000, 100, 1], "expert": [1500, 150, 1], "master": [2000, 200, 1]},
-        "hard": {"standard": [1000, 200, 1], "expert": [2000, 300, 1], "master": [3000, 500, 1]}
+        "normal": {"standard": [1000, 100, 1, 1000], "expert": [1500, 150, 1, 1000], "master": [2000, 200, 1, 1000]},
+        "hard": {"standard": [1000, 200, 1, 1000], "expert": [2000, 300, 1, 1000], "master": [3000, 500, 1, 1000]}
       },
       "foes": [
         {"creature": 100548, "level": [20, 20]},
@@ -1826,9 +1832,10 @@ const GW_MISSIONS = {
       ],
       "rewards": {
         "by": "time",
+        "extra": ["Luxon faction"],
         "tiers": {"standard": "> 25 min", "expert": "20 - 25 min", "master": "< 20 min"},
-        "normal": {"standard": [1000, 100, 1], "expert": [1500, 150, 1], "master": [2000, 200, 1]},
-        "hard": {"standard": [1000, 200, 1], "expert": [2000, 300, 1], "master": [3000, 500, 1]}
+        "normal": {"standard": [1000, 100, 1, 1000], "expert": [1500, 150, 1, 1000], "master": [2000, 200, 1, 1000]},
+        "hard": {"standard": [1000, 200, 1, 1000], "expert": [2000, 300, 1, 1000], "master": [3000, 500, 1, 1000]}
       },
       "foes": [
         {"creature": 100641, "level": [22, 26]},
@@ -1880,7 +1887,8 @@ const GW_MISSIONS = {
       ],
       "rewards": {
         "by": "time",
-        "tiers": {"standard": "> 30 min", "expert": "25 - 30 min", "master": "< 25 min"},
+        "tiers": {"standard": "> 25 min", "expert": "20 - 25 min", "master": "< 20 min"},
+        "tiers_hard": {"standard": "> 30 min", "expert": "25 - 30 min", "master": "< 25 min"},
         "normal": {"standard": [1000, 100, 1], "expert": [1500, 150, 1], "master": [2000, 200, 1]},
         "hard": {"standard": [1000, 200, 1], "expert": [2000, 300, 1], "master": [3000, 500, 1]}
       },
@@ -1965,9 +1973,10 @@ const GW_MISSIONS = {
       ],
       "rewards": {
         "by": "treesingers alive",
-        "tiers": {"standard": "1-5", "expert": "6-11", "master": "12"},
-        "normal": {"standard": [1000, 100, 1], "expert": [1500, 150, 1], "master": [2000, 200, 1]},
-        "hard": {"standard": [1000, 200, 1], "expert": [2000, 300, 1], "master": [3000, 500, 1]}
+        "extra": ["Kurzick faction"],
+        "tiers": {"standard": "1 - 5", "expert": "6 - 11", "master": "12"},
+        "normal": {"standard": [1000, 100, 1, 1000], "expert": [1500, 150, 1, 1000], "master": [2000, 200, 1, 1000]},
+        "hard": {"standard": [1000, 200, 1, 1000], "expert": [2000, 300, 1, 1000], "master": [3000, 500, 1, 1000]}
       },
       "foes": [
         {"creature": 100759, "level": [20, 26]},
@@ -2017,17 +2026,11 @@ const GW_MISSIONS = {
         [1, "Destroy the attacking plague force.", false]
       ],
       "rewards": {
-        "extra": ["Turtles alive", "Luxon points"],
-        "normal": {
-          "standard": [1000, 100, 1, 1, 1000],
-          "expert": [1500, 150, 1, 2, 1000],
-          "master": [2000, 200, 1, 5, 1000]
-        },
-        "hard": {
-          "standard": [1000, 200, 1, 1, 1000],
-          "expert": [2000, 300, 1, 2, 1000],
-          "master": [3000, 500, 1, 5, 1000]
-        }
+        "by": "young turtles alive",
+        "extra": ["Luxon faction"],
+        "tiers": {"standard": "1", "expert": "2 - 4", "master": "5"},
+        "normal": {"standard": [1000, 100, 1, 1000], "expert": [1500, 150, 1, 1000], "master": [2000, 200, 1, 1000]},
+        "hard": {"standard": [1000, 200, 1, 1000], "expert": [2000, 300, 1, 1000], "master": [3000, 500, 1, 1000]}
       },
       "foes": [
         {"creature": 100759, "level": [24, 26]},
@@ -2074,7 +2077,8 @@ const GW_MISSIONS = {
       ],
       "rewards": {
         "by": "time",
-        "tiers": {"standard": "> 28 min", "expert": "26 - 28 min", "master": "< 26 min"},
+        "tiers": {"standard": "> 25 min", "expert": "20 - 25 min", "master": "< 20 min"},
+        "tiers_hard": {"standard": "> 28 min", "expert": "26 - 28 min", "master": "< 26 min"},
         "normal": {"standard": [1000, 100, 1], "expert": [1500, 150, 1], "master": [2000, 200, 1]},
         "hard": {"standard": [1000, 200, 1], "expert": [2000, 300, 1], "master": [3000, 500, 1]}
       },
@@ -2125,7 +2129,8 @@ const GW_MISSIONS = {
       "objectives": [[1, "Destroy Shiro [sic]", false]],
       "rewards": {
         "by": "time",
-        "tiers": {"standard": "> 6 min", "expert": "3 - 6 min", "master": "≤ 3 min"},
+        "tiers": {"standard": "> 5 min", "expert": "2.5 - 5 min", "master": "< 2.5 min"},
+        "tiers_hard": {"standard": "> 6 min", "expert": "3 - 6 min", "master": "< 3 min"},
         "normal": {"standard": [1000, 100, 1], "expert": [1500, 150, 1], "master": [2000, 200, 1]},
         "hard": {"standard": [1000, 200, 1], "expert": [2000, 300, 1], "master": [3000, 500, 1]}
       },
@@ -2262,9 +2267,11 @@ const GW_MISSIONS = {
         [1, "You have followed [0...4] of Dunkoro's 4 remaining suggestions.", false]
       ],
       "rewards": {
-        "extra": ["Instructions followed"],
-        "normal": {"standard": [1000, 100, 1, 0], "expert": [1500, 150, 1, 3], "master": [2000, 200, 1, 4]},
-        "hard": {"standard": [1000, 200, 1, 0], "expert": [2000, 300, 1, 3], "master": [3000, 500, 1, 4]}
+        "by": "suggestions followed",
+        "extra": ["Sunspear points"],
+        "tiers": {"standard": "0 - 2", "expert": "3", "master": "4"},
+        "normal": {"standard": [1000, 100, 1, 20], "expert": [1500, 150, 1, 20], "master": [2000, 200, 1, 20]},
+        "hard": {"standard": [1000, 200, 1, 70], "expert": [2000, 300, 1, 70], "master": [3000, 500, 1, 70]}
       },
       "foes": [
         {"creature": 101149, "level": [22]},
@@ -2310,9 +2317,11 @@ const GW_MISSIONS = {
         [1, "[0...12] of 12 guard posts neutralized!", false]
       ],
       "rewards": {
-        "extra": ["Sentries neutralised"],
-        "normal": {"standard": [1000, 100, 1, 0], "expert": [1500, 150, 1, 8], "master": [2000, 200, 1, 12]},
-        "hard": {"standard": [1000, 200, 1, 0], "expert": [2000, 300, 1, 8], "master": [3000, 500, 1, 12]}
+        "by": "guard posts neutralized",
+        "extra": ["Sunspear points"],
+        "tiers": {"standard": "0 - 7", "expert": "8 - 11", "master": "12"},
+        "normal": {"standard": [1000, 100, 1, 15], "expert": [1500, 150, 1, 15], "master": [2000, 200, 1, 15]},
+        "hard": {"standard": [1000, 200, 1, 60], "expert": [2000, 300, 1, 60], "master": [3000, 500, 1, 60]}
       },
       "foes": [
         {"creature": 101076, "level": [20, 26]},
@@ -2356,9 +2365,11 @@ const GW_MISSIONS = {
         [1, "You have [3...0] of 3 cruel Taskmasters remaining.", false]
       ],
       "rewards": {
-        "extra": ["Cruel taskmasters killed"],
-        "normal": {"standard": [1000, 100, 1, 0], "expert": [1500, 150, 1, 2], "master": [2000, 200, 1, 3]},
-        "hard": {"standard": [1000, 200, 1, 0], "expert": [2000, 300, 1, 2], "master": [3000, 500, 1, 3]}
+        "by": "cruel taskmasters killed",
+        "extra": ["Sunspear points"],
+        "tiers": {"standard": "0 - 1", "expert": "2", "master": "3"},
+        "normal": {"standard": [1000, 100, 1, 15], "expert": [1500, 150, 1, 15], "master": [2000, 200, 1, 15]},
+        "hard": {"standard": [1000, 200, 1, 60], "expert": [2000, 300, 1, 60], "master": [3000, 500, 1, 60]}
       },
       "foes": [
         {"creature": 101076, "level": [20, 26]},
@@ -2407,9 +2418,11 @@ const GW_MISSIONS = {
         [1, "Defeat the Drought without shutting down water pumps.", true]
       ],
       "rewards": {
-        "extra": ["Water pumps disabled"],
-        "normal": {"standard": [1000, 100, 1, 2], "expert": [1500, 150, 1, 1], "master": [2000, 200, 1, 0]},
-        "hard": {"standard": [1000, 200, 1, 2], "expert": [2000, 300, 1, 1], "master": [3000, 500, 1, 0]}
+        "by": "pumps switched off",
+        "extra": ["Sunspear points"],
+        "tiers": {"standard": "2 - 5", "expert": "1", "master": "0"},
+        "normal": {"standard": [1000, 100, 1, 20], "expert": [1500, 150, 1, 20], "master": [2000, 200, 1, 20]},
+        "hard": {"standard": [1000, 200, 1, 70], "expert": [2000, 300, 1, 70], "master": [3000, 500, 1, 70]}
       },
       "foes": [
         {"creature": 101282, "level": [20]},
@@ -2459,9 +2472,11 @@ const GW_MISSIONS = {
         [1, "Complete optional objectives.", true]
       ],
       "rewards": {
-        "extra": ["Tasks completed"],
-        "normal": {"standard": [1000, 100, 1, 0], "expert": [1500, 150, 1, 3], "master": [2000, 200, 1, 4]},
-        "hard": {"standard": [1000, 200, 1, 0], "expert": [2000, 300, 1, 3], "master": [3000, 500, 1, 4]}
+        "by": "optional objectives done",
+        "extra": ["Sunspear points"],
+        "tiers": {"standard": "0 - 2", "expert": "3", "master": "4"},
+        "normal": {"standard": [1000, 100, 1, 20], "expert": [1500, 150, 1, 20], "master": [2000, 200, 1, 20]},
+        "hard": {"standard": [1000, 200, 1, 70], "expert": [2000, 300, 1, 70], "master": [3000, 500, 1, 70]}
       },
       "foes": [
         {"creature": 101242, "level": [20, 26]},
@@ -2526,9 +2541,11 @@ const GW_MISSIONS = {
         [1, "Do not harm any Sunspear Ghosts.", true]
       ],
       "rewards": {
-        "extra": ["Sunspear spirits killed", "Sunspear points"],
-        "normal": {"standard": [1000, 100, 1, 2, 5], "expert": [1500, 150, 1, 1, 5], "master": [2000, 200, 1, 0, 5]},
-        "hard": {"standard": [1000, 200, 1, 2, 50], "expert": [2000, 300, 1, 1, 50], "master": [3000, 500, 1, 0, 50]}
+        "by": "sunspear ghosts died",
+        "extra": ["Sunspear points"],
+        "tiers": {"standard": "2 - 3", "expert": "1", "master": "0"},
+        "normal": {"standard": [1000, 100, 1, 5], "expert": [1500, 150, 1, 5], "master": [2000, 200, 1, 5]},
+        "hard": {"standard": [1000, 200, 1, 50], "expert": [2000, 300, 1, 50], "master": [3000, 500, 1, 50]}
       },
       "foes": [
         {"creature": 100595, "level": [10, 24]},
@@ -2567,9 +2584,11 @@ const GW_MISSIONS = {
         [1, "You have [5...0] of 5 rinkhal monitors remaining.", false]
       ],
       "rewards": {
-        "extra": ["Rinkhal monitors killed"],
-        "normal": {"standard": [1000, 100, 1, 0], "expert": [1500, 150, 1, 3], "master": [2000, 200, 1, 5]},
-        "hard": {"standard": [1000, 200, 1, 0], "expert": [2000, 300, 1, 3], "master": [3000, 500, 1, 5]}
+        "by": "rinkhal monitors killed",
+        "extra": ["Sunspear points"],
+        "tiers": {"standard": "0 - 2", "expert": "3 - 4", "master": "5"},
+        "normal": {"standard": [1000, 100, 1, 10], "expert": [1500, 150, 1, 10], "master": [2000, 200, 1, 10]},
+        "hard": {"standard": [1000, 200, 1, 50], "expert": [2000, 300, 1, 50], "master": [3000, 500, 1, 50]}
       },
       "foes": [
         {"creature": 101159, "level": [15, 25]},
@@ -2629,9 +2648,11 @@ const GW_MISSIONS = {
         [1, "You have [3...0] of 3 Kournan field marshal groups remaining.", false]
       ],
       "rewards": {
-        "extra": ["Field commander groups killed"],
-        "normal": {"standard": [1000, 100, 1, 0], "expert": [1500, 150, 1, 2], "master": [2000, 200, 1, 3]},
-        "hard": {"standard": [1000, 200, 1, 0], "expert": [2000, 300, 1, 2], "master": [3000, 500, 1, 3]}
+        "by": "field marshal groups defeated",
+        "extra": ["Sunspear points"],
+        "tiers": {"standard": "0 - 1", "expert": "2", "master": "3"},
+        "normal": {"standard": [1000, 100, 1, 10], "expert": [1500, 150, 1, 10], "master": [2000, 200, 1, 10]},
+        "hard": {"standard": [1000, 200, 1, 60], "expert": [2000, 300, 1, 60], "master": [3000, 500, 1, 60]}
       },
       "foes": [
         {"creature": 101077, "level": [22, 26]},
@@ -2681,9 +2702,11 @@ const GW_MISSIONS = {
         [1, "You have participated in [0...5] of 5 festivities.", false]
       ],
       "rewards": {
-        "extra": ["Festivities visited"],
-        "normal": {"standard": [1000, 100, 1, 3], "expert": [1500, 150, 1, 4], "master": [2000, 200, 1, 5]},
-        "hard": {"standard": [1000, 200, 1, 3], "expert": [2000, 300, 1, 4], "master": [3000, 500, 1, 5]}
+        "by": "festival activities",
+        "extra": ["Sunspear points"],
+        "tiers": {"standard": "3", "expert": "4", "master": "5"},
+        "normal": {"standard": [1000, 100, 1, 25], "expert": [1500, 150, 1, 25], "master": [2000, 200, 1, 25]},
+        "hard": {"standard": [1000, 200, 1, 80], "expert": [2000, 300, 1, 80], "master": [3000, 500, 1, 80]}
       },
       "foes": [
         {"creature": 101206, "level": [20, 20]},
@@ -2754,9 +2777,11 @@ const GW_MISSIONS = {
         [1, "[6...0] of 6 defenses left intact.", false]
       ],
       "rewards": {
-        "extra": ["Fortifications intact"],
-        "normal": {"standard": [1000, 100, 1, 0], "expert": [1500, 150, 1, 1], "master": [2000, 200, 1, 5]},
-        "hard": {"standard": [1000, 200, 1, 0], "expert": [2000, 300, 1, 1], "master": [3000, 500, 1, 5]}
+        "by": "defenses intact",
+        "extra": ["Sunspear points"],
+        "tiers": {"standard": "0", "expert": "1 - 4", "master": "5 - 6"},
+        "normal": {"standard": [1000, 100, 1, 25], "expert": [1500, 150, 1, 25], "master": [2000, 200, 1, 25]},
+        "hard": {"standard": [1000, 200, 1, 80], "expert": [2000, 300, 1, 80], "master": [3000, 500, 1, 80]}
       },
       "foes": [
         {"creature": 100605},
@@ -2804,9 +2829,11 @@ const GW_MISSIONS = {
         [1, "[0...3] of 3 treasures found.", false]
       ],
       "rewards": {
-        "extra": ["Treasure of Ahdashim"],
-        "normal": {"standard": [1000, 100, 1, 0], "expert": [1500, 150, 1, 1], "master": [2000, 200, 1, 3]},
-        "hard": {"standard": [1000, 200, 1, 0], "expert": [2000, 300, 1, 1], "master": [3000, 500, 1, 3]}
+        "by": "treasures found",
+        "extra": ["Sunspear points"],
+        "tiers": {"standard": "0", "expert": "1 - 2", "master": "3"},
+        "normal": {"standard": [1000, 100, 1, 25], "expert": [1500, 150, 1, 25], "master": [2000, 200, 1, 25]},
+        "hard": {"standard": [1000, 200, 1, 80], "expert": [2000, 300, 1, 80], "master": [3000, 500, 1, 80]}
       },
       "foes": [
         {"creature": 101413, "level": [24, 26]},
@@ -2848,7 +2875,8 @@ const GW_MISSIONS = {
       "rewards": {
         "by": "time",
         "extra": ["Lightbringer points"],
-        "tiers": {"standard": "> 16 min", "expert": "12-16", "master": "< 12 min"},
+        "tiers": {"standard": "> 9 min", "expert": "6 - 9 min", "master": "< 6 min"},
+        "tiers_hard": {"standard": "> 16 min", "expert": "12 - 16 min", "master": "< 12 min"},
         "normal": {"standard": [1000, 100, 1, 25], "expert": [1500, 150, 1, 25], "master": [2000, 200, 1, 25]},
         "hard": {"standard": [1000, 200, 1, 75], "expert": [2000, 300, 1, 75], "master": [3000, 500, 1, 75]}
       },
@@ -2889,13 +2917,11 @@ const GW_MISSIONS = {
         [1, "You have defeated [0...2] of 2 additional Harbingers.", false]
       ],
       "rewards": {
-        "extra": ["Extra Harbingers killed", "Lightbringer points"],
-        "normal": {
-          "standard": [1000, 100, 1, 0, 30],
-          "expert": [1500, 150, 1, 2, 30],
-          "master": [2000, 200, 1, 3, 30]
-        },
-        "hard": {"standard": [1000, 200, 1, 0, 75], "expert": [2000, 300, 1, 2, 75], "master": [3000, 500, 1, 3, 75]}
+        "by": "additional harbingers defeated",
+        "extra": ["Lightbringer points"],
+        "tiers": {"standard": "0", "expert": "1", "master": "2"},
+        "normal": {"standard": [1000, 100, 1, 30], "expert": [1500, 150, 1, 30], "master": [2000, 200, 1, 30]},
+        "hard": {"standard": [1000, 200, 1, 75], "expert": [2000, 300, 1, 75], "master": [3000, 500, 1, 75]}
       },
       "foes": [
         {"creature": 101058, "level": [28]},
@@ -2933,13 +2959,11 @@ const GW_MISSIONS = {
         [1, "You have defeated [0...2] of 2 additional Harbingers.", false]
       ],
       "rewards": {
-        "extra": ["Extra Harbingers killed", "Lightbringer points"],
-        "normal": {
-          "standard": [1000, 100, 1, 0, 30],
-          "expert": [1500, 150, 1, 1, 30],
-          "master": [2000, 200, 1, 2, 30]
-        },
-        "hard": {"standard": [1000, 200, 1, 0, 75], "expert": [2000, 300, 1, 1, 75], "master": [3000, 500, 1, 2, 75]}
+        "by": "additional harbingers defeated",
+        "extra": ["Lightbringer points"],
+        "tiers": {"standard": "0", "expert": "1", "master": "2"},
+        "normal": {"standard": [1000, 100, 1, 30], "expert": [1500, 150, 1, 30], "master": [2000, 200, 1, 30]},
+        "hard": {"standard": [1000, 200, 1, 75], "expert": [2000, 300, 1, 75], "master": [3000, 500, 1, 75]}
       },
       "foes": [
         {"creature": 100605},
@@ -2986,13 +3010,11 @@ const GW_MISSIONS = {
         [1, "You have saved [0...3] of 3 junundu young.", false]
       ],
       "rewards": {
-        "extra": ["Young junundus rescued", "Lightbringer points"],
-        "normal": {
-          "standard": [1000, 100, 1, 0, 30],
-          "expert": [1500, 150, 1, 1, 30],
-          "master": [2000, 200, 1, 3, 30]
-        },
-        "hard": {"standard": [1000, 200, 1, 0, 75], "expert": [2000, 300, 1, 1, 75], "master": [3000, 500, 1, 3, 75]}
+        "by": "young junundu saved",
+        "extra": ["Lightbringer points"],
+        "tiers": {"standard": "0", "expert": "1 - 2", "master": "3"},
+        "normal": {"standard": [1000, 100, 1, 30], "expert": [1500, 150, 1, 30], "master": [2000, 200, 1, 30]},
+        "hard": {"standard": [1000, 200, 1, 75], "expert": [2000, 300, 1, 75], "master": [3000, 500, 1, 75]}
       },
       "foes": [
         {"creature": 101439},
@@ -3035,6 +3057,17 @@ const GW_MISSIONS = {
       "label": "14",
       "leads_to": [450],
       "hero": [11],
+      "objectives": [
+        [0, "Kill Varesh.", false]
+      ],
+      "rewards": {
+        "by": "time",
+        "extra": ["Lightbringer points"],
+        "tiers": {"standard": "> 12 min", "expert": "8 - 12 min", "master": "< 8 min"},
+        "tiers_hard": {"standard": "> 14 min", "expert": "10 - 14 min", "master": "< 10 min"},
+        "normal": {"standard": [1000, 100, 1, 35], "expert": [1500, 150, 1, 35], "master": [2000, 200, 1, 35]},
+        "hard": {"standard": [1000, 200, 1, 75], "expert": [2000, 300, 1, 75], "master": [3000, 500, 1, 75]}
+      },
       "foes": [
         {"creature": 100605},
         {"creature": 100608, "level": [24, 26]},
@@ -3064,17 +3097,11 @@ const GW_MISSIONS = {
         [1, "[0...3] of 3 elite emissaries destroyed.", false]
       ],
       "rewards": {
-        "extra": ["Emissaries killed", "Lightbringer points"],
-        "normal": {
-          "standard": [1000, 100, 1, 0, 40],
-          "expert": [1500, 150, 1, 2, 40],
-          "master": [2000, 200, 1, 3, 40]
-        },
-        "hard": {
-          "standard": [1000, 200, 1, 0, 100],
-          "expert": [2000, 300, 1, 2, 100],
-          "master": [3000, 500, 1, 3, 100]
-        }
+        "by": "emissaries killed",
+        "extra": ["Lightbringer points"],
+        "tiers": {"standard": "0 - 1", "expert": "2", "master": "3"},
+        "normal": {"standard": [1000, 100, 1, 40], "expert": [1500, 150, 1, 40], "master": [2000, 200, 1, 40]},
+        "hard": {"standard": [1000, 200, 1, 100], "expert": [2000, 300, 1, 100], "master": [3000, 500, 1, 100]}
       },
       "foes": [
         {"creature": 100807, "level": [28, 30]},
@@ -3111,17 +3138,11 @@ const GW_MISSIONS = {
         [1, "You have rallied [0...5] of 5 god avatars.", false]
       ],
       "rewards": {
-        "extra": ["Shrines captured", "Lightbringer points"],
-        "normal": {
-          "standard": [1000, 100, 1, 0, 45],
-          "expert": [1500, 150, 1, 2, 45],
-          "master": [2000, 200, 1, 5, 45]
-        },
-        "hard": {
-          "standard": [1000, 200, 1, 0, 100],
-          "expert": [2000, 300, 1, 2, 100],
-          "master": [3000, 500, 1, 5, 100]
-        }
+        "by": "shrines captured",
+        "extra": ["Lightbringer points"],
+        "tiers": {"standard": "0 - 2", "expert": "3 - 4", "master": "5"},
+        "normal": {"standard": [1000, 100, 1, 45], "expert": [1500, 150, 1, 45], "master": [2000, 200, 1, 45]},
+        "hard": {"standard": [1000, 200, 1, 100], "expert": [2000, 300, 1, 100], "master": [3000, 500, 1, 100]}
       },
       "foes": [
         {"creature": 101072},
@@ -3281,9 +3302,10 @@ const GW_MISSIONS = {
       ],
       "rewards": {
         "by": "sunspear recruits alive",
-        "tiers": {"standard": "0-1", "expert": "2", "master": "3"},
-        "normal": {"standard": [250, 20, 1], "expert": [750, 30, 1], "master": [1000, 50, 1]},
-        "hard": {"standard": [1000, 200, 1], "expert": [2000, 300, 1], "master": [3000, 500, 1]}
+        "extra": ["Sunspear points"],
+        "tiers": {"standard": "0 - 1", "expert": "2", "master": "3"},
+        "normal": {"standard": [250, 20, 1, 5], "expert": [750, 30, 1, 5], "master": [1000, 50, 1, 5]},
+        "hard": {"standard": [1000, 200, 1, 50], "expert": [2000, 300, 1, 50], "master": [3000, 500, 1, 50]}
       },
       "foes": [
         {"creature": 100695, "level": [1, 22]},
@@ -3754,6 +3776,16 @@ const GW_MISSIONS = {
         "normal": {"first": 5000, "repeat": 100},
         "hard": {"first": 7500, "repeat": 150}
       },
+      "foes": [
+        {"creature": 101033, "level": [28, 30]},
+        {"creature": 101031, "level": [28, 30]},
+        {"creature": 101032, "level": [28, 30]},
+        {"creature": 101034, "level": [28, 30]},
+        {"creature": 101035, "level": [28, 30]},
+        {"creature": 101036, "level": [28, 30]},
+        {"creature": 101037, "level": [28, 30]}
+      ],
+      "bosses": [{"creature": 102121, "level": [31, 33]}],
       "wiki": {"en": "A Time for Heroes", "de": "Eine Zeit für Helden"}
     },
     "722": {

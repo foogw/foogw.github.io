@@ -2,8 +2,8 @@ const GW_TITLES = {
   "titles_": "Kept by hand. Keys are the game's title ids (GWCA's list, but its three deprecated ones). scope: character or account. max: its highest rank (where its ranks aren't listed; else the last rank's). pvp: a PvP title. own_name: its name shown alone (where the record covers two titles). rank_names: its ranks' names, from rank 1. points_name: what its points count, where they aren't points (Kind of a Big Deal: titles maxed). wiki: its page on each wiki, {en, de} (as areas).",
   "titles": {
     "0": {"name": "Hero", "scope": "account", "max": 15, "pvp": true},
-    "1": {"name": "Tyrian Cartographer", "scope": "character", "max": 6},
-    "2": {"name": "Canthan Cartographer", "scope": "character", "max": 6},
+    "1": {"name": "Tyrian Cartographer", "scope": "character", "earn": "exploring Tyria: the share of its map uncovered", "points_name": "% explored", "rank_names": ["Tyrian Explorer", "Tyrian Pathfinder", "Tyrian Trailblazer", "Tyrian Cartographer", "Tyrian Master Cartographer", "Tyrian Grandmaster Cartographer"], "ranks": [{"rank": 1, "points": 60, "values": [], "unlocks": []}, {"rank": 2, "points": 70, "values": [], "unlocks": []}, {"rank": 3, "points": 80, "values": [], "unlocks": []}, {"rank": 4, "points": 90, "values": [], "unlocks": []}, {"rank": 5, "points": 95, "values": [], "unlocks": []}, {"rank": 6, "points": 100, "values": [], "unlocks": []}], "campaign": 1, "wiki": {"en": "Cartographer"}},
+    "2": {"name": "Canthan Cartographer", "scope": "character", "earn": "exploring Cantha: the share of its map uncovered", "points_name": "% explored", "rank_names": ["Canthan Explorer", "Canthan Pathfinder", "Canthan Trailblazer", "Canthan Cartographer", "Canthan Master Cartographer", "Canthan Grandmaster Cartographer"], "ranks": [{"rank": 1, "points": 60, "values": [], "unlocks": []}, {"rank": 2, "points": 70, "values": [], "unlocks": []}, {"rank": 3, "points": 80, "values": [], "unlocks": []}, {"rank": 4, "points": 90, "values": [], "unlocks": []}, {"rank": 5, "points": 95, "values": [], "unlocks": []}, {"rank": 6, "points": 100, "values": [], "unlocks": []}], "campaign": 2, "wiki": {"en": "Cartographer"}},
     "3": {"name": "Gladiator", "scope": "account", "max": 12, "pvp": true},
     "4": {"name": "Champion", "scope": "account", "max": 12, "pvp": true},
     "5": {
@@ -33,7 +33,7 @@ const GW_TITLES = {
       "also": 6
     },
     "6": {"name": "Luxon", "scope": "account", "max": 12},
-    "7": {"name": "Drunkard", "scope": "character", "max": 2},
+    "7": {"name": "Drunkard", "scope": "character", "earn": "minutes spent drunk: a point a minute", "points_name": "Minutes drunk", "rank_names": ["Drunkard", "Incorrigible Ale-Hound"], "ranks": [{"rank": 1, "points": 1000, "values": [], "unlocks": []}, {"rank": 2, "points": 10000, "values": [], "unlocks": []}], "campaign": 0, "wiki": {"en": "Drunkard"}},
     "9": {
       "name": "Survivor",
       "scope": "character",
@@ -122,7 +122,7 @@ const GW_TITLES = {
       "campaign": 3,
       "wiki": {"en": "Sunspear rank", "de": "Sonnenspeertitel"}
     },
-    "18": {"name": "Elonian Cartographer", "scope": "character", "max": 6},
+    "18": {"name": "Elonian Cartographer", "scope": "character", "earn": "exploring Elona: the share of its map uncovered", "points_name": "% explored", "rank_names": ["Elonian Explorer", "Elonian Pathfinder", "Elonian Trailblazer", "Elonian Cartographer", "Elonian Master Cartographer", "Elonian Grandmaster Cartographer"], "ranks": [{"rank": 1, "points": 60, "values": [], "unlocks": []}, {"rank": 2, "points": 70, "values": [], "unlocks": []}, {"rank": 3, "points": 80, "values": [], "unlocks": []}, {"rank": 4, "points": 90, "values": [], "unlocks": []}, {"rank": 5, "points": 95, "values": [], "unlocks": []}, {"rank": 6, "points": 100, "values": [], "unlocks": []}], "campaign": 3, "wiki": {"en": "Cartographer"}},
     "19": {"name": "Protector of Elona", "scope": "character", "max": 1},
     "20": {
       "name": "Lightbringer",
@@ -159,7 +159,7 @@ const GW_TITLES = {
     "31": {"name": "Legendary Guardian", "scope": "character", "max": 1},
     "32": {"name": "Legendary Skill Hunter", "scope": "character", "max": 1},
     "33": {"name": "Legendary Vanquisher", "scope": "character", "max": 1},
-    "34": {"name": "Sweet Tooth", "scope": "character", "max": 2},
+    "34": {"name": "Sweet Tooth", "scope": "character", "earn": "sweets eaten: a point each", "points_name": "Sweets", "rank_names": ["Sweet Tooth", "Connoisseur of Confectionaries"], "ranks": [{"rank": 1, "points": 1000, "values": [], "unlocks": []}, {"rank": 2, "points": 10000, "values": [], "unlocks": []}], "campaign": 0, "wiki": {"en": "Sweet Tooth"}},
     "35": {"name": "Guardian of Tyria", "scope": "character", "max": 1},
     "36": {"name": "Guardian of Cantha", "scope": "character", "max": 1},
     "37": {"name": "Guardian of Elona", "scope": "character", "max": 1},
@@ -275,7 +275,7 @@ const GW_TITLES = {
       "campaign": 4,
       "wiki": {"en": "Master of the North"}
     },
-    "43": {"name": "Party Animal", "scope": "character", "max": 2},
+    "43": {"name": "Party Animal", "scope": "character", "earn": "party items used: a point each", "points_name": "Party points", "rank_names": ["Party Animal", "Life of the Party"], "ranks": [{"rank": 1, "points": 1000, "values": [], "unlocks": []}, {"rank": 2, "points": 10000, "values": [], "unlocks": []}], "campaign": 0, "wiki": {"en": "Party Animal"}},
     "44": {
       "name": "Zaishen",
       "rank_names": ["Zaishen Supporter", "Friend of the Zaishen", "Companion of the Zaishen", "Ally of the Zaishen", "Sentinel of the Zaishen", "Steward of the Zaishen", "Defender of the Zaishen", "Warden of the Zaishen", "Bastion of the Zaishen", "Champion of the Zaishen", "Hero of the Zaishen", "Legendary Hero of the Zaishen"],

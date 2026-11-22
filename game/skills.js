@@ -147,7 +147,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Signet. Resurrect target party member. That party member is returned to life with 100% Health and 25% Energy. This signet only recharges when you gain a morale boost.",
       "concise": "Signet. Resurrects target party member (100% Health, 25% Energy). This signet only recharges when you gain a morale boost."
-    },
+    , "acquisition": [{"quest": 100608}, {"quest": 101109}]},
     "3": {
       "name": "Signet of Capture",
       "profession": 0,
@@ -167,7 +167,7 @@ const GW_SKILLS = {
       "recharge": 2,
       "description": "Signet. Choose one skill from a nearby dead Boss of your profession. Signet of Capture is permanently replaced by that skill. If that skill was elite, gain 250 XP for every level you have earned.",
       "concise": "Signet. Choose one skill from a nearby dead Boss of your profession. Signet of Capture is permanently replaced by that skill. If that skill was elite, gain 250 XP for every level you have earned."
-    },
+    , "acquisition": [{"quest": 100618}, {"quest": 100846}, {"quest": 101188}]},
     "5": {
       "name": "Power Block",
       "profession": 5,
@@ -838,7 +838,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Hex Spell. For 10 seconds, whenever target foe casts a spell, that foe takes 35...140 damage.",
       "concise": "Hex Spell. (10 seconds.) Target foe takes 35...140 damage whenever it casts a spell.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101143},
         {"quest": 100526},
         {"quest": 100967},
@@ -934,7 +934,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Hex Spell. For 4...18 seconds, target foe experiences -5 Health degeneration.",
       "concise": "Hex Spell. (4...18 seconds.) Causes -5 Health degeneration.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101089},
         {"quest": 101191},
         {"quest": 100597},
@@ -1589,7 +1589,6 @@ const GW_SKILLS = {
       "concise": "Elite Hex Spell. (5...20 seconds.) Causes -1...8 Health degeneration and doubles skill activation time.",
       "acquisition": [
         {"capture": 100979, "area": 122},
-        {"capture": 101581},
         {"capture": 101582, "area": 59},
         {"capture": 101583, "area": 843},
         {"capture": 100351, "area": 558},
@@ -1969,7 +1968,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Spell. Remove a hex from target ally. If a hex is removed, foes near that ally take 30...120 damage.",
       "concise": "Spell. Removes a hex from target ally. Removal effect: deals 30...120 damage to foes near this ally.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101155},
         {"quest": 100526},
         {"quest": 100541},
@@ -2010,7 +2009,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Spell. Remove an enchantment from target foe. If an enchantment is removed, you gain 8...17 Energy and 40...120 Health.",
       "concise": "Spell. Removes an enchantment from target foe. Removal effect: you gain 8...17 Energy and 40...120 Health.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 100967},
         {"quest": 100990},
         {"npc": 89, "as": "skill trainer"},
@@ -2194,7 +2193,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Hex Spell. For 8...20 seconds, target foe moves 50% slower.",
       "concise": "Hex Spell. (8...20 seconds.) Target foe moves 50% slower.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101089},
         {"quest": 101191},
         {"quest": 100674},
@@ -2313,7 +2312,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Spell. Target foe loses 4...7 Energy. You gain 2 Energy for each point of Energy lost.",
       "concise": "Spell. Causes 4...7 Energy loss. You gain 2 Energy for each point of Energy lost.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101178},
         {"quest": 100595},
         {"quest": 100967},
@@ -2485,7 +2484,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Spell. Exploit nearest corpse to animate two level 0...12 bone minions.",
       "concise": "Spell. Creates two level 0...12 bone minions. Exploits a fresh corpse.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101299},
         {"quest": 100674},
         {"quest": 100967},
@@ -2687,7 +2686,7 @@ const GW_SKILLS = {
       "recharge": 2,
       "description": "Well Spell. Exploit nearest corpse or sacrifice 66% health to create a Well of Blood at its location. For 8...20 seconds, allies in that area receive +1...6 Health regeneration.",
       "concise": "Well Spell. (8...20 seconds.) Allies in this well have +1...6 Health regeneration. Exploits a fresh corpse or sacrifices 66% health.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101217},
         {"quest": 100967},
         {"quest": 100990},
@@ -3212,7 +3211,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Hex Spell. For 12...24 seconds, target foe suffers -1...3 Health degeneration, and you gain +1...3 Health regeneration.",
       "concise": "Hex Spell. (12...24 seconds.) Target foe has -1...3 Health degeneration. You have +1...3 Health regeneration.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 100001},
         {"quest": 101302},
         {"quest": 100599},
@@ -3579,18 +3578,10 @@ const GW_SKILLS = {
       "description": "Elite Hex Spell. For 10...25 seconds, whenever target foe attacks or uses a skill, Spiteful Spirit deals 15...45 shadow damage to that foe and all adjacent allies of that foe.",
       "concise": "Elite Hex Spell. (10...25 seconds.) Deals 15...45 damage to target and adjacent foes whenever this foe attacks or uses a skill.",
       "acquisition": [
-        {"capture": 101608},
-        {"capture": 101609},
         {"capture": 101610},
-        {"capture": 101611},
-        {"capture": 101612},
         {"capture": 100905},
-        {"capture": 101613},
         {"capture": 100383},
-        {"capture": 101614},
         {"capture": 100342},
-        {"capture": 101615},
-        {"capture": 101616, "area": 665},
         {"capture": 101559}
       ]
     },
@@ -3723,7 +3714,6 @@ const GW_SKILLS = {
         {"capture": 101622, "area": 560},
         {"capture": 100453, "area": 553},
         {"capture": 100313, "area": 651},
-        {"capture": 101623},
         {"capture": 101624}
       ]
     },
@@ -4012,7 +4002,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Hex Spell. For the next 4...18 seconds, target foe attacks 50% slower, and that foe suffers -1...3 Health degeneration.",
       "concise": "Hex Spell. (4...18 seconds.) Target foe attacks 50% slower and has -1...3 Health degeneration.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101246},
         {"quest": 100593},
         {"quest": 100967},
@@ -4257,7 +4247,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Spell. Remove 0...2 enchantments from target foe. If an enchantment is removed, you steal 5...65 Health.",
       "concise": "Spell. Removes 0...2 enchantments from target foe. Removal effect: you steal 5...65 Health.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101257},
         {"quest": 100543},
         {"quest": 100967},
@@ -4332,7 +4322,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Signet. You suffer from Bleeding for 25 seconds. All nearby foes take 10...70 damage.",
       "concise": "Signet. Deals 10...70 damage to foes near you. You begin Bleeding (25 seconds).",
-      "acquisition": [
+      "acquisition": [{"quest": 101082},
         {"capture": 101630, "area": 153},
         {"capture": 101631, "area": 20},
         {"capture": 101580, "area": 35},
@@ -4371,8 +4361,6 @@ const GW_SKILLS = {
       "description": "Elite Spell. You gain 8...20 Energy.",
       "concise": "Elite Spell. You gain 8...20 Energy.",
       "acquisition": [
-        {"capture": 101639},
-        {"capture": 101640},
         {"capture": 100193, "area": 90},
         {"capture": 100922, "area": 22},
         {"capture": 100682, "area": 23},
@@ -4605,7 +4593,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Skill. Transfer 1...3 negative conditions and their remaining durations from yourself to target touched foe.",
       "concise": "Touch Skill. Transfers 1...3 conditions from yourself to target foe.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101311},
         {"quest": 100535},
         {"quest": 100967},
@@ -5095,7 +5083,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Spell. Send out two Stone Daggers. Each Stone Dagger strikes target foe for 8...33 earth damage if it hits. If you are Overcast, each projectile inflicts Bleeding for 1...5 seconds.",
       "concise": "Spell. Two projectiles: each deals 8...33 earth damage. If Overcast, cause Bleeding for 1...5 seconds.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101199},
         {"quest": 100679},
         {"quest": 100967},
@@ -5228,7 +5216,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Ward Spell. You create a Ward Against Melee at your current location. For 5...20 seconds, non-spirit allies in this area have a 50% chance to block melee attacks.",
       "concise": "Ward Spell. (5...20 seconds.) Allies in this ward have a 50% chance to block melee attacks. Allied spirits are not affected.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 100475},
         {"quest": 100967},
         {"quest": 100990},
@@ -5815,7 +5803,7 @@ const GW_SKILLS = {
       "recharge": 4,
       "description": "Spell. For 5 seconds, foes adjacent to the location where this spell was cast are struck for 5...50 fire damage each second. If you are Overcast, this spell strikes nearby foes instead of adjacent ones.",
       "concise": "Spell. Deals 5...50 fire damage each second (5 seconds). Hits foes adjacent to your initial location. If Overcast, range increased to nearby.",
-      "acquisition": [
+      "acquisition": [{"quest": 101178},
         {"capture": 101665},
         {"capture": 101592, "area": 134},
         {"capture": 101580, "area": 35},
@@ -5871,7 +5859,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Spell. Create a Fire Storm at target foe's location. For 10 seconds, foes adjacent to that location are struck for 5...35 fire damage each second.",
       "concise": "Spell. Deals 5...35 fire damage each second (10 seconds). Hits foes adjacent to target's initial location.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101261},
         {"quest": 100679},
         {"quest": 100967},
@@ -5909,7 +5897,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Glyph. For 25 seconds, your elemental attributes are boosted by 2 for your next 10 spells.",
       "concise": "Glyph. (25 seconds.) Boosts your elemental attributes by +2 for your next 10 spells.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 100967},
         {"quest": 100990},
         {"npc": 123, "as": "skill trainer"},
@@ -6372,7 +6360,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Enchantment Spell. Send out an Ice Spear, striking target foe for 10...60 cold damage if it hits. If you are Overcast, you gain +1...4 Health regeneration for 5 seconds.",
       "concise": "Enchantment Spell. Projectile: deals 10...60 cold damage. Gain +1...4 Health regeneration for 5 seconds if Overcast.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101257},
         {"quest": 100967},
         {"quest": 100990},
@@ -6628,7 +6616,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Hex Spell. Strike target foe for 10...60 lightning damage. This spell has 25% armor penetration. If you are Overcast, that foe is hexed with Lightning Strike for 3 seconds. When this hex ends, that foe is struck again for 20...40 lightning damage.",
       "concise": "Hex Spell. Deals 10...60 lightning damage. 25% armor penetration. Hex for 3 seconds if Overcast. End effect: deals 20...40 lightning damage.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101179},
         {"quest": 100967},
         {"quest": 100990},
@@ -7479,7 +7467,6 @@ const GW_SKILLS = {
         {"capture": 101681, "area": 136},
         {"capture": 101579, "area": 49},
         {"capture": 101580, "area": 35},
-        {"capture": 101639},
         {"capture": 101682, "area": 64}
       ]
     },
@@ -7539,7 +7526,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Spell. Target foe takes 20...65 holy damage. This spell does double damage to summoned creatures.",
       "concise": "Spell. Deals 20...65 holy damage. Deals double damage to summoned creatures.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101197},
         {"quest": 100967},
         {"quest": 100990},
@@ -8243,7 +8230,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Spell. Remove one condition (Poison, Disease, Blindness, Dazed, Bleeding, Crippled, Burning, Weakness, Cracked Armor or Deep Wound) from target ally. For each remaining condition, that ally is healed for 5...70 Health.",
       "concise": "Spell. Removes a condition. Removal effect: heals for 5...70 for each remaining condition.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101272},
         {"quest": 100535},
         {"quest": 100967},
@@ -8343,7 +8330,6 @@ const GW_SKILLS = {
         {"quest": 101211},
         {"npc": 177, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
-        {"capture": 101693},
         {"capture": 101694}
       ]
     },
@@ -9000,7 +8986,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Spell. Remove a hex from target ally.",
       "concise": "Spell. Removes a hex from target ally.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101177},
         {"quest": 100541},
         {"quest": 100967},
@@ -9141,7 +9127,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Spell. Resurrect target party member. Target party member is returned to life with 25% Health and zero Energy.",
       "concise": "Spell. Resurrects target party member (25% Health, 0 Energy).",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101181},
         {"quest": 100738},
         {"quest": 100967},
@@ -9206,7 +9192,7 @@ const GW_SKILLS = {
       "recharge": 2,
       "description": "Enchantment Spell. For 8 seconds, the next time target ally would take damage or life steal, that ally gains that amount of Health instead, maximum 15...80.",
       "concise": "Enchantment Spell. (8 seconds.) Converts the next incoming damage or life steal (maximum 15...80) to healing.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101212},
         {"quest": 100689},
         {"quest": 100967},
@@ -9389,7 +9375,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Spell. Heal target touched ally for 20...80 Health. Health gain from Divine Favor is doubled for this spell.",
       "concise": "Touch Spell. Heals for 20...80. Double Health gain from Divine Favor for this spell.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101282},
         {"quest": 100689},
         {"quest": 100967},
@@ -10103,7 +10089,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Axe Attack. If this attack hits, you strike for +15...45 damage.",
       "concise": "Axe Attack. Deals +15...45 damage.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101314},
         {"quest": 100967},
         {"quest": 100990},
@@ -10331,7 +10317,7 @@ const GW_SKILLS = {
       "recharge": 45,
       "description": "Shout. For 20 seconds, whenever you gain adrenaline, you gain 100% more.",
       "concise": "Shout. (20 seconds.) You gain 100% more adrenaline.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101178},
         {"quest": 100967},
         {"quest": 100990},
@@ -10506,7 +10492,7 @@ const GW_SKILLS = {
       "recharge": 4,
       "description": "Shout. Party members within earshot gain +5...25 armor for 10 seconds. This shout ends after 10 incoming attacks.",
       "concise": "Shout. (10 seconds.) Party members in earshot have +5...25 armor. Ends after 10 incoming attacks.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101241},
         {"quest": 100698},
         {"quest": 100967},
@@ -10543,7 +10529,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Stance. For 8...14 seconds, you move 25% faster.",
       "concise": "Stance. (8...14 seconds.) You move 25% faster.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101194},
         {"quest": 100676},
         {"quest": 100967},
@@ -10605,7 +10591,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Hammer Attack. If this attack hits, you strike for +10...40 damage.",
       "concise": "Hammer Attack. Deals +10...40 damage.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101113},
         {"quest": 100711},
         {"quest": 100967},
@@ -11486,7 +11472,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Sword Attack. If this attack hits, the opponent begins Bleeding for 5...25 seconds, losing Health over time.",
       "concise": "Sword Attack. Inflicts Bleeding condition (5...25 seconds).",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101173},
         {"quest": 101168},
         {"quest": 100608},
@@ -11809,7 +11795,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Bow Attack. If Pin Down hits, your target is Crippled for 3...15 seconds.",
       "concise": "Bow Attack. Inflicts Crippled condition (3...15 seconds).",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101179},
         {"quest": 100676},
         {"quest": 100967},
@@ -11869,7 +11855,7 @@ const GW_SKILLS = {
       "recharge": 3,
       "description": "Bow Attack. If Power Shot hits, target foe takes 25...50 damage.",
       "concise": "Bow Attack. Target foe takes 25...50 damage.",
-      "acquisition": [
+      "acquisition": [{"quest": 100990},
         {"quest": 101213},
         {"quest": 100602},
         {"npc": 8, "as": "skill trainer"},
@@ -12326,7 +12312,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Skill. Charm target animal. Once charmed, your animal companion will travel with you whenever you have Charm Animal equipped. You cannot charm an animal that is more than 4 levels above you.",
       "concise": "Skill. Charm target animal. Once charmed, your animal companion will travel with you whenever you have Charm Animal equipped. You cannot charm an animal that is more than 4 levels above you.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101294},
         {"quest": 101151},
         {"quest": 100602},
@@ -12736,7 +12722,7 @@ const GW_SKILLS = {
       "recharge": 12,
       "description": "Preparation. For 24 seconds, your arrows deal fire damage and hit for an additional 3...24 fire damage.",
       "concise": "Preparation. (24 seconds.) +3...24 fire damage. Your arrows deal fire damage.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 100674},
         {"quest": 100967},
         {"quest": 100990},
@@ -12844,7 +12830,7 @@ const GW_SKILLS = {
       "recharge": 1,
       "description": "Skill. You heal your animal companion for 40...120 Health. If your companion is dead, it is resurrected with 10...58% Health. If you have Comfort Animal equipped, your animal companion will travel with you.",
       "concise": "Skill. Your pet gains 40...120 Health. Resurrects your pet (10...58% Health). If you have Comfort Animal equipped, your animal companion will travel with you.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101294},
         {"quest": 101151},
         {"quest": 100565},
@@ -13393,7 +13379,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Stance. For 8...20 seconds, you move 25% faster, and you gain 1...5 Energy whenever you take elemental damage.",
       "concise": "Stance. (8...20 seconds.) You move 25% faster and gain 1...5 Energy whenever you take elemental damage.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101199},
         {"quest": 100967},
         {"quest": 100990},
@@ -13515,7 +13501,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Trap. When Flame Trap is triggered, every second (for 3 seconds total), all nearby foes are struck for 5...20 fire damage and set on fire for 1...3 seconds. Flame Trap ends after 90 seconds. While activating this skill, you are easily interrupted.",
       "concise": "Trap. (90 seconds.) Affects nearby foes. Deals 5...20 fire damage every second (3 seconds). Inflicts Burning condition (1...3 seconds). Easily interrupted.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 101282},
         {"quest": 100747},
         {"quest": 100967},
@@ -15325,7 +15311,6 @@ const GW_SKILLS = {
       "description": "Elite Hex Spell. For 1...16 seconds, target foe suffers -1...4 Health degeneration and takes 5...20 damage while moving.",
       "concise": "Elite Hex Spell. (1...16 seconds.) Target foe has -1...4 Health degeneration and takes 5...20 damage while moving.",
       "acquisition": [
-        {"capture": 101608},
         {"capture": 101773, "area": 54},
         {"capture": 100219, "area": 201},
         {"capture": 100546, "area": 272}
@@ -19353,7 +19338,7 @@ const GW_SKILLS = {
       "recharge": 30,
       "description": "Elite Stance. For 5...30 seconds, you have a 75% chance to block incoming attacks while attacking. If you block an attack in this way, your attacker takes 5...20 damage.",
       "concise": "Elite Stance. (5...30 seconds.) 75% chance to block while attacking. Block effect: 5...20 damage to your attacker.",
-      "acquisition": [{"capture": 100324, "area": 197}, {"capture": 101795}, {"capture": 100442, "area": 241}]
+      "acquisition": [{"capture": 100324, "area": 197}, {"capture": 100442, "area": 241}]
     },
     "1043": {
       "name": "Dash",
@@ -20835,7 +20820,6 @@ const GW_SKILLS = {
       "acquisition": [
         {"capture": 101329, "area": 217},
         {"capture": 100286, "area": 225},
-        {"capture": 101693},
         {"capture": 100086, "area": 468}
       ]
     },
@@ -21930,7 +21914,6 @@ const GW_SKILLS = {
       "description": "Elite Skill. For 5...45 seconds, your Binding Rituals cost 15 less Energy (minimum 5) and recharge instantly. Soul Twisting ends after 1...3 Binding Rituals.",
       "concise": "Elite Skill. (5...45 seconds.) Your Binding Rituals cost 15 less Energy (minimum 5) and recharge instantly. Ends after 1...3 Binding Rituals.",
       "acquisition": [
-        {"capture": 101639},
         {"capture": 100236, "area": 205},
         {"capture": 100236, "area": 220},
         {"capture": 100293, "area": 233},
@@ -22718,7 +22701,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Spell. If target foe is using a skill, that foe and other foes in the area are interrupted and you steal 0...5 Energy from all foes in the area.",
       "concise": "Elite Spell. Interrupts a skill. Interruption effect: also interrupts other foes in the area, and you steal 0...5 Energy from all foes in the area.",
-      "acquisition": [{"capture": 101608}, {"capture": 101809, "area": 843}, {"capture": 100490, "area": 392}]
+      "acquisition": [{"capture": 101809, "area": 843}, {"capture": 100490, "area": 392}]
     },
     "1343": {
       "name": "Ether Phantom",
@@ -23133,7 +23116,6 @@ const GW_SKILLS = {
       "description": "Elite Hex Spell. Remove one enchantment from target foe. If an enchantment is removed in this way, that foe suffers from -1...8 Health degeneration for 10 seconds.",
       "concise": "Elite Hex Spell. Removes one enchantment from target foe. Removal effect: -1...8 Health degeneration (10 seconds).",
       "acquisition": [
-        {"capture": 101608},
         {"capture": 101814},
         {"capture": 100431, "area": 444},
         {"capture": 100489, "area": 392},
@@ -24172,7 +24154,6 @@ const GW_SKILLS = {
         {"capture": 100037, "area": 375},
         {"capture": 100060, "area": 432},
         {"capture": 100743},
-        {"capture": 101608},
         {"capture": 100190, "area": 64}
       ]
     },
@@ -24325,7 +24306,6 @@ const GW_SKILLS = {
       "description": "Elite Bow Attack. If this attack hits, you strike for +10...30 damage and cause Burning for 2...8 seconds.",
       "concise": "Elite Bow Attack. Deals +10...30 damage. Inflicts Burning condition (2...8 seconds).",
       "acquisition": [
-        {"capture": 101608},
         {"capture": 101837, "area": 58},
         {"capture": 100209, "area": 371},
         {"capture": 101838, "area": 573}
@@ -24609,7 +24589,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Spell. Gain 8...17 Energy. If any spirits are within earshot, you do not sacrifice Health.",
       "concise": "Elite Spell. You gain 8...17 Energy. You do not sacrifice Health if any spirits are within earshot.",
-      "acquisition": [{"capture": 101840}, {"capture": 100105, "area": 472}]
+      "acquisition": [{"capture": 100105, "area": 472}]
     },
     "1480": {
       "name": "Spirit's Gift",
@@ -24936,7 +24916,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Flash Enchantment Spell. All nearby foes are struck for 10...40 cold damage. For 30 seconds, your attacks deal cold damage. When this enchantment ends, you transfer 1...2 conditions to all nearby foes.",
       "concise": "Flash Enchantment Spell. (30 seconds.) Your attacks deal cold damage. Initial effect: hits nearby foes for 10...40 cold damage. End effect: transfers 1...2 conditions to all nearby foes.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 100967},
         {"quest": 100990},
         {"npc": 796, "as": "profession changer"},
@@ -25255,7 +25235,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Flash Enchantment Spell. All nearby foes take 5...30 holy damage. For 30 seconds afterward, your attacks deal holy damage. When this enchantment ends, all nearby foes are set on fire for 2...5 seconds.",
       "concise": "Flash Enchantment Spell. (30 seconds.) Your attacks deal holy damage. Initial effect: deals 5...30 holy damage to nearby foes. End effect: inflicts Burning condition (2...5 seconds) on nearby foes.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 100967},
         {"quest": 100990},
         {"npc": 827, "as": "profession changer"},
@@ -25695,7 +25675,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Spell. Target other ally is healed for 5...50% of your current Health (maximum 300 Health).",
       "concise": "Spell. Heals for 5...50% of your current Health (maximum 300). Cannot self-target.",
-      "acquisition": [{"quest": 100967}, {"quest": 100990}, {"quest_name": "Hero"}, {"quest_name": "Melonni"}]
+      "acquisition": [{"quest": 100851}, {"quest": 100967}, {"quest": 100990}, {"quest_name": "Hero"}, {"quest_name": "Melonni"}]
     },
     "1527": {
       "name": "Mystic Healing",
@@ -25913,7 +25893,7 @@ const GW_SKILLS = {
       "recharge": 6,
       "description": "Scythe Attack. If this attack hits a foe, that foe is Crippled for 3...12 seconds. This skill deals +3...15 extra damage if that foe is moving.",
       "concise": "Scythe Attack. (3...12 seconds.) Inflicts Cripple condition. Deals +3...15 damage to moving foes.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 100967},
         {"quest": 100990},
         {"npc": 798, "as": "skill trainer"},
@@ -26019,7 +25999,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Scythe Attack. If it hits, this attack strikes for +3...15 damage. For each foe hit who has less Health than you, that foe and all adjacent foes are struck for 10...30 cold damage.",
       "concise": "Scythe Attack. Deals +3...15 damage. Deals 10...30 cold damage to each foe hit who has less Health than you and foes adjacent to those targets.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 100967},
         {"quest": 100990},
         {"npc": 796, "as": "profession changer"},
@@ -26144,7 +26124,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Flash Enchantment Spell. For 1...6 seconds, you move 33% faster than normal. The next time you strike a foe, all other nearby foes take 10...60 cold damage and this enchantment ends.",
       "concise": "Flash Enchantment Spell. (1...6 seconds.) You move 33% faster. Deal 10...60 cold damage to all other nearby foes the next time you hit a foe and this enchantment ends.",
-      "acquisition": [{"quest": 100967}, {"quest": 100990}, {"npc": 104, "as": "skill trainer"}]
+      "acquisition": [{"quest": 100851}, {"quest": 100967}, {"quest": 100990}, {"npc": 104, "as": "skill trainer"}]
     },
     "1545": {
       "name": "Test of Faith",
@@ -26457,7 +26437,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Chant. For 10 seconds, the next attack skill used by each party member within earshot also causes Burning for 1...5 seconds.",
       "concise": "Chant. (10 seconds.) Party members in earshot inflict Burning condition (1...5 seconds) with their next attack skill.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 100967},
         {"quest": 100990},
         {"npc": 796, "as": "profession changer"},
@@ -26949,7 +26929,7 @@ const GW_SKILLS = {
       "recharge": 8,
       "description": "Echo. For 15 seconds, target non-spirit ally has +2...3 Health regeneration. This echo is reapplied every time a chant or shout ends on that ally.",
       "concise": "Echo. (15 seconds.) Target ally has +2...3 Health regeneration. Renewal: Whenever a chant or shout ends on that ally. Cannot target spirits.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 100967},
         {"quest": 100990},
         {"npc": 104, "as": "skill trainer"},
@@ -27101,7 +27081,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Signet. Target other ally is healed for 40...100 Health. If you are not under the effects of an enchantment, you are also healed for 40...100 Health.",
       "concise": "Signet. Heal target ally for 40...100. You are also healed for 40...100 if you are not enchanted. Cannot self-target.",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 100967},
         {"quest": 100990},
         {"npc": 796, "as": "profession changer"},
@@ -27173,8 +27153,6 @@ const GW_SKILLS = {
       "description": "Elite Signet. All party members lose all conditions. You are set on Fire for 1 second for each condition removed in this way.",
       "concise": "Elite Signet. All party members lose all conditions. You begin Burning (one second for each condition removed).",
       "acquisition": [
-        {"capture": 101639},
-        {"capture": 101848},
         {"capture": 101102, "area": 493},
         {"capture": 100078, "area": 379},
         {"capture": 101093, "area": 424},
@@ -27469,7 +27447,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Spear Attack. If this attack hits, your target begins Bleeding for 5...20 seconds.",
       "concise": "Spear Attack. Inflicts Bleeding condition (5...20 seconds).",
-      "acquisition": [
+      "acquisition": [{"quest": 100851},
         {"quest": 100967},
         {"quest": 100990},
         {"npc": 796, "as": "profession changer"},
@@ -27590,7 +27568,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Spear Attack. If this attack hits, it deals +5...20 damage, and any stance being used by your target ends. This attack cannot be blocked. All of your non-spear attack skills are disabled for 3 seconds.",
       "concise": "Spear Attack. Deals +5...20 damage. Unblockable. Ends target's stance.Disables your non-spear attack skills for 3 seconds.",
-      "acquisition": [{"quest": 100967}, {"quest": 100990}, {"npc": 104, "as": "skill trainer"}]
+      "acquisition": [{"quest": 100851}, {"quest": 100967}, {"quest": 100990}, {"npc": 104, "as": "skill trainer"}]
     },
     "1633": {
       "name": "Malicious Strike",
@@ -27771,7 +27749,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Enchantment Spell. For 5...20 seconds, your dagger attacks cannot be blocked. This enchantment ends the next time you fail to hit.",
       "concise": "Elite Enchantment Spell. (5...20 seconds.) Your dagger attacks are unblockable. Ends the next time you fail to hit.",
-      "acquisition": [{"capture": 101854}, {"capture": 100173, "area": 395}]
+      "acquisition": [{"capture": 100173, "area": 395}]
     },
     "1641": {
       "name": "Feigned Neutrality",
@@ -27821,7 +27799,7 @@ const GW_SKILLS = {
       "recharge": 12,
       "description": "Elite Hex Spell. Your non-Assassin skills are disabled for 3 seconds. For 1...10 seconds, target foe moves 50% slower. When this hex ends that foe is crippled for 1...15 seconds.",
       "concise": "Elite Hex Spell. (1...10 seconds.) Causes 50% slower movement. End effect: inflicts Crippled condition (1...15 seconds). Your non-Assassin skills are disabled (3 seconds).",
-      "acquisition": [{"capture": 101855}, {"capture": 100407, "area": 384}]
+      "acquisition": [{"capture": 100407, "area": 384}]
     },
     "1643": {
       "name": "Assault Enchantments",
@@ -28130,7 +28108,7 @@ const GW_SKILLS = {
       "recharge": 10,
       "description": "Elite Hex Spell. Remove one enchantment from target foe and all nearby foes. For 5...20 seconds, enchantments expire 150...300% faster on those foes.",
       "concise": "Elite Hex Spell. Also hexes foes near your target (5...20 seconds). Remove one enchantment from target and nearby foes. Enchantments expire 150...300% faster on those foes.",
-      "acquisition": [{"capture": 101639}, {"capture": 101854}, {"capture": 100154, "area": 394}]
+      "acquisition": [{"capture": 100154, "area": 394}]
     },
     "1657": {
       "name": "Signet of Clumsiness",
@@ -28930,7 +28908,7 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Elite Stance. For 1...20 seconds, you attack 33% faster and your Marksmanship attribute is increased by 2.",
       "concise": "Elite Stance. (1...20 seconds.) You attack 33% faster and you gain +2 to your Marksmanship attribute.",
-      "acquisition": [{"capture": 101608}, {"capture": 101750}, {"capture": 100294, "area": 402}]
+      "acquisition": [{"capture": 101750}, {"capture": 100294, "area": 402}]
     },
     "1725": {
       "name": "Roaring Winds",
@@ -29329,7 +29307,7 @@ const GW_SKILLS = {
       "recharge": 15,
       "description": "Elite Signet. For 5...20 seconds, all spirits you control within earshot attack 33% faster and deal +5...10 damage.",
       "concise": "Elite Signet. (5...20 seconds.) All spirits you control within earshot attack 33% faster and deal +5...10 damage.",
-      "acquisition": [{"capture": 101877}, {"capture": 100068, "area": 448}]
+      "acquisition": [{"capture": 100068, "area": 448}]
     },
     "1743": {
       "name": "Signet of Binding",
@@ -29495,7 +29473,7 @@ const GW_SKILLS = {
       "recharge": 3,
       "description": "Elite Weapon Spell. For 8 seconds, the next time target ally takes damage from a foe that damage is limited to 5% of that ally's max Health and that ally steals up to 20...80 Health from that foe.",
       "concise": "Elite Weapon Spell. (8 seconds.) The next time target ally takes damage from a foe, that damage is limited to 5% of target ally's max Health and that ally steals up to 20...80 Health from that foe.",
-      "acquisition": [{"capture": 101840}, {"capture": 100084, "area": 466}]
+      "acquisition": [{"capture": 100084, "area": 466}]
     },
     "1751": {
       "name": "Warmonger's Weapon",
@@ -29539,7 +29517,7 @@ const GW_SKILLS = {
       "recharge": 3,
       "description": "Elite Weapon Spell. For 8 seconds, the next time target ally takes damage or life steal from a foe, that ally steals up to 20...80 Health from that foe and loses 2 conditions.",
       "concise": "Elite Weapon Spell. (8 seconds.) The next time target ally takes damage or life steal from a foe, this ally steals 20...80 Health from that foe and loses 2 conditions.",
-      "acquisition": [{"capture": 101877}, {"capture": 100434, "area": 444}]
+      "acquisition": [{"capture": 100434, "area": 444}]
     },
     "1753": {
       "name": "Rending Sweep",
@@ -29915,7 +29893,7 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Elite Scythe Attack. If this attack hits, you Cripple your target for 3...15 seconds. You lose 1 Dervish enchantment. If an enchantment was removed, this attack knocks down for 2...3 seconds.",
       "concise": "Elite Scythe Attack. (3...15 seconds.) Causes Cripple. Lose 1 Dervish enchantment. Removal Effect: causes knockdown for 2...3 seconds.",
-      "acquisition": [{"capture": 100379, "area": 373}, {"capture": 101881}, {"capture": 100455, "area": 553}]
+      "acquisition": [{"capture": 100379, "area": 373}, {"capture": 100455, "area": 553}]
     },
     "1768": {
       "name": "Harrier's Haste",
@@ -30130,7 +30108,7 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Signet. If you are under the effects of a shout or chant, you gain 2 strikes of adrenaline.",
       "concise": "Signet. You gain 2 adrenaline if you are under the effects of a shout or chant.",
-      "acquisition": [{"quest": 100967}, {"quest": 100990}, {"npc": 104, "as": "skill trainer"}]
+      "acquisition": [{"quest": 100851}, {"quest": 100967}, {"quest": 100990}, {"npc": 104, "as": "skill trainer"}]
     },
     "1777": {
       "name": "Remedy Signet",
@@ -33819,7 +33797,7 @@ const GW_SKILLS = {
       "description": "Spell. All foes in the area are struck for 55...80 holy damage. The location of hidden objects are briefly indicated on your Compass. Any hidden objects in the area are revealed.",
       "concise": "Spell. Deals 55...80 holy damage to foes in the area. Pings hidden objects within the area on the compass.",
       "pve_only": true
-    },
+    , "acquisition": [{"quest": 100356}]},
     "2213": {
       "name": "Ear Bite",
       "profession": 0,
@@ -34452,7 +34430,7 @@ const GW_SKILLS = {
       "description": "Shout. If target foe has less than 50% Health, that foe takes 44...80 damage and suffers from Cracked Armor and a Deep Wound for 12...20 seconds.",
       "concise": "Shout. Deals 44...80 damage and inflicts Cracked Armor and Deep Wound conditions (12...20 seconds). No effect unless target foe has less than 50% Health.",
       "pve_only": true,
-      "acquisition": [{"quest": 100403}]
+      "acquisition": [{"quest": 100360}, {"quest": 100403}]
     },
     "2354": {
       "name": "\"Dodge This!\"",
@@ -34475,7 +34453,7 @@ const GW_SKILLS = {
       "description": "Shout. For 16...20 seconds, your next attack cannot be blocked and does +14...20 damage.",
       "concise": "Shout. (16...20 seconds.) Your next attack is unblockable and deals +14...20 damage.",
       "pve_only": true,
-      "acquisition": [{"quest": 100403}]
+      "acquisition": [{"quest": 100360}, {"quest": 100403}]
     },
     "2355": {
       "name": "\"I Am the Strongest!\"",
@@ -34544,7 +34522,7 @@ const GW_SKILLS = {
       "description": "Hex Spell. Target touched foe takes 44...80 damage. If target foe was knocked down, that foe cannot attack for 5...8 seconds.",
       "concise": "Touch Hex Spell. Deals 44...80 damage. Target foe cannot attack (5...8 seconds) if it was knocked-down.",
       "pve_only": true,
-      "acquisition": [{"quest": 100403}]
+      "acquisition": [{"quest": 100360}, {"quest": 100403}]
     },
     "2358": {
       "name": "\"You Move Like a Dwarf!\"",
@@ -34590,7 +34568,7 @@ const GW_SKILLS = {
       "description": "Shout. Target foe and foes adjacent to target are Weakened for 8...12 seconds.",
       "concise": "Shout. Inflicts Weakness condition (8...12 seconds). Also affects adjacent foes.",
       "pve_only": true,
-      "acquisition": [{"quest": 100400}]
+      "acquisition": [{"quest": 100401}, {"quest": 100400}]
     },
     "2360": {
       "name": "Feel No Pain",
@@ -34613,7 +34591,7 @@ const GW_SKILLS = {
       "description": "Skill. For 30 seconds you have +2...3 Health regeneration. If you are drunk when activating this skill, you also have +200...300 maximum Health.",
       "concise": "Skill. (30 seconds.) You have +2...3 Health regeneration. You have +200...300 maximum Health if you are drunk when activating this skill.",
       "pve_only": true,
-      "acquisition": [{"quest": 100436}]
+      "acquisition": [{"quest": 100437}, {"quest": 100436}]
     },
     "2361": {
       "name": "Club of a Thousand Bears",
