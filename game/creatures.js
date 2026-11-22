@@ -2647,6 +2647,7 @@ const GW_CREATURES = {
     "846": {"name": "Durmand", "area": 55, "roles": ["quests"]},
     "847": {"name": "Durmand", "area": 194, "roles": ["quests"]},
     "848": {"name": "Durmand", "area": 449, "roles": ["quests"]},
+    "849": {"name": "Gunnar Poundfist", "area": 644, "roles": ["quests"]},
     "541": {"name": "Elementalist Aziure", "area": 33, "roles": ["quests"]},
     "542": {"name": "Howland the Elementalist", "area": 146, "roles": ["quests"]},
     "543": {"name": "Royal Food Taster Rendu", "area": 414, "roles": ["quests"]},

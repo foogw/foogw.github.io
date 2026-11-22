@@ -4773,7 +4773,7 @@ const GW_QUESTS = {
     "100343": {
       "name": "Attack on Jalis's Camp",
       "type": "secondary",
-      "givers": [200],
+      "givers": [615],
       "skills": [2217, 2219],
       "rewards": ["200 Deldrimor reputation points", "Diamond"],
       "requires": [100389],
@@ -4793,6 +4793,7 @@ const GW_QUESTS = {
       "skills": [2231],
       "rewards": ["100 Ebon Vanguard reputation points"],
       "requires": [100342],
+      "requires_other": ["Met Vael once in Grothmar Wardowns (his first dialogue), then re-zoned"],
       "next": [100391],
       "objectives": [
         [0, "Follow Torch Harrowkeeper. Do not alert him to your presence."],
@@ -4806,9 +4807,11 @@ const GW_QUESTS = {
     "100345": {
       "name": "Bear Club for Women / Men",
       "type": "secondary",
-      "givers": [249, 250],
+      "givers": [249, 319],
       "skills": [2361],
       "rewards": ["100 Norn reputation points"],
+      "requires": [100436, 100437],
+      "next": [100400, 100401],
       "objectives": [
         [0, "Speak to Olaf about the bear."],
         [0, "Clutch the Club of a Thousand Bears."],
@@ -4892,6 +4895,7 @@ const GW_QUESTS = {
       "givers": [315],
       "skills": [2356],
       "rewards": ["500 Norn reputation points", "Perfect Salvage Kit"],
+      "requires": [100341],
       "objectives": [
         [0, "Speak to Sif when you are ready to face the Glacial Griffon."],
         [0, "Destroy the Glacial Griffon and prove your valor to Sif. Earn your song!"],
@@ -5037,7 +5041,8 @@ const GW_QUESTS = {
       "skills": [2234],
       "rewards": ["100 Ebon Vanguard reputation points"],
       "requires": [100342],
-      "next": [100438],
+      "requires_other": ["Heard Sergeant Weststar talk to his troops outside Longeye's Ledge, in Grothmar Wardowns"],
+      "next": [100366, 100438],
       "objectives": [
         [0, "Discover the fate of Jenn Valefield."],
         [0, "Discern the fate of Chance Redding."],
@@ -5050,8 +5055,9 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [273],
       "skills": [2357, 2354, 2353],
-      "rewards": ["150 Norn reputation points", "The Bison Cup", "1 Bison Championship Token"],
+      "rewards": ["150 Norn reputation points", "The Bison Cup"],
       "requires": [100407],
+      "requires_other": ["The first win of the tournament only"],
       "objectives": [
         [0, "Defeat Magni the Bison and claim victory in his tournament."],
         [0, "See Magni the Bison for your reward."]
@@ -5136,6 +5142,7 @@ const GW_QUESTS = {
       "skills": [2230],
       "rewards": ["150 Ebon Vanguard reputation points"],
       "requires": [100391],
+      "next": [100413],
       "objectives": [
         [0, "Meet Vael in Sacnoth Valley to begin your mission."],
         [0, "Follow Vael to the hierophant's stronghold."],
@@ -5152,6 +5159,7 @@ const GW_QUESTS = {
       "givers": [767],
       "skills": [2232],
       "rewards": ["100 Ebon Vanguard reputation points"],
+      "requires": [100359],
       "objectives": [
         [0, "Locate the cave where the captives are being held in the Dalada Uplands."],
         [0, "Bushwhack the Charr guarding the prisoners."],
@@ -5317,9 +5325,9 @@ const GW_QUESTS = {
       "givers": [619, 637],
       "xp": 2500,
       "gold": 250,
-      "rewards": ["250 Deldrimor reputation points"],
       "requires": [100402],
       "next": [100447],
+      "dungeon": 704,
       "objectives": [
         [0, "Speak to Kilroy when you are ready to hunt for Fronis Irontoe."],
         [0, "Accompany Kilroy. Find and defeat Fronis Irontoe using nothing but brass knuckles."],
@@ -5332,6 +5340,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [619],
       "rewards": ["120 Deldrimor reputation points"],
+      "repeatable": true,
       "requires": [100447],
       "objectives": [
         [0, "Speak to Kilroy Stonekin to start the brawling tournament."],
@@ -5532,6 +5541,8 @@ const GW_QUESTS = {
       "givers": [317],
       "skills": [2116],
       "rewards": ["100 Ebon Vanguard reputation points", "Lockpick"],
+      "requires": [100344],
+      "requires_other": ["Re-zone after Be Very, Very Quiet..."],
       "next": [100365],
       "objectives": [
         [0, "Meet Vael at the rendezvous point in Grothmar Wardowns."],
@@ -5643,6 +5654,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [696],
       "rewards": ["100 Asura reputation points", "Fire Imp Polymock Piece"],
+      "requires_other": ["Three Polymock pieces registered with Denn in Rata Sum (Hoff gives the starters)"],
       "next": [100398],
       "objectives": [
         [0, "Register three Polymock pieces for play with Denn [Polymock Unlocks] at Rata Sum."],
@@ -5655,7 +5667,7 @@ const GW_QUESTS = {
     "100400": {
       "name": "Prenuptial Disagreement",
       "type": "secondary",
-      "givers": [318, 319],
+      "givers": [319],
       "skills": [2359],
       "rewards": ["250 Norn reputation points", "Grail of Might"],
       "requires": [100345],
@@ -5669,7 +5681,7 @@ const GW_QUESTS = {
     "100401": {
       "name": "Prenuptial Disagreement",
       "type": "secondary",
-      "givers": [249, 250],
+      "givers": [249],
       "skills": [2359],
       "rewards": ["250 Norn reputation points", "Grail of Might"],
       "requires": [100345],
@@ -5698,8 +5710,9 @@ const GW_QUESTS = {
       "name": "Round 1: Fight!",
       "type": "secondary",
       "givers": [273],
-      "skills": [2353, 2354, 2357],
-      "rewards": ["150 Norn reputation points", "The Bison Cup", "1 Bison Championship Token"],
+      "rewards": ["No quest reward; 5 Norn reputation points for killing the foe (below Norn rank 8)"],
+      "repeatable": true,
+      "requires_other": ["Started with Gellir Frostshield in Gunnar's Hold; a 100 gold entry fee"],
       "next": [100404],
       "objectives": [
         [0, "Enter the tournament and defeat your first round opponent."]
@@ -5710,7 +5723,8 @@ const GW_QUESTS = {
       "name": "Round 2: Fight!",
       "type": "secondary",
       "givers": [273],
-      "rewards": ["150 Norn reputation points", "The Bison Cup", "1 Bison Championship Token"],
+      "rewards": ["No quest reward; 10 Norn reputation points for killing the foe (below Norn rank 8)"],
+      "repeatable": true,
       "requires": [100403],
       "next": [100405],
       "objectives": [
@@ -5722,7 +5736,8 @@ const GW_QUESTS = {
       "name": "Round 3: Fight!",
       "type": "secondary",
       "givers": [273],
-      "rewards": ["150 Norn reputation points", "The Bison Cup", "1 Bison Championship Token"],
+      "rewards": ["No quest reward; 15 Norn reputation points for killing the foe (below Norn rank 8)"],
+      "repeatable": true,
       "requires": [100404],
       "next": [100406],
       "objectives": [
@@ -5734,7 +5749,8 @@ const GW_QUESTS = {
       "name": "Round 4: Fight!",
       "type": "secondary",
       "givers": [273],
-      "rewards": ["150 Norn reputation points", "The Bison Cup", "1 Bison Championship Token"],
+      "rewards": ["No quest reward; 20 Norn reputation points for killing the foe (below Norn rank 8)"],
+      "repeatable": true,
       "requires": [100405],
       "next": [100407],
       "objectives": [
@@ -5746,9 +5762,10 @@ const GW_QUESTS = {
       "name": "Round 5: Fight!",
       "type": "secondary",
       "givers": [273],
-      "rewards": ["150 Norn reputation points", "The Bison Cup", "1 Bison Championship Token"],
+      "rewards": ["No quest reward; 25 Norn reputation points for killing the foe (below Norn rank 8)"],
+      "repeatable": true,
       "requires": [100406],
-      "next": [100360],
+      "next": [100360, 101392],
       "objectives": [
         [0, "Win the fifth round of the Norn fighting tournament."]
       ],
@@ -5820,6 +5837,7 @@ const GW_QUESTS = {
       "skills": [2384],
       "rewards": ["100 Norn reputation points", "Lockpick"],
       "requires": [100334],
+      "dungeon": 617,
       "objectives": [
         [0, "Travel to Raven's Point to begin the hunt."],
         [0, "Defeat the shadow spawn."],
@@ -6175,7 +6193,7 @@ const GW_QUESTS = {
     "100436": {
       "name": "The Great Norn Alemoot",
       "type": "secondary",
-      "givers": [318, 319],
+      "givers": [319],
       "xp": 15000,
       "skills": [2360],
       "rewards": ["100 Norn reputation points"],
@@ -6196,7 +6214,7 @@ const GW_QUESTS = {
     "100437": {
       "name": "The Great Norn Alemoot",
       "type": "secondary",
-      "givers": [249, 250],
+      "givers": [249],
       "xp": 15000,
       "skills": [2360],
       "rewards": ["100 Norn reputation points"],
@@ -6221,6 +6239,7 @@ const GW_QUESTS = {
       "skills": [2229],
       "rewards": ["250 Ebon Vanguard reputation points", "Powerstone of Courage"],
       "requires": [100359],
+      "dungeon": 573,
       "objectives": [
         [0, "Hunt down Rake Blazeclaw."],
         [0, "Crush Rake Blazeclaw."],
@@ -6371,7 +6390,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "givers": [619],
       "skills": [2213, 2214],
-      "rewards": ["300 Deldrimor reputation points", "Armor of Salvation"],
+      "rewards": ["300 Deldrimor reputation points", "Thunderfist's Brass Knuckles", "Armor of Salvation"],
       "requires": [100377],
       "next": [100378],
       "objectives": [
@@ -6430,6 +6449,7 @@ const GW_QUESTS = {
       "type": "secondary",
       "campaign": 4,
       "region": 19,
+      "givers": [849],
       "skills": [2355],
       "rewards": ["100 Norn reputation points"],
       "requires": [100352],
@@ -6585,6 +6605,7 @@ const GW_QUESTS = {
       "xp": 15000,
       "skills": [2358],
       "rewards": ["250 Norn reputation points"],
+      "next": [100341],
       "objectives": [
         [0, "Prove your valor to Sif. Vanquish Koren Wildrunner in Drakkar Lake."],
         [0, "Continue proving your worth. Defeat Myish, Lady Of The Lake in Drakkar Lake."],
@@ -20717,9 +20738,10 @@ const GW_QUESTS = {
       "name": "Final Round, Championship Edition: Fight!",
       "type": "secondary",
       "givers": [273],
-      "repeatable": true,
-      "requires": [100360],
       "rewards": ["1 Bison Championship Token"],
+      "repeatable": true,
+      "requires": [100407],
+      "requires_other": ["The tournament won once before (Final Round: Fight!)"],
       "objectives": [
         [0, "Defeat your final opponent to claim victory in the Norn fighting tournament."],
         [0, "See Magni the Bison for your reward."]
