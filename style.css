@@ -1132,6 +1132,13 @@ a.hchip { text-decoration: none; }
 .gd-map { margin: 14px 0; }
 .gd-maps { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin: 14px 0; }
 .gd-maps > .gd-map { margin: 0; }
+/* a keyed map: the areas in their order under it, each with its colour on the map */
+.gd-keyed .gmap-win { width: 100% !important; }
+.gd-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 10px 0 0; padding: 0; list-style: none; counter-reset: leg; font-size: 13px; }
+.gd-legend li { display: inline-flex; align-items: center; gap: 6px; counter-increment: leg; }
+.gd-legend li::before { content: counter(leg); color: var(--muted); font-size: 11px; min-width: 1.2em; text-align: right; }
+.gd-legend i { width: 12px; height: 12px; border-radius: 3px; flex: none; border: 1px solid rgb(0 0 0 / .4); }
+.gd-legend li.gray a { color: var(--muted); } .gd-legend small { color: var(--muted); font-size: 11px; } .gd-legend .utick { margin-left: 2px; }
 .gd:has(.gd-map.side) { max-width: none; } /* the map lines up with the page's right edge */
 .gd-map.side { float: right; width: min(540px, 48%); margin: 4px 0 12px 20px; }
 .gd > section:first-child > .gd-map.side:first-child { margin-top: -30px; } /* up beside the contents links */
@@ -1687,3 +1694,10 @@ a.c-pill:hover { border-color: var(--accent); }
 .gw-heroes-list .utick { margin: 0 6px 0 4px; vertical-align: middle; }
 .lstat .lstat-sub { text-transform: none; letter-spacing: 0; font-weight: 400; }
 .gw-wip { margin: 0 0 12px; padding: 6px 10px; font-size: 13px; color: var(--muted); border: 1px dashed var(--line); border-radius: 6px; max-width: 640px; }
+.gd-caravan td.n { color: var(--muted); font-size: 11px; text-align: right; width: 1%; padding-right: 4px; }
+.gd-caravan td.a { white-space: nowrap; } .gd-caravan td.a i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; border: 1px solid rgb(0 0 0 / .4); }
+.gd-caravan td.a small { color: var(--muted); font-size: 11px; margin-left: 6px; } .gd-caravan td.a small { display: inline-block; min-width: 66px; }
+.gd-caravan td.note { color: var(--muted); } .gd-caravan td.num, .gd-caravan th:nth-child(n+4) { text-align: right; white-space: nowrap; }
+.gd-caravan td.walk { color: var(--muted); text-align: right; font-style: italic; } .gd-caravan tr.gray td.a a { color: var(--muted); }
+.gd-caravan td.tick { width: 1%; } .gd-caravan tfoot td { font-weight: 600; } .gd-caravan .gd-notes { margin: 8px 10px 10px; font-size: 12.5px; }
+.gd .gd-secstats { margin: -4px 0 12px; }

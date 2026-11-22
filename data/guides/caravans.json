@@ -1,0 +1,797 @@
+{
+ "sections": [
+  {
+   "blocks": [
+    {
+     "p": "Your party size is set by the outpost you leave from, and it stays with you through every portal you walk. A caravan is one long walk from a big outpost through smaller areas, vanquishing each with the bigger party: one instance, portal to portal, never stepping into an outpost."
+    }
+   ]
+  },
+  {
+   "title": "ToA East: Kryta, Shiverpeaks, Ascalon",
+   "blocks": [
+    {
+     "p": "The long haul from {area:138}. Every area is entered once, except the two on the way to Dragon's Gullet, which are walked back through. Nothing can be bought on the way, so bring everything along: a Purveyor's Bell or Mercantile Summoning Stone for the drops, morale items or DP removers, res scrolls, lockpicks, consets, and Stalker's Rations and Bird's Eye Compasses to find the last foes and map as you go. It is a long time in one instance, though you can leave the game running and come back. If you'd rather not, or something breaks half way, the eastern half from {area:134} with 6 is a fair fallback: from Traveler's Vale on, the areas take only 4."
+    },
+    {
+     "areas": [
+      18,
+      56,
+      59,
+      58,
+      54,
+      27,
+      100,
+      89,
+      88,
+      99,
+      103,
+      13,
+      106,
+      105,
+      102,
+      33,
+      101,
+      104,
+      107
+     ],
+     "legend": true,
+     "pass": [
+      18
+     ],
+     "from": 138,
+     "spots": [
+      {
+       "at": [
+        2953,
+        4374
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        3217,
+        4490
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        3381,
+        4566
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        3637,
+        4410
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        4053,
+        4454
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        4209,
+        4462
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        4645,
+        3790
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        5045,
+        3398
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        5581,
+        3497
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        5810,
+        3821
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        5965,
+        3974
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        6433,
+        3978
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        6577,
+        3846
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        6449,
+        4314
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        6678,
+        4465
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        6989,
+        4810
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        7421,
+        5033
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        7653,
+        4558
+       ],
+       "name": ""
+      }
+     ],
+     "marks": [
+      138,
+      134
+     ],
+     "rows": [
+      {
+       "area": 18,
+       "note": "The temple's own area, walked many times before. Leave by the north-east portal.",
+       "walk": true
+      },
+      {
+       "area": 56,
+       "note": "Leave by the east portal.",
+       "party": 6,
+       "foes": 72
+      },
+      {
+       "area": 59,
+       "note": "Leave by the north-east portal.",
+       "party": 6,
+       "foes": 138
+      },
+      {
+       "area": 58,
+       "note": "Leave by the north portal, past the one to the Gates of Kryta.",
+       "party": 6,
+       "foes": 126
+      },
+      {
+       "area": 54,
+       "note": "Straight through to Griffon's Mouth.",
+       "party": 6,
+       "foes": 63
+      },
+      {
+       "area": 27,
+       "note": "A short pass. Straight through.",
+       "party": 6,
+       "foes": 42
+      },
+      {
+       "area": 100,
+       "note": "Leave by the north portal.",
+       "party": 6,
+       "foes": 149
+      },
+      {
+       "area": 89,
+       "note": "Leave by the north-east portal.",
+       "party": 6,
+       "foes": 137
+      },
+      {
+       "area": 88,
+       "note": "Leave by the east portal.",
+       "party": 6,
+       "foes": 160
+      },
+      {
+       "area": 99,
+       "note": "Leave by the south portal.",
+       "party": 6,
+       "foes": 155
+      },
+      {
+       "area": 103,
+       "note": "Leave by the east portal. The first 4-party area.",
+       "party": 4,
+       "foes": 50
+      },
+      {
+       "area": 13,
+       "note": "The biggest count of the chain. Leave by the north-east portal, into the Dragon's Gullet spur.",
+       "party": 4,
+       "foes": 271
+      },
+      {
+       "area": 106,
+       "note": "Straight through to Dragon's Gullet.",
+       "party": 4,
+       "foes": 96
+      },
+      {
+       "area": 105,
+       "note": "A dead end. Walk back through the Corridor and Diessa Lowlands, both cleared, to Diessa's south-east portal.",
+       "party": 4,
+       "foes": 116
+      },
+      {
+       "area": 102,
+       "note": "Leave by the south portal.",
+       "party": 4,
+       "foes": 100
+      },
+      {
+       "area": 33,
+       "note": "Leave by the south portal, to Regent Valley.",
+       "party": 4,
+       "foes": 200
+      },
+      {
+       "area": 101,
+       "note": "Leave by the east portal.",
+       "party": 4,
+       "foes": 129
+      },
+      {
+       "area": 104,
+       "note": "Leave by the north-east portal.",
+       "party": 4,
+       "foes": 135
+      },
+      {
+       "area": 107,
+       "note": "The end of the chain.",
+       "party": 4,
+       "foes": 170
+      }
+     ],
+     "total": {
+      "foes": 2309
+     },
+     "notes": [
+      "Watchtower Coast is reached only from Beetletun and Divinity Coast, so no caravan gets there with 8: it is a 6-party vanquish from Beetletun."
+     ]
+    }
+   ]
+  },
+  {
+   "title": "ToA West: the Maguuma Jungle",
+   "blocks": [
+    {
+     "p": "The Maguuma Jungle from {area:138}. The Black Curtain and Talmark Wilderness are only walked through here; the South caravan clears Talmark. Majesty's Rest is the first to clear, and its foes stand in its eastern half, which is why it is entered from Talmark."
+    },
+    {
+     "areas": [
+      18,
+      17,
+      60,
+      41,
+      42,
+      43,
+      44,
+      47,
+      48,
+      45,
+      46
+     ],
+     "legend": true,
+     "from": 138,
+     "spots": [
+      {
+       "at": [
+        2953,
+        4374
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        2797,
+        4518
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        2381,
+        4502
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        1902,
+        4449
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        1325,
+        4618
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        1182,
+        4721
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        893,
+        5070
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        1261,
+        5290
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        1398,
+        5453
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        1398,
+        5453
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        1261,
+        5290
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        853,
+        5334
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        701,
+        5489
+       ],
+       "name": ""
+      }
+     ],
+     "pass": [
+      18,
+      17
+     ],
+     "rows": [
+      {
+       "area": 18,
+       "note": "Leave by the west portal, into Talmark Wilderness.",
+       "walk": true
+      },
+      {
+       "area": 17,
+       "note": "Leave by the west portal, into Majesty's Rest. Cleared with the South caravan.",
+       "walk": true
+      },
+      {
+       "area": 60,
+       "note": "Leave by the west portal.",
+       "party": 6,
+       "foes": 44
+      },
+      {
+       "area": 41,
+       "note": "Leave by the west portal.",
+       "party": 6,
+       "foes": 176
+      },
+      {
+       "area": 42,
+       "note": "Leave by the west portal, to Silverwood.",
+       "party": 6,
+       "foes": 53
+      },
+      {
+       "area": 43,
+       "note": "Leave by the north portal.",
+       "party": 6,
+       "foes": 185
+      },
+      {
+       "area": 44,
+       "note": "The hub of the jungle: three portals still matter. First the north one, to Dry Top.",
+       "party": 6,
+       "foes": 162
+      },
+      {
+       "area": 47,
+       "note": "Leave by the west portal, to Tangle Root.",
+       "party": 6,
+       "foes": 50
+      },
+      {
+       "area": 48,
+       "note": "A dead end. Walk back through Dry Top to Ettin's Back, then take its west portal.",
+       "party": 6,
+       "foes": 187
+      },
+      {
+       "area": 45,
+       "note": "Leave by the west portal, to The Falls.",
+       "party": 6,
+       "foes": 54
+      },
+      {
+       "area": 46,
+       "note": "The end of the chain, a dead end.",
+       "party": 6,
+       "foes": 279
+      }
+     ],
+     "total": {
+      "foes": 1190
+     },
+     "marks": [
+      138
+     ]
+    }
+   ]
+  },
+  {
+   "title": "ToA South: southern Kryta",
+   "blocks": [
+    {
+     "p": "Southern Kryta from {area:138}, one sitting. Only the Black Curtain is walked through."
+    },
+    {
+     "areas": [
+      18,
+      17,
+      53,
+      61,
+      63
+     ],
+     "legend": true,
+     "from": 138,
+     "spots": [
+      {
+       "at": [
+        2953,
+        4374
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        2797,
+        4518
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        2573,
+        4750
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        2470,
+        4909
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        2470,
+        4909
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        2549,
+        4898
+       ],
+       "name": ""
+      }
+     ],
+     "pass": [
+      18
+     ],
+     "rows": [
+      {
+       "area": 18,
+       "note": "Leave by the west portal, into Talmark Wilderness.",
+       "walk": true
+      },
+      {
+       "area": 17,
+       "note": "Leave by the south portal. The west one leads to Majesty's Rest and the West caravan.",
+       "party": 6,
+       "foes": 185
+      },
+      {
+       "area": 53,
+       "note": "The hub for two dead ends: Twin Serpent Lakes first, then Stingray Strand.",
+       "party": 6,
+       "foes": 64
+      },
+      {
+       "area": 61,
+       "note": "A dead end. Walk back to Tears of the Fallen.",
+       "party": 6,
+       "foes": 129
+      },
+      {
+       "area": 63,
+       "note": "The end of the chain.",
+       "party": 6,
+       "foes": 150
+      }
+     ],
+     "total": {
+      "foes": 528
+     },
+     "marks": [
+      138
+     ]
+    }
+   ]
+  },
+  {
+   "title": "The Crystal Desert from the Desolation",
+   "blocks": [
+    {
+     "p": "Nightfall's back door into the Crystal Desert. The way in with 8: {area:440} (or {area:438}) into {area:439}, across by Junundu, then into {area:448}. At its north-west corner the Forgotten Guardian teleports the party into {area:112}, with Prophecies on the account. From there every area is entered once, The Scar, a dead end, last."
+    },
+    {
+     "areas": [
+      440,
+      439,
+      448
+     ],
+     "spots": [
+      {
+       "at": [
+        1967,
+        534
+       ],
+       "name": "Forgotten Guardian"
+      }
+     ],
+     "aspect": 2.6
+    },
+    {
+     "areas": [
+      112,
+      111,
+      113,
+      114,
+      110,
+      115,
+      108
+     ],
+     "legend": true,
+     "spots": [
+      {
+       "at": [
+        6985,
+        8760
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        6769,
+        8446
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        6478,
+        8305
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        6546,
+        7885
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        6805,
+        7506
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        6970,
+        7889
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        7073,
+        8286
+       ],
+       "name": ""
+      }
+     ],
+     "rows": [
+      {
+       "area": 112,
+       "note": "You arrive at the crystal portal in the south-east. Leave by the west portal.",
+       "party": 6,
+       "foes": 87
+      },
+      {
+       "area": 111,
+       "note": "Leave by the north-west portal.",
+       "party": 6,
+       "foes": 207
+      },
+      {
+       "area": 113,
+       "note": "Leave by the north portal.",
+       "party": 6,
+       "foes": 214
+      },
+      {
+       "area": 114,
+       "note": "Leave by the north-east portal.",
+       "party": 6,
+       "foes": 146
+      },
+      {
+       "area": 110,
+       "note": "Leave by the south portal, the only one left.",
+       "party": 6,
+       "foes": 102
+      },
+      {
+       "area": 115,
+       "note": "The hub of the desert, four of its portals already behind you. Leave by the east portal, to The Scar.",
+       "party": 6,
+       "foes": 159
+      },
+      {
+       "area": 108,
+       "note": "The end of the chain, a dead end.",
+       "party": 6,
+       "foes": 233
+      }
+     ],
+     "total": {
+      "foes": 1148
+     },
+     "notes": [
+      "The Desolation's areas on the way in take 8 from their own outposts, so they are not part of the caravan."
+     ],
+     "from": null
+    }
+   ]
+  },
+  {
+   "title": "Lornar's Pass from Camp Rankor",
+   "blocks": [
+    {
+     "p": "Lornar's Pass is usually entered from {area:133}, a 6-party outpost. Its other end opens on Dreadnought's Drift and Snake Dance, and those lead to {area:155}, which gives 8. So the short chain from Camp Rankor: Snake Dance, Dreadnought's Drift, Lornar's Pass, each cleared on the way north."
+    },
+    {
+     "areas": [
+      91,
+      97,
+      90
+     ],
+     "legend": true,
+     "from": 155,
+     "marks": [
+      155
+     ],
+     "spots": [
+      {
+       "at": [
+        4661,
+        5197
+       ],
+       "name": ""
+      },
+      {
+       "at": [
+        4681,
+        5034
+       ],
+       "name": ""
+      }
+     ],
+     "rows": [
+      {
+       "area": 91,
+       "note": "Leave by the north-west portal.",
+       "party": 8,
+       "foes": 300
+      },
+      {
+       "area": 97,
+       "note": "Leave by the north portal.",
+       "party": 8,
+       "foes": 106
+      },
+      {
+       "area": 90,
+       "note": "The end of the chain. The portal at its north end is Beacon's Perch.",
+       "party": 8,
+       "foes": 270
+      }
+     ],
+     "total": {
+      "foes": 676
+     },
+     "aspect": 1.1,
+     "height": 640
+    }
+   ]
+  }
+ ]
+}

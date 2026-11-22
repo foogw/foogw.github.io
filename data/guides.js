@@ -1,5 +1,5 @@
 const GW_GUIDES = {
-  "_": "The guides, written by hand, as the Guides page lists them, in its order. id: its short name, its address (guides?gom) and its file, data/guides/<id>.json. wip: true while it's reachable by address only, not listed (the Dev page links it). group: \"afk\", \"solo\" or \"quests\". mission: the map id it's played in.",
+  "_": "The guides, written by hand, as the Guides page lists them, in its order. id: its short name, its address (guides?gom) and its file, data/guides/<id>.json. wip: true while it's reachable by address only, not listed (the Dev page links it). group: \"afk\", \"solo\", \"vanq\" or \"quests\". mission: the map id it's played in.",
   "guides_": "In a guide's file: source: the page it shortens {href, archive, author, full, more: false to leave out the closing link to it}; stats: [label, value] pairs at its top; sections: [{title, flow, blocks}]. Each guide is a list of sections, each a list of blocks: {h}, {p}, {note} (a paragraph set apart), {box: {title, blocks}}, {ul}, {ol}, {table: {head, rows, notes}}, {builds}, {qa: [[q, a]]}, {img: {src, caption, side, center (on its own, centered), width: a side or centered picture's width in pixels, when not the usual}}, {imgs: {srcs, caption}}, {areas: [map ids], side, height, crop: [x0, y0, x1, y1] (the part of the map shown, in its pixels; none: all the areas), spots: [{at: [x, y] in the map's pixels, name}], from: an outpost to start from, or a list of them} (those areas lit on their map; {maps: [such blocks]} shows maps side by side; {level: [dungeon map id, level index], height, to: [x, y]} a dungeon level's map (data/depths.js) with its way through, or to that point; spots marked, with the way on foot from the first area, or from each in from, to the first spot, then on to each next), {capCalc}, {route: [{start | map | step | area: map id, steps: [{t, take, go, done: [quest ids]}]}]}, {routeTotal}, {questIndex: {areas: [map ids], skip: {quest id: reason}}} (the quests given there). A build has a template code, or skill ids (null for a free slot); runes by attribute id; or a Builds page build's id. In text, {skill:id} links a skill with its icon, {skillname:id} without, {area:id} an area, {mission:id}, {quest:id}, {hero:id}, {page:href|text} another page, {ext:href|text} another site.",
   "guides": [
     {
@@ -9,6 +9,13 @@ const GW_GUIDES = {
       "summary": "An AFK XP farm in Gate of Madness: the Legendary Survivor title in about 4 hours, and 534 skill points a day.",
       "tags": ["Farm", "XP", "AFK", "Normal mode", "3 heroes"],
       "mission": 527
+    },
+    {
+      "id": "caravans",
+      "group": "vanq",
+      "name": "Vanquish Caravans",
+      "summary": "Vanquish the 4- and 6-party areas with a full party of 8: the chains from Temple of the Ages east, west and south, the Crystal Desert through its crystal portal, and Lornar's Pass from Camp Rankor; each with its path and foes.",
+      "tags": ["Vanquish", "Hard mode", "Route", "Party of 8"]
     },
     {
       "id": "pre",

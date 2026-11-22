@@ -127,7 +127,7 @@ function drawMark(g, kind, x, y, scale = 1, name = "", self = false) {
 const veil = document.createElement("canvas");
 /* One view of a map set onto a canvas. v: { set, zoom (CSS px per map pixel), x, y (CSS px of the map's corner),
    dpr, under: underground pictures drawn over the tiles (game/maps.js under), ground(ctx, z): draws over the tiles, lit: Path2D of the ground to keep bright (or null: all bright), clip: Path2D
-   the lit ground and its outlines are kept within (or none), dark (0-1), outlines: [[Path2D, color, width]],
+   the lit ground and its outlines are kept within (or none), dark (0-1), outlines: [[Path2D, color, width, alpha, fill alpha]],
    marks: [{ x, y, kind, name, self }], portals: [[x, y]], ways: [{ lines: [[[x, y], ...]], color }] (drawn under the
    portals and marks), redraw }. */
 function paintMap(ctx, v) {
@@ -158,7 +158,8 @@ function paintMap(ctx, v) {
   if (v.ground) v.ground(ctx, z);  // the caller's own darkening and outlines (the Maps page caches them)
   ctx.setTransform(...T); ctx.lineJoin = "round";
   ctx.save(); if (v.clip) ctx.clip(v.clip);
-  for (const [p, color, width, alpha = 1] of v.outlines || []) {
+  for (const [p, color, width, alpha = 1, fill = 0] of v.outlines || []) {
+    if (fill) { ctx.globalAlpha = fill; ctx.fillStyle = color; ctx.fill(p, "nonzero"); }
     ctx.globalAlpha = alpha; ctx.strokeStyle = color; ctx.lineWidth = width * d / z; ctx.stroke(p);
   }
   ctx.restore(); ctx.globalAlpha = 1;
@@ -203,14 +204,16 @@ const missionsIn = id => Object.entries(data("GW_MISSION_MAPS")?.missions || {})
 // ground lit (or none: all of it), spots, portals: [{at, name}] (named on hover)} (data/depths.js)
 // crop: [x0, y0, x1, y1] the part of the map to show, in its pixels, instead of all the ground lit
 // aspect: its width over its height, the part shown widened (or made taller) to it: maps side by side, the same height
-function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null, spots = null, note = "", level = null, crop = null, aspect = null } = {}) {
+// tints: {area id: color}: each area's ground outlined and tinted in its own colour (a guide's keyed map), instead of the one ring
+// nomarks: no outpost markers at all, and no choice of them; only: with nomarks, the outposts (ids) still marked (a guide's start)
+function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null, spots = null, note = "", level = null, crop = null, aspect = null, tints = null, nomarks = false, only = null } = {}) {
   ids = [...new Set(ids.map(Number))];
   if (!ids.length && !self && !level) return "";
-  return `<figure class="gmap" data-ids="${ids.join(",")}"${self ? ` data-self="${self}"` : ""}${town ? ` data-town="${[town].flat().join(",")}"` : ""}${spots ? ` data-spots="${esc(JSON.stringify(spots))}"` : ""}${level ? ` data-level="${esc(JSON.stringify(level))}"` : ""}${crop ? ` data-crop="${crop.join(",")}"` : ""}${aspect ? ` data-aspect="${aspect}"` : ""} data-h="${height}">
+  return `<figure class="gmap" data-ids="${ids.join(",")}"${self ? ` data-self="${self}"` : ""}${town ? ` data-town="${[town].flat().join(",")}"` : ""}${spots ? ` data-spots="${esc(JSON.stringify(spots))}"` : ""}${level ? ` data-level="${esc(JSON.stringify(level))}"` : ""}${crop ? ` data-crop="${crop.join(",")}"` : ""}${aspect ? ` data-aspect="${aspect}"` : ""}${tints ? ` data-tints="${esc(JSON.stringify(tints))}"` : ""}${nomarks ? " data-nomarks" : ""}${only ? ` data-only="${only.join(",")}"` : ""} data-h="${height}">
     <div class="gmap-win" tabindex="0" role="img" style="height: ${height}px"><canvas></canvas></div>
     <figcaption><label>Darkness <input type="range" min="0" max="100" value="66"></label>${note && `
       <span class="gmap-note">${note}</span>`}
-      <label title="Outposts, mission outposts and dungeons"><input type="checkbox" class="gmap-nomarks"${hideMarks() ? " checked" : ""}> Hide markers</label></figcaption>
+      <label title="Outposts, mission outposts and dungeons"${nomarks ? ' style="display: none"' : ""}><input type="checkbox" class="gmap-nomarks"${hideMarks() || nomarks ? " checked" : ""}> Hide markers</label></figcaption>
   </figure>`;
 }
 // hiding the markers is one choice for every map, remembered in this browser only
@@ -263,8 +266,15 @@ async function initMap(fig) {
   win.style.width = `min(100%, ${Math.round(maxH * bw / bh)}px)`;
   win.setAttribute("aria-label", `${level?.name || ids.map(areaName).join(", ") || areaName(self)}: where you can walk`);
   const slider = fig.querySelector("input[type=range]"), nomarks = fig.querySelector(".gmap-nomarks");
+  // (a map with no choice of markers: the ones it keeps, a guide's starts, show whatever the hide setting says)
+  const hidden = () => nomarks.checked && !("nomarks" in fig.dataset);
   const path = lit.length ? walkPath(lit) : null, clip = area && walkPath(area);
-  const marks = level ? [] : nearMarks(set, ids, self, box);
+  const only = fig.dataset.only ? fig.dataset.only.split(",").map(Number) : null;
+  const marks = level ? [] : "nomarks" in fig.dataset ? (only ? nearMarks(set, [...ids, ...only], self, box).filter(m => only.includes(m.id)) : []) : nearMarks(set, ids, self, box);
+  // (tinted: each area's ground in its colour, filled lightly and outlined, in place of the one ring)
+  // (a page may change the colours later, mv.tints, and draw again: each area's ground path kept once)
+  const tints = fig.dataset.tints ? JSON.parse(fig.dataset.tints) : null, paths = tints ? new Map(lit.map(w => [w.id, walkPath([w])])) : null;
+  const tinted = () => [...paths].filter(([id]) => mv.tints[id]).map(([id, pth]) => [pth, mv.tints[id], 2, 1, 0.28]);
   const under = MAP_UNDER.filter(u => u.set === set && [self, ...ids, level?.map].some(i => i != null && u.areas.includes(+i)));
   const spots = JSON.parse(fig.dataset.spots || "[]").map(p => ({ ...p, kind: "spot" }));
   const portals = [], joins = new Map();  // joins: each portal's areas, by "x,y", for its name on hover
@@ -289,9 +299,9 @@ async function initMap(fig) {
     if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
     const cw = cur[2] - cur[0], ch = cur[3] - cur[1], zoom = win.clientWidth / cw;
     links.forEach((a, i) => { a.style.left = `${(100 * (marks[i].x - cur[0]) / cw).toFixed(2)}%`; a.style.top = `${(100 * (marks[i].y - cur[1]) / ch).toFixed(2)}%`; });
-    win.classList.toggle("nomarks", nomarks.checked);
+    win.classList.toggle("nomarks", hidden());
     paintMap(ctx, { set, zoom, x: -cur[0] * zoom, y: -cur[1] * zoom, dpr: d, lit: path, clip, dark: slider.value / 100, under,
-      outlines: path ? [[path, MAP_RING, 1.2, 0.8 * slider.value / 100]] : [], portals, marks: [...(nomarks.checked ? [] : marks), ...spots], ways: mv.ways,
+      outlines: mv.tints ? tinted() : (path ? [[path, MAP_RING, 1.2, 0.8 * slider.value / 100]] : []), portals, marks: [...(hidden() ? [] : marks), ...spots], ways: mv.ways,
       redraw: () => { raf ||= requestAnimationFrame(draw); } });
   };
   slider.addEventListener("input", draw);
@@ -303,7 +313,8 @@ async function initMap(fig) {
   // for pages that draw more on it (the route finder): box is what is shown now, onchange called when it moves,
   // dragged set when the last press moved the map (so it isn't a click)
   // ways: lines drawn on the map under its markers, [{ lines: [[[x, y], ...]], color }]
-  const mv = fig.mapView = { set, get box() { return cur; }, path, win, draw, onchange: null, dragged: false, ways: [] };
+  // tints: {area id: colour} as given, changed by the page and drawn again
+  const mv = fig.mapView = { set, get box() { return cur; }, path, win, draw, onchange: null, dragged: false, ways: [], tints };
   const show = b => {
     const w = Math.min(bw, Math.max(bw / 12, b[2] - b[0])), h = w * bh / bw;
     const x0 = Math.min(box[2] - w, Math.max(box[0], b[0])), y0 = Math.min(box[3] - h, Math.max(box[1], b[1]));

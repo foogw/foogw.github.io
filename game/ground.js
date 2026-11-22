@@ -1356,7 +1356,7 @@ const GW_GROUND = {
       "campaign": 1,
       "party": 6,
       "terrain": 52830,
-      "exits": [{"to": 115, "at": [6954, 8297]}, {"to": 111, "at": [6769, 8446]}, {"to": 448, "at": [6761, 8682]}],
+      "exits": [{"to": 115, "at": [6954, 8297]}, {"to": 111, "at": [6769, 8446]}, {"to": 448, "at": [6985, 8760]}],
       "order": 36.5,
       "foes": [87, 137],
       "wiki": {"en": "The Arid Sea", "de": "Das Trockene Meer"},

@@ -201,8 +201,18 @@ function blockHTML(x, g) {
     return `<div class="gd-map" data-level-way="${esc(JSON.stringify({ id, i, to: x.to }))}">${VIEWS.dungeon.levelMap(d, i, { height: x.height || 340 })}</div>`;
   }
   if (x.maps) return `<div class="gd-maps">${x.maps.map(y => blockHTML(y, g)).join("")}</div>`;
+  // (legend: true: the areas in their order, each in its own colour on the map and in a list under it; no outpost
+  // markers, the spots only for the way; the map the content's full width, wide: 2.2 to 1. pass: areas only walked
+  // through, gray; an area the picked character has vanquished, gray too, said so in the list, with its tick there;
+  // with no progress kept, or none readable, every area in its colour and no ticks)
+  if (x.areas && x.legend) { const pass = new Set(x.pass || []), kept = !User.broken() && User.stored() != null;
+    const vq = id => kept && User.vanquished(id), gray = id => pass.has(id) || vq(id);
+    const tints = Object.fromEntries(x.areas.map((id, i) => [id, gray(id) ? GRAY : LEGEND[i % LEGEND.length]]));
+    return `<div class="gd-map gd-keyed" data-keyed="${esc(JSON.stringify({ areas: x.areas, pass: [...pass] }))}"${x.spots ? ` data-way="${esc(JSON.stringify({ ids: x.areas, spots: x.spots.map(p => p.at), from: x.from }))}"` : ""}>${mapHTML(x.areas,
+      { height: x.height || 500, crop: x.crop, aspect: x.aspect || 2.2, tints, nomarks: true, only: x.marks || (x.from ? [x.from] : null) })}
+      ${x.rows ? caravanTable(x, tints, kept, vq) : `<ol class="gd-legend">${x.areas.map(id => `<li${gray(id) ? ' class="gray"' : ""}><i style="background:${tints[id]}"></i>${LINK.area(id)}${pass.has(id) ? '<small>walked</small>' : vq(id) ? '<small>vanquished</small>' : ""}${kept && !pass.has(id) && AREAS[id]?.foes ? vanqTick(id, vq(id)) : ""}</li>`).join("")}</ol>`}</div>`; }
   if (x.areas) return `<div class="gd-map${x.side ? " side" : ""}"${x.spots ? ` data-way="${esc(JSON.stringify({ ids: x.areas, spots: x.spots.map(p => p.at), from: x.from }))}"` : ""}>${mapHTML(x.areas,
-    { height: x.height || MAP_MAX_H, crop: x.crop, spots: x.spots?.map(p => ({ x: p.at[0], y: p.at[1], name: p.name })) })}</div>`;
+    { height: x.height || MAP_MAX_H, crop: x.crop, aspect: x.aspect, spots: x.spots?.map(p => ({ x: p.at[0], y: p.at[1], name: p.name })) })}</div>`;
   if (x.table) return `<div class="gd-table"><table><thead><tr>${x.table.head.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
     <tbody>${x.table.rows.map(r => `<tr>${r.map(c => `<td>${text(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
     ${(x.table.notes || []).length ? `<ul class="gd-notes">${x.table.notes.map(n => `<li>${text(n)}</li>`).join("")}</ul>` : ""}`;
@@ -237,14 +247,14 @@ function guidePageHTML(g) {
     </div>
     <nav class="gd-toc">${titled.map(s => `<a href="#" data-to="gd-${slug(s.title)}">${esc(s.title)}</a>`).join("")}</nav>
     <article class="gd">${g.sections.map(s => `<section${s.title ? ` id="gd-${slug(s.title)}"` : ""}${s.flow ? ` class="flow"` : ""}>
-      ${s.title ? `<h2>${esc(s.title)}</h2>` : ""}${s.blocks.map(x => blockHTML(x, g)).join("")}</section>`).join("")}
+      ${s.title ? `<h2>${esc(s.title)}</h2>` : ""}${secStatsHTML(s)}${s.blocks.map(x => blockHTML(x, g)).join("")}</section>`).join("")}
     </article>
     ${g.source && g.source.more !== false ? `<p class="gd-src">${g.source.full ? "Also on" : "See the full guide and more at"} <a href="${esc(g.source.href)}" target="_blank" rel="noopener">the Guild Wars Wiki</a> (<a href="${esc(g.source.archive)}" target="_blank" rel="noopener">archived copy</a>).</p>` : ""}`;
 }
 
 /* ---------- the list ---------- */
 // the list, under the group titles in their order
-const GROUPS = [["afk", "AFK guides"], ["solo", "Solo guides"], ["quests", "Quest guides"]];
+const GROUPS = [["afk", "AFK guides"], ["solo", "Solo guides"], ["vanq", "Vanquish guides"], ["quests", "Quest guides"]];
 const guideEntryHTML = g => `<a class="bd-entry" href="guides?${esc(g.id)}">
     <h3>${esc(g.name)}</h3><p>${esc(g.summary)}</p>
     <div class="bd-tags">${(g.tags || []).map(x => `<span class="tag">${esc(x)}</span>`).join("")}</div>
@@ -287,6 +297,21 @@ async function render() {
 // the areas it shows, to the first spot, then on to each next one
 // the ways from different starts on one map, each in its own colour
 const WAYS = ["#4fd1ff", "#ff9f43", "#c56cf0", "#7bed9f"];
+// a caravan section's own stats, under its heading: its areas cleared and the wiki's foes
+const secStatsHTML = s => { const x = s.blocks.find(b => b.rows && b.total); if (!x) return "";
+  const stat = (k, v, t = "") => `<span class="lstat"${t ? ` title="${esc(t)}"` : ""}><small>${k}</small><b>${v}</b></span>`;
+  return `<div class="lstats gd-secstats">${stat("Areas", x.rows.filter(r => !r.walk).length)}${stat("Foes", num(x.total.foes), "The wiki's average kills in normal mode, added up")}</div>`; };
+// a keyed map's rows (a caravan): one table under the map, the areas in walking order, each with its colour, the step's
+// note, the area's party size and the wiki's foes; an area only walked through says "walk"; the
+// picked character's vanquishes gray with their tick; the total last
+const caravanTable = (x, tints, kept, vq) => { const notes = x.notes || [];
+  const row = (r, i) => { const v = vq(r.area), walk = r.walk;
+    return `<tr data-area="${r.area}"${walk ? " data-walk" : ""}${walk || v ? ' class="gray"' : ""}><td class="n">${i + 1}</td><td class="a"><i style="background:${tints[r.area]}"></i>${LINK.area(r.area)}<small>${v && !walk ? "vanquished" : ""}</small></td><td class="note">${text(r.note || "")}</td>${walk ? `<td colspan="2" class="walk">walk</td>` : `<td class="num">${r.party}</td><td class="num">${num(r.foes)}</td>`}<td class="tick">${kept && !walk && AREAS[r.area]?.foes ? vanqTick(r.area, v) : ""}</td></tr>`; };
+  return `<div class="gd-table gd-caravan"><table><thead><tr><th></th><th>Area</th><th></th><th>Party</th><th>Foes</th><th></th></tr></thead><tbody>${x.rows.map(row).join("")}</tbody>
+    ${x.total ? `<tfoot><tr><td></td><td colspan="2">All</td><td></td><td class="num">${num(x.total.foes)}</td><td></td></tr></tfoot>` : ""}</table>${notes.length ? `<p class="gd-notes dim">${notes.map(text).join(" ")}</p>` : ""}</div>`; };
+// a keyed map's colours, one per area in its order (none the ways' cyan)
+const GRAY = "#8a8f98";
+const LEGEND = ["#ffd166", "#ef476f", "#06d6a0", "#f78c6b", "#c77dff", "#8ac926", "#ff9f1c", "#e0aaff", "#f9c74f", "#43aa8b", "#f94144", "#90be6d", "#f3722c", "#b5e48c"];
 async function drawWays(g) {
   for (const box of $("guide").querySelectorAll(".gd-map[data-level-way]")) {
     const { id, i, to } = JSON.parse(box.dataset.levelWay), view = box.querySelector(".gmap")?.mapView;
@@ -295,7 +320,7 @@ async function drawWays(g) {
     if (pts) { view.ways = [{ lines: walkLines(pts), color: WAYS[0] }]; view.draw(); }
   }
   for (const box of $("guide").querySelectorAll(".gd-map[data-way]")) {
-    const { ids, spots, from = ids[0] } = JSON.parse(box.dataset.way), view = box.querySelector(".gmap")?.mapView, froms = [from].flat(), all = [...new Set([...froms, ...ids])];
+    const { ids, spots, from = ids[0] } = JSON.parse(box.dataset.way), view = box.querySelector(".gmap")?.mapView, froms = from === null ? [] : [from].flat(), all = [...new Set([...froms, ...ids])];  // (from null: the way starts at the first spot)
     if (!view || all.length < 2) continue;
     // (the ground of the areas on this map only: a start on another map is reached through its portal here)
     const grid = await walkGrid(all.filter(i => walkable(i) && AREAS[i]?.set === view.set));
@@ -368,4 +393,21 @@ document.addEventListener("click", e => {
 });
 // a new guide starts at the top; a reload keeps the browser's scroll position
 onRoute(() => render().then(() => window.scrollTo(0, 0)));
+// the progress changed (a vanquish ticked here or on another tab): the keyed maps show it
+// a tick, or another tab's change: the keyed maps' colours and their rows follow, in place (the ticks themselves are
+// common.js's; the maps and ways stay as drawn)
+function refreshKeyed() {
+  const kept = !User.broken() && User.stored() != null;
+  for (const box of document.querySelectorAll(".gd-keyed[data-keyed]")) {
+    const { areas, pass } = JSON.parse(box.dataset.keyed), gray = id => pass.includes(id) || (kept && User.vanquished(id));
+    const tints = Object.fromEntries(areas.map((id, i) => [id, gray(id) ? GRAY : LEGEND[i % LEGEND.length]]));
+    for (const tr of box.querySelectorAll("tr[data-area]")) { const id = +tr.dataset.area, v = kept && User.vanquished(id), walk = "walk" in tr.dataset;
+      tr.classList.toggle("gray", walk || v);
+      tr.querySelector("td.a i").style.background = tints[id];
+      tr.querySelector("td.a small").textContent = v && !walk ? "vanquished" : ""; }
+    const view = box.querySelector(".gmap")?.mapView;
+    if (view) { view.tints = tints; view.draw(); }
+  }
+}
+addEventListener("userchange", refreshKeyed);
 render();

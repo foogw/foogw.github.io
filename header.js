@@ -9,8 +9,8 @@
   // each group of the bar's menus: its name, its landing page, its pages
   const GROUPS = [
     ["Tools", "tools", [["captures", "Elite captures"], ["gwamm", "GWAMM route"], ["anniversary", "Anniversary planner"], ["builds", "Builds"], ["builder", "Skillbar builder"]]],
-    // (the guides by name, in the Guides page's order, AFK, solo, then quest guides: this script runs before the data loads)
-    ["Guides", "guides", [["guides?gom", "GoM AFK XP Farm"], ["guides?zos", "Zos Shivros AFK Luxon Farm"], ["guides?drakes", "Purp Insc Chaos Axe Farm"], ["guides?spidercave", "Solo W/R FoW Spider Cave Farm"], ["guides?vaettir", "Easy 55hp Mo/A Vaettir Farm"], ["guides?augury", "Augury Rock: Beating Your Doppelganger"], ["guides?pre", "Pre-Searing Quests"], ["guides?reverie", "Wayfarer's Reverie"], ["guides?fow", "Fissure of Woe Quests"], ["guides?uw", "Underworld Quests"]]],
+    // (the guides by name, in the Guides page's order, AFK, solo, vanquish, then quest guides: this script runs before the data loads)
+    ["Guides", "guides", [["guides?gom", "GoM AFK XP Farm"], ["guides?zos", "Zos Shivros AFK Luxon Farm"], ["guides?drakes", "Purp Insc Chaos Axe Farm"], ["guides?spidercave", "Solo W/R FoW Spider Cave Farm"], ["guides?vaettir", "Easy 55hp Mo/A Vaettir Farm"], ["guides?augury", "Augury Rock: Beating Your Doppelganger"], ["guides?caravans", "Vanquish Caravans"], ["guides?pre", "Pre-Searing Quests"], ["guides?reverie", "Wayfarer's Reverie"], ["guides?fow", "Fissure of Woe Quests"], ["guides?uw", "Underworld Quests"]]],
     ["Game", "world", [["areas", "Areas"], ["missions", "Missions"], ["quests", "Quests"], ["dungeons", "Dungeons"], ["storylines", "Storylines"], ["maps", "Maps"], ["skills", "Skills"], ["bosses", "Bosses"], ["heroes", "Heroes"], ["armor", "Armor"], ["titles", "Titles"]]],
   ];
   const SMALL = [["about", "About"], ["thanks", "Thanks"], ["contact", "Contact"], ["license", "License"], ["backup", "Backup"]];
