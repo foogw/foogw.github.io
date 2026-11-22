@@ -1,0 +1,827 @@
+{
+ "sections": [
+  {
+   "blocks": [
+    {
+     "p": "Eye of the North teaches 50 PvE-only skills, a dozen or so for each of its four peoples, every one the reward of a side quest. This guide assumes the storyline is done: the hubs are open and every chain can start. What is left is the quests below, by people, with the giver, where to find them, and the order a chain forces."
+    },
+    {
+     "p": "The skills are learned by the character and get stronger with the matching title, so take them as early as you like. Most quests are short errands from the outposts; the long ones are said so."
+    }
+   ]
+  },
+  {
+   "title": "Norn skills",
+   "blocks": [
+    {
+     "p": "Twelve skills, in four trips: the Fighting Tournament in {area:644}, Sif's three hunts from {area:643}, Hogni's three blessings from his home in {area:513}, and the Olafsons' three from {area:645} and {area:553}."
+    },
+    {
+     "route": [
+      {
+       "start": 644,
+       "steps": [
+        {
+         "t": "Talk to Gunnar Poundfist by the gate and take Truthseeker: it sends you to Hogni, for later.",
+         "take": [
+          100451
+         ]
+        },
+        {
+         "t": "Talk to Gellir Frostshield and pay the 100 gold entry fee, then to Magni the Bison, who starts the Norn Fighting Tournament: six solo rounds in the arena, each a quest from Magni, one after the other.",
+         "take": [
+          100403
+         ]
+        },
+        {
+         "t": "Win rounds 1 to 5. Your heroes stay outside; the fights are one on one, a Norn champion each time.",
+         "done": [
+          100403,
+          100404,
+          100405,
+          100406,
+          100407
+         ]
+        },
+        {
+         "t": "Beat Magni himself in the final. The first win gives {skill:2354}, {skill:2353} and {skill:2357} at once; later wins give a Championship Token instead.",
+         "take": [
+          100360
+         ],
+         "done": [
+          100360
+         ]
+        }
+       ]
+      },
+      {
+       "map": 643,
+       "steps": [
+        {
+         "t": "Talk to Sif Shadowhunter and take Worthy Deeds (Done Dirt Cheap): three bosses in {area:513}, Koren Wildrunner, Myish, Lady of the Lake, and Nulfastu, Earthbound. Hand it in for {skill:2358}.",
+         "take": [
+          100460
+         ],
+         "done": [
+          100460
+         ]
+        },
+        {
+         "t": "Sif's next, Anything You Can Do: Whiteout and Avarr the Fallen in {area:546}, then the Fragment of Antiquities at the end of the {area:628}, whose entrance is in Jaga Moraine.",
+         "take": [
+          100341
+         ],
+         "done": [
+          100341
+         ]
+        },
+        {
+         "t": "Sif's last, Cold as Ice: tell her when you're ready and kill the Glacial Griffon she sets on you, for {skill:2356}.",
+         "take": [
+          100350
+         ],
+         "done": [
+          100350
+         ]
+        }
+       ]
+      },
+      {
+       "map": 645,
+       "steps": [
+        {
+         "t": "Walk out into {area:553} and north into {area:513}: Hogni Truthseeker's home is in its south-west corner. Talking to him hands in Truthseeker, for {skill:2355}.",
+         "done": [
+          100451
+         ]
+        },
+        {
+         "t": "Take Hogni's three blessing quests in one go: A Hunter's Pride, Leader of the Pack and Shadows in the Night.",
+         "take": [
+          100336,
+          100381,
+          100412
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "areas": [
+      643,
+      513,
+      553
+     ],
+     "from": [
+      643,
+      645
+     ],
+     "height": 420,
+     "spots": [
+      {
+       "at": [
+        5390,
+        1859
+       ],
+       "name": "Hogni Truthseeker"
+      },
+      {
+       "at": [
+        5557,
+        1702
+       ],
+       "name": "Myish, Lady of the Lake"
+      }
+     ]
+    },
+    {
+     "route": [
+      {
+       "step": 546,
+       "steps": [
+        {
+         "t": "A Hunter's Pride: find the polar bear in {area:546}, take the honey from the branch, then lead the bear at the five young hunters until they run.",
+         "go": [
+          100336
+         ]
+        },
+        {
+         "t": "Leader of the Pack: in {area:482} enlist the six tundra wolves, then follow them south to the Destroyers and kill the lot.",
+         "go": [
+          100381
+         ]
+        },
+        {
+         "t": "Shadows in the Night: into {area:617}, the dungeon off {area:546}, and kill the shadow spawn.",
+         "go": [
+          100412
+         ]
+        },
+        {
+         "t": "Back to Hogni with all three: {skill:2374}, {skill:2379} and {skill:2384}, the three elite blessings.",
+         "done": [
+          100336,
+          100381,
+          100412
+         ]
+        }
+       ]
+      },
+      {
+       "map": 645,
+       "steps": [
+        {
+         "t": "The Olafsons' chain goes by your character's sex: a woman talks to Olaf Olafson in {area:645}, a man to Olrun Olafdottir out in {area:553}. Take The Great Norn Alemoot: drink, haul three kegs, drink, run the slalom, drink, herd three pigs. Hand in for {skill:2360}.",
+         "take": [
+          100436,
+          100437
+         ],
+         "done": [
+          100436,
+          100437
+         ]
+        },
+        {
+         "t": "Bear Club for Women or Bear Club for Men: talk about the bear, take the club you're handed and beat the bear with it. Hand in for {skill:2361}.",
+         "take": [
+          100345
+         ],
+         "done": [
+          100345
+         ]
+        },
+        {
+         "t": "Prenuptial Disagreement: find the bottomless pit in the north-east of {area:546} and kill Ssissth the leviathan. Hand in for {skill:2359}.",
+         "take": [
+          100400,
+          100401
+         ],
+         "done": [
+          100400,
+          100401
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "areas": [
+      645,
+      553
+     ],
+     "height": 380,
+     "spots": [
+      {
+       "at": [
+        5275,
+        2083
+       ],
+       "name": "Olrun Olafdottir"
+      }
+     ]
+    },
+    {
+     "areas": [
+      643,
+      546
+     ],
+     "height": 420,
+     "spots": [
+      {
+       "at": [
+        5887,
+        1105
+       ],
+       "name": "The branch with honey"
+      },
+      {
+       "at": [
+        5999,
+        1089
+       ],
+       "name": "Egil Fireteller"
+      },
+      {
+       "at": [
+        5990,
+        958
+       ],
+       "name": "The young hunters"
+      },
+      {
+       "at": [
+        6064,
+        896
+       ],
+       "name": "The bottomless pit"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Deldrimor skills",
+   "blocks": [
+    {
+     "p": "Fourteen skills: Kilroy's brawling in {area:644}, Undrath's two hunts from {area:643}, a treasure map in {area:639}, and the Deldrimor camp in the {area:625}, below the {area:652}."
+    },
+    {
+     "route": [
+      {
+       "start": 644,
+       "steps": [
+        {
+         "t": "Talk to Kilroy Stonekin and take Punch the Clown: your bar is swapped for brawling skills and you beat a few Norn brawlers. Hand in for {skill:2215}.",
+         "take": [
+          100402
+         ],
+         "done": [
+          100402
+         ]
+        },
+        {
+         "t": "Kilroy Stonekin's Punch-Out Extravaganza!: go down with Kilroy into {area:704} and punch your way to Fronis Irontoe. Solo, brass knuckles only.",
+         "take": [
+          100377
+         ],
+         "done": [
+          100377
+         ]
+        },
+        {
+         "t": "The Throwdown in a Norn Town: beat Bjorn Thunderfist in the championship brawl. Hand in for {skill:2213} and {skill:2214}.",
+         "take": [
+          100447
+         ],
+         "done": [
+          100447
+         ]
+        }
+       ]
+      },
+      {
+       "map": 643,
+       "steps": [
+        {
+         "t": "Talk to Undrath Blastrock and take both: Krak's Cavalry and The Big Unfriendly Jotun.",
+         "take": [
+          100379,
+          100425
+         ]
+        },
+        {
+         "t": "Krak's Cavalry: find and kill Krak Flamewhip's cavalry patrol in {area:546}.",
+         "go": [
+          100379
+         ]
+        },
+        {
+         "t": "The Big Unfriendly Jotun: kill Chieftain Ulgrimar Gnash in {area:513}, in the east.",
+         "go": [
+          100425
+         ]
+        },
+        {
+         "t": "Back to Undrath with both: {skill:2216} for the cavalry, {skill:2222} and {skill:2423} for the jotun.",
+         "done": [
+          100379,
+          100425
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "areas": [
+      643,
+      513
+     ],
+     "height": 420,
+     "spots": [
+      {
+       "at": [
+        5691,
+        1504
+       ],
+       "name": "Chieftain Ulgrimar Gnash"
+      },
+      {
+       "at": [
+        5405,
+        1632
+       ],
+       "name": "The Stone Summit camp"
+      }
+     ]
+    },
+    {
+     "route": [
+      {
+       "map": 639,
+       "steps": [
+        {
+         "t": "Talk to Koris Deeprunner and take Deeprunner's Map: four map pieces, each at the end of a run through the Depths from one of the Asura gates. Hand in for {skill:2218}.",
+         "take": [
+          100353
+         ],
+         "done": [
+          100353
+         ]
+        }
+       ]
+      },
+      {
+       "map": 652,
+       "steps": [
+        {
+         "t": "Walk into the {area:625}: the Deldrimor camp is by the way in. Talk to Orozar Highstone and take Attack on Jalis's Camp; ask him when Ural will arrive, then hold the camp against the Stone Summit waves. Hand in for {skill:2217} and {skill:2219}.",
+         "take": [
+          100343
+         ],
+         "done": [
+          100343
+         ]
+        },
+        {
+         "t": "Orozar's next, In the Service of Revenge: a hidden Stone Summit camp in the west of {area:513}, every dwarf in it. Hand in for {skill:2220} and {skill:2223}.",
+         "take": [
+          100374
+         ],
+         "done": [
+          100374
+         ]
+        },
+        {
+         "t": "Talk to High Priest Alkar in the same camp (he also stands in the {area:652}) and take Destructive Research: three Destroyer Cores, dropped by Destroyers anywhere. Hand in for {skill:2221} and {skill:2212}.",
+         "take": [
+          100356
+         ],
+         "done": [
+          100356
+         ]
+        },
+        {
+         "t": "Alkar's next, The Destroyer Challenge: use his concoction on Destroyers. Hand in for {skill:2211}.",
+         "take": [
+          100434
+         ],
+         "done": [
+          100434
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "areas": [
+      625,
+      652
+     ],
+     "from": null,
+     "height": 380,
+     "spots": [
+      {
+       "at": [
+        1346,
+        627
+       ],
+       "name": "Orozar Highstone"
+      },
+      {
+       "at": [
+        1395,
+        666
+       ],
+       "name": "High Priest Alkar"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Ebon Vanguard skills",
+   "blocks": [
+    {
+     "p": "Twelve skills: four from Artificer Mullenix in the {area:642}, eight from the Vanguard in the Charr homelands, where the givers only talk once you have listened to them: Vael in the middle of {area:649}, Captain Langmar by the {area:650} portal, Sergeant Weststar with his troops outside it."
+    },
+    {
+     "route": [
+      {
+       "start": 642,
+       "steps": [
+        {
+         "t": "Talk to Artificer Mullenix and take Charr Invaders and Mano a Norn-o.",
+         "take": [
+          100347,
+          100385
+         ]
+        },
+        {
+         "t": "Charr Invaders: wipe out the Charr expedition in {area:548}, out of the Eye's back door. Hand in for {skill:2422}.",
+         "done": [
+          100347
+         ]
+        },
+        {
+         "t": "Mano a Norn-o: tell Mullenix you're ready and duel Knorr Oaken. Hand in for {skill:2228}.",
+         "done": [
+          100385
+         ]
+        },
+        {
+         "t": "Service: Practice, Dummy: lead the Eye's staff out and smash 20 practice dummies in three minutes. Hand in for {skill:2235}.",
+         "take": [
+          100411
+         ],
+         "done": [
+          100411
+         ]
+        },
+        {
+         "t": "Service: In Defense of the Eye: defend the Eye against the centaurs with the same staff. Hand in for {skill:2420}.",
+         "take": [
+          100410
+         ],
+         "done": [
+          100410
+         ]
+        }
+       ]
+      },
+      {
+       "map": 650,
+       "steps": [
+        {
+         "t": "Walk out into {area:649} and find Vael in the middle of the area: listen to his dialogue. Then re-zone (map back to {area:650} and walk out again): only now does he offer Be Very, Very Quiet....",
+         "take": [
+          100344
+         ]
+        },
+        {
+         "t": "Be Very, Very Quiet...: shadow Torch Harrowkeeper without being seen, eavesdrop, talk to Vael, crash the Charr and Grawl meeting, and bring the intelligence to Captain Langmar, just outside the Longeye's Ledge portal, for {skill:2231}.",
+         "done": [
+          100344
+         ]
+        },
+        {
+         "t": "Re-zone once more, then Langmar offers Plan A: meet Vael at the rendezvous, wait for his diversion, run into the camp and steal the plans, back to Langmar for {skill:2116}.",
+         "take": [
+          100391
+         ],
+         "done": [
+          100391
+         ]
+        },
+        {
+         "t": "Langmar's next, Forbidden Fruit: meet Vael in {area:651} (from {area:648}), follow him to the hierophant's stronghold, three minutes to poison the food and get out, kill Gharaz the Glutton when it goes wrong, report to Vael for {skill:2230}.",
+         "take": [
+          100365
+         ],
+         "done": [
+          100365
+         ]
+        },
+        {
+         "t": "Vael, still in {area:651}, then offers Single Ugly Grawl Seeks Same for Mindless Destruction in Ascalon: wait for his diversion, rush in and kill Vyrrgis the Pestilent. Hand in at Langmar for {skill:2421}.",
+         "take": [
+          100413
+         ],
+         "done": [
+          100413
+         ]
+        },
+        {
+         "t": "Langmar's last, The Smell of Titan in the Morning: flush out and slay the Titan in {area:651}. Hand in for {skill:2233}.",
+         "take": [
+          100445
+         ],
+         "done": [
+          100445
+         ]
+        },
+        {
+         "t": "Before leaving {area:649}: stand by Sergeant Weststar and his troops outside the Longeye's Ledge portal and hear him out. Without this, the corpse in Dalada never speaks."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "areas": [
+      650,
+      649
+     ],
+     "height": 420,
+     "spots": [
+      {
+       "at": [
+        6804,
+        1614
+       ],
+       "name": "Captain Langmar"
+      },
+      {
+       "at": [
+        7048,
+        1790
+       ],
+       "name": "Vael"
+      },
+      {
+       "at": [
+        7193,
+        1767
+       ],
+       "name": "The Charr camp with the plans"
+      }
+     ]
+    },
+    {
+     "route": [
+      {
+       "map": 648,
+       "steps": [
+        {
+         "t": "Walk out into {area:647} to the Corpse of Brave Brent Poltroon and take Falling Out: find out what became of Jenn Valefield, Chance Redding and Sergeant Weststar, which ends at Weststar in {area:651}, for {skill:2234}.",
+         "take": [
+          100359
+         ],
+         "done": [
+          100359
+         ]
+        },
+        {
+         "t": "Weststar, there at the mouth of {area:573}, offers The Hunting of the Charr: into the dungeon after Rake Blazeclaw, then the Enforcer. Hand in at Langmar for {skill:2229}.",
+         "take": [
+          100438
+         ],
+         "done": [
+          100438
+         ]
+        },
+        {
+         "t": "Weststar, back outside {area:648}, offers Forgotten Relics: the captives' cave in {area:647}, the Charr guards, the Flaming Scepter Mages. Hand in for {skill:2232}.",
+         "take": [
+          100366
+         ],
+         "done": [
+          100366
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "areas": [
+      648,
+      647
+     ],
+     "height": 420,
+     "spots": [
+      {
+       "at": [
+        7442,
+        1410
+       ],
+       "name": "Sergeant Weststar"
+      },
+      {
+       "at": [
+        7782,
+        1597
+       ],
+       "name": "The captives' cave"
+      },
+      {
+       "at": [
+        7755,
+        1707
+       ],
+       "name": "Corpse of Brave Brent Poltroon"
+      }
+     ]
+    },
+    {
+     "areas": [
+      648,
+      647,
+      651
+     ],
+     "height": 480,
+     "spots": [
+      {
+       "at": [
+        7424,
+        1903
+       ],
+       "name": "Vael"
+      },
+      {
+       "at": [
+        7384,
+        2224
+       ],
+       "name": "Sergeant Weststar, at Rragar's Menagerie"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Asura skills",
+   "blocks": [
+    {
+     "p": "Twelve skills: one from Blorf in {area:624}, seven from Kerrsh's Ciphers in {area:641}, and the four summons from Polymock, the Asuran board game, run by Hoff in {area:640}."
+    },
+    {
+     "route": [
+      {
+       "start": 624,
+       "steps": [
+        {
+         "t": "Talk to Blorf and take O Brave New World: meet Erff in {area:485}, walk him to two settlement sites, and hold off the Destroyers from his work krewe. Hand in for {skill:2411}.",
+         "take": [
+          100390
+         ],
+         "done": [
+          100390
+         ]
+        }
+       ]
+      },
+      {
+       "map": 641,
+       "steps": [
+        {
+         "t": "Talk to Kerrsh and take The Cipher of Melandru: his Divination points you to the Facet of Creation; kill it for its cipher. Hand in for {skill:2412}.",
+         "take": [
+          100432
+         ],
+         "done": [
+          100432
+         ]
+        },
+        {
+         "t": "The next four Ciphers open at once; take them all: Balthazar (Facet of Destruction), Dwayna (Existence), Grenth (Death), Lyssa (Illusions). The Divination leads to each. Hand in for {skill:2417}, {skill:2414}, {skill:2415} and {skill:2413}.",
+         "take": [
+          100427,
+          100428,
+          100429,
+          100431
+         ],
+         "done": [
+          100427,
+          100428,
+          100429,
+          100431
+         ]
+        },
+        {
+         "t": "The Cipher of Kormir: the Facet of Spirit. Hand in for {skill:2418}.",
+         "take": [
+          100430
+         ],
+         "done": [
+          100430
+         ]
+        },
+        {
+         "t": "The Path to Revelations: all six Facets again, in a crater in eastern {area:553}, out of {area:645}. Hand in for {skill:2416}.",
+         "take": [
+          100444
+         ],
+         "done": [
+          100444
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "areas": [
+      645,
+      553
+     ],
+     "height": 380,
+     "spots": [
+      {
+       "at": [
+        5684,
+        2162
+       ],
+       "name": "The crater of the Facets"
+      }
+     ]
+    },
+    {
+     "route": [
+      {
+       "map": 640,
+       "steps": [
+        {
+         "t": "Talk to Hoff: he hands out three starter Polymock pieces. Register them with Denn beside him before anything else; a registered piece is the character's for good."
+        },
+        {
+         "t": "Four matches to learn the game, each a quest from Hoff and each winning a piece: Yulma here in {area:640}, Plurgg in {area:624}, Blarp in {area:638}, Fonk in {area:644}.",
+         "take": [
+          100399
+         ],
+         "done": [
+          100399,
+          100398,
+          100392,
+          100394
+         ]
+        },
+        {
+         "t": "Then the three that teach, in any order: Grulhammer Silverfist in {area:639} for {skill:2225}, Necromancer Volumandus in {area:641} for {skill:2226}, Dune Teardrinker in {area:648} for {skill:2227}.",
+         "take": [
+          100395,
+          100397,
+          100393
+         ],
+         "done": [
+          100395,
+          100397,
+          100393
+         ]
+        },
+        {
+         "t": "Last, Master Hoff himself, back in {area:640}, for {skill:2224}.",
+         "take": [
+          100396
+         ],
+         "done": [
+          100396
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "areas": [
+      640,
+      569
+     ],
+     "height": 380,
+     "spots": [
+      {
+       "at": [
+        1287,
+        6083
+       ],
+       "name": "Blimm"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

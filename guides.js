@@ -69,9 +69,11 @@ function buildHTML(b) {
 
 /* ---------- a route of numbered steps, and the quests it covers ---------- */
 // each step numbered across the legs, and where every quest is taken and turned in
+// (a guide may have several route blocks, one per tab or part: their legs are one route, the steps numbered through)
 function routeOf(g) {
-  const route = g.sections.flatMap(s => s.blocks).find(x => x.route)?.route;
-  if (!route) return null;
+  const blocks = g.sections.flatMap(s => s.blocks).filter(x => x.route);
+  if (!blocks.length) return null;
+  const route = blocks.flatMap(x => x.route);
   const at = new Map();  // quest -> { take, done } step numbers
   let n = 0;
   for (const leg of route) for (const st of leg.steps) {
@@ -216,7 +218,7 @@ function blockHTML(x, g) {
   if (x.table) return `<div class="gd-table"><table><thead><tr>${x.table.head.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
     <tbody>${x.table.rows.map(r => `<tr>${r.map(c => `<td>${text(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
     ${(x.table.notes || []).length ? `<ul class="gd-notes">${x.table.notes.map(n => `<li>${text(n)}</li>`).join("")}</ul>` : ""}`;
-  if (x.route) return routeHTML(g, routeOf(g).route);
+  if (x.route) { routeOf(g); return routeHTML(g, x.route); }
   if (x.routeTotal) {
     const r = routeOf(g), qs = [...r.at.keys()].filter(n => r.at.get(n).done).map(n => QUESTS[n]).filter(Boolean);
     const sum = k => qs.reduce((s, q) => s + (q[k] || 0), 0).toLocaleString("en");
@@ -238,17 +240,24 @@ function statsOf(g) {
 }
 
 const slug = t => t.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+// (tabs: true, in the list's entry: the titled sections as tabs, one shown at a time, the one the address names
+// (guides?<id>&tab=<slug>) or the first; the untitled intro stays above them)
+const tabOf = g => { const titled = g.sections.filter(s => s.title), want = args().get("tab"); return titled.find(s => slug(s.title) === want) || titled[0]; };
 function guidePageHTML(g) {
-  const titled = g.sections.filter(s => s.title);
+  const titled = g.sections.filter(s => s.title), tab = g.tabs ? tabOf(g) : null;
+  // (a section; with tabs, a titled one is a panel, shown when it's the tab picked, and its title is the tab's)
+  const section = s => `<section${s.title ? ` id="gd-${slug(s.title)}"` : ""}${s.flow ? ` class="flow"` : ""}${g.tabs && s.title ? ` data-tab-panel="${slug(s.title)}"${s === tab ? "" : " hidden"}` : ""}>
+      ${s.title && !g.tabs ? `<h2>${esc(s.title)}</h2>` : ""}${secStatsHTML(s)}${s.blocks.map(x => blockHTML(x, g)).join("")}</section>`;
   return `<p class="back"><a href="?">← All guides</a></p>
     <div class="sp-head" style="--pc:var(--accent)">
       <div class="sp-title"><h2>${esc(g.name)}</h2><div class="sp-sub">${[g.mission && LINK.mission(g.mission), g.source && `By ${esc(g.source.author)}`, g.sub && esc(g.sub)].filter(Boolean).join(" · ")}</div></div>
       <div class="lstats">${statsOf(g).map(([k, v]) => `<span class="lstat"><small>${esc(k)}</small><b>${esc(v)}</b></span>`).join("")}</div>
     </div>
-    <nav class="gd-toc">${titled.map(s => `<a href="#" data-to="gd-${slug(s.title)}">${esc(s.title)}</a>`).join("")}</nav>
-    <article class="gd">${g.sections.map(s => `<section${s.title ? ` id="gd-${slug(s.title)}"` : ""}${s.flow ? ` class="flow"` : ""}>
-      ${s.title ? `<h2>${esc(s.title)}</h2>` : ""}${secStatsHTML(s)}${s.blocks.map(x => blockHTML(x, g)).join("")}</section>`).join("")}
-    </article>
+    ${g.tabs ? `<article class="gd">${g.sections.filter(s => !s.title).map(section).join("")}</article>
+      <div class="gd-tabs ch-tabs" role="tablist">${titled.map(s => `<button type="button" role="tab" data-tab="${slug(s.title)}" aria-selected="${s === tab}">${esc(s.title)}</button>`).join("")}</div>
+      <article class="gd">${titled.map(section).join("")}</article>`
+      : `<nav class="gd-toc">${titled.map(s => `<a href="#" data-to="gd-${slug(s.title)}">${esc(s.title)}</a>`).join("")}</nav>
+    <article class="gd">${g.sections.map(section).join("")}</article>`}
     ${g.source && g.source.more !== false ? `<p class="gd-src">${g.source.full ? "Also on" : "See the full guide and more at"} <a href="${esc(g.source.href)}" target="_blank" rel="noopener">the Guild Wars Wiki</a> (<a href="${esc(g.source.archive)}" target="_blank" rel="noopener">archived copy</a>).</p>` : ""}`;
 }
 
@@ -361,9 +370,10 @@ document.addEventListener("change", e => {
   try { localStorage.setItem(STORE(id), JSON.stringify([...done])); } catch {}
   stepsCount();
 });
+// (each route block counts its own steps: a tabbed guide has one per tab)
 const stepsCount = () => {
   const n = document.querySelectorAll(".gd-route [data-step]:checked").length;
-  for (const c of document.querySelectorAll("[data-steps-count]")) c.textContent = `${n} of ${c.dataset.all} steps ticked`;
+  for (const c of document.querySelectorAll("[data-steps-count]")) c.textContent = `${c.closest(".gd-route").querySelectorAll("[data-step]:checked").length} of ${c.dataset.all} steps ticked`;
   for (const b of document.querySelectorAll("[data-steps-clear]")) b.hidden = !n;
 };
 // every step unticked, after asking
@@ -389,6 +399,14 @@ document.addEventListener("click", e => {
   if (to) {
     e.preventDefault();
     $(to.dataset.to)?.scrollIntoView({ behavior: "smooth" });
+  }
+  // a guide's tab: shown in place, the address keeping it (a reload or a shared link opens the same one)
+  const tab = e.target.closest(".gd-tabs [data-tab]");
+  if (tab) {
+    for (const b of document.querySelectorAll(".gd-tabs [data-tab]")) b.setAttribute("aria-selected", b === tab);
+    for (const p of document.querySelectorAll("[data-tab-panel]")) p.hidden = p.dataset.tabPanel !== tab.dataset.tab;
+    const q = args(); q.set("tab", tab.dataset.tab);
+    history.replaceState(null, "", `?${String(q).replace(/=(?=&|$)/g, "")}`);
   }
 });
 // a new guide starts at the top; a reload keeps the browser's scroll position

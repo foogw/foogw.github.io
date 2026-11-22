@@ -1394,6 +1394,9 @@ tr[data-id] .u-move { margin-right: 14px; }  /* (a character row: the arrows, th
 .ch-stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 10px 0 0; }
 @media (max-width: 1250px) { .ch-stats { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); } }
 .ch-stats + .t-panel { margin-top: 16px; }
+/* a guide's sections as tabs (its list entry says tabs: true), styled as a character's */
+.gd-tabs { margin: 14px 0 0; }
+.gd-tabs button { font-size: 16px; padding: 8px 16px; }
 /* the character's tabs, under its card */
 .ch-tabs { display: flex; gap: 4px; margin: 18px 0 12px; border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
 .ch-tabs button { flex: none; white-space: nowrap; padding: 8px 14px; font: inherit; font-size: 14px; font-weight: 600; color: var(--muted); background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; }

@@ -18,6 +18,14 @@ const GW_GUIDES = {
       "tags": ["Vanquish", "Hard mode", "Route", "Party of 8"]
     },
     {
+      "id": "eotnskills",
+      "group": "quests",
+      "name": "Eye of the North Skills",
+      "tabs": true,
+      "summary": "All 50 Eye of the North PvE skills and the side quests that teach them, by people: Norn, Deldrimor, Ebon Vanguard and Asura, each with its giver, place and the order of its chain.",
+      "tags": ["Skills", "Eye of the North", "Quests"]
+    },
+    {
       "id": "pre",
       "group": "quests",
       "name": "Pre-Searing Quests",
