@@ -43,11 +43,11 @@ const storyKey = l => {
   return [(camps.indexOf(campaignOf(l)) + 1 || 99), regionIdx(l.region), l.order ?? 999];
 };
 const COLS = [
+  ["vq", "Vanquished", null, l => (l.foes ? vanqTick(l.id, vanqSet.has(l.id)) : "")],
   ["name", "Name", l => fold(l.name), (l, ts) => `<a href="${HREF.area(l.id)}">${highlight(l.name, ts)}</a>`],
   ["type", "Type", l => TYPE_LABEL[l.type] || "", l => `<span class="dim">${esc(TYPE_LABEL[l.type] || "")}</span>`],
   ["region", "Region", null, l => `${esc(regionOf(l)?.name || "")}${campaignOf(l) != null && campaignOf(l) !== state.camp ? ` <span class="dim">· ${campaignName(campaignOf(l))}</span>` : ""}`],
   ["party", "Party", l => partyOf(l) ?? Infinity, l => partyOf(l) ?? ""],
-  ["vq", "Vanquished", null, l => (l.foes ? vanqTick(l.id, vanqSet.has(l.id)) : "")],
 ];
 const NUM = new Set(["party"]);
 // a mission area's party is its outpost's (the game gives the area none: you arrive as a party)
@@ -67,7 +67,7 @@ function renderIndex(ts) {
   if (state.desc) rows.reverse();
   // the Vanquished column's title: Check all and Uncheck all, for the areas shown
   els.index.innerHTML = !rows.length ? "" : `<table class="dgtable loctable"><thead><tr>${COLS.map(([k, label]) => k === "vq"
-    ? `<th class="c-vq bulk" tabindex="0" title="For the character picked on My Characters">${label}${bulkMenu("#index tbody")}</th>`
+    ? `<th class="c-vq bulk" tabindex="0" title="Vanquished, for the character picked on My Characters">${label}${bulkMenu("#index tbody")}</th>`
     : `<th class="c-${k}${NUM.has(k) ? " num" : ""}"><button type="button" data-sort="${k}" class="${k === (state.sort || "region") ? `sorted${state.desc ? " desc" : ""}` : ""}">${label}</button></th>`).join("")}</tr></thead>
     <tbody>${rows.map(l => `<tr class="${areaGroup(l)}">${COLS.map(([k, , , cell]) => `<td class="c-${k}${NUM.has(k) ? " num" : ""}">${cell(l, ts)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
 }

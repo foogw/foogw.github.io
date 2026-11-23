@@ -86,6 +86,7 @@ const SORTS = {
 function rowHTML(s, f) {
   const desc = f.text.length ? highlight(s.concise.replace(/<\/?gray>/g, ""), f.text) : richText(s.concise);
   return `<a class="row${s.elite ? " elite" : ""}" href="${HREF.skill(s.id)}" style="--pc:${profVar(s.profession)}">
+    <div class="col-tick">${isCapturable(s) ? eliteTick(s.id, f.got.has(s.id)) : ""}</div>
     <div class="name" title="${esc(s.name)}">${skillIcon(s.id)}<span class="nm">${highlight(s.name, f.name)}</span>${s.pvp_only ? '<span class="tag">PvP</span>' : ""}${s.touch ? '<span class="tag">Touch</span>' : ""}</div>
     <div class="prof col-prof">${s.profession ? PROFS[s.profession] : "Common"}</div>
     <div class="cell dim col-attr">${esc(attrName(s))}</div>
@@ -95,7 +96,6 @@ function rowHTML(s, f) {
     <div class="num col-rech">${s.recharge || '<span class="dim" title="No recharge">–</span>'}</div>
     <div class="dim col-camp">${CAMP_SHORT[s.campaign]}</div>
     <div class="desc">${desc}</div>
-    <div class="col-tick">${isCapturable(s) ? eliteTick(s.id, f.got.has(s.id)) : ""}</div>
   </a>`;
 }
 

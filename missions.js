@@ -77,6 +77,7 @@ function eliteChips(m, f) {
 function rowHTML(m, f) {
   const r = regionId(m);
   return `<div class="row mrow" data-id="${m.id}" style="--pc:var(${CAMP_COLOR[camp(m)]});--rt:${regionTint(r)}">
+    <div class="col-tick">${tracked(m) ? doneTicks("missions", m.id, f.prog[m.id] || 0) : ""}</div>
     <div class="num dim">${m.label ?? ""}</div>
     <div class="name"><a class="mname" href="${HREF.mission(m.id)}">${highlight(m.name, f.name)}</a>${heroTag(m)}</div>
     <div class="dim">${m.kind === "pvp" ? "PvP" : CAMP_SHORT[camp(m)]}</div>
@@ -84,7 +85,6 @@ function rowHTML(m, f) {
     <div class="cell dim col-type">${m.kind === "story" ? "" : KINDS[m.kind]}</div>
     <div class="num col-party">${party(m) || ""}</div>
     <div class="echips">${eliteChips(m, f)}</div>
-    <div class="col-tick">${tracked(m) ? doneTicks("missions", m.id, f.prog[m.id] || 0) : ""}</div>
   </div>`;
 }
 function update() {

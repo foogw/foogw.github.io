@@ -214,8 +214,8 @@ function blockHTML(x, g) {
   // (legend: true: the areas in their order, each in its own colour on the map and in a list under it; no outpost
   // markers, the spots only for the way; the map the content's full width, wide: 2.2 to 1. pass: areas only walked
   // through, gray; an area the picked character has vanquished, gray too, said so in the list, with its tick there;
-  // with no progress kept, or none readable, every area in its colour and no ticks)
-  if (x.areas && x.legend) { const pass = new Set(x.pass || []), kept = !User.broken() && User.stored() != null;
+  // with progress that can't be read, every area in its colour and no ticks)
+  if (x.areas && x.legend) { const pass = new Set(x.pass || []), kept = !User.broken();
     const vq = id => kept && User.vanquished(id), gray = id => pass.has(id) || vq(id);
     const tints = Object.fromEntries(x.areas.map((id, i) => [id, gray(id) ? GRAY : LEGEND[i % LEGEND.length]]));
     return `<div class="gd-map gd-keyed" data-keyed="${esc(JSON.stringify({ areas: x.areas, pass: [...pass] }))}"${x.spots ? ` data-way="${esc(JSON.stringify({ ids: x.areas, spots: x.spots.map(p => p.at), from: x.from }))}"` : ""}>${mapHTML(x.areas,
@@ -319,13 +319,13 @@ const secStatsHTML = s => { const x = s.blocks.find(b => b.rows && b.total); if 
   const stat = (k, v, t = "") => `<span class="lstat"${t ? ` title="${esc(t)}"` : ""}><small>${k}</small><b>${v}</b></span>`;
   return `<div class="lstats gd-secstats">${stat("Areas", x.rows.filter(r => !r.walk).length)}${stat("Foes", num(x.total.foes), "The wiki's average kills in normal mode, added up")}${x.total.time ? stat("Time", esc(x.total.time), "About 4.5 foes a minute, walking included; a strong team with consumables manages about 7") : ""}</div>`; };
 // a keyed map's rows (a caravan): one table under the map, the areas in walking order, each with its colour, the step's
-// note, the area's party size, the wiki's foes and the time, timed or estimated; an area only walked through says "walk"; the
+// note, the area's party size, the wiki's foes and the time; the vanquish tick first; an area only walked through says "walk"; the
 // picked character's vanquishes gray with their tick; the total last
 const caravanTable = (x, tints, kept, vq) => { const notes = x.notes || [];
   const row = (r, i) => { const v = vq(r.area), walk = r.walk;
-    return `<tr data-area="${r.area}"${walk ? " data-walk" : ""}${walk || v ? ' class="gray"' : ""}><td class="n">${i + 1}</td><td class="a"><i style="background:${tints[r.area]}"></i>${LINK.area(r.area)}<small>${v && !walk ? "vanquished" : ""}</small></td><td class="note">${text(r.note || "")}</td>${walk ? `<td colspan="3" class="walk">walk</td>` : `<td class="num">${r.party}</td><td class="num">${num(r.foes)}</td><td class="num">${esc(r.time || "")}</td>`}<td class="tick">${kept && !walk && AREAS[r.area]?.foes ? vanqTick(r.area, v) : ""}</td></tr>`; };
-  return `<div class="gd-table gd-caravan"><table><thead><tr><th></th><th>Area</th><th></th><th>Party</th><th>Foes</th><th>Time</th><th></th></tr></thead><tbody>${x.rows.map(row).join("")}</tbody>
-    ${x.total ? `<tfoot><tr><td></td><td colspan="2">All</td><td></td><td class="num">${num(x.total.foes)}</td><td class="num">${esc(x.total.time || "")}</td><td></td></tr></tfoot>` : ""}</table>${notes.length ? `<p class="gd-notes dim">${notes.map(text).join(" ")}</p>` : ""}</div>`; };
+    return `<tr data-area="${r.area}"${walk ? " data-walk" : ""}${walk || v ? ' class="gray"' : ""}><td class="tick">${kept && !walk && AREAS[r.area]?.foes ? vanqTick(r.area, v) : ""}</td><td class="n">${i + 1}</td><td class="a"><i style="background:${tints[r.area]}"></i>${LINK.area(r.area)}<small>${v && !walk ? "vanquished" : ""}</small></td><td class="note">${text(r.note || "")}</td>${walk ? `<td colspan="3" class="walk">walk</td>` : `<td class="num">${r.party}</td><td class="num">${num(r.foes)}</td><td class="num">${esc(r.time || "")}</td>`}</tr>`; };
+  return `<div class="gd-table gd-caravan"><table><thead><tr><th></th><th></th><th>Area</th><th></th><th>Party</th><th>Foes</th><th>Time</th></tr></thead><tbody>${x.rows.map(row).join("")}</tbody>
+    ${x.total ? `<tfoot><tr><td></td><td></td><td colspan="2">All</td><td></td><td class="num">${num(x.total.foes)}</td><td class="num">${esc(x.total.time || "")}</td></tr></tfoot>` : ""}</table>${notes.length ? `<p class="gd-notes dim">${notes.map(text).join(" ")}</p>` : ""}</div>`; };
 // a keyed map's colours, one per area in its order (none the ways' cyan)
 const GRAY = "#8a8f98";
 const LEGEND = ["#ffd166", "#ef476f", "#06d6a0", "#f78c6b", "#c77dff", "#8ac926", "#ff9f1c", "#e0aaff", "#f9c74f", "#43aa8b", "#f94144", "#90be6d", "#f3722c", "#b5e48c"];
@@ -425,7 +425,7 @@ onRoute(() => render().then(() => window.scrollTo(0, 0)));
 // a tick, or another tab's change: the keyed maps' colours and their rows follow, in place (the ticks themselves are
 // common.js's; the maps and ways stay as drawn)
 function refreshKeyed() {
-  const kept = !User.broken() && User.stored() != null;
+  const kept = !User.broken();
   for (const box of document.querySelectorAll(".gd-keyed[data-keyed]")) {
     const { areas, pass } = JSON.parse(box.dataset.keyed), gray = id => pass.includes(id) || (kept && User.vanquished(id));
     const tints = Object.fromEntries(areas.map((id, i) => [id, gray(id) ? GRAY : LEGEND[i % LEGEND.length]]));
