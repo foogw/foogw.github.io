@@ -12,15 +12,15 @@ const regionId = m => (outpost(m) || area(m))?.region;
 const REGION_IDS = [...new Set(ALL.filter(m => m.kind !== "pvp").sort((a, b) => (a.order ?? 999) - (b.order ?? 999)).map(regionId))];
 const regionTint = r => (r != null ? REGION_TINT[REGION_IDS.indexOf(r) % REGION_TINT.length] : "transparent");
 const camp = m => missionCampaign(m) ?? 0;
-// the elites to capture in a mission: [boss, skill]
-const elites = m => (m.bosses || []).map(b => CREATURES[b.creature]).filter(Boolean).flatMap(c => (c.elites || []).filter(e => SKILLS[e]?.elite).map(e => [c, SKILLS[e]]));
+// the elites to capture in a mission: [boss, skill] (the version of the boss played there: eliteAt, common.js)
+const elites = m => (m.bosses || []).filter(b => CREATURES[b.creature]).flatMap(b => eliteAt(b.creature, m.id).filter(e => SKILLS[e]?.elite).map(e => [CREATURES[b.creature], SKILLS[e]]));
 // the missions done in normal and hard mode are kept (User): not PvP ones, nor the competitive ones
 const tracked = hasModes;
 const crName = x => CREATURES[x.creature]?.name || "";
 
 for (const m of ALL) {
   m._name = fold(`${m.name} ${aliasText("areas", m.id)} ${aliasText("areas", m.outpost)}`);
-  m._who = fold([...(m.bosses || []).map(b => `${crName(b)} ${(CREATURES[b.creature]?.elites || []).map(e => SKILLS[e]?.name).join(" ")}`),
+  m._who = fold([...(m.bosses || []).map(b => `${crName(b)} ${eliteAt(b.creature, m.id).map(e => SKILLS[e]?.name).join(" ")}`),
     ...(m.foes || []).map(f => `${crName(f)} ${CREATURES[f.creature]?.group || ""}`), ...(m.allies || []).map(crName)].join(" | "));
 }
 

@@ -104,7 +104,7 @@ const GW_CAPTURES = {
     "806": [{"boss": 100301, "area": 202, "from": 234, "kind": "walk", "ranges": 1.1}],
     "808": [{"boss": 100033, "area": 377, "from": 378, "kind": "walk", "ranges": 4.6}],
     "809": [{"boss": 100396, "area": 128, "from": 130, "kind": "walk", "ranges": 2.0}],
-    "812": [{"boss": 100293, "area": 233, "from": 226, "kind": "walk", "ranges": 12.0, "places": 2}, {"boss": 101336, "area": 261, "kind": "mission", "ranges": 5.4}],
+    "812": [{"boss": 101336, "area": 261, "kind": "mission", "ranges": 5.4}, {"boss": 100293, "area": 270, "kind": "mission"}],
     "813": [{"boss": 100118, "area": 513, "from": 643, "kind": "walk", "ranges": 9.7}],
     "817": [{"boss": 100204, "area": 199, "from": 224, "kind": "walk", "ranges": 2.8}],
     "819": [{"boss": 100013, "area": 244, "from": 218, "kind": "walk", "ranges": 5.7}, {"boss": 100565, "area": 262, "kind": "mission", "ranges": 5.0}],

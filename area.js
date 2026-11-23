@@ -87,7 +87,9 @@ VIEWS.area = (() => {
     const bossIds = [...new Set([...(l.bosses || []), ...Object.keys(SPOTS).filter(id => hereSpots(id).length).map(Number)])].filter(id => CREATURES[id])
       .sort((a, b) => cmpStr(CREATURES[a].name, CREATURES[b].name));
     const bossRows = bossIds.map(id => { const c = CREATURES[id], ss = hereSpots(id), vs = [...new Set(ss.map(s => s[3]).filter(Boolean))];
-      const els = (c.elites || []).filter(e => SKILLS[e]).map(e => `<a href="${HREF.skill(e)}" title="${esc(SKILLS[e].name)}">${skillIcon(e, "sk-ic sm")}</a>`).join("");
+      // (the version of the boss here: eliteAt, common.js; a version with no elite says so)
+      const els = eliteAt(id, l.id).filter(e => SKILLS[e]).map(e => `<a href="${HREF.skill(e)}" title="${esc(SKILLS[e].name)}">${skillIcon(e, "sk-ic sm")}</a>`).join("")
+        || (c.elites?.length ? '<span title="This version of the boss has no elite skill">no elite here</span>' : "");
       const when = vs.length ? `<span class="tag" title="Only in the version of the area the quest makes">${esc(vs.join(", "))}</span>` : ONLY[id]?.length ? `<span class="tag" title="Only during a quest">Quest</span>` : "";
       return `<li><span>${LINK.boss(id)}${when}</span><span class="dim">${els}${ss.length > 1 ? ` <span title="Places it may be at, one at a time">×${ss.length}</span>` : ""}${!ss.length ? ' <span title="No place on the map yet">no spot</span>' : ""}</span></li>`; }).join("");
     const bossSpots = bossIds.flatMap(id => hereSpots(id).map(s => ({ x: s[1], y: s[2], name: CREATURES[id].name })));

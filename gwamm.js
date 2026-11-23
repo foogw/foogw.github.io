@@ -73,7 +73,8 @@
   /* ---------- what's there: elites, heroes and ground ---------- */
   // the elites to capture in an area (a mission's too), from where the bosses stand (data/bosses.js), the quest-only spots left out
   const AREA_ELITES = new Map();
-  for (const [cid, spots] of Object.entries(GW_BOSS_SPOTS.spots)) for (const s of spots) if (!s[3]) for (const e of CREATURES[cid]?.elites || []) if (isCapturable(SKILLS[e])) (AREA_ELITES.get(s[0]) || AREA_ELITES.set(s[0], new Set()).get(s[0])).add(e);
+  // (the version of the boss standing there: eliteAt, common.js)
+  for (const [cid, spots] of Object.entries(GW_BOSS_SPOTS.spots)) for (const s of spots) if (!s[3]) for (const e of eliteAt(cid, s[0])) if (isCapturable(SKILLS[e])) (AREA_ELITES.get(s[0]) || AREA_ELITES.set(s[0], new Set()).get(s[0])).add(e);
   // the explorables next to an outpost
   // (a Prophecies mission's outpost touches only its town: then the explorables next to that town)
   const nextTo = id => [...new Set((AREAS[id]?.exits || []).map(x => x.to))].filter(a => AREAS[a]);

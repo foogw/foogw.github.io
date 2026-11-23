@@ -23,7 +23,8 @@ VIEWS.mission = (() => {
       Object.entries(r[k]).map(([t, [xp, gold, sp, ...extra]]) => `<tr><td>${esc(t[0].toUpperCase() + t.slice(1))}</td>${r.by ? `<td>${esc(r.tiers?.[t] || "")}</td>` : ""}<td class="num">${num(xp)}</td><td class="num">${num(gold)}</td><td class="num">${sp}</td>${extra.map(v => `<td class="num">${v}</td>`).join("")}</tr>`).join("")}</table>`).join("");
   }
   // foes and allies, by group: [profession, level, name]
-  function creaturesHTML(list, boss = false) {
+  // (bosses: the elites of the version played in this mission, eliteAt in common.js; a version with no elite says so)
+  function creaturesHTML(list, boss = false, missionId) {
     if (!list?.length) return '<p class="dim">—</p>';
     let html = "", group;
     for (const x of list) {
@@ -31,7 +32,8 @@ VIEWS.mission = (() => {
       if (!boss && c.group !== group) { group = c.group; if (group) html += `<tr><td colspan="3" class="grp">${esc(group)}</td></tr>`; }
       const level = x.level ? `${x.level[0]}${x.level[1] ? ` (${x.level[1]})` : ""}` : "";
       html += `<tr style="--pc:${profVar(c.profession)}"><td class="pdot" title="${PROFS[c.profession] || ""}">${c.profession ? PROF_ABBR[c.profession] : ""}</td><td class="num dim">${level}</td>
-        <td>${boss ? LINK.boss(x.creature) : esc(c.name)}</td>${boss ? `<td>${(c.elites || []).filter(e => SKILLS[e]).map(e => (SKILLS[e].elite ? eliteTick(e) : "") + LINK.skill(e)).join(" ")}</td>` : ""}</tr>`;
+        <td>${boss ? LINK.boss(x.creature) : esc(c.name)}</td>${boss ? `<td>${eliteAt(x.creature, missionId).filter(e => SKILLS[e]).map(e => (SKILLS[e].elite ? eliteTick(e) : "") + LINK.skill(e)).join(" ")
+          || (c.elites?.length ? '<span class="dim" title="This version of the boss has no elite skill">no elite here</span>' : "")}</td>` : ""}</tr>`;
     }
     return `<table class="npcs">${html}</table>`;
   }
@@ -76,7 +78,7 @@ VIEWS.mission = (() => {
           ${m.objectives?.length ? `<section class="lbox"><h4>Objectives</h4><ul class="qp-obj">${m.objectives.map(([d, o, b]) =>
             `<li style="--d:${d}"${b ? ' class="bonus"' : ""}>${b ? "<b>Bonus:</b> " : ""}${esc(o)}</li>`).join("")}</ul></section>` : ""}
           <section class="lbox"><h4>Rewards</h4>${bonus ? `<p class="rgoal"><b>Bonus:</b> ${esc(bonus[1])}</p>` : ""}${rewardsHTML(m.rewards)}</section>
-          <section class="lbox"><h4>Bosses</h4>${creaturesHTML(m.bosses, true)}</section>
+          <section class="lbox"><h4>Bosses</h4>${creaturesHTML(m.bosses, true, m.id)}</section>
           <section class="lbox"><h4>Foes</h4>${creaturesHTML(m.foes)}</section>
         </div>
         <div class="lside">

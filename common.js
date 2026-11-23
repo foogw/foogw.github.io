@@ -237,6 +237,12 @@ document.addEventListener("click", e => {
   });
 });
 
+// the elites a boss carries at a place: a boss with several versions (creatures.js bars: {level, elites, areas}) has
+// the elites of the version in that area; else (one version, or the area not in any bar) all its elites. A mission
+// is asked by the map id it is played on (missions.js keys), as its bars list it
+const barAt = (c, areaId) => (areaId == null ? undefined : (c?.bars || []).find(b => b.areas?.includes(+areaId)));
+const eliteAt = (creatureId, areaId) => { const c = CREATURES[creatureId]; return c ? (barAt(c, areaId)?.elites ?? c.elites ?? []) : []; };
+
 /* Every boss: a creature a mission or an area names as a boss, one an elite is captured from, or one whose spots we
    know (data/bosses.js), with where it is;
    made the first time it's asked for */

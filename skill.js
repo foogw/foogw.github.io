@@ -24,6 +24,8 @@ VIEWS.skill = (() => {
     }
   }
 
+  // the easiest captures we picked (data/captures.js), the boss's version there carrying the elite (eliteAt, common.js)
+  const picksOf = s => (CAPTURES[s.id] || []).filter(c => eliteAt(c.boss, c.area).includes(s.id));
   // how to get it: grouped by way, then by campaign
   function acquisitionHTML(s) {
     // (a PvP version: unlocked on the account as its PvE skill is, or bought with Balthazar faction)
@@ -31,6 +33,8 @@ VIEWS.skill = (() => {
     if (!s.acquisition?.length) return '<p class="dim">No acquisition data.</p>';
     const groups = new Map();
     for (const a of s.acquisition) {
+      // (a boss with several versions: only the places whose version carries this elite, eliteAt in common.js)
+      if (s.elite && a.capture && a.area != null && CREATURES[a.capture]?.bars && !eliteAt(a.capture, a.area).includes(s.id)) continue;
       const n = NPCS[a.npc], q = QUESTS[a.quest], where = a.area ?? n?.area ?? questAreas(q || {})[0]?.id;
       const line = (a.capture ? LINK.boss(a.capture) : q ? LINK.quest(q.id) : esc(n?.name || a.quest_name || ""))
         + (where ? ` <span class="m">— ${whereLink(where)}</span>` : "");
@@ -60,7 +64,7 @@ VIEWS.skill = (() => {
     const title = s.title && titleOf(s);
     const used = USED_IN.get(s.id) || [];
     // the easiest capture(s) we picked (data/captures.js), each with its map and way
-    const captures = isCapturable(s) ? CAPTURES[s.id] || [] : [];
+    const captures = isCapturable(s) ? picksOf(s) : [];
     return `<p class="back"><a href="skills">← All skills</a></p>
       <div class="sp-head${s.elite ? " elite" : ""}" style="--pc:${profVar(s.profession)}">
         <img class="sp-icon" src="img/skills/${s.id}.jpg" alt="" onerror="this.remove()">
@@ -85,7 +89,7 @@ VIEWS.skill = (() => {
   // the capture maps, once on the page
   // the maps: the first pick's at once, the folded ones when opened (a hidden map has no size to draw to)
   function after(el, s) { const live = () => el.dataset.at === `skill=${s.id}`;
-    const draw = root => root.querySelectorAll(".bmap:not([data-drawn])").forEach(m => { if (m.closest("details:not([open])")) return; m.dataset.drawn = "1"; captureMap(m, (CAPTURES[s.id] || [])[+m.dataset.k], live); });
+    const draw = root => root.querySelectorAll(".bmap:not([data-drawn])").forEach(m => { if (m.closest("details:not([open])")) return; m.dataset.drawn = "1"; captureMap(m, picksOf(s)[+m.dataset.k], live); });
     draw(el); el.querySelector(".bmore")?.addEventListener("toggle", e => draw(e.target)); }
   return { find: id => SKILLS[id], title: s => s.name, html, after };
 })();

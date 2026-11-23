@@ -227,6 +227,9 @@ VIEWS.boss = (() => {
   // dungeon's whole area
   const bossMaps = b => b._where.flatMap(id => { const d = VIEWS.dungeon?.find(id);
     return (d?.levels || []).map((v, i) => v.marks.some(m => m[0] === "boss" && m[3] === b.name) ? VIEWS.dungeon.levelMap(d, i) : "").filter(Boolean); }).join("");
+  // a boss with several versions (creatures.js bars): where the version carrying this elite is, by level
+  const carriedAt = (b, sid) => { const bars = (b.bars || []).filter(x => x.elites.includes(sid)); if (!b.bars) return "";
+    return `<p class="dim bp-where">${bars.length ? `Carried by its level ${listText(bars.map(x => String(x.level)))} version${bars.length > 1 ? "s" : ""}: ${listText(bars.flatMap(x => x.areas).filter(i => AREAS[i] || MISSIONS[i]).map(whereLink))}` : "Not on any version we know."}</p>`; };
   function html(b) {
     const sub = [b.prof && PROFS[b.prof], [...b.camps].sort().map(c => CAMPAIGNS[c]).join(", ")].filter(Boolean).map(esc).join(" · ");
     return `<p class="back"><a href="bosses">← All bosses</a></p>
@@ -238,13 +241,15 @@ VIEWS.boss = (() => {
       <div class="lgrid${b._elites.length ? "" : " solo"}">
         ${b._elites.length ? `<section class="lbox"><h4>Elite to capture</h4>${b._elites.map(s => `<div class="bp-skill">
           ${LINK.skill(s.id).replace("sk-ic sm", "sk-ic")}${eliteTick(s.id, undefined, "Captured")}<span class="dim">${PROFS[s.profession]} · ${esc(ATTRIBUTES[s.attribute] || "")}</span>
-          <p class="bp-desc">${richText(s.concise || s.description)}</p></div>`).join("")}</section>` : ""}
+          <p class="bp-desc">${richText(s.concise || s.description)}</p>${carriedAt(b, s.id)}</div>`).join("")}</section>` : ""}
         <section class="lbox"><h4>Where</h4><ul class="lrows">${b._where.map(i => { const n = (BOSS_SPOTS[b.id] || []).filter(s => s[0] === i).length;
           // (the version of the area a quest makes, "War in Kryta": named here too, as on its map)
           const vs = [...new Set((BOSS_SPOTS[b.id] || []).filter(s => s[0] === i && s[3]).map(s => s[3]))];
           const only = vs.length && (BOSS_SPOTS[b.id] || []).every(s => s[0] !== i || s[3]);
           const when = (only ? [] : onlyDuring(b, i)).length ? ` · only during ${listText(onlyDuring(b, i))}` : whenText(b.id, i) ? ` · ${whenText(b.id, i)}` : "";
-          return `<li>${whereLink(i)}<span class="dim">${vs.length ? `${esc(listText(vs))}${only ? " only" : ""} · ` : ""}${MISSIONS[i] ? "Mission" : isDungeon(AREAS[i]) ? dungeonWhere(b, i) : esc(TYPE_LABEL[AREAS[i]?.type] || "")}${n > 1 ? ` · ${n} spots` : ""}${when}</span></li>`; }).join("")}</ul></section>
+          // (a boss with several versions, creatures.js bars: the version here, its level and whether it carries an elite)
+          const bar = barAt(b, i), ver = !bar ? "" : ` · level ${bar.level}${bar.elites.length ? (b._elites.length > 1 ? `, ${esc(listText(bar.elites.map(e => SKILLS[e]?.name).filter(Boolean)))}` : "") : ", no elite here"}`;
+          return `<li>${whereLink(i)}<span class="dim">${vs.length ? `${esc(listText(vs))}${only ? " only" : ""} · ` : ""}${MISSIONS[i] ? "Mission" : isDungeon(AREAS[i]) ? dungeonWhere(b, i) : esc(TYPE_LABEL[AREAS[i]?.type] || "")}${n > 1 ? ` · ${n} spots` : ""}${ver}${when}</span></li>`; }).join("")}</ul></section>
       </div>
       <div class="bmaps">${BOSS_SPOTS[b.id] ? spotSets(b).map((ss, k) => `<section class="lbox bmap" data-k="${k}"><h4>${esc(spotTitle(ss))}${spotWhen(b, ss)}</h4><div class="nmap"></div><div class="nways"></div></section>`).join("")
         : bossMaps(b) || mapHTML(b._where.filter(i => AREAS[i]))}</div>
