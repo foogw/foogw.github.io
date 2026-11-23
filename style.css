@@ -1383,6 +1383,8 @@ tr[data-id] .u-move { margin-right: 14px; }  /* (a character row: the arrows, th
 .ch-item { all: unset; box-sizing: border-box; display: flex; align-items: center; gap: 7px; width: 100%; padding: 4px 6px; border-radius: 6px; cursor: pointer; font-size: 14px; }
 .ch-item:hover, .ch-item:focus-visible { background: var(--panel-2); }
 .ch-item.cur { background: color-mix(in srgb, var(--accent) 18%, transparent); font-weight: 600; }
+.ch-item.hid { opacity: .55; } .ch-item.hid.cur { opacity: .8; }
+#ch-show-all button { font-size: 12px; }
 .ch-item > img { width: 20px; height: 20px; flex: none; }
 .ch-iname { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ch-mode { width: 16px; height: 16px; vertical-align: -3px; }

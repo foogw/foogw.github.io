@@ -17,7 +17,8 @@ const foldAccount = id => {
   const fs = acctFolds(), next = fs.includes(id) ? fs.filter(x => x !== id) : [...fs, id];
   try { localStorage.setItem(ACCT_FOLDS, JSON.stringify(next)); } catch { /* storage blocked */ }
 };
-// the characters hidden from the view (Edit still lists them, to show them again): "hidden" in the progress
+// the characters hidden from the view: "hidden" in the progress; the list's Show all brings them in, dimmed, till Hide
+// hidden (on this visit), to pick one and show or delete it on its Edit tab
 const hiddenIds = (o = User.data()) => o.chars.filter(c => c.hidden).map(c => c.id);
 const hideChar = id => {
   const o = User.data(), c = o.chars.find(x => x.id === id);
@@ -34,8 +35,9 @@ try {
   }
   localStorage.removeItem("chars.hidden");
 } catch { /* storage blocked */ }
-// the characters the view lists: all but the hidden ones (the one picked stays)
-const shownChars = (o, cur) => { const hs = new Set(hiddenIds(o)); return o.chars.filter(c => c === cur || !hs.has(c.id)); };
+// the characters the view lists: all but the hidden ones (the one picked stays), or all of them
+let showAll = false;
+const shownChars = (o, cur) => { const hs = new Set(hiddenIds(o)); return o.chars.filter(c => showAll || c === cur || !hs.has(c.id)); };
 // the picked character's tabs, [key, label, its panel]: the one shown, the same for every character, kept in this
 // browser (first Titles)
 // (what it has: Titles, Checklist; what it brings: Heroes, Builds; what to do: What's next; then Edit)
@@ -141,7 +143,7 @@ function coinsPill(a) {
 // same as a menu, on a phone
 function sideHTML(o, cur) {
   const folded = new Set(acctFolds());
-  const item = c => `<li><button type="button" class="ch-item${c === cur ? " cur" : ""}" data-pick="${c.id}"${c === cur ? ' aria-current="true"' : ""}>
+  const item = c => `<li><button type="button" class="ch-item${c === cur ? " cur" : ""}${c.hidden ? " hid" : ""}" data-pick="${c.id}"${c === cur ? ' aria-current="true"' : ""}>
     <img src="${profImg(c.profession || 0)}" alt=""><span class="ch-iname">${esc(c.name)}</span>${lit(c)}
     <span class="ch-ig u-gwamm" data-rank="${titleRankOf(TITLES[10], c, o)}" title="Kind of a Big Deal: titles maxed">${titlesMaxed(c, o)}</span></button></li>`;
   const list = cs => `<ul class="ch-list">${cs.map(item).join("")}</ul>`, chars = shownChars(o, cur);
@@ -584,6 +586,9 @@ function render() {
   else if (view === "accounts") els.accts.innerHTML = accountsHTML(o);
   else {
     $("ch-list").innerHTML = sideHTML(o, cur);
+    // (hidden characters: Show all by the list's title, Hide hidden once they're in)
+    const nh = hiddenIds(o).length;
+    $("ch-show-all").innerHTML = nh ? `<button type="button" class="link" id="ch-show-all-b" aria-pressed="${showAll}" title="${showAll ? "Leave the hidden characters out of the list" : `${nh} hidden character${nh === 1 ? "" : "s"}: list ${nh === 1 ? "it" : "them"} too, dimmed`}">${showAll ? "Hide hidden" : "Show all"}</button>` : "";
     $("ch-select").innerHTML = selectHTML(o, cur, o.accounts.length > 1);
     // (on a phone, the list hidden: the picked character's account's coins under the menu)
     const ca = o.accounts.find(a => a.id === cur.account), cp = coinsPill(ca);
@@ -608,6 +613,7 @@ document.addEventListener("click", e => {
     return; }
   const p = e.target.closest("[data-pick]");
   if (p) { User.pick(+p.dataset.pick); return render(); }
+  if (e.target.closest("#ch-show-all-b")) { showAll = !showAll; return render(); }
   const f = e.target.closest("[data-fold-account]");
   if (f) { foldAccount(+f.dataset.foldAccount); return render(); }
   // (the sidebar's +: a new character on that account, named in a dialog, its Edit tab open for the questions)
