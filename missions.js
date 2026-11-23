@@ -68,11 +68,15 @@ const SORTS = {
 /* ---------- the list ---------- */
 const heroTag = m => (m.hero || []).map(i => HEROES[i]).filter(Boolean).map(h =>
   `<a class="m-hero" href="${HREF.hero(h.id)}" title="Required hero"><img src="${profImg(h.profession)}" alt=""> ${esc(h.name)}</a>`).join("");
+// the elites still to capture in a mission, as chips (the picked character's captures left out); a word instead when
+// it has none, or when the character has them all
 function eliteChips(m, f) {
-  const seen = new Set();
-  return elites(m).filter(([, s]) => (!f.elite || s.profession === +f.elite) && (!f.cap || !f.got.has(s.id)) && !seen.has(s.id) && seen.add(s.id)).map(([c, s]) => {
-    return `<a class="echip${f.got.has(s.id) ? " got" : ""}" href="${HREF.skill(s.id)}" style="--pc:${profVar(s.profession)}" title="${esc(c.name)}">${skillIcon(s.id, "sk-ic sm")}${highlight(s.name, f.who)}</a>`;
-  }).join("");
+  const seen = new Set(), all = elites(m).filter(([, s]) => (!f.elite || s.profession === +f.elite) && !seen.has(s.id) && seen.add(s.id));
+  if (!all.length) return `<span class="echip-note dim">${f.elite ? "" : "No elites"}</span>`;
+  const got = all.filter(([, s]) => f.got.has(s.id)).length, done = got === all.length && !User.broken();
+  const chips = all.filter(([, s]) => !f.got.has(s.id)).map(([c, s]) =>
+    `<a class="echip" href="${HREF.skill(s.id)}" style="--pc:${profVar(s.profession)}" title="${esc(c.name)}">${skillIcon(s.id, "sk-ic sm")}${highlight(s.name, f.who)}</a>`).join("");
+  return `${done ? `<span class="echip-note done" title="Every elite here is captured, for the character picked">✓ All ${all.length} captured</span>` : ""}${chips}`;
 }
 function rowHTML(m, f) {
   const r = regionId(m);

@@ -251,6 +251,9 @@ nav.pages a:hover { color: var(--text); }
 .missions .row, .missions .head {
   grid-template-columns: 56px 28px minmax(170px, 1.2fr) 80px 150px 100px 48px minmax(260px, 3fr);
 }
+/* a mission with no elites, or with all of them captured */
+.echip-note { font-size: 12px; align-self: center; white-space: nowrap; }
+.echip-note.done { color: var(--loc-exp); font-weight: 600; }
 .echip {
   font-size: 12px; color: var(--elite); border: 1px solid var(--line); border-left: 3px solid var(--pc);
   border-radius: 4px; padding: 0 6px 0 3px; white-space: nowrap; background: var(--panel-2);
