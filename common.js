@@ -328,7 +328,7 @@ const missionMarks = () => "", vanqMark = () => "", modeMarks = () => "", bonusM
 // a page's note as a list item
 const noteLi = n => `<li>${n}</li>`;
 // [data-todo] (or [data-note]): a card below the pointer, "Wannabe GWAMMs still need this:", a row per character with
-// its profession; then the note in green (QUICK: a quick Zaishen daily); with data-plain, the note alone, small and plain
+// its profession; or the note (a quick star's, QUICK, in the star's colour); with data-plain, the note alone, small and plain
 {
   let card = null;
   const show = (el, e) => {
@@ -337,6 +337,7 @@ const noteLi = n => `<li>${n}</li>`;
     let rows = []; try { rows = JSON.parse(el.dataset.todo); } catch { /* none */ }
     const note = el.dataset.note || "";
     card.classList.toggle("plain", el.dataset.plain != null);
+    card.classList.toggle("quick", el.classList.contains("qstar"));
     card.innerHTML = (rows.length ? `<b>Wannabe GWAMMs still need this</b>${rows.map(([n, p, x]) => `<div><img src="${profImg(p)}" alt="">${esc(n)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</div>`).join("")}` : "")
       + (note ? `<b class="free">${esc(note)}</b>` : "");
     card.hidden = false;
@@ -421,19 +422,21 @@ const wannabePills = (kind, id) => { const who = (wannabes() || []).map(c => [c,
 const wannabeNeeds = (kind, id) => `<p class="wb-needs" data-wb="${kind}:${id}">${wannabePills(kind, id)}</p>`;
 addEventListener("userchange", () => { for (const p of document.querySelectorAll("[data-wb]")) { const [k, id] = p.dataset.wb.split(":"); p.innerHTML = wannabePills(k, k === "check" ? id : +id); }
 });
-// a Zaishen daily that's quick, said in green at the foot of its hover card (the link marked a thing to do whether a
-// wannabe needs it or not): Augury Rock, the Doppelganger alone; Zen Daijun (the explorable area, 246), where a party of
-// Canthan characters alone (An Unwelcome Guest done, Winds of Change not under way) vanquishes by killing or charming one
-// animal, so your Canthan characters (not pre-Searing, nor hidden, whatever they aim at, vanquished it or not) are counted
+// a daily that's quick or cheap, marked with a star after its name, the why on the star's hover; apart from whether a
+// wannabe needs it, which is the link's own colour: Augury Rock, the Doppelganger alone; Zen Daijun (the explorable
+// area, 246), where a party of Canthan characters alone (An Unwelcome Guest done, Winds of Change not under way)
+// vanquishes by killing or charming one animal, so your Canthan characters (not pre-Searing, nor hidden, whatever they
+// aim at, vanquished it or not) are counted; Nicholas Sandford's Charr Carving days, the chance to get rid of them
 const QUICK = {
-  mission: { 38: () => "Quick Zaishen mission" },
-  vanquish: { 246: () => { if (User.broken()) return "";
-    const n = User.data().chars.filter(c => madeIn(c) === 2 && !c.hidden && !(c.modes || []).includes("presearing")).length;
-    return n ? `1-kill Zaishen vanquish for your ${n === 1 ? "Canthan character" : `${n} Canthan characters`}` : ""; } },
+  mission: { 38: () => "Quick Zaishen mission: the Doppelganger alone" },
+  sandford: { "Charr Carving": () => "Don't miss the chance to get rid of your Carvings" },
+  vanquish: { 246: () => { const n = User.broken() ? 0 : User.data().chars.filter(c => madeIn(c) === 2 && !c.hidden && !(c.modes || []).includes("presearing")).length;
+    return `1-kill Zaishen vanquish for a party of Canthan characters${n ? `: you have ${n}` : ""}`; } },
 };
-const quickNote = (kind, id) => QUICK[kind][id]?.() || "";
-// a to-do link with the note: marked whether or not a wannabe needs it
-const quickLink = (html, kind, id) => { const q = quickNote(kind, id), t = todoLink(html, kind, id); return q ? t.replace(/^<a (class="[^"]*" )?/, (m, c) => `<a class="${c ? c.slice(7, -2) : "todo"}" data-note="${esc(q)}" `) : t; };
+const quickNote = (kind, id) => QUICK[kind]?.[id]?.() || "";
+const quickStar = note => (note ? `<span class="qstar" data-note="${esc(note)}" tabindex="0" role="img" aria-label="${esc(note)}">&nbsp;✦</span>` : "");
+// a to-do link (when a wannabe needs it), the star after it (when it's quick): the two apart
+const quickLink = (html, kind, id) => todoLink(html, kind, id) + quickStar(quickNote(kind, id));
 // a weekly bonus's pills: the characters of cs, then the accounts, whose titles it helps, each with those titles
 function bonusPills(bonus, o, cs) {
   const left = x => x[0].replace(/^.* hasn't maxed the /, "").replace(/ titles?$/, "");
@@ -575,6 +578,8 @@ function entryHTML(e) {
   if (e.quest) return LINK.quest(e.quest);
   // Nicholas the Traveler's item: his map that week, at the foot of the Rotations page
   if (e.item) return `${e.count} × ${e.at ? `<a href="rotations${query({ nick: ROTATIONS["nicholas-traveler"].entries.indexOf(e) })}">${esc(e.item)}</a>` : esc(e.item)}`;
+  // (Nicholas Sandford's item: a name alone, starred when it's plentiful)
+  if (e.name) return esc(e.name) + quickStar(quickNote("sandford", e.name));
   return esc(entryName(e));
 }
 // where an entry takes you: a bounty's area and the campaign; else the region and campaign
