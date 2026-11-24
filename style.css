@@ -235,7 +235,7 @@ nav.pages a[aria-current=page] { color: var(--text); }
 /* a link to a thing a wannabe GWAMM still needs (common.js need): the accent, underlined dotted; who and what on hover */
 a.todo { color: var(--todo); text-decoration-style: dotted; text-underline-offset: 3px; cursor: help; }
 a.todo.todo-o { color: color-mix(in srgb, var(--todo) 45%, var(--muted)); }  /* (a need of other wannabes only, not the picked character's) */
-.todo-card { position: fixed; z-index: 50; min-width: 200px; max-width: min(520px, calc(100vw - 8px)); padding: 10px 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; pointer-events: none;
+.todo-card { position: fixed; z-index: 50; min-width: 200px; max-width: min(520px, calc(100vw - 8px)); max-height: calc(100vh - 8px); overflow: hidden; padding: 10px 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; pointer-events: none;
   background: var(--panel); color: var(--text); border: 1.5px solid var(--todo); box-shadow: 0 8px 24px rgba(0, 0, 0, .35); }
 .todo-card b { display: block; font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
 .todo-card div { display: flex; align-items: center; gap: 8px; padding: 2px 0; white-space: nowrap; }
@@ -1563,7 +1563,8 @@ a.c-pill:hover { border-color: var(--accent); }
 /* a quick daily's star after its name (common.js quickStar), its why on hover */
 /* (a no-break space before the glyph keeps it on the name's last word; the text after it may wrap as before) */
 .qstar { color: var(--quick); font-size: 11px; vertical-align: 2px; cursor: help; }
-.todo-card.quick { border-color: var(--quick); } .todo-card.quick b.free { color: var(--quick); }
+.todo-card.qcard { border-color: var(--quick); } .todo-card.qcard b.free { color: var(--quick); }
+.todo-card.noneed { border-color: var(--line); }  /* (a list alone, no need: a plain border) */
 /* (a plain note, a date say: small, no green, little padding) */
 .todo-card.plain { min-width: 0; padding: 3px 7px; border-radius: 6px; }
 .todo-card.plain b.free { color: var(--text); font-weight: 500; font-size: 12px; }

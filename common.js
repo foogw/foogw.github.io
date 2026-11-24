@@ -327,8 +327,10 @@ const todoLink = (html, kind, id) => { const rows = need(kind, id); return rows.
 const missionMarks = () => "", vanqMark = () => "", modeMarks = () => "", bonusMark = () => "";  // (gone: the styling above)
 // a page's note as a list item
 const noteLi = n => `<li>${n}</li>`;
-// [data-todo] (or [data-note]): a card below the pointer, "Wannabe GWAMMs still need this:", a row per character with
-// its profession; or the note (a quick star's, QUICK, in the star's colour); with data-plain, the note alone, small and plain
+// [data-todo] (or [data-note], [data-list]): a card below the pointer, "Wannabe GWAMMs still need this:", a row per
+// character with its profession; the note (a quick star's, QUICK, in the star's colour); a titled list of characters
+// (QUICK_LIST: who Augury Rock is available for, the Canthan characters), one a line; with data-plain, the note alone,
+// small and plain. The card never goes past the window: cut off at its foot when the list is that long
 {
   let card = null;
   const show = (el, e) => {
@@ -336,20 +338,24 @@ const noteLi = n => `<li>${n}</li>`;
     if (!card.isConnected) document.body.append(card);
     let rows = []; try { rows = JSON.parse(el.dataset.todo); } catch { /* none */ }
     const note = el.dataset.note || "";
+    let list = null; try { list = JSON.parse(el.dataset.list); } catch { /* none */ }
+    const chars = rows => rows.map(([n, p, x]) => `<div>${p == null ? "" : `<img src="${profImg(p)}" alt="">`}${esc(n)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</div>`).join("");
     card.classList.toggle("plain", el.dataset.plain != null);
-    card.classList.toggle("quick", el.classList.contains("qstar"));
-    card.innerHTML = (rows.length ? `<b>Wannabe GWAMMs still need this</b>${rows.map(([n, p, x]) => `<div><img src="${profImg(p)}" alt="">${esc(n)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</div>`).join("")}` : "")
-      + (note ? `<b class="free">${esc(note)}</b>` : "");
+    card.classList.toggle("qcard", el.classList.contains("qstar"));
+    card.classList.toggle("noneed", !rows.length && !note);
+    card.innerHTML = (rows.length ? `<b>Wannabe GWAMMs still need this</b>${chars(rows)}` : "")
+      + (note ? `<b class="free">${esc(note)}</b>` : "")
+      + (list?.rows?.length ? `<b class="list">${esc(list.t)}</b>${chars(list.rows)}` : "");
     card.hidden = false;
     const r = el.getBoundingClientRect(), w = card.offsetWidth, h = card.offsetHeight, x = e?.clientX ?? r.left + r.width / 2;
     card.style.left = `${Math.max(4, Math.min(innerWidth - w - 4, x - 16))}px`;
-    card.style.top = `${r.bottom + 8 + h > innerHeight ? r.top - h - 8 : r.bottom + 8}px`;
+    card.style.top = `${Math.max(4, r.bottom + 8 + h > innerHeight ? r.top - h - 8 : r.bottom + 8)}px`;
   };
   const hide = () => { if (card) card.hidden = true; };
-  addEventListener("mouseover", e => { const el = e.target.closest?.("[data-todo], [data-note]"); if (el) show(el, e); });
-  addEventListener("focusin", e => { const el = e.target.closest?.("[data-todo], [data-note]"); if (el) show(el); });
-  addEventListener("mouseout", e => { if (e.target.closest?.("[data-todo], [data-note]")) hide(); });
-  addEventListener("focusout", e => { if (e.target.closest?.("[data-todo], [data-note]")) hide(); });
+  addEventListener("mouseover", e => { const el = e.target.closest?.("[data-todo], [data-note], [data-list]"); if (el) show(el, e); });
+  addEventListener("focusin", e => { const el = e.target.closest?.("[data-todo], [data-note], [data-list]"); if (el) show(el); });
+  addEventListener("mouseout", e => { if (e.target.closest?.("[data-todo], [data-note], [data-list]")) hide(); });
+  addEventListener("focusout", e => { if (e.target.closest?.("[data-todo], [data-note], [data-list]")) hide(); });
   addEventListener("scroll", hide, true);
 }
 // [data-tip]: its text in a tooltip at once, above it (below near the top of the window), on hover or keyboard focus
@@ -426,17 +432,28 @@ addEventListener("userchange", () => { for (const p of document.querySelectorAll
 // wannabe needs it, which is the link's own colour: Augury Rock, the Doppelganger alone; Zen Daijun (the explorable
 // area, 246), where a party of Canthan characters alone (An Unwelcome Guest done, Winds of Change not under way)
 // vanquishes by killing or charming one animal, so your Canthan characters (not pre-Searing, nor hidden, whatever they
-// aim at, vanquished it or not) are counted; Nicholas Sandford's Charr Carving days, the chance to get rid of them
+// aim at, vanquished it or not) are listed (QUICK_LIST); Nicholas Sandford's Charr Carving days, the chance to get rid of them
 const QUICK = {
-  mission: { 38: () => "Quick Zaishen mission: the Doppelganger alone" },
-  sandford: { "Charr Carving": () => "Don't miss the chance to get rid of your Carvings" },
-  vanquish: { 246: () => { const n = User.broken() ? 0 : User.data().chars.filter(c => madeIn(c) === 2 && !c.hidden && !(c.modes || []).includes("presearing")).length;
-    return `1-kill Zaishen vanquish for a party of Canthan characters${n ? `: you have ${n}` : ""}`; } },
+  mission: { 38: () => "Quick Zaishen mission: the Doppelganger" },
+  sandford: { "Charr Carving": () => (preAccounts().length ? "Don't miss the chance to get rid of your Carvings" : "") },  // (no pre-Searing character: no star)
+  vanquish: { 246: () => "1-kill Zaishen vanquish for a party of Canthan characters" },
 };
 const quickNote = (kind, id) => QUICK[kind]?.[id]?.() || "";
-const quickStar = note => (note ? `<span class="qstar" data-note="${esc(note)}" tabindex="0" role="img" aria-label="${esc(note)}">&nbsp;✦</span>` : "");
-// a to-do link (when a wannabe needs it), the star after it (when it's quick): the two apart
-const quickLink = (html, kind, id) => todoLink(html, kind, id) + quickStar(quickNote(kind, id));
+// the star's titled list of characters for its card (not hidden nor pre-Searing): Augury Rock's Available for, the
+// characters that did it in NM or HM, so can enter it; Zen Daijun's Canthan characters; the Charr Carvings' accounts
+// with a pre-Searing character (no profession icon); nothing with none
+const shownCharsOf = () => (User.broken() ? [] : User.data().chars.filter(c => !c.hidden && !isPreSearing(c)));
+const listAttr = (t, rows) => (rows.length ? ` data-list="${esc(JSON.stringify({ t, rows }))}"` : "");
+const charRows = cs => cs.map(c => [c.name, c.profession || 0]);
+const preAccounts = () => (User.broken() ? [] : User.data().accounts.filter(a => User.data().chars.some(c => c.account === a.id && !c.hidden && isPreSearing(c))).map(a => [accountName(a), null]));
+const QUICK_LIST = {
+  mission: { 38: () => listAttr("Available for", charRows(shownCharsOf().filter(c => (c.missions[38] || 0) & 3))) },
+  vanquish: { 246: () => listAttr("Canthan characters", charRows(shownCharsOf().filter(c => madeIn(c) === 2))) },
+  sandford: { "Charr Carving": () => listAttr("Accounts with a pre-Searing character", preAccounts()) },
+};
+const quickStar = (note, list = "") => (note ? `<span class="qstar" data-note="${esc(note)}"${list} tabindex="0" role="img" aria-label="${esc(note)}">&nbsp;✦</span>` : "");
+// a to-do link (when a wannabe needs it), the star after it (when it's quick), with its list: the two apart
+const quickLink = (html, kind, id) => todoLink(html, kind, id) + quickStar(quickNote(kind, id), QUICK_LIST[kind]?.[id]?.() || "");
 // a weekly bonus's pills: the characters of cs, then the accounts, whose titles it helps, each with those titles
 function bonusPills(bonus, o, cs) {
   const left = x => x[0].replace(/^.* hasn't maxed the /, "").replace(/ titles?$/, "");
@@ -579,7 +596,7 @@ function entryHTML(e) {
   // Nicholas the Traveler's item: his map that week, at the foot of the Rotations page
   if (e.item) return `${e.count} × ${e.at ? `<a href="rotations${query({ nick: ROTATIONS["nicholas-traveler"].entries.indexOf(e) })}">${esc(e.item)}</a>` : esc(e.item)}`;
   // (Nicholas Sandford's item: a name alone, starred when it's plentiful)
-  if (e.name) return esc(e.name) + quickStar(quickNote("sandford", e.name));
+  if (e.name) return esc(e.name) + quickStar(quickNote("sandford", e.name), QUICK_LIST.sandford[e.name]?.() || "");
   return esc(entryName(e));
 }
 // where an entry takes you: a bounty's area and the campaign; else the region and campaign
