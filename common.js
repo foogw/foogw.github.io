@@ -434,6 +434,9 @@ const QUICK = {
   mission: { 38: () => "Quick Zaishen mission: the Doppelganger" },
   sandford: { "Charr Carving": () => (preAccounts().length ? "Don't miss the chance to get rid of your Carvings" : "") },  // (no pre-Searing character: no star)
   vanquish: { 246: () => "1-kill Zaishen vanquish for a party of Canthan characters" },
+  // (the Zaishen bonuses: the week to hand in the quests kept for it)
+  bonus: { 3: () => "Hand in every Zaishen bounty quest you kept: double coins all week", 6: () => "Hand in every Zaishen mission quest you kept: double coins all week",
+    9: () => "Hand in every Zaishen vanquish quest you kept: double coins all week" },
 };
 const quickNote = (kind, id) => QUICK[kind]?.[id]?.() || "";
 // the star's titled list of characters for its card (hidden ones too, not pre-Searing): Augury Rock's Available for, the
@@ -580,7 +583,7 @@ function ageBirthday(lo, hi, t = Date.now()) {
 function entryHTML(e) {
   if (e.mission) return hasModes(MISSIONS[e.mission]) ? quickLink(LINK.mission(e.mission), "mission", e.mission) : LINK.mission(e.mission);
   if (e.area && !e.creature && !e.item) return AREAS[e.area]?.foes ? quickLink(LINK.area(e.area), "vanquish", e.area) : LINK.area(e.area);
-  if (e.bonus) return todoLink(`<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`, "bonus", e.bonus);
+  if (e.bonus) return quickLink(`<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`, "bonus", e.bonus);
   // a bounty's boss: a link to its page, a thing to do while a wannabe lacks its dungeon or (an elite area) the
   // Checklist's clear (not its elite: those are captured on the way)
   if (e.creature && bossTable().has(+e.creature)) { const dgn = e.area && isTickedDungeon(e.area);
