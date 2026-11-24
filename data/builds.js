@@ -581,9 +581,9 @@ const GW_BUILDS = {
       "name": "Pre-Searing Devona",
       "mode": "Guard",
       "heroes": [38],
-      "code": "OQgiAyi8cNLnfzzW1EauMvYA",
+      "code": "OQgiEyi8cNLnWTm5wUa2svYA",
       "insignia": "Survivor",
-      "summary": "Warrior/Ritualist spirit spammer: Signet of Spirits, Bloodsong, Pain and Shadowsong, with Painful Bond, Essence Strike and Armor of Unfeeling."
+      "summary": "Warrior/Ritualist spirit spammer and healer: Signet of Spirits and Bloodsong, Spirit Siphon for energy, Protective Was Kaolai, Mend Body and Soul and Ghostmirror Light to heal, Flesh of My Flesh to resurrect."
     },
     {
       "id": "hero-a-daggers",
