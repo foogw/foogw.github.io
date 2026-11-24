@@ -28,7 +28,7 @@
               "start": 81,
               "steps": [
                 {"t": "Talk to the Town Crier.", "take": [101170, 101192, 101330]},
-                {"t": "Cross the bridge to Sir Tydus at the Academy gate.", "done": [101192]},
+                {"t": "Walk to Sir Tydus at the Academy gate.", "done": [101192]},
                 {"t": "Talk to Baron Egan, Namar and Sandre Elek.", "take": [101117, 101288, 101210, 101321]}
               ]
             },
@@ -61,19 +61,20 @@
                 },
                 {"t": "Talk to Devona again, follow her across the bridge and kill the grawl.", "done": [101330]},
                 {
-                  "t": "Talk to Pitney, next to Devona, give him an egg, follow him to his field and kill the Worm Queen. Don't leave the area meanwhile, or you need another egg.",
+                  "t": "Talk to Pitney, next to Devona, give him an egg, follow him to his field and kill the Worm Queen.",
                   "take": [101323],
                   "done": [101323]
                 },
                 {
-                  "t": "Talk to Pitney again, Chantalle the Troubadour and Alison the Tanner.",
+                  "t": "Talk to Pitney again, Alison the Tanner and Chantalle the Troubadour.",
                   "take": [101292, 101273, 101186]
                 },
+                {"t": "Talk to Miller Upton."},
+                {"t": "Open the Beautiful Shell near the watermill for the Beautiful Pearl.", "go": [101085]},
                 {
-                  "t": "Talk to Miller Upton, then lure the three bee swarms across the bridge with the honeycomb and return to him.",
+                  "t": "Lure the three bee swarms across the bridge with the honeycomb and return to Miller Upton.",
                   "done": [101210]
                 },
-                {"t": "Open the Beautiful Shell near the watermill for the Beautiful Pearl.", "go": [101085]},
                 {"t": "Pick up the Beautiful Feather on the hill in the middle of the village.", "go": [101085]}
               ]
             },
@@ -98,7 +99,7 @@
                   "t": "Back at the bandit camp, take the Ashford strongbox, fighting only what notices you.",
                   "go": [101117]
                 },
-                {"t": "Carry the strongbox to Devona on foot: map travel loses it.", "done": [101117]}
+                {"t": "Carry the strongbox to Devona.", "done": [101117]}
               ]
             },
             {
@@ -124,11 +125,11 @@
                   "t": "Light the four braziers in the order the map shows. Swamp water drains health, and dying loses the candles.",
                   "go": [101222]
                 },
-                {"t": "Find the Corpse of Prize Moa Bird in the south, past the corridor of undead.", "go": [101292]},
                 {
                   "t": "Find Oberan the Reviled, toward the Green Hills County exit, and ask him about the Charr ranger for the Sharp Charr Tooth.",
                   "go": [101128]
-                }
+                },
+                {"t": "Find the Corpse of Prize Moa Bird in the south, past the corridor of undead.", "go": [101292]}
               ]
             },
             {"map": 164, "steps": []},
@@ -149,7 +150,7 @@
               "step": 160,
               "steps": [
                 {
-                  "t": "By the Balthazar statue just past the portal, talk to Grazden the Protector for the tithe, and question him, Farrah Cappo and Kasha Blackblood.",
+                  "t": "By the Balthazar statue just past the portal, talk to Grazden the Protector for the tithe, and question Farrah Cappo, him and Kasha Blackblood.",
                   "go": [101324, 101205]
                 }
               ]
