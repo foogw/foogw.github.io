@@ -431,7 +431,7 @@ addEventListener("userchange", () => { for (const p of document.querySelectorAll
 // a daily that's quick or cheap, marked with a star after its name, the why on the star's hover; apart from whether a
 // wannabe needs it, which is the link's own colour: Augury Rock, the Doppelganger alone; Zen Daijun (the explorable
 // area, 246), where a party of Canthan characters alone (An Unwelcome Guest done, Winds of Change not under way)
-// vanquishes by killing or charming one animal, so your Canthan characters (not pre-Searing, nor hidden, whatever they
+// vanquishes by killing or charming one animal, so your Canthan characters (not pre-Searing, hidden or not, whatever they
 // aim at, vanquished it or not) are listed (QUICK_LIST); Nicholas Sandford's Charr Carving days, the chance to get rid of them
 const QUICK = {
   mission: { 38: () => "Quick Zaishen mission: the Doppelganger" },
@@ -439,13 +439,13 @@ const QUICK = {
   vanquish: { 246: () => "1-kill Zaishen vanquish for a party of Canthan characters" },
 };
 const quickNote = (kind, id) => QUICK[kind]?.[id]?.() || "";
-// the star's titled list of characters for its card (not hidden nor pre-Searing): Augury Rock's Available for, the
+// the star's titled list of characters for its card (hidden ones too, not pre-Searing): Augury Rock's Available for, the
 // characters that did it in NM or HM, so can enter it; Zen Daijun's Canthan characters; the Charr Carvings' accounts
 // with a pre-Searing character (no profession icon); nothing with none
-const shownCharsOf = () => (User.broken() ? [] : User.data().chars.filter(c => !c.hidden && !isPreSearing(c)));
+const shownCharsOf = () => (User.broken() ? [] : User.data().chars.filter(c => !isPreSearing(c)));
 const listAttr = (t, rows) => (rows.length ? ` data-list="${esc(JSON.stringify({ t, rows }))}"` : "");
 const charRows = cs => cs.map(c => [c.name, c.profession || 0]);
-const preAccounts = () => (User.broken() ? [] : User.data().accounts.filter(a => User.data().chars.some(c => c.account === a.id && !c.hidden && isPreSearing(c))).map(a => [accountName(a), null]));
+const preAccounts = () => (User.broken() ? [] : User.data().accounts.filter(a => User.data().chars.some(c => c.account === a.id && isPreSearing(c))).map(a => [accountName(a), null]));
 const QUICK_LIST = {
   mission: { 38: () => listAttr("Available for", charRows(shownCharsOf().filter(c => (c.missions[38] || 0) & 3))) },
   vanquish: { 246: () => listAttr("Canthan characters", charRows(shownCharsOf().filter(c => madeIn(c) === 2))) },
