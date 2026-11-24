@@ -232,9 +232,8 @@ nav.pages a[aria-current=page] { color: var(--text); }
 .u-pre .utick[data-hero] { display: inline-flex; }  /* (a hero a pre-Searing character can recruit: its page shows the tick) */
 .u-pre-note { display: none; margin: 8px 0; }
 .u-pre .u-pre-note { display: block; }
-/* a link to a thing a wannabe GWAMM still needs (common.js need): the accent, underlined dotted; who and what on hover */
-a.todo { color: var(--todo); text-decoration-style: dotted; text-underline-offset: 3px; cursor: help; }
-a.todo.todo-o { color: color-mix(in srgb, var(--todo) 45%, var(--muted)); }  /* (a need of other wannabes only, not the picked character's) */
+/* a link to a thing a wannabe GWAMM still needs (common.js need): green; who and what on hover */
+a.todo { color: var(--todo); cursor: help; }
 .todo-card { position: fixed; z-index: 50; min-width: 200px; max-width: min(520px, calc(100vw - 8px)); max-height: calc(100vh - 8px); overflow: hidden; padding: 10px 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; pointer-events: none;
   background: var(--panel); color: var(--text); border: 1.5px solid var(--todo); box-shadow: 0 8px 24px rgba(0, 0, 0, .35); }
 .todo-card b { display: block; font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
@@ -515,6 +514,7 @@ button.rnd-copy:hover { color: var(--text); }
 .t-l { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
 .t-n { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .t-n a { color: var(--muted); }
+.t-n a.todo { color: color-mix(in srgb, var(--todo) 55%, var(--muted)); }  /* (a need in the Then column: its green, greyed like the column) */
 .bday { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; margin: 8px 0 0; font-size: 13px; }
 .bday .t-k a { color: var(--muted); }
 /* the day picker, small, at the heading's right */

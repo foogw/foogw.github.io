@@ -317,12 +317,9 @@ function need(kind, id) {
 }
 // the hover card's rows: each wannabe with its profession and what it still needs, kept on the link (data-todo)
 const todoRows = rows => esc(JSON.stringify(rows.map(([c, x]) => [c.name, c.profession || 0, x])));
-// a link, styled as a thing to do when a wannabe needs it, with the card on hover: in full colour when the character
-// picked needs it, muted when only other wannabes do (so the marks follow the pick, the card still naming everyone)
-// (the picked character's id, read once per state of the storage: a page draws hundreds of such links)
-let pickedMemo = null;
-const pickedId = () => { const raw = userRaw(); if (pickedMemo?.raw !== raw) pickedMemo = { raw, id: User.char().id }; return pickedMemo.id; };
-const todoClass = rows => (rows.some(([c]) => c.id === pickedId()) ? "todo" : "todo todo-o");
+// a link, styled as a thing to do when any wannabe needs it (the picked character or another: one green), with the
+// card naming them on hover
+const todoClass = () => "todo";
 const todoLink = (html, kind, id) => { const rows = need(kind, id); return rows.length ? html.replace(/^<a /, `<a class="${todoClass(rows)}" data-todo="${todoRows(rows)}" `) : html; };
 const missionMarks = () => "", vanqMark = () => "", modeMarks = () => "", bonusMark = () => "";  // (gone: the styling above)
 // a page's note as a list item
