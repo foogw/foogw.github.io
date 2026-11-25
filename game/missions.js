@@ -1520,7 +1520,7 @@ const GW_MISSIONS = {
       ],
       "bosses": [
         {"creature": 100318, "level": [24, 30]},
-        {"creature": 101403, "level": [24, 30]},
+        {"creature": 101804, "level": [24, 30]},
         {"creature": 100436, "level": [24, 30]},
         {"creature": 101404, "level": [24, 30]},
         {"creature": 100322, "level": [24, 30]},

@@ -3713,8 +3713,7 @@ const GW_SKILLS = {
         {"capture": 100110, "area": 105},
         {"capture": 101622, "area": 560},
         {"capture": 100453, "area": 553},
-        {"capture": 100313, "area": 651},
-        {"capture": 101624}
+        {"capture": 100313, "area": 651}
       ]
     },
     "127": {
@@ -4323,7 +4322,6 @@ const GW_SKILLS = {
       "description": "Signet. You suffer from Bleeding for 25 seconds. All nearby foes take 10...70 damage.",
       "concise": "Signet. Deals 10...70 damage to foes near you. You begin Bleeding (25 seconds).",
       "acquisition": [{"quest": 101082},
-        {"capture": 101630, "area": 153},
         {"capture": 101631, "area": 20},
         {"capture": 101580, "area": 35},
         {"capture": 101632, "area": 194},
@@ -5804,11 +5802,10 @@ const GW_SKILLS = {
       "description": "Spell. For 5 seconds, foes adjacent to the location where this spell was cast are struck for 5...50 fire damage each second. If you are Overcast, this spell strikes nearby foes instead of adjacent ones.",
       "concise": "Spell. Deals 5...50 fire damage each second (5 seconds). Hits foes adjacent to your initial location. If Overcast, range increased to nearby.",
       "acquisition": [{"quest": 101178},
-        {"capture": 101665},
         {"capture": 101592, "area": 134},
         {"capture": 101580, "area": 35},
-        {"capture": 101666},
-        {"capture": 101667}
+        {"npc": 177, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
       ]
     },
     "196": {
@@ -6548,8 +6545,7 @@ const GW_SKILLS = {
       "description": "Spell. Target foe is Blinded for 3...8 seconds.",
       "concise": "Spell. Inflicts Blindness condition (3...8 seconds).",
       "acquisition": [
-        {"capture": 101666},
-        {"capture": 101674},
+        {"quest": 101305},
         {"npc": 8, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"},
         {"npc": 99, "as": "skill trainer"},
@@ -6773,7 +6769,7 @@ const GW_SKILLS = {
       "description": "Elite Hex Spell. For 10 seconds, target foe and all foes adjacent to your target take 5...25 damage each second. Foes using attack skills are Blinded for 3 seconds. This hex ends if you use a skill that targets this foe.",
       "concise": "Elite Hex Spell. (10 seconds.) Deals 5...25 damage each second to target and adjacent foes. Inflicts Blindness on foes using attack skills. Ends if you use a skill that targets this foe.",
       "acquisition": [
-        {"capture": 100385, "area": 26},{"capture": 100483, "area": 95}, {"capture": 100360, "area": 93}]
+        {"capture": 100360, "area": 26},{"capture": 100483, "area": 95}, {"capture": 100360, "area": 93}]
     },
     "228": {
       "name": "Thunderclap",
@@ -6865,8 +6861,7 @@ const GW_SKILLS = {
       "description": "Spell. Send out a Lightning Javelin that strikes for 15...50 lightning damage if it hits. Lightning Javelin interrupts attacking foes. This spell has 25% armor penetration and strikes all foes between you and your target.",
       "concise": "Spell. Projectile: deals 15...50 lightning damage. Interrupts if your target is attacking. 25% armor penetration. Strikes all foes between you and your target.",
       "acquisition": [
-        {"capture": 101666},
-        {"capture": 101674, "area": 161},
+        {"quest": 101305},
         {"npc": 8, "as": "skill trainer"},
         {"npc": 60, "as": "skill trainer"}
       ]
@@ -7463,11 +7458,13 @@ const GW_SKILLS = {
       "concise": "Enchantment Spell. You gain 1 Energy whenever target ally takes physical or elemental damage.",
       "related_ids": [299, 1375, 1399],
       "acquisition": [
-        {"capture": 101665},
         {"capture": 101681, "area": 136},
         {"capture": 101579, "area": 49},
         {"capture": 101580, "area": 35},
-        {"capture": 101682, "area": 64}
+        {"capture": 101682, "area": 64},
+        {"npc": 14, "as": "skill trainer"},
+        {"npc": 82, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
       ]
     },
     "251": {
@@ -7560,7 +7557,12 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Hex Spell. For 8...20 seconds, every time target foe and adjacent foes sacrifice life, they sacrifice twice the normal amount.",
       "concise": "Hex Spell. Also hexes foes adjacent to target (8...20 seconds). Doubles Health sacrifice.",
-      "acquisition": [{"capture": 101665}, {"capture": 101683, "area": 159}, {"capture": 101580, "area": 35}]
+      "acquisition": [
+        {"capture": 101683, "area": 159},
+        {"capture": 101580, "area": 35},
+        {"npc": 41, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
+      ]
     },
     "254": {
       "name": "Vigorous Spirit",
@@ -8000,7 +8002,6 @@ const GW_SKILLS = {
         {"capture": 102115, "area": 190},
         {"capture": 100145, "area": 98},
         {"capture": 100955, "area": 23},
-        {"capture": 101688, "area": 190},
         {"capture": 100920, "area": 22},
         {"capture": 101689},
         {"capture": 101690},
@@ -9996,10 +9997,12 @@ const GW_SKILLS = {
       "description": "Shout. For each dead ally, you gain 10 seconds of +3...7 Health regeneration and your attack speed increases by 25%.",
       "concise": "Shout. You have +3...7 Health regeneration and attack 25% faster (10 seconds for each dead ally).",
       "acquisition": [
-        {"capture": 101665},
         {"capture": 101578, "area": 58},
         {"capture": 101579, "area": 49},
-        {"capture": 101580, "area": 35}
+        {"capture": 101580, "area": 35},
+        {"npc": 293, "as": "skill trainer"},
+        {"npc": 82, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
       ]
     },
     "334": {
@@ -10915,10 +10918,12 @@ const GW_SKILLS = {
       "description": "Signet. For 8...20 seconds, you have +10...40 armor and cannot be knocked down, but your movement is slowed by 75%.",
       "concise": "Signet. (8...20 seconds.) You have +10...40 armor and cannot be knocked-down. You move 75% slower.",
       "acquisition": [
-        {"capture": 101665},
         {"capture": 101723, "area": 132},
         {"capture": 101657, "area": 55},
-        {"capture": 101580, "area": 35}
+        {"capture": 101580, "area": 35},
+        {"npc": 89, "as": "skill trainer"},
+        {"npc": 113, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
       ]
     },
     "362": {
@@ -11244,7 +11249,12 @@ const GW_SKILLS = {
       "recharge": 12,
       "description": "Stance. For 1...6 seconds, you have a 75% chance to block attacks. If you block a projectile attack, adjacent foes suffer from Bleeding for 5...15 seconds.",
       "concise": "Stance. (1...6 seconds.) You have 75% chance to block attacks. Adjacent foes suffer Bleeding (5...15 seconds) when you block a projectile attack.",
-      "acquisition": [{"capture": 101665}, {"capture": 101732, "area": 158}, {"capture": 101580, "area": 35}]
+      "acquisition": [
+        {"capture": 101732, "area": 158},
+        {"capture": 101580, "area": 35},
+        {"npc": 123, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
+      ]
     },
     "374": {
       "name": "Warrior's Endurance",
@@ -11323,10 +11333,12 @@ const GW_SKILLS = {
       "description": "Stance. For 1...4 seconds, you gain +10 armor and have a 75% chance to block attacks. Disciplined Stance ends if you use an adrenal skill.",
       "concise": "Stance. (1...4 seconds.) You have 75% chance to block and +10 armor. Ends if you use an adrenal skill.",
       "acquisition": [
-        {"capture": 101665},
         {"capture": 101736, "area": 141},
         {"capture": 101737, "area": 109},
-        {"capture": 101580, "area": 35}
+        {"capture": 101580, "area": 35},
+        {"npc": 116, "as": "skill trainer"},
+        {"npc": 159, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
       ]
     },
     "377": {
@@ -11350,10 +11362,12 @@ const GW_SKILLS = {
       "description": "Stance. For 1...6 seconds, you block any attack skills used against you. For each successful block, you gain adrenaline and 5 Energy. Wary Stance ends if you use a skill.",
       "concise": "Stance. (1...6 seconds). You block attack skills. Gain adrenaline and 5 Energy for each block. Ends if you use a skill.",
       "acquisition": [
-        {"capture": 101665},
         {"capture": 101591, "area": 36},
         {"capture": 101592, "area": 134},
-        {"capture": 101580, "area": 35}
+        {"capture": 101580, "area": 35},
+        {"npc": 71, "as": "skill trainer"},
+        {"npc": 177, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
       ]
     },
     "378": {
@@ -11514,10 +11528,12 @@ const GW_SKILLS = {
       "description": "Sword Attack. This attack strikes for +1...40 damage if it hits.",
       "concise": "Sword Attack. Deals +1...40 damage.",
       "acquisition": [
-        {"capture": 101665},
         {"capture": 101681, "area": 136},
         {"capture": 101580, "area": 35},
-        {"capture": 101579, "area": 49}
+        {"capture": 101579, "area": 49},
+        {"npc": 14, "as": "skill trainer"},
+        {"npc": 82, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
       ]
     },
     "384": {
@@ -11651,7 +11667,12 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Skill. For 8 seconds, while you have a sword equipped, you block the next melee attack against you and your attacker is struck for 20...80 damage.",
       "concise": "Skill. (8 seconds.) You block the next melee attack and your attacker takes 20...80 damage. No effect unless you have a sword equipped.",
-      "acquisition": [{"capture": 101665}, {"capture": 101683, "area": 159}, {"capture": 101580, "area": 35}]
+      "acquisition": [
+        {"capture": 101683, "area": 159},
+        {"capture": 101580, "area": 35},
+        {"npc": 41, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
+      ]
     },
     "388": {
       "name": "Deadly Riposte",
@@ -11674,10 +11695,12 @@ const GW_SKILLS = {
       "description": "Skill. For 8 seconds, while you have a sword equipped, you block the next melee attack against you, and your attacker is struck for 15...90 damage and begins Bleeding for 3...25 seconds.",
       "concise": "Skill. (8 seconds.) You block the next melee attack and your attacker takes 15...90 damage. Inflicts Bleeding condition (3...25 seconds). No effect unless you have a sword equipped.",
       "acquisition": [
-        {"capture": 101665},
         {"capture": 101740, "area": 137},
         {"capture": 101737, "area": 109},
-        {"capture": 101580, "area": 35}
+        {"capture": 101580, "area": 35},
+        {"npc": 65, "as": "skill trainer"},
+        {"npc": 159, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
       ]
     },
     "389": {
@@ -12407,10 +12430,12 @@ const GW_SKILLS = {
       "description": "Skill. Resurrect all allied animal companions in the area. They come back to life with 10...94% Health.",
       "concise": "Skill. Resurrects all allied pets in the area (10...94% Health).",
       "acquisition": [
-        {"capture": 101665},
         {"capture": 101657, "area": 55},
         {"capture": 101723, "area": 132},
-        {"capture": 101580, "area": 35}
+        {"capture": 101580, "area": 35},
+        {"npc": 89, "as": "skill trainer"},
+        {"npc": 113, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
       ]
     },
     "423": {
@@ -12433,7 +12458,12 @@ const GW_SKILLS = {
       "recharge": 55,
       "description": "Shout. For 120...300 seconds, your animal companion gains 1...3 Health regeneration, and half of all damage dealt to your animal companion is redirected to you.",
       "concise": "Shout. (120...300 seconds.) Your pet has +1...3 Health regeneration. Half of all damage dealt to your pet is redirected to you.",
-      "acquisition": [{"capture": 101665}, {"capture": 101749, "area": 155}, {"capture": 101580, "area": 35}]
+      "acquisition": [
+        {"capture": 101749, "area": 155},
+        {"capture": 101580, "area": 35},
+        {"npc": 30, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
+      ]
     },
     "424": {
       "name": "Throw Dirt",
@@ -12984,10 +13014,12 @@ const GW_SKILLS = {
       "description": "Pet Attack. Your animal companion attempts a Melandru's Assault that deals +5...20 damage to all nearby foes.",
       "concise": "Pet Attack. Deals +5...20 damage to nearby foes.",
       "acquisition": [
-        {"capture": 101665},
         {"capture": 101723, "area": 132},
         {"capture": 101657, "area": 55},
-        {"capture": 101580, "area": 35}
+        {"capture": 101580, "area": 35},
+        {"npc": 89, "as": "skill trainer"},
+        {"npc": 113, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
       ]
     },
     "442": {
@@ -13038,10 +13070,12 @@ const GW_SKILLS = {
       "description": "Pet Attack. Your animal companion attempts a Predator's Pounce that deals +5...35 damage. If that attack hits, your animal companion gains 5...50 Health.",
       "concise": "Pet Attack. Deals +5...35 damage. Your pet gains 5...50 Health if this attack hits.",
       "acquisition": [
-        {"capture": 101665},
         {"capture": 101591, "area": 36},
         {"capture": 101592, "area": 134},
-        {"capture": 101580, "area": 35}
+        {"capture": 101580, "area": 35},
+        {"npc": 71, "as": "skill trainer"},
+        {"npc": 177, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
       ]
     },
     "444": {
@@ -13064,7 +13098,13 @@ const GW_SKILLS = {
       "recharge": 5,
       "description": "Pet Attack. Your animal companion attempts a Brutal Strike that deals +5...35 damage. If that attack strikes a foe whose Health is below 50%, that foe takes an additional +5...35 damage.",
       "concise": "Pet Attack. Deals +5...35 damage. Deals +5...35 more damage if target foe is under 50% Health.",
-      "acquisition": [{"capture": 101665}, {"capture": 101740, "area": 137}, {"capture": 101580, "area": 35}]
+      "acquisition": [
+        {"capture": 101740, "area": 137},
+        {"capture": 101580, "area": 35},
+        {"npc": 65, "as": "skill trainer"},
+        {"npc": 159, "as": "skill trainer"},
+        {"npc": 60, "as": "skill trainer"}
+      ]
     },
     "445": {
       "name": "Disrupting Lunge",
@@ -15965,10 +16005,10 @@ const GW_SKILLS = {
       "description": "Sword Attack. Attack target foe twice. These attacks cannot be blocked.",
       "concise": "Sword Attack. You attack target foe twice. Unblockable.",
       "acquisition": [
-        {"capture": 101665},
         {"capture": 101632, "area": 194},
         {"capture": 101780, "area": 283},
-        {"capture": 101658, "area": 51}
+        {"capture": 101658, "area": 51},
+        {"npc": 99, "as": "skill trainer"}
       ]
     },
     "852": {
@@ -16554,8 +16594,7 @@ const GW_SKILLS = {
       "description": "Elite Spell. Target foe and all nearby foes are struck with Searing Flames. Foes already on fire when this skill is cast are struck for 10...100 fire damage. Foes not already on fire begin Burning for 1...7 seconds.",
       "concise": "Elite Spell. Hits foes near your target. Deals 10...100 fire damage to foes already Burning. Inflicts Burning condition (1...7 seconds) to foes not Burning.",
       "acquisition": [
-        {"capture": 100296, "area": 402},
-        {"capture": 100296, "area": 413},
+        {"capture": 100296, "area": 520},
         {"capture": 100447, "area": 386},
         {"capture": 100139, "area": 399},
         {"capture": 100315, "area": 651}
@@ -18761,7 +18800,11 @@ const GW_SKILLS = {
       "recharge": 0,
       "description": "Sword Attack. If it hits, Standing Slash deals +5...20 damage plus an additional 5...20 damage if you are in a stance.",
       "concise": "Sword Attack. Deals +5...20 damage. Deals 5...20 more damage if you are in a stance.",
-      "acquisition": [{"capture": 101665}, {"capture": 101632, "area": 194}, {"capture": 101780, "area": 283}]
+      "acquisition": [
+        {"capture": 101632, "area": 194},
+        {"capture": 101780, "area": 283},
+        {"npc": 99, "as": "skill trainer"}
+      ]
     },
     "997": {
       "name": "Famine",
@@ -20593,10 +20636,9 @@ const GW_SKILLS = {
       "description": "Spell. Resurrect target party member with up to your current Health and 5...35% Energy. This spell has half the normal range.",
       "concise": "Half Range Spell. Resurrects target party member at your current Health and with 5...35% Energy.",
       "acquisition": [
-        {"capture": 101665},
-        {"capture": 101800},
         {"capture": 101632, "area": 194},
-        {"capture": 101658, "area": 51}
+        {"capture": 101658, "area": 51},
+        {"npc": 99, "as": "skill trainer"}
       ]
     },
     "1129": {
@@ -21038,7 +21080,6 @@ const GW_SKILLS = {
       "description": "Elite Bow Attack. You shoot a broad head arrow that moves slower than normal. If it hits, target foe is Dazed for 5...20 seconds, and if target foe is casting a spell that spell is interrupted.",
       "concise": "Elite Bow Attack. Slow-moving arrow. Interrupts a spell. Inflicts Dazed condition (5...20 seconds).",
       "acquisition": [
-        {"capture": 101403},
         {"capture": 100364, "area": 256},
         {"capture": 100364, "area": 220},
         {"capture": 100363, "area": 256},
@@ -21626,10 +21667,9 @@ const GW_SKILLS = {
       "description": "Spell. The spirit closest to you loses all Energy. You gain 30...60% of that Energy.",
       "concise": "Spell. The spirit closest to you loses all Energy. You gain 30...60% of that Energy.",
       "acquisition": [
-        {"capture": 101665},
-        {"capture": 101800},
         {"capture": 101632, "area": 194},
-        {"capture": 101806, "area": 284}
+        {"capture": 101806, "area": 284},
+        {"npc": 99, "as": "skill trainer"}
       ]
     },
     "1229": {
@@ -24129,7 +24169,10 @@ const GW_SKILLS = {
       "recharge": 20,
       "description": "Signet. You have +50...300 maximum Health. This signet ends if you successfully hit with an attack.",
       "concise": "Signet. You have +50...300 maximum Health. Ends if you hit with an attack.",
-      "acquisition": [{"capture": 101665}, {"capture": 101635, "area": 450}]
+      "acquisition": [
+        {"capture": 101635, "area": 450},
+        {"npc": 68, "as": "skill trainer"}
+      ]
     },
     "1412": {
       "name": "\"You're All Alone!\"",
@@ -24375,7 +24418,10 @@ const GW_SKILLS = {
       "recharge": 4,
       "description": "Bow Attack. If this attack hits target foe, it deals +5...20 damage. If that foe is near any of your allies, this attack cannot be blocked.",
       "concise": "Bow Attack. Deals +5...20 damage. Unblockable if target foe is near any of your allies.",
-      "acquisition": [{"capture": 101665}, {"capture": 101834, "area": 449}]
+      "acquisition": [
+        {"capture": 101834, "area": 449},
+        {"npc": 104, "as": "skill trainer"}
+      ]
     },
     "1470": {
       "name": "Barbed Arrows",
@@ -28817,10 +28863,10 @@ const GW_SKILLS = {
       "description": "Bow Attack. If this attack hits, you strike for +5...20 damage. If you land a critical hit, you deal an additional +5...25 damage.",
       "concise": "Bow Attack. Deals +5...20 damage. Deals +5...25 more damage if you land a critical hit.",
       "acquisition": [
-        {"capture": 101665},
         {"capture": 101635, "area": 450},
-        {"capture": 101865},
-        {"capture": 101866, "area": 450}
+        {"capture": 101866, "area": 450},
+        {"npc": 68, "as": "skill trainer"},
+        {"npc": 801, "as": "hero skill trainer"}
       ]
     },
     "1721": {
@@ -30059,12 +30105,12 @@ const GW_SKILLS = {
       "description": "Echo. For 5...25 seconds, you attack 25% faster but have -20 armor. This echo is reapplied every time a chant or shout ends on you.",
       "concise": "Echo. (5...25 seconds.) You attack 25% faster. Renewal: whenever a chant or shout ends on you. You have -20 armor.",
       "acquisition": [
-        {"capture": 101665},
         {"capture": 101850, "area": 381},
         {"capture": 101886, "area": 407},
         {"capture": 101847, "area": 414},
-        {"capture": 101865},
-        {"capture": 101887, "area": 436}
+        {"capture": 101887, "area": 436},
+        {"npc": 178, "as": "skill trainer"},
+        {"npc": 807, "as": "hero skill trainer"}
       ]
     },
     "1775": {
@@ -30391,7 +30437,9 @@ const GW_SKILLS = {
       "description": "Enchantment Spell. You are Blinded for 5 seconds. For 10 seconds, you gain +7...10 Health regeneration and +40 armor.",
       "concise": "Enchantment Spell. (10 seconds.) You gain +7...10 Health regeneration and +40 armor. You are Blind (5 seconds).",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "1949": {
       "name": "Ether Nightmare",
@@ -30414,7 +30462,9 @@ const GW_SKILLS = {
       "description": "Hex Spell. Target foe loses 5...8 Energy. For each point of Energy lost in this way, that foe and all foes in the area suffer -1 Health degeneration for 10 seconds.",
       "concise": "Hex Spell. Causes 5...8 Energy loss. Target and foes in the area have -1 Health degeneration for each point of Energy lost (10 seconds).",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "1950": {
       "name": "Signet of Corruption",
@@ -30437,7 +30487,9 @@ const GW_SKILLS = {
       "description": "Signet. Target foe and all nearby foes take 20...30 damage. For each affected foe suffering from a condition or hex, you gain 2 Energy (maximum 12...20 Energy).",
       "concise": "Signet. Deals 20...30 damage to target and nearby foes. You gain 2 Energy (maximum 12...20) for each of these foes with a condition or hex.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "1951": {
       "name": "Elemental Lord",
@@ -30460,7 +30512,9 @@ const GW_SKILLS = {
       "description": "Enchantment Spell. For 40...60 seconds, your elemental attributes are boosted by 1. Each time you cast a spell, you gain 1 Energy for every 10 ranks of Energy Storage and are healed for 100...300% of the spell's Energy cost.",
       "concise": "Enchantment Spell. (40...60 seconds.) Your elemental attributes are boosted by 1. Each time you cast a spell, you gain 1 Energy for every 10 ranks of Energy Storage and are healed for 100...300% of the spell's Energy cost.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "1952": {
       "name": "Selfless Spirit",
@@ -30483,7 +30537,9 @@ const GW_SKILLS = {
       "description": "Enchantment Spell. For 15...20 seconds, spells you cast that target another ally cost 3 less Energy.",
       "concise": "Enchantment Spell. (15...20 seconds.) Spells you cast that target another ally cost 3 less Energy.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "1953": {
       "name": "Triple Shot",
@@ -30506,7 +30562,9 @@ const GW_SKILLS = {
       "description": "Bow Attack. Shoot 3 arrows simultaneously at target foe. These arrows deal 40...25% less damage.",
       "concise": "Bow Attack. Shoot 3 arrows simultaneously at target foe. These arrows deal 40...25% less damage.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "1954": {
       "name": "\"Save Yourselves!\"",
@@ -30529,7 +30587,9 @@ const GW_SKILLS = {
       "description": "Shout. For 4...6 seconds, all other party members gain +100 armor.",
       "concise": "Shout. (4...6 seconds.) All other party members gain +100 armor.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "1955": {
       "name": "Aura of Holy Might",
@@ -30552,7 +30612,9 @@ const GW_SKILLS = {
       "description": "Enchantment Spell. For 45 seconds, you deal 20...25 holy damage to all adjacent foes whenever you lose a Dervish enchantment.",
       "concise": "Enchantment Spell. (45 seconds.) Whenever you lose a Dervish enchantment, adjacent foes take 20...25 holy damage.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "1957": {
       "name": "Spear of Fury",
@@ -30575,7 +30637,9 @@ const GW_SKILLS = {
       "description": "Spear Attack. This attack deals +30...40 damage. If this attack hits a foe suffering from a condition, you gain 3...6 strikes of adrenaline.",
       "concise": "Spear Attack. Deals +30...40 damage. Gain 3...6 strikes of adrenaline if you hit a foe with a condition.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "1986": {
       "name": "Vampiric Assault",
@@ -31457,7 +31521,9 @@ const GW_SKILLS = {
       "description": "Spell. All spirits you control Shadow Step to your location, and gain 60...100 Health",
       "concise": "Spell. Spirits you control Shadow Step to your location and gain 60...100 Health.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "2052": {
       "name": "Shadow Fang",
@@ -32136,7 +32202,9 @@ const GW_SKILLS = {
       "description": "Hex Spell. Target foe loses 5...8 Energy. For each point of Energy lost in this way, that foe and all foes in the area suffer -1 Health degeneration for 10 seconds.",
       "concise": "Hex Spell. Causes 5...8 Energy loss. Target and foes in the area have -1 Health degeneration for each point of Energy lost (10 seconds).",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "2093": {
       "name": "Signet of Corruption",
@@ -32159,7 +32227,9 @@ const GW_SKILLS = {
       "description": "Signet. Target foe and all nearby foes take 20...30 damage. For each affected foe suffering from a condition or hex, you gain 2 Energy (maximum 12...20 Energy).",
       "concise": "Signet. Deals 20...30 damage to target and nearby foes. You gain 2 Energy (maximum 12...20) for each of these foes with a condition or hex.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "2094": {
       "name": "Elemental Lord",
@@ -32182,7 +32252,9 @@ const GW_SKILLS = {
       "description": "Enchantment Spell. For 40...60 seconds, your elemental attributes are boosted by 1. Each time you cast a spell, you gain 1 Energy for every 10 ranks of Energy Storage and are healed for 100...300% of the spell's Energy cost.",
       "concise": "Enchantment Spell. (40...60 seconds.) Your elemental attributes are boosted by 1. Each time you cast a spell, you gain 1 Energy for every 10 ranks of Energy Storage and are healed for 100...300% of the spell's Energy cost.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "2095": {
       "name": "Selfless Spirit",
@@ -32205,7 +32277,9 @@ const GW_SKILLS = {
       "description": "Enchantment Spell. For 15...20 seconds, spells you cast that target another ally cost 3 less Energy.",
       "concise": "Enchantment Spell. (15...20 seconds.) Spells you cast that target another ally cost 3 less Energy.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "2096": {
       "name": "Triple Shot",
@@ -32228,7 +32302,9 @@ const GW_SKILLS = {
       "description": "Bow Attack. Shoot 3 arrows simultaneously at target foe. These arrows deal 40...25% less damage.",
       "concise": "Bow Attack. Shoot 3 arrows simultaneously at target foe. These arrows deal 40...25% less damage.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "2097": {
       "name": "\"Save Yourselves!\"",
@@ -32251,7 +32327,9 @@ const GW_SKILLS = {
       "description": "Shout. For 4...6 seconds, all other party members gain +100 armor.",
       "concise": "Shout. (4...6 seconds.) All other party members gain +100 armor.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "2098": {
       "name": "Aura of Holy Might",
@@ -32274,7 +32352,9 @@ const GW_SKILLS = {
       "description": "Enchantment Spell. For 45 seconds, you deal 20...25 holy damage to all adjacent foes whenever you lose a Dervish enchantment.",
       "concise": "Enchantment Spell. (45 seconds.) Whenever you lose a Dervish enchantment, adjacent foes take 20...25 holy damage.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "2099": {
       "name": "Spear of Fury",
@@ -32297,7 +32377,9 @@ const GW_SKILLS = {
       "description": "Spear Attack. This attack deals +30...40 damage. If this attack hits a foe suffering from a condition, you gain 3...6 strikes of adrenaline.",
       "concise": "Spear Attack. Deals +30...40 damage. Gain 3...6 strikes of adrenaline if you hit a foe with a condition.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "2100": {
       "name": "Summon Spirits",
@@ -32320,7 +32402,9 @@ const GW_SKILLS = {
       "description": "Spell. All spirits you control Shadow Step to your location, and gain 60...100 Health",
       "concise": "Spell. Spirits you control Shadow Step to your location and gain 60...100 Health.",
       "pve_only": true,
-      "acquisition": [{"capture": 101889}, {"capture": 101890}]
+      "acquisition": [{"npc": 850, "as": "skill trainer"},
+        {"npc": 851, "as": "skill trainer"}
+      ]
     },
     "2101": {
       "name": "Critical Agility",

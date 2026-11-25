@@ -19531,6 +19531,7 @@ const GW_QUESTS = {
       "givers": [468],
       "xp": 250,
       "gold": 50,
+      "skills": [220, 230],
       "objectives": [
         [0, "Follow the road up to the wizard's tower. Destroy the Tower Golem."],
         [0, "See Elementalist Aziure for your reward."]
