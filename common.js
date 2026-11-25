@@ -645,12 +645,13 @@ function timeLeft(ms) {
   const m = Math.max(0, Math.floor(ms / 60000)), d = Math.floor(m / 1440), h = Math.floor((m % 1440) / 60), mm = m % 60;
   return d ? `${d}d ${h}h` : h ? `${h}h ${mm}m` : `${mm}m`;
 }
-/* Compact "label · current · time left" rows; a null row draws the daily/weekly divider. */
+/* Compact "label · current · time left" rows (the front page; the name alone, no region or campaign); a null row draws
+   the daily/weekly divider. */
 function rotationListHTML(rows, now = Date.now()) {
   return rows.map(row => {
     if (!row) return '<div class="t-sep"></div>';
     const [key, title] = row, r = ROTATIONS[key], k = Rotation.period(r, now), e = Rotation.entry(r, k);
-    return `<div class="t-row"><span class="t-k">${title}</span><span class="t-v">${entryHTML(e)}${entryWhere(e)}</span>`
+    return `<div class="t-row"><span class="t-k">${title}</span><span class="t-v">${entryHTML(e)}</span>`
       + `<span class="t-l">${timeLeft(Rotation.endsAt(r, now) - now)}</span><span class="t-n">Then: ${entryHTML(Rotation.entry(r, k + 1))}</span></div>`;
   }).join("");
 }

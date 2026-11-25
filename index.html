@@ -9,9 +9,8 @@
 <link rel="stylesheet" href="style.css">
 <style>
   .home { max-width: 1000px; }
-  .hero { padding: 8px 0 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; }
+  .hero { padding: 8px 0 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 14px; }  /* (the date picker at its right) */
   .hero h1 { margin: 0; font-size: 26px; letter-spacing: .02em; }
-  .hero p { margin: 0; color: var(--muted); }
   .gsearch { margin: 18px 0 6px; }
   .gsearch input {
     width: 100%; background: var(--panel); color: var(--text); border: 1px solid var(--line);
@@ -32,7 +31,10 @@
   .more { color: var(--muted); font-size: 13px; padding: 6px 12px; display: block; }
   .quick { display: flex; flex-wrap: wrap; gap: 6px; }
   .quick a { text-decoration: none; }
-  .ev-card { padding: 8px 12px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 6px 6px 0; }
+  .ev-card { padding: 8px 12px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 6px 6px 0; margin-top: 18px; }
+  .ev-line { display: flex; align-items: baseline; gap: 0 6px; flex-wrap: wrap; }
+  .ev-k { color: var(--muted); }  /* ("On now:", before the first event's name) */
+  .ev + .ev { margin-top: 8px; }
   .ev-card b a { color: var(--text); }
   .ev-card .ev-when { color: var(--muted); font-size: 13px; margin-left: 2px; }
   .ev-card p { margin: 2px 0 0; font-size: 14px; }
@@ -47,7 +49,7 @@
 
   <div class="hero">
     <h1>Guild Wars Today</h1>
-    <p>The day's dailies and what your characters can do with them; search for anything, or paste a skill template code.</p>
+    <span class="td-mini" id="td-pick"><button type="button" class="link" id="td-now" hidden>back to now</button><input type="date" id="td-date" title="Look at another day" aria-label="Look at another day"></span>
   </div>
 
   <div class="gsearch">
@@ -56,11 +58,9 @@
   <div class="results" id="results"></div>
 
   <div class="sections" id="sections">
-    <div class="td-bar"><span class="td-mini" id="td-pick"><button type="button" class="link" id="td-now" hidden>back to now</button><input type="date" id="td-date" title="Look at another day" aria-label="Look at another day"></span></div>
     <div id="ev-now"></div>
     <h2 id="td-h2">Today <a class="h-more" href="rotations">Full rotations →</a></h2>
     <div class="today" id="today"></div>
-    <div class="bday" id="td-bday" hidden></div>
     <div id="ev-next"></div>
     <div class="rnd-maps" id="rnd-maps"></div>
   </div>
@@ -135,38 +135,17 @@ function renderMaps() {
   if ($("rnd-nick")) nickMap($("rnd-nick"), nick.entries.indexOf(n), { aspect: RND_ASPECT, note: "" });
 }
 
-const TODAY = [["zaishen-mission", "Mission"], ["zaishen-vanquish", "Vanquish"], ["zaishen-bounty", "Bounty"], ["zaishen-combat", "Combat"],
-  ["wanted", "Shining Blade"], ["nicholas-sandford", "Sandford"], ["vanguard", "Vanguard"], null, ["weekly-pve", "PvE bonus"], ["weekly-pvp", "PvP bonus"],
-  ["nicholas-traveler", "Nicholas"]];
-// Today: the day's rotations (the marks on each entry are the picked character's, as everywhere), and the characters
-// whose age a check of /age that day narrows: a range still in days, when a check at some hour of the day cuts a third
-// of it at least; one down to hours or minutes, whenever a check cuts it at all, with the time left to check
-const played = c => !c.hidden && c.aim !== "retired";
+// (the PvE rotations: no Zaishen Combat, Shining Blade or PvP bonus)
+const TODAY = [["zaishen-mission", "Mission"], ["zaishen-vanquish", "Vanquish"], ["zaishen-bounty", "Bounty"],
+  ["nicholas-sandford", "Sandford"], ["vanguard", "Vanguard"], null, ["weekly-pve", "PvE bonus"], ["nicholas-traveler", "Nicholas"]];
+// Today: the day's rotations (the marks on each entry are the picked character's, as everywhere)
 function renderToday() {
-  const t = NOW(), ok = !User.broken(), o = ok ? User.data() : null;
+  const t = NOW();
   $("today").innerHTML = rotationListHTML(TODAY, t);
-  const day0 = new Date(t).setHours(0, 0, 0, 0), cutAt = (c, at) => { const a = ageAt(c.bornBetween, at); return a.side / (a.hi - a.lo); };
-  const bdays = ok ? byImportance(o.chars.filter(c => c.bornBetween && played(c)), o).flatMap(c => {
-    const a = ageAt(c.bornBetween, t);
-    if (a.done) return [];
-    if (a.word === "day") return [...Array(25).keys()].some(h => cutAt(c, day0 + h * 36e5) >= 1 / 3) ? [[c, null]] : [];
-    return a.side ? [[c, Number.isFinite(a.end) ? a.end : null]] : [];
-  }) : [];
-  // (and the birthdays falling due within the week: the present to collect, from when to when as far as the range tells)
-  const soon = ok ? byImportance(o.chars.filter(c => c.bornBetween && played(c)), o).map(c => [c, ageBirthday(...c.bornBetween.map(Date.parse), t)]).filter(([, b]) => b.from - t < 7 * 864e5).sort((x, y) => x[1].from - y[1].from) : [];
-  const days = ms => Math.max(0, Math.round(ms / 864e5));
-  $("td-bday").hidden = !bdays.length && !soon.length;
-  $("td-bday").innerHTML = (bdays.length ? `<span class="t-k"><a href="characters-birthdays">Birthdays worth checking</a></span>${bdays.map(([c, end]) => { const p = charPill(c).replace('href="characters"', 'href="characters?tab=edit"');
-    return end == null ? p : p.replace(/<\/a>$/, `<span class="dim" data-end="${end}">${leftSaid(end - t)}</span></a>`); }).join("")}` : "")
-    + (soon.length ? `${bdays.length ? "<br>" : ""}<span class="t-k"><a href="characters-birthdays">Birthdays coming</a></span>${soon.map(([c, b]) => charPill(c, b.now ? `due, by ${days(b.to - t) ? `${days(b.to - t)}d` : "today"}` : days(b.from - t) === days(b.to - t) ? `in ${days(b.from - t) || "<1"}d` : `in ${days(b.from - t)}–${days(b.to - t)}d`).replace('href="characters"', 'href="characters-birthdays"')).join("")}` : "");
   $("td-date").value = ymd(t); $("td-now").hidden = !args().has("d");
 }
-const leftSaid = ms => { const s = Math.max(0, Math.floor(ms / 1000)), h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, x = String(s % 60).padStart(2, "0");
-  return `${h ? `${h}:${String(m).padStart(2, "0")}` : m}:${x} left`; };
 renderToday();
 setInterval(renderToday, 30000);
-// (the birthday countdowns tick each second)
-setInterval(() => { for (const e of $("td-bday").querySelectorAll("[data-end]")) { const left = +e.dataset.end - NOW(); if (left <= 0) e.closest(".c-pill").remove(); else e.textContent = leftSaid(left); } }, 1000);
 // another day picked (kept in the address, ?d=2026-11-20): the day's rotations, events and maps drawn for it
 const pickDay = d => { const p = new URLSearchParams(location.search); if (d) p.set("d", d); else p.delete("d"); history.replaceState(null, "", location.pathname + (p.size ? "?" + p : "")); renderToday(); renderEvents(); renderMaps(); };
 $("td-date").addEventListener("change", () => pickDay($("td-date").value));
@@ -178,16 +157,16 @@ addEventListener("userchange", renderToday);
 function renderEvents() {
   const now = new Date(NOW());
   const evs = Object.values(EVENTS).map(e => ({ e, w: eventWindow(e, now) })).sort((a, b) => a.w[0] - b.w[0]);
-  const card = ({ e, w: [a, b] }, state) => `<div class="ev-card"><b><a href="events">${esc(e.name)}</a></b> `
-    + `<span class="ev-when">${state === "on" ? `ends ${eventAway(b - now)}` : `${state === "soon" ? "coming" : "starts"} ${eventAway(a - now)}`}</span>`
-    + `<p>${text(e.blurb, true)}</p></div>`;
-  const on = evs.filter(x => x.w[0] <= now), later = evs.filter(x => x.w[0] > now);
-  // with nothing on, an event starting within three days moves up above Today, and the one after it takes its area
-  const soon = !on.length && later[0] && later[0].w[0] - now < 3 * 86400000 ? later.shift() : null;
-  const more = `<a class="h-more" href="events">All events →</a>`;
-  $("ev-now").innerHTML = on.length ? `<h2>On now ${more}</h2>` + on.map(x => card(x, "on")).join("")
-    : soon ? `<h2>Coming up ${more}</h2>` + card(soon, "soon") : "";
-  $("ev-next").innerHTML = later[0] ? `<h2>Next event ${more}</h2>` + card(later[0], "next") : "";
+  // a box: each event's name, when and blurb; the first line starts with the box's label ("On now:") and ends with the
+  // All events link
+  const one = ({ e, w: [a, b] }, state, label) => `<div class="ev"><div class="ev-line">${label ? `<span class="ev-k">${label}:</span> ` : ""}<b><a href="events">${esc(e.name)}</a></b> `
+    + `<span class="ev-when">${state === "on" ? `ends ${eventAway(b - now)}` : `starts ${eventAway(a - now)}`}</span>`
+    + `${label ? `<a class="h-more" href="events">All events →</a>` : ""}</div><p>${text(e.blurb, true)}</p></div>`;
+  const card = (title, xs, state) => `<div class="ev-card">${xs.map((x, i) => one(x, state, i ? "" : title)).join("")}</div>`;
+  // one box: the events on now, above Today; with none on, the next event, below it
+  const on = evs.filter(x => x.w[0] <= now), next = evs.find(x => x.w[0] > now);
+  $("ev-now").innerHTML = on.length ? card("On now", on, "on") : "";
+  $("ev-next").innerHTML = !on.length && next ? card("Next event", [next], "next") : "";
 }
 renderEvents();
 setInterval(renderEvents, 60000);
