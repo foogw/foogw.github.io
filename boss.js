@@ -231,6 +231,8 @@ VIEWS.boss = (() => {
   const carriedAt = (b, sid) => { const bars = (b.bars || []).filter(x => x.elites.includes(sid)); if (!b.bars) return "";
     return `<p class="dim bp-where">${bars.length ? `Carried by its level ${listText(bars.map(x => String(x.level)))} version${bars.length > 1 ? "s" : ""}: ${listText(bars.flatMap(x => x.areas).filter(i => AREAS[i] || MISSIONS[i]).map(whereLink))}` : "Not on any version we know."}</p>`; };
   function html(b) {
+    // a Zaishen Bounty target: when it is next up (or that it is today's)
+    const note = zaishenNote("zaishen-bounty", e => e.creature === b.id, "for this boss");
     const sub = [b.prof && PROFS[b.prof], [...b.camps].sort().map(c => CAMPAIGNS[c]).join(", ")].filter(Boolean).map(esc).join(" · ");
     return `<p class="back"><a href="bosses">← All bosses</a></p>
       <div class="sp-head" style="--pc:${profVar(b.prof)}">
@@ -238,6 +240,7 @@ VIEWS.boss = (() => {
         <div class="sp-title"><h2>${esc(b.name)}</h2><div class="sp-sub">${sub}</div></div>
         ${b.levels.size ? `<div class="lstats"><span class="lstat"><small>Level</small><b>${esc([...b.levels].join(", "))}</b></span></div>` : ""}
       </div>
+      ${note ? `<ul class="lnotes">${noteLi(note)}</ul>` : ""}
       <div class="lgrid${b._elites.length ? "" : " solo"}">
         ${b._elites.length ? `<section class="lbox"><h4>Elite to capture</h4>${b._elites.map(s => `<div class="bp-skill">
           ${LINK.skill(s.id).replace("sk-ic sm", "sk-ic")}${eliteTick(s.id, undefined, "Captured")}<span class="dim">${PROFS[s.profession]} · ${esc(ATTRIBUTES[s.attribute] || "")}</span>

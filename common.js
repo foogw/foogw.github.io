@@ -356,20 +356,22 @@ const noteLi = n => `<li>${n}</li>`;
   addEventListener("scroll", hide, true);
 }
 // [data-tip]: its text in a tooltip at once, above it (below near the top of the window), on hover or keyboard focus
+// ([data-tip-html]: markup instead, our own: the coins' lines with their icon)
 {
   let tip = null;
   const show = el => {
     tip ??= Object.assign(document.createElement("div"), { className: "tip", role: "tooltip" });
     if (!tip.isConnected) document.body.append(tip);
-    tip.textContent = el.dataset.tip; tip.hidden = false;
+    if (el.dataset.tipHtml !== undefined) tip.innerHTML = el.dataset.tipHtml; else tip.textContent = el.dataset.tip;
+    tip.hidden = false;
     const r = el.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight;
     tip.style.left = `${Math.max(4, Math.min(innerWidth - w - 4, r.left + r.width / 2 - w / 2))}px`;
     tip.style.top = `${r.top - h - 6 < 4 ? r.bottom + 6 : r.top - h - 6}px`;
   };
   const hide = () => { if (tip) tip.hidden = true; };
   for (const [on, off] of [["mouseover", "mouseout"], ["focusin", "focusout"]]) {
-    addEventListener(on, e => { const el = e.target.closest?.("[data-tip]"); if (el) show(el); });
-    addEventListener(off, e => { if (e.target.closest?.("[data-tip]")) hide(); });
+    addEventListener(on, e => { const el = e.target.closest?.("[data-tip], [data-tip-html]"); if (el) show(el); });
+    addEventListener(off, e => { if (e.target.closest?.("[data-tip], [data-tip-html]")) hide(); });
   }
   addEventListener("scroll", hide, true);
 }
@@ -580,7 +582,7 @@ function ageBirthday(lo, hi, t = Date.now()) {
   const kHi = Math.floor((t - hi) / AGE_YEAR) + 1, kLo = Math.floor((t - lo) / AGE_YEAR) + 1;
   return kLo === kHi ? { from: lo + kHi * AGE_YEAR, to: hi + kHi * AGE_YEAR, now: false, years: kHi } : { from: t, to: hi + kHi * AGE_YEAR, now: true, years: kHi };
 }
-function entryHTML(e) {
+function entryLink(e) {
   if (e.mission) return hasModes(MISSIONS[e.mission]) ? quickLink(LINK.mission(e.mission), "mission", e.mission) : LINK.mission(e.mission);
   if (e.area && !e.creature && !e.item) return AREAS[e.area]?.foes ? quickLink(LINK.area(e.area), "vanquish", e.area) : LINK.area(e.area);
   if (e.bonus) return quickLink(`<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`, "bonus", e.bonus);
@@ -599,6 +601,18 @@ function entryHTML(e) {
   if (e.name) return esc(e.name) + quickStar(quickNote("sandford", e.name), QUICK_LIST.sandford[e.name]?.() || "");
   return esc(entryName(e));
 }
+// the copper Zaishen Coins a Zaishen quest pays (game/calendar.js copper), after its name: the total for doing it all,
+// the parts in its tooltip, a line each, the later ones with a +, the numbers lined up on the right (a mission's for the mission, its bonus or Master's
+// reward and Hard Mode; a bounty's for the kill and Hard Mode; a vanquish's one)
+const COIN_FOR = { mission: ["for the mission", "for the bonus", "in Hard Mode"], creature: ["for the kill", "in Hard Mode"], area: ["for the vanquish"] };
+function coinsHTML(e) {
+  if (!e.copper) return "";
+  const kinds = COIN_FOR[e.mission ? "mission" : e.creature ? "creature" : "area"], v = e.copper.map((n, i) => [n, kinds[i]]).filter(([n]) => n);
+  const sum = e.copper.reduce((a, n) => a + n, 0), coin = '<img src="img/items/copper-zaishen-coin.png" alt="copper Zaishen Coins">';
+  const tip = `<span class="zc-tip">${v.map(([n, k], i) => `<span class="zc-n">${i ? "+" : ""}${n}</span><span>${coin} ${k}</span>`).join("")}</span>`;
+  return ` <span class="zc" data-tip-html="${esc(tip)}">${sum}${coin}</span>`;
+}
+const entryHTML = e => entryLink(e) + coinsHTML(e);
 // where an entry takes you: a bounty's area and the campaign; else the region and campaign
 function entryWhere(e) {
   const l = AREAS[e.area || e.mission];
@@ -607,17 +621,18 @@ function entryWhere(e) {
   const parts = [at, !at && regionOf(l)?.name, CAMPAIGNS[campaignOf(l)]].filter(Boolean);
   return ` <span class="dim">· ${parts.map(esc).join(" · ")}</span>`;
 }
-// when a daily rotation (Zaishen Mission, Zaishen Vanquish) is next on what is(entry) picks, or how long the current
-// one still runs: a sentence, or "" when it never comes
+// when a daily rotation (Zaishen Mission, Zaishen Vanquish, Zaishen Bounty) is next on what is(entry) picks, or how
+// long the current one still runs: a sentence ("here", or where: "for this boss"), or "" when it never comes
 const fmtZDay = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric" });
-function zaishenNote(key, is) {
+function zaishenNote(key, is, where = "here") {
   const r = ROTATIONS[key];
   if (!r?.entries.some(is)) return "";
   const now = Date.now(), k = Rotation.period(r, now);
   let i = 0;
   while (!is(Rotation.entry(r, k + i))) i++;
-  return i ? `The next <a href="rotations">${esc(r.title)}</a> here is on ${fmtZDay.format(Rotation.startsAt(r, k + i))}, in ${i} day${i > 1 ? "s" : ""}.`
-    : `This is today's <a href="rotations">${esc(r.title)}</a>, for another ${timeLeft(Rotation.endsAt(r, now) - now)}.`;
+  const coins = coinsHTML(Rotation.entry(r, k + i)), reward = coins ? ` Reward:${coins}` : "";  // (its copper coins, as in the lists)
+  return (i ? `The next <a href="rotations">${esc(r.title)}</a> ${where} is on ${fmtZDay.format(Rotation.startsAt(r, k + i))}, in ${i} day${i > 1 ? "s" : ""}.`
+    : `This is today's <a href="rotations">${esc(r.title)}</a>, for another ${timeLeft(Rotation.endsAt(r, now) - now)}.`) + reward;
 }
 // the next Zaishen Bounty at an area: {days} from today (0: today), or null
 function bountyAt(id, now = Date.now()) {
