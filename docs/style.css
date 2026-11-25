@@ -513,9 +513,14 @@ button.rnd-copy:hover { color: var(--text); }
 .t-v { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* a Zaishen quest's copper coins after its name: the total, the parts on hover */
 .zc { font-weight: 400; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.zc img, .tip img { width: 14px; height: 14px; vertical-align: -3px; margin-left: 1px; }
+.zc img, .tip img { width: 16px; height: 16px; vertical-align: -4px; margin-left: 1px; }
 .zc-tip { display: grid; grid-template-columns: max-content max-content; column-gap: 1px; }
 .zc-n { text-align: right; }
+/* the reward in a link's hover card (data-coins): the same lines, under a heading */
+.todo-card .zc-tip { font-size: 13px; }
+.todo-card .zc-tip img { width: 16px; height: 16px; border-radius: 0; vertical-align: -4px; margin-left: 1px; }
+.todo-card b.reward { margin-top: 6px; }
+.todo-card b.reward:first-child { margin-top: 0; }
 .t-v .dim { font-weight: 400; }
 .t-l { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
 .t-n { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

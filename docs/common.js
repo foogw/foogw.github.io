@@ -324,10 +324,10 @@ const todoLink = (html, kind, id) => { const rows = need(kind, id); return rows.
 const missionMarks = () => "", vanqMark = () => "", modeMarks = () => "", bonusMark = () => "";  // (gone: the styling above)
 // a page's note as a list item
 const noteLi = n => `<li>${n}</li>`;
-// [data-todo] (or [data-note], [data-list]): a card below the pointer, "Wannabe GWAMMs still need this:", a row per
+// [data-todo] (or [data-note], [data-list], [data-coins]): a card below the pointer, "Wannabe GWAMMs still need this:", a row per
 // character with its profession; the note (a quick star's, QUICK, in the star's colour); a titled list of characters
 // (QUICK_LIST: who Augury Rock is available for, the Canthan characters), one a line; with data-plain, the note alone,
-// small and plain. The card never goes past the window: cut off at its foot when the list is that long
+// small and plain; a Zaishen quest's reward (data-coins, common.js coinLines) last. The card never goes past the window: cut off at its foot when the list is that long
 {
   let card = null;
   const show = (el, e) => {
@@ -342,17 +342,18 @@ const noteLi = n => `<li>${n}</li>`;
     card.classList.toggle("noneed", !rows.length && !note);
     card.innerHTML = (rows.length ? `<b>Wannabe GWAMMs still need this</b>${chars(rows)}` : "")
       + (note ? `<b class="free">${esc(note)}</b>` : "")
-      + (list?.rows?.length ? `<b class="list">${esc(list.t)}</b>${chars(list.rows)}` : "");
+      + (list?.rows?.length ? `<b class="list">${esc(list.t)}</b>${chars(list.rows)}` : "")
+      + (el.dataset.coins ? `<b class="reward">Reward</b>${el.dataset.coins}` : "");
     card.hidden = false;
     const r = el.getBoundingClientRect(), w = card.offsetWidth, h = card.offsetHeight, x = e?.clientX ?? r.left + r.width / 2;
     card.style.left = `${Math.max(4, Math.min(innerWidth - w - 4, x - 16))}px`;
     card.style.top = `${Math.max(4, r.bottom + 8 + h > innerHeight ? r.top - h - 8 : r.bottom + 8)}px`;
   };
   const hide = () => { if (card) card.hidden = true; };
-  addEventListener("mouseover", e => { const el = e.target.closest?.("[data-todo], [data-note], [data-list]"); if (el) show(el, e); });
-  addEventListener("focusin", e => { const el = e.target.closest?.("[data-todo], [data-note], [data-list]"); if (el) show(el); });
-  addEventListener("mouseout", e => { if (e.target.closest?.("[data-todo], [data-note], [data-list]")) hide(); });
-  addEventListener("focusout", e => { if (e.target.closest?.("[data-todo], [data-note], [data-list]")) hide(); });
+  addEventListener("mouseover", e => { const el = e.target.closest?.("[data-todo], [data-note], [data-list], [data-coins]"); if (el) show(el, e); });
+  addEventListener("focusin", e => { const el = e.target.closest?.("[data-todo], [data-note], [data-list], [data-coins]"); if (el) show(el); });
+  addEventListener("mouseout", e => { if (e.target.closest?.("[data-todo], [data-note], [data-list], [data-coins]")) hide(); });
+  addEventListener("focusout", e => { if (e.target.closest?.("[data-todo], [data-note], [data-list], [data-coins]")) hide(); });
   addEventListener("scroll", hide, true);
 }
 // [data-tip]: its text in a tooltip at once, above it (below near the top of the window), on hover or keyboard focus
@@ -605,14 +606,16 @@ function entryLink(e) {
 // the parts in its tooltip, a line each, the later ones with a +, the numbers lined up on the right (a mission's for the mission, its bonus or Master's
 // reward and Hard Mode; a bounty's for the kill and Hard Mode; a vanquish's one)
 const COIN_FOR = { mission: ["for the mission", "for the bonus", "in Hard Mode"], creature: ["for the kill", "in Hard Mode"], area: ["for the vanquish"] };
+const COIN_IMG = '<img src="img/items/copper-zaishen-coin.png" alt="copper Zaishen Coins">';
+const coinLines = e => { const kinds = COIN_FOR[e.mission ? "mission" : e.creature ? "creature" : "area"];
+  return `<span class="zc-tip">${e.copper.map((n, i) => [n, kinds[i]]).filter(([n]) => n).map(([n, k], i) => `<span class="zc-n">${i ? "+" : ""}${n}</span><span>${COIN_IMG} ${k}</span>`).join("")}</span>`; };
+// the total with the coin's icon, the lines in its tooltip (a page's note: "Reward: 140")
 function coinsHTML(e) {
   if (!e.copper) return "";
-  const kinds = COIN_FOR[e.mission ? "mission" : e.creature ? "creature" : "area"], v = e.copper.map((n, i) => [n, kinds[i]]).filter(([n]) => n);
-  const sum = e.copper.reduce((a, n) => a + n, 0), coin = '<img src="img/items/copper-zaishen-coin.png" alt="copper Zaishen Coins">';
-  const tip = `<span class="zc-tip">${v.map(([n, k], i) => `<span class="zc-n">${i ? "+" : ""}${n}</span><span>${coin} ${k}</span>`).join("")}</span>`;
-  return ` <span class="zc" data-tip-html="${esc(tip)}">${sum}${coin}</span>`;
+  return ` <span class="zc" data-tip-html="${esc(coinLines(e))}">${e.copper.reduce((a, n) => a + n, 0)}${COIN_IMG}</span>`;
 }
-const entryHTML = e => entryLink(e) + coinsHTML(e);
+// an entry in a list: its link, with the reward in its hover card (data-coins; with a need's rows when it has them)
+const entryHTML = e => (e.copper ? entryLink(e).replace(/^<a /, `<a data-coins="${esc(coinLines(e))}" `) : entryLink(e));
 // where an entry takes you: a bounty's area and the campaign; else the region and campaign
 function entryWhere(e) {
   const l = AREAS[e.area || e.mission];
