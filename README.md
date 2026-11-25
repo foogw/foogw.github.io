@@ -12,7 +12,8 @@ maps, storylines, skills, bosses, heroes, armor, titles).
 Characters' progress is ticked off on the pages and kept in the browser only, with a Backup page to save it
 to a file and load it back; with nothing saved yet, example characters show the site working.
 
-No build step: the folder is served as it is by GitHub Pages, at <https://foogw.github.io>. The game's data
+No build step: the `docs/` folder is served as it is by GitHub Pages, at <https://foogw.github.io>; the
+repository's root holds only this file and the licenses. The game's data
 and the site's own content are plain files, kept by hand and checked by a script; the Dev page links the
 site's own tools and testing aids.
 
@@ -20,4 +21,4 @@ site's own tools and testing aids.
 
 Code: MIT (`LICENSE`). Data: CC BY-NC-SA 4.0, derived from GuildWiki.de and other sources
 (`DATA-LICENSE.md`). Third-party and ArenaNet notices: `NOTICE.md`. The site shows all of this on
-`license.html`.
+`docs/license.html`.
