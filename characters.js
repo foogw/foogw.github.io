@@ -475,13 +475,6 @@ function statsHTML(c) {
   return progress(c).map(([, tiles]) => `<div class="ch-stats">${tiles.map(([k, have, of, href]) => `<a class="ch-stat ${have >= of ? "done" : have ? "some" : "none"}" href="${href}" title="${have >= of ? "All done" : "See what's left"}">
       <span class="ch-sk">${k}</span><span><b>${have}</b> <span class="dim">/ ${of}</span></span></a>`).join("")}</div>`).join("");
 }
-// the list to manage, by account: the account as a heading (its name to rename, its bell; with one account only that), its characters
-// under it; with more, each account as a heading (its name
-// to rename, a delete while it has no characters, chevrons to reorder) with a new character after its last; a character
-// stays on the account it was made on, and chevrons move it among the account's characters: the saved order is the shown
-// order
-// a character's row to change: its profession, name, modes and gender, then hide or show, chevrons (round the ends:
-// the first up goes last) and delete; the Edit tab's (the one picked) without hide and delete
 // the campaign it was made in, to pick (on the Edit tab's row, after its gender)
 const campPick = c => `<label class="ch-edit-camp">Made in <select id="edit-campaign"${fixedCampaign(c) ? ` disabled title="${PROF_CAMPAIGN[c.profession] ? `A ${PROFS[c.profession]} can only be made in ${CAMPAIGNS[PROF_CAMPAIGN[c.profession]]}` : "A pre-Searing character is a Prophecies one"}"` : ""}>${[[0, "Not set"], [1, "Prophecies"], [2, "Factions"], [3, "Nightfall"]].map(([v, n]) =>
   `<option value="${v}"${(madeIn(c) || 0) === v ? " selected" : ""}>${n}</option>`).join("")}</select></label>`;
