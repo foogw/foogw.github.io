@@ -628,25 +628,27 @@ function doubleWeek(e, at = Date.now()) { const r = ROTATIONS["weekly-pve"]; if 
   for (let i = 0; i < r.entries.length; i++) if (Rotation.entry(r, k + i).bonus === DOUBLE_BONUS[coinKind(e)]) return i; return null; }
 const weeksWord = i => (i === 0 ? "this week" : i === 1 ? "next week" : `in ${i} weeks`);
 const coinSum = e => e.copper.reduce((a, n) => a + n, 0);
+// a total in silver (50 copper each) for the lists and notes, ~ when it does not come out round: 150 "3 [s]", 140 "~3 [s]"
+const inSilver = n => { const k = Math.round(n / 50); return `${k * 50 === n ? "" : "~"}${k}${SILVER_IMG}`; };
 const coinLines = (e, at) => { const w = doubleWeek(e, at), sum = coinSum(e);
   // (one line: "20 [c] + 30 [c] + 50 [c] =" (the mission, its bonus, Hard Mode: known), the coins under it, "or" the
   // double and when)
   const row = (n, when, cls = "") => `${asCoins(n, cls)}${when ? ` <span class="zc-when">${when}</span>` : ""}</span>`;
   const rows = w == null ? row(sum) : row(sum, "or") + row(sum * 2, weeksWord(w), w === 0 ? " zc-on" : "");
   return `<span class="zc-tip"><span class="zc-line">${e.copper.filter(Boolean).map(n => `${n}${COIN_IMG}`).join(" + ")} =</span>${rows}</span>`; };
-// the total with the coin's icon, the lines in its tooltip (a page's note: "Reward: 140")
+// the total in silver, the copper lines in its tooltip (a page's note: "Reward: ~3 [s]")
 function coinsHTML(e, at) {
   if (!e.copper) return "";
-  return ` <span class="zc" data-tip-html="${esc(coinLines(e, at))}">${coinSum(e)}${COIN_IMG}</span>`;
+  return ` <span class="zc" data-tip-html="${esc(coinLines(e, at))}">${inSilver(coinSum(e))}</span>`;
 }
-// an entry in a list: its link, then a Zaishen quest's total in copper ("140 [c]"), green with the double in its double
+// an entry in a list: its link, then a Zaishen quest's total in silver ("~3 [s]"), green with the double in its double
 // week (at: when the entry runs), so the higher reward shows; its hover card (data-reward) has the parts and says why
 // (the coins name the bonus and the week that doubles them: hovering them lights that week's bonus link on the page)
 function entryHTML(e, at) {
   if (!e.copper) return entryLink(e, at);
   const w = doubleWeek(e, at), on = w === 0;
   const week = w == null ? "" : ` data-bonus="${DOUBLE_BONUS[coinKind(e)]}" data-week="${weekK(at) + w}"`;
-  return `${entryLink(e, at)} <span class="zpill${on ? " on" : ""}" data-reward="${esc(coinLines(e, at))}"${week}>${coinSum(e) * (on ? 2 : 1)}${COIN_IMG}</span>`;
+  return `${entryLink(e, at)} <span class="zpill${on ? " on" : ""}" data-reward="${esc(coinLines(e, at))}"${week}>${inSilver(coinSum(e) * (on ? 2 : 1))}</span>`;
 }
 // where an entry takes you: a bounty's area and the campaign; else the region and campaign
 function entryWhere(e) {
