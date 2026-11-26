@@ -215,7 +215,7 @@ nav.pages a[aria-current=page] { color: var(--text); }
 .gchar img { width: 18px; height: 18px; border-radius: 4px; }
 .gchar:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--text); }
 .gchar.cur { color: var(--text); } .gchar.cur::after { content: "✓"; margin-left: auto; color: var(--accent); font-size: 12px; }
-.gpic { width: 16px; height: 16px; border-radius: 4px; margin-right: 6px; }
+.gpic { width: 16px; height: 16px; border-radius: 4px; }  /* (the bar's 4px gap alone before the name) */
 .gpick[hidden] { display: none; }
 .gpick .gmenu a { display: flex; }
 .gsep { border-top: 1px solid var(--line); margin: 4px 6px; }
@@ -1418,6 +1418,8 @@ tr[data-id] .u-move { margin-right: 14px; }  /* (a character row: the arrows, th
 .ch-item > img { width: 20px; height: 20px; flex: none; }
 .ch-iname { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ch-mode { width: 16px; height: 16px; vertical-align: -3px; }
+img.ch-mel, .gchar img.ch-mel, .todo-card img.ch-mel, .c-pill img.ch-mel { width: 14px; height: 14px; border-radius: 0; vertical-align: -2px; margin-left: 2px; }  /* (the modes after a character's name, common.js nameIcons) */
+img.ch-mel + img.ch-mel { margin-left: -3px; }  /* (a second icon as far from the first as the first from the name: the pictures have clear sides) */
 .ch-ig { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .ch-acct-h { all: unset; box-sizing: border-box; display: flex; align-items: center; gap: 6px; width: 100%; padding: 8px 6px 4px; cursor: pointer;
   font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }

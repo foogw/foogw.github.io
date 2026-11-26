@@ -79,15 +79,15 @@ function doneHTML(c) {
   // (the wannabe GWAMMs still capturing; with none, the characters played as usual. Not the retired, hidden or pre-Searing)
   const o = User.data(), still = aim => o.chars.filter(x => x.id !== c.id && (x.aim || "") === aim && !x.hidden && !(x.modes || []).includes("presearing")).map(x => [x, missingOf(x)]).filter(([, n]) => n).sort((a, b) => a[1] - b[1]);
   const wb = still("gwamm"), others = wb.length ? wb : still("");
-  return `<div class="cap-who cap-alldone"><img class="ip" src="${profImg(c.profession)}" alt=""> <b>${esc(c.name)}</b> has captured every elite: all ${ALL_ELITES.length} there are to capture, the three Skill Hunter titles done.</div>
-    <div class="cap-done">${others.length ? `<p class="dim">${wb.length ? "Wannabe GWAMMs still capturing" : "Still capturing"}:</p> ${others.map(([x, n]) => `<a class="c-pill" href="captures${stateQuery(state.view)}" data-go="${x.id}"><img src="${profImg(x.profession || 0)}" alt="">${esc(x.name)}<span class="dim">${n} missing</span></a>`).join("")}` : `<p class="dim">No other character is after them.</p>`} <p><a href="characters">My Characters</a></p></div>`;
+  return `<div class="cap-who cap-alldone"><img class="ip" src="${profImg(c.profession)}" alt=""> <b>${charLabel(c)}</b> has captured every elite: all ${ALL_ELITES.length} there are to capture, the three Skill Hunter titles done.</div>
+    <div class="cap-done">${others.length ? `<p class="dim">${wb.length ? "Wannabe GWAMMs still capturing" : "Still capturing"}:</p> ${others.map(([x, n]) => `<a class="c-pill" href="captures${stateQuery(state.view)}" data-go="${x.id}"><img src="${profImg(x.profession || 0)}" alt="">${charLabel(x)}<span class="dim">${n} missing</span></a>`).join("")}` : `<p class="dim">No other character is after them.</p>`} <p><a href="characters">My Characters</a></p></div>`;
 }
 function summaryHTML() {
   const c = User.char(), got = new Set(c.elites), kept = charKept();
   const missing = missingOf(c);
   const hunter = SKILL_HUNTER.map(([camp, need, name]) => { const all = capturedIn(camp), n = all.filter(id => got.has(id)).length;
     return `<span class="lstat${n >= need ? " done" : ""}"><small>${name}</small><b>${n} <span class="dim">/ ${need}</span></b><small>${n >= need ? "Skill Hunter done" : `${need - n} more for Skill Hunter`}</small></span>`; }).join("");
-  return `<div class="cap-who">${kept ? `<img class="ip" src="${profImg(c.profession)}" alt=""> <b>${esc(c.name)}</b> is missing <b>${missing}</b> of the ${new Set([1, 2, 3].flatMap(capturedIn)).size} elites` : `<b>No character picked</b>: every elite is listed. <a href="characters">My Characters</a> keeps what you've captured`}</div>
+  return `<div class="cap-who">${kept ? `<img class="ip" src="${profImg(c.profession)}" alt=""> <b>${charLabel(c)}</b> is missing <b>${missing}</b> of the ${new Set([1, 2, 3].flatMap(capturedIn)).size} elites` : `<b>No character picked</b>: every elite is listed. <a href="characters">My Characters</a> keeps what you've captured`}</div>
     <div class="lstats">${hunter}</div>`;
 }
 

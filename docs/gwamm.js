@@ -112,7 +112,7 @@
   const groupLines = (c, gs, hard = false, bare = false) => gs.map(g => (g.length > 1 ? `<li class="gw-either"><span class="dim">either</span><ul>${g.map(x => missionLine(c, x, hard, bare)).join("")}</ul></li>` : missionLine(c, g[0], hard, bare))).join("");
 
   /* ---------- phase 0: the campaign it was made in ---------- */
-  const campaignHTML = c => `<section><h2>Where was ${esc(c.name)} made?</h2><p class="dim">The route starts from there. Pick it here or on its <a href="characters?tab=edit">Edit</a> tab.</p>
+  const campaignHTML = c => `<section><h2>Where was ${charLabel(c)} made?</h2><p class="dim">The route starts from there. Pick it here or on its <a href="characters?tab=edit">Edit</a> tab.</p>
     <div class="gw-btns">${[1, 2, 3].map(k => `<button type="button" class="gw-btn" data-camp="${k}">${esc(CAMPAIGNS[k])}</button>`).join("")}</div></section>`;
 
   /* ---------- phase 1: the port towns ---------- */
@@ -241,7 +241,7 @@
   function goalsHTML(c, o) {
     const team = teamOf(c), ready = teamReady(c), all = Object.values(STORY).flat(), n = all.length;
     const nmDone = all.filter(x => nm(c, x.id)).length, hmDone = all.filter(x => hm(c, x.id)).length, vqAll = Object.values(AREAS).filter(a => a.foes).length;
-    const goal = isGwamm(c, o) ? `<p class="gw-goal gw-gwamm">🏆 ${esc(c.name)} is a <b>God Walking Amongst Mere Mortals</b>. Below, whatever is left beyond the title.</p>`
+    const goal = isGwamm(c, o) ? `<p class="gw-goal gw-gwamm">🏆 ${charLabel(c)} is a <b>God Walking Amongst Mere Mortals</b>. Below, whatever is left beyond the title.</p>`
       : `<p class="gw-goal">${!ports(c) ? "First: the three port towns, to reach every campaign." : ready ? "The meta hero team is ready: hard mode is open." : `Main goal: the meta hero team, ${team.map(t => `${t.have} of ${t.need} ${PROFS[t.prof]}${t.need === 1 ? "" : "s"}`).join(", ")}. Until then, normal mode.`}</p>`;
     // (the count toward the title: the other titles maxed, 30 for the sixth rank, and the rank's name held now)
     const maxed = titlesMaxed(c, o), rank = titleRankOf(TITLES[10], c, o), held = rank ? TITLES[10].rank_names[rank - 1] : "no title yet";
@@ -252,10 +252,10 @@
     const o = User.data(), c = User.char(o);
     // (the other wannabe GWAMMs to pick here; anyone else in the top bar)
     const others = (wannabes() || []).filter(x => x.id !== c.id);
-    els.who.innerHTML = `<span class="cap-who">For ${charPill(c)}</span> <span class="dim">${others.length ? `or ${others.map(x => `<button type="button" class="link" data-pick="${x.id}">${esc(x.name)}</button>`).join(", ")}; anyone else in the top bar` : "pick another in the top bar"}</span>`;
+    els.who.innerHTML = `<span class="cap-who">For ${charPill(c)}</span> <span class="dim">${others.length ? `or ${others.map(x => `<button type="button" class="link" data-pick="${x.id}">${charLabel(x)}</button>`).join(", ")}; anyone else in the top bar` : "pick another in the top bar"}</span>`;
     // (a pre-Searing character: Legendary Defender of Ascalon, then the Searing, or staying)
     if (isPreSearing(c)) { const ldoa = !!(c.titles || {})[21];
-      els.goals.innerHTML = `<p class="gw-goal">${ldoa ? `${esc(c.name)} is a Legendary Defender of Ascalon: what's left is the Searing, or staying.` : `Main goal: <a href="${titleHref(21)}">Legendary Defender of Ascalon</a>, level 20 in pre-Searing; then the Searing, or staying.`}</p>
+      els.goals.innerHTML = `<p class="gw-goal">${ldoa ? `${charLabel(c)} is a Legendary Defender of Ascalon: what's left is the Searing, or staying.` : `Main goal: <a href="${titleHref(21)}">Legendary Defender of Ascalon</a>, level 20 in pre-Searing; then the Searing, or staying.`}</p>
         <div class="lstats">${stat("Legendary Defender of Ascalon", ldoa ? "done" : "level 20 to reach", ldoa)}</div>`;
       els.main.innerHTML = `<h2>Next things to do</h2><p class="dim">${ldoa ? "The Searing, when it's time: the route starts after it." : "Level 20 in pre-Searing: the Charr at the wall, the Vanguard quests, the Nicholas Sandford gifts."}</p>`; return; }
     els.goals.innerHTML = goalsHTML(c, o);

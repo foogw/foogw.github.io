@@ -62,6 +62,9 @@
   // My Characters by the picked character's name, once it has one of its own (not the default Char<id>): read from the
   // progress kept in this browser (common.js's User; this script runs before it), and again when it changes
   const PROF_PIC = ["Any", "Warrior", "Ranger", "Monk", "Necromancer", "Mesmer", "Elementalist", "Assassin", "Ritualist", "Paragon", "Dervish"];
+  // (the icons of the modes a character plays by after its name, as common.js nameIcons)
+  const MODES = { presearing: "Pre-Searing", melandru: "Melandru's Accord" };
+  const modes = c => Object.keys(MODES).filter(m => (c.modes || []).includes(m)).map((m, i) => `${i ? "" : " "}<img class="ch-mel" src="img/modes/${m}.png" alt="${MODES[m]}" title="${MODES[m]}">`).join("");
   const readChars = () => {
     try {
       // (nothing saved: the starter examples, once common.js is here to make them; this script runs first, and is called
@@ -79,7 +82,7 @@
   const showMenuChars = () => {
     const { chars, cur } = readChars(), list = chars.filter(c => c.inMenu && !c.hidden);
     const esc = t => String(t).replace(/[&<>"]/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[x]);
-    const items = list.map(c => `<button type="button" class="gchar${c === cur ? " cur" : ""}" data-pick="${c.id}"><img src="img/prof/${PROF_PIC[c.profession] || "Any"}.png" alt="">${esc(c.name)}</button>`).join("");
+    const items = list.map(c => `<button type="button" class="gchar${c === cur ? " cur" : ""}" data-pick="${c.id}"><img src="img/prof/${PROF_PIC[c.profession] || "Any"}.png" alt=""><span class="ch-name">${esc(c.name)}${modes(c)}</span></button>`).join("");
     for (const g of header.querySelectorAll(".gchars")) g.innerHTML = items;
   };
   header.addEventListener("click", e => { const b = e.target.closest("[data-pick]"); if (!b) return; e.preventDefault();
@@ -88,7 +91,7 @@
   const showChar = () => {
     const { chars, cur } = readChars(), n = charName();
     for (const g of header.querySelectorAll(".gpick")) g.hidden = !chars.length;
-    for (const a of header.querySelectorAll(".hdr-char")) { a.querySelector("span").textContent = n ?? (cur ? cur.name : ""); a.title = "The character picked: its page"; a.classList.toggle("named", !!n);
+    for (const a of header.querySelectorAll(".hdr-char")) { a.querySelector("span").innerHTML = (n ?? (cur ? cur.name : "")).replace(/[&<>]/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[x]) + (cur ? modes(cur) : ""); a.title = "The character picked: its page"; a.classList.toggle("named", !!n);
       const pic = a.querySelector(".gpic"); if (pic) pic.src = `img/prof/${PROF_PIC[cur?.profession] || "Any"}.png`; }
     showMenuChars();
   };

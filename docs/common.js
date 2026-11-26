@@ -316,9 +316,9 @@ function need(kind, id) {
   return cs.map(c => [c, NEEDS[kind](c, id)]).filter(([, x]) => x).map(([c, x]) => [c, x.trim()]);
 }
 // the hover card's rows: each wannabe with its profession and what it still needs, kept on the link (data-todo); its
-// account's name too, the rows grouped under it (with more than one account)
+// account's name too, the rows grouped under it (with more than one account); and the modes shown after its name
 const acctOf = c => { const o = User.broken() ? null : User.data(); return o && o.accounts.length > 1 ? accountName(o.accounts.find(a => a.id === c.account) || { id: c.account }) : ""; };
-const todoRows = rows => esc(JSON.stringify(rows.map(([c, x]) => [c.name, c.profession || 0, x, acctOf(c)])));
+const todoRows = rows => esc(JSON.stringify(rows.map(([c, x]) => [c.name, c.profession || 0, x, acctOf(c), nameModes(c)])));
 // a link, styled as a thing to do when any wannabe needs it (the picked character or another: one green), with the
 // card naming them on hover
 const todoClass = () => "todo";
@@ -339,7 +339,7 @@ const noteLi = n => `<li>${n}</li>`;
     const note = el.dataset.note || "";
     let list = null; try { list = JSON.parse(el.dataset.list); } catch { /* none */ }
     // (the rows by account, each set under its account's name, when the rows carry one)
-    const chars = rows => { let last = null; return rows.map(([n, p, x, a]) => `${a && a !== last ? `<div class="acct">${esc(last = a)}</div>` : ""}<div>${p == null ? "" : `<img src="${profImg(p)}" alt="">`}${esc(n)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</div>`).join(""); };
+    const chars = rows => { let last = null; return rows.map(([n, p, x, a, m]) => `${a && a !== last ? `<div class="acct">${esc(last = a)}</div>` : ""}<div>${p == null ? "" : `<img src="${profImg(p)}" alt="">`}<span class="ch-name">${esc(n)}${modeIcons(m || [])}</span>${x ? `<span class="dim">${esc(x)}</span>` : ""}</div>`).join(""); };
     card.classList.toggle("plain", el.dataset.plain != null);
     card.classList.toggle("qcard", el.classList.contains("qstar"));
     card.classList.toggle("noneed", !rows.length && !note);
@@ -397,7 +397,14 @@ function bonusNeeds(id, c, o, scope = null) {
   return [say(left.filter(t => t.scope === "character"), c.name), say(left.filter(t => t.scope === "account"), acctSaid(o, c))].filter(Boolean);
 }
 // a character as a pill linking to My Characters (with it picked: data-go, handled below), a note inside it
-const charPill = (c, x = "") => `<a class="c-pill" href="characters" data-go="${c.id}"><img src="${profImg(c.profession || 0)}" alt="">${esc(c.name)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</a>`;
+// a character's name for a page, with the icons of the modes it plays by after it (pre-Searing, Melandru's Accord)
+const NAME_MODES = { presearing: "Pre-Searing", melandru: "Melandru's Accord" };  // (header.js has a copy)
+const nameModes = c => Object.keys(NAME_MODES).filter(m => (c.modes || []).includes(m));
+const modeIcons = ms => ms.map((m, i) => `${i ? "" : " "}<img class="ch-mel" src="img/modes/${m}.png" alt="${esc(NAME_MODES[m])}" title="${esc(NAME_MODES[m])}">`).join("");
+const nameIcons = c => modeIcons(nameModes(c));
+// (one piece, so a flex row keeps the space between the name and the icons)
+const charLabel = c => `<span class="ch-name">${esc(c.name)}${nameIcons(c)}</span>`;
+const charPill = (c, x = "") => `<a class="c-pill" href="characters" data-go="${c.id}"><img src="${profImg(c.profession || 0)}" alt="">${charLabel(c)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</a>`;
 document.addEventListener("click", e => { const a = e.target.closest?.("[data-go]"); if (a && typeof User !== "undefined") User.pick(+a.dataset.go); });
 // what a character still needs of a thing, said short ("" when nothing): a mission or dungeon not done in NM or HM (said
 // which), an area not vanquished, an elite not captured
@@ -454,7 +461,7 @@ const quickNote = (kind, id) => QUICK[kind]?.[id]?.() || "";
 // with a pre-Searing character (no profession icon); nothing with none
 const shownCharsOf = () => (User.broken() ? [] : User.data().chars.filter(c => !isPreSearing(c)));
 const listAttr = l => (l?.rows.length ? ` data-list="${esc(JSON.stringify(l))}"` : "");
-const charRows = cs => cs.map(c => [c.name, c.profession || 0, "", acctOf(c)]);
+const charRows = cs => cs.map(c => [c.name, c.profession || 0, "", acctOf(c), nameModes(c)]);
 const preAccounts = () => (User.broken() ? [] : User.data().accounts.filter(a => User.data().chars.some(c => c.account === a.id && isPreSearing(c))).map(a => [accountName(a), null]));
 const QUICK_LIST = {
   mission: { 38: () => ({ t: "Available for", rows: charRows(shownCharsOf().filter(c => (c.missions[38] || 0) & 3)) }) },
@@ -1305,7 +1312,7 @@ const prePicked = () => !User.broken() && isPreSearing(User.char());
 function markPre() {
   const pre = prePicked();
   document.documentElement.classList.toggle("u-pre", pre);
-  if (pre) for (const p of document.querySelectorAll(".u-pre-note")) p.textContent = `${User.char().name} stays in pre-Searing: nothing here to tick.`;
+  if (pre) for (const p of document.querySelectorAll(".u-pre-note")) p.innerHTML = `${charLabel(User.char())} stays in pre-Searing: nothing here to tick.`;
 }
 markPre();
 addEventListener("userchange", markPre);
