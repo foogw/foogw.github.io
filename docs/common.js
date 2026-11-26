@@ -315,8 +315,10 @@ function need(kind, id) {
   // (a need said short: "NM, HM" for a mission or dungeon; vanquish and elite needs have no words, " ")
   return cs.map(c => [c, NEEDS[kind](c, id)]).filter(([, x]) => x).map(([c, x]) => [c, x.trim()]);
 }
-// the hover card's rows: each wannabe with its profession and what it still needs, kept on the link (data-todo)
-const todoRows = rows => esc(JSON.stringify(rows.map(([c, x]) => [c.name, c.profession || 0, x])));
+// the hover card's rows: each wannabe with its profession and what it still needs, kept on the link (data-todo); its
+// account's name too, the rows grouped under it (with more than one account)
+const acctOf = c => { const o = User.broken() ? null : User.data(); return o && o.accounts.length > 1 ? accountName(o.accounts.find(a => a.id === c.account) || { id: c.account }) : ""; };
+const todoRows = rows => esc(JSON.stringify(rows.map(([c, x]) => [c.name, c.profession || 0, x, acctOf(c)])));
 // a link, styled as a thing to do when any wannabe needs it (the picked character or another: one green), with the
 // card naming them on hover
 const todoClass = () => "todo";
@@ -336,7 +338,8 @@ const noteLi = n => `<li>${n}</li>`;
     let rows = []; try { rows = JSON.parse(el.dataset.todo); } catch { /* none */ }
     const note = el.dataset.note || "";
     let list = null; try { list = JSON.parse(el.dataset.list); } catch { /* none */ }
-    const chars = rows => rows.map(([n, p, x]) => `<div>${p == null ? "" : `<img src="${profImg(p)}" alt="">`}${esc(n)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</div>`).join("");
+    // (the rows by account, each set under its account's name, when the rows carry one)
+    const chars = rows => { let last = null; return rows.map(([n, p, x, a]) => `${a && a !== last ? `<div class="acct">${esc(last = a)}</div>` : ""}<div>${p == null ? "" : `<img src="${profImg(p)}" alt="">`}${esc(n)}${x ? `<span class="dim">${esc(x)}</span>` : ""}</div>`).join(""); };
     card.classList.toggle("plain", el.dataset.plain != null);
     card.classList.toggle("qcard", el.classList.contains("qstar"));
     card.classList.toggle("noneed", !rows.length && !note);
@@ -450,7 +453,7 @@ const quickNote = (kind, id) => QUICK[kind]?.[id]?.() || "";
 // with a pre-Searing character (no profession icon); nothing with none
 const shownCharsOf = () => (User.broken() ? [] : User.data().chars.filter(c => !isPreSearing(c)));
 const listAttr = (t, rows) => (rows.length ? ` data-list="${esc(JSON.stringify({ t, rows }))}"` : "");
-const charRows = cs => cs.map(c => [c.name, c.profession || 0]);
+const charRows = cs => cs.map(c => [c.name, c.profession || 0, "", acctOf(c)]);
 const preAccounts = () => (User.broken() ? [] : User.data().accounts.filter(a => User.data().chars.some(c => c.account === a.id && isPreSearing(c))).map(a => [accountName(a), null]));
 const QUICK_LIST = {
   mission: { 38: () => listAttr("Available for", charRows(shownCharsOf().filter(c => (c.missions[38] || 0) & 3))) },
