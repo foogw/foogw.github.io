@@ -112,6 +112,7 @@ function readArgs() {
   if (!ALL_AREAS.some(l => listed(l) && is(l))) state.kind = "all";
   const so = h.get("sort") || "";
   state.desc = so.startsWith("-"); state.sort = so.replace(/^-/, "").replace(/^region$/, "");
+  if (h.get("q")) els.name.value = h.get("q");  // (areas?q=fire: the front page's search, carried on)
   update();
 }
 
