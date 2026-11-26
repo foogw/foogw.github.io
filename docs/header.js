@@ -106,4 +106,7 @@
   showReadOnly();
   globalThis.headerReadOnly = showReadOnly;
   addEventListener("storage", showReadOnly);
+  // the page's title links to the page itself, plain: the way back from whatever it shows (a skill, a guide, a filter)
+  addEventListener("DOMContentLoaded", () => { const h = document.querySelector(".page-title h1");
+    if (h && page !== "./" && !h.querySelector("a")) h.innerHTML = `<a href="${page}">${h.innerHTML}</a>`; });
 }
