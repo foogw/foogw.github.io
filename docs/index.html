@@ -142,7 +142,10 @@ const TODAY = [["zaishen-mission", "Mission"], ["zaishen-vanquish", "Vanquish"],
 function renderToday() {
   const t = NOW();
   $("today").innerHTML = rotationListHTML(TODAY, t);
-  $("td-date").value = ymd(t); $("td-now").hidden = !args().has("d");
+  // (the field is left alone while it's being used, and when it already says the day: a write while Chrome's popup
+  // is open snaps the popup back to the shown month)
+  if (document.activeElement !== $("td-date") && $("td-date").value !== ymd(t)) $("td-date").value = ymd(t);
+  $("td-now").hidden = !args().has("d");
 }
 renderToday();
 setInterval(renderToday, 30000);
