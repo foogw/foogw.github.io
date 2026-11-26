@@ -327,7 +327,7 @@ const noteLi = n => `<li>${n}</li>`;
 // [data-todo] (or [data-note], [data-list], [data-coins]): a card below the pointer, "Wannabe GWAMMs still need this:", a row per
 // character with its profession; the note (a quick star's, QUICK, in the star's colour); a titled list of characters
 // (QUICK_LIST: who Augury Rock is available for, the Canthan characters), one a line; with data-plain, the note alone,
-// small and plain; a Zaishen quest's reward (data-coins, common.js coinLines) last. The card never goes past the window: cut off at its foot when the list is that long
+// small and plain; a Zaishen quest's reward (data-coins, common.js coinLines) first. The card never goes past the window: cut off at its foot when the list is that long
 {
   let card = null;
   const show = (el, e) => {
@@ -340,10 +340,10 @@ const noteLi = n => `<li>${n}</li>`;
     card.classList.toggle("plain", el.dataset.plain != null);
     card.classList.toggle("qcard", el.classList.contains("qstar"));
     card.classList.toggle("noneed", !rows.length && !note);
-    card.innerHTML = (rows.length ? `<b>Wannabe GWAMMs still need this</b>${chars(rows)}` : "")
+    card.innerHTML = (el.dataset.coins ? `<b class="reward">Reward</b>${el.dataset.coins}` : "")
+      + (rows.length ? `<b class="need">Wannabe GWAMMs still need this</b>${chars(rows)}` : "")
       + (note ? `<b class="free">${esc(note)}</b>` : "")
-      + (list?.rows?.length ? `<b class="list">${esc(list.t)}</b>${chars(list.rows)}` : "")
-      + (el.dataset.coins ? `<b class="reward">Reward</b>${el.dataset.coins}` : "");
+      + (list?.rows?.length ? `<b class="list">${esc(list.t)}</b>${chars(list.rows)}` : "");
     card.hidden = false;
     const r = el.getBoundingClientRect(), w = card.offsetWidth, h = card.offsetHeight, x = e?.clientX ?? r.left + r.width / 2;
     card.style.left = `${Math.max(4, Math.min(innerWidth - w - 4, x - 16))}px`;
@@ -606,16 +606,31 @@ function entryLink(e) {
 // the parts in its tooltip, a line each, the later ones with a +, the numbers lined up on the right (a mission's for the mission, its bonus or Master's
 // reward and Hard Mode; a bounty's for the kill and Hard Mode; a vanquish's one)
 const COIN_FOR = { mission: ["for the mission", "for the bonus", "in Hard Mode"], creature: ["for the kill", "in Hard Mode"], area: ["for the vanquish"] };
-const COIN_IMG = '<img src="img/items/copper-zaishen-coin.png" alt="copper Zaishen Coins">';
-const coinLines = e => { const kinds = COIN_FOR[e.mission ? "mission" : e.creature ? "creature" : "area"];
-  return `<span class="zc-tip">${e.copper.map((n, i) => [n, kinds[i]]).filter(([n]) => n).map(([n, k], i) => `<span class="zc-n">${i ? "+" : ""}${n}</span><span>${COIN_IMG} ${k}</span>`).join("")}</span>`; };
+const COIN_IMG = '<img src="img/items/copper-zaishen-coin.png" alt="copper Zaishen Coins">', SILVER_IMG = '<img src="img/items/silver-zaishen-coin.png" alt="silver Zaishen Coins">';
+// (the last lines: the total as coins, a silver being 50 copper: "4 [silver] 10 [copper]", its first number in the
+// numbers' column so its coin sits under the lines' coins; then the double, with when its kind's PvE bonus week comes)
+const asCoins = (n, cls = "") => { const cs = [[Math.floor(n / 50), SILVER_IMG], [n % 50, COIN_IMG]].filter(([k]) => k);
+  return `<span class="zc-n${cls}">${cs[0][0]}</span><span class="zc-sum${cls}">${cs.map(([k, img], i) => `${i ? k : ""}${img}`).join(" ")}`; };
+// the week of its kind's PvE bonus (Zaishen Bounty 3, Mission 6, Vanquishing 9), counted from the entry's day (at):
+// 0 this week, 1 next week...
+const DOUBLE_BONUS = { mission: 6, creature: 3, area: 9 };
+const coinKind = e => (e.mission ? "mission" : e.creature ? "creature" : "area");
+function doubleWeek(e, at = Date.now()) { const r = ROTATIONS["weekly-pve"]; if (!r) return null; const k = Rotation.period(r, at);
+  for (let i = 0; i < r.entries.length; i++) if (Rotation.entry(r, k + i).bonus === DOUBLE_BONUS[coinKind(e)]) return i; return null; }
+const weeksWord = i => (i === 0 ? "this week" : i === 1 ? "next week" : `in ${i} weeks`);
+const coinSum = e => e.copper.reduce((a, n) => a + n, 0);
+const coinLines = (e, at) => { const kinds = COIN_FOR[coinKind(e)], w = doubleWeek(e, at), sum = coinSum(e);
+  const v = e.copper.map((n, i) => [n, kinds[i]]).filter(([n]) => n);  // (the lines, each ending in a comma, the last in a colon: the coins follow)
+  return `<span class="zc-tip">${v.map(([n, k], i) => `<span class="zc-n">${i ? "+" : ""}${n}</span><span>${COIN_IMG} ${k}${i < v.length - 1 ? "," : ":"}</span>`).join("")}`
+    + `${asCoins(sum)}</span>${w == null ? "" : `${asCoins(sum * 2, w === 0 ? " zc-on" : "")} <span class="zc-when">${weeksWord(w)}</span></span>`}</span>`; };
 // the total with the coin's icon, the lines in its tooltip (a page's note: "Reward: 140")
-function coinsHTML(e) {
+function coinsHTML(e, at) {
   if (!e.copper) return "";
-  return ` <span class="zc" data-tip-html="${esc(coinLines(e))}">${e.copper.reduce((a, n) => a + n, 0)}${COIN_IMG}</span>`;
+  return ` <span class="zc" data-tip-html="${esc(coinLines(e, at))}">${coinSum(e)}${COIN_IMG}</span>`;
 }
-// an entry in a list: its link, with the reward in its hover card (data-coins; with a need's rows when it has them)
-const entryHTML = e => (e.copper ? entryLink(e).replace(/^<a /, `<a data-coins="${esc(coinLines(e))}" `) : entryLink(e));
+// an entry in a list: its link, with the reward in its hover card (data-coins; with a need's rows when it has them);
+// at: when the entry runs, for when its double week comes
+const entryHTML = (e, at) => (e.copper ? entryLink(e).replace(/^<a /, `<a data-coins="${esc(coinLines(e, at))}" `) : entryLink(e));
 // where an entry takes you: a bounty's area and the campaign; else the region and campaign
 function entryWhere(e) {
   const l = AREAS[e.area || e.mission];
@@ -633,7 +648,7 @@ function zaishenNote(key, is, where = "here") {
   const now = Date.now(), k = Rotation.period(r, now);
   let i = 0;
   while (!is(Rotation.entry(r, k + i))) i++;
-  const coins = coinsHTML(Rotation.entry(r, k + i)), reward = coins ? ` Reward:${coins}` : "";  // (its copper coins, as in the lists)
+  const coins = coinsHTML(Rotation.entry(r, k + i), Rotation.startsAt(r, k + i)), reward = coins ? ` Reward:${coins}` : "";  // (its copper coins, as in the lists)
   return (i ? `The next <a href="rotations">${esc(r.title)}</a> ${where} is on ${fmtZDay.format(Rotation.startsAt(r, k + i))}, in ${i} day${i > 1 ? "s" : ""}.`
     : `This is today's <a href="rotations">${esc(r.title)}</a>, for another ${timeLeft(Rotation.endsAt(r, now) - now)}.`) + reward;
 }
@@ -654,8 +669,8 @@ function rotationListHTML(rows, now = Date.now()) {
   return rows.map(row => {
     if (!row) return '<div class="t-sep"></div>';
     const [key, title] = row, r = ROTATIONS[key], k = Rotation.period(r, now), e = Rotation.entry(r, k);
-    return `<div class="t-row"><span class="t-k">${title}</span><span class="t-v">${entryHTML(e)}</span>`
-      + `<span class="t-l">${timeLeft(Rotation.endsAt(r, now) - now)}</span><span class="t-n">Then: ${entryHTML(Rotation.entry(r, k + 1))}</span></div>`;
+    return `<div class="t-row"><span class="t-k">${title}</span><span class="t-v">${entryHTML(e, now)}</span>`
+      + `<span class="t-l">${timeLeft(Rotation.endsAt(r, now) - now)}</span><span class="t-n">Then: ${entryHTML(Rotation.entry(r, k + 1), Rotation.startsAt(r, k + 1))}</span></div>`;
   }).join("");
 }
 

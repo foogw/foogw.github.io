@@ -40,13 +40,14 @@ function matches(e, ts) {
 }
 
 // a Vanguard quest without its "Vanguard Annihilation: " prefix, in its column where every one has one
-const short = (r, e) => (r.key === "vanguard" && e.quest && QUESTS[e.quest]
-  ? LINK.quest(e.quest, QUESTS[e.quest].name.replace(/^Vanguard \w+: /, "")) : entryHTML(e));
+// (at: the row's day, for a Zaishen reward doubled in its bonus week)
+const short = (r, e, at) => (r.key === "vanguard" && e.quest && QUESTS[e.quest]
+  ? LINK.quest(e.quest, QUESTS[e.quest].name.replace(/^Vanguard \w+: /, "")) : entryHTML(e, at));
 // a cell the search matched is marked as a whole, so it stands out in a wide table; from: when the entry starts, for
 // a rotation that resets at another hour than the row's
-function cell(r, e, ts, from) {
+function cell(r, e, ts, from, at) {
   const cls = [ts.length && matches(e, ts) && "r-hit", from && "r-own"].filter(Boolean).join(" ");
-  return `<td${cls ? ` class="${cls}"` : ""}>${from ? `<span class="r-from">${from === true ? "Now" : fmtDay.format(from)}</span>` : ""}${short(r, e)}</td>`;
+  return `<td${cls ? ` class="${cls}"` : ""}>${from ? `<span class="r-from">${from === true ? "Now" : fmtDay.format(from)}</span>` : ""}${short(r, e, at)}</td>`;
 }
 
 // time to the column's next reset: 5h 06m, or 3d 4h for a weekly
@@ -72,7 +73,7 @@ function table(el, rotations, count, label, ahead = Infinity, head = r => left(R
     const at = i === 0 ? Date.now() : t;
     const ks = rotations.map(r => Rotation.period(r, at)), entries = rotations.map((r, j) => Rotation.entry(r, ks[j]));
     if (ts.length && !entries.some(e => matches(e, ts))) continue;
-    rows += `<tr class="${i === 0 ? "cur" : ""}"><th>${label(t, i)}</th>${rotations.map((r, j) => cell(r, entries[j], ts, own(r) && (i === 0 || Rotation.startsAt(r, ks[j])))).join("")}</tr>`;
+    rows += `<tr class="${i === 0 ? "cur" : ""}"><th>${label(t, i)}</th>${rotations.map((r, j) => cell(r, entries[j], ts, own(r) && (i === 0 || Rotation.startsAt(r, ks[j])), at)).join("")}</tr>`;
   }
   el.innerHTML = `<thead><tr><th></th>${rotations.map(r => `<th${own(r) ? ' class="r-own"' : ""}>${esc(SHORT[r.key])} <span class="r-left">(${head(r)})</span></th>`).join("")}</tr></thead>`
     + `<tbody>${rows || `<tr><td colspan="${rotations.length + 1}" class="dim">No match in a full cycle.</td></tr>`}</tbody>`;
@@ -126,7 +127,7 @@ function bonusPageHTML(b) {
   const status = active ? `Active now, ends in ${timeLeft(weeks[0][1] - now)}` : `Next: ${fmtWeek.format(weeks[0][0])}`;
   const week = weeks[0];
   const picks = b.daily ? dailyPicks(b.daily, week) : [];
-  const pickHTML = e => entryHTML(e) + (e.creature ? entryWhere(e) : "");
+  const pickHTML = (e, t) => entryHTML(e, t) + (e.creature ? entryWhere(e) : "");
   const others = Object.values(BONUSES).filter(x => x !== b);
   return `<p class="back"><a href="?">← Rotations</a></p>
     <div class="sp-head" style="--pc:var(--accent)">
@@ -144,7 +145,7 @@ function bonusPageHTML(b) {
           `<li><span>${fmtWeek.format(s)}</span><span class="dim">${i === 0 && active ? "now" : `to ${fmtDay.format(e)}`}</span></li>`).join("")}</ul>
           <p class="dim" style="margin:8px 0 0;font-size:12px">${esc(status)}. Times in your time zone; the nine PvE bonuses take turns, one per week.</p></section>
         ${picks.length ? `<section class="lbox"><h4>${{ "zaishen-mission": "Zaishen missions", "zaishen-bounty": "Zaishen bounties", "zaishen-vanquish": "Zaishen vanquishes" }[b.daily]} ${active ? "this week" : "that week"}</h4><ul class="lrows">${picks.map(([t, e]) =>
-          `<li><span>${pickHTML(e)}</span><span class="dim">${fmtDay.format(t)}</span></li>`).join("")}</ul></section>` : ""}
+          `<li><span>${pickHTML(e, t)}</span><span class="dim">${fmtDay.format(t)}</span></li>`).join("")}</ul></section>` : ""}
         <section class="lbox"><h4>Other PvE bonuses</h4><div class="chips">${others.map(x =>
           `<a class="chip" style="text-decoration:none" href="${query({ bonus: x.id })}">${esc(x.name)}</a>`).join("")}</div></section>
       </div>

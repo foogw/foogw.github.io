@@ -519,8 +519,11 @@ button.rnd-copy:hover { color: var(--text); }
 /* the reward in a link's hover card (data-coins): the same lines, under a heading */
 .todo-card .zc-tip { font-size: 13px; }
 .todo-card .zc-tip img { width: 16px; height: 16px; border-radius: 0; vertical-align: -4px; margin-left: 1px; }
-.todo-card b.reward { margin-top: 6px; }
-.todo-card b.reward:first-child { margin-top: 0; }
+.zc-sum, .zc-n:has(+ .zc-sum) { margin-top: 3px; }
+.zc-sum + .zc-n, .zc-sum + .zc-n + .zc-sum { margin-top: 0; }
+.zc-when { color: var(--muted); font-size: 12px; margin-left: 6px; }
+.zc-on .zc-when { color: var(--loc-exp); font-weight: 600; }  /* (the double, in its week: its "this week" green, as the card's "free") */
+.todo-card .zc-tip + b.need { margin-top: 8px; }  /* (the need's rows after the reward) */
 .t-v .dim { font-weight: 400; }
 .t-l { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
 .t-n { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
