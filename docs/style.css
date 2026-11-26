@@ -520,6 +520,8 @@ button.rnd-copy:hover { color: var(--text); }
 .zc img, .tip img { width: 16px; height: 16px; vertical-align: -4px; margin-left: 1px; }
 .zc-tip { display: grid; grid-template-columns: max-content max-content; column-gap: 1px; justify-content: start; }
 .zc-n { text-align: right; }
+.zc-total { grid-template-columns: max-content max-content max-content; margin-top: 8px; }  /* (a star card's foot: "Total", the coins) */
+.zc-lab { color: var(--muted); font-size: 12px; font-weight: 600; margin-right: 6px; }
 /* the reward in a link's hover card (data-coins): the same lines, under a heading */
 .todo-card .zc-tip { font-size: 13px; }
 .todo-card .zc-tip img { width: 16px; height: 16px; border-radius: 0; vertical-align: -4px; margin-left: 1px; }

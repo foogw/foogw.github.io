@@ -329,7 +329,7 @@ const noteLi = n => `<li>${n}</li>`;
 // [data-todo] (or [data-note], [data-list], [data-reward]): a card below the pointer, "Wannabe GWAMMs still need this:", a row per
 // character with its profession; the note (a quick star's, QUICK, in the star's colour); a titled list of characters
 // (QUICK_LIST: who Augury Rock is available for, the Canthan characters), one a line; with data-plain, the note alone,
-// small and plain; a Zaishen quest's reward (data-reward, common.js coinLines) first. The card never goes past the window: cut off at its foot when the list is that long
+// small and plain; a Zaishen quest's reward (data-reward, common.js coinLines) first, a star's total (data-after) last. The card never goes past the window: cut off at its foot when the list is that long
 {
   let card = null;
   const show = (el, e) => {
@@ -346,10 +346,11 @@ const noteLi = n => `<li>${n}</li>`;
     card.innerHTML = (el.dataset.reward ? `<b class="reward">Reward</b>${el.dataset.reward}` : "")
       + (rows.length ? `<b class="need">Wannabe GWAMMs still need this</b>${chars(rows)}` : "")
       + (note ? `<b class="free">${esc(note)}</b>` : "")
-      + (list?.rows?.length ? `<b class="list">${esc(list.t)}</b>${chars(list.rows)}` : "");
+      + (list?.rows?.length ? `<b class="list">${esc(list.t)}</b>${chars(list.rows)}` : "")
+      + (el.dataset.after || "");
     card.hidden = false;
     // (a Zaishen reward's coins: the bonus week that doubles them, lit where the page lists it)
-    if (el.dataset.reward && el.dataset.bonus) for (const a of document.querySelectorAll(`a[data-bonus="${el.dataset.bonus}"]`)) a.classList.add("lit");
+    if ((el.dataset.reward || el.dataset.after) && el.dataset.bonus) for (const a of document.querySelectorAll(`a[data-bonus="${el.dataset.bonus}"]`)) a.classList.add("lit");
     const r = el.getBoundingClientRect(), w = card.offsetWidth, h = card.offsetHeight, x = e?.clientX ?? r.left + r.width / 2;
     card.style.left = `${Math.max(4, Math.min(innerWidth - w - 4, x - 16))}px`;
     card.style.top = `${Math.max(4, r.bottom + 8 + h > innerHeight ? r.top - h - 8 : r.bottom + 8)}px`;
@@ -452,17 +453,19 @@ const quickNote = (kind, id) => QUICK[kind]?.[id]?.() || "";
 // characters that did it in NM or HM, so can enter it; Zen Daijun's Canthan characters; the Charr Carvings' accounts
 // with a pre-Searing character (no profession icon); nothing with none
 const shownCharsOf = () => (User.broken() ? [] : User.data().chars.filter(c => !isPreSearing(c)));
-const listAttr = (t, rows) => (rows.length ? ` data-list="${esc(JSON.stringify({ t, rows }))}"` : "");
+const listAttr = l => (l?.rows.length ? ` data-list="${esc(JSON.stringify(l))}"` : "");
 const charRows = cs => cs.map(c => [c.name, c.profession || 0, "", acctOf(c)]);
 const preAccounts = () => (User.broken() ? [] : User.data().accounts.filter(a => User.data().chars.some(c => c.account === a.id && isPreSearing(c))).map(a => [accountName(a), null]));
 const QUICK_LIST = {
-  mission: { 38: () => listAttr("Available for", charRows(shownCharsOf().filter(c => (c.missions[38] || 0) & 3))) },
-  vanquish: { 246: () => listAttr("Canthan characters", charRows(shownCharsOf().filter(c => madeIn(c) === 2))) },
-  sandford: { "Charr Carving": () => listAttr("Accounts with a pre-Searing character", preAccounts()) },
+  mission: { 38: () => ({ t: "Available for", rows: charRows(shownCharsOf().filter(c => (c.missions[38] || 0) & 3)) }) },
+  vanquish: { 246: () => ({ t: "Canthan characters", rows: charRows(shownCharsOf().filter(c => madeIn(c) === 2)) }) },
+  sandford: { "Charr Carving": () => ({ t: "Accounts with a pre-Searing character", rows: preAccounts() }) },
 };
-const quickStar = (note, list = "") => (note ? `<span class="qstar" data-note="${esc(note)}"${list} tabindex="0" role="img" aria-label="${esc(note)}">&nbsp;✦</span>` : "");
-// a to-do link (when a wannabe needs it), the star after it (when it's quick), with its list: the two apart
-const quickLink = (html, kind, id) => todoLink(html, kind, id) + quickStar(quickNote(kind, id), QUICK_LIST[kind]?.[id]?.() || "");
+const quickList = (kind, id) => QUICK_LIST[kind]?.[id]?.();
+const quickStar = (note, list = "", after = "") => (note ? `<span class="qstar" data-note="${esc(note)}"${list}${after} tabindex="0" role="img" aria-label="${esc(note)}">&nbsp;✦</span>` : "");
+// a to-do link (when a wannabe needs it), the star after it (when it's quick), with its list and (a Zaishen quest's)
+// total at its foot: the two apart
+const quickLink = (html, kind, id, after = () => "") => { const l = quickList(kind, id); return todoLink(html, kind, id) + quickStar(quickNote(kind, id), listAttr(l), after(l?.rows.length || 0)); };
 // a weekly bonus's pills: the characters of cs, then the accounts, whose titles it helps, each with those titles
 function bonusPills(bonus, o, cs) {
   const left = x => x[0].replace(/^.* hasn't maxed the /, "").replace(/ titles?$/, "");
@@ -591,8 +594,8 @@ function ageBirthday(lo, hi, t = Date.now()) {
 }
 // (a weekly bonus's link carries its bonus and week (at), so a Zaishen reward's hover can light the week that doubles it)
 function entryLink(e, at) {
-  if (e.mission) return hasModes(MISSIONS[e.mission]) ? quickLink(LINK.mission(e.mission), "mission", e.mission) : LINK.mission(e.mission);
-  if (e.area && !e.creature && !e.item) return AREAS[e.area]?.foes ? quickLink(LINK.area(e.area), "vanquish", e.area) : LINK.area(e.area);
+  if (e.mission) return hasModes(MISSIONS[e.mission]) ? quickLink(LINK.mission(e.mission), "mission", e.mission, n => coinAfter(e, at, n)) : LINK.mission(e.mission);
+  if (e.area && !e.creature && !e.item) return AREAS[e.area]?.foes ? quickLink(LINK.area(e.area), "vanquish", e.area, n => coinAfter(e, at, n)) : LINK.area(e.area);
   // (a Zaishen bonus week: no star; its note (hand in the quests you kept) on the link's own hover card)
   if (e.bonus) { const note = quickNote("bonus", e.bonus);
     return todoLink(`<a href="rotations${query({ bonus: e.bonus })}" data-bonus="${e.bonus}"${note ? ` data-note="${esc(note)}"` : ""}>${esc(entryName(e))}</a>`, "bonus", e.bonus); }
@@ -609,15 +612,16 @@ function entryLink(e, at) {
   // Nicholas the Traveler's item: his map that week, at the foot of the Rotations page
   if (e.item) return `${e.count} × ${e.at ? `<a href="rotations${query({ nick: ROTATIONS["nicholas-traveler"].entries.indexOf(e) })}">${esc(e.item)}</a>` : esc(e.item)}`;
   // (Nicholas Sandford's item: a name alone, starred when it's plentiful)
-  if (e.name) return esc(e.name) + quickStar(quickNote("sandford", e.name), QUICK_LIST.sandford[e.name]?.() || "");
+  if (e.name) return esc(e.name) + quickStar(quickNote("sandford", e.name), listAttr(quickList("sandford", e.name)));
   return esc(entryName(e));
 }
 // the copper Zaishen Coins a Zaishen quest pays (game/calendar.js copper): the parts on one line, added up (a mission's
 // for the mission, its bonus or Master's reward and Hard Mode; a bounty's for the kill and Hard Mode; a vanquish's one)
-const COIN_IMG = '<img src="img/items/copper-zaishen-coin.png" alt="copper Zaishen Coins">', SILVER_IMG = '<img src="img/items/silver-zaishen-coin.png" alt="silver Zaishen Coins">';
+const COIN_IMG = '<img src="img/items/copper-zaishen-coin.png" alt="copper Zaishen Coins">', SILVER_IMG = '<img src="img/items/silver-zaishen-coin.png" alt="silver Zaishen Coins">',
+  GOLD_IMG = '<img src="img/items/gold-zaishen-coin.png" alt="gold Zaishen Coins">';  // (a silver is 50 copper, a gold 10 silver)
 // (the last lines: the total as coins, a silver being 50 copper: "4 [silver] 10 [copper]", its first number in the
 // numbers' column so its coin sits under the lines' coins; then the double, with when its kind's PvE bonus week comes)
-const asCoins = (n, cls = "") => { const cs = [[Math.floor(n / 50), SILVER_IMG], [n % 50, COIN_IMG]].filter(([k]) => k);
+const asCoins = (n, cls = "") => { const cs = [[Math.floor(n / 500), GOLD_IMG], [Math.floor(n / 50) % 10, SILVER_IMG], [n % 50, COIN_IMG]].filter(([k]) => k);
   return `<span class="zc-n${cls}">${cs[0][0]}</span><span class="zc-sum${cls}">${cs.map(([k, img], i) => `${i ? k : ""}${img}`).join(" ")}`; };
 // the week of its kind's PvE bonus (Zaishen Bounty 3, Mission 6, Vanquishing 9), counted from the entry's day (at):
 // 0 this week, 1 next week...
@@ -627,14 +631,20 @@ function doubleWeek(e, at = Date.now()) { const r = ROTATIONS["weekly-pve"]; if 
   for (let i = 0; i < r.entries.length; i++) if (Rotation.entry(r, k + i).bonus === DOUBLE_BONUS[coinKind(e)]) return i; return null; }
 const weeksWord = i => (i === 0 ? "this week" : i === 1 ? "next week" : `in ${i} weeks`);
 const coinSum = e => e.copper.reduce((a, n) => a + n, 0);
-// a total in silver (50 copper each) for the lists and notes, ~ when it does not come out round: 150 "3 [s]", 140 "~3 [s]"
-const inSilver = n => { const k = Math.round(n / 50); return `${k * 50 === n ? "" : "~"}${k}${SILVER_IMG}`; };
-const coinLines = (e, at) => { const w = doubleWeek(e, at), sum = coinSum(e);
-  // (one line: "20 [c] + 30 [c] + 50 [c] =" (the mission, its bonus, Hard Mode: known), the coins under it, "or" the
-  // double and when)
-  const row = (n, when, cls = "") => `${asCoins(n, cls)}${when ? ` <span class="zc-when">${when}</span>` : ""}</span>`;
-  const rows = w == null ? row(sum) : row(sum, "or") + row(sum * 2, weeksWord(w), w === 0 ? " zc-on" : "");
-  return `<span class="zc-tip"><span class="zc-line">${e.copper.filter(Boolean).map(n => `${n}${COIN_IMG}`).join(" + ")} =</span>${rows}</span>`; };
+// a total in silver (50 copper each; ten of them a gold) for the lists and notes, ~ when it does not come out round:
+// 150 "3 [s]", 140 "~3 [s]", 500 "1 [g]"
+const inSilver = n => { const k = Math.round(n / 50), g = Math.floor(k / 10);
+  return `${k * 50 === n ? "" : "~"}${g ? `${g}${GOLD_IMG}${k % 10 ? " " : ""}` : ""}${k % 10 || !g ? `${k % 10}${SILVER_IMG}` : ""}`; };
+// the total's rows: the coins, "or" the double and when (lab: a word in a column before the first row; times: for
+// that many characters)
+const coinRows = (e, at, lab = "", times = 1) => { const w = doubleWeek(e, at), sum = coinSum(e) * times;
+  const row = (n, when, cls = "", l = "") => `${lab ? `<span class="zc-lab">${l}</span>` : ""}${asCoins(n, cls)}${when ? ` <span class="zc-when">${when}</span>` : ""}</span>`;
+  return w == null ? row(sum, "", "", lab) : row(sum, "or", "", lab) + row(sum * 2, weeksWord(w), w === 0 ? " zc-on" : ""); };
+// (one line: "20 [c] + 30 [c] + 50 [c] =" (the mission, its bonus, Hard Mode: known), the coins' rows under it)
+const coinLines = (e, at) => `<span class="zc-tip"><span class="zc-line">${e.copper.filter(Boolean).map(n => `${n}${COIN_IMG}`).join(" + ")} =</span>${coinRows(e, at)}</span>`;
+// the foot of a quick star's card: "Total" and the coins' rows for all the characters its list has (n; one with none),
+// data-after, lighting the doubling week like the reward
+const coinAfter = (e, at, n) => (e.copper ? ` data-after="${esc(`<span class="zc-tip zc-total">${coinRows(e, at, "Total", n || 1)}</span>`)}" data-bonus="${DOUBLE_BONUS[coinKind(e)]}"` : "");
 // the total in silver, the copper lines in its tooltip (a page's note: "Reward: ~3 [s]")
 function coinsHTML(e, at) {
   if (!e.copper) return "";
