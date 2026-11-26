@@ -528,7 +528,14 @@ button.rnd-copy:hover { color: var(--text); }
 .zpill { font-size: 12px; font-weight: 500; margin-left: 4px; color: var(--muted); white-space: nowrap; cursor: help; }
 .zpill img { width: 13px; height: 13px; margin-left: 1px; vertical-align: -2px; }
 .zpill.on { color: var(--loc-exp); }
-a.lit, .t-n a.lit, a.todo.lit { color: var(--quick); }  /* (the bonus week's link, lit while a reward it doubles is hovered) */
+/* the bonus week's link, while a reward it doubles is hovered: gold Zaishen Coins counting up after it (none, one,
+   two, three, again), hanging off the link's end without taking room */
+a[data-bonus] { position: relative; }
+a.lit::after { content: ""; position: absolute; left: calc(100% + 4px); top: 50%; margin-top: -7px; width: 44px; height: 14px;
+  background-image: url(img/items/gold-zaishen-coin.png), url(img/items/gold-zaishen-coin.png), url(img/items/gold-zaishen-coin.png);
+  background-position: 0 0, 15px 0, 30px 0; background-repeat: no-repeat; animation: zcount 1.6s step-end infinite; }
+@keyframes zcount { 0% { background-size: 0 0, 0 0, 0 0; } 25% { background-size: 14px 14px, 0 0, 0 0; } 50% { background-size: 14px 14px, 14px 14px, 0 0; }
+  75% { background-size: 14px 14px, 14px 14px, 14px 14px; } }
 .zc-when { color: var(--muted); font-size: 12px; margin-left: 6px; }
 .zc-on .zc-when { color: var(--loc-exp); font-weight: 600; }  /* (the double, in its week: its "this week" green, as the card's "free") */
 .t-v .dim { font-weight: 400; }

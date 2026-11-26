@@ -349,7 +349,7 @@ const noteLi = n => `<li>${n}</li>`;
       + (list?.rows?.length ? `<b class="list">${esc(list.t)}</b>${chars(list.rows)}` : "");
     card.hidden = false;
     // (a Zaishen reward's coins: the bonus week that doubles them, lit where the page lists it)
-    if (el.dataset.reward && el.dataset.bonus) for (const a of document.querySelectorAll(`a[data-bonus="${el.dataset.bonus}"][data-week="${el.dataset.week}"]`)) a.classList.add("lit");
+    if (el.dataset.reward && el.dataset.bonus) for (const a of document.querySelectorAll(`a[data-bonus="${el.dataset.bonus}"]`)) a.classList.add("lit");
     const r = el.getBoundingClientRect(), w = card.offsetWidth, h = card.offsetHeight, x = e?.clientX ?? r.left + r.width / 2;
     card.style.left = `${Math.max(4, Math.min(innerWidth - w - 4, x - 16))}px`;
     card.style.top = `${Math.max(4, r.bottom + 8 + h > innerHeight ? r.top - h - 8 : r.bottom + 8)}px`;
@@ -590,13 +590,12 @@ function ageBirthday(lo, hi, t = Date.now()) {
   return kLo === kHi ? { from: lo + kHi * AGE_YEAR, to: hi + kHi * AGE_YEAR, now: false, years: kHi } : { from: t, to: hi + kHi * AGE_YEAR, now: true, years: kHi };
 }
 // (a weekly bonus's link carries its bonus and week (at), so a Zaishen reward's hover can light the week that doubles it)
-const weekK = at => { const r = ROTATIONS["weekly-pve"]; return r ? Rotation.period(r, at ?? Date.now()) : 0; };
 function entryLink(e, at) {
   if (e.mission) return hasModes(MISSIONS[e.mission]) ? quickLink(LINK.mission(e.mission), "mission", e.mission) : LINK.mission(e.mission);
   if (e.area && !e.creature && !e.item) return AREAS[e.area]?.foes ? quickLink(LINK.area(e.area), "vanquish", e.area) : LINK.area(e.area);
   // (a Zaishen bonus week: no star; its note (hand in the quests you kept) on the link's own hover card)
   if (e.bonus) { const note = quickNote("bonus", e.bonus);
-    return todoLink(`<a href="rotations${query({ bonus: e.bonus })}" data-bonus="${e.bonus}" data-week="${weekK(at)}"${note ? ` data-note="${esc(note)}"` : ""}>${esc(entryName(e))}</a>`, "bonus", e.bonus); }
+    return todoLink(`<a href="rotations${query({ bonus: e.bonus })}" data-bonus="${e.bonus}"${note ? ` data-note="${esc(note)}"` : ""}>${esc(entryName(e))}</a>`, "bonus", e.bonus); }
   // a bounty's boss: a link to its page, a thing to do while a wannabe lacks its dungeon or (an elite area) the
   // Checklist's clear (not its elite: those are captured on the way)
   if (e.creature && bossTable().has(+e.creature)) { const dgn = e.area && isTickedDungeon(e.area);
@@ -643,12 +642,13 @@ function coinsHTML(e, at) {
 }
 // an entry in a list: its link, then a Zaishen quest's total in silver ("~3 [s]"), green with the double in its double
 // week (at: when the entry runs), so the higher reward shows; its hover card (data-reward) has the parts and says why
-// (the coins name the bonus and the week that doubles them: hovering them lights that week's bonus link on the page)
+// (the coins name the bonus that doubles them: hovering them lights that bonus's week links on the page, every week
+// of it shown)
 function entryHTML(e, at) {
   if (!e.copper) return entryLink(e, at);
   const w = doubleWeek(e, at), on = w === 0;
-  const week = w == null ? "" : ` data-bonus="${DOUBLE_BONUS[coinKind(e)]}" data-week="${weekK(at) + w}"`;
-  return `${entryLink(e, at)} <span class="zpill${on ? " on" : ""}" data-reward="${esc(coinLines(e, at))}"${week}>${inSilver(coinSum(e) * (on ? 2 : 1))}</span>`;
+  const bonus = w == null ? "" : ` data-bonus="${DOUBLE_BONUS[coinKind(e)]}"`;
+  return `${entryLink(e, at)} <span class="zpill${on ? " on" : ""}" data-reward="${esc(coinLines(e, at))}"${bonus}>${inSilver(coinSum(e) * (on ? 2 : 1))}</span>`;
 }
 // where an entry takes you: a bounty's area and the campaign; else the region and campaign
 function entryWhere(e) {
