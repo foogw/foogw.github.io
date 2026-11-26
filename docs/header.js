@@ -63,7 +63,7 @@
   // progress kept in this browser (common.js's User; this script runs before it), and again when it changes
   const PROF_PIC = ["Any", "Warrior", "Ranger", "Monk", "Necromancer", "Mesmer", "Elementalist", "Assassin", "Ritualist", "Paragon", "Dervish"];
   // (the icons of the modes a character plays by after its name, as common.js nameIcons)
-  const MODES = { presearing: "Pre-Searing", melandru: "Melandru's Accord" };
+  const MODES = { presearing: "Pre-Searing", melandru: "Melandru's Accord", dhuum: "Dhuum's Covenant" };
   const modes = c => Object.keys(MODES).filter(m => (c.modes || []).includes(m)).map((m, i) => `${i ? "" : " "}<img class="ch-mel" src="img/modes/${m}.png" alt="${MODES[m]}" title="${MODES[m]}">`).join("");
   const readChars = () => {
     try {

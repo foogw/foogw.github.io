@@ -397,8 +397,8 @@ function bonusNeeds(id, c, o, scope = null) {
   return [say(left.filter(t => t.scope === "character"), c.name), say(left.filter(t => t.scope === "account"), acctSaid(o, c))].filter(Boolean);
 }
 // a character as a pill linking to My Characters (with it picked: data-go, handled below), a note inside it
-// a character's name for a page, with the icons of the modes it plays by after it (pre-Searing, Melandru's Accord)
-const NAME_MODES = { presearing: "Pre-Searing", melandru: "Melandru's Accord" };  // (header.js has a copy)
+// a character's name for a page, with the icons of the modes it plays by after it (pre-Searing, Melandru's Accord, Dhuum's Covenant)
+const NAME_MODES = { presearing: "Pre-Searing", melandru: "Melandru's Accord", dhuum: "Dhuum's Covenant" };  // (header.js has a copy)
 const nameModes = c => Object.keys(NAME_MODES).filter(m => (c.modes || []).includes(m));
 const modeIcons = ms => ms.map((m, i) => `${i ? "" : " "}<img class="ch-mel" src="img/modes/${m}.png" alt="${esc(NAME_MODES[m])}" title="${esc(NAME_MODES[m])}">`).join("");
 const nameIcons = c => modeIcons(nameModes(c));
