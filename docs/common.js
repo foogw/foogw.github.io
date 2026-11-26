@@ -345,11 +345,13 @@ const noteLi = n => `<li>${n}</li>`;
       + (note ? `<b class="free">${esc(note)}</b>` : "")
       + (list?.rows?.length ? `<b class="list">${esc(list.t)}</b>${chars(list.rows)}` : "");
     card.hidden = false;
+    // (a Zaishen reward's coins: the bonus week that doubles them, lit where the page lists it)
+    if (el.dataset.coins && el.dataset.bonus) for (const a of document.querySelectorAll(`a[data-bonus="${el.dataset.bonus}"][data-week="${el.dataset.week}"]`)) a.classList.add("lit");
     const r = el.getBoundingClientRect(), w = card.offsetWidth, h = card.offsetHeight, x = e?.clientX ?? r.left + r.width / 2;
     card.style.left = `${Math.max(4, Math.min(innerWidth - w - 4, x - 16))}px`;
     card.style.top = `${Math.max(4, r.bottom + 8 + h > innerHeight ? r.top - h - 8 : r.bottom + 8)}px`;
   };
-  const hide = () => { if (card) card.hidden = true; };
+  const hide = () => { if (card) card.hidden = true; for (const a of document.querySelectorAll("a.lit")) a.classList.remove("lit"); };
   addEventListener("mouseover", e => { const el = e.target.closest?.("[data-todo], [data-note], [data-list], [data-coins]"); if (el) show(el, e); });
   addEventListener("focusin", e => { const el = e.target.closest?.("[data-todo], [data-note], [data-list], [data-coins]"); if (el) show(el); });
   addEventListener("mouseout", e => { if (e.target.closest?.("[data-todo], [data-note], [data-list], [data-coins]")) hide(); });
@@ -583,10 +585,12 @@ function ageBirthday(lo, hi, t = Date.now()) {
   const kHi = Math.floor((t - hi) / AGE_YEAR) + 1, kLo = Math.floor((t - lo) / AGE_YEAR) + 1;
   return kLo === kHi ? { from: lo + kHi * AGE_YEAR, to: hi + kHi * AGE_YEAR, now: false, years: kHi } : { from: t, to: hi + kHi * AGE_YEAR, now: true, years: kHi };
 }
-function entryLink(e) {
+// (a weekly bonus's link carries its bonus and week (at), so a Zaishen reward's hover can light the week that doubles it)
+const weekK = at => { const r = ROTATIONS["weekly-pve"]; return r ? Rotation.period(r, at ?? Date.now()) : 0; };
+function entryLink(e, at) {
   if (e.mission) return hasModes(MISSIONS[e.mission]) ? quickLink(LINK.mission(e.mission), "mission", e.mission) : LINK.mission(e.mission);
   if (e.area && !e.creature && !e.item) return AREAS[e.area]?.foes ? quickLink(LINK.area(e.area), "vanquish", e.area) : LINK.area(e.area);
-  if (e.bonus) return quickLink(`<a href="rotations${query({ bonus: e.bonus })}">${esc(entryName(e))}</a>`, "bonus", e.bonus);
+  if (e.bonus) return quickLink(`<a href="rotations${query({ bonus: e.bonus })}" data-bonus="${e.bonus}" data-week="${weekK(at)}">${esc(entryName(e))}</a>`, "bonus", e.bonus);
   // a bounty's boss: a link to its page, a thing to do while a wannabe lacks its dungeon or (an elite area) the
   // Checklist's clear (not its elite: those are captured on the way)
   if (e.creature && bossTable().has(+e.creature)) { const dgn = e.area && isTickedDungeon(e.area);
@@ -602,10 +606,8 @@ function entryLink(e) {
   if (e.name) return esc(e.name) + quickStar(quickNote("sandford", e.name), QUICK_LIST.sandford[e.name]?.() || "");
   return esc(entryName(e));
 }
-// the copper Zaishen Coins a Zaishen quest pays (game/calendar.js copper), after its name: the total for doing it all,
-// the parts in its tooltip, a line each, the later ones with a +, the numbers lined up on the right (a mission's for the mission, its bonus or Master's
-// reward and Hard Mode; a bounty's for the kill and Hard Mode; a vanquish's one)
-const COIN_FOR = { mission: ["for the mission", "for the bonus", "in Hard Mode"], creature: ["for the kill", "in Hard Mode"], area: ["for the vanquish"] };
+// the copper Zaishen Coins a Zaishen quest pays (game/calendar.js copper): the parts on one line, added up (a mission's
+// for the mission, its bonus or Master's reward and Hard Mode; a bounty's for the kill and Hard Mode; a vanquish's one)
 const COIN_IMG = '<img src="img/items/copper-zaishen-coin.png" alt="copper Zaishen Coins">', SILVER_IMG = '<img src="img/items/silver-zaishen-coin.png" alt="silver Zaishen Coins">';
 // (the last lines: the total as coins, a silver being 50 copper: "4 [silver] 10 [copper]", its first number in the
 // numbers' column so its coin sits under the lines' coins; then the double, with when its kind's PvE bonus week comes)
@@ -619,18 +621,26 @@ function doubleWeek(e, at = Date.now()) { const r = ROTATIONS["weekly-pve"]; if 
   for (let i = 0; i < r.entries.length; i++) if (Rotation.entry(r, k + i).bonus === DOUBLE_BONUS[coinKind(e)]) return i; return null; }
 const weeksWord = i => (i === 0 ? "this week" : i === 1 ? "next week" : `in ${i} weeks`);
 const coinSum = e => e.copper.reduce((a, n) => a + n, 0);
-const coinLines = (e, at) => { const kinds = COIN_FOR[coinKind(e)], w = doubleWeek(e, at), sum = coinSum(e);
-  const v = e.copper.map((n, i) => [n, kinds[i]]).filter(([n]) => n);  // (the lines, each ending in a comma, the last in a colon: the coins follow)
-  return `<span class="zc-tip">${v.map(([n, k], i) => `<span class="zc-n">${i ? "+" : ""}${n}</span><span>${COIN_IMG} ${k}${i < v.length - 1 ? "," : ":"}</span>`).join("")}`
-    + `${asCoins(sum)}</span>${w == null ? "" : `${asCoins(sum * 2, w === 0 ? " zc-on" : "")} <span class="zc-when">${weeksWord(w)}</span></span>`}</span>`; };
+const coinLines = (e, at) => { const w = doubleWeek(e, at), sum = coinSum(e);
+  // (one line: "20 [c] + 30 [c] + 50 [c] =" (the mission, its bonus, Hard Mode: known), the coins under it, "or" the
+  // double and when)
+  const row = (n, when, cls = "") => `${asCoins(n, cls)}${when ? ` <span class="zc-when">${when}</span>` : ""}</span>`;
+  const rows = w == null ? row(sum) : row(sum, "or") + row(sum * 2, weeksWord(w), w === 0 ? " zc-on" : "");
+  return `<span class="zc-tip"><span class="zc-line">${e.copper.filter(Boolean).map(n => `${n}${COIN_IMG}`).join(" + ")} =</span>${rows}</span>`; };
 // the total with the coin's icon, the lines in its tooltip (a page's note: "Reward: 140")
 function coinsHTML(e, at) {
   if (!e.copper) return "";
   return ` <span class="zc" data-tip-html="${esc(coinLines(e, at))}">${coinSum(e)}${COIN_IMG}</span>`;
 }
-// an entry in a list: its link, with the reward in its hover card (data-coins; with a need's rows when it has them);
-// at: when the entry runs, for when its double week comes
-const entryHTML = (e, at) => (e.copper ? entryLink(e).replace(/^<a /, `<a data-coins="${esc(coinLines(e, at))}" `) : entryLink(e));
+// an entry in a list: its link, then a Zaishen quest's total in copper ("140 [c]"), green with the double in its double
+// week (at: when the entry runs), so the higher reward shows; its hover card (data-coins) has the parts and says why
+// (the coins name the bonus and the week that doubles them: hovering them lights that week's bonus link on the page)
+function entryHTML(e, at) {
+  if (!e.copper) return entryLink(e, at);
+  const w = doubleWeek(e, at), on = w === 0;
+  const week = w == null ? "" : ` data-bonus="${DOUBLE_BONUS[coinKind(e)]}" data-week="${weekK(at) + w}"`;
+  return `${entryLink(e, at)} <span class="zpill${on ? " on" : ""}" data-coins="${esc(coinLines(e, at))}"${week}>${coinSum(e) * (on ? 2 : 1)}${COIN_IMG}</span>`;
+}
 // where an entry takes you: a bounty's area and the campaign; else the region and campaign
 function entryWhere(e) {
   const l = AREAS[e.area || e.mission];

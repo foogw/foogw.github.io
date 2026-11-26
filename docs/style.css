@@ -514,16 +514,19 @@ button.rnd-copy:hover { color: var(--text); }
 /* a Zaishen quest's copper coins after its name: the total, the parts on hover */
 .zc { font-weight: 400; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .zc img, .tip img { width: 16px; height: 16px; vertical-align: -4px; margin-left: 1px; }
-.zc-tip { display: grid; grid-template-columns: max-content max-content; column-gap: 1px; }
+.zc-tip { display: grid; grid-template-columns: max-content max-content; column-gap: 1px; justify-content: start; }
 .zc-n { text-align: right; }
 /* the reward in a link's hover card (data-coins): the same lines, under a heading */
 .todo-card .zc-tip { font-size: 13px; }
 .todo-card .zc-tip img { width: 16px; height: 16px; border-radius: 0; vertical-align: -4px; margin-left: 1px; }
-.zc-sum, .zc-n:has(+ .zc-sum) { margin-top: 3px; }
-.zc-sum + .zc-n, .zc-sum + .zc-n + .zc-sum { margin-top: 0; }
+.zc-line { grid-column: 1 / -1; margin-bottom: 3px; white-space: nowrap; }
+/* the coins after a Zaishen entry's name (common.js entryHTML): the total in copper; green in its double week */
+.zpill { font-size: 12px; font-weight: 500; margin-left: 4px; color: var(--muted); white-space: nowrap; cursor: help; }
+.zpill img { width: 13px; height: 13px; margin-left: 1px; vertical-align: -2px; }
+.zpill.on { color: var(--loc-exp); }
+a.lit, .t-n a.lit, a.todo.lit { color: var(--quick); }  /* (the bonus week's link, lit while a reward it doubles is hovered) */
 .zc-when { color: var(--muted); font-size: 12px; margin-left: 6px; }
 .zc-on .zc-when { color: var(--loc-exp); font-weight: 600; }  /* (the double, in its week: its "this week" green, as the card's "free") */
-.todo-card .zc-tip + b.need { margin-top: 8px; }  /* (the need's rows after the reward) */
 .t-v .dim { font-weight: 400; }
 .t-l { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
 .t-n { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
