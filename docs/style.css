@@ -127,7 +127,10 @@ a.echip:hover { border-color: var(--pc); }
 .dim { color: var(--muted); }
 .cell { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .costs { display: flex; gap: 8px; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.costs span::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 3px; background: currentColor; vertical-align: 0; }
+/* each cost with its icon from the game's skill cards (img/costs: the wiki's Tango set) */
+.costs span::before { content: ""; display: inline-block; width: 14px; height: 14px; margin-right: 2px; vertical-align: -2px; background: var(--ci) center / contain no-repeat; }
+.costs .c-e { --ci: url(img/costs/energy.png); } .costs .c-a { --ci: url(img/costs/adrenaline.png); } .costs .c-s { --ci: url(img/costs/sacrifice.png); }
+.costs .c-u { --ci: url(img/costs/upkeep.png); } .costs .c-o { --ci: url(img/costs/overcast.png); }
 .c-e { color: var(--energy); }
 .c-a { color: var(--adren); }
 .c-s { color: var(--sac); }
