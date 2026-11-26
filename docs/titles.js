@@ -12,7 +12,7 @@ const MY_ORDER = [10, 7, 34, 43, 9, 17, 20, 38, 39, 40, 41, 42, 1, 2, 18, 30, 25
   45, 46, 15, 16, 5, 6, 44, 0, 3, 4, 22, 23, 47];
 // a title links to its page (Luxon to Kurzick / Luxon's), where it has one
 // the titles set rank by rank (▼ rank ▲), not just ticked maxed
-const STEPPED = new Set([45, 46, 15, 16, 5, 6, 44, 17, 20, 38, 39, 40, 41]);
+const STEPPED = new Set([45, 46, 15, 16, 5, 6, 44, 17, 20, 38, 39, 40, 41, 0, 3, 4, 22, 23, 47]);  // (the last six: the PvP titles)
 // a count worked out from the ticks links to the list of what it still needs: the elites not yet captured (Skill
 // Hunter), the story missions not yet done in NM (Protector) or HM (Guardian), the areas not yet vanquished (Vanquisher)
 const LEFT_LIST = { 24: "skills?c=1c&cap=1", 26: "skills?c=2c&cap=1", 28: "skills?c=3c&cap=1",
