@@ -80,7 +80,7 @@
   const charName = () => { const c = readChars().cur, n = typeof c?.name === "string" ? c.name.trim() : ""; return n && n !== `Char${c.id}` ? n : null; };
   // the characters marked "In the menu" (their Edit tab), the picked one marked: a click picks it, and the pages redraw
   const showMenuChars = () => {
-    const { chars, cur } = readChars(), list = chars.filter(c => c.inMenu && !c.hidden);
+    const { chars, cur } = readChars(), list = chars.filter(c => c.inMenu);  // (a hidden one too, when marked)
     const esc = t => String(t).replace(/[&<>"]/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[x]);
     const items = list.map(c => `<button type="button" class="gchar${c === cur ? " cur" : ""}" data-pick="${c.id}"><img src="img/prof/${PROF_PIC[c.profession] || "Any"}.png" alt=""><span class="ch-name">${esc(c.name)}${modes(c)}</span></button>`).join("");
     for (const g of header.querySelectorAll(".gchars")) g.innerHTML = items;
