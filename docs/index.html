@@ -149,8 +149,10 @@ function renderToday() {
 }
 renderToday();
 setInterval(renderToday, 30000);
-// another day picked (kept in the address, ?d=2026-11-20): the day's rotations, events and maps drawn for it
-const pickDay = d => { const p = new URLSearchParams(location.search); if (d) p.set("d", d); else p.delete("d"); history.replaceState(null, "", location.pathname + (p.size ? "?" + p : "")); renderToday(); renderEvents(); renderMaps(); };
+// another day picked (kept in the address, ?d=2026-11-20): the day's rotations, events and maps drawn for it; a search
+// in progress is cleared, so the day shows
+const pickDay = d => { const p = new URLSearchParams(location.search); if (d) p.set("d", d); else p.delete("d"); p.delete("q");
+  history.replaceState(null, "", location.pathname + (p.size ? "?" + p : "")); if ($("q").value) { $("q").value = ""; render(); } renderToday(); renderEvents(); renderMaps(); };
 $("td-date").addEventListener("change", () => pickDay($("td-date").value));
 $("td-now").addEventListener("click", () => pickDay(""));
 // the picked character or its progress changed (in another tab): today's marks drawn again
@@ -301,7 +303,9 @@ function render() {
 }
 
 $("q").addEventListener("input", () => {
-  history.replaceState(null, "", $("q").value ? "?q=" + encodeURIComponent($("q").value) : location.pathname);
+  // (the search kept in the address, beside a picked day)
+  const p = new URLSearchParams(location.search); if ($("q").value) p.set("q", $("q").value); else p.delete("q");
+  history.replaceState(null, "", location.pathname + (p.size ? "?" + p : ""));
   render();
 });
 document.addEventListener("keydown", e => {
