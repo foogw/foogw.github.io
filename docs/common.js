@@ -324,10 +324,10 @@ const todoLink = (html, kind, id) => { const rows = need(kind, id); return rows.
 const missionMarks = () => "", vanqMark = () => "", modeMarks = () => "", bonusMark = () => "";  // (gone: the styling above)
 // a page's note as a list item
 const noteLi = n => `<li>${n}</li>`;
-// [data-todo] (or [data-note], [data-list], [data-coins]): a card below the pointer, "Wannabe GWAMMs still need this:", a row per
+// [data-todo] (or [data-note], [data-list], [data-reward]): a card below the pointer, "Wannabe GWAMMs still need this:", a row per
 // character with its profession; the note (a quick star's, QUICK, in the star's colour); a titled list of characters
 // (QUICK_LIST: who Augury Rock is available for, the Canthan characters), one a line; with data-plain, the note alone,
-// small and plain; a Zaishen quest's reward (data-coins, common.js coinLines) first. The card never goes past the window: cut off at its foot when the list is that long
+// small and plain; a Zaishen quest's reward (data-reward, common.js coinLines) first. The card never goes past the window: cut off at its foot when the list is that long
 {
   let card = null;
   const show = (el, e) => {
@@ -340,22 +340,22 @@ const noteLi = n => `<li>${n}</li>`;
     card.classList.toggle("plain", el.dataset.plain != null);
     card.classList.toggle("qcard", el.classList.contains("qstar"));
     card.classList.toggle("noneed", !rows.length && !note);
-    card.innerHTML = (el.dataset.coins ? `<b class="reward">Reward</b>${el.dataset.coins}` : "")
+    card.innerHTML = (el.dataset.reward ? `<b class="reward">Reward</b>${el.dataset.reward}` : "")
       + (rows.length ? `<b class="need">Wannabe GWAMMs still need this</b>${chars(rows)}` : "")
       + (note ? `<b class="free">${esc(note)}</b>` : "")
       + (list?.rows?.length ? `<b class="list">${esc(list.t)}</b>${chars(list.rows)}` : "");
     card.hidden = false;
     // (a Zaishen reward's coins: the bonus week that doubles them, lit where the page lists it)
-    if (el.dataset.coins && el.dataset.bonus) for (const a of document.querySelectorAll(`a[data-bonus="${el.dataset.bonus}"][data-week="${el.dataset.week}"]`)) a.classList.add("lit");
+    if (el.dataset.reward && el.dataset.bonus) for (const a of document.querySelectorAll(`a[data-bonus="${el.dataset.bonus}"][data-week="${el.dataset.week}"]`)) a.classList.add("lit");
     const r = el.getBoundingClientRect(), w = card.offsetWidth, h = card.offsetHeight, x = e?.clientX ?? r.left + r.width / 2;
     card.style.left = `${Math.max(4, Math.min(innerWidth - w - 4, x - 16))}px`;
     card.style.top = `${Math.max(4, r.bottom + 8 + h > innerHeight ? r.top - h - 8 : r.bottom + 8)}px`;
   };
   const hide = () => { if (card) card.hidden = true; for (const a of document.querySelectorAll("a.lit")) a.classList.remove("lit"); };
-  addEventListener("mouseover", e => { const el = e.target.closest?.("[data-todo], [data-note], [data-list], [data-coins]"); if (el) show(el, e); });
-  addEventListener("focusin", e => { const el = e.target.closest?.("[data-todo], [data-note], [data-list], [data-coins]"); if (el) show(el); });
-  addEventListener("mouseout", e => { if (e.target.closest?.("[data-todo], [data-note], [data-list], [data-coins]")) hide(); });
-  addEventListener("focusout", e => { if (e.target.closest?.("[data-todo], [data-note], [data-list], [data-coins]")) hide(); });
+  addEventListener("mouseover", e => { const el = e.target.closest?.("[data-todo], [data-note], [data-list], [data-reward]"); if (el) show(el, e); });
+  addEventListener("focusin", e => { const el = e.target.closest?.("[data-todo], [data-note], [data-list], [data-reward]"); if (el) show(el); });
+  addEventListener("mouseout", e => { if (e.target.closest?.("[data-todo], [data-note], [data-list], [data-reward]")) hide(); });
+  addEventListener("focusout", e => { if (e.target.closest?.("[data-todo], [data-note], [data-list], [data-reward]")) hide(); });
   addEventListener("scroll", hide, true);
 }
 // [data-tip]: its text in a tooltip at once, above it (below near the top of the window), on hover or keyboard focus
@@ -637,13 +637,13 @@ function coinsHTML(e, at) {
   return ` <span class="zc" data-tip-html="${esc(coinLines(e, at))}">${coinSum(e)}${COIN_IMG}</span>`;
 }
 // an entry in a list: its link, then a Zaishen quest's total in copper ("140 [c]"), green with the double in its double
-// week (at: when the entry runs), so the higher reward shows; its hover card (data-coins) has the parts and says why
+// week (at: when the entry runs), so the higher reward shows; its hover card (data-reward) has the parts and says why
 // (the coins name the bonus and the week that doubles them: hovering them lights that week's bonus link on the page)
 function entryHTML(e, at) {
   if (!e.copper) return entryLink(e, at);
   const w = doubleWeek(e, at), on = w === 0;
   const week = w == null ? "" : ` data-bonus="${DOUBLE_BONUS[coinKind(e)]}" data-week="${weekK(at) + w}"`;
-  return `${entryLink(e, at)} <span class="zpill${on ? " on" : ""}" data-coins="${esc(coinLines(e, at))}"${week}>${coinSum(e) * (on ? 2 : 1)}${COIN_IMG}</span>`;
+  return `${entryLink(e, at)} <span class="zpill${on ? " on" : ""}" data-reward="${esc(coinLines(e, at))}"${week}>${coinSum(e) * (on ? 2 : 1)}${COIN_IMG}</span>`;
 }
 // where an entry takes you: a bounty's area and the campaign; else the region and campaign
 function entryWhere(e) {
@@ -831,7 +831,7 @@ function readOnlyBlocks() {
    never gets in (tabbing in moves on), and they look it. The buttons say so themselves, when clicked; the ones that
    would ask first (Reforged Coins taken, a delete) say it before asking. */
 const RO_LOCKED = ".u-name input, .u-acct-row input, #ch-edit input, #ch-edit select, #build-code, #motn-points, .my-tick input, input[data-age], input[data-step], input[data-cap-row]";
-const RO_ASKING = "[data-coins], [data-build-delete], [data-delete], [data-delete-account]";
+const RO_ASKING = "[data-reward], [data-build-delete], [data-delete], [data-delete-account]";
 const roLocked = e => readOnly() && e.target.closest?.(RO_LOCKED);
 document.addEventListener("pointerdown", e => { if (roLocked(e)) e.preventDefault(); }, true);
 document.addEventListener("click", e => { if (!roLocked(e) && !(readOnly() && e.target.closest?.(RO_ASKING))) return;
