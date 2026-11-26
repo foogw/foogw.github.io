@@ -439,9 +439,10 @@ const QUICK = {
   mission: { 38: () => "Quick Zaishen mission: the Doppelganger" },
   sandford: { "Charr Carving": () => (preAccounts().length ? "Don't miss the chance to get rid of your Carvings" : "") },  // (no pre-Searing character: no star)
   vanquish: { 246: () => "1-kill Zaishen vanquish for a party of Canthan characters" },
-  // (the Zaishen bonuses: the week to hand in the quests kept for it)
-  bonus: { 3: () => "Hand in every Zaishen bounty quest you kept: double coins all week", 6: () => "Hand in every Zaishen mission quest you kept: double coins all week",
-    9: () => "Hand in every Zaishen vanquish quest you kept: double coins all week" },
+  // (the bounties with a name: the elite runs' ends, Rotscale)
+  bounty: { 101916: () => "The baddest bounty ever", 101911: () => "Deldrimor heavy metal", 101380: () => "The Echovald wants you dead",
+    101924: () => "12 go down, 420 come up", 101926: () => "A quarter of Anguish", 101903: () => "A quarter of Anguish", 101914: () => "A quarter of Anguish",
+    101910: () => "A quarter of Anguish", 101899: () => "Frozen Soil, cold corpses", 101912: () => "The slaver gets what's coming" },
 };
 const quickNote = (kind, id) => QUICK[kind]?.[id]?.() || "";
 // the star's titled list of characters for its card (hidden ones too, not pre-Searing): Augury Rock's Available for, the
@@ -590,14 +591,17 @@ const weekK = at => { const r = ROTATIONS["weekly-pve"]; return r ? Rotation.per
 function entryLink(e, at) {
   if (e.mission) return hasModes(MISSIONS[e.mission]) ? quickLink(LINK.mission(e.mission), "mission", e.mission) : LINK.mission(e.mission);
   if (e.area && !e.creature && !e.item) return AREAS[e.area]?.foes ? quickLink(LINK.area(e.area), "vanquish", e.area) : LINK.area(e.area);
-  if (e.bonus) return quickLink(`<a href="rotations${query({ bonus: e.bonus })}" data-bonus="${e.bonus}" data-week="${weekK(at)}">${esc(entryName(e))}</a>`, "bonus", e.bonus);
+  // (a Zaishen bonus week: no star; its note (hand in the quests you kept) on the link's own hover card)
+  if (e.bonus) { const note = quickNote("bonus", e.bonus);
+    return todoLink(`<a href="rotations${query({ bonus: e.bonus })}" data-bonus="${e.bonus}" data-week="${weekK(at)}"${note ? ` data-note="${esc(note)}"` : ""}>${esc(entryName(e))}</a>`, "bonus", e.bonus); }
   // a bounty's boss: a link to its page, a thing to do while a wannabe lacks its dungeon or (an elite area) the
   // Checklist's clear (not its elite: those are captured on the way)
   if (e.creature && bossTable().has(+e.creature)) { const dgn = e.area && isTickedDungeon(e.area);
     const chk = e.area && typeof CHECK_AREAS !== "undefined" ? CHECK_AREAS[e.area] : null;
     const by = new Map(); for (const [c, x] of [...(dgn ? need("dungeon", e.area) : []), ...(chk ? need("check", chk).map(([c]) => [c, "clear"]) : [])]) by.set(c, [...(by.get(c) || []), x].filter(Boolean).join(", "));
     const rows = [...by].map(([c, x]) => [c, x]);
-    return rows.length ? LINK.boss(e.creature, entryName(e)).replace(/^<a /, `<a class="${todoClass(rows)}" data-todo="${todoRows(rows)}" `) : LINK.boss(e.creature, entryName(e)); }
+    return (rows.length ? LINK.boss(e.creature, entryName(e)).replace(/^<a /, `<a class="${todoClass(rows)}" data-todo="${todoRows(rows)}" `) : LINK.boss(e.creature, entryName(e)))
+      + quickStar(quickNote("bounty", e.creature)); }  // (a bounty worth a word: its star)
   if (e.creature && e.area && isTickedDungeon(e.area)) return todoLink(`<a href="${HREF.dungeon(e.area)}" title="${esc(areaName(e.area))}">${esc(entryName(e))}</a>`, "dungeon", e.area);
   if (e.quest) return LINK.quest(e.quest);
   // Nicholas the Traveler's item: his map that week, at the foot of the Rotations page
