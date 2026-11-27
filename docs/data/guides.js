@@ -33,22 +33,6 @@ const GW_GUIDES = {
       "tags": ["Quests", "Pre-Searing", "Route"]
     },
     {
-      "id": "devona",
-      "group": "quests",
-      "wip": true,
-      "name": "Devona, the pre-Searing hero",
-      "summary": "The five Piken Square quests that make Devona a hero in Reforged Mode, in broad strokes: what needs the mode, the fast way through each, the tricks.",
-      "tags": ["Quests", "Pre-Searing", "Reforged", "Hero"]
-    },
-    {
-      "id": "althea",
-      "group": "quests",
-      "wip": true,
-      "name": "Ghost of Althea, the Ascalon hero",
-      "summary": "The five Piken Square quests that make the Ghost of Althea a hero in Reforged Mode, in broad strokes: the two old ones in Diessa, the three in the Tunnels of the Forsaken, the tricks.",
-      "tags": ["Quests", "Ascalon", "Reforged", "Hero"]
-    },
-    {
       "id": "reverie",
       "group": "quests",
       "name": "Wayfarer's Reverie",
