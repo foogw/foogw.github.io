@@ -220,7 +220,7 @@ function blockHTML(x, g) {
     const tints = Object.fromEntries(x.areas.map((id, i) => [id, gray(id) ? GRAY : LEGEND[i % LEGEND.length]]));
     return `<div class="gd-map gd-keyed" data-keyed="${esc(JSON.stringify({ areas: x.areas, pass: [...pass] }))}"${x.spots ? ` data-way="${esc(JSON.stringify({ ids: x.areas, spots: x.spots.map(p => p.at), from: x.from }))}"` : ""}>${mapHTML(x.areas,
       { height: x.height || 500, crop: x.crop, aspect: x.aspect || 2.2, tints, nomarks: true, only: x.marks || (x.from ? [x.from] : null) })}
-      ${x.rows ? caravanTable(x, tints, kept, vq) : `<ol class="gd-legend">${x.areas.map(id => `<li${gray(id) ? ' class="gray"' : ""}><i style="background:${tints[id]}"></i>${LINK.area(id)}${pass.has(id) ? '<small>walked</small>' : vq(id) ? '<small>vanquished</small>' : ""}${kept && !pass.has(id) && AREAS[id]?.foes ? vanqTick(id, vq(id)) : ""}</li>`).join("")}</ol>`}</div>`; }
+      ${x.rows ? caravanTable(x, tints, kept, vq) : `<ol class="gd-legend">${x.areas.map(id => `<li${gray(id) ? ' class="gray"' : ""}><i style="background:${tints[id]}"></i>${LINK.area(id)}${pass.has(id) ? '<small>walked</small>' : vq(id) ? '<small>vanquished</small>' : ""}${kept && !pass.has(id) && AREAS[id]?.foes ? vanqTick(id, vq(id)) : ""}${pass.has(id) ? "" : zaishenSoon(id)}</li>`).join("")}</ol>`}</div>`; }
   if (x.areas) return `<div class="gd-map${x.side ? " side" : ""}"${x.spots ? ` data-way="${esc(JSON.stringify({ ids: x.areas, spots: x.spots.map(p => p.at), from: x.from }))}"` : ""}>${mapHTML(x.areas,
     { height: x.height || MAP_MAX_H, crop: x.crop, aspect: x.aspect, spots: x.spots?.map(p => ({ x: p.at[0], y: p.at[1], name: p.name })) })}</div>`;
   if (x.table) return `<div class="gd-table"><table><thead><tr>${x.table.head.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
@@ -302,6 +302,7 @@ async function render() {
   if (g) {
     $("guide").innerHTML = guidePageHTML(g);
     document.querySelectorAll(".gd-cap").forEach(capUpdate);
+    if (location.hash.length > 1) $(location.hash.slice(1))?.scrollIntoView();  // (a link into a section: guides?caravans#gd-toa-east-...)
     initMaps($("guide")).then(() => drawWays(g));
     document.title = `${g.name} · GW Guides`;
   } else {
@@ -321,9 +322,13 @@ const secStatsHTML = s => { const x = s.blocks.find(b => b.rows && b.total); if 
 // a keyed map's rows (a caravan): one table under the map, the areas in walking order, each with its colour, the step's
 // note, the area's party size, the wiki's foes and the time; the vanquish tick first; an area only walked through says "walk"; the
 // picked character's vanquishes gray with their tick; the total last
+// an area the Zaishen Vanquish comes to within the month (game/calendar.js, where loaded): when, and its coins
+const zaishenSoon = id => { const r = typeof ROTATIONS !== "undefined" && ROTATIONS["zaishen-vanquish"]; if (!r) return ""; const k = Rotation.period(r);
+  for (let i = 0; i < 30; i++) { const e = Rotation.entry(r, k + i); if (e.area === id) return `<small class="zsoon">Zaishen ${i ? `in ${i} day${i > 1 ? "s" : ""}` : "today"}${coinsHTML(e, Rotation.startsAt(r, k + i))}</small>`; }
+  return ""; };
 const caravanTable = (x, tints, kept, vq) => { const notes = x.notes || [];
   const row = (r, i) => { const v = vq(r.area), walk = r.walk;
-    return `<tr data-area="${r.area}"${walk ? " data-walk" : ""}${walk || v ? ' class="gray"' : ""}><td class="tick">${kept && !walk && AREAS[r.area]?.foes ? vanqTick(r.area, v) : ""}</td><td class="n">${i + 1}</td><td class="a"><i style="background:${tints[r.area]}"></i>${LINK.area(r.area)}<small>${v && !walk ? "vanquished" : ""}</small></td><td class="note">${text(r.note || "")}</td>${walk ? `<td colspan="3" class="walk">walk</td>` : `<td class="num">${r.party}</td><td class="num">${num(r.foes)}</td><td class="num">${esc(r.time || "")}</td>`}</tr>`; };
+    return `<tr data-area="${r.area}"${walk ? " data-walk" : ""}${walk || v ? ' class="gray"' : ""}><td class="tick">${kept && !walk && AREAS[r.area]?.foes ? vanqTick(r.area, v) : ""}</td><td class="n">${i + 1}</td><td class="a"><i style="background:${tints[r.area]}"></i>${LINK.area(r.area)}<small>${v && !walk ? "vanquished" : ""}</small>${walk ? "" : zaishenSoon(r.area)}</td><td class="note">${text(r.note || "")}</td>${walk ? `<td colspan="3" class="walk">walk</td>` : `<td class="num">${r.party}</td><td class="num">${num(r.foes)}</td><td class="num">${esc(r.time || "")}</td>`}</tr>`; };
   return `<div class="gd-table gd-caravan"><table><thead><tr><th></th><th></th><th>Area</th><th></th><th>Party</th><th>Foes</th><th>Time</th></tr></thead><tbody>${x.rows.map(row).join("")}</tbody>
     ${x.total ? `<tfoot><tr><td></td><td></td><td colspan="2">All</td><td></td><td class="num">${num(x.total.foes)}</td><td class="num">${esc(x.total.time || "")}</td></tr></tfoot>` : ""}</table>${notes.length ? `<p class="gd-notes dim">${notes.map(text).join(" ")}</p>` : ""}</div>`; };
 // a keyed map's colours, one per area in its order (none the ways' cyan)

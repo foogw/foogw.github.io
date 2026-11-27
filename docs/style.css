@@ -1594,6 +1594,10 @@ a.c-pill:hover { border-color: var(--accent); }
 /* a quick daily's star after its name (common.js quickStar), its why on hover */
 /* (a no-break space before the glyph keeps it on the name's last word; the text after it may wrap as before) */
 .qstar { color: var(--quick); font-size: 11px; vertical-align: 2px; cursor: help; }
+/* a Zaishen vanquish in a caravan (common.js caravanMark): a camel after its name, facing the name, the caravan's
+   guide on click; its no-break space keeps it on the name's last word */
+a.cvn { text-decoration: none; }
+a.cvn::after { content: "🐫"; display: inline-block; font-size: 12px; line-height: 1; vertical-align: -1px; margin: 0 1px 0 5px; transform: scaleX(-1); }
 .todo-card.qcard { border-color: var(--quick); } .todo-card.qcard b.free { color: var(--quick); }
 .todo-card.noneed { border-color: var(--line); }  /* (a list alone, no need: a plain border) */
 /* (a plain note, a date say: small, no green, little padding) */
@@ -1751,6 +1755,8 @@ a.c-pill:hover { border-color: var(--accent); }
 .gd-caravan td.n { color: var(--muted); font-size: 11px; text-align: right; width: 1%; padding-right: 4px; }
 .gd-caravan td.a { white-space: nowrap; } .gd-caravan td.a i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; border: 1px solid rgb(0 0 0 / .4); }
 .gd-caravan td.a small { color: var(--muted); font-size: 11px; margin-left: 6px; } .gd-caravan td.a small { display: inline-block; min-width: 66px; }
+.gd-caravan small.zsoon, .gd-legend small.zsoon { color: var(--accent); min-width: 0; }  /* (the Zaishen Vanquish coming to it, guides.js zaishenSoon) */
+.gd-caravan small.zsoon .zc img, .gd-legend small.zsoon .zc img { width: 12px; height: 12px; vertical-align: -2px; }
 .gd-caravan td.note { color: var(--muted); } .gd-caravan td.num, .gd-caravan th:nth-child(n+5) { text-align: right; white-space: nowrap; }
 .gd-caravan td.walk { color: var(--muted); text-align: right; font-style: italic; } .gd-caravan tr.gray td.a a { color: var(--muted); }
 .gd-caravan td.tick { width: 1%; padding-right: 2px; } .gd-caravan tfoot td { font-weight: 600; } .gd-caravan .gd-notes { margin: 8px 10px 10px; font-size: 12.5px; }

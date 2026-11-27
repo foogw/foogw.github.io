@@ -473,6 +473,19 @@ const quickStar = (note, list = "", after = "") => (note ? `<span class="qstar" 
 // a to-do link (when a wannabe needs it), the star after it (when it's quick), with its list and (a Zaishen quest's)
 // total at its foot: the two apart
 const quickLink = (html, kind, id, after = () => "") => { const l = quickList(kind, id); return todoLink(html, kind, id) + quickStar(quickNote(kind, id), listAttr(l), after(l?.rows.length || 0)); };
+// a Zaishen vanquish of an area in one of the Vanquish Caravans (the guide, data/guides/caravans.json, fetched once): a
+// wagon after its name, a link to the caravan's section, "In the ToA East caravan, step 7 of 18" on its hover (the steps
+// vanquished, not walked). Marks laid before the guide has loaded are filled in then (CARAVANS: area id → {t, i, n, href})
+let CARAVANS = null;
+const caravanMark = id => { const c = CARAVANS?.[id]; if (!c) return CARAVANS ? "" : `<span class="cvn" data-area="${id}"></span>`;
+  const note = `In the ${c.t} caravan, step ${c.i} of ${c.n}`;
+  return `<a class="cvn" href="${c.href}" data-note="${esc(note)}" data-plain aria-label="${esc(note)}">&nbsp;</a>`; };
+fetch("data/guides/caravans.json").then(r => r.json()).then(d => { CARAVANS = {};
+  for (const s of d.sections) { const rows = s.blocks.find(b => b.rows)?.rows; if (!rows) continue;
+    const t = s.title.replace(/:.*| from .*/, "").replace(/^The /, ""), href = `guides?caravans#gd-${s.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`, vs = rows.filter(r => !r.walk);
+    vs.forEach((r, i) => { CARAVANS[r.area] ??= { t, i: i + 1, n: vs.length, href }; }); }
+  for (const el of document.querySelectorAll("span.cvn[data-area]")) el.outerHTML = caravanMark(+el.dataset.area);
+}, () => { CARAVANS = {}; });
 // a weekly bonus's pills: the characters of cs, then the accounts, whose titles it helps, each with those titles
 function bonusPills(bonus, o, cs) {
   const left = x => x[0].replace(/^.* hasn't maxed the /, "").replace(/ titles?$/, "");
@@ -602,7 +615,7 @@ function ageBirthday(lo, hi, t = Date.now()) {
 // (a weekly bonus's link carries its bonus and week (at), so a Zaishen reward's hover can light the week that doubles it)
 function entryLink(e, at) {
   if (e.mission) return hasModes(MISSIONS[e.mission]) ? quickLink(LINK.mission(e.mission), "mission", e.mission, n => coinAfter(e, at, n)) : LINK.mission(e.mission);
-  if (e.area && !e.creature && !e.item) return AREAS[e.area]?.foes ? quickLink(LINK.area(e.area), "vanquish", e.area, n => coinAfter(e, at, n)) : LINK.area(e.area);
+  if (e.area && !e.creature && !e.item) return AREAS[e.area]?.foes ? quickLink(LINK.area(e.area), "vanquish", e.area, n => coinAfter(e, at, n)) + caravanMark(e.area) : LINK.area(e.area);
   // (a Zaishen bonus week: no star; its note (hand in the quests you kept) on the link's own hover card)
   if (e.bonus) { const note = quickNote("bonus", e.bonus);
     return todoLink(`<a href="rotations${query({ bonus: e.bonus })}" data-bonus="${e.bonus}"${note ? ` data-note="${esc(note)}"` : ""}>${esc(entryName(e))}</a>`, "bonus", e.bonus); }
