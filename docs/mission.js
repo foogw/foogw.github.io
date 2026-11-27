@@ -46,7 +46,7 @@ VIEWS.mission = (() => {
     return missionMapHTML(m.id, m.name, { spots, note }) || mapHTML([m.id], { spots, note });
   }
   function html(m) {
-    const sub = [m.label && `Mission ${m.label}`, m.kind === "pvp" ? "PvP" : CAMPAIGNS[camp(m)], REGIONS[regionId(m)]?.name, m.kind !== "story" && KINDS[m.kind]].filter(Boolean).map(esc).join(" · ");
+    const sub = [m.label && esc(`Mission ${m.label}`), regionLink(REGIONS[regionId(m)]), m.kind === "pvp" ? "PvP" : esc(CAMPAIGNS[camp(m)] || ""), m.kind !== "story" && esc(KINDS[m.kind] || "")].filter(Boolean).join(" · ");  // (region, then campaign, as every page; the region a link to its map)
     const before = ALL.filter(x => (x.leads_to || []).includes(m.outpost ?? m.id));
     const heroes = (m.hero || []).map(i => HEROES[i]).filter(Boolean);
     const teams = (BUILDDATA?.teams || []).filter(t => t.mission === m.id);

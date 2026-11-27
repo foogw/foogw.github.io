@@ -17,7 +17,7 @@ VIEWS.quest = (() => {
 
   function html(q) {
     const camp = questCampaign(q);
-    const sub = [`${q.type[0].toUpperCase() + q.type.slice(1)} quest`, CAMPAIGNS[camp], questRegion(q)?.name].filter(Boolean).map(esc).join(" · ");
+    const sub = [esc(`${q.type[0].toUpperCase() + q.type.slice(1)} quest`), regionLink(questRegion(q)), esc(CAMPAIGNS[camp] || "")].filter(Boolean).join(" · ");  // (region, then campaign, as every page; the region a link to its map)
     const stats = [q.xp && ["XP", q.xp.toLocaleString("en")], q.gold && ["Gold", q.gold.toLocaleString("en")]].filter(Boolean);
     const skills = (q.skills || []).filter(id => SKILLS[id]);
     const heroes = (q.hero || []).map(i => HEROES[i]).filter(Boolean);

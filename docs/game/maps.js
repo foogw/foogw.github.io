@@ -63,7 +63,7 @@ const GW_MAPS = {
   ],
   "views_": "Each tab's regions: a box on a set.",
   "views": [
-    {"name": "Ascalon", "group": "Pre-Searing", "set": 1, "box": [288, 160, 1504, 1440]},
+    {"name": "Ascalon (pre-Searing)", "group": "Pre-Searing", "set": 1, "box": [288, 160, 1504, 1440]},
     {"name": "Catacombs", "group": "Pre-Searing", "set": 117, "box": [0, 0, 440, 529]},
     {"name": "Forsaken Tunnels", "group": "Pre-Searing", "set": 100, "box": [0, 0, 1216, 416]},
     {"name": "Ascalon", "group": "Tyria", "set": 0, "box": [5632, 3584, 7776, 5184]},
@@ -100,12 +100,8 @@ const GW_MAPS = {
     {"name": "Abaddon's Gate", "group": "Realm of Torment", "set": 107, "box": [0, 0, 546, 383]},
     {"name": "The Shadow Nexus", "group": "Realm of Torment", "set": 108, "box": [0, 0, 151, 149]},
     {"name": "Domain of Anguish", "group": "Realm of Torment", "set": 114, "box": [0, 0, 497, 484]},
-    {
-      "name": "Far Shiverpeaks and Charr Homelands",
-      "group": "Eye of the North",
-      "set": 0,
-      "box": [4479, 836, 7853, 2788]
-    },
+    {"name": "Far Shiverpeaks", "group": "Eye of the North", "set": 0, "box": [5000, 836, 6880, 2788]},
+    {"name": "Charr Homelands", "group": "Eye of the North", "set": 0, "box": [6700, 1200, 7853, 2450]},
     {"name": "Tarnished Coast", "group": "Eye of the North", "set": 0, "box": [1216, 5792, 4448, 6784]},
     {"name": "Depths of Tyria", "group": "Eye of the North", "set": 109, "box": [0, 0, 1664, 1664]},
     {"name": "Glint's Challenge", "group": "Eye of the North", "set": 123, "box": [0, 0, 255, 287]},

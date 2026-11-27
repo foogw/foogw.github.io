@@ -49,6 +49,10 @@ const areaGroup = l => (isPvP(l) ? "pvp" : l?.type === 18 ? "dgn" : isOutpost(l)
 // loaded, the ones it lists count too
 const isDungeon = l => l?.type === 18 && !!(data("GW_DEPTHS")?.dungeons?.[l.id] || l.exits?.length && !/: Level \d+$/.test(l.name));
 const regionOf = l => REGIONS[l?.region];
+// a region's name, a link to its view on the Maps page where one carries the same name (Kryta, Vabbi...; not the Mists,
+// the Realm of Torment or the pre-Searing Ascalon, which are no one view): maps?<tab>&<view>
+const regionLink = r => { const v = r && data("GW_MAPS")?.views.find(v => v.name === r.name), s = t => t.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+  return v ? `<a href="maps?${s(v.group)}&${s(v.name)}">${esc(r.name)}</a>` : esc(r?.name || ""); };
 // an area's campaign: the game's own for it (ours, 100000 and up, have their region's)
 const campaignOf = l => l?.campaign ?? regionOf(l)?.campaign;
 const areaName = id => AREAS[id]?.name ?? MISSIONS[id]?.name ?? "";

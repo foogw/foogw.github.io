@@ -117,7 +117,7 @@ VIEWS.dungeon = (() => {
     return `
       <p class="back"><a href="dungeons">← All dungeons</a></p>
       <div class="lhead exp">
-        <div><h2>${esc(l.name)}${isTickedDungeon(d.id) ? doneTicks("dungeons", d.id, undefined, "Done in") : ""}</h2><div class="lsub"><span class="ltype t${l.type} dgn">Dungeon</span> <span>${esc(regionOf(l)?.name)}</span></div>${isTickedDungeon(d.id) ? wannabeNeeds("dungeon", d.id) : ""}</div>
+        <div><h2>${esc(l.name)}${isTickedDungeon(d.id) ? doneTicks("dungeons", d.id, undefined, "Done in") : ""}</h2><div class="lsub"><span class="ltype t${l.type} dgn">Dungeon</span> <span>${regionLink(regionOf(l))} · ${campaignName(campaignOf(l))}</span></div>${isTickedDungeon(d.id) ? wannabeNeeds("dungeon", d.id) : ""}</div>
         <div class="lstats"><span class="lstat"><small>Levels</small><b>${d.levels.length || l.levels || "?"}</b></span>${l.party ? `<span class="lstat"><small>Party</small><b>${l.party}</b></span>` : ""}<span class="lstat dgtotal" hidden><small>Walk, all levels</small><b></b></span></div>
       </div>
       ${notes.length ? `<ul class="lnotes">${notes.map(noteLi).join("")}</ul>` : ""}
