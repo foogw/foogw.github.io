@@ -220,7 +220,7 @@ function blockHTML(x, g) {
     const tints = Object.fromEntries(x.areas.map((id, i) => [id, gray(id) ? GRAY : LEGEND[i % LEGEND.length]]));
     return `<div class="gd-map gd-keyed" data-keyed="${esc(JSON.stringify({ areas: x.areas, pass: [...pass] }))}"${x.spots ? ` data-way="${esc(JSON.stringify({ ids: x.areas, spots: x.spots.map(p => p.at), from: x.from }))}"` : ""}>${mapHTML(x.areas,
       { height: x.height || 500, crop: x.crop, aspect: x.aspect || 2.2, tints, nomarks: true, only: x.marks || (x.from ? [x.from] : null) })}
-      ${x.rows ? caravanTable(x, tints, kept, vq) : `<ol class="gd-legend">${x.areas.map(id => `<li${gray(id) ? ' class="gray"' : ""}><i style="background:${tints[id]}"></i>${LINK.area(id)}${pass.has(id) ? '<small>walked</small>' : vq(id) ? '<small>vanquished</small>' : ""}${kept && !pass.has(id) && AREAS[id]?.foes ? vanqTick(id, vq(id)) : ""}${pass.has(id) ? "" : zaishenSoon(id)}</li>`).join("")}</ol>`}</div>`; }
+      ${x.rows ? caravanTable(x, tints, kept, vq) : `<ol class="gd-legend">${x.areas.map(id => `<li data-area="${id}"${pass.has(id) ? " data-walk" : ""}${gray(id) ? ' class="gray"' : ""}><i style="background:${tints[id]}"></i>${LINK.area(id)}${pass.has(id) ? '<small>walked</small>' : `<small class="vq">${vq(id) ? "vanquished" : ""}</small>`}${kept && !pass.has(id) && AREAS[id]?.foes ? vanqTick(id, vq(id)) : ""}${pass.has(id) ? "" : zaishenSoon(id)}</li>`).join("")}</ol>`}</div>`; }
   if (x.areas) return `<div class="gd-map${x.side ? " side" : ""}"${x.spots ? ` data-way="${esc(JSON.stringify({ ids: x.areas, spots: x.spots.map(p => p.at), from: x.from }))}"` : ""}>${mapHTML(x.areas,
     { height: x.height || MAP_MAX_H, crop: x.crop, aspect: x.aspect, spots: x.spots?.map(p => ({ x: p.at[0], y: p.at[1], name: p.name })) })}</div>`;
   if (x.table) return `<div class="gd-table"><table><thead><tr>${x.table.head.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
@@ -438,6 +438,11 @@ function refreshKeyed() {
       tr.classList.toggle("gray", walk || v);
       tr.querySelector("td.a i").style.background = tints[id];
       tr.querySelector("td.a small").textContent = v && !walk ? "vanquished" : ""; }
+    // (a legend list the same: its colour swatch and its "vanquished")
+    for (const li of box.querySelectorAll("li[data-area]")) { const id = +li.dataset.area, v = kept && User.vanquished(id), walk = "walk" in li.dataset;
+      li.classList.toggle("gray", walk || v);
+      li.querySelector("i").style.background = tints[id];
+      const sm = li.querySelector("small.vq"); if (sm) sm.textContent = v ? "vanquished" : ""; }
     const view = box.querySelector(".gmap")?.mapView;
     if (view) { view.tints = tints; view.draw(); }
   }
