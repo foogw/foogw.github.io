@@ -1806,3 +1806,20 @@ a.cvn::after { content: "🐫"; display: inline-block; font-size: 12px; line-hei
 .gd-caravan td.walk { color: var(--muted); text-align: right; font-style: italic; } .gd-caravan tr.gray td.a a { color: var(--muted); }
 .gd-caravan td.tick { width: 1%; padding-right: 2px; } .gd-caravan tfoot td { font-weight: 600; } .gd-caravan .gd-notes { margin: 8px 10px 10px; font-size: 12.5px; }
 .gd .gd-secstats { margin: -4px 0 12px; }
+
+/* GoM alternative builds (gombuilds.js): badges with a hover, the Prot Bond costs, each bar's energy pill */
+.gb-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 10px 0 14px; font-size: 13px; color: var(--muted); }
+.gb-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.gb-badge { width: 22px; height: 22px; border-radius: 5px; vertical-align: middle; margin-left: 6px; cursor: help; }
+.gb-legend .gb-badge { margin-left: 0; }
+.gb-build h4 { display: flex; align-items: center; gap: 6px; font-size: 15px; margin: 16px 0 6px; }
+.gb-build h4 .ip { width: 20px; height: 20px; }
+.gb-costs { font-weight: 400; color: var(--muted); cursor: help; }
+.gb-cost { font-variant-numeric: tabular-nums; }
+.gb-cost.you { font-weight: 700; color: var(--text); }
+.gd-who .gb-cost { margin-left: auto; font-size: 12px; color: var(--muted); }
+.gd-who .gb-cost.you { color: var(--accent); }
+.gb-sum { display: inline-block; padding: 0 8px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--energy) 50%, var(--line)); color: var(--energy); font-size: 12px; font-weight: 600; cursor: help; vertical-align: 1px; }
+.gb-sum.neg { color: var(--sac); border-color: color-mix(in srgb, var(--sac) 50%, var(--line)); }
+.gb-energy ul { margin: 6px 0 2px; padding-left: 18px; font-size: 13.5px; }
+.gb-energy h3 { margin: 8px 0 4px; font-size: 15px; }
