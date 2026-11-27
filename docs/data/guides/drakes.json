@@ -49,7 +49,7 @@
       "blocks": [
         {
           "img": {
-            "src": "img/guides/chaos-axe-farm-below.jpg",
+            "src": "img/guides/chaos-axe-farm-below.jpg", "size": [1024, 625],
             "caption": "Below the cliff by the portal out of Moddok Crevice: the two Obsidian Furnace Drakes above can't reach you, nor see you.",
             "side": true,
             "width": 480
@@ -82,7 +82,7 @@
         },
         {
           "img": {
-            "src": "img/guides/chaos-axe-farm-path.jpg",
+            "src": "img/guides/chaos-axe-farm-path.jpg", "size": [648, 624],
             "caption": "The path from the portal to the drops, clockwise around the cliff. The flag marks Koss in the pool.",
             "center": true
           }

@@ -19,7 +19,7 @@
       "blocks": [
         {
           "img": {
-            "src": "img/guides/zos-afk-luxon-place.jpg",
+            "src": "img/guides/zos-afk-luxon-place.jpg", "size": [980, 843],
             "caption": "The team in place behind Battle Priest Calibos, with you in the middle.",
             "side": true
           }
