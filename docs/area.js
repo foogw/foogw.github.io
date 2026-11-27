@@ -104,9 +104,9 @@ VIEWS.area = (() => {
       + box(`Quests <span class="dim">${quests.length || ""}</span>`, questRows && `<ul class="lrows lquests">${questRows}</ul>`);
     const c = campaignOf(l);
     return `
-      <p class="back"><a href="areas${query({ c })}">← All ${campaignName(c)} areas</a></p>
+      <p class="back"><a href="areas${c == null ? "" : query({ c })}">← All ${c == null ? "" : `${campaignName(c)} `}areas</a></p>
       <div class="lhead ${kind(l)}">
-        <div><h2>${esc(l.name)}${l.foes ? vanqTick(l.id, undefined, "Vanquished") : ""}</h2><div class="lsub">${typeTag(l)} <span>${regionLink(regionOf(l))} · ${campaignName(c)}</span></div>${l.foes ? wannabeNeeds("vanquish", l.id) : ""}${CHECK_AREAS[l.id] ? wannabeNeeds("check", CHECK_AREAS[l.id]) : ""}</div>
+        <div><h2>${esc(l.name)}${l.foes ? vanqTick(l.id, undefined, "Vanquished") : ""}</h2><div class="lsub">${typeTag(l)} <span>${[regionLink(regionOf(l)), campaignName(c)].filter(Boolean).join(" · ")}</span></div>${l.foes ? wannabeNeeds("vanquish", l.id) : ""}${CHECK_AREAS[l.id] ? wannabeNeeds("check", CHECK_AREAS[l.id]) : ""}</div>
         ${stats ? `<div class="lstats">${stats}</div>` : ""}
       </div>
       ${notesHTML(l)}

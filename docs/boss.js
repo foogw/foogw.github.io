@@ -243,7 +243,7 @@ VIEWS.boss = (() => {
       ${note ? `<ul class="lnotes">${noteLi(note)}</ul>` : ""}
       <div class="lgrid${b._elites.length ? "" : " solo"}">
         ${b._elites.length ? `<section class="lbox"><h4>Elite to capture</h4>${b._elites.map(s => `<div class="bp-skill">
-          ${LINK.skill(s.id).replace("sk-ic sm", "sk-ic")}${eliteTick(s.id, undefined, "Captured")}<span class="dim">${PROFS[s.profession]} · ${esc(ATTRIBUTES[s.attribute] || "")}</span>
+          ${LINK.skill(s.id).replace("sk-ic sm", "sk-ic")}${eliteTick(s.id, undefined, "Captured")}<span class="dim">${[PROFS[s.profession], ATTRIBUTES[s.attribute]].filter(Boolean).map(esc).join(" · ")}</span>
           <p class="bp-desc">${richText(s.concise || s.description)}</p>${carriedAt(b, s.id)}</div>`).join("")}</section>` : ""}
         <section class="lbox"><h4>Where</h4><ul class="lrows">${b._where.map(i => { const n = (BOSS_SPOTS[b.id] || []).filter(s => s[0] === i).length;
           // (the version of the area a quest makes, "War in Kryta": named here too, as on its map)
@@ -255,8 +255,7 @@ VIEWS.boss = (() => {
           return `<li>${whereLink(i)}<span class="dim">${vs.length ? `${esc(listText(vs))}${only ? " only" : ""} · ` : ""}${MISSIONS[i] ? "Mission" : isDungeon(AREAS[i]) ? dungeonWhere(b, i) : esc(TYPE_LABEL[AREAS[i]?.type] || "")}${n > 1 ? ` · ${n} spots` : ""}${ver}${when}</span></li>`; }).join("")}</ul></section>
       </div>
       <div class="bmaps">${BOSS_SPOTS[b.id] ? spotSets(b).map((ss, k) => `<section class="lbox bmap" data-k="${k}"><h4>${esc(spotTitle(ss))}${spotWhen(b, ss)}</h4><div class="nmap"></div><div class="nways"></div></section>`).join("")
-        : bossMaps(b) || mapHTML(b._where.filter(i => AREAS[i]))}</div>
-      </div>`;
+        : bossMaps(b) || mapHTML(b._where.filter(i => AREAS[i]))}</div>`;
   }
   // the maps, once on the page: each drawn with its spots and the ways to them
   function after(el, b) { const live = () => el.dataset.at === `boss=${b.id}`; el.querySelectorAll(".bmap").forEach(m => bossMap(m, b, spotSets(b)[+m.dataset.k], live)); }

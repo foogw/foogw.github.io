@@ -273,7 +273,7 @@ function render() {
   // each kind's row, and the page with all its hits
   const KINDS = {
     skills: [s => hit(profVar(s.profession), HREF.skill(s.id), `${skillIcon(s.id, "sk-ic sm")}<span class="t">${highlight(s.name, r.ts)}</span>`,
-      `${s.profession ? PROFS[s.profession] : "Common"} · ${esc(ATTRIBUTES[s.attribute] || "")}`, esc(s.label || "")), `skills?q=${qs}`, "Skills"],
+      [s.profession ? PROFS[s.profession] : "Common", ATTRIBUTES[s.attribute]].filter(Boolean).map(esc).join(" · "), esc(s.label || "")), `skills?q=${qs}`, "Skills"],
     missions: [m => hit(profVar(0), HREF.mission(m.id), `<span class="t">${highlight(m.name, r.ts)}</span>`,
       `${m.kind === "pvp" ? "PvP" : CAMPAIGNS[missionCampaign(m)]} · ${esc(missionRegion(m)?.name || "")}`, esc(m.kind === "story" ? "Mission" : m.kind)), `missions?q=${qs}`, "Missions"],
     areas: [l => hit(`var(${isOutpost(l) ? "--loc-out" : "--loc-exp"})`, HREF.area(l.id), `<span class="t">${highlight(l.name, r.ts)}</span>`,
