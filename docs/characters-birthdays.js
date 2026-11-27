@@ -37,7 +37,7 @@
     ? `<span title="Best check ${fmtWhen.format(best)}; a reading now cuts off ${Math.round(100 * a.side / (a.hi - a.lo)) || "<1"}% at least">${length(a.hi - a.lo)} window <span class="now">is open now</span>${a.end === Infinity ? ""
       : ` for ${stretch(a.end - now)} (${Math.round(100 * (1 - (a.end - now) / (a.hi - a.lo)))}%<sup class="arr">${a.rising ? "⭡" : "⭣"}</sup>)`}</span>`
     : `<span title="Best check ${fmtWhen.format(best)}; readings help from ${fmtWhen.format(a.start)}">${length(a.hi - a.lo)} window opens in ${stretch(a.start - now)}</span>`)
-    + (why ? ` <span class="why why-${why.split(" ")[0]}">${why}</span>` : "");
+    + (why ? ` <span class="bd-tag bd-tag-${why.split(" ")[0]}">${why}</span>` : "");
   // the order of the check column, by urgency (the sort notes): a window is "active" from 15% of the way through it to
   // its end, and those come first, the soonest to close first; two closing within a few hours of each other, the one
   // longer than a day first (its birthday to lock in before the birth minute), then the one nearest the target, 30% of
