@@ -143,7 +143,7 @@ function bonusPageHTML(b) {
       <div class="lside">
         <section class="lbox"><h4>When</h4><ul class="lrows">${weeks.map(([s, e], i) =>
           `<li><span>${fmtWeek.format(s)}</span><span class="dim">${i === 0 && active ? "now" : `to ${fmtDay.format(e)}`}</span></li>`).join("")}</ul>
-          <p class="dim" style="margin:8px 0 0;font-size:12px">${esc(status)}. Times in your time zone; the nine PvE bonuses take turns, one per week.</p></section>
+          <p class="dim" style="margin:8px 0 0;font-size:12px">${esc(status)}. ${utc ? "Times in UTC" : "Times in your time zone"}; the nine PvE bonuses take turns, one per week.</p></section>
         ${picks.length ? `<section class="lbox"><h4>${{ "zaishen-mission": "Zaishen missions", "zaishen-bounty": "Zaishen bounties", "zaishen-vanquish": "Zaishen vanquishes" }[b.daily]} ${active ? "this week" : "that week"}</h4><ul class="lrows">${picks.map(([t, e]) =>
           `<li><span>${pickHTML(e, t)}</span><span class="dim">${fmtDay.format(t)}</span></li>`).join("")}</ul></section>` : ""}
         <section class="lbox"><h4>Other PvE bonuses</h4><div class="chips">${others.map(x =>
