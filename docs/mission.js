@@ -20,7 +20,7 @@ VIEWS.mission = (() => {
     const tiers = [...new Set(["normal", "hard"].flatMap(k => Object.keys(r[k] || {})))];
     const head = `<tr><th>${tiers.includes("bonus") ? "For" : "Tier"}</th>${r.by ? `<th>${esc(r.by[0].toUpperCase() + r.by.slice(1))}</th>` : ""}<th class="num">XP</th><th class="num">Gold</th><th class="num">Skill pts</th>${(r.extra || []).map(x => `<th class="num">${esc(x)}</th>`).join("")}</tr>`;
     return ["normal", "hard"].filter(k => r[k]).map(k => `<div class="rmode">${k === "normal" ? "Normal" : "Hard"} mode</div><table class="rewards">${head}${
-      Object.entries(r[k]).map(([t, [xp, gold, sp, ...extra]]) => `<tr><td>${esc(t[0].toUpperCase() + t.slice(1))}</td>${r.by ? `<td>${esc(r.tiers?.[t] || "")}</td>` : ""}<td class="num">${num(xp)}</td><td class="num">${num(gold)}</td><td class="num">${sp}</td>${extra.map(v => `<td class="num">${v}</td>`).join("")}</tr>`).join("")}</table>`).join("");
+      Object.entries(r[k]).map(([t, [xp, gold, sp, ...extra]]) => `<tr><td>${esc(t[0].toUpperCase() + t.slice(1))}</td>${r.by ? `<td>${esc((k === "hard" && r.tiers_hard?.[t]) || r.tiers?.[t] || "")}</td>` : ""}<td class="num">${num(xp)}</td><td class="num">${num(gold)}</td><td class="num">${sp}</td>${extra.map(v => `<td class="num">${v}</td>`).join("")}</tr>`).join("")}</table>`).join("");
   }
   // foes and allies, by group: [profession, level, name]
   // (bosses: the elites of the version played in this mission, eliteAt in common.js; a version with no elite says so)
