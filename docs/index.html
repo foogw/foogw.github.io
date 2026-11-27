@@ -128,7 +128,7 @@ const RND_ASPECT = 4 / 3;
 function renderMaps() {
   const vq = Rotation.current(ROTATIONS["zaishen-vanquish"], NOW())?.area, nick = ROTATIONS["nicholas-traveler"], n = Rotation.current(nick, NOW());
   const maps = [AREAS[vq]?.set != null && `<div class="rnd-map"><small>Today's Zaishen Vanquish: ${LINK.area(vq)}</small>${mapHTML([vq], { aspect: RND_ASPECT })}</div>`,
-    n?.at && AREAS[n.area]?.set != null && `<div class="rnd-map"><small>This week's Nicholas: <a href="rotations${query({ nick: nick.entries.indexOf(n) })}">${n.count} × ${esc(n.item)}</a>, ${LINK.area(n.area)}</small><div id="rnd-nick"></div></div>`].filter(Boolean);
+    n?.at && AREAS[n.area]?.set != null && `<div class="rnd-map"><small>This week's Nicholas: <a href="nicholas${query({ nick: nick.entries.indexOf(n) })}">${n.count} ${esc(n.item)}</a>, ${LINK.area(n.area)}</small><div id="rnd-nick"></div></div>`].filter(Boolean);
   $("rnd-maps").innerHTML = maps.join("");
   initMaps($("rnd-maps"));
   // (his map with the ways to him, as on the Rotations page)
@@ -181,6 +181,7 @@ renderMaps();
 // My Characters' tabs, and the small pages at the foot
 const PAGES = [
   ["Rotations", "rotations", "Zaishen dailies, Nicholas and the weekly bonuses", "rotation rotations zaishen daily weekly nicholas bonus bounty vanquish traveler sandford zb zm zv zc"],
+  ["Nicholas the Traveler", "nicholas", "Where he stands each week, what he wants, the way to him, and his whole rotation to search", "nicholas traveler nick collector gift week map rotation"],
   ["Tools", "tools", "Pages that work things out for you: what to capture, what to do next, what to plan around", "tools tool"],
   ["GWAMM route", "gwamm", "What the character picked should do next on the way to God Walking Amongst Mere Mortals", "gwamm god walking route next titles"],
   ["Elite captures", "captures", "Every elite the character picked is missing, with the easiest capture and the way there", "elite elites capture captures skill hunter boss"],
@@ -283,7 +284,7 @@ function render() {
     bosses: [({ c, where }) => hit(profVar(c.prof || c.profession), HREF.boss(c.id), `<span class="t">${highlight(c.name, r.ts)}</span>`,
       esc(where), esc((c.elites || []).map(e => SKILLS[e]?.name).filter(Boolean).join(", "))), `bosses?q=${qs}`, "Bosses"],
     rotations: [({ r: rot, e, i, at }) => hit("var(--accent)", `rotations${query({ q: entryName(e) })}`,
-      `<span class="t">${e.count ? `${e.count} × ` : ""}${highlight(entryName(e), r.ts)}</span>`, `${esc(rot.title)}${e.creature && e.area ? ` · ${esc(areaName(e.area))}` : ""}`,
+      `<span class="t">${e.count ? `${e.count} ` : ""}${highlight(entryName(e), r.ts)}</span>`, `${esc(rot.title)}${e.creature && e.area ? ` · ${esc(areaName(e.area))}` : ""}`,
       i ? `next ${fmtNext.format(at)}` : "now"), null, "Rotations"],
   };
   // the pages, the rotations (the day a thing is next up), then the kinds by how well their best hit matches: a thing
@@ -337,7 +338,7 @@ function route(e) {
   }
   $("view").dataset.at = `${k}=${p.get(k)}`;
   // (nothing by that id: say so, with a search and the way to the list of that kind)
-  const LISTS = { area: "areas", mission: "missions", quest: "quests", boss: "bosses", skill: "skills", dungeon: "dungeons", title: "titles", hero: "heroes", nick: "rotations" };
+  const LISTS = { area: "areas", mission: "missions", quest: "quests", boss: "bosses", skill: "skills", dungeon: "dungeons", title: "titles", hero: "heroes", nick: "nicholas" };
   $("view").innerHTML = x ? v.html(x) : `<p class="back"><a href="./">← Home</a></p><p class="dim">There's no ${esc(k)} ${esc(p.get(k))}.</p>
     <form class="nf" action="./"><input type="search" name="q" placeholder="Search for it by name: skills, areas, missions, quests, bosses…" autofocus></form>
     ${LISTS[k] ? `<p><a href="${LISTS[k]}">All ${LISTS[k]} →</a></p>` : ""}`;

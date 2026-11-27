@@ -645,7 +645,7 @@ function entryLink(e, at) {
   if (e.creature && e.area && isTickedDungeon(e.area)) return todoLink(`<a href="${HREF.dungeon(e.area)}" title="${esc(areaName(e.area))}">${esc(entryName(e))}</a>`, "dungeon", e.area);
   if (e.quest) return LINK.quest(e.quest);
   // Nicholas the Traveler's item: his map that week, at the foot of the Rotations page
-  if (e.item) return `${e.count} × ${e.at ? `<a href="rotations${query({ nick: ROTATIONS["nicholas-traveler"].entries.indexOf(e) })}">${esc(e.item)}</a>` : esc(e.item)}`;
+  if (e.item) return `${e.count} ${e.at ? `<a href="nicholas${query({ nick: ROTATIONS["nicholas-traveler"].entries.indexOf(e) })}">${esc(e.item)}</a>` : esc(e.item)}`;
   // (Nicholas Sandford's item: a name alone, starred when it's plentiful)
   if (e.name) return esc(e.name) + quickStar(quickNote("sandford", e.name), listAttr(quickList("sandford", e.name)));
   return esc(entryName(e));

@@ -1824,3 +1824,11 @@ a.cvn::after { content: "🐫"; display: inline-block; font-size: 12px; line-hei
 .gb-sum.neg { color: var(--sac); border-color: color-mix(in srgb, var(--sac) 50%, var(--line)); }
 .gb-energy ul { margin: 6px 0 2px; padding-left: 18px; font-size: 13.5px; }
 .gb-energy h3 { margin: 8px 0 4px; font-size: 15px; }
+
+/* Nicholas the Traveler's page (nicholaspage.js): this week's line, the week picked in his table */
+.nk-now { margin: 14px 0 10px; font-size: 15px; line-height: 1.5; }
+#nk-map { margin-bottom: 8px; }
+.r-table tr.sel td, .r-table tr.sel th { background: color-mix(in srgb, var(--accent) 16%, transparent); } /* the week picked */
+.nk-row { cursor: pointer; }
+.nk-back { font-size: 13px; margin-left: 6px; }
+.nk-row:hover td, .nk-row:hover th { background: color-mix(in srgb, var(--accent) 8%, transparent); }

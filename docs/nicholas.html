@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<title>GW Nicholas the Traveler</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="rotations">
+<!-- Nicholas the Traveler: where he stands this week (or the week picked, ?nick=<entry>), the way to him from the
+     outposts nearby, and his whole rotation to search (nicholaspage.js, the map by nicholas.js) -->
+<div class="wrap">
+  <header class="top"></header><script src="header.js"></script>
+  <div class="page-title"><h1>Nicholas the Traveler</h1><p>Where he stands each week, what he wants, and the way to him</p></div>
+
+  <p class="nk-now" id="nk-now"></p>
+  <div id="nk-map"></div>
+
+  <h2 class="r-h">His rotation</h2>
+  <div class="r-tools">
+    <input type="search" id="find" placeholder="When does he want it? — e.g. iris, red iris flower, regent valley" autocomplete="off" autofocus>
+    <span class="dim" id="nk-count"></span>
+  </div>
+  <div class="r-scroll"><table class="r-table" id="nk-table"></table></div>
+
+  <footer class="site-footer"><a href="about">About</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · <a href="license">License &amp; credits</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
+</div>
+
+<script src="game/titles.js"></script>
+<script src="game/calendar.js"></script>
+<script src="data/calendar.js"></script>
+<script src="data/nicholas.js"></script>
+<script src="game/ground.js"></script>
+<script src="game/missions.js"></script>
+<script src="game/creatures.js"></script>
+<script src="data/bosses.js"></script>
+<script src="game/quests.js"></script>
+<script src="game/maps.js"></script>
+<script src="common.js"></script>
+<script src="mytitles.js"></script>
+<script src="mapwidget.js"></script>
+<script src="data/routing.js"></script>
+<script src="walkroute.js"></script>
+<script src="nicholas.js"></script>
+<script src="nicholaspage.js"></script>
+</body>
+</html>
