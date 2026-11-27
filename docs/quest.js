@@ -30,7 +30,7 @@ VIEWS.quest = (() => {
       (q.requires?.length || q.requires_missions?.length || q.requires_other?.length) && ["After", [...(q.requires || []).map(i => LINK.quest(i)),
         ...(q.requires_missions || []).map(whereLink), ...(q.requires_other || []).map(esc)].join(", ")],
       q.next?.length && ["Leads to", q.next.map(i => LINK.quest(i)).join(", ")],
-      (q.missions?.length || q.next_missions?.length) && ["Opens mission", [...(q.missions || []), ...(q.next_missions || [])].map(whereLink).join(", ")],
+      (q.next_missions || []).some(i => !(q.missions || []).includes(i)) && ["Opens mission", q.next_missions.filter(i => !(q.missions || []).includes(i)).map(whereLink).join(", ")],
       q.dungeon && ["Dungeon", LINK.area(q.dungeon)],
       q.travel != null && ["Takes you to", CAMPAIGNS[q.travel]],
       q.event && ["Event", `<a href="events">${esc(EVENTS[q.event]?.name)}</a>`],
