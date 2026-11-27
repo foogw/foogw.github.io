@@ -39,11 +39,39 @@ VIEWS.mission = (() => {
   }
   // its map, with where its bosses stand in it (data/bosses.js: the spots filed under the mission). A boss with several
   // places (one at a time): its dots unnamed, and named under the map
+  // A mission whose bosses are met in a fixed order (data/missionmaps.js order): the spots numbered in it, the mission's
+  // own portals marked (data/routing.js teleports, in the same order), and the way from the start through each boss in
+  // turn drawn after the map is made (ways), the legs numbered where each begins
+  const ordered = m => { const o = data("GW_MISSION_MAPS")?.order?.[m.id]; return o?.length && data("GW_MISSION_MAPS")?.starts?.[m.id] ? o : null; };
+  const LEG_COLOR = NICK_COLORS[0];
   function missionMap(m) {
+    const order = ordered(m);
     const all = Object.entries(data("GW_BOSS_SPOTS")?.spots || {}).map(([c, ss]) => [c, CREATURES[c]?.name.replace(/\s*\(boss\)$/, "") || "", ss.filter(s => s[0] === m.id && !s[3])]).filter(([, , ss]) => ss.length);
-    const spots = all.flatMap(([, name, ss]) => ss.map(s => ({ x: s[1], y: s[2], name: ss.length > 1 ? "" : name })));
+    if (order) all.sort((a, b) => (order.indexOf(+a[0]) + 1 || 99) - (order.indexOf(+b[0]) + 1 || 99));
+    // (in order: its profession's icon in the dot's place; its number where its leg begins, and with its name in the list under the map)
+    const spots = all.flatMap(([c, name, ss], k) => ss.map(s => ({ x: s[1], y: s[2], ...(ss.length > 1 ? { name: "" } : order?.includes(+c) ? { name: "", icon: profImg(CREATURES[c]?.profession) } : { name }) })));
     const note = all.filter(([, , ss]) => ss.length > 1).map(([c, name, ss]) => `${esc(name)}: ${spotsText(c, ss.length)}`).join(" · ");
-    return missionMapHTML(m.id, m.name, { spots, note }) || mapHTML([m.id], { spots, note });
+    const portals = order ? (data("GW_ROUTING")?.teleports?.[m.id] || []).map(([x, y], n) => ({ at: [x, y], name: `Portal, opens when boss ${n + 1} dies` })).filter((p, n) => n >= 1 && n <= order.length) : null;
+    if (portals) portals.unshift({ at: data("GW_ROUTING").teleports[m.id][0].slice(0, 2), name: "Portal from the start" });
+    return (missionMapHTML(m.id, m.name, { spots, note, portals }) || mapHTML([m.id], { spots, note, portals })) + (order ? '<div class="nways"></div>' : "");
+  }
+  async function after(el, m) {
+    const order = ordered(m), ways = el.querySelector(".nways");
+    if (!order || !ways) return;
+    const live = () => el.dataset.at === `mission=${m.id}`;
+    const spot = c => (data("GW_BOSS_SPOTS")?.spots?.[c] || []).find(s => s[0] === m.id && !s[3]);
+    const grid = await walkGrid([data("GW_MISSION_MAPS")?.missions?.[m.id]?.walk ?? m.id]);
+    if (!live()) return;
+    let from = { at: data("GW_MISSION_MAPS").starts[m.id], area: m.id };
+    const legs = order.map(c => { const s = spot(c); const p = s && walkRoute(grid, from, [s[1], s[2]]); if (s) from = { at: [s[1], s[2]], area: m.id }; return p; });
+    await markIcons(order.map(c => profImg(CREATURES[c]?.profession)));
+    if (!live()) return;
+    const view = el.querySelector(".gmap")?.mapView;
+    // (each leg numbered where it begins on its boss's ground: after the portal, at the start of its last line)
+    if (view) { view.ways = legs.map((p, n) => { const ls = p && walkLines(p); return ls && { lines: ls, color: LEG_COLOR, label: { at: ls.at(-1)[0], text: String(n + 1) } }; }).filter(Boolean); view.draw(); }
+    const name = c => esc(CREATURES[c]?.name.replace(/\s*\(boss\)$/, "") || "");
+    ways.innerHTML = legs.map((p, n) => `<span style="--c:${LEG_COLOR}">${n + 1} ${profIcon(CREATURES[order[n]]?.profession, "qp")} ${name(order[n])}: ${n ? `on from ${n}` : "from the start"}, ${p ? walkText(walkLength(p)) : "no way found"}</span>`).join("")
+      + `<span class="dim">In this order, the portal to each opening when the boss before it dies. All of them: ${walkText(legs.reduce((a, p) => a + (p ? walkLength(p) : 0), 0))}</span>`;
   }
   function html(m) {
     const sub = [m.label && esc(`Mission ${m.label}`), regionLink(REGIONS[regionId(m)]), m.kind === "pvp" ? "PvP" : esc(CAMPAIGNS[camp(m)] || ""), m.kind !== "story" && esc(KINDS[m.kind] || "")].filter(Boolean).join(" · ");  // (region, then campaign, as every page; the region a link to its map)
@@ -91,5 +119,5 @@ VIEWS.mission = (() => {
       </div>
       <p class="llinks">${steps ? `<a href="${storylineHref(steps.campaign, { m: m.id })}">In the storyline →</a>` : ""}${wikiLink(m.wiki)}</p>`;
   }
-  return { find: id => MISSIONS[id], title: m => m.name, html };
+  return { find: id => MISSIONS[id], title: m => m.name, html, after };
 })();

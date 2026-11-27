@@ -2,6 +2,10 @@ const GW_MISSION_MAPS = {
   "_": "Ours: where a mission is played, for the missions the site has no ground of their own for (the mission is played on an area's ground: Augury Rock's on Skyward Reach's, Nightfall's on their explorables', G.O.L.E.M.'s in Oola's Lab)..",
   "missions_": "By the mission's map id (or its copy's): walk, the ground it is played on (game/walk/<it>.json; an area's, or a Depths of Tyria cell's); box, the part of that map its window shows, [x0, y0, x1, y1] in its pixels, or area, an outline [x0, y0, x1, y1, ...] instead; rings, ground the mission adds to that walk file's, as in a walk file; in, the area it is played in, said on its pages; note, what else to say (ours, with {area:id} links).",
   "starts_": "Ours: where the party stands when a mission begins, by the mission's map id: [x, y] on the mission's own map (the map it is played on). Marked by hand on the site's maps.",
+  "order_": "Ours: the bosses of a mission met in a fixed order (its portals open one realm after another), by the mission's map id: creature ids in that order. Its map numbers them and draws the way from the start through each in turn (data/routing.js teleports: the portals in the same order).",
+  "order": {
+    "120": [100828, 100827, 100830, 100829, 100831, 100826]
+  },
   "starts": {
     "120": [123, 234],
     "10": [803, 4642],

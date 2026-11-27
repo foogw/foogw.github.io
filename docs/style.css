@@ -1287,6 +1287,7 @@ a.hchip { text-decoration: none; }
 
 /* Nicholas the Traveler's map (nicholas.js): each way's colour and length under it */
 .nways { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; margin: 8px 0; }
+.nways img.qp { vertical-align: -3px; }
 .nways span::before { content: ""; display: inline-block; width: 18px; height: 4px; border-radius: 2px; background: var(--c); margin-right: 6px; vertical-align: middle; }
 
 /* ---------- the visitor's progress: ticks for an elite captured, a mission or dungeon done (NM, HM) ---------- */

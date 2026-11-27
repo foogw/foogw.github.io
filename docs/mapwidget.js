@@ -101,26 +101,43 @@ function sprite(key, size, paint) {
   }
   return SPRITES.get(key);
 }
-// a dot, and the area's name beside it (in device pixels; scale = device pixels per CSS px)
-function drawMark(g, kind, x, y, scale = 1, name = "", self = false) {
+// pictures drawn beside a mark's name (a spot's icon): loaded once; a page that needs them drawn at once awaits markIcons()
+const MARK_ICONS = new Map();
+const markIcon = src => { if (!MARK_ICONS.has(src)) { const i = new Image(); i.src = src; MARK_ICONS.set(src, i); } return MARK_ICONS.get(src); };
+const markIcons = srcs => Promise.all([...new Set(srcs)].map(s => markIcon(s).decode().catch(() => {})));
+// a dot, and the area's name beside it (in device pixels; scale = device pixels per CSS px), and a small picture after the name (icon: its src; with no name, in the dot's place)
+function drawMark(g, kind, x, y, scale = 1, name = "", self = false, icon = null) {
   const [fill, r] = MARK_STYLE[kind] || MARK_STYLE.outpost;
   if (self) {  // the area the page is about: a ring around a larger dot
     scale *= 1.3;
     g.beginPath(); g.arc(x, y, (r + 5) * scale, 0, 2 * Math.PI); g.lineWidth = 3 * scale; g.strokeStyle = MAP_RING; g.stroke();
+  }
+  const im = icon && markIcon(icon), ok = im && im.complete && im.naturalWidth, is = 16 * scale;
+  if (ok && !name) {  // the picture in the dot's place: on a dark disc ringed in the mark's colour
+    g.beginPath(); g.arc(x, y, is / 2 + 3 * scale, 0, 2 * Math.PI); g.fillStyle = "rgb(0 0 0 / .8)"; g.fill();
+    g.lineWidth = 2 * scale; g.strokeStyle = fill; g.stroke();
+    g.drawImage(im, x - is / 2, y - is / 2, is, is);
+    return;
   }
   const dot = sprite(`${kind}:${scale}`, (r + 2) * scale * 2, (c, m) => {
     c.beginPath(); c.arc(m, m, r * scale, 0, 2 * Math.PI);
     c.fillStyle = fill; c.fill(); c.lineWidth = 2.5 * scale; c.strokeStyle = "#111"; c.stroke();
   });
   g.drawImage(dot, x - dot.width / 2, y - dot.height / 2);
-  if (!name) return;
+  if (!name && !icon) return;
   g.font = `600 ${13 * scale}px system-ui, sans-serif`; g.textBaseline = "middle"; g.lineJoin = "round";
+  const iw = ok ? is + 3 * scale : 0;
   // beside the dot on the right, or on the left where the right would run off the picture
-  const gap = (r + 4) * scale, left = x + gap + g.measureText(name).width > g.canvas.width;
-  const tx = left ? x - gap : x + gap;
+  const gap = (r + 4) * scale, tw = g.measureText(name).width, left = x + gap + tw + iw > g.canvas.width;
+  const tx = left ? x - gap - iw : x + gap;
   g.textAlign = left ? "right" : "left";
   g.lineWidth = 3.5 * scale; g.strokeStyle = "rgb(0 0 0 / .85)"; g.strokeText(name, tx, y);
   g.fillStyle = "#fff"; g.fillText(name, tx, y);
+  if (ok) {  // on a dark disc, so it stands out from the ground
+    const ix = (left ? x - gap - is : tx + tw + 3 * scale) + is / 2;
+    g.beginPath(); g.arc(ix, y, is / 2 + 3 * scale, 0, 2 * Math.PI); g.fillStyle = "rgb(0 0 0 / .75)"; g.fill();
+    g.drawImage(im, ix - is / 2, y - is / 2, is, is);
+  }
   g.textAlign = "left";
 }
 
@@ -128,7 +145,7 @@ const veil = document.createElement("canvas");
 /* One view of a map set onto a canvas. v: { set, zoom (CSS px per map pixel), x, y (CSS px of the map's corner),
    dpr, under: underground pictures drawn over the tiles (game/maps.js under), ground(ctx, z): draws over the tiles, lit: Path2D of the ground to keep bright (or null: all bright), clip: Path2D
    the lit ground and its outlines are kept within (or none), dark (0-1), outlines: [[Path2D, color, width, alpha, fill alpha]],
-   marks: [{ x, y, kind, name, self }], portals: [[x, y]], ways: [{ lines: [[[x, y], ...]], color }] (drawn under the
+   marks: [{ x, y, kind, name, self }], portals: [[x, y]], ways: [{ lines: [[[x, y], ...]], color, label: {at: [x, y], text} }] (drawn under the
    portals and marks), redraw }. */
 function paintMap(ctx, v) {
   const W = ctx.canvas.width, H = ctx.canvas.height, d = v.dpr, z = v.zoom * d;
@@ -174,10 +191,17 @@ function paintMap(ctx, v) {
     }
   }
   const at = (x, y) => [(v.x + x * v.zoom) * d, (v.y + y * v.zoom) * d];
+  // a way's label (its number): a disc in its colour where it begins
+  for (const w of v.ways || []) if (w.label) {
+    const [x, y] = at(...w.label.at), r = 9 * d;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, 2 * Math.PI); ctx.fillStyle = w.color; ctx.fill(); ctx.lineWidth = 2 * d; ctx.strokeStyle = "rgb(0 0 0 / .8)"; ctx.stroke();
+    ctx.font = `700 ${12 * d}px system-ui, sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = "#111"; ctx.fillText(w.label.text, x, y + 0.5 * d);
+    ctx.textAlign = "left";
+  }
   const seen = ([x, y]) => x > -40 && y > -40 && x < W + 40 && y < H + 40;  // and the rest skipped
   const swirl = sprite(`swirl:${d}`, 16 * d, (c, m) => drawSwirl(c, m, m, d));
   for (const [x, y] of v.portals || []) { const p = at(x, y); if (seen(p)) ctx.drawImage(swirl, p[0] - swirl.width / 2, p[1] - swirl.height / 2); }
-  for (const m of v.marks || []) { const p = at(m.x, m.y); if (m.self || seen(p)) drawMark(ctx, m.kind, ...p, d, m.name, m.self); }
+  for (const m of v.marks || []) { const p = at(m.x, m.y); if (m.self || seen(p)) drawMark(ctx, m.kind, ...p, d, m.name, m.self, m.icon); }
 }
 
 /* ---------- a window on some areas ---------- */
@@ -198,7 +222,7 @@ function missionWhereNote(id) {
 const missionsIn = id => Object.entries(data("GW_MISSION_MAPS")?.missions || {}).filter(([k, b]) => b.in === id && MISSIONS[k]).map(([k]) => +k);
 // ids: the areas lit; self: an area the page is about, marked out (an outpost shows the areas around it)
 // town: an outpost (or a list) whose own town to light (where its mission's ground shares its map id), not the mission's ground
-// spots: points of the map to mark, [{x, y, name}] in its pixels (where an NPC stands), shown even with markers hidden
+// spots: points of the map to mark, [{x, y, name, icon (a small picture's src after the name)}] in its pixels (where an NPC stands); "Hide markers" hides them and the portals too, leaving the ground and the ways
 // note: HTML under the map, between its controls
 // level: a dungeon level instead of areas, {name, map (its map id: its own picture, game/maps.js under), walk (its cell's game/walk file), rings (ground added to it), area: [x0, y0, ...] (or [[outline], [hole], ...]) the part of
 // ground lit (or none: all of it), spots, portals: [{at, name}] (named on hover)} (data/depths.js)
@@ -206,14 +230,15 @@ const missionsIn = id => Object.entries(data("GW_MISSION_MAPS")?.missions || {})
 // aspect: its width over its height, the part shown widened (or made taller) to it: maps side by side, the same height
 // tints: {area id: color}: each area's ground outlined and tinted in its own colour (a guide's keyed map), instead of the one ring
 // nomarks: no outpost markers at all, and no choice of them; only: with nomarks, the outposts (ids) still marked (a guide's start)
-function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null, spots = null, note = "", level = null, crop = null, aspect = null, tints = null, nomarks = false, only = null } = {}) {
+// portals: more portals to mark, [{at: [x, y], name}] (named on hover), e.g. a mission's own between its realms
+function mapHTML(ids, { self = null, height = MAP_MAX_H, town = null, spots = null, note = "", level = null, crop = null, aspect = null, tints = null, nomarks = false, only = null, portals = null } = {}) {
   ids = [...new Set(ids.map(Number))];
   if (!ids.length && !self && !level) return "";
-  return `<figure class="gmap" data-ids="${ids.join(",")}"${self ? ` data-self="${self}"` : ""}${town ? ` data-town="${[town].flat().join(",")}"` : ""}${spots ? ` data-spots="${esc(JSON.stringify(spots))}"` : ""}${level ? ` data-level="${esc(JSON.stringify(level))}"` : ""}${crop ? ` data-crop="${crop.join(",")}"` : ""}${aspect ? ` data-aspect="${aspect}"` : ""}${tints ? ` data-tints="${esc(JSON.stringify(tints))}"` : ""}${nomarks ? " data-nomarks" : ""}${only ? ` data-only="${only.join(",")}"` : ""} data-h="${height}">
+  return `<figure class="gmap" data-ids="${ids.join(",")}"${self ? ` data-self="${self}"` : ""}${town ? ` data-town="${[town].flat().join(",")}"` : ""}${spots ? ` data-spots="${esc(JSON.stringify(spots))}"` : ""}${level ? ` data-level="${esc(JSON.stringify(level))}"` : ""}${crop ? ` data-crop="${crop.join(",")}"` : ""}${aspect ? ` data-aspect="${aspect}"` : ""}${tints ? ` data-tints="${esc(JSON.stringify(tints))}"` : ""}${nomarks ? " data-nomarks" : ""}${only ? ` data-only="${only.join(",")}"` : ""}${portals ? ` data-portals="${esc(JSON.stringify(portals))}"` : ""} data-h="${height}">
     <div class="gmap-win" tabindex="0" role="img" style="height: ${height}px"><canvas></canvas></div>
     <figcaption><label>Darkness <input type="range" min="0" max="100" value="66"></label>${note && `
       <span class="gmap-note">${note}</span>`}
-      <label title="Outposts, mission outposts and dungeons"${nomarks ? ' style="display: none"' : ""}><input type="checkbox" class="gmap-nomarks"${hideMarks() || nomarks ? " checked" : ""}> Hide markers</label></figcaption>
+      <label title="Outposts, mission outposts, dungeons, spots and portals"${nomarks ? ' style="display: none"' : ""}><input type="checkbox" class="gmap-nomarks"${hideMarks() || nomarks ? " checked" : ""}> Hide markers</label></figcaption>
   </figure>`;
 }
 // hiding the markers is one choice for every map, remembered in this browser only
@@ -286,6 +311,7 @@ async function initMap(fig) {
     for (const n of [AREAS[i]?.name, AREAS[e.to]?.name]) if (n) joins.get(k).add(n);
   }
   for (const p of level?.portals || []) { portals.push(p.at); joins.set(String(p.at), new Set([level.name, p.name])); }
+  for (const p of JSON.parse(fig.dataset.portals || "[]")) { portals.push(p.at); joins.set(String(p.at), new Set([p.name])); }
   // each marker is also a link, for the keyboard and for clicks
   win.insertAdjacentHTML("beforeend", marks.map(m => `<a class="gmap-mark" href="${HREF.area(m.id)}" title="${esc(m.name)} · ${MARK_STYLE[m.kind][2]}" aria-label="${esc(m.name)}"></a>`).join(""));
   const links = [...win.querySelectorAll(".gmap-mark")];
@@ -301,7 +327,7 @@ async function initMap(fig) {
     links.forEach((a, i) => { a.style.left = `${(100 * (marks[i].x - cur[0]) / cw).toFixed(2)}%`; a.style.top = `${(100 * (marks[i].y - cur[1]) / ch).toFixed(2)}%`; });
     win.classList.toggle("nomarks", hidden());
     paintMap(ctx, { set, zoom, x: -cur[0] * zoom, y: -cur[1] * zoom, dpr: d, lit: path, clip, dark: slider.value / 100, under,
-      outlines: mv.tints ? tinted() : (path ? [[path, MAP_RING, 1.2, 0.8 * slider.value / 100]] : []), portals, marks: [...(hidden() ? [] : marks), ...spots], ways: mv.ways,
+      outlines: mv.tints ? tinted() : (path ? [[path, MAP_RING, 1.2, 0.8 * slider.value / 100]] : []), portals: hidden() ? [] : portals, marks: hidden() ? [] : [...marks, ...spots], ways: mv.ways,
       redraw: () => { raf ||= requestAnimationFrame(draw); } });
   };
   slider.addEventListener("input", draw);
