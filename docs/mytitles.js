@@ -140,7 +140,8 @@ const PRE_RUNES = { 1: ["Strength", "Axe Mastery", "Hammer Mastery", "Swordsmans
   3: ["Divine Favor", "Healing Prayers", "Smiting Prayers", "Protection Prayers"], 4: ["Soul Reaping", "Blood Magic", "Curses", "Death Magic"],
   5: ["Fast Casting", "Domination Magic", "Illusion Magic", "Inspiration Magic"], 6: ["Energy Storage", "Air Magic", "Earth Magic", "Fire Magic", "Water Magic"] };
 const PRE_CHECKLIST = [
-  { id: "outposts", name: "All outposts" },
+  // (its own id: the post-Searing list's "outposts" mark would otherwise come along when the character leaves pre-Searing)
+  { id: "preoutposts", name: "All outposts" },
   { id: "pouch", name: "Belt pouch" }, { id: "charrbags", name: "Two Charr bags" }, { id: "eqpack", name: "Equipment pack" },
   // (Devona: the mark is the hero's tick, as on the Heroes tab)
   { id: "devona", name: "Devona recruited", hero: 38 },

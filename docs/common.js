@@ -985,8 +985,9 @@ const USER_KEYS = { 1: ["id", "name", "elites", "missions", "dungeons", "titles"
   2: ["id", "name", "account", "profession", "elites", "vanquished", "missionsNM", "missionsHM", "dungeonsNM", "dungeonsHM", "titles", "modes", "gender", "hidden", "inMenu", "example", "mock", "heroes", "builds", "campaign", "note", "bornBetween", "retired", "eotnMap", "xp", "played", "playedOutside", "aim", "checks"] };
 // the Checklist tab's items a character marks done by hand (the others it works out from the ticks): their ids
 const USER_CHECKS = ["skills", "outposts", "wik", "uw", "fow", "sf", "deep", "urgoz", "doa", "attr", "ports", "prophecies", "factions", "nightfall", "eotn",
-  // (a pre-Searing character's: mytitles.js PRE_CHECKLIST)
-  "pouch", "charrbags", "eqpack", "headgear", "vigor", "runes"];
+  // (a pre-Searing character's: mytitles.js PRE_CHECKLIST; its All outposts is its own item, preoutposts, so leaving pre-Searing
+  // doesn't bring the mark along)
+  "preoutposts", "pouch", "charrbags", "eqpack", "headgear", "vigor", "runes"];
 // a character's readings typed in on its Edit tab, each kept with when: [amount, time]
 const USER_READINGS = ["xp", "played", "playedOutside"];
 // an amount said back: round ones short (12.5m, 340k, 1b: to a tenth of the unit), the others in full with commas (12,345)
@@ -1064,7 +1065,8 @@ function userFromKept(o) {
     if (k.aim) c.aim = k.aim; else if (k.retired) c.aim = "retired";
     if (k.eotnMap !== undefined) c.eotnMap = k.eotnMap;
     for (const r of USER_READINGS) if (k[r]) c[r] = [...k[r]];
-    if (k.checks) c.checks = k.checks.filter(x => USER_CHECKS.includes(x));
+    // (a pre-Searing character's All outposts mark from before it had its own id, 2026-11-27: moved to it)
+    if (k.checks) c.checks = k.checks.map(x => (x === "outposts" && isPreSearing(c) ? "preoutposts" : x)).filter(x => USER_CHECKS.includes(x));
     return c;
   });
   return menuDefault(userNormalize({ v: 2, chars, accounts: (o.accounts || []).map(a => ({ ...a })) }));
@@ -1235,7 +1237,7 @@ function starterProgress(now = Date.now()) {
       { id: 2, name: "My example Warrior", profession: 1, gender: "m", campaign: 2, aim: "gwamm", inMenu: true, example: true, elites: first(all.elites, 30), vanquished: [], missionsNM: fa, missionsHM: [], dungeonsNM: [], dungeonsHM: [],
         heroes: [13, 14, 15, 16], titles: { 14: 1, 2: 3, 9: 1 }, checks: ["factions"], note: "An example: Cantha done, nothing else yet", bornBetween: range(400, [200, 3.4]), played: [310, at], playedOutside: [20, at] },
       { id: 3, name: "My example Perma", profession: 5, gender: "f", modes: ["presearing"], example: true, elites: [], vanquished: [], missionsNM: [], missionsHM: [], dungeonsNM: [], dungeonsHM: [], heroes: [38],
-        titles: { 21: 1, 34: 1 }, checks: ["outposts", "pouch", "charrbags"], note: "An example: stays in pre-Searing Ascalon", bornBetween: range(70.2, [40.3, 2.7]), played: [95, at], playedOutside: [95, at] } ] },
+        titles: { 21: 1, 34: 1 }, checks: ["preoutposts", "pouch", "charrbags"], note: "An example: stays in pre-Searing Ascalon", bornBetween: range(70.2, [40.3, 2.7]), played: [95, at], playedOutside: [95, at] } ] },
     { id: 2, name: "My other account", chars: [
       { id: 4, name: "My example Ranger", profession: 2, campaign: 3, aim: "gwamm", inMenu: true, example: true, elites: first(all.elites, 8), vanquished: [], missionsNM: first(nf, 5), missionsHM: [], dungeonsNM: [], dungeonsHM: [], heroes: [1, 2, 3, 6],
         titles: { 17: 4, 9: 3 }, note: "An example: just started in Elona", bornBetween: range(25.4, [20.2, 1.8]), xp: [320000, at], played: [60, at], playedOutside: [2, at] } ] } ] };
