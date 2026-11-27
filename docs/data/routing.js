@@ -46,7 +46,7 @@ const GW_ROUTING = {
     "214": [245],
     "218": [244]
   },
-  "portals_": "Ours: portals the game's data doesn't area, on the area's walkable map (maps.js walks; for an area with a map of its own, on that map), by its map id, then the map id each leads to: [x, y].",
+  "portals_": "Ours: portals the game's data doesn't list, on the area's walkable map (maps.js walks; for an area with a map of its own, on that map), by its map id, then the map id each leads to: [x, y].",
   "portals": {
     "190": {"206": [870, 966]},
     "413": {"434": [242, 631]},

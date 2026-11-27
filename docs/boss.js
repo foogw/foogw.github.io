@@ -76,7 +76,7 @@ function depthsLevel(area, x, y) {
 }
 // where in a dungeon: on the levels its spots are on, else at its end (the boss a bounty sends you to)
 function dungeonWhere(b, i) {
-  const ns = [...new Set((BOSS_SPOTS[b.id] || []).filter(s => s[0] === i).map(s => depthsLevel(i, s[1], s[2])?.n).filter(Boolean))].sort();
+  const ns = [...new Set((BOSS_SPOTS[b.id] || []).filter(s => s[0] === i).map(s => depthsLevel(i, s[1], s[2])?.n).filter(Boolean))].sort((a, b) => a - b);
   return ns.length ? `Dungeon, level ${listText(ns.map(String))}` : "Dungeon: at its end";
 }
 // one area's map of a boss's spots. With an elite to capture, the ways to it: to one spot, from every outpost near
