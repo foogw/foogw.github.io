@@ -152,7 +152,8 @@ const whereLink = id => (MISSIONS[id] ? LINK.mission(id) : LINK.area(id));
 const heroChip = h => `<a href="${HREF.hero(h.id)}"><img class="ip" src="${profImg(h.profession)}" alt=""> ${esc(h.name)}</a>`;
 
 /* Hand-written text: {skill:id} (with icon), {skillname:id}, {area:id}, {mission:id}, {quest:id}, {hero:id},
-   {page:href|text} and {ext:href|text}. html: the text is HTML already (the events'), not plain. */
+   {page:href|text}, {ext:href|text}, and {why:phrase|explanation}: the phrase marked, with a small "?", the explanation
+   (the theory behind it) shown on hover. html: the text is HTML already (the events'), not plain. */
 const text = (t, html = false) => (html ? String(t ?? "") : esc(t))
   .replace(/\{skill:(\d+)\}/g, (_, i) => LINK.skill(i))
   .replace(/\{skillname:(\d+)\}/g, (_, i) => LINK.skill(i, false))
@@ -161,7 +162,8 @@ const text = (t, html = false) => (html ? String(t ?? "") : esc(t))
   .replace(/\{quest:(\d+)\}/g, (_, i) => LINK.quest(i))
   .replace(/\{hero:(\d+)\}/g, (_, i) => LINK.hero(i))
   .replace(/\{page:([^|}]+)\|([^}]+)\}/g, (_, href, t) => `<a href="${href}">${t}</a>`)
-  .replace(/\{ext:([^|}]+)\|([^}]+)\}/g, (_, href, t) => `<a href="${href}" target="_blank" rel="noopener">${t}</a>`);
+  .replace(/\{ext:([^|}]+)\|([^}]+)\}/g, (_, href, t) => `<a href="${href}" target="_blank" rel="noopener">${t}</a>`)
+  .replace(/\{why:([^|}]+)\|([^}]+)\}/g, (_, t, w) => `<span class="why" tabindex="0" data-tip="${w}">${t}<sup>?</sup></span>`);
 
 /* A skill description, its <gray> parts (values at other ranks) dimmed. */
 const richText = s => esc(s).replace(/&lt;gray&gt;(.*?)&lt;\/gray&gt;/g, '<span class="gray">$1</span>');
@@ -367,13 +369,14 @@ const noteLi = n => `<li>${n}</li>`;
   addEventListener("scroll", hide, true);
 }
 // [data-tip]: its text in a tooltip at once, above it (below near the top of the window), on hover or keyboard focus
-// ([data-tip-html]: markup instead, our own: the coins' lines with their icon)
+// ([data-tip-html]: markup instead, our own: the coins' lines with their icon; [data-tip-wide]: as wide as its lines, none broken)
 {
   let tip = null;
   const show = el => {
     tip ??= Object.assign(document.createElement("div"), { className: "tip", role: "tooltip" });
     if (!tip.isConnected) document.body.append(tip);
     if (el.dataset.tipHtml !== undefined) tip.innerHTML = el.dataset.tipHtml; else tip.textContent = el.dataset.tip;
+    tip.classList.toggle("wide", el.dataset.tipWide !== undefined);
     tip.hidden = false;
     const r = el.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight;
     tip.style.left = `${Math.max(4, Math.min(innerWidth - w - 4, r.left + r.width / 2 - w / 2))}px`;

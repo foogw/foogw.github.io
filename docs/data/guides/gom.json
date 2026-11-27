@@ -2,23 +2,42 @@
   "source": {
     "href": "https://wiki.guildwars.com/wiki/User:Foo/GoM",
     "archive": "https://web.archive.org/web/2026/https://wiki.guildwars.com/wiki/User:Foo/GoM",
-    "author": "Foo"
+    "author": "Foo",
+    "based": true,
+    "more": false
   },
-  "stats": [["Per kill", "348 XP"], ["Per hour", "334,080 XP"], ["Setup", "~8 min"]],
+  "stats": [
+    [
+      "Per kill",
+      "348 XP"
+    ],
+    [
+      "Per hour",
+      "334,080 XP"
+    ],
+    [
+      "Setup",
+      "~8 min"
+    ]
+  ],
   "sections": [
     {
       "blocks": [
         {
-          "p": "A shortened version of the {ext:https://wiki.guildwars.com/wiki/User:Foo/GoM|full guide on the Guild Wars Wiki} ({ext:https://web.archive.org/web/2026/https://wiki.guildwars.com/wiki/User:Foo/GoM|archived copy})."
+          "p": "Legendary Survivor in about 4 hours, or 534 skill points a day. Normal mode, {mission:527}; about 8 minutes to set up, then it runs indefinitely."
+        },
+        {
+          "note": "The original guide is still on the {ext:https://wiki.guildwars.com/wiki/User:Foo/GoM|Guild Wars Wiki} ({ext:https://web.archive.org/web/2026/https://wiki.guildwars.com/wiki/User:Foo/GoM|archived copy})."
         },
         {
           "img": {
             "src": "img/guides/gom-afk-xp-1.jpg",
+            "size": [
+              1300,
+              563
+            ],
             "caption": "The farm running: bonders at the end of the long shadow (flag 3), the player just south of the Portal Wraiths, the Keystone on the far edge of the aggro bubble (flag 1)."
           }
-        },
-        {
-          "p": "Legendary Survivor in about 4 hours, or 534 skill points a day. Normal mode, {mission:527}; about 8 minutes to set up, then it runs indefinitely."
         }
       ]
     },
@@ -27,9 +46,9 @@
       "blocks": [
         {
           "ul": [
-            "A Chaos Rift spawns 8 Titans every 30 seconds, and you tank them.",
-            "Your health is set so each hit does only 1 damage, under {skill:263} and the Lightbringer title.",
-            "Two Monk heroes keep the bond up and heal the conditions; that 1 damage pays their energy back through {skill:250}.",
+            "A Chaos Rift spawns 8 Titans every 30 seconds, and {why:you tank them|About 3 damage packets a second, around the clock.}.",
+            "Under {skill:263} and the Lightbringer title, your health is set so {why:each packet does only 1 damage|Protective Bond caps a hit at a twentieth of your maximum health, rounded down, and each Lightbringer rank takes 1 more off a Titan's hit. Between LB×20+20 and LB×20+39 health that leaves exactly 1: at LB4, 100 to 119.}.",
+            "Two Monk heroes {why:keep the bonds up|Your health balance: the 1-damage hits, bleeding and burning, against the bonds' health regeneration (Mending, Succor, Watchful Spirit) and Purifying Veil's shorter conditions.}; through {skill:250}, {why:that 1 damage pays their energy back|The energy balance: Protective Bond costs its caster energy on every packet it cuts; Essence Bond returns energy on physical and elemental packets (not holy ones), Balthazar's Spirit, Blessed Signet and Succor the rest. At 0 damage nothing comes back.}.",
             "A {skill:63} Mesmer hero kills. The rest of the party stays away, so the XP is split only two ways."
           ]
         }
@@ -43,22 +62,36 @@
             {
               "name": "Player",
               "role": "You",
-              "skills": [null, null, null, null, null, null, null, 3431],
+              "skills": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                3431
+              ],
               "note": "Any profession. 5 Leadership from an \"of the Paragon\" mod; health by LB rank (table below)."
             },
             {
               "name": "Prot Bonder",
               "code": "OwAS8Y4NHkrPNRfkSAAAAAA",
               "mode": "Avoid",
-              "runes": {"15": "3+1"},
+              "runes": {
+                "15": "3+1"
+              },
               "insignia": "Radiant",
-              "note": "Bonds first. 16 Protection (18 after Heroic Refrain), 7 Divine Favor."
+              "note": "{why:Bonds first|The order matters for what Protective Bond costs: with the higher Protection cast first (18, then 13) each bonder pays 1 energy a packet; cast the other way round, one of them pays more.}. 16 Protection (18 after Heroic Refrain), 7 Divine Favor."
             },
             {
               "name": "Heal Bonder",
               "code": "OwAT043Ct4gi8f6LlAAAAAA",
               "mode": "Avoid",
-              "runes": {"13": "3+1", "16": "1"},
+              "runes": {
+                "13": "3+1",
+                "16": "1"
+              },
               "insignia": "Radiant",
               "note": "Bonds second. 16 Healing (18 after Heroic Refrain), 11 Protection (13 after Heroic Refrain), 7 Divine Favor."
             },
@@ -66,25 +99,38 @@
               "name": "Keystone",
               "code": "OQNCA8wDP9B8DyzmOUi1veC",
               "mode": "Fight",
-              "runes": {"0": "3+1", "3": "3"},
-              "note": "16 Fast Casting, 15 Inspiration with runes. No weapon."
+              "runes": {
+                "0": "3+1",
+                "3": "3"
+              },
+              "note": "16 Fast Casting, 15 Inspiration with runes. {why:No weapon|The hero must cast, not attack: with a weapon the AI wands between signets. In our runs a wand cost 4% of its casts and a Titan lived a second longer. No shield either: the Keystone should not look like a target.}."
             }
           ]
         },
         {
           "box": {
-            "title": "Optional: without Heroic Refrain",
+            "title": "Optional: without Heroic Refrain (LB4 and up)",
+            "tone": "optional",
             "blocks": [
               {
-                "p": "As an alternative at LB4 and up, you can be the third bonder instead of using Heroic Refrain. Two bonders need 18 and 13 Protection, but three can do with 13, 8 and 3: the Prot Bonder at 13, the Heal Bonder at 8 and you at 3, bonding in that order."
+                "p": "As an alternative {why:at LB4 and up|Not at LB2 or LB3: without Heroic Refrain's +2 the bonds heal less and conditions last longer, and at those ranks the margins are already thin.}, you can be the third bonder instead of using Heroic Refrain. Two bonders need 18 and 13 Protection, but three can do with 13, 8 and 3: the Prot Bonder at 13, the Heal Bonder at 8 and you at 3, bonding in that order."
               },
               {
                 "builds": [
                   {
                     "name": "Player",
                     "role": "You",
-                    "skills": [263, 242, null, null, null, null, null, null],
-                    "note": "Monk secondary with 3 Protection. Balthazar's Spirit fully pays for your share of the bond."
+                    "skills": [
+                      263,
+                      242,
+                      null,
+                      null,
+                      null,
+                      null,
+                      null,
+                      null
+                    ],
+                    "note": "Monk secondary with 3 Protection. {why:Your Protective Bond goes on last|The lowest Protection casts last: 13, 8, then your 3, and each of the three pays 1 energy a packet.}, and Balthazar's Spirit fully pays for your share of it."
                   }
                 ]
               },
@@ -96,38 +142,80 @@
         },
         {
           "ul": [
-            "Put these 3 heroes first in the party, so each can be flagged.",
-            "Bonders: all bonds disabled, about 50 energy."
+            "Party order: the 3 heroes in the first three slots, {why:so each has its own flag|Alternatively they can sit anywhere in the party if you bind keys to flag heroes one by one: Options, Control, Command Hero 1 to 7.}.",
+            "Bonders: {why:all bonds disabled|So the heroes don't recast or drop them: you trigger each bond yourself, in order.}, {why:about 50 energy|The pool matters less than the balance: at 3 damage packets a second Protective Bond drains 9 pips of energy for every energy point it charges its caster, and the bonders earn it back from Essence Bond (about 6 pips), Balthazar's Spirit (9), Succor (1) and Blessed Signet (three quarters of a pip per enchantment). 50 covers the swings.}."
           ]
         },
-        {"p": "Wear a low-armor set (from Banoit, Kambei, Moon Ahn, Nu Leng or Mehinu), with health by LB rank:"},
         {
-          "table": {
-            "head": ["LB¹", "Target HP²", "With morale³", "How", "Correction for Dervishes⁴"],
-            "rows": [
-              ["8", "180", "190", "4 superior runes", "No chest piece"],
-              ["7", "160", "170", "4 superior runes, −20 \"Life is Pain\" focus", "No chest piece"],
-              ["6", "145", "155", "5 superior runes, full Survivor", "Survivor only on chest"],
-              ["5", "125", "135", "5 superior runes, Survivor chest and head", "Survivor only on chest, −20 focus"],
-              ["4", "105", "115", "5 superior runes", "−20 focus"]
-            ],
+          "p": "Wear a low-armor set (from Banoit, Kambei, Moon Ahn, Nu Leng or Mehinu), with health by LB rank:"
+        },
+        {
+          "hpCalc": {
+            "base": 480,
+            "sup": 75,
+            "major": 35,
+            "survivor": {
+              "head": 5,
+              "chest": 15,
+              "hands": 5,
+              "legs": 10,
+              "feet": 5
+            },
+            "focus": 20,
+            "cesta": 50,
+            "dervChest": 25,
+            "morale": 10,
+            "lbMax": 8,
+            "lbMin": 2,
+            "minHealth": 80,
+            "safety": {
+              "3": [
+                [
+                  "energy",
+                  "\"of the Necromancer\" weapons on both bonders: 5 Soul Reaping, energy every time a Titan dies."
+                ]
+              ],
+              "2": [
+                [
+                  "energy",
+                  "\"of the Necromancer\" weapons on both bonders: 5 Soul Reaping, energy every time a Titan dies."
+                ],
+                [
+                  "health",
+                  "A +1/20% Protection item on the Prot Bonder, Purifying Veil recast until it lands at 62%."
+                ]
+              ]
+            },
             "notes": [
-              "¹ For LB2 or LB3, see the full guide linked at the end of the page.",
-              "² Up to 20 HP over the target is fine: hits then do 2 damage.",
-              "³ After closing the Torment rift (+2% morale).",
-              "⁴ Dervishes get +25 health from their chest piece."
+              "¹ The other ways, on hover, are for a character short of runes or insignia. A value marked (2 damage) is the best that rank gets without going under 80 health: hits do {why:2 damage|Below the window a hit does 0 and the bonders get no energy; above it, 2 just makes them work harder. So err on the high side, and never under 80 health.}, which is safer than less health."
             ]
           }
         },
         {
           "box": {
-            "title": "Optional: extra safety",
+            "title": "Energy safety",
+            "id": "gd-safety-energy",
             "blocks": [
               {
-                "ul": [
-                  "Energy: \"of the Necromancer\" weapons on both bonders.",
-                  "Health: a +1/20% Protection item on the Prot Bonder, recasting Purifying Veil until it lands at 62%, which cuts Burning to 2 seconds."
-                ]
+                "p": "Required at LB3 and below, optional above."
+              },
+              {
+                "p": "\"of the Necromancer\" weapons on both bonders: 5 Soul Reaping, energy every time a Titan dies."
+              }
+            ]
+          }
+        },
+        {
+          "box": {
+            "title": "Health safety",
+            "id": "gd-safety-health",
+            "tone": "health",
+            "blocks": [
+              {
+                "p": "Required at LB2, optional above."
+              },
+              {
+                "p": "A +1/20% Protection item on the Prot Bonder, Purifying Veil recast until it lands at {why:62%|Veil makes conditions expire 5% faster plus 3% per Protection rank, with the seconds rounded up: at 18 Protection (59%) the Titans' 5-second Burning lasts 3 seconds, at 19 (62%) 2. The +1 lands one cast in five: cancel the Veil and recast until it shows 62%.}, which cuts Burning to 2 seconds."
               }
             ]
           }
@@ -138,40 +226,282 @@
       "title": "Walkthrough",
       "blocks": [
         {
-          "img": {
-            "src": "img/guides/gom-afk-xp-2.jpg",
-            "caption": "The path, and the compass once everyone is in place.",
-            "side": true
-          }
+          "mission": 527,
+          "height": 480,
+          "crop": [
+            320,
+            238,
+            400,
+            318
+          ],
+          "way": false,
+          "farm": {
+            "spots": [
+              {
+                "at": [
+                  360,
+                  278
+                ],
+                "name": "You"
+              },
+              {
+                "at": [
+                  365,
+                  287
+                ],
+                "name": "Keystone"
+              },
+              {
+                "at": [
+                  385,
+                  271
+                ],
+                "name": "Bonders"
+              },
+              {
+                "at": [
+                  411,
+                  251
+                ],
+                "name": "The other heroes",
+                "left": true
+              },
+              {
+                "at": [
+                  358,
+                  263
+                ],
+                "name": "Titan rift",
+                "kind": "rift"
+              },
+              {
+                "at": [
+                  367,
+                  303
+                ],
+                "name": "Torment rift",
+                "sub": "clear it",
+                "kind": "rift"
+              },
+              {
+                "at": [
+                  311,
+                  299
+                ],
+                "name": "Rift",
+                "sub": "leave alone",
+                "kind": "rift"
+              },
+              {
+                "at": [
+                  310,
+                  262
+                ],
+                "name": "Rift",
+                "sub": "leave alone",
+                "kind": "rift"
+              },
+              {
+                "at": [
+                  314,
+                  339
+                ],
+                "name": "Rift",
+                "sub": "leave alone",
+                "kind": "rift"
+              }
+            ],
+            "rings": [
+              [
+                1000,
+                "aggro",
+                "#ffd54a"
+              ],
+              [
+                2508,
+                "Soul Reaping",
+                "#5fd68a"
+              ],
+              [
+                5000,
+                "compass",
+                "#c58bff"
+              ]
+            ],
+            "way": [
+              [
+                343,
+                198
+              ],
+              [
+                337,
+                203
+              ],
+              [
+                330,
+                209
+              ],
+              [
+                330,
+                222
+              ],
+              [
+                332,
+                228
+              ],
+              [
+                343,
+                217
+              ],
+              [
+                352,
+                216
+              ],
+              [
+                362,
+                216
+              ],
+              [
+                368,
+                219
+              ],
+              [
+                376,
+                225
+              ],
+              [
+                385,
+                228
+              ],
+              [
+                394,
+                227
+              ],
+              [
+                408,
+                228
+              ],
+              [
+                413,
+                230
+              ],
+              [
+                414,
+                236
+              ],
+              [
+                415,
+                243
+              ],
+              [
+                415,
+                250
+              ],
+              [
+                414,
+                258
+              ],
+              [
+                411,
+                264
+              ],
+              [
+                408,
+                269
+              ],
+              [
+                405,
+                276
+              ],
+              [
+                402,
+                280
+              ],
+              [
+                397,
+                281
+              ],
+              [
+                392,
+                285
+              ],
+              [
+                389,
+                289
+              ],
+              [
+                385,
+                295
+              ],
+              [
+                380,
+                297
+              ],
+              [
+                376,
+                301
+              ]
+            ]
+          },
+          "side": true
         },
-        {"p": "Fight your way to the Chaos Rifts."},
-        {"h": "Clear"},
+        {
+          "p": "Fight your way to the Chaos Rifts, east of the Temple of the Six Gods, {why:the way the white line on the map comes in|Down from the north, east along the wall, round the pocket where the other heroes will stand, and down to the Torment rift.}."
+        },
+        {
+          "h": "Clear"
+        },
         {
           "ul": [
-            "The 3 Portal Wraiths at the Torment rift (left, south): +2% morale.",
+            "The 3 Portal Wraiths at the {why:Torment rift|Marked \"clear it\" on the map, where the white arrow ends.}: +2% morale.",
             "The 3 Torment creatures and 2 Margonites patrolling."
           ]
         },
-        {"h": "Leave alone"},
+        {
+          "h": "Leave alone"
+        },
         {
           "ul": [
-            "The 2 Titan Abominations: killed ones respawn.",
-            "The 3 Portal Wraiths at the Titan rift (right, north): if all die, the Titans stop.",
-            "Everything further west: closing another rift adds morale and throws off your health."
+            "The 2 Titan Abominations patrolling the area: killed ones respawn.",
+            "The 3 Portal Wraiths at the {why:Titan rift|The one you farm: just north of you on the map.}: all three dead, no more Titans, run over.",
+            "{why:Everything further west|The Portal Wraiths at the three rifts marked \"leave alone\" on the map, and the patrols around them.}: none of it interferes with the farm, and closing another rift would add morale and throw off your health."
           ]
         },
-        {"h": "Set up"},
+        {
+          "h": "Set up"
+        },
         {
           "ol": [
-            "Flag the bonders and the Keystone at the tip of the long shadow; flag everyone else out of compass range.",
-            "Wield the \"of the Paragon\" weapon. Heroic Refrain each bonder in turn, and let it put its 4 enchantments on you.",
-            "Switch to the low-health set, check your health, then reactivate the Lightbringer title.",
-            "Aggro the Titans and stand just south of the Portal Wraiths, without aggroing them.",
-            "Flag the Keystone to the edge of your aggro bubble, away from the Wraiths, and use the scroll."
+            "Flag the bonders {why:and the Keystone|For now: step 5 flags it to its final place, at the edge of your aggro bubble.} {why:at the tip of the long shadow|The Bonders spot on the map.}; flag everyone else {why:out of compass range|So they can't join in: no heals, no attacks, no aggro, nothing to upset the balance. The bonders stay within compass range, which the bonds need to hold.}.",
+            {
+              "t": "Wield the \"of the Paragon\" weapon. Then one bonder at a time: cast HR on it, then its 4 bonds on you:",
+              "sub": [
+                "Prot Bonder: Protective Bond and Purifying Veil while HR is on it, then Succor and Essence Bond.",
+                "Heal Bonder: Protective Bond and Mending while HR is on it, then Watchful Spirit and Essence Bond."
+              ]
+            },
+            "Switch to the low-health set, check your health, then {why:reactivate the Lightbringer title|Damage reductions apply in the order their effects went on you. Bond first, then title: the bond caps the packet, the title subtracts its rank from what's left, 1 remains.}.",
+            "Aggro the Titans and stand {why:just south of the Portal Wraiths|The You spot on the map, south of the Titan rift.}, without aggroing them.",
+            "Flag the Keystone to {why:the edge of your aggro bubble|The Keystone spot on the map, on the edge of your aggro bubble, marked yellow.}, away from the Wraiths, and use the scroll."
           ]
         },
         {
-          "p": "Watch a couple of Madness Titan cycles: they bleed and burn you, and their holy damage gives no Essence Bond energy. If your health and the bonders' energy hold, go AFK."
+          "p": "Before going AFK, watch two or three Titan waves: the Madness Titans bleed and burn you, and their holy damage pays no Essence Bond energy. If your health holds and the bonders' energy doesn't drop, you're set."
+        },
+        {
+          "p": "From here the farm runs itself: 8 Titans every 30 seconds, 348 XP each, about 334,000 XP an hour. That is Legendary Survivor in about 4 hours, and about 22 skill points an hour for as long as you leave it running."
+        },
+        {
+          "img": {
+            "src": "img/guides/gom-afk-xp-flex.jpg",
+            "size": [
+              357,
+              315
+            ],
+            "center": true,
+            "width": 357,
+            "caption": "About 3,000 hours of it, Legendary Survivor a distant memory."
+          }
         }
       ]
     }

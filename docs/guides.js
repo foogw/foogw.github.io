@@ -126,6 +126,123 @@ function capUpdate(el) {
   return { rows, rank };
 }
 
+/* ---------- the health calculator (hpCalc) ----------
+   {base: a level 20's health, sup: a superior rune's cost, survivor: {head, chest, hands, legs, feet}: Survivor insignia's
+   health by piece, focus: a −health focus's cut, cesta: a −health cesta's, dervChest: a Dervish chest piece's inherent
+   health, morale: health from the +2% morale of the Torment rift, lbMax: the top Lightbringer rank, minHealth: the least
+   health to wear, 2 damage a packet being safer than less}
+   Under Protective Bond a Titan's hit does floor(health / 20) minus the LB rank; the farm wants exactly 1. The picked
+   character gives its Lightbringer rank (set here too, saved to it) and whether it's a Dervish; the block says what to
+   wear: every gear set that lands in the 1-damage window, with and without the rift's morale, and needs each of its
+   pieces, the simplest first (an off-hand item last: it is the first thing to do without). */
+const HP_PIECES = ["head", "chest", "hands", "legs", "feet"];
+function hpChar() {
+  if (User.broken()) return null;
+  const c = User.char(); if (!c) return null;
+  return { lb: User.titleRank(20, "character"), derv: c.profession === 10, name: c.name };
+}
+// health with this gear, and what a hit does then
+const hpOf = (c, s) => c.base + (s.derv && s.chest ? c.dervChest : 0) - c.sup * s.sup - (c.major || 0) * (s.maj || 0) + s.pieces.reduce((t, p) => t + c.survivor[p], 0)
+  - (s.off === "focus" ? c.focus : s.off === "cesta" ? c.cesta : 0) + (s.morale ? c.morale : 0);
+const hpHit = (hp, lb) => Math.max(0, Math.floor(hp / 20) - lb);
+const hpGear = (c, s) => [s.sup ? `${s.sup} superior rune${s.sup > 1 ? "s" : ""}` : "no superior runes", s.maj ? `${s.maj} major` : "",
+  s.off === "focus" ? `−${c.focus} "Life is Pain" focus` : s.off === "cesta" ? `−${c.cesta} cesta` : "", s.pieces.length === 5 ? "full Survivor" : s.pieces.length ? `Survivor on ${listText(s.pieces)}` : "",
+  s.derv && !s.chest ? "no chest piece" : ""].filter(Boolean).join(", ");
+// want: [the hit before the morale, after it]: [1, 1] first; a rank with no such set falls back to [1, 2], then [2, 2]
+function hpOptions(c, s, want = [1, 1]) {
+  // (and never under c.minHealth: too little health to live on, 2 damage a packet is safer)
+  const ok = t => hpOf(c, t) >= (c.minHealth || 0) && hpHit(hpOf(c, t), s.lb) === want[0] && hpHit(hpOf(c, t) + c.morale, s.lb) === want[1]; let out = [];
+  const slots = s.derv ? null : 5;  // (a rune per armor piece: superior ones, and major ones (c.major) to fine-tune)
+  for (let sup = 0; sup <= 5; sup++) for (let maj = 0; maj <= (c.major ? 5 - sup : 0); maj++) for (let m = 0; m < 32; m++) for (const off of ["none", "focus", "cesta"]) for (const chest of s.derv ? [true, false] : [true]) {
+    const t = { lb: s.lb, derv: s.derv, morale: false, sup, maj, pieces: HP_PIECES.filter((p, i) => m & (1 << i)), off, chest };
+    // (with no chest piece, no rune or insignia on it either)
+    if ((!chest && (sup + maj > 4 || t.pieces.includes("chest"))) || !ok(t)) continue;
+    const needed = t.pieces.every(p => !ok({ ...t, pieces: t.pieces.filter(q => q !== p) })) && (off === "none" || !ok({ ...t, off: "none" })) && (chest || !ok({ ...t, chest: true }))
+      && (!maj || !ok({ ...t, maj: maj - 1 }));
+    // (items: the things to find beyond superior runes; mixed: raising with Survivor and cutting with an off-hand at once)
+    if (needed) out.push({ ...t, hp: hpOf(c, t), items: maj + t.pieces.length + (off !== "none") + (s.derv && !chest), mixed: +(t.pieces.length && off !== "none"), mid: Math.abs(hpOf(c, t) - (s.lb * 20 + 25)) });
+  }
+  // (without an off-hand item first: it's the thing to do without; mixed ways last; between, the fewest items, then the
+  // health best placed in the window. The same runes, off-hand and chest with other Survivor pieces: the first only)
+  out.sort((a, b) => (a.off !== "none") - (b.off !== "none") || a.mixed - b.mixed || a.items - b.items || a.mid - b.mid);
+  // (only ways that are the cheapest at something: a way that needs no fewer superior runes, major runes, Survivor
+  // insignia, focus or cesta than another is left out, since the other does with less of something and no more of the rest)
+  const need = o => [o.sup, o.maj, o.pieces.length, +(o.off === "focus"), +(o.off === "cesta")];
+  const dominated = (a, b) => { const x = need(a), y = need(b); return y.every((v, i) => v <= x[i]) && y.some((v, i) => v < x[i]); };
+  out = out.filter(a => !out.some(b => dominated(a, b)));
+  const seen = new Set();
+  return out.filter(o => { const k = [o.sup, o.maj, o.off, o.chest].join(); if (seen.has(k)) return false; seen.add(k); return true; }).slice(0, 8);
+}
+// the characters to pick from (every one kept, by name), as a datalist; picking one makes it the site's character
+const hpChars = () => (User.broken() ? [] : User.data().chars.filter(c => !isPreSearing(c)));
+function hpCalcHTML(c, g) {
+  const ch = hpChar(), lb = Math.min(c.lbMax, ch?.lb ?? 4), chars = hpChars();
+  const ranks = []; for (let r = c.lbMax; r >= (c.lbMin ?? 0); r--) ranks.push(r);
+  return `<div class="gd-table gd-hp" data-hp-calc="${esc(JSON.stringify(c))}"${ch?.derv ? " data-derv" : ""} data-char="${chars.length ? User.char().id : ""}">
+    ${chars.length ? `<div class="gd-hp-char">For <img class="ip" src="${profImg(User.char().profession || 0)}" alt=""> <b>${charLabel(User.char())}</b>
+        <span class="gd-pick"><input type="search" placeholder="Another character…" aria-label="Pick another character" data-hp-pick-char autocomplete="off" role="combobox" aria-expanded="false"><ul class="gd-pick-list" role="listbox" hidden></ul></span>
+        <span class="gd-hp-rank">who has Lightbringer <span class="gd-rank" data-max="${c.lbMax}" data-hp-lb><button type="button" data-step="-1" aria-label="Lower rank">${CHEVRON("M3 6l5 5 5-5")}</button><b>${lb}</b><button type="button" data-step="1" aria-label="Higher rank">${CHEVRON("M3 10l5-5 5 5")}</button></span></span>
+        <span class="dim why" data-hp-low hidden tabindex="0" data-tip="By Gate of Madness the story's Lightbringer points make it at least LB${c.lbMin ?? 0}: check the title, and the LB${c.lbMin ?? 0} row applies.">surely LB${c.lbMin ?? 0}<sup>?</sup></span>
+        ${ch.derv ? `<span class="dim">A Dervish: the chest piece's +${c.dervChest} is counted.</span>` : ""}</div>`
+      : `<div class="gd-hp-char dim">No character picked: <a href="characters">add one on My Characters</a> to see your rank's row. <span class="gd-hp-rank" hidden><span class="gd-rank" data-max="${c.lbMax}" data-hp-lb><b>${lb}</b></span></span></div>`}
+    <table><thead><tr><th>LB</th><th>${text(`{why:Target HP|Your maximum health in the low-health set.}`)}</th><th>${text(`{why:With morale|After closing the Torment rift (+2% morale): +10 health, 2% of the base 480 whatever you wear. The sets listed work either way: with the morale, or without it if a death on the way cost you it.}`)}</th><th>How${c.notes?.length ? "¹" : ""}</th>${c.safety ? "<th>Safety</th>" : ""}</tr></thead><tbody data-hp-rows></tbody></table>
+    ${(c.notes || []).length ? `<ul class="gd-notes">${c.notes.map(n => `<li>${text(n)}</li>`).join("")}</ul>` : ""}</div>`;
+}
+function hpUpdate(el) {
+  const c = JSON.parse(el.dataset.hpCalc), lb = +el.querySelector("[data-hp-lb] b").textContent, derv = "derv" in el.dataset, mine = !!hpChar();
+  const min = c.lbMin ?? 0, ranks = []; for (let r = c.lbMax; r >= min; r--) ranks.push(r);
+  const cur = r => mine && (r === lb || (r === min && lb < min)), label = r => String(r);
+  // (a rank under the table's lowest: said by the rank setter; the lowest row is the one highlighted)
+  const low = el.querySelector("[data-hp-low]"); if (low) low.hidden = !(mine && lb < min);
+  // (safety: {rank: [[a measure required, what it is], ...]}: each in the row, explained on hover, the guide's box of that measure (id gd-safety-<measure>) lit meanwhile)
+  const safe = r => (c.safety ? `<td>${c.safety[r] ? c.safety[r].map(([k, w]) => `<span class="gd-hp-safe" tabindex="0" data-lit="gd-safety-${esc(k)}" data-tip="${esc(w)}" data-tip-wide>${esc(k)}</span>`).join(" + ") : '<span class="dim">—</span>'}</td>` : "");
+  el.querySelector("[data-hp-rows]").innerHTML = ranks.map(r => {
+    let want, opts = [];
+    for (want of [[1, 1], [1, 2], [2, 2]]) { opts = hpOptions(c, { lb: r, derv }, want); if (opts.length) break; }
+    const best = opts[0], rest = opts.slice(1);
+    if (!best) return `<tr${cur(r) ? ' class="cur"' : ""}><td>${label(r)}</td><td colspan="${c.safety ? 4 : 3}" class="dim">No gear gets near the window.</td></tr>`;
+    const m = best.hp + c.morale, dmg = n => (n === 1 ? "" : ` <span class="dim">(${n} damage)</span>`);
+    // (the other ways on hover: the same health from other Survivor pieces, and the other gear sets)
+    const tips = rest.map(o => `${hpGear(c, o)} — ${o.hp}/${o.hp + c.morale}`);
+    const n = rest.length, or = n ? ` <span class="dim gd-hp-or" data-tip="${esc(tips.join("\n"))}" data-tip-wide>or ${n} other way${n > 1 ? "s" : ""}</span>` : "";
+    return `<tr${cur(r) ? ' class="cur"' : ""}><td>${label(r)}</td><td>${best.hp}${dmg(want[0])}</td><td>${m}${dmg(want[1])}</td><td>${esc(hpGear(c, best))}${or}</td>${safe(r)}</tr>`;
+  }).join("");
+}
+// the picker: a fuzzy finder over the other characters' names (the typed letters in order; a name starting with them
+// first, then one containing them, then the rest), arrows and Enter or a click to pick
+const fuzzyRank = (q, name) => { const n = fold(name); if (!q) return 2; if (n.startsWith(q)) return 0; if (n.includes(q)) return 1;
+  let i = 0; for (const ch of n) if (ch === q[i]) i++; return i === q.length ? 2 : -1; };
+function hpPickList(inp) {
+  const list = inp.nextElementSibling, q = fold(inp.value).trim(), me = User.char();
+  const hits = hpChars().filter(x => x !== me).map(x => [fuzzyRank(q, x.name), x]).filter(([r]) => r >= 0).sort((a, b) => a[0] - b[0] || cmpStr(a[1].name, b[1].name)).slice(0, 8);
+  list.innerHTML = hits.map(([, x], i) => `<li role="option" data-pick-id="${x.id}"${i ? "" : ' class="on"'}><img src="${profImg(x.profession || 0)}" alt="">${highlight(x.name, q ? [q] : [])}</li>`).join("")
+    || `<li class="dim none">No character matches</li>`;
+  list.hidden = false; inp.setAttribute("aria-expanded", "true");
+}
+// [data-lit]: the element with that id lit while this one is hovered or focused
+for (const [on, off] of [["mouseover", "mouseout"], ["focusin", "focusout"]]) {
+  document.addEventListener(on, e => { const el = e.target.closest?.("[data-lit]"); if (el) $(el.dataset.lit)?.classList.add("lit"); });
+  document.addEventListener(off, e => { const el = e.target.closest?.("[data-lit]"); if (el) $(el.dataset.lit)?.classList.remove("lit"); });
+}
+const hpPickClose = inp => { const list = inp.nextElementSibling; list.hidden = true; inp.setAttribute("aria-expanded", "false"); };
+document.addEventListener("input", e => { const inp = e.target.closest("[data-hp-pick-char]"); if (inp) hpPickList(inp); });
+document.addEventListener("focusin", e => { const inp = e.target.closest("[data-hp-pick-char]"); if (inp) hpPickList(inp); });
+document.addEventListener("focusout", e => { const inp = e.target.closest("[data-hp-pick-char]"); if (inp) setTimeout(() => hpPickClose(inp), 150); });  // (after a click on the list)
+document.addEventListener("keydown", e => {
+  const inp = e.target.closest("[data-hp-pick-char]"); if (!inp) return;
+  const list = inp.nextElementSibling, items = [...list.querySelectorAll("[data-pick-id]")], on = items.findIndex(li => li.classList.contains("on"));
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); if (list.hidden) return hpPickList(inp); items[on]?.classList.remove("on"); items[(on + (e.key === "ArrowDown" ? 1 : items.length - 1)) % items.length]?.classList.add("on"); }
+  else if (e.key === "Enter") { e.preventDefault(); const li = items[on] || items[0]; if (li) { User.pick(+li.dataset.pickId); inp.value = ""; } }
+  else if (e.key === "Escape") { inp.value = ""; hpPickClose(inp); }
+});
+document.addEventListener("mousedown", e => { const li = e.target.closest(".gd-pick-list [data-pick-id]"); if (li) { e.preventDefault(); User.pick(+li.dataset.pickId); } });
+document.addEventListener("click", e => {
+  const st = e.target.closest("[data-hp-lb]"), b = e.target.closest("[data-step]");
+  if (!st || !b) return;
+  const el = st.closest(".gd-hp"), v = st.querySelector("b"), rank = Math.min(+st.dataset.max, Math.max(0, +v.textContent + +b.dataset.step));
+  v.textContent = rank; hpUpdate(el);
+  if (hpChar()) { if (readOnlyBlocks()) return; User.setTitle(20, "character", rank); }  // (saved to the character; userchange refreshes the figures)
+});
 const CHIP = { take: ["+", "Take"], go: ["›", "Progress"], done: ["✓", "Turn in"] };
 const questChip = (id, kind) => `<a class="gd-qchip ${kind}" href="${HREF.quest(id)}" title="${CHIP[kind][1]}">${CHIP[kind][0]} ${esc(QUESTS[id]?.name)}</a>`;
 // turned in, taken, moved on; a quest taken and finished in the same step shows both, taken first
@@ -191,18 +308,23 @@ function questIndexHTML(g, x) {
 function blockHTML(x, g) {
   if (x.h) return `<h3>${esc(x.h)}</h3>`;
   if (x.p) return `<p>${text(x.p)}</p>`;
-  if (x.box) return `<aside class="gd-box"><h3>${esc(x.box.title)}</h3>${x.box.blocks.map(y => blockHTML(y, g)).join("")}</aside>`;
+  // (tone: the colour of a box's left edge: energy (the default, blue), health (red) or optional (gray))
+  if (x.box) return `<aside class="gd-box${x.box.tone ? ` ${esc(x.box.tone)}` : ""}"${x.box.id ? ` id="${esc(x.box.id)}"` : ""}><h3>${esc(x.box.title)}</h3>${x.box.blocks.map(y => blockHTML(y, g)).join("")}</aside>`;
   if (x.note) return `<p class="gd-aside">${text(x.note)}</p>`;
-  if (x.ul) return `<ul>${x.ul.map(t => `<li>${text(t)}</li>`).join("")}</ul>`;
-  if (x.ol) return `<ol>${x.ol.map(t => `<li>${text(t)}</li>`).join("")}</ol>`;
+  // (an item: text, or {t, sub: [...]} with sub-bullets under it)
+  const li = t => (typeof t === "string" ? `<li>${text(t)}</li>` : `<li>${text(t.t)}${t.sub ? `<ul>${t.sub.map(li).join("")}</ul>` : ""}</li>`);  // (a string has a .sub method of its own)
+  if (x.ul) return `<ul>${x.ul.map(li).join("")}</ul>`;
+  if (x.ol) return `<ol>${x.ol.map(li).join("")}</ol>`;
   if (x.imgs) return `<figure class="gd-fig"><div class="gd-row">${x.imgs.srcs.map(src => `<a href="${esc(src)}" target="_blank"><img src="${esc(src)}" alt="" loading="lazy"></a>`).join("")}</div>
     <figcaption>${text(x.imgs.caption)}</figcaption></figure>`;
   // (a side picture's width, when wider than the usual: width, in pixels; or centered on its own, center, 300px unless
   // a width says)
-  if (x.img) return `<figure class="gd-fig${x.img.side ? " side" : x.img.center ? " center" : ""}"${(x.img.side || x.img.center) && x.img.width ? ` style="width: min(${+x.img.width}px, ${x.img.side ? 55 : 100}%)"` : ""}><a href="${esc(x.img.src)}" target="_blank"><img src="${esc(x.img.src)}" alt="" loading="lazy"></a>
+  // (size: [width, height] of the picture: its space held before it loads, so the page doesn't jump when it does)
+  if (x.img) return `<figure class="gd-fig${x.img.side ? " side" : x.img.center ? " center" : ""}"${(x.img.side || x.img.center) && x.img.width ? ` style="width: min(${+x.img.width}px, ${x.img.side ? 55 : 100}%)"` : ""}><a href="${esc(x.img.src)}" target="_blank"><img src="${esc(x.img.src)}" alt="" loading="lazy"${x.img.size ? ` width="${+x.img.size[0]}" height="${+x.img.size[1]}"` : ""}></a>
     <figcaption>${text(x.img.caption)}</figcaption></figure>`;
   if (x.builds) return `<div class="gd-builds">${x.builds.map(buildHTML).join("")}</div>`;
   if (x.capCalc) return capCalcHTML(x.capCalc, g);
+  if (x.hpCalc) return hpCalcHTML(x.hpCalc, g);
   // a dungeon's level (data/depths.js): {level: [dungeon map id, its index], to: [x, y]}: the way through it as the
   // dungeon's page has it, or from where you arrive to that point
   if (x.level) {
@@ -211,6 +333,14 @@ function blockHTML(x, g) {
     return `<div class="gd-map" data-level-way="${esc(JSON.stringify({ id, i, to: x.to }))}">${VIEWS.dungeon.levelMap(d, i, { height: x.height || 340 })}</div>`;
   }
   if (x.maps) return `<div class="gd-maps">${x.maps.map(y => blockHTML(y, g)).join("")}</div>`;
+  // a mission's map (its window on the ground it is played on, data/missionmaps.js) with spots on it, and the way from
+  // where the mission starts to the first spot, then on from spot to spot (drawWays)
+  // (way: false: the spots only, no way drawn)
+  // (farm: a farm's picture of the spots, drawn over the map (farmOverlay): {spots: [{at, name, sub (a second line), kind
+  // ("rift": red), left (the label left of its dot)}], rings: [[game units, label, colour]] about the first spot, way: [[x, y]]
+  // the way in, an arrow at its end}; no map controls, the box as wide as the map, centred)
+  if (x.mission) return `<div class="gd-map${x.side ? " side" : ""}${x.farm ? " gd-farm" : ""}"${x.farm ? ` data-farm="${esc(JSON.stringify(x.farm))}"` : ""}${x.way === false || x.farm ? "" : ` data-mission-way="${esc(JSON.stringify({ id: x.mission, spots: (x.spots || []).map(p => p.at) }))}"`}>${
+    missionMapHTML(x.mission, MISSIONS[x.mission]?.name || "", { height: x.height || 340, crop: x.crop, aspect: x.aspect, spots: x.farm ? null : x.spots?.map(p => ({ x: p.at[0], y: p.at[1], name: p.name })) })}</div>`;
   // (legend: true: the areas in their order, each in its own colour on the map and in a list under it; no outpost
   // markers, the spots only for the way; the map the content's full width, wide: 2.2 to 1. pass: areas only walked
   // through, gray; an area the picked character has vanquished, gray too, said so in the list, with its tick there;
@@ -266,7 +396,7 @@ function guidePageHTML(g) {
       <article class="gd">${titled.map(section).join("")}</article>`
       : `<nav class="gd-toc">${titled.map(s => `<a href="#" data-to="gd-${slug(s.title)}">${esc(s.title)}</a>`).join("")}</nav>
     <article class="gd">${g.sections.map(section).join("")}</article>`}
-    ${g.source && g.source.more !== false ? `<p class="gd-src">${g.source.full ? "Also on" : "See the full guide and more at"} <a href="${esc(g.source.href)}" target="_blank" rel="noopener">the Guild Wars Wiki</a> (<a href="${esc(g.source.archive)}" target="_blank" rel="noopener">archived copy</a>).</p>` : ""}`;
+    ${g.source && g.source.more !== false ? `<p class="gd-src">${g.source.full ? "Also on" : g.source.based ? "The original, plain-text guide is still at" : "See the full guide and more at"} <a href="${esc(g.source.href)}" target="_blank" rel="noopener">the Guild Wars Wiki</a> (<a href="${esc(g.source.archive)}" target="_blank" rel="noopener">archived copy</a>).</p>` : ""}`;
 }
 
 /* ---------- the list ---------- */
@@ -302,6 +432,7 @@ async function render() {
   if (g) {
     $("guide").innerHTML = guidePageHTML(g);
     document.querySelectorAll(".gd-cap").forEach(capUpdate);
+    hpFill();
     if (location.hash.length > 1) $(location.hash.slice(1))?.scrollIntoView();  // (a link into a section: guides?caravans#gd-toa-east-...)
     initMaps($("guide")).then(() => drawWays(g));
     document.title = `${g.name} · GW Guides`;
@@ -334,12 +465,48 @@ const caravanTable = (x, tints, kept, vq) => { const notes = x.notes || [];
 // a keyed map's colours, one per area in its order (none the ways' cyan)
 const GRAY = "#8a8f98";
 const LEGEND = ["#ffd166", "#ef476f", "#06d6a0", "#f78c6b", "#c77dff", "#8ac926", "#ff9f1c", "#e0aaff", "#f9c74f", "#43aa8b", "#f94144", "#90be6d", "#f3722c", "#b5e48c"];
+// a farm's picture over a mission map (the mission block's farm): the spots as labelled dots, rings about the first (the
+// aggro bubble, Soul Reaping's reach, the compass), the way in as a dashed line with an arrow; all placed again as the map
+// moves. Pixels are the map's; 96 game units to one
+function farmOverlay(box, { spots = [], rings = [], way = [] }) {
+  const fig = box.querySelector(".gmap"), mv = fig?.mapView; if (!mv) return;
+  const win = mv.win; win.style.cursor = "default"; fig.querySelector("figcaption")?.remove();
+  const px = win.style.width.match(/\d+px/)?.[0]; if (px) fig.style.maxWidth = `calc(${px} + 26px)`;  // (the figure's padding and border)
+  const layer = document.createElement("div"); layer.className = "gd-farm-layer"; win.append(layer);
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"), line = document.createElementNS("http://www.w3.org/2000/svg", "polyline"), head = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+  svg.append(line, head); layer.append(svg);
+  const ringEls = rings.map(([u, n, c]) => { const r = document.createElement("div"); r.className = "gd-farm-ring"; r.style.borderColor = c; r.dataset.r = u / WALK_UNITS;
+    const l = document.createElement("span"); l.textContent = n; l.style.color = c; r.append(l); layer.append(r); return r; });
+  const dots = spots.map(p => { const d = document.createElement("div"); d.className = `gd-farm-lab${p.left ? " left" : ""}${p.kind ? ` ${p.kind}` : ""}`; d.append(p.name);
+    if (p.sub) { const l = document.createElement("small"); l.textContent = p.sub; d.append(l); }
+    d.prepend(document.createElement("i")); layer.append(d); return d; });
+  const toCss = (x, y) => { const b = mv.box, r = win.getBoundingClientRect(); return [(x - b[0]) / (b[2] - b[0]) * r.width, (y - b[1]) / (b[3] - b[1]) * r.height]; };
+  const place = () => {
+    const b = mv.box, k = win.getBoundingClientRect().width / (b[2] - b[0]);
+    if (spots[0]) { const [yx, yy] = toCss(...spots[0].at); for (const r of ringEls) { const d = 2 * r.dataset.r * k; r.style.width = r.style.height = `${d}px`; r.style.left = `${yx}px`; r.style.top = `${yy}px`; } }
+    if (way.length > 1) { const pts = way.map(p => toCss(...p)); line.setAttribute("points", pts.map(p => p.join(",")).join(" "));
+      const [ax, ay] = pts.at(-2), [bx, by] = pts.at(-1), a = Math.atan2(by - ay, bx - ax), L = 10, w = 0.42;
+      head.setAttribute("points", [[bx, by], [bx - L * Math.cos(a - w), by - L * Math.sin(a - w)], [bx - L * Math.cos(a + w), by - L * Math.sin(a + w)]].map(p => p.join(",")).join(" ")); }
+    // (the dot inside the label sits 7px in from its edge, its centre on the spot, on the first line's middle)
+    spots.forEach((p, i) => { const [cx, cy] = toCss(...p.at); dots[i].style.left = p.left ? `${cx + 7 - dots[i].offsetWidth}px` : `${cx - 7}px`; dots[i].style.top = `${cy - 9}px`; });
+  };
+  mv.onchange = place; place();
+}
 async function drawWays(g) {
+  for (const box of $("guide").querySelectorAll(".gd-map[data-farm]")) farmOverlay(box, JSON.parse(box.dataset.farm));
   for (const box of $("guide").querySelectorAll(".gd-map[data-level-way]")) {
     const { id, i, to } = JSON.parse(box.dataset.levelWay), view = box.querySelector(".gmap")?.mapView;
     const pts = view && await VIEWS.dungeon.levelWay(VIEWS.dungeon.find(id).levels[i], i, { to });
     if (g.id !== guideId()) return;
     if (pts) { view.ways = [{ lines: walkLines(pts), color: WAYS[0] }]; view.draw(); }
+  }
+  for (const box of $("guide").querySelectorAll(".gd-map[data-mission-way]")) {
+    const { id, spots } = JSON.parse(box.dataset.missionWay), view = box.querySelector(".gmap")?.mapView, start = data("GW_MISSION_MAPS")?.starts?.[id];
+    if (!view || !start || !spots.length) continue;
+    const grid = await walkGrid([data("GW_MISSION_MAPS")?.missions?.[id]?.walk ?? id]);
+    if (g.id !== guideId()) return;
+    const legs = [walkRoute(grid, { at: start, area: id }, spots[0]), ...spots.slice(1).map((at, i) => walkRoute(grid, spots[i], at))].filter(Boolean);
+    view.ways = legs.map(pts => ({ lines: walkLines(pts), color: WAYS[0] })); view.draw();
   }
   for (const box of $("guide").querySelectorAll(".gd-map[data-way]")) {
     const { ids, spots, from = ids[0] } = JSON.parse(box.dataset.way), view = box.querySelector(".gmap")?.mapView, froms = from === null ? [] : [from].flat(), all = [...new Set([...froms, ...ids])];  // (from null: the way starts at the first spot)
@@ -426,6 +593,14 @@ document.addEventListener("click", e => {
 });
 // a new guide starts at the top; a reload keeps the browser's scroll position
 onRoute(() => render().then(() => window.scrollTo(0, 0)));
+// (the health calculator's figures, once its block is on the page; and again when the picked character changes)
+// (another character picked: the block is built afresh, name, picker and all; the same one changed, its rank: the
+// figures only, so the page stays put under the pointer)
+const hpFill = () => { for (const el of document.querySelectorAll(".gd-hp")) { const g = GUIDES.find(x => x.id === guideId()), ch = hpChar();
+  if (g && el.dataset.char !== String(ch ? User.char().id : "")) { const fresh = document.createElement("div"); fresh.innerHTML = hpCalcHTML(JSON.parse(el.dataset.hpCalc), g); el.replaceWith(fresh.firstElementChild); }
+  else if (ch) el.querySelector("[data-hp-lb] b").textContent = Math.min(+JSON.parse(el.dataset.hpCalc).lbMax, ch.lb); }
+  for (const el of document.querySelectorAll(".gd-hp")) hpUpdate(el); };
+addEventListener("userchange", hpFill);
 // the progress changed (a vanquish ticked here or on another tab): the keyed maps show it
 // a tick, or another tab's change: the keyed maps' colours and their rows follow, in place (the ticks themselves are
 // common.js's; the maps and ways stay as drawn)
