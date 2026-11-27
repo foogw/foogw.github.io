@@ -60,7 +60,7 @@ VIEWS.skill = (() => {
     const tags = [s.elite && "Elite", s.pvp_only && "PvP only", s.title && "PvE only"].filter(Boolean).map(t => `<span class="tag">${t}</span>`).join("");
     const stats = [s.energy && ["Energy", s.energy, "c-e"], s.adrenaline && ["Adrenaline", s.adrenaline, "c-a"], s.sacrifice && ["Sacrifice", `${s.sacrifice}%`, "c-s"],
       s.upkeep && ["Upkeep", s.upkeep, "c-u"], s.overcast && ["Overcast", s.overcast, "c-o"], s.activation && ["Activation", `${secs(s.activation)}s`],
-      s.recharge && ["Recharge", `${s.recharge}s`]].filter(Boolean);
+      s.recharge && ["Recharge", `${s.recharge}s`], s.aftercast && ["Aftercast", `${s.aftercast}s`]].filter(Boolean);
     const title = s.title && titleOf(s);
     const used = USED_IN.get(s.id) || [];
     // the easiest capture(s) we picked (data/captures.js), each with its map and way

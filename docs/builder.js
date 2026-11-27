@@ -175,7 +175,7 @@ function skillCard(s) {
   const rank = rankFor(s);
   const costs = [s.energy && `${s.energy} energy`, s.adrenaline && `${s.adrenaline} adrenaline`,
     s.sacrifice && `${s.sacrifice}% sacrifice`, s.upkeep && `${s.upkeep} upkeep`,
-    s.activation && `${s.activation}s activation`, s.recharge && `${s.recharge}s recharge`].filter(Boolean);
+    s.activation && `${s.activation}s activation`, s.recharge && `${s.recharge}s recharge`, s.aftercast && `${s.aftercast}s aftercast`].filter(Boolean);
   return `<div class="b-dhead">${icon(s, "big")}<div>
       <div class="b-dname${s.elite ? " elite" : ""}">${esc(s.name)}</div>
       <div class="dim">${esc(s.profession === "None" ? "Common" : s.profession)} · ${esc(s.attribute)}${rank !== null ? ` <b>${rank}</b>` : isTitle(s) && maxTitles() ? " <b>max</b>" : ""} · ${esc(s.type || "")}${s.pve_only ? " · PvE only" : ""}</div>
