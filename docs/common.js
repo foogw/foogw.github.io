@@ -187,6 +187,14 @@ function highlight(t, ts) {
   }
   return out + esc(t.slice(pos));
 }
+// the browser's Back and Forward keys (Cmd-arrow on a Mac, Alt-arrow elsewhere) work in an empty search box too: focused on
+// arriving, the box would otherwise swallow them as "to the start of the line" (with text in it, they do that)
+document.addEventListener("keydown", e => {
+  if ((e.key !== "ArrowLeft" && e.key !== "ArrowRight") || !(e.metaKey || e.altKey) || e.ctrlKey || e.shiftKey) return;
+  const el = document.activeElement;
+  if (el?.tagName !== "INPUT" || !/^(search|text)$/.test(el.type) || el.value) return;
+  e.preventDefault(); if (e.key === "ArrowLeft") history.back(); else history.forward();
+});
 // "/" focuses the box, Escape clears it
 function searchKeys(input, onChange) {
   document.addEventListener("keydown", e => {
