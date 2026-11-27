@@ -14,6 +14,7 @@ const GW_ROUTING = {
   },
   "paths_": "Ours: lines on an area's map that can be walked, where its walkable ground misses them (a narrow pass), by map id: [[x0, y0, x1, y1, ...], ...] in its map's pixels, 4 pixels wide. Drawn in the map editor.",
   "paths": {
+    "120": [[118, 233, 140, 238]],
     "17": [[2508, 4440, 2518, 4434, 2523, 4438, 2526, 4444, 2531, 4451, 2544, 4448, 2550, 4444, 2559, 4445, 2565, 4450]],
     "99": [[5796, 3655, 5810, 3667]],
     "448": [[2028, 653, 2040, 637], [2159, 553, 2166, 540]],
@@ -33,6 +34,7 @@ const GW_ROUTING = {
   },
   "teleports_": "Ours: teleporters, by the map id of the first end: [[x0, y0, x1, y1], ...] in its map's pixels: stand at one end and you're at the other, both ways, at no distance. Placed in the map editor.",
   "teleports": {
+    "120": [[136, 238, 154, 215], [239, 211, 83, 270], [198, 276, 111, 333], [217, 346, 215, 451], [277, 354, 432, 360], [328, 314, 403, 161], [306, 225, 259, 280]],
     "113": [[6529, 8103, 6489, 8112], [6416, 8175, 6394, 8209], [6381, 8001, 6412, 8033], [6566, 7942, 6528, 7961]],
     "111": [[6409, 8487, 6442, 8505], [6688, 8484, 6659, 8509], [6543, 8615, 6584, 8609]],
     "108": [[7327, 8224, 7298, 8176], [7212, 8193, 7164, 8177], [7191, 8008, 7146, 8019]],

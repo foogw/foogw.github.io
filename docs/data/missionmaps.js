@@ -3,6 +3,7 @@ const GW_MISSION_MAPS = {
   "missions_": "By the mission's map id (or its copy's): walk, the ground it is played on (game/walk/<it>.json; an area's, or a Depths of Tyria cell's); box, the part of that map its window shows, [x0, y0, x1, y1] in its pixels, or area, an outline [x0, y0, x1, y1, ...] instead; rings, ground the mission adds to that walk file's, as in a walk file; in, the area it is played in, said on its pages; note, what else to say (ours, with {area:id} links).",
   "starts_": "Ours: where the party stands when a mission begins, by the mission's map id: [x, y] on the mission's own map (the map it is played on). Marked by hand on the site's maps.",
   "starts": {
+    "120": [123, 234],
     "10": [803, 4642],
     "11": [1326, 4455],
     "12": [1335, 5001],
