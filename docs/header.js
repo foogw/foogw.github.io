@@ -71,7 +71,7 @@
       // again by common.js)
       const o = JSON.parse(localStorage.getItem("gw-user")) ?? globalThis.starterProgress?.() ?? null, id = +localStorage.getItem("gw-user-char");
       // (version 3 keeps the characters under their accounts, version 2 in one list)
-      const chars = o?.chars ?? o?.accounts?.flatMap(a => a.chars || []) ?? [];
+      const chars = o?.chars ?? o?.accounts?.flatMap(a => (a.chars || []).map(c => ({ ...c, account: a.id }))) ?? [];
       // (in the menu by default, while no one is marked: the first three shown; as common.js's menuDefault)
       if (!chars.some(c => c.inMenu)) { let n = 0; for (const c of chars) if (!c.hidden && n < 3) { c.inMenu = true; n++; } }
       return { chars, cur: chars.find(c => c.id === id) ?? chars[0] };
@@ -82,7 +82,8 @@
   const showMenuChars = () => {
     const { chars, cur } = readChars(), list = chars.filter(c => c.inMenu);  // (a hidden one too, when marked)
     const esc = t => String(t).replace(/[&<>"]/g, x => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[x]);
-    const items = list.map(c => `<button type="button" class="gchar${c === cur ? " cur" : ""}" data-pick="${c.id}"><img src="img/prof/${PROF_PIC[c.profession] || "Any"}.png" alt=""><span class="ch-name">${esc(c.name)}${modes(c)}</span></button>`).join("");
+    // (a thin line between one account's characters and the next's)
+    const items = list.map((c, i) => `${i && c.account !== list[i - 1].account ? '<div class="gsep thin"></div>' : ""}<button type="button" class="gchar${c === cur ? " cur" : ""}" data-pick="${c.id}"><img src="img/prof/${PROF_PIC[c.profession] || "Any"}.png" alt=""><span class="ch-name">${esc(c.name)}${modes(c)}</span></button>`).join("");
     for (const g of header.querySelectorAll(".gchars")) g.innerHTML = items;
   };
   header.addEventListener("click", e => { const b = e.target.closest("[data-pick]"); if (!b) return; e.preventDefault();

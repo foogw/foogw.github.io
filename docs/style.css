@@ -219,6 +219,7 @@ nav.pages a[aria-current=page] { color: var(--text); }
 .gpick[hidden] { display: none; }
 .gpick .gmenu a { display: flex; }
 .gsep { border-top: 1px solid var(--line); margin: 4px 6px; }
+.gsep.thin { margin: 3px 12px; opacity: .7; } /* between one account's characters and the next's */
 @media (hover: hover) { .grp:hover .gmenu, .grp:focus-within .gmenu { display: flex; } }
 .grp.open .gmenu { display: flex; }
 .burger, .sheet { display: none; }
