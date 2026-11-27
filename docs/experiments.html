@@ -20,7 +20,9 @@
   <header class="top"></header><script src="header.js"></script>
   <div class="page-title"><h1>Experiments</h1><p>Ideas tried out before they get a place on the site</p></div>
   <div class="xp">
-    <p class="dim">Nothing is being tried out right now. The Anniversary planner grew up: it's the <a href="anniversary">Anniversary</a> page.</p>
+    <h2>GoM AFK farm: the spots on the mission map</h2>
+    <p class="dim">The farm's places on Gate of Madness' map, read off the compass in the guide's picture and placed by hand on 2026-11-27. The map pixels print below. For the <a href="guides?gom">guide</a>.</p>
+    <div id="xp-gom"></div>
   </div>
   <footer class="site-footer"><a href="about">About</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · <a href="license">License &amp; credits</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
@@ -32,10 +34,64 @@
 <script src="game/missions.js"></script>
 <script src="game/creatures.js"></script>
 <script src="game/quests.js"></script>
+<script src="game/maps.js"></script>
+<script src="data/routing.js"></script>
+<script src="data/missionmaps.js"></script>
 <script src="common.js"></script>
 <script src="mytitles.js"></script>
+<script src="mapwidget.js"></script>
+<script src="walkroute.js"></script>
 <script>
 "use strict";
+// the GoM farm's spots on the mission's map (map 527's pixels), placed by hand on 2026-11-27 (by dragging, in an earlier
+// version of this page), and the five Chaos Rifts; the coordinates print under the map
+const SPOTS = [{ x: 360, y: 278, name: "You" }, { x: 365, y: 287, name: "Keystone" }, { x: 385, y: 271, name: "Bonders" }, { x: 411, y: 251, name: "The other heroes", left: true }, { x: 358, y: 263, name: "Titan rift", rift: true },
+  // the other four Chaos Rifts, from the wiki's mission map (File:Gate_of_Madness_map.jpg) fitted onto ours, then placed by hand: the
+  // Torment rift south-east of the farm, three more to the west
+  { x: 367, y: 303, name: "Torment rift", sub: "clear it", rift: true }, { x: 311, y: 299, name: "Rift", sub: "leave alone", rift: true }, { x: 310, y: 262, name: "Rift", sub: "leave alone", rift: true }, { x: 314, y: 339, name: "Rift", sub: "leave alone", rift: true }];
+const box = document.getElementById("xp-gom");
+box.innerHTML = missionMapHTML(527, "Gate of Madness", { height: 520, crop: [320, 238, 400, 318] /* (the widget pads a crop by 40px a side: this one lands centred on You, 80px each way, within the map) */ }) + '<p class="dim" id="xp-gom-out" style="font-family: ui-monospace, monospace; font-size: 12px; white-space: pre-wrap"></p>';
+initMaps(box).then(() => {
+  const fig = box.querySelector(".gmap"), mv = fig.mapView, win = mv.win;
+  win.style.cursor = "default"; fig.style.maxWidth = `calc(${win.style.width.match(/\d+px/)[0]} + 26px)`; /* (the box as wide as the map: its width plus the padding and border) */ fig.querySelector("figcaption").remove();  /* (no Darkness slider or Hide markers here: a plain picture of the spots) */
+  const layer = document.createElement("div"); layer.style.cssText = "position:absolute; inset:0; pointer-events:none"; win.append(layer);
+  const dots = SPOTS.map(s => { const d = document.createElement("div"); d.textContent = s.name; d.dataset.name = s.name;
+    if (s.sub) { const l = document.createElement("span"); l.textContent = s.sub; l.style.cssText = "display:block; font-weight:400; font-size:11px; opacity:.85"; d.append(l); }  /* (a second, smaller line under the name) */
+    d.style.cssText = `position:absolute; z-index:1; transform:translate(-50%,-50%); pointer-events:auto; padding:${s.left ? "2px 16px 2px 6px" : "2px 6px 2px 16px"}; text-align:${s.left ? "right" : "left"}; font: 600 12px system-ui; color:#fff; text-shadow: 0 0 3px #000, 0 0 3px #000; white-space:nowrap; line-height:1.15`;
+    const dot = document.createElement("i"); dot.style.cssText = `position:absolute; ${s.left ? "right:2px" : "left:2px"}; top:9px; width:10px; height:10px; margin-top:-5px; border-radius:50%; background:${s.rift ? "#ff5c5c" : "#43d17a"}; border:2px solid #111; box-sizing:border-box`; d.prepend(dot); layer.append(d); return d; });
+  // rings about "You": the aggro bubble (the Danger Zone, 1,000 units), Soul Reaping's reach (2,508) and the compass (5,000); 96 units to a map pixel
+  const rings = [[1000, "#ffd54a", "aggro"], [2508, "#5fd68a", "Soul Reaping"], [5000, "#c58bff", "compass"]].map(([u, c, n]) => { const r = document.createElement("div"); r.dataset.r = u / 96;
+    r.style.cssText = `position:absolute; border:1.5px dashed ${c}; border-radius:50%; transform:translate(-50%,-50%); box-sizing:border-box`; r.title = n;
+    const l = document.createElement("span"); l.textContent = n; l.style.cssText = `position:absolute; left:50%; top:100%; transform:translate(calc(-100% - 4px),2px); font:600 11px system-ui; color:${c}; text-shadow:0 0 3px #000; white-space:nowrap`; r.append(l); layer.append(r); return r; });
+  // the way in: from the Shiro'ken gate to the north, past the other heroes' spot, down to the Torment rift (an arrow at its end)
+  // the way in, drawn by hand (in the drag mode, 2026-11-27): down the north-western way, east along the wall, round the
+  // north-eastern pocket past the other heroes and down to the Torment rift
+  const DRAWN = [[343,198],[337,203],[330,209],[330,222],[332,228],[343,217],[352,216],[362,216],[368,219],[376,225],[385,228],[394,227],[408,228],[413,230],[414,236],[415,243],[415,250],[414,258],[411,264],[408,269],[405,276],[402,280],[397,281],[392,285],[389,289],[385,295],[380,297],[376,301]];
+  const drawing = location.hash === "#drag";  // (with #drag: the spots drag, and clicks on the map add the way's points instead)
+  addEventListener("hashchange", () => location.reload());  // (the mode is read once, as the page loads)
+  let WAY = drawing ? [] : DRAWN;
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"); svg.style.cssText = "position:absolute; inset:0; width:100%; height:100%; overflow:visible"; layer.prepend(svg);
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "polyline"); line.setAttribute("fill", "none"); line.setAttribute("stroke", "#fff"); line.setAttribute("stroke-width", "2"); line.setAttribute("stroke-dasharray", "6 5"); line.setAttribute("stroke-linecap", "round"); line.setAttribute("opacity", ".8"); svg.append(line);
+  const head = document.createElementNS("http://www.w3.org/2000/svg", "polygon"); head.setAttribute("fill", "#fff"); head.setAttribute("opacity", ".8"); svg.append(head);
+  const toCss = (x, y) => { const b = mv.box, r = win.getBoundingClientRect(); return [(x - b[0]) / (b[2] - b[0]) * r.width, (y - b[1]) / (b[3] - b[1]) * r.height]; };
+  const toMap = (cx, cy) => { const b = mv.box, r = win.getBoundingClientRect(); return [b[0] + cx / r.width * (b[2] - b[0]), b[1] + cy / r.height * (b[3] - b[1])]; };
+  const place = () => { const you = SPOTS[0], [yx, yy] = toCss(you.x, you.y), b = mv.box, k = win.getBoundingClientRect().width / (b[2] - b[0]);
+    for (const r of rings) { const d = 2 * r.dataset.r * k; r.style.width = r.style.height = `${d}px`; r.style.left = `${yx}px`; r.style.top = `${yy}px`; }
+    if (WAY.length > 1) { const pts = WAY.map(([x, y]) => toCss(x, y)); line.setAttribute("points", pts.map(p => p.join(",")).join(" "));
+      const [ax, ay] = pts.at(-2), [bx, by] = pts.at(-1), a = Math.atan2(by - ay, bx - ax), L = 10, w = 0.42;
+      head.setAttribute("points", [[bx, by], [bx - L * Math.cos(a - w), by - L * Math.sin(a - w)], [bx - L * Math.cos(a + w), by - L * Math.sin(a + w)]].map(p => p.join(",")).join(" ")); }
+    SPOTS.forEach((s, i) => { const [cx, cy] = toCss(s.x, s.y); dots[i].style.left = SPOTS[i].left ? `${cx + 7 - dots[i].offsetWidth}px` : `${cx - 7}px`; /* (the dot inside the label sits 7px in from its edge: its centre on the spot) */ dots[i].style.top = `${cy - 9}px`; dots[i].style.transform = "none"; /* (the first line's middle, 9px down, on the spot) */ });
+    document.getElementById("xp-gom-out").textContent = SPOTS.map(s => `${s.name}: [${Math.round(s.x)}, ${Math.round(s.y)}]`).join("\n") + (drawing ? `\nway: ${JSON.stringify(WAY.map(p => p.map(Math.round)))}` : ""); };
+  mv.onchange = place; place();
+  // dragging a spot moves it (its coordinates print below, to copy); the map's own panning doesn't start from a spot
+  // drawing the way: a click on the map adds a point (the arrow at the last), Backspace takes the last one back
+  if (drawing) { win.style.cursor = "crosshair"; win.addEventListener("pointerdown", e => { const r = win.getBoundingClientRect(); WAY.push(toMap(e.clientX - r.left, e.clientY - r.top)); place(); e.stopPropagation(); e.preventDefault(); }, true);
+    addEventListener("keydown", e => { if (e.key === "Backspace") { WAY.pop(); place(); e.preventDefault(); } }); }
+  if (drawing) dots.forEach((d, i) => { d.style.cursor = "grab"; d.addEventListener("pointerdown", e => { e.preventDefault(); e.stopPropagation(); d.setPointerCapture(e.pointerId); d.style.cursor = "grabbing";
+    const move = e => { const r = win.getBoundingClientRect(), [x, y] = toMap(e.clientX - r.left, e.clientY - r.top); SPOTS[i].x = x; SPOTS[i].y = y; place(); };
+    const up = () => { d.style.cursor = "grab"; d.removeEventListener("pointermove", move); d.removeEventListener("pointerup", up); d.removeEventListener("pointercancel", up); };
+    d.addEventListener("pointermove", move); d.addEventListener("pointerup", up); d.addEventListener("pointercancel", up); }); });
+});
 </script>
 </body>
 </html>
