@@ -117,7 +117,10 @@
 
   /* ---------- phase 1: the port towns ---------- */
   function portsHTML(c) {
-    const camp = madeIn(c), before = left(c, camp).filter(x => x.order <= PORT[camp]), next = groups(before, 1);
+    // (the next mission after the last one done, up to the port's: one skipped on the way, a run past it or a tick
+    // forgotten, isn't sent back for until the ports are reached)
+    const camp = madeIn(c), upto = (STORY[camp] || []).filter(x => x.order <= PORT[camp]), last = Math.max(-1, ...upto.filter(x => nm(c, x.id)).map(x => x.order));
+    const next = groups(upto.filter(x => !nm(c, x.id) && x.order > last), 1);
     // (a Tyrian can be run to Lion's Arch; a Canthan or an Elonian plays to its port: the ferry wants Zen Daijun done, the
     // ship Consulate Docks)
     const way = camp === 1 ? `either a run to ${LINK.area(55)} or ${esc(CAMPAIGNS[camp])}'s missions up to it` : `${esc(CAMPAIGNS[camp])}'s missions up to ${LINK.area(PORT_TOWN[camp])}`;

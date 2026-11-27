@@ -9,7 +9,7 @@
   // each group of the bar's menus: its name, its landing page, its pages
   const reverieSoon = (now = new Date()) => { const y = now.getUTCFullYear(), a = Date.UTC(y, 7, 18, 19), b = Date.UTC(y, 8, 1, 19); return now >= a && now < b; };
   const GROUPS = [
-    ["Tools", "tools", [["captures", "Elite captures"], ["gwamm", "GWAMM route"], ["anniversary", "Anniversary planner"], ["builds", "Builds"], ["builder", "Skillbar builder"]]],
+    ["Tools", "tools", [["gwamm", "GWAMM route"], ["captures", "Elite captures"], ["anniversary", "Anniversary planner"], ["builds", "Builds"], ["builder", "Skillbar builder"]]],
     // (a shortlist of the guides, then all of them; the Wayfarer's Reverie guide too, marked, from a week before the
     // event to its end: August 25th to September 1st, 19:00 UTC, as game/calendar.js has it; this script runs before the data loads)
     ["Guides", "guides", [["guides?gom", "GoM AFK XP Farm"], ["guides?zos", "Zos Shivros AFK Luxon Farm"], ["guides?drakes", "Purp Insc Chaos Axe Farm"], ["guides?caravans", "Vanquish Caravans"], ...(reverieSoon() ? [["guides?reverie", "Wayfarer's Reverie", "gev"]] : []), ["guides", "All guides…"]]],
