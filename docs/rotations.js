@@ -52,7 +52,7 @@ function cell(r, e, ts, from, at) {
 
 // time to the column's next reset: 5h 06m, or 3d 4h for a weekly
 function left(ms) {
-  const m = Math.max(0, Math.floor(ms / 60000)), h = Math.floor(m / 60);
+  const m = Math.max(0, Math.ceil(ms / 60000)), h = Math.floor(m / 60);  // (rounded up, as timeLeft)
   return h >= 24 ? timeLeft(ms) : `${h}h ${String(m % 60).padStart(2, "0")}m`;
 }
 

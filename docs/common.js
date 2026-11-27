@@ -712,8 +712,8 @@ function bountyAt(id, now = Date.now()) {
   return null;
 }
 const inDays = d => (d === 0 ? "today" : d === 1 ? "tomorrow" : `in ${d} days`);
-function timeLeft(ms) {
-  const m = Math.max(0, Math.floor(ms / 60000)), d = Math.floor(m / 1440), h = Math.floor((m % 1440) / 60), mm = m % 60;
+function timeLeft(ms) {  // (minutes rounded up: never "0m" while time is left)
+  const m = Math.max(0, Math.ceil(ms / 60000)), d = Math.floor(m / 1440), h = Math.floor((m % 1440) / 60), mm = m % 60;
   return d ? `${d}d ${h}h` : h ? `${h}h ${mm}m` : `${mm}m`;
 }
 /* Compact "label · current · time left" rows (the front page; the name alone, no region or campaign); a null row draws
