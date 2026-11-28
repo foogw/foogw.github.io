@@ -13,6 +13,7 @@ const GW_GUIDES = {
     {
       "id": "caravans",
       "group": "vanq",
+      "tabs": true,
       "name": "Vanquish Caravans",
       "summary": "Vanquish the 4- and 6-party areas with a full party of 8: the chains from Temple of the Ages east, west and south, the Crystal Desert through its crystal portal, and Lornar's Pass from Camp Rankor; each with its path and foes.",
       "tags": ["Vanquish", "Hard mode", "Route", "Party of 8"]

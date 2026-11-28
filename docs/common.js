@@ -499,7 +499,8 @@ const caravanMark = id => { const c = CARAVANS?.[id]; if (!c) return CARAVANS ? 
   return `<a class="cvn" href="${c.href}" data-note="${esc(note)}" data-plain aria-label="${esc(note)}">&nbsp;</a>`; };
 fetch("data/guides/caravans.json").then(r => r.json()).then(d => { CARAVANS = {};
   for (const s of d.sections) { const rows = s.blocks.find(b => b.rows)?.rows; if (!rows) continue;
-    const t = s.title.replace(/:.*| from .*/, "").replace(/^The /, ""), href = `guides?caravans#gd-${s.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`, vs = rows.filter(r => !r.walk);
+    // (the caravan's tab: by its short label, as the guide's tabs are)
+    const t = s.title.replace(/:.*| from .*/, "").replace(/^The /, ""), href = `guides?caravans&tab=${(s.tab || s.title).toLowerCase().replace(/[^a-z0-9]+/g, "-")}`, vs = rows.filter(r => !r.walk);
     vs.forEach((r, i) => { CARAVANS[r.area] ??= { t, i: i + 1, n: vs.length, href }; }); }
   for (const el of document.querySelectorAll("span.cvn[data-area]")) el.outerHTML = caravanMark(+el.dataset.area);
 }, () => { CARAVANS = {}; });

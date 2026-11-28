@@ -12,6 +12,7 @@
   },
   {
    "title": "ToA East: Kryta, Shiverpeaks, Ascalon",
+   "tab": "ToA East",
    "blocks": [
     {
      "p": "The long haul from {area:138}. Every area is entered once, except the two on the way to Dragon's Gullet, which are walked back through. Nothing can be bought on the way, so bring everything along: a Purveyor's Bell or Mercantile Summoning Stone for the drops, morale items or DP removers, res scrolls, lockpicks, consets, and Stalker's Rations and Bird's Eye Compasses to find the last foes and map as you go. It is a long time in one instance, though you can leave the game running and come back. If you'd rather not, or something breaks half way, the eastern half from {area:134} with 6 is a fair fallback: from Traveler's Vale on, the areas take only 4."
@@ -320,6 +321,7 @@
   },
   {
    "title": "ToA West: the Maguuma Jungle",
+   "tab": "ToA West",
    "blocks": [
     {
      "p": "The Maguuma Jungle from {area:138}. The Black Curtain and Talmark Wilderness are only walked through here; the South caravan clears Talmark. Majesty's Rest is the first to clear, and its foes stand in its eastern half, which is why it is entered from Talmark."
@@ -524,6 +526,7 @@
   },
   {
    "title": "ToA South: southern Kryta",
+   "tab": "ToA South",
    "blocks": [
     {
      "p": "Southern Kryta from {area:138}, one sitting. Only the Black Curtain is walked through."
@@ -632,6 +635,7 @@
   },
   {
    "title": "The Crystal Desert from the Desolation",
+   "tab": "Crystal Desert",
    "blocks": [
     {
      "p": "Nightfall's back door into the Crystal Desert. The way in with 8: {area:440} (or {area:438}) into {area:439}, across by Junundu, then into {area:448}. At its north-west corner the Forgotten Guardian teleports the party into {area:112}, with Prophecies on the account. From there every area is entered once, The Scar, a dead end, last."
@@ -779,6 +783,7 @@
   },
   {
    "title": "Lornar's Pass from Camp Rankor",
+   "tab": "Lornar's Pass",
    "blocks": [
     {
      "p": "Lornar's Pass is usually entered from {area:133}, a 6-party outpost. Its other end opens on Dreadnought's Drift and Snake Dance, and those lead to {area:155}, which gives 8. So the short chain from Camp Rankor: Snake Dance, Dreadnought's Drift, Lornar's Pass, each cleared on the way north."

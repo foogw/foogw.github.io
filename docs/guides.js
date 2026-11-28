@@ -374,22 +374,24 @@ function statsOf(g) {
 
 const slug = t => t.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 // (tabs: true, in the list's entry: the titled sections as tabs, one shown at a time, the one the address names
-// (guides?<id>&tab=<slug>) or the first; the untitled intro stays above them)
-const tabOf = g => { const titled = g.sections.filter(s => s.title), want = args().get("tab"); return titled.find(s => slug(s.title) === want) || titled[0]; };
+// (guides?<id>&tab=<slug>) or the first; the untitled intro stays above them. A section's tab: a shorter label for
+// its tab, the slug too; its title then heads the panel)
+const tabLabel = s => s.tab || s.title, tabSlug = s => slug(tabLabel(s));
+const tabOf = g => { const titled = g.sections.filter(s => s.title), want = args().get("tab"); return titled.find(s => tabSlug(s) === want) || titled[0]; };
 function guidePageHTML(g) {
   const titled = g.sections.filter(s => s.title), tab = g.tabs ? tabOf(g) : null;
   // (a section; with tabs, a titled one is a panel, shown when it's the tab picked, and its title is the tab's)
-  const section = s => `<section${s.title ? ` id="gd-${slug(s.title)}"` : ""}${s.flow ? ` class="flow"` : ""}${g.tabs && s.title ? ` data-tab-panel="${slug(s.title)}"${s === tab ? "" : " hidden"}` : ""}>
-      ${s.title && !g.tabs ? `<h2>${esc(s.title)}</h2>` : ""}${secStatsHTML(s)}${s.blocks.map(x => blockHTML(x, g)).join("")}</section>`;
+  const section = s => `<section${s.title ? ` id="gd-${tabSlug(s)}"` : ""}${s.flow ? ` class="flow"` : ""}${g.tabs && s.title ? ` data-tab-panel="${tabSlug(s)}"${s === tab ? "" : " hidden"}` : ""}>
+      ${s.title && (!g.tabs || s.tab) ? `<h2>${esc(s.title)}</h2>` : ""}${secStatsHTML(s)}${s.blocks.map(x => blockHTML(x, g)).join("")}</section>`;
   return `<p class="back"><a href="?">← All guides</a></p>
     <div class="sp-head" style="--pc:var(--accent)">
       <div class="sp-title"><h2>${esc(g.name)}</h2><div class="sp-sub">${[g.mission && LINK.mission(g.mission), g.source && `By ${esc(g.source.author)}`, g.sub && esc(g.sub)].filter(Boolean).join(" · ")}</div></div>
       <div class="lstats">${statsOf(g).map(([k, v]) => `<span class="lstat"><small>${esc(k)}</small><b>${esc(v)}</b></span>`).join("")}</div>
     </div>
     ${g.tabs ? `<article class="gd">${g.sections.filter(s => !s.title).map(section).join("")}</article>
-      <div class="gd-tabs ch-tabs" role="tablist">${titled.map(s => `<button type="button" role="tab" data-tab="${slug(s.title)}" aria-selected="${s === tab}">${esc(s.title)}</button>`).join("")}</div>
+      <div class="gd-tabs ch-tabs" role="tablist">${titled.map(s => `<button type="button" role="tab" data-tab="${tabSlug(s)}" aria-selected="${s === tab}">${esc(tabLabel(s))}</button>`).join("")}</div>
       <article class="gd">${titled.map(section).join("")}</article>`
-      : `<nav class="gd-toc">${titled.map(s => `<a href="#" data-to="gd-${slug(s.title)}">${esc(s.title)}</a>`).join("")}</nav>
+      : `<nav class="gd-toc">${titled.map(s => `<a href="#" data-to="gd-${tabSlug(s)}">${esc(s.title)}</a>`).join("")}</nav>
     <article class="gd">${g.sections.map(section).join("")}</article>`}
     ${g.source && g.source.more !== false ? `<p class="gd-src">${g.source.full ? "Also on" : g.source.based ? "The original, plain-text guide is still at" : "See the full guide and more at"} <a href="${esc(g.source.href)}" target="_blank" rel="noopener">the Guild Wars Wiki</a> (<a href="${esc(g.source.archive)}" target="_blank" rel="noopener">archived copy</a>).</p>` : ""}`;
 }
@@ -428,7 +430,7 @@ async function render() {
     $("guide").innerHTML = guidePageHTML(g);
     document.querySelectorAll(".gd-cap").forEach(capUpdate);
     hpFill();
-    if (location.hash.length > 1) $(location.hash.slice(1))?.scrollIntoView();  // (a link into a section: guides?caravans#gd-toa-east-...)
+    if (location.hash.length > 1) $(location.hash.slice(1))?.scrollIntoView();  // (a link into a section of an untabbed guide: guides?<id>#gd-<slug>)
     initMaps($("guide")).then(() => drawWays(g));
     document.title = `${g.name} · GW Guides`;
   } else {
