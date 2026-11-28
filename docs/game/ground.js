@@ -4352,7 +4352,7 @@ const GW_GROUND = {
       "set": 4,
       "at": [2222, 3188],
       "terrain": 214476,
-      "exits": [{"to": 449, "dir": "W"}, {"to": 493, "dir": "E"}],
+      "exits": [{"to": 449, "dir": "W"}],
       "order": 27,
       "wiki": {"en": "Consulate", "de": "Konsulat"}
     },
@@ -5092,7 +5092,7 @@ const GW_GROUND = {
       "set": 4,
       "at": [2310, 3194],
       "terrain": 214476,
-      "exits": [{"to": 429, "dir": "W"}],
+      "exits": [],
       "order": 21,
       "after": 381,
       "wiki": {"en": "Consulate Docks", "de": "Konsulatshafen"}
