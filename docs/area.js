@@ -25,17 +25,36 @@ VIEWS.area = (() => {
     return `<div class="xcard ${kind(l)}">${areaLink(id)}<div class="xmeta">${esc(meta)}</div>
       ${next.length ? `<div class="next">→ ${next.map(areaLink).join(", ")}</div>` : ""}</div>`;
   }
-  // exits laid out by compass direction around the area: from where the portal is on the map, else the wiki's
-  const COMPASS = ["NW", "N", "NE", "W", "", "E", "SW", "S", "SE"];
-  function compassOf(at, [cx, cy]) {
-    const a = Math.atan2(at[1] - cy, at[0] - cx) * 180 / Math.PI;  // 0 = east, 90 = south
-    return ["E", "SE", "S", "SW", "W", "NW", "N", "NE"][Math.round(((a + 360) % 360) / 45) % 8];
+  // exits laid out by compass direction around the area: from where the portal is on the map (the game's, or one we
+  // placed, data/routing.js), else the wiki's. Each gets its own cell where it can: an exit may take its cell or the
+  // one either side of it, and the set of cells is chosen to keep them all nearest their true bearings together (so two
+  // in the north with a third north-east shift to north-west, north and north-east, instead of one of them leaping)
+  const COMPASS = ["NW", "N", "NE", "W", "", "E", "SW", "S", "SE"], ROSE = ["E", "SE", "S", "SW", "W", "NW", "N", "NE"];
+  const angleOf = (at, [cx, cy]) => (Math.atan2(at[1] - cy, at[0] - cx) * 180 / Math.PI + 360) % 360;  // 0 = east, 90 = south
+  const compassOf = (at, centre) => ROSE[Math.round(angleOf(at, centre) / 45) % 8];
+  // (dirs: area id → direction, the wiki's for those without a portal, which keep their cell; angles: by id, for the
+  // rest, which are placed around them)
+  function spread(dirs, angles) {
+    const ids = [...angles.keys()], taken = new Set([...dirs].filter(([id, d]) => d && !angles.has(id)).map(([, d]) => d));
+    const off = (a, d) => Math.abs((a - ROSE.indexOf(d) * 45 + 540) % 360 - 180);
+    let best = null;
+    const go = (i, used, cost, pick) => {
+      if (best && cost >= best.cost) return;
+      if (i === ids.length) { best = { cost, pick: [...pick] }; return; }
+      const a = angles.get(ids[i]);
+      for (const d of ROSE) if (off(a, d) <= 67.5 && !used.has(d) && !taken.has(d)) { used.add(d); pick.push(d); go(i + 1, used, cost + off(a, d), pick); pick.pop(); used.delete(d); }
+    };
+    go(0, new Set(), 0, []);
+    if (best) ids.forEach((id, i) => dirs.set(id, best.pick[i]));  // (none: more exits than cells, each at its own bearing)
+    return dirs;
   }
   function exitsHTML(l, centre) {
-    const seen = new Map();  // one card per area, at the direction of its first portal
-    for (const e of l.exits || []) if (AREAS[e.to] && shown(AREAS[e.to]) && !seen.has(e.to)) seen.set(e.to, e.at && centre ? compassOf(e.at, centre) : e.dir || "");
+    const placedAt = e => e.at || GW_ROUTING?.portals?.[l.id]?.[e.to];
+    const seen = new Map(), angles = new Map();  // one card per area, at the direction of its first portal
+    for (const e of l.exits || []) if (AREAS[e.to] && shown(AREAS[e.to]) && !seen.has(e.to)) {
+      const at = placedAt(e); seen.set(e.to, at && centre ? compassOf(at, centre) : e.dir || ""); if (at && centre) angles.set(e.to, angleOf(at, centre)); }
     if (!seen.size) return `<p class="dim">${l.type === 5 ? "No exits: this outpost leads only into its mission." : "No exits: reached by map travel, or from a quest, mission or NPC."}</p>`;
-    const exits = [...seen], placed = exits.filter(([, d]) => d), loose = exits.filter(([, d]) => !d);
+    const exits = [...spread(seen, angles)], placed = exits.filter(([, d]) => d), loose = exits.filter(([, d]) => !d);
     const grid = placed.length ? `<div class="compass">${COMPASS.map(d => d
       ? `<div class="cell${placed.some(e => e[1] === d) ? "" : " none"}" data-dir="${d}">${placed.filter(e => e[1] === d).map(([id]) => exitCard(id, l.id)).join("")}</div>`
       : `<div class="cell here"><span>${esc(l.name)}</span></div>`).join("")}</div>` : "";
