@@ -62,7 +62,11 @@
               "name": "Treasure Chest"
             }
           ],
-          "from": 494,
+          "from": [
+            494,
+            450,
+            559
+          ],
           "height": 380,
           "said": true
         }
@@ -132,7 +136,11 @@
               "name": "Buried Treasure"
             }
           ],
-          "from": 414,
+          "from": [
+            414,
+            403,
+            435
+          ],
           "height": 380,
           "said": true
         },
@@ -197,7 +205,10 @@
               "name": "Buried Treasure"
             }
           ],
-          "from": 381,
+          "from": [
+            381,
+            436
+          ],
           "height": 380,
           "said": true
         },
