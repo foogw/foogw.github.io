@@ -658,7 +658,7 @@ const GW_CALENDAR = {
       "daily": "zaishen-vanquish"
     }
   },
-  "events_": "The yearly events, keyed by our numbers. Dates are [month, day, \"hh:mm\"] UTC; stay: when its collectors leave. wiki: its page, {en} (as areas).",
+  "events_": "The yearly events, keyed by our numbers. Dates are [month, day, \"hh:mm\"] UTC; stay: when its collectors leave. wiki: its page, {en} (as areas). ours: a sentence on what this site has for it, with {page:href|text} links.",
   "events": {
     "1": {
       "name": "Canthan New Year",
@@ -688,6 +688,7 @@ const GW_CALENDAR = {
     "5": {
       "name": "Anniversary Celebration",
       "wiki": {"en": "Anniversary Celebration"},
+      "ours": "The {page:anniversary|Anniversary planner} lays the week out around the Zaishen Missions: double rewards, and company on the day.",
       "start": [4, 22, "19:00"],
       "end": [5, 6, "19:00"],
       "stay": [5, 13, "19:00"]
@@ -708,6 +709,7 @@ const GW_CALENDAR = {
     "8": {
       "name": "Wayfarer's Reverie",
       "wiki": {"en": "Wayfarer's Reverie"},
+      "ours": "The {page:guides?reverie|Wayfarer's Reverie guide} has every place the four quests visit, the nearest outpost and the way there.",
       "start": [8, 25, "19:00"],
       "end": [9, 1, "19:00"]
     },

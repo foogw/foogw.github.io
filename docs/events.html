@@ -15,6 +15,7 @@
   .events h2 { font-size: 18px; margin: 0 0 2px; }
   .events .when { color: var(--muted); font-size: 13px; margin: 0 0 8px; }
   .events .when b { font-weight: 600; }
+  .events .ours { margin: 0 0 8px; }
   .events .soon { font-weight: 600; }
   .events .now { color: #2e9e4f; font-weight: 600; }
   .events .ev-row { display: grid; grid-template-columns: 7.5em 1fr; gap: 0 8px; margin: 3px 0; font-size: 14px; line-height: 1.6; }
@@ -71,6 +72,7 @@ function render() {
       const miss = (e.miss || []).map(([t, lock]) => text(t, true) + (lock ? ` <span class="lock">once-a-year chance</span>` : ""));
       return `<section><h2>${esc(e.name)}</h2>`
         + `<p class="when">${state} · <b>${fmt(a)} – ${fmt(b)}</b>${s ? ` · collectors stay until ${fmt(s)}` : ""}</p>`
+        + (e.ours ? `<p class="ours">${text(e.ours)}</p>` : "")
         + row("Don't miss", items(miss)) + row("Drops", items((e.drops || []).map(t => text(t, true)))) + row("Quests", questsLink(e))
         + `</section>`;
     }).join("");

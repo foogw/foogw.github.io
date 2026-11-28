@@ -152,7 +152,7 @@ const GW_CALENDAR_NOTES = {
       "drops": ["Snowman Summoner", "Frosty Tonic", "Mischievous Tonic", "Eggnog", "Fruitcake"]
     },
     "8": {
-      "blurb": "A Legionnaire Summoning Crystal for the four Reverie quests, every weekly PvE bonus at once, and Wayfarer's Marks from foes for drinks and fireworks.",
+      "blurb": "A Legionnaire Summoning Crystal for the {page:guides?reverie|four Reverie quests}, every weekly PvE bonus at once, and Wayfarer's Marks from foes for drinks and fireworks.",
       "miss": [
         [
           "Legionnaire Summoning Crystal: do the four Wayfarer's Reverie quests ({quest:101380}, {quest:100779}, {quest:101072}, {quest:100457}) and trade the four proofs at Fylinn, Sworn to Winds (or instead: an Everlasting Legionnaire Tonic, a Miniature Legionnaire, a Legion Loot Bag, or once per account a Reverie Gift with a customized Tormented weapon). The crystal can't be traded",
