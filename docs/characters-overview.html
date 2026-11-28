@@ -18,6 +18,11 @@
   .ov a.n:hover { color: var(--accent); }
   .ov .n img { width: 20px; height: 20px; }
   .ov th button { all: unset; cursor: pointer; }
+  .ov th .ch-mode { vertical-align: -4px; }
+  .ov .mode { padding-right: 2px; width: 1%; }  /* (the three badge columns as narrow as their badges, one group) */
+  .ov td.mode .ch-mode { display: inline-block; }  /* (an empty place keeps the badge's width) */
+  .ov th.mode .sort-ar { width: 8px; }  /* (the arrow's room kept beside the badge, just as wide as the arrow) */
+  .ov td.mode + td:not(.mode), .ov th.mode + th:not(.mode) { padding-left: 24px; }  /* (the gap back, after the group) */
   .ov th button:hover { color: var(--text); }
   .ov-modes { display: inline-flex; gap: 4px; vertical-align: middle; }
   .ov-modes .ch-mode { display: block; vertical-align: 0; }

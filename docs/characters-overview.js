@@ -14,11 +14,12 @@
     const y = a.getUTCFullYear() === b.getUTCFullYear(), m = y && a.getUTCMonth() === b.getUTCMonth();
     return [Math.floor(lo / DAY) === Math.floor(hi / DAY) ? fmtDay.format(lo) : m ? fmtMonth.format(lo) : y ? String(a.getUTCFullYear()) : "?", mid];
   };
-  // its modes' badges, each in its own place (pre-Searing, Melandru, Dhuum), so they line up down the column
-  const lit = c => `<span class="ov-modes">${Object.keys(USER_MODES).map(m => (c.modes || []).includes(m)
-    ? `<img class="ch-mode" src="img/modes/${m}.png" alt="${esc(USER_MODES[m])}" title="${esc(USER_MODES[m])}">` : '<span class="ch-mode"></span>').join("")}</span>`;
+  // a mode's badge (the column header too, as the mode's icon), or its empty place, so they line up down the column
+  const badge = m => `<img class="ch-mode" src="img/modes/${m}.png" alt="${esc(USER_MODES[m])}">`;
+  const lit = (c, m) => ((c.modes || []).includes(m) ? `<span title="${esc(USER_MODES[m])}">${badge(m)}</span>` : '<span class="ch-mode"></span>');
+  // (a mode's column: the mode's badge for a header, and the ones bound to it first)
   const COLS = [["acct", "Account"], ["name", "Character"], ["made", "Made in", "The campaign it was made in: set by its profession or pre-Searing, else picked on its Edit tab"],
-    ["modes", "Modes", "The game modes it's bound to: pre-Searing, Melandru's Accord, Dhuum's Covenant"],
+    ...Object.keys(USER_MODES).map(m => [m, badge(m), `Bound to ${USER_MODES[m]}: those first, or last`, "mode"]),
     ["bday", "Birthday", "The day it was made (UTC), or the month or year, as far as its age tells"],
     ["titles", "Titles maxed", "The titles it has maxed, that Kind of a Big Deal counts (coloured by its rank)", "num"],
     ["checks", "Checklist", "Its Checklist tab's items done, by its ticks or marked by hand", "num"],
@@ -47,12 +48,12 @@
       const [bd, bdKey] = bday(c), made = madeIn(c), maxed = titlesMaxed(c, o), kbd = titleRankOf(TITLES[10], c, o), done = checklistDone(c), total = checklistFor(c).length;
       const html = `<tr><td${c.account in oldest ? bdColor(oldest[c.account], bdLo, bdHi) : ' class="dim"'}>${esc(accountName(acctOf(c)))}</td>
         <td><a class="n" href="characters" data-go="${c.id}"><img src="${profImg(c.profession || 0)}" alt="">${esc(c.name)}</a></td>
-        <td>${made ? `<span style="color: var(${CAMP_COLOR[made]})">${esc(CAMPAIGNS[made])}</span>` : '<span class="dim" title="Not set: pick it on its Edit tab">?</span>'}</td><td>${lit(c)}</td>
+        <td>${made ? `<span style="color: var(${CAMP_COLOR[made]})">${esc(CAMPAIGNS[made])}</span>` : '<span class="dim" title="Not set: pick it on its Edit tab">?</span>'}</td>${Object.keys(USER_MODES).map(m => `<td class="mode">${lit(c, m)}</td>`).join("")}
         <td${bd === "?" ? ' class="dim" title="Not known closely enough yet: add what /age says on its Edit tab"' : bdColor(bdKey, bdLo, bdHi)}>${bd}</td>
         <td class="num"><span class="u-gwamm" data-rank="${kbd}" style="font-weight: 600" title="Kind of a Big Deal rank ${kbd}">${maxed}</span></td>
         <td class="num"><span class="u-gwamm" data-rank="${Math.round(6 * done / total)}" style="font-weight: 600">${done}</span> <span class="dim">/ ${total}</span></td>
         <td class="num">${reading(c, "xp")}</td><td class="num">${hours(c)}</td><td>${USER_AIMS[c.aim || ""]}</td></tr>`;
-      return { id: c.id, i, html, key: { acct: o.accounts.indexOf(acctOf(c)), name: c.name.toLowerCase(), made: made || 9, modes: -(c.modes || []).length,
+      return { id: c.id, i, html, key: { acct: o.accounts.indexOf(acctOf(c)), name: c.name.toLowerCase(), made: made || 9, ...Object.fromEntries(Object.keys(USER_MODES).map(m => [m, (c.modes || []).includes(m) ? 0 : 1])),
         bday: bdKey, titles: maxed, checks: done, aim: { gwamm: 0, retired: 2 }[c.aim] ?? 1,
         // (not typed in: last, either way)
         xp: c.xp ? c.xp[0] : NaN, hours: outsidePct(c) } };
@@ -64,7 +65,7 @@
     const none = x => Number.isNaN(x.key[sortBy]);
     rows.sort((a, b) => none(a) - none(b) || cmp(a.key[sortBy], b.key[sortBy]) * sortDir || was(a) - was(b));
     prev = rows.map(x => x.id);
-    const head = COLS.map(([k, t, tip, cls]) => `<th class="${cls || ""}"${tip ? ` title="${tip}"` : ""}><button type="button" data-sort="${k}">${t}<span class="sort-ar"${sortBy === k ? "" : " hidden"}>${sortDir > 0 || sortBy !== k ? "▴" : "▾"}</span></button></th>`).join("");
+    const head = COLS.map(([k, t, tip, cls]) => `<th class="${cls || ""}"${tip ? ` title="${esc(tip)}"` : ""}><button type="button" data-sort="${k}">${t}<span class="sort-ar"${sortBy === k ? "" : " hidden"}>${sortDir > 0 || sortBy !== k ? "▴" : "▾"}</span></button></th>`).join("");
     $("ov").innerHTML = `<div class="ov-wrap"><table class="ov"><thead><tr>${head}</tr></thead><tbody>${rows.map(x => x.html).join("")}</tbody></table></div>`;
   }
   // a header clicked: sorted by it (again: the other way); the counts most first
