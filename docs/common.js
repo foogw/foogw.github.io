@@ -562,7 +562,7 @@ function ageAt(made, t = Date.now()) {
    when many (a wide range, or none yet); "nothing to learn yet" with one; "Known to the minute" once there. A reading
    set can be undone for five minutes (this page only, not kept). The handlers below serve every page. */
 const AGE_UNDO_FOR = 5 * 6e4, ageUndo = new Map();  // by character id: { made: the range before, until, said }
-function ageAddHTML(c, t = Date.now()) {
+function ageAddHTML(c, t = Date.now(), said = true) {  // (said: the readings led by "/age says"; off under a header saying so)
   const u = ageUndo.get(c.id); if (u && u.until <= t) ageUndo.delete(c.id);
   const box = ph => `<input type="text" class="age-box" data-age="${c.id}" maxlength="12" placeholder="${ph}" aria-label="What /age says for ${esc(c.name)}"><button type="button" class="u-btn" data-age-add="${c.id}">Add</button>`;
   let main;
@@ -570,8 +570,8 @@ function ageAddHTML(c, t = Date.now()) {
   else {
     const [lo, hi] = c.bornBetween.map(Date.parse), vals = ageReadings(lo, hi, t);
     main = hi - lo <= 6e4 ? `<span class="dim age-known">Known to the minute</span>`
-      : vals.length === 1 ? `<span class="dim age-known">/age says ${ageReadingSaid(vals[0])}: nothing to learn yet</span>`
-      : vals.length <= 4 ? `<span class="dim">/age says</span> ${vals.map(v => `<button type="button" class="u-btn age-hold" data-age-set="${c.id}:${v.n}:${v.u}" title="Hold to set it">${ageReadingSaid(v)}</button>`).join("")}`
+      : vals.length === 1 ? `<span class="dim age-known">${said ? "/age says " : ""}${ageReadingSaid(vals[0])}: nothing to learn yet</span>`
+      : vals.length <= 4 ? `${said ? `<span class="dim">/age says</span> ` : ""}${vals.map(v => `<button type="button" class="u-btn age-hold" data-age-set="${c.id}:${v.n}:${v.u}" title="Hold to set it">${ageReadingSaid(v)}</button>`).join(` <span class="dim">or</span> `)}`
       : box(`X ${t - (lo + hi) / 2 < AGE_TWO ? "days" : "months"}`);
   }
   return main + (u && u.until > t ? ` <button type="button" class="u-btn age-undo" data-age-undo="${c.id}" title="Back to the range before ${esc(u.said)}: for ${Math.ceil((u.until - t) / 6e4)} min">Undo</button>` : "");

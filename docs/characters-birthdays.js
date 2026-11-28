@@ -69,7 +69,7 @@
     const { lo, hi, done } = r, a = ageAt(r.made, now), mid = (lo + hi) / 2;
     // (the best check is when a boundary is at the middle, the next time if the one inside has passed it)
     const best = a.next >= now ? a.next : mid + ageNextX(now - mid), [tier, within, why] = opportunity(a, now);
-    const add = ageAddHTML(r.c, now);
+    const add = ageAddHTML(r.c, now, false);  // (the column header says "/age says")
     return { age: `<span${ageColor(mid)}>${ageSaid(lo, hi, now)}</span>`, created: madeSaid(lo, hi),
       range: done ? "" : a.said(Math.max(1, Math.ceil((hi - lo) / a.unit))),
       check: done ? "" : checkSaid(a, now, best, why),
