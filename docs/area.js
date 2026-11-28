@@ -153,7 +153,8 @@ VIEWS.area = (() => {
       el.querySelector(".lnotes li[hidden]")?.removeAttribute("hidden");
     });
     loadWalk(l.id).then(w => {
-      const b = w && w.set === l.set && ringsBox([w.town ? { rings: w.town } : w]);  // the portals are on the area's map
+      // (the portals are on the area's map; an outpost's marker is its centre, its ground may be the area's around it)
+      const b = !l.at && w && w.set === l.set && ringsBox([w.town ? { rings: w.town } : w]);
       const ex = el.querySelector(".exits");
       if (b && ex && el.dataset.at === `area=${l.id}`) ex.innerHTML = exitsHTML(l, [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2]);
     });
