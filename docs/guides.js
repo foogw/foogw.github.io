@@ -513,7 +513,9 @@ async function drawWays(g) {
     // (a start the game counts as an explorable area, but walked out of as an outpost: from its portals into the areas shown)
     // (the portal's place in the area's own pixels first: the start's exit says where it is on the start's map, which
     // may be another one, as a Realm of Torment gate's)
-    const portalsOut = f => [...ids.flatMap(id => (AREAS[id]?.exits || []).filter(e => e.to === f && e.at).map(e => ({ at: e.at, area: id }))),
+    // (a portal we placed where the game lists none, data/routing.js, counts too)
+    const placed = (id, to) => { const at = data("GW_ROUTING")?.portals?.[id]?.[to]; return at ? [{ at, area: id }] : []; };
+    const portalsOut = f => [...ids.flatMap(id => [...(AREAS[id]?.exits || []).filter(e => e.to === f && e.at).map(e => ({ at: e.at, area: id })), ...placed(id, f)]),
       ...(AREAS[f]?.exits || []).filter(e => e.at && all.includes(e.to) && AREAS[f].set === view.set).map(e => ({ at: e.at, area: e.to }))]
       .map(st => walkRoute(grid, st, spots[0])).filter(Boolean).sort((a, b) => walkLength(a) - walkLength(b))[0];
     // each start's way in its own colour; the way on from spot to spot is one trip, in the first's
