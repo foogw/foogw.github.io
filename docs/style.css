@@ -1840,3 +1840,9 @@ a.cvn::after { content: "🐫"; display: inline-block; font-size: 12px; line-hei
 .nk-row { cursor: pointer; }
 .nk-back { font-size: 13px; margin-left: 6px; }
 .nk-row:hover td, .nk-row:hover th { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+
+/* Picks (picks.js): one-line things to do today, a character named in each */
+.picks { list-style: none; margin: 10px 0; padding: 0; display: grid; gap: 6px; font-size: 14px; line-height: 1.5; }
+.picks li { padding: 8px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.pk-who { display: inline-flex; align-items: center; gap: 5px; font-weight: 600; color: var(--text); text-decoration: none; vertical-align: -1px; }
+.pk-who img { width: 16px; height: 16px; border-radius: 3px; }

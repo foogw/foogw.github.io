@@ -20,7 +20,10 @@
   <header class="top"></header><script src="header.js"></script>
   <div class="page-title"><h1>Experiments</h1><p>Ideas tried out before they get a place on the site</p></div>
   <div class="xp">
-    <p class="dim">Nothing is being tried out right now. The Anniversary planner grew up: it's the <a href="anniversary">Anniversary</a> page.</p>
+    <h2>Picks</h2>
+    <p class="dim">A few one-line things to do today, each for one character: today's mission and vanquish with the character they bring closest to a title, this week's bonus against a reputation title, and the titles a character is nearly there on. Meant for the front page.</p>
+    <p class="td-mini" style="margin: 0 0 6px"><button type="button" class="link" id="pk-now" hidden>back to now</button><input type="date" id="pk-date" title="Look at another day" aria-label="Look at another day"></p>
+    <div id="picks"></div>
   </div>
   <footer class="site-footer"><a href="about">About</a> · <a href="thanks">Thanks</a> · <a href="contact">Contact</a> · <a href="license">License &amp; credits</a> · Code MIT · Data CC BY-NC-SA 4.0 from GuildWiki.de · Not affiliated with ArenaNet or NCSOFT</footer>
 </div>
@@ -28,14 +31,26 @@
 <script src="game/titles.js"></script>
 <script src="game/skills.js"></script>
 <script src="game/calendar.js"></script>
+<script src="data/calendar.js"></script>
 <script src="game/ground.js"></script>
 <script src="game/missions.js"></script>
 <script src="game/creatures.js"></script>
 <script src="game/quests.js"></script>
+<script src="game/maps.js"></script>
+<script src="data/captures.js"></script>
 <script src="common.js"></script>
 <script src="mytitles.js"></script>
+<script src="picks.js"></script>
 <script>
 "use strict";
+// (another day picked, at this time of day, as the front page's picker does it)
+const pkNow = () => { const m = (document.getElementById("pk-date").value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/), now = new Date();
+  return m ? new Date(+m[1], +m[2] - 1, +m[3], now.getHours(), now.getMinutes(), now.getSeconds()).getTime() : Date.now(); };
+const pkDraw = () => { document.getElementById("picks").innerHTML = picksHTML(pkNow()); document.getElementById("pk-now").hidden = !document.getElementById("pk-date").value; };
+document.getElementById("pk-date").addEventListener("change", pkDraw);
+document.getElementById("pk-now").addEventListener("click", () => { document.getElementById("pk-date").value = ""; pkDraw(); });
+addEventListener("userchange", pkDraw);
+pkDraw();
 </script>
 </body>
 </html>
