@@ -345,8 +345,9 @@ function blockHTML(x, g) {
     return `<div class="gd-map gd-keyed" data-keyed="${esc(JSON.stringify({ areas: x.areas, pass: [...pass] }))}"${x.spots ? ` data-way="${esc(JSON.stringify({ ids: x.areas, spots: x.spots.map(p => p.at), from: x.from }))}"` : ""}>${mapHTML(x.areas,
       { height: x.height || 500, crop: x.crop, aspect: x.aspect || 2.2, tints, nomarks: true, only: x.marks || (x.from ? [x.from] : null) })}
       ${x.rows ? caravanTable(x, tints, kept, vq) : `<ol class="gd-legend">${x.areas.map(id => `<li data-area="${id}"${pass.has(id) ? " data-walk" : ""}${gray(id) ? ' class="gray"' : ""}><i style="background:${tints[id]}"></i>${LINK.area(id)}${pass.has(id) ? '<small>walked</small>' : `<small class="vq">${vq(id) ? "vanquished" : ""}</small>`}${kept && !pass.has(id) && AREAS[id]?.foes ? vanqTick(id, vq(id)) : ""}${pass.has(id) ? "" : zaishenSoon(id)}</li>`).join("")}</ol>`}</div>`; }
+  // (said: a line under the map says where the way starts and how long it is, as the capture pages do; filled once drawn)
   if (x.areas) return `<div class="gd-map${x.side ? " side" : ""}"${x.spots ? ` data-way="${esc(JSON.stringify({ ids: x.areas, spots: x.spots.map(p => p.at), from: x.from }))}"` : ""}>${mapHTML(x.areas,
-    { height: x.height || MAP_MAX_H, crop: x.crop, aspect: x.aspect, spots: x.spots?.map(p => ({ x: p.at[0], y: p.at[1], name: p.name })) })}</div>`;
+    { height: x.height || MAP_MAX_H, crop: x.crop, aspect: x.aspect, spots: x.spots?.map(p => ({ x: p.at[0], y: p.at[1], name: p.name })) })}${x.said ? '<p class="gd-way-said dim"></p>' : ""}</div>`;
   if (x.table) return `<div class="gd-table"><table><thead><tr>${x.table.head.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
     <tbody>${x.table.rows.map(r => `<tr>${r.map(c => `<td>${text(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
     ${(x.table.notes || []).length ? `<ul class="gd-notes">${x.table.notes.map(n => `<li>${text(n)}</li>`).join("")}</ul>` : ""}`;
@@ -519,6 +520,10 @@ async function drawWays(g) {
     if (g.id !== guideId()) return;  // another guide meanwhile
     view.ways = legs.filter(([pts]) => pts).map(([pts, i]) => ({ lines: walkLines(pts), color: WAYS[i % WAYS.length] }));
     view.draw();
+    // the line under the map: each start, and its way's length in compass ranges (the first spot's way; a start whose
+    // way couldn't be found, its name alone)
+    const said = box.querySelector(".gd-way-said");
+    if (said) said.innerHTML = froms.map((f, i) => `${i ? "or " : "From "}${whereLink(f)}${legs[i][0] ? ` · <span title="compass ranges, as our routes measure the walk">${compassRanges(walkLength(legs[i][0]))} r</span>` : ""}`).join(", ");
   }
 }
 

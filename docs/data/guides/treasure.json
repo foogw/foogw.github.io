@@ -43,7 +43,8 @@
             }
           ],
           "from": 469,
-          "height": 380
+          "height": 380,
+          "said": true
         },
         {
           "h": "Treasure Chest, Nightfallen Jahai"
@@ -62,7 +63,8 @@
             }
           ],
           "from": 494,
-          "height": 380
+          "height": 380,
+          "said": true
         }
       ]
     },
@@ -86,7 +88,8 @@
             }
           ],
           "from": 440,
-          "height": 380
+          "height": 380,
+          "said": true
         },
         {
           "h": "Treasure Chest, The Sulfurous Wastes"
@@ -105,7 +108,8 @@
             }
           ],
           "from": 545,
-          "height": 380
+          "height": 380,
+          "said": true
         }
       ]
     },
@@ -129,7 +133,8 @@
             }
           ],
           "from": 414,
-          "height": 380
+          "height": 380,
+          "said": true
         },
         {
           "h": "Do Not Touch, Forum Highlands"
@@ -148,7 +153,8 @@
             }
           ],
           "from": 428,
-          "height": 380
+          "height": 380,
+          "said": true
         },
         {
           "h": "Treasure Chest, The Hidden City of Ahdashim"
@@ -167,7 +173,8 @@
             }
           ],
           "from": 434,
-          "height": 380
+          "height": 380,
+          "said": true
         }
       ]
     },
@@ -191,7 +198,8 @@
             }
           ],
           "from": 381,
-          "height": 380
+          "height": 380,
+          "said": true
         },
         {
           "h": "Do Not Touch, Bahdok Caverns"
@@ -213,7 +221,8 @@
             378,
             427
           ],
-          "height": 380
+          "height": 380,
+          "said": true
         },
         {
           "h": "Treasure Chest, Jahai Bluffs"
@@ -232,7 +241,8 @@
             }
           ],
           "from": 436,
-          "height": 380
+          "height": 380,
+          "said": true
         }
       ]
     },
@@ -256,7 +266,8 @@
             }
           ],
           "from": 487,
-          "height": 380
+          "height": 380,
+          "said": true
         },
         {
           "h": "Treasure Chest, Mehtani Keys"
@@ -275,7 +286,8 @@
             }
           ],
           "from": 489,
-          "height": 380
+          "height": 380,
+          "said": true
         }
       ]
     }

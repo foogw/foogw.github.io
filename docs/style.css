@@ -1178,6 +1178,7 @@ a.hchip { text-decoration: none; }
 .gd-fig.center { width: min(300px, 100%); margin: 14px auto; }
 .gd-fig.center figcaption { text-align: center; }
 .gd-map { margin: 14px 0; }
+.gd-way-said { margin: 6px 0 0; font-size: 13px; }  /* (where the way starts, under the map) */
 .gd-maps { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin: 14px 0; }
 .gd-maps > .gd-map { margin: 0; }
 /* a keyed map: the areas in their order under it, each with its colour on the map */
