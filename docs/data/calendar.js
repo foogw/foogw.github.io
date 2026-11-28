@@ -110,7 +110,7 @@ const GW_CALENDAR_NOTES = {
       "blurb": "Golden Eggs <span class=what>(+1 all attributes)</span> and Chocolate Bunnies drop from foes. Each Golden Egg you pick up yourself also gives a Treasure Hunter point.",
       "miss": [
         [
-          "Treasure Hunter: picking up a Golden Egg that dropped for you gives 1 Treasure Hunter point, like opening a chest. Eggs bought from players or picked up for someone else give none, so loot your own"
+          "Treasure Hunter: picking up a Golden Egg that dropped for you gives 1 Treasure Hunter point, like opening a chest."
         ]
       ],
       "drops": ["Golden Egg <span class=what>(+1 to all attributes)</span>", "Chocolate Bunny"]
