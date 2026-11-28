@@ -35,14 +35,17 @@
   const hours = c => `${reading(c, "playedOutside")} <span class="dim">/</span> ${reading(c, "played")}${Number.isNaN(outsidePct(c)) ? "" : ` <span class="dim">(${Math.round(outsidePct(c))}%)</span>`}`;
   // a birthday's colour: a gradient over the characters' known birthdays, oldest to newest
   const bdColor = (mid, lo, hi) => (Number.isNaN(mid) || hi === lo ? "" : ` style="color: color-mix(in oklab, var(--gw6) ${Math.round(100 * (mid - lo) / (hi - lo))}%, var(--gw3))"`);
+  // an account's name: in the colour of its oldest character's birthday
   let sortBy = "acct", sortDir = 1, prev = [];
   function render() {
     if (User.broken()) { $("ov").innerHTML = `<p class="dim pg-empty">Your saved progress can't be read: see the <a href="backup">Backup</a> page to keep a copy of it and fix it.</p>`; return; }
     const o = User.data(), acctOf = c => o.accounts.find(a => a.id === c.account) || { id: c.account };
     const mids = o.chars.map(c => bday(c)[1]).filter(x => !Number.isNaN(x)), bdLo = Math.min(...mids), bdHi = Math.max(...mids);
+    const oldest = {};
+    for (const c of o.chars) { const m = bday(c)[1]; if (!Number.isNaN(m) && !(m >= oldest[c.account])) oldest[c.account] = m; }
     const rows = o.chars.map((c, i) => {
       const [bd, bdKey] = bday(c), made = madeIn(c), maxed = titlesMaxed(c, o), kbd = titleRankOf(TITLES[10], c, o), done = checklistDone(c), total = checklistFor(c).length;
-      const html = `<tr><td class="dim">${esc(accountName(acctOf(c)))}</td>
+      const html = `<tr><td${c.account in oldest ? bdColor(oldest[c.account], bdLo, bdHi) : ' class="dim"'}>${esc(accountName(acctOf(c)))}</td>
         <td><a class="n" href="characters" data-go="${c.id}"><img src="${profImg(c.profession || 0)}" alt="">${esc(c.name)}</a></td>
         <td>${made ? `<span style="color: var(${CAMP_COLOR[made]})">${esc(CAMPAIGNS[made])}</span>` : '<span class="dim" title="Not set: pick it on its Edit tab">?</span>'}</td><td>${lit(c)}</td>
         <td${bd === "?" ? ' class="dim" title="Not known closely enough yet: add what /age says on its Edit tab"' : bdColor(bdKey, bdLo, bdHi)}>${bd}</td>
