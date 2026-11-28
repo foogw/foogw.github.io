@@ -110,12 +110,15 @@
     const o = User.data(), acct = c => accountName(o.accounts.find(a => a.id === c.account) || { id: c.account });
     const mids = o.chars.filter(c => c.bornBetween).map(c => c.bornBetween.map(Date.parse)).map(([a, b]) => (a + b) / 2);
     bdLo = Math.min(...mids); bdHi = Math.max(...mids);
+    // an account's name in the colour of its oldest character's age
+    const oldest = {};
+    for (const c of o.chars) if (c.bornBetween) { const m = c.bornBetween.map(Date.parse).reduce((a, b) => a + b) / 2; if (!(c.account in oldest) || m < oldest[c.account]) oldest[c.account] = m; }
     const now = Date.now(), rows = o.chars.filter(c => c.bornBetween).map(c => {
       const [lo, hi] = c.bornBetween.map(Date.parse);
       // down to a minute, it's known: nothing more to check (i: its place as kept, the order at first and the last tie-break)
       const r = { id: c.id, i: o.chars.indexOf(c), c, name: c.name, acct: c.account, acctAt: o.accounts.findIndex(a => a.id === c.account), made: c.bornBetween, lo, hi, done: hi - lo <= 6e4, mid: (lo + hi) / 2, was: {} };
       r.key = cells(r, now).key;
-      r.html = `<tr data-id="${c.id}"><td class="dim">${esc(acct(c))}</td><td><a class="n" href="characters" data-go="${c.id}"><img src="${profImg(c.profession || 0)}" alt="">${esc(c.name)}</a></td>
+      r.html = `<tr data-id="${c.id}"><td${ageColor(oldest[c.account]) || ' class="dim"'}>${esc(acct(c))}</td><td><a class="n" href="characters" data-go="${c.id}"><img src="${profImg(c.profession || 0)}" alt="">${esc(c.name)}</a></td>
         <td data-f="age"></td><td class="dim" data-f="created"></td><td class="num" data-f="range"></td><td class="dim" data-f="check"></td><td class="add" data-f="add"></td></tr>`;
       return r;
     });
