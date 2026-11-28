@@ -112,6 +112,8 @@ document.addEventListener("click", e => {
 // an old address kept its settings after # (missions#mission=28): they move to ?, and the things that now open on the
 // front page (a mission, a quest, a skill, a hero, a boss) go there
 {
+  // (a doubled slash in the path, as in site//: taken out, or a path built from it later reads as another origin)
+  if (/\/\//.test(location.pathname)) history.replaceState(null, "", location.pathname.replace(/\/{2,}/g, "/") + location.search + location.hash);
   if (/^#[\w-]+=/.test(location.hash) && !location.search) history.replaceState(null, "", location.pathname + "?" + location.hash.slice(1));
   const page = location.pathname.match(/([\w-]*?)(\.html)?$/)[1];
   const key = { missions: "mission", quests: "quest", skills: "skill", heroes: "hero", bosses: "boss" }[page];
