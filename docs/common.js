@@ -504,6 +504,28 @@ fetch("data/guides/caravans.json").then(r => r.json()).then(d => { CARAVANS = {}
     vs.forEach((r, i) => { CARAVANS[r.area] ??= { t, i: i + 1, n: vs.length, href }; }); }
   for (const el of document.querySelectorAll("span.cvn[data-area]")) el.outerHTML = caravanMark(+el.dataset.area);
 }, () => { CARAVANS = {}; });
+// the party an explorable area is walked into with: the party size is the outpost's you leave from, and it stays
+// through every portal (the game's and those we placed, data/routing.js, the Forgotten Guardian's crossing among
+// them). So an area's own party is the biggest among the outposts it opens on to (the game's number for it where
+// that's bigger), and bigger parties still come to it through other areas: {party, ups: [{party, from: [outpost
+// ids]}, ...], a step up each, the nearest outposts of that size}. Outposts: their own number, no ups
+let PARTY_REACH = null;
+function partyReach(l) {
+  if (!PARTY_REACH) { PARTY_REACH = {};  // area id → {party, best: {party → {d, from}}}
+    const links = i => [...(AREAS[i]?.exits || []).map(e => e.to), ...Object.keys(data("GW_ROUTING")?.portals?.[i] || {}).map(Number)];
+    for (const o of Object.values(AREAS)) if (isOutpost(o) && o.party) {
+      const seen = new Set([o.id]), q = [[o.id, 0]];
+      while (q.length) { const [i, d] = q.shift();
+        for (const n of links(i)) { if (seen.has(n) || !AREAS[n] || isOutpost(AREAS[n])) continue; seen.add(n); q.push([n, d + 1]);
+          const r = PARTY_REACH[n] ??= { party: AREAS[n].party || 0, best: {} };
+          if (d === 0) r.party = Math.max(r.party, o.party);
+          const b = r.best[o.party]; if (!b || d + 1 < b.d) r.best[o.party] = { d: d + 1, from: [o.id] }; else if (d + 1 === b.d) b.from.push(o.id); } } } }
+  if (isOutpost(l) || !PARTY_REACH[l.id]) return { party: l.party, ups: [] };
+  // (a step up only where its outposts are nearer than a bigger size's: party 6 from across the continent says nothing
+  // when party 8 is two portals off)
+  const r = PARTY_REACH[l.id], ps = Object.keys(r.best).map(Number).filter(p => p > r.party).sort((a, b) => a - b);
+  return { party: r.party, ups: ps.filter(p => ps.every(q => q <= p || r.best[q].d > r.best[p].d)).map(p => ({ party: p, from: r.best[p].from })) };
+}
 // a weekly bonus's pills: the characters of cs, then the accounts, whose titles it helps, each with those titles
 function bonusPills(bonus, o, cs) {
   const left = x => x[0].replace(/^.* hasn't maxed the /, "").replace(/ titles?$/, "");

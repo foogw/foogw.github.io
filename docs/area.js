@@ -21,7 +21,7 @@ VIEWS.area = (() => {
   function exitCard(id, from) {
     const l = AREAS[id];
     const next = [...new Set((l?.exits || []).map(e => e.to))].filter(n => n !== from && AREAS[n] && shown(AREAS[n]));
-    const meta = [TYPE_LABEL[l.type], l.party && `party ${l.party}`].filter(Boolean).join(" · ");
+    const meta = [TYPE_LABEL[l.type], l.party && `party ${partyReach(l).party}`].filter(Boolean).join(" · ");
     return `<div class="xcard ${kind(l)}">${areaLink(id)}<div class="xmeta">${esc(meta)}</div>
       ${next.length ? `<div class="next">→ ${next.map(areaLink).join(", ")}</div>` : ""}</div>`;
   }
@@ -93,7 +93,12 @@ VIEWS.area = (() => {
   function html(l) {
     pvp = isPvP(l);
     const stat = (label, value, title = "") => `<span class="lstat" title="${esc(title)}"><small>${label}</small><b>${esc(value)}</b></span>`;
-    const stats = [l.party && stat("Party", l.party), l.foes && stat("Vanquish", `${l.foes[0]}–${l.foes[1]} foes`, "Foes to kill for a vanquish"),
+    // (the party: the outposts' it opens on to; bigger parties walked in through other areas said, each step up with
+    // the nearest outposts of that size, and the caravan, if one)
+    const reach = l.party ? partyReach(l) : { party: 0, ups: [] }, or = ids => ids.map(id => LINK.area(id)).join(' <span class="dim">or</span> ');
+    const bigger = reach.ups.length && `<span class="lstat" title="The party size is the outpost's you leave from, and it stays through every portal"><small>Up to</small><b>${
+      reach.ups.map(u => `party ${u.party} <span class="dim">from</span> ${or(u.from)}`).join(' <span class="dim">·</span> ')}${caravanMark(l.id)}</b></span>`;
+    const stats = [l.party && stat("Party", reach.party), bigger, l.foes && stat("Vanquish", `${l.foes[0]}–${l.foes[1]} foes`, "Foes to kill for a vanquish"),
       l.levels && stat("Levels", l.levels)].filter(Boolean).join("");
     const box = (title, body) => (body ? `<section class="lbox"><h4>${title}</h4>${body}</section>` : "");
     const roles = new Map();  // one row per service, with every NPC who offers it
