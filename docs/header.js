@@ -8,14 +8,22 @@
   const HOME = '<svg class="home-ic" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5.5 9.5V20h5v-6h3v6h5V9.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   // each group of the bar's menus: its name, its landing page, its pages
   const reverieSoon = (now = new Date()) => { const y = now.getUTCFullYear(), a = Date.UTC(y, 7, 18, 19), b = Date.UTC(y, 8, 1, 19); return now >= a && now < b; };
+  // each group of the bar's menus: its name, its landing page, its pages: a flat list, or columns of headed sections
+  // ([[heading, pages], …] per column); every page of the group is in its menu, the group's name is the landing page
+  // (the Wayfarer's Reverie guide too, marked, from a week before the event to its end: August 25th to September 1st,
+  // 19:00 UTC, as game/calendar.js has it; this script runs before the data loads)
   const GROUPS = [
     ["Tools", "tools", [["gwamm", "GWAMM route"], ["captures", "Elite captures"], ["anniversary", "Anniversary planner"], ["builds", "Builds"], ["builder", "Skillbar builder"]]],
-    // (a shortlist of the guides, then all of them; the Wayfarer's Reverie guide too, marked, from a week before the
-    // event to its end: August 25th to September 1st, 19:00 UTC, as game/calendar.js has it; this script runs before the data loads)
-    ["Guides", "guides", [["guides?gom", "GoM AFK XP Farm"], ["guides?zos", "Zos Shivros AFK Luxon Farm"], ["guides?drakes", "Purp Insc Chaos Axe Farm"], ["guides?caravans", "Vanquish Caravans"], ...(reverieSoon() ? [["guides?reverie", "Wayfarer's Reverie", "gev"]] : []), ["guides", "All guides…"]]],
-    // (a shortlist of the game's pages, then the landing page with all of them)
-    ["Game", "world", [["storylines", "Storylines"], ["missions", "Missions"], ["skills", "Skills"], ["maps", "Maps"], ["world", "Everything…"]], ["areas", "quests", "dungeons", "bosses", "heroes", "armor", "titles"]],
+    ["Guides", "guides", { cols: [
+      [["AFK farms", [["guides?gom", "GoM AFK XP Farm"], ["guides?zos", "Zos Shivros AFK Luxon Farm"]]], ["Vanquishing", [["guides?caravans", "Vanquish Caravans"]]]],
+      [["Solo farms", [["guides?drakes", "Purp Insc Chaos Axe Farm"], ["guides?spidercave", "Solo W/R FoW Spider Cave Farm"], ["guides?vaettir", "Easy 55hp Mo/A Vaettir Farm"], ["guides?augury", "Augury Rock: Beating Your Doppelganger"]]]],
+      [["Quests", [["guides?pre", "Pre-Searing Quests"], ["guides?eotnskills", "Eye of the North Skills"], ["guides?fow", "Fissure of Woe Quests"], ["guides?uw", "Underworld Quests"], ...(reverieSoon() ? [["guides?reverie", "Wayfarer's Reverie", "gev"]] : [])]]] ] }],
+    ["Game", "world", { cols: [
+      [["Places", [["maps", "Maps"], ["areas", "Areas"], ["missions", "Missions"], ["dungeons", "Dungeons"]]], ["Progress", [["storylines", "Storylines"], ["quests", "Quests"], ["titles", "Titles"]]]],
+      [["Skills and gear", [["skills", "Skills"], ["armor", "Armor"]]], ["Friends and foes", [["heroes", "Heroes"], ["bosses", "Bosses"]]]] ] }],
   ];
+  // a group's pages as one list, whatever the shape
+  const pagesOf = pages => (Array.isArray(pages) ? pages : pages.cols.flatMap(col => col.flatMap(([, ps]) => ps)));
   const SMALL = [["about", "About"], ["thanks", "Thanks"], ["contact", "Contact"], ["license", "License"], ["backup", "Backup"]];
   const page = location.pathname.match(/([\w-]*?)(\.html)?$/)[1].replace(/^index$/, "") || "./";
   // (on My Characters, the view shown: characters?view=accounts marks Accounts, not Characters)
@@ -28,10 +36,12 @@
   const link = (href, name, cls = "", label = "") => `<a${cls ? ` class="${cls}"` : ""} href="${href}"${label ? ` aria-label="${label}" title="${label}"` : ""}${isCurrent(href) ? ' aria-current="page"' : ""}>${name}</a>`;
   // (also: the group's pages that its menu leaves out, so the group is still marked current on them; a guide's page
   // counts as the Guides group's whichever guide it shows)
+  const menu = pages => (Array.isArray(pages) ? pages.map(([h, n, c]) => link(h, n, c)).join("")
+    : pages.cols.map(col => `<div class="gcol">${col.map(([h, ps]) => `<span class="gh">${h}</span>${ps.map(([hr, n, c]) => link(hr, n, c)).join("")}`).join("")}</div>`).join(""));
   const group = ([name, landing, pages, also = []]) => {
-    const inGroup = pages.some(([h]) => isCurrent(h)) || isCurrent(landing) || also.includes(page) || page === landing;
+    const all = pagesOf(pages), inGroup = all.some(([h]) => isCurrent(h)) || isCurrent(landing) || also.includes(page) || page === landing;
     return `<div class="grp${inGroup ? " cur" : ""}"><a class="gt" href="${landing}"${inGroup ? ' aria-current="page"' : ""} aria-haspopup="true">${name}<span class="gchev" aria-hidden="true"></span></a>
-      <div class="gmenu" role="menu">${pages.map(([h, n, c]) => link(h, n, c)).join("")}</div></div>`;
+      <div class="gmenu${Array.isArray(pages) ? "" : " cols"}" role="menu">${menu(pages)}</div></div>`;
   };
   const header = document.currentScript.previousElementSibling;
   const CHAR = [["characters?view=about", "About"], ["characters?view=accounts", "Accounts"], ["characters", "Characters"], ["characters-overview", "Overview"], ["characters-birthdays", "Birthdays"]];
@@ -45,7 +55,8 @@
   header.innerHTML = `<nav class="pages">${link("./", HOME + "Today", "hdr-home")}${PLAIN.map(([h, n]) => link(h, n)).join("")}${GROUPS.map(group).join("")}${charGroup()}${pickedGroup()}</nav>
     <button type="button" class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     ${SMALL.map(([h, n], i) => link(h, n, i ? "hdr-link" : "hdr-link push")).join("")}
-    <div class="sheet" hidden><div class="sheet-g">${PLAIN.map(([h, n]) => link(h, n)).join("")}</div>${GROUPS.map(([name, landing, pages]) => `<div class="sheet-g"><a class="sheet-t" href="${landing}">${name}</a>${pages.map(([h, n, c]) => link(h, n, c)).join("")}</div>`).join("")}
+    <div class="sheet" hidden><div class="sheet-g">${PLAIN.map(([h, n]) => link(h, n)).join("")}</div>${GROUPS.map(([name, landing, pages]) => `<div class="sheet-g"><a class="sheet-t" href="${landing}">${name}</a>${Array.isArray(pages) ? pages.map(([h, n, c]) => link(h, n, c)).join("")
+      : pages.cols.flat().map(([h, ps]) => `<span class="sheet-h">${h}</span>${ps.map(([hr, n, c]) => link(hr, n, c)).join("")}`).join("")}</div>`).join("")}
       <div class="sheet-g"><a class="sheet-t" href="characters">My Characters</a>${CHAR.map(([h, n]) => link(h, n)).join("")}</div>
       <div class="sheet-g gpick" hidden><a class="sheet-t hdr-char" href="characters"><span></span></a><div class="gchars"></div></div>
       <div class="sheet-g"><a class="sheet-t" href="./">Today</a>${SMALL.map(([h, n]) => link(h, n)).join("")}</div></div>`;
