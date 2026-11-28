@@ -116,7 +116,7 @@ const GW_CALENDAR_NOTES = {
       "drops": ["Golden Egg <span class=what>(+1 to all attributes)</span>", "Chocolate Bunny"]
     },
     "5": {
-      "blurb": "Proofs of Legend from missions for Anniversary and Decade weapons, Birthday Cupcakes <span class=what>(+100 health, +10 energy, 25% faster movement)</span> and Honeycomb <span class=what>(5% party morale)</span> from foes, and the Hound of Balthazar pet.",
+      "blurb": "Proofs of Legend from missions for Anniversary and Decade weapons, Birthday Cupcakes <span class=what>(+100 health, +10 energy, 25% faster movement)</span> and Honeycomb <span class=what>(5% party morale)</span> from foes, and the Hound of Balthazar pet. Plan the missions with the <a href=anniversary>Anniversary planner</a>.",
       "miss": [
         [
           "Proofs of Legend: one per character per campaign region for any cooperative mission. 5 of them at the Ancient Anniversary Weaponsmith (Embark Beach) buy an Anniversary weapon, a Decade weapon, a Proof of Triumph or a Blessing of War. The weapons are customized to the character that buys them",
