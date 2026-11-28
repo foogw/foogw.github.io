@@ -1258,11 +1258,18 @@ function starterProgress(now = Date.now()) {
    question instead, with the button's text as the action. On a touch screen the long press is the hold: the browser's
    own long-press menu is kept off. */
 function holdToAct(btn, f) {
-  let timer = null;
+  let timer = null, hint = null;
   const stop = () => { clearTimeout(timer); timer = null; btn.style.setProperty("--t", "0s"); btn.style.setProperty("--hold", "0%"); };
+  // (a click, let go before the time: the button shakes and a note under it says to hold, for a couple of seconds;
+  // a click looked like a button that did nothing)
+  const explain = () => { btn.classList.remove("u-shake"); void btn.offsetWidth; btn.classList.add("u-shake");
+    hint?.remove(); hint = document.createElement("div"); hint.className = "tip u-hold-hint"; hint.textContent = `Hold the button ${+btn.dataset.hold >= 1500 ? `for ${Math.round(+btn.dataset.hold / 1000)} seconds ` : ""}to ${btn.textContent.trim().replace(/^\w/, m => m.toLowerCase())}`;
+    document.body.append(hint); const r = btn.getBoundingClientRect(), w = hint.offsetWidth; hint.style.left = `${Math.max(4, Math.min(innerWidth - w - 4, r.left + r.width / 2 - w / 2))}px`; hint.style.top = `${r.bottom + 6}px`;
+    const h = hint; setTimeout(() => { h.remove(); if (hint === h) hint = null; }, 2200); };
   btn.addEventListener("pointerdown", e => { if (e.button) return; try { btn.setPointerCapture(e.pointerId); } catch { /* no such pointer: a key, a script */ }
     btn.style.setProperty("--t", `${btn.dataset.hold}ms`); btn.style.setProperty("--hold", "100%"); timer = setTimeout(() => { stop(); f(); }, +btn.dataset.hold); });
-  for (const ev of ["pointerup", "pointercancel", "lostpointercapture"]) btn.addEventListener(ev, stop);
+  btn.addEventListener("pointerup", () => { if (timer) explain(); stop(); });
+  for (const ev of ["pointercancel", "lostpointercapture"]) btn.addEventListener(ev, stop);
   btn.addEventListener("contextmenu", e => e.preventDefault());
   btn.addEventListener("keydown", async e => { if (e.key !== "Enter" && e.key !== " ") return; e.preventDefault();
     if (await ask({ title: `${btn.textContent.trim()}?`, body: btn.title || "", ok: btn.textContent.trim(), danger: btn.classList.contains("danger"), focus: "cancel" })) f(); });

@@ -1438,6 +1438,10 @@ tr[data-id] .u-move { margin-right: 14px; }  /* (a character row: the arrows, th
 .u-hold { position: relative; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 .u-hold::before { content: ""; position: absolute; inset: 0; width: var(--hold, 0%); background: color-mix(in srgb, var(--accent) 35%, transparent); transition: width var(--t, 0s) linear; pointer-events: none; }
 .u-hold.danger::before { background: color-mix(in srgb, var(--sac) 40%, transparent); }
+/* a click on a hold button: it shakes, and a note under it says to hold (common.js holdToAct) */
+.u-shake { animation: u-shake .35s ease-in-out; }
+@keyframes u-shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-4px); } 40%, 80% { transform: translateX(4px); } }
+.u-hold-hint { opacity: 1; }
 /* an example character's card note, its two hold buttons beside the words */
 .ch-example { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
 .u-text { width: min(1200px, calc(100vw - 32px)); min-height: 70vh; font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text); background: var(--panel);
