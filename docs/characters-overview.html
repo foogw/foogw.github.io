@@ -23,6 +23,8 @@
   .ov td.mode .ch-mode { display: inline-block; }  /* (an empty place keeps the badge's width) */
   .ov th.mode .sort-ar { width: 8px; }  /* (the arrow's room kept beside the badge, just as wide as the arrow) */
   .ov td.mode + td:not(.mode), .ov th.mode + th:not(.mode) { padding-left: 24px; }  /* (the gap back, after the group) */
+  /* a cell linking to a page of the character: looks as it did, the pointer and a tip tell */
+  .ov a.ov-go { color: inherit; text-decoration: none; cursor: pointer; }
   .ov th button:hover { color: var(--text); }
   .ov-modes { display: inline-flex; gap: 4px; vertical-align: middle; }
   .ov-modes .ch-mode { display: block; vertical-align: 0; }

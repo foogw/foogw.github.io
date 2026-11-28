@@ -17,6 +17,8 @@
   // a mode's badge (the column header too, as the mode's icon), or its empty place, so they line up down the column
   const badge = m => `<img class="ch-mode" src="img/modes/${m}.png" alt="${esc(USER_MODES[m])}">`;
   const lit = (c, m) => ((c.modes || []).includes(m) ? `<span title="${esc(USER_MODES[m])}">${badge(m)}</span>` : '<span class="ch-mode"></span>');
+  // a cell as a plain link to a page of the character (picked on the way: data-go), with a tip
+  const go = (c, href, tip, body) => `<a class="ov-go" href="${href}" data-go="${c.id}" title="${esc(tip)}">${body}</a>`;
   // (a mode's column: the mode's badge for a header, and the ones bound to it first)
   const COLS = [["acct", "Account"], ["name", "Character"], ["made", "Made in", "The campaign it was made in: set by its profession or pre-Searing, else picked on its Edit tab"],
     ...Object.keys(USER_MODES).map(m => [m, badge(m), `Bound to ${USER_MODES[m]}: those first, or last`, "mode"]),
@@ -46,13 +48,14 @@
     for (const c of o.chars) { const m = bday(c)[1]; if (!Number.isNaN(m) && !(m >= oldest[c.account])) oldest[c.account] = m; }
     const rows = o.chars.map((c, i) => {
       const [bd, bdKey] = bday(c), made = madeIn(c), maxed = titlesMaxed(c, o), kbd = titleRankOf(TITLES[10], c, o), done = checklistDone(c), total = checklistFor(c).length;
+      const edit = (tip, body) => go(c, "characters?tab=edit", tip, body);
       const html = `<tr><td${c.account in oldest ? bdColor(oldest[c.account], bdLo, bdHi) : ' class="dim"'}>${esc(accountName(acctOf(c)))}</td>
         <td><a class="n" href="characters" data-go="${c.id}"><img src="${profImg(c.profession || 0)}" alt="">${esc(c.name)}</a></td>
-        <td>${made ? `<span style="color: var(${CAMP_COLOR[made]})">${esc(CAMPAIGNS[made])}</span>` : '<span class="dim" title="Not set: pick it on its Edit tab">?</span>'}</td>${Object.keys(USER_MODES).map(m => `<td class="mode">${lit(c, m)}</td>`).join("")}
-        <td${bd === "?" ? ' class="dim" title="Not known closely enough yet: add what /age says on its Edit tab"' : bdColor(bdKey, bdLo, bdHi)}>${bd}</td>
-        <td class="num"><span class="u-gwamm" data-rank="${kbd}" style="font-weight: 600" title="Kind of a Big Deal rank ${kbd}">${maxed}</span></td>
-        <td class="num"><span class="u-gwamm" data-rank="${Math.round(6 * done / total)}" style="font-weight: 600">${done}</span> <span class="dim">/ ${total}</span></td>
-        <td class="num">${reading(c, "xp")}</td><td class="num">${hours(c)}</td><td>${USER_AIMS[c.aim || ""]}</td></tr>`;
+        <td>${made ? `<span style="color: var(${CAMP_COLOR[made]})">${esc(CAMPAIGNS[made])}</span>` : edit("Not set: pick it on its Edit tab", '<span class="dim">?</span>')}</td>${Object.keys(USER_MODES).map(m => `<td class="mode">${lit(c, m)}</td>`).join("")}
+        <td${bd === "?" ? ' class="dim"' : bdColor(bdKey, bdLo, bdHi)}>${bd === "?" ? edit("Not known closely enough yet: add what /age says on its Edit tab", "?") : go(c, "characters-birthdays", "Its Birthdays row: the age, the range, when to check /age", bd)}</td>
+        <td class="num">${go(c, "characters?tab=titles", `Its Titles tab (Kind of a Big Deal rank ${kbd})`, `<span class="u-gwamm" data-rank="${kbd}" style="font-weight: 600">${maxed}</span>`)}</td>
+        <td class="num">${go(c, "characters?tab=check", "Its Checklist tab", `<span class="u-gwamm" data-rank="${Math.round(6 * done / total)}" style="font-weight: 600">${done}</span> <span class="dim">/ ${total}</span>`)}</td>
+        <td class="num">${edit("Typed in on its Edit tab", reading(c, "xp"))}</td><td class="num">${edit("Typed in on its Edit tab", hours(c))}</td><td>${edit("Picked on its Edit tab", USER_AIMS[c.aim || ""])}</td></tr>`;
       return { id: c.id, i, html, key: { acct: o.accounts.indexOf(acctOf(c)), name: c.name.toLowerCase(), made: made || 9, ...Object.fromEntries(Object.keys(USER_MODES).map(m => [m, (c.modes || []).includes(m) ? 0 : 1])),
         bday: bdKey, titles: maxed, checks: done, aim: { gwamm: 0, retired: 2 }[c.aim] ?? 1,
         // (not typed in: last, either way)
