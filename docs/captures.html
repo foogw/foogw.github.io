@@ -15,14 +15,17 @@
   <div id="cap-summary" class="cap-summary"></div>
   <div class="filters" id="filters">
     <div class="frow">
-      <div class="profs" id="f-prof"></div>
       <div class="profs" id="f-camp" title="Campaign: click for one, Ctrl/Cmd-click to add; Core counts for every Skill Hunter title"></div>
+    </div>
+    <div class="frow">
+      <div class="profs" id="f-prof"></div>
     </div>
     <div class="frow">
       <select id="f-diff"><option value="">Any difficulty</option><option value="easy">Easy: a sure spawn, close to the start</option><option value="medium">Medium: a longer walk, or a boss on a loop</option><option value="hard">Hard: several places, a mission or a dungeon</option></select>
       <select id="f-kind"><option value="">Any way</option><option value="walk">Walked from an outpost</option><option value="mission">In a mission</option><option value="dungeon">In a dungeon</option></select>
       <select id="f-sort"><option value="close">Easiest first</option><option value="hard">Hardest first</option><option value="name">By name</option><option value="prof">By profession</option><option value="area">By area</option></select>
       <label class="chk u-char"><input type="checkbox" id="f-cap" checked> Hide captured</label>
+      <label class="chk" title="The ten PvE-only elites, captured from the Facets in the Dragon's Lair"><input type="checkbox" id="f-pve"> PvE-only</label>
       <button class="reset" id="reset">Reset</button>
       <span class="count" id="count"></span>
     </div>

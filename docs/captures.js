@@ -24,7 +24,7 @@ function pickNote(p) {
 const rows = ELITES.map(s => ({ s, picks: CAPS[s.id], best: CAPS[s.id][0], diff: diffOf(CAPS[s.id][0]) }));
 
 /* ---------- the state, in the address ---------- */
-const els = { prof: $("f-prof"), camp: $("f-camp"), diff: $("f-diff"), kind: $("f-kind"), sort: $("f-sort"), cap: $("f-cap"), count: $("count"), main: $("cap-main"), summary: $("cap-summary") };
+const els = { prof: $("f-prof"), camp: $("f-camp"), diff: $("f-diff"), kind: $("f-kind"), sort: $("f-sort"), cap: $("f-cap"), pve: $("f-pve"), count: $("count"), main: $("cap-main"), summary: $("cap-summary") };
 const state = { view: "next", profs: new Set(), camps: new Set(), at: 0, later: new Set() };
 els.prof.innerHTML = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(p => `<button class="prof-chip" data-v="${p}" aria-pressed="false" style="--c:${profVar(p)}" title="${PROFS[p]}">${PROFS[p]}</button>`).join("");
 chipToggle(els.prof, state.profs, () => save());
@@ -37,7 +37,7 @@ function read() {
   state.profs.clear(); for (const p of (a.get("prof") || "").split(",").filter(Boolean)) state.profs.add(p); syncChips(els.prof, state.profs);
   state.camps.clear(); for (const c of (a.get("camp") || "").split(",").filter(Boolean)) state.camps.add(c); syncChips(els.camp, state.camps);
   els.diff.value = a.get("diff") || ""; els.kind.value = a.get("kind") || ""; els.sort.value = a.get("sort") || "close";
-  els.cap.checked = a.get("all") !== "1";
+  els.cap.checked = a.get("all") !== "1"; els.pve.checked = a.get("pve") === "1";
   state.at = +a.get("at") || 0;
 }
 const stateQuery = view => {
@@ -47,12 +47,13 @@ const stateQuery = view => {
   for (const [k, v] of [["diff", els.diff.value], ["kind", els.kind.value]]) if (v) o[k] = v;
   if (els.sort.value !== "close") o.sort = els.sort.value;
   if (!els.cap.checked) o.all = "1";
+  if (els.pve.checked) o.pve = "1";
   if (view === "next" && state.at) o.at = state.at;
   return query(o);
 };
 const save = (replace = true) => go(stateQuery(state.view), replace);
-for (const el of [els.diff, els.kind, els.sort, els.cap]) el.addEventListener("change", () => { state.at = 0; save(); });
-$("reset").addEventListener("click", () => { state.profs.clear(); state.camps.clear(); els.diff.value = els.kind.value = ""; els.sort.value = "close"; els.cap.checked = true; state.at = 0; save(); });
+for (const el of [els.diff, els.kind, els.sort, els.cap, els.pve]) el.addEventListener("change", () => { state.at = 0; save(); });
+$("reset").addEventListener("click", () => { state.profs.clear(); state.camps.clear(); els.diff.value = els.kind.value = ""; els.sort.value = "close"; els.cap.checked = true; els.pve.checked = false; state.at = 0; save(); });
 
 /* ---------- what's shown ---------- */
 const shown = () => {
@@ -60,7 +61,7 @@ const shown = () => {
   const list = rows.filter(r => (!state.profs.size || state.profs.has(String(r.s.profession)))
     && (!state.camps.size || state.camps.has(String(r.s.campaign)))
     && (!els.diff.value || r.diff === els.diff.value) && (!els.kind.value || r.best.kind === els.kind.value)
-    && (!els.cap.checked || !got.has(r.s.id)));
+    && (!els.cap.checked || !got.has(r.s.id)) && (!els.pve.checked || r.s.pve_only));
   const far = p => (p.ranges == null ? 99 : p.ranges) + (p.kind === "walk" ? 0 : 50);
   const rank = { easy: 0, medium: 1, hard: 2 };
   const by = { close: (a, b) => far(a.best) - far(b.best) || cmpStr(a.s.name, b.s.name), name: (a, b) => cmpStr(a.s.name, b.s.name),
@@ -114,14 +115,18 @@ function nextHTML(list) {
         <p class="sp-desc dim">${richText(s.concise || s.description)}</p></div>
       <div class="cap-actions">${eliteTick(s.id, undefined, "Captured")}<button type="button" class="chip" data-later="${s.id}" title="Put it off: to the end of the list for now (l)">Later</button></div>
     </div>
-    ${alsoHTML(list, r)}
+    ${sameProfHTML(r)}
     ${mapsHTML(s, r.picks)}`;
 }
-// the other elites shown whose best pick starts where this one's does: one trip for them all
-function alsoHTML(list, r) {
-  const p = r.best, same = list.filter(x => x !== r && x.best.from === p.from && (p.from || x.best.area === p.area));
-  if (!same.length) return "";
-  return `<p class="cap-also"><span class="dim">Also ${p.from ? `from ${esc(startName(p))}` : `in ${esc(areaName(p.area))}`}:</span> ${same.slice(0, 8).map(x => `<a href="#" data-jump="${x.s.id}"><img class="sk-ic sm" src="img/skills/${x.s.id}.jpg" alt="">${esc(x.s.name)}${x.best.ranges != null ? ` <small class="dim">${x.best.ranges} r</small>` : ""}</a>`).join(", ")}${same.length > 8 ? ` <span class="dim">and ${same.length - 8} more</span>` : ""}</p>`;
+// the elites of the same profession, not yet captured, that other bosses on the pick's map carry (data/bosses.js's
+// spots, the quest-only ones left out): worth the same trip, whatever filter hides them
+const AREA_ELITES = new Map();
+for (const [cid, spots] of Object.entries(data("GW_BOSS_SPOTS")?.spots || {})) for (const sp of spots) if (!sp[3]) for (const e of eliteAt(cid, sp[0])) if (isCapturable(SKILLS[e])) (AREA_ELITES.get(sp[0]) || AREA_ELITES.set(sp[0], new Map()).get(sp[0])).set(e, +cid);
+function sameProfHTML(r) {
+  const got = new Set(User.char().elites), here = AREA_ELITES.get(r.best.area);
+  const others = here ? [...here].filter(([e]) => e !== r.s.id && SKILLS[e].profession === r.s.profession && !got.has(e)) : [];
+  if (!others.length) return "";
+  return `<p class="cap-also"><span class="dim">Other ${esc(PROFS[r.s.profession])} elites on this map, not captured:</span> ${others.map(([e, cid]) => `${rows.some(x => x.s.id === e) ? `<a href="#" data-jump="${e}">` : `<a href="${HREF.skill(e)}">`}<img class="sk-ic sm" src="img/skills/${e}.jpg" alt="">${esc(SKILLS[e].name)}</a> <span class="dim">(${LINK.boss(cid)})</span>`).join(", ")}</p>`;
 }
 
 /* ---------- List and By outpost ---------- */
@@ -149,7 +154,9 @@ addEventListener("userchange", render);
 // a tick: the page follows (after the site's own handler has saved it); the list's map opens under its row
 els.main.addEventListener("click", e => {
   const step = e.target.closest("[data-step]"), later = e.target.closest("[data-later]"), map = e.target.closest("[data-map]"), jump = e.target.closest("[data-jump]");
-  if (jump) { e.preventDefault(); state.at = Math.max(0, shown().findIndex(x => x.s.id === +jump.dataset.jump)); return save(false); }
+  if (jump) { e.preventDefault(); let i = shown().findIndex(x => x.s.id === +jump.dataset.jump);
+    if (i < 0) { state.profs.clear(); state.camps.clear(); syncChips(els.prof, state.profs); syncChips(els.camp, state.camps); els.diff.value = els.kind.value = ""; els.pve.checked = false; i = shown().findIndex(x => x.s.id === +jump.dataset.jump); }  // (hidden by a filter: the filters eased)
+    state.at = Math.max(0, i); return save(false); }
   if (e.target.closest(".utick")) return setTimeout(render, 0);
   if (step) { const n = shown().length; state.at = (state.at + +step.dataset.step + n) % n; return save(); }
   if (later) { state.later.add(+later.dataset.later); return render(); }
