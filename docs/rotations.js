@@ -75,7 +75,7 @@ function table(el, rotations, count, label, ahead = Infinity, head = r => left(R
     if (ts.length && !entries.some(e => matches(e, ts))) continue;
     rows += `<tr class="${i === 0 ? "cur" : ""}"><th>${label(t, i)}</th>${rotations.map((r, j) => cell(r, entries[j], ts, own(r) && (i === 0 || Rotation.startsAt(r, ks[j])), at)).join("")}</tr>`;
   }
-  el.innerHTML = `<thead><tr><th></th>${rotations.map(r => `<th${own(r) ? ' class="r-own"' : ""}>${esc(SHORT[r.key])} <span class="r-left">(${head(r)})</span></th>`).join("")}</tr></thead>`
+  el.innerHTML = `<thead><tr><th></th>${rotations.map(r => `<th${own(r) ? ' class="r-own"' : ""}>${r.key === "nicholas-traveler" ? `<a href="nicholas">${esc(SHORT[r.key])}</a>` : esc(SHORT[r.key])} <span class="r-left">(${head(r)})</span></th>`).join("")}</tr></thead>`
     + `<tbody>${rows || `<tr><td colspan="${rotations.length + 1}" class="dim">${ahead === Infinity ? "No match in a full cycle." : "No match in the next three months."}</td></tr>`}</tbody>`;
 }
 
