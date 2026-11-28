@@ -1266,6 +1266,7 @@ a.hchip { text-decoration: none; }
 .gmap-mark { position: absolute; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%; }
 .gmap-mark:hover, .gmap-mark:focus-visible { box-shadow: 0 0 0 2px #fff; outline: none; }
 .gmap-hint { position: absolute; left: 8px; bottom: 6px; font-size: 11px; color: #fff; text-shadow: 0 1px 3px #000, 0 0 2px #000; pointer-events: none; }
+.gmap-drag { margin: 6px 0 0; font-size: 12px; white-space: pre-wrap; }  /* (#drag: the spots' places, mapwidget.js) */
 .gmap figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 14px; margin-top: 8px; font-size: 12px; }
 .gmap figcaption label { display: flex; align-items: center; gap: 8px; }
 .gmap-win.nomarks .gmap-mark { display: none; }

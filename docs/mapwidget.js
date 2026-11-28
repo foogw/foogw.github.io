@@ -355,10 +355,18 @@ async function initMap(fig) {
     const x = cur[0] + fx * (cur[2] - cur[0]), y = cur[1] + fy * (cur[3] - cur[1]);
     show([x - fx * w, y - fy * h, x - fx * w + w, y - fy * h + h]);
   }, { passive: false });
-  let grab = null;
-  win.addEventListener("pointerdown", e => { grab = { x: e.clientX, y: e.clientY, cur }; mv.dragged = false; try { win.setPointerCapture(e.pointerId); } catch { /* not a pointer */ } });
-  for (const ev of ["pointerup", "pointercancel"]) win.addEventListener(ev, () => { grab = null; });
+  let grab = null, drag = null;
+  // (#drag in the address, a way to place spots while writing: a spot near the pointer is dragged instead of the map,
+  // and every spot's place prints under the map, to copy into the data)
+  const DRAG = location.hash === "#drag", atPointer = e => { const r = win.getBoundingClientRect(), k = (cur[2] - cur[0]) / r.width; return [cur[0] + (e.clientX - r.left) * k, cur[1] + (e.clientY - r.top) * k, k]; };
+  const dragSaid = () => { let d = fig.querySelector(".gmap-drag"); if (!d) { d = document.createElement("pre"); d.className = "gmap-drag dim"; fig.append(d); } d.textContent = spots.map(p => `${p.name}: [${Math.round(p.x)}, ${Math.round(p.y)}]`).join("\n"); };
+  if (DRAG && spots.length) { win.style.cursor = "crosshair"; dragSaid(); }
+  win.addEventListener("pointerdown", e => {
+    if (DRAG) { const [x, y, k] = atPointer(e); drag = spots.find(p => Math.hypot(p.x - x, p.y - y) < 12 * k) || null; if (drag) { try { win.setPointerCapture(e.pointerId); } catch { /* not a pointer */ } return; } }
+    grab = { x: e.clientX, y: e.clientY, cur }; mv.dragged = false; try { win.setPointerCapture(e.pointerId); } catch { /* not a pointer */ } });
+  for (const ev of ["pointerup", "pointercancel"]) win.addEventListener(ev, () => { grab = null; drag = null; });
   win.addEventListener("pointermove", e => {
+    if (drag) { const [x, y] = atPointer(e); drag.x = Math.round(x); drag.y = Math.round(y); draw(); dragSaid(); return; }
     if (!grab || cur[2] - cur[0] >= bw) return;  // nothing to move about when all of it shows
     const dx = e.clientX - grab.x, dy = e.clientY - grab.y;
     if (!mv.dragged && Math.abs(dx) + Math.abs(dy) < 5) return;

@@ -15,6 +15,7 @@ const GW_ROUTING = {
   "paths_": "Ours: lines on an area's map that can be walked, where its walkable ground misses them (a narrow pass), by map id: [[x0, y0, x1, y1, ...], ...] in its map's pixels, 4 pixels wide. Drawn in the map editor.",
   "paths": {
     "120": [[118, 233, 140, 238]],
+    "470": [[250, 216, 366, 215]],
     "17": [[2508, 4440, 2518, 4434, 2523, 4438, 2526, 4444, 2531, 4451, 2544, 4448, 2550, 4444, 2559, 4445, 2565, 4450]],
     "99": [[5796, 3655, 5810, 3667]],
     "448": [[2028, 653, 2040, 637], [2159, 553, 2166, 540]],

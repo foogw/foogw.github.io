@@ -333,12 +333,6 @@ function blockHTML(x, g) {
     return `<div class="gd-map" data-level-way="${esc(JSON.stringify({ id, i, to: x.to }))}">${VIEWS.dungeon.levelMap(d, i, { height: x.height || 340 })}</div>`;
   }
   if (x.maps) return `<div class="gd-maps">${x.maps.map(y => blockHTML(y, g)).join("")}</div>`;
-  // a mission's map (its window on the ground it is played on, data/missionmaps.js) with spots on it, and the way from
-  // where the mission starts to the first spot, then on from spot to spot (drawWays)
-  // (way: false: the spots only, no way drawn)
-  // (farm: a farm's picture of the spots, drawn over the map (farmOverlay): {spots: [{at, name, sub (a second line), kind
-  // ("rift": red), left (the label left of its dot)}], rings: [[game units, label, colour]] about the first spot, way: [[x, y]]
-  // the way in, an arrow at its end}; no map controls, the box as wide as the map, centred)
   if (x.mission) return `<div class="gd-map${x.side ? " side" : ""}${x.farm ? " gd-farm" : ""}"${x.farm ? ` data-farm="${esc(JSON.stringify(x.farm))}"` : ""}${x.way === false || x.farm ? "" : ` data-mission-way="${esc(JSON.stringify({ id: x.mission, spots: (x.spots || []).map(p => p.at) }))}"`}>${
     missionMapHTML(x.mission, MISSIONS[x.mission]?.name || "", { height: x.height || 340, crop: x.crop, aspect: x.aspect, spots: x.farm ? null : x.spots?.map(p => ({ x: p.at[0], y: p.at[1], name: p.name })) })}</div>`;
   // (legend: true: the areas in their order, each in its own colour on the map and in a list under it; no outpost
@@ -514,10 +508,14 @@ async function drawWays(g) {
     // (the ground of the areas on this map only: a start on another map is reached through its portal here)
     const grid = await walkGrid(all.filter(i => walkable(i) && AREAS[i]?.set === view.set));
     // (a start the game counts as an explorable area, but walked out of as an outpost: from its portals into the areas shown)
-    const portalsOut = f => (AREAS[f]?.exits || []).filter(e => e.at && all.includes(e.to)).map(e => walkRoute(grid, { at: e.at, area: e.to }, spots[0])).filter(Boolean)
-      .sort((a, b) => walkLength(a) - walkLength(b))[0];
+    // (the portal's place in the area's own pixels first: the start's exit says where it is on the start's map, which
+    // may be another one, as a Realm of Torment gate's)
+    const portalsOut = f => [...ids.flatMap(id => (AREAS[id]?.exits || []).filter(e => e.to === f && e.at).map(e => ({ at: e.at, area: id }))),
+      ...(AREAS[f]?.exits || []).filter(e => e.at && all.includes(e.to) && AREAS[f].set === view.set).map(e => ({ at: e.at, area: e.to }))]
+      .map(st => walkRoute(grid, st, spots[0])).filter(Boolean).sort((a, b) => walkLength(a) - walkLength(b))[0];
     // each start's way in its own colour; the way on from spot to spot is one trip, in the first's
-    const legs = [...froms.map((f, i) => [walkWay(grid, f, all, spots[0]) || portalsOut(f), i]), ...spots.slice(1).map((at, i) => [walkRoute(grid, spots[i], at), 0])];
+    // (a start on another map set has its portals' places in that map's pixels: it goes by the area's own portal)
+    const legs = [...froms.map((f, i) => [(AREAS[f]?.set === view.set ? walkWay(grid, f, all, spots[0]) : null) || portalsOut(f), i]), ...spots.slice(1).map((at, i) => [walkRoute(grid, spots[i], at), 0])];
     if (g.id !== guideId()) return;  // another guide meanwhile
     view.ways = legs.filter(([pts]) => pts).map(([pts, i]) => ({ lines: walkLines(pts), color: WAYS[i % WAYS.length] }));
     view.draw();

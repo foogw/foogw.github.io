@@ -33,6 +33,15 @@ const GW_GUIDES = {
       "tags": ["Quests", "Pre-Searing", "Route"]
     },
     {
+      "id": "treasure",
+      "group": "solo",
+      "wip": true,
+      "tabs": true,
+      "name": "Nightfall Treasure",
+      "summary": "The twelve treasures of Elona and the Realm of Torment on their maps, the way to each, richest first; once a month per character.",
+      "tags": ["Treasure", "Nightfall", "Gold"]
+    },
+    {
       "id": "reverie",
       "group": "quests",
       "name": "Wayfarer's Reverie",

@@ -1,0 +1,283 @@
+{
+  "name": "Nightfall Treasure",
+  "sub": "The twelve chests of Elona and the Realm of Torment, each worth opening once a month",
+  "stats": [
+    [
+      "Treasures",
+      "12"
+    ],
+    [
+      "Gold",
+      "around 500 to 3,000 a chest"
+    ],
+    [
+      "Again",
+      "about every 30 days"
+    ]
+  ],
+  "sections": [
+    {
+      "blocks": [
+        {
+          "p": "Twelve treasures stand about Nightfall's lands: Buried Treasure, Treasure Chests, and two marked {why:Do Not Touch|Several hidden Immolated or Ruby Djinn pop up when it's opened; spread the party out first, their area damage hurts.}. No key needed; each gives a weapon, a salvage item or a gem and some gold, from around 500 in Istan to around 3,000 in the Realm of Torment. Once in about {why:30 days|Opening it sooner gives nothing, and seems to start the wait again; so does taking any treasure, for every chest of that character's.} a character, and the rewards {why:shrink|After a good number of treasures opened by a character, the gold falls towards about a fifth of the first value (100 in Istan, 700 in the Realm of Torment) and the items turn purple; well-documented, not fully understood.} the more a character has opened."
+        }
+      ]
+    },
+    {
+      "title": "Realm of Torment",
+      "blocks": [
+        {
+          "h": "Treasure Chest, Domain of Pain"
+        },
+        {
+          "areas": [
+            470
+          ],
+          "spots": [
+            {
+              "at": [
+                376,
+                248
+              ],
+              "name": "Treasure Chest"
+            }
+          ],
+          "from": 469,
+          "height": 380
+        },
+        {
+          "h": "Treasure Chest, Nightfallen Jahai"
+        },
+        {
+          "areas": [
+            465
+          ],
+          "spots": [
+            {
+              "at": [
+                490,
+                212
+              ],
+              "name": "Treasure Chest"
+            }
+          ],
+          "from": 494,
+          "height": 380
+        }
+      ]
+    },
+    {
+      "title": "The Desolation",
+      "blocks": [
+        {
+          "h": "Buried Treasure, The Ruptured Heart"
+        },
+        {
+          "areas": [
+            439
+          ],
+          "spots": [
+            {
+              "at": [
+                2547,
+                348
+              ],
+              "name": "Buried Treasure"
+            }
+          ],
+          "from": 440,
+          "height": 380
+        },
+        {
+          "h": "Treasure Chest, The Sulfurous Wastes"
+        },
+        {
+          "areas": [
+            444
+          ],
+          "spots": [
+            {
+              "at": [
+                2842,
+                1630
+              ],
+              "name": "Treasure Chest"
+            }
+          ],
+          "from": 545,
+          "height": 380
+        }
+      ]
+    },
+    {
+      "title": "Vabbi",
+      "blocks": [
+        {
+          "h": "Buried Treasure, The Mirror of Lyss"
+        },
+        {
+          "areas": [
+            419
+          ],
+          "spots": [
+            {
+              "at": [
+                4649,
+                1158
+              ],
+              "name": "Buried Treasure"
+            }
+          ],
+          "from": 414,
+          "height": 380
+        },
+        {
+          "h": "Do Not Touch, Forum Highlands"
+        },
+        {
+          "areas": [
+            399
+          ],
+          "spots": [
+            {
+              "at": [
+                4207,
+                1610
+              ],
+              "name": "Do Not Touch"
+            }
+          ],
+          "from": 428,
+          "height": 380
+        },
+        {
+          "h": "Treasure Chest, The Hidden City of Ahdashim"
+        },
+        {
+          "areas": [
+            413
+          ],
+          "spots": [
+            {
+              "at": [
+                445,
+                175
+              ],
+              "name": "Treasure Chest"
+            }
+          ],
+          "from": 434,
+          "height": 380
+        }
+      ]
+    },
+    {
+      "title": "Kourna",
+      "blocks": [
+        {
+          "h": "Buried Treasure, Arkjok Ward"
+        },
+        {
+          "areas": [
+            380
+          ],
+          "spots": [
+            {
+              "at": [
+                3966,
+                2794
+              ],
+              "name": "Buried Treasure"
+            }
+          ],
+          "from": 381,
+          "height": 380
+        },
+        {
+          "h": "Do Not Touch, Bahdok Caverns"
+        },
+        {
+          "areas": [
+            377
+          ],
+          "spots": [
+            {
+              "at": [
+                4840,
+                2320
+              ],
+              "name": "Do Not Touch"
+            }
+          ],
+          "from": [
+            378,
+            427
+          ],
+          "height": 380
+        },
+        {
+          "h": "Treasure Chest, Jahai Bluffs"
+        },
+        {
+          "areas": [
+            369
+          ],
+          "spots": [
+            {
+              "at": [
+                3865,
+                2482
+              ],
+              "name": "Treasure Chest"
+            }
+          ],
+          "from": 436,
+          "height": 380
+        }
+      ]
+    },
+    {
+      "title": "Istan",
+      "blocks": [
+        {
+          "h": "Buried Treasure, Issnur Isles"
+        },
+        {
+          "areas": [
+            486
+          ],
+          "spots": [
+            {
+              "at": [
+                1811,
+                3873
+              ],
+              "name": "Buried Treasure"
+            }
+          ],
+          "from": 487,
+          "height": 380
+        },
+        {
+          "h": "Treasure Chest, Mehtani Keys"
+        },
+        {
+          "areas": [
+            488
+          ],
+          "spots": [
+            {
+              "at": [
+                2442,
+                3954
+              ],
+              "name": "Treasure Chest"
+            }
+          ],
+          "from": 489,
+          "height": 380
+        }
+      ]
+    }
+  ]
+}
